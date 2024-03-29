@@ -1,7 +1,7 @@
 import React from "react";
 
 const groupActionPage = () => {
-  return <div>page</div>;
+  return <div>수정</div>;
 };
 
 export default groupActionPage;
