@@ -1,7 +1,7 @@
 import React from "react";
 
 const GoogsPage = () => {
-  return <div>GoogsPage</div>;
+  return <div>test</div>;
 };
 
 export default GoogsPage;
