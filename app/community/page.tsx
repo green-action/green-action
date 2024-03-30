@@ -1,7 +1,12 @@
 "use client";
+import Link from "next/link";
+import { useState } from "react";
 import { LuPencilLine } from "react-icons/lu";
+import AddPostModal from "../_components/community/AddPostModal";
 
 const CommunityList = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <>
       {/* 헤더 */}
@@ -19,7 +24,10 @@ const CommunityList = () => {
         {/* 커뮤니티 리스트 */}
         <div className="flex gap-8">
           {/* 커뮤니티 글 1 */}
-          <div className="w-1/3 h-[300px] cursor-pointer">
+          <Link
+            href={`/community/detail/${123}`}
+            className="w-1/3 h-[300px] cursor-pointer"
+          >
             <div className="w-full h-4/5 mb-4">
               <img
                 src="https://contents.lotteon.com/itemimage/20240319145402/LM/88/09/69/69/20/25/6_/00/1/LM8809696920256_001_1.jpg/dims/resizef/720X720"
@@ -40,9 +48,12 @@ const CommunityList = () => {
               </div>
               <p className="text-sm">이런 행동을 실천했어요!</p>
             </div>
-          </div>
+          </Link>
           {/* 커뮤니티 글 2 */}
-          <div className="w-1/3 h-[300px] cursor-pointer">
+          <Link
+            href={`/community/detail/${123}`}
+            className="w-1/3 h-[300px] cursor-pointer"
+          >
             <div className="w-full h-4/5 mb-4">
               <img
                 src="https://contents.lotteon.com/itemimage/20240319145402/LM/88/09/69/69/20/25/6_/00/1/LM8809696920256_001_1.jpg/dims/resizef/720X720"
@@ -63,9 +74,12 @@ const CommunityList = () => {
               </div>
               <p className="text-sm">이런 행동을 실천했어요!</p>
             </div>
-          </div>
+          </Link>
           {/* 커뮤니티 글 3 */}
-          <div className="w-1/3 h-[300px] cursor-pointer">
+          <Link
+            href={`/community/detail/${123}`}
+            className="w-1/3 h-[300px] cursor-pointer"
+          >
             <div className="w-full h-4/5 mb-4">
               <img
                 src="https://contents.lotteon.com/itemimage/20240319145402/LM/88/09/69/69/20/25/6_/00/1/LM8809696920256_001_1.jpg/dims/resizef/720X720"
@@ -86,11 +100,9 @@ const CommunityList = () => {
               </div>
               <p className="text-sm">이런 행동을 실천했어요!</p>
             </div>
-          </div>
+          </Link>
         </div>
-        <button className="fixed bottom-16 right-16 rounded-full w-20 h-20 bg-gray-300 flex items-center justify-center">
-          <LuPencilLine className="w-8 h-8" />
-        </button>
+        <AddPostModal />
       </div>
     </>
   );
