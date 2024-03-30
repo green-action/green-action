@@ -231,7 +231,7 @@ const EditAction = ({ params }: { params: { id: number } }) => {
                 type="submit"
                 className="bg-gray-100 w-40 h-10 rounded-full border-2 border-gray-300 text-sm font-medium text-gray-500"
               >
-                등록완료
+                수정완료
               </button>
               <button className="bg-gray-100 w-40 h-10 rounded-full border-2 border-gray-300 text-sm font-medium text-gray-500">
                 취소하기
