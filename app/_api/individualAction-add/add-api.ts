@@ -1,8 +1,19 @@
 import { supabase } from "@/utils/supabase/client";
 
+// interface FormDataType {
+//   user_uid: string;
+//   title: string;
+//   content: string;
+//   start_date: string;
+//   end_date: string;
+//   location: string;
+//   recruit_number: number;
+//   kakao_link: string;
+// }
+
 // 데이터 삽입 함수
-export async function insertAction(formData) {
-  const userUid = "55e7ec4c-473f-4754-af5e-9eae5c587b81"; // 임시로 정한 사용자 UID
+export async function insertAction(formData: FormData) {
+  const userUid: string = "55e7ec4c-473f-4754-af5e-9eae5c587b81"; // 임시로 정한 사용자 UID
 
   try {
     // Supabase에 데이터 삽입
