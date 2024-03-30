@@ -215,8 +215,7 @@ const AddAction = () => {
               >
                 활동 소개
               </label>
-              <input
-                type="text"
+              <textarea
                 id="activityDescription"
                 name="activityDescription"
                 required
