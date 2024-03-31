@@ -25,6 +25,11 @@ const ImgUpload = ({ uploadedFileUrl, setUploadedFileUrl }: ImgUploadProps) => {
       updatedUrls.splice(index, 1);
       return updatedUrls;
     });
+    setFiles((prev) => {
+      const updateFiles = [...prev];
+      updateFiles.splice(index, 1);
+      return updateFiles;
+    });
   };
 
   return (
