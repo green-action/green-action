@@ -3,9 +3,11 @@
 import { insertAction } from "@/app/_api/individualAction-add/add-api";
 import ImgUpload from "@/app/_components/individualAction-add/ImgUpload";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
 const AddAction = () => {
+  const [uploadedFileUrl, setUploadedFileUrl] = useState([]);
+
   // 현재 로그인한 유저의 id가져오기
   // 임시 user_uid로 일단 테스트하기
   const currentUserUId = "55e7ec4c-473f-4754-af5e-9eae5c587b81";
@@ -54,7 +56,10 @@ const AddAction = () => {
           {/* 안쪽 박스 */}
           <div className="p-10 w-full h-full">
             {/* 이미지 4장 자리*/}
-            <ImgUpload />
+            <ImgUpload
+              uploadedFileUrl={uploadedFileUrl}
+              setUploadedFileUrl={setUploadedFileUrl}
+            />
             {/* 이미지아래 첫번째 박스 */}
             <div className="flex justify-between w-full h-auto border-2 border-gray-300 rounded-3xl mb-4">
               {/* 왼 */}
