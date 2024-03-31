@@ -15,15 +15,20 @@ export const metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: {
   children: React.ReactNode;
+  modal: React.ReactNode;
 }) {
   return (
     <html lang="en" className={GeistSans.className}>
       <body className="bg-background text-foreground">
         <main>
           <ProviderNextUi>
-            <QueryProvider>{children}</QueryProvider>
+            <QueryProvider>
+              {children}
+              {modal}
+            </QueryProvider>
           </ProviderNextUi>
         </main>
       </body>
