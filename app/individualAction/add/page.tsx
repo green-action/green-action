@@ -1,6 +1,7 @@
 "use client";
 
 import { insertAction } from "@/app/_api/individualAction-add/add-api";
+import ImgUpload from "@/app/_components/individualAction-add/ImgUpload";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -53,52 +54,7 @@ const AddAction = () => {
           {/* 안쪽 박스 */}
           <div className="p-10 w-full h-full">
             {/* 이미지 4장 자리*/}
-            <div className="flex gap-2 w-full h-auto mb-8">
-              <div className="flex border-2 border-dashed border-gray-300 rounded-3xl w-1/4 h-[200px]">
-                <div className="flex flex-col w-full h-full justify-end items-center mt-auto">
-                  <p className="mb-4 text-4xl font-thin text-gray-500 cursor-pointer">
-                    +
-                  </p>
-                  <p className="mb-px font-medium text-gray-500">
-                    Upload Image
-                  </p>
-                  <p className="text-xs mb-8 text-gray-400">or drag & drop</p>
-                </div>
-              </div>
-              <div className="flex border-2 border-dashed border-gray-300 rounded-3xl w-1/4 h-[200px]">
-                <div className="flex flex-col w-full h-full justify-end items-center mt-auto">
-                  <p className="mb-4 text-4xl font-thin text-gray-500 cursor-pointer">
-                    +
-                  </p>
-                  <p className="mb-px font-medium text-gray-500">
-                    Upload Image
-                  </p>
-                  <p className="text-xs mb-8 text-gray-400">or drag & drop</p>
-                </div>
-              </div>
-              <div className="flex border-2 border-dashed border-gray-300 rounded-3xl w-1/4 h-[200px]">
-                <div className="flex flex-col w-full h-full justify-end items-center mt-auto">
-                  <p className="mb-4 text-4xl font-thin text-gray-500 cursor-pointer">
-                    +
-                  </p>
-                  <p className="mb-px font-medium text-gray-500">
-                    Upload Image
-                  </p>
-                  <p className="text-xs mb-8 text-gray-400">or drag & drop</p>
-                </div>
-              </div>
-              <div className="flex border-2 border-dashed border-gray-300 rounded-3xl w-1/4 h-[200px]">
-                <div className="flex flex-col w-full h-full justify-end items-center mt-auto">
-                  <p className="mb-4 text-4xl font-thin text-gray-500 cursor-pointer">
-                    +
-                  </p>
-                  <p className="mb-px font-medium text-gray-500">
-                    Upload Image
-                  </p>
-                  <p className="text-xs mb-8 text-gray-400">or drag & drop</p>
-                </div>
-              </div>
-            </div>
+            <ImgUpload />
             {/* 이미지아래 첫번째 박스 */}
             <div className="flex justify-between w-full h-auto border-2 border-gray-300 rounded-3xl mb-4">
               {/* 왼 */}
