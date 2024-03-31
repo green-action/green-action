@@ -1,6 +1,9 @@
 "use client";
 
-import { insertAction } from "@/app/_api/individualAction-add/add-api";
+import {
+  getActionId,
+  insertAction,
+} from "@/app/_api/individualAction-add/add-api";
 import ImgUpload from "@/app/_components/individualAction-add/ImgUpload";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -8,25 +11,28 @@ import React, { useState } from "react";
 const AddAction = () => {
   const [uploadedFileUrls, setUploadedFileUrls] = useState<string[]>([]);
   const [files, setFiles] = useState<(File | undefined)[]>([]);
+  const router = useRouter();
 
-  // 현재 로그인한 유저의 id가져오기
   // 임시 user_uid로 일단 테스트하기
+  // 현재 로그인한 유저의 uid가져오기로 수정해야 함
   const currentUserUId = "55e7ec4c-473f-4754-af5e-9eae5c587b81";
 
-  // id와 입력값들 insert api로 보내기
-  // (입력값들을 formData로 관리할지?)
-
-  const router = useRouter(); // useRouter 훅 사용
-
+  // '등록완료' 클릭시
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // 기본 제출 동작 방지
 
     const formData = new FormData(event.currentTarget); // 폼 데이터 생성
-    console.log("formData", formData);
 
     try {
-      // Supabase에 데이터 삽입
-      await insertAction(formData);
+      // 1. id와 텍스트 입력값들 formData로 보내기 - insert
+      await insertAction({ formData, currentUserUId });
+
+      // 2. id뽑아오기 - action_id로 써야됨
+      const action_id = await getActionId(currentUserUId);
+
+      // 3. 이미지 스토리지에 저장하기
+
+      // 4. 스토리지에 저장된 이미지의 url 뽑아서 이미지url table에 넣기 - action_id에 id사용
 
       // 입력값 재설정
       const target = event.target as HTMLFormElement;
@@ -35,8 +41,8 @@ const AddAction = () => {
       // 확인창 표시
       const confirmed = window.confirm("등록하시겠습니까?");
       if (confirmed) {
-        // 확인을 클릭하면 페이지 이동
-        router.push("/");
+        // 확인을 클릭하면 action_id의 상세페이지로 이동
+        // router.push("/");
       }
     } catch (error) {
       // 오류 처리
@@ -51,7 +57,7 @@ const AddAction = () => {
       {/* 전체 박스 */}
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col w-[900px] h-auto border-2 border-gray-300 rounded-3xl mx-auto mb-12">
-          {/* new green-action */}
+          {/* new green-action 타이틀 */}
           <div className="m-4 ml-8 text-md font-semibold">New Green-Action</div>
           <hr className="border-t-2 border-gray-300" />
           {/* 안쪽 박스 */}
