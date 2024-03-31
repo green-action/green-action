@@ -98,4 +98,6 @@ export const uploadFilesAndGetUrls = async ({
   }
 };
 
-// 4. 스토리지에 저장한 이미지의 url 가져와서 images table에 넣기
+// 4. 스토리지에 저장한 이미지의 url 가져오기
+
+// 5. images table에 넣기 (id는 2에서 가져온 action_id)

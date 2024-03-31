@@ -51,13 +51,13 @@ const ImgUpload = ({
                   alt={`Uploaded Image ${index}`}
                   className="w-full h-full rounded-3xl object-cover"
                 />
-                <Button
+                <button
                   onClick={() => handleDeleteImage(index)}
                   color="default"
                   className="absolute top-1 right-3 w-4"
                 >
                   x
-                </Button>
+                </button>
               </div>
             ) : (
               // 보여줄 이미지 없는 경우
