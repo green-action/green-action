@@ -25,13 +25,18 @@ const ImgUpload = ({ uploadedFileUrl, setUploadedFileUrl }: ImgUploadProps) => {
             key={index}
             className="flex border-2 border-dashed border-gray-300 rounded-3xl w-1/4 h-[200px]"
           >
+            {/* 이미지 업로드한 경우 */}
             {uploadedFileUrl[index] ? (
-              <img
-                src={uploadedFileUrl[index]}
-                alt={`Uploaded Image ${index}`}
-                className="w-full h-full rounded-3xl object-cover"
-              />
+              <div className="relative w-full h-full">
+                <img
+                  src={uploadedFileUrl[index]}
+                  alt={`Uploaded Image ${index}`}
+                  className="w-full h-full rounded-3xl object-cover"
+                />
+                <button className="absolute top-1 right-3">x</button>
+              </div>
             ) : (
+              // 보여줄 이미지 없는 경우
               <div className="flex flex-col w-full h-full justify-end items-center mt-auto">
                 <label
                   htmlFor={`fileInput-${index}`}
