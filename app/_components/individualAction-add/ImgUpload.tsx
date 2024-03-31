@@ -7,9 +7,9 @@ import React, { useState } from "react";
 const ImgUpload = ({
   uploadedFileUrls,
   setUploadedFileUrls,
+  files,
+  setFiles,
 }: ImgUploadProps) => {
-  const [files, setFiles] = useState<(File | undefined)[]>([]);
-
   // 이미지 미리보기 띄우기
   const handleShowPreview = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

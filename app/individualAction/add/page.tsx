@@ -7,6 +7,7 @@ import React, { useState } from "react";
 
 const AddAction = () => {
   const [uploadedFileUrls, setUploadedFileUrls] = useState<string[]>([]);
+  const [files, setFiles] = useState<(File | undefined)[]>([]);
 
   // 현재 로그인한 유저의 id가져오기
   // 임시 user_uid로 일단 테스트하기
@@ -59,6 +60,8 @@ const AddAction = () => {
             <ImgUpload
               uploadedFileUrls={uploadedFileUrls}
               setUploadedFileUrls={setUploadedFileUrls}
+              files={files}
+              setFiles={setFiles}
             />
             {/* 이미지아래 첫번째 박스 */}
             <div className="flex justify-between w-full h-auto border-2 border-gray-300 rounded-3xl mb-4">
