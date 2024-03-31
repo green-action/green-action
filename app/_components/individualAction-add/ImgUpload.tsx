@@ -1,6 +1,7 @@
 "use client";
 
 import { ImgUploadProps } from "@/app/_types/individualAction-add/individualAction-add";
+import { Button } from "@nextui-org/react";
 import React, { useState } from "react";
 
 const ImgUpload = ({ uploadedFileUrl, setUploadedFileUrl }: ImgUploadProps) => {
@@ -15,6 +16,15 @@ const ImgUpload = ({ uploadedFileUrl, setUploadedFileUrl }: ImgUploadProps) => {
     const imageUrl = URL.createObjectURL(file);
     setUploadedFileUrl((prev) => [...prev, imageUrl]);
     setFiles((prev) => [...prev, file]);
+  };
+
+  // 미리보기 이미지 삭제
+  const handleDeleteImage = (index: number) => {
+    setUploadedFileUrl((prev) => {
+      const updatedUrls = [...prev];
+      updatedUrls.splice(index, 1);
+      return updatedUrls;
+    });
   };
 
   return (
@@ -33,7 +43,13 @@ const ImgUpload = ({ uploadedFileUrl, setUploadedFileUrl }: ImgUploadProps) => {
                   alt={`Uploaded Image ${index}`}
                   className="w-full h-full rounded-3xl object-cover"
                 />
-                <button className="absolute top-1 right-3">x</button>
+                <Button
+                  onClick={() => handleDeleteImage(index)}
+                  color="default"
+                  className="absolute top-1 right-3 w-4"
+                >
+                  x
+                </Button>
               </div>
             ) : (
               // 보여줄 이미지 없는 경우
