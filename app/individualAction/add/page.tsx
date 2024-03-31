@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const AddAction = () => {
-  const [uploadedFileUrl, setUploadedFileUrl] = useState([]);
+  const [uploadedFileUrls, setUploadedFileUrls] = useState<string[]>([]);
 
   // 현재 로그인한 유저의 id가져오기
   // 임시 user_uid로 일단 테스트하기
@@ -57,8 +57,8 @@ const AddAction = () => {
           <div className="p-10 w-full h-full">
             {/* 이미지 4장 자리*/}
             <ImgUpload
-              uploadedFileUrl={uploadedFileUrl}
-              setUploadedFileUrl={setUploadedFileUrl}
+              uploadedFileUrls={uploadedFileUrls}
+              setUploadedFileUrls={setUploadedFileUrls}
             />
             {/* 이미지아래 첫번째 박스 */}
             <div className="flex justify-between w-full h-auto border-2 border-gray-300 rounded-3xl mb-4">

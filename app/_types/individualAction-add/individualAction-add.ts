@@ -1,4 +1,4 @@
 export interface ImgUploadProps {
-  uploadedFileUrl: string[];
-  setUploadedFileUrl: React.Dispatch<React.SetStateAction<string[]>>;
+  uploadedFileUrls: string[];
+  setUploadedFileUrls: React.Dispatch<React.SetStateAction<string[]>>;
 }

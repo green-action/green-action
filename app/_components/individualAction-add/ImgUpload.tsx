@@ -4,7 +4,10 @@ import { ImgUploadProps } from "@/app/_types/individualAction-add/individualActi
 import { Button } from "@nextui-org/react";
 import React, { useState } from "react";
 
-const ImgUpload = ({ uploadedFileUrl, setUploadedFileUrl }: ImgUploadProps) => {
+const ImgUpload = ({
+  uploadedFileUrls,
+  setUploadedFileUrls,
+}: ImgUploadProps) => {
   const [files, setFiles] = useState<(File | undefined)[]>([]);
 
   // 이미지 미리보기 띄우기
@@ -14,13 +17,13 @@ const ImgUpload = ({ uploadedFileUrl, setUploadedFileUrl }: ImgUploadProps) => {
       return;
     }
     const imageUrl = URL.createObjectURL(file);
-    setUploadedFileUrl((prev) => [...prev, imageUrl]);
+    setUploadedFileUrls((prev) => [...prev, imageUrl]);
     setFiles((prev) => [...prev, file]);
   };
 
   // 미리보기 이미지 삭제
   const handleDeleteImage = (index: number) => {
-    setUploadedFileUrl((prev) => {
+    setUploadedFileUrls((prev) => {
       const updatedUrls = [...prev];
       updatedUrls.splice(index, 1);
       return updatedUrls;
@@ -41,10 +44,10 @@ const ImgUpload = ({ uploadedFileUrl, setUploadedFileUrl }: ImgUploadProps) => {
             className="flex border-2 border-dashed border-gray-300 rounded-3xl w-1/4 h-[200px]"
           >
             {/* 이미지 업로드한 경우 */}
-            {uploadedFileUrl[index] ? (
+            {uploadedFileUrls[index] ? (
               <div className="relative w-full h-full">
                 <img
-                  src={uploadedFileUrl[index]}
+                  src={uploadedFileUrls[index]}
                   alt={`Uploaded Image ${index}`}
                   className="w-full h-full rounded-3xl object-cover"
                 />
