@@ -15,3 +15,8 @@ export interface FormDataType {
   recruit_number: number;
   kakao_link: string;
 }
+
+export interface FileUpload {
+  files: (File | undefined)[];
+  action_id: string;
+}
