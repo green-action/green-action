@@ -1,20 +1,22 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Button, Card, CardBody, Input } from "@nextui-org/react";
 
 const SignUp = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [nickname, SetNickname] = useState("");
   const handleSingUp = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
+
   return (
-    <div className="flex justify-between bg-[#EBEBEB]">
+    <div className="bg-[#EBEBEB] w-screen h-screen flex justify-between items-center">
       <div className="flex flex-col items-center justify-center">
-        <p className="flex flex-col items-center justify-center mx-auto">
-          Logo
-        </p>
+        <p>Logo</p>
       </div>
-      <Card>
-        <CardBody className="w-[500px] h-[400px] flex flex-col items-center justify-center">
+      <Card className="w-[500px] h-[400px] flex flex-col items-center justify-center bg-white rounded-lg">
+        <CardBody className="flex flex-col items-center justify-between px-8 py-8 h-full">
           <h2 className="text-2xl font-bold mb-2">Sign up</h2>
           <form onSubmit={handleSingUp} className="w-full">
             <Input type="email" label="Email" />
