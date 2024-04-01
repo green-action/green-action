@@ -61,21 +61,22 @@ export const getActionId = async (currentUserUId: string) => {
   }
 };
 
-// 3. 스토리지에 이미지 저장하기
+// 3. 스토리지에 이미지 저장하기 + url 반환하기
+// (저장한 이미지의 파일명을 알아야 url을 가져올수 있어서 둘을 함께 작성)
 export const uploadFilesAndGetUrls = async ({
   files,
   action_id,
 }: FileUpload) => {
   try {
-    const uploadFiles = await Promise.all(
-      // map으로 배열의 각 파일 업로드
+    const getImgUrls = await Promise.all(
+      // map으로 (파일 스토리지에 업로드 + url 반환) 반복
       files.map(async (file) => {
         if (file) {
-          const uuid = crypto.randomUUID();
+          const fileName = crypto.randomUUID();
           // 'action_id' 폴더 생성, 파일이름은 uuid
-          const filePath = `${action_id}/${uuid}`;
-          const { data, error } = await supabase.storage
-            // 'green_action' 버켓에 업로드
+          const filePath = `${action_id}/${fileName}`;
+          const { data: ImgFile, error } = await supabase.storage
+            // 'green_action' 버켓에 이미지 업로드
             .from("green_action")
             .upload(filePath, file, {
               cacheControl: "3600",
@@ -86,18 +87,26 @@ export const uploadFilesAndGetUrls = async ({
             console.error("Error uploading file:", error);
             return null;
           }
-          return data;
+          // return ImgFiles;
+
+          // url 가져오기
+          const { data: imgUrl, error: imgUrlError } = await supabase.storage
+            .from("green_action")
+            .getPublicUrl(`${action_id}/${fileName}`);
+
+          if (imgUrlError) {
+            console.log("error", error);
+            throw error;
+          }
+
+          return imgUrl;
         }
       }),
     );
-    console.log("uploadFiles", uploadFiles);
-    return uploadFiles;
+    console.log("getImgUrls", getImgUrls);
+    return getImgUrls.filter((url) => url !== null); // null 값 제거
   } catch (error) {
     console.error("Error uploading files and getting URLs:", error);
     return [];
   }
 };
-
-// 4. 스토리지에 저장한 이미지의 url 가져오기
-
-// 5. images table에 넣기 (id는 2에서 가져온 action_id)

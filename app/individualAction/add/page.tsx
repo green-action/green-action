@@ -2,6 +2,7 @@
 
 import {
   getActionId,
+  getImgUrlsFromStorage,
   insertAction,
   uploadFilesAndGetUrls,
 } from "@/app/_api/individualAction-add/add-api";
@@ -31,12 +32,10 @@ const AddAction = () => {
       // 2. id뽑아오기 - action_id로 써야됨
       const action_id = await getActionId(currentUserUId);
 
-      // 3. 이미지 스토리지에 저장하기
+      // 3. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
       await uploadFilesAndGetUrls({ files, action_id });
 
-      // 4. 스토리지에 저장된 이미지의 url 뽑아오기
-
-      // 5. 이미지url들 table에 넣기 - action_id에 id사용
+      // 4. 이미지url들 table에 넣기 - action_id에 id사용
 
       // 입력값 재설정
       const target = event.target as HTMLFormElement;
