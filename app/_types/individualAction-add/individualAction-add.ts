@@ -20,3 +20,8 @@ export interface FileUpload {
   files: (File | undefined)[];
   action_id: string;
 }
+
+export interface InsertImgUrls {
+  action_id: string;
+  imgUrlsArray: string[];
+}

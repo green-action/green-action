@@ -2,8 +2,8 @@
 
 import {
   getActionId,
-  getImgUrlsFromStorage,
-  insertAction,
+  insertActionTextForm,
+  insertImgUrls,
   uploadFilesAndGetUrls,
 } from "@/app/_api/individualAction-add/add-api";
 import ImgUpload from "@/app/_components/individualAction-add/ImgUpload";
@@ -27,15 +27,17 @@ const AddAction = () => {
 
     try {
       // 1. id와 텍스트 입력값들 formData로 보내기 - insert
-      await insertAction({ formData, currentUserUId });
+      await insertActionTextForm({ formData, currentUserUId });
 
       // 2. id뽑아오기 - action_id로 써야됨
       const action_id = await getActionId(currentUserUId);
 
       // 3. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
-      await uploadFilesAndGetUrls({ files, action_id });
+      const imgUrlsArray = await uploadFilesAndGetUrls({ files, action_id });
+      console.log("imgUrlsArray", imgUrlsArray);
 
       // 4. 이미지url들 table에 넣기 - action_id에 id사용
+      await insertImgUrls({ action_id, imgUrlsArray });
 
       // 입력값 재설정
       const target = event.target as HTMLFormElement;

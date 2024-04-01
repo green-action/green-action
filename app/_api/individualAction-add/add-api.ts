@@ -1,8 +1,11 @@
-import { FileUpload } from "@/app/_types/individualAction-add/individualAction-add";
+import {
+  FileUpload,
+  InsertImgUrls,
+} from "@/app/_types/individualAction-add/individualAction-add";
 import { supabase } from "@/utils/supabase/client";
 
 // 1. 텍스트 formData 삽입 함수
-export const insertAction = async ({
+export const insertActionTextForm = async ({
   formData,
   currentUserUId,
 }: {
@@ -68,7 +71,7 @@ export const uploadFilesAndGetUrls = async ({
   action_id,
 }: FileUpload) => {
   try {
-    const getImgUrls = await Promise.all(
+    const imgUrlsArray = await Promise.all(
       // map으로 (파일 스토리지에 업로드 + url 반환) 반복
       files.map(async (file) => {
         if (file) {
@@ -87,7 +90,6 @@ export const uploadFilesAndGetUrls = async ({
             console.error("Error uploading file:", error);
             return null;
           }
-          // return ImgFiles;
 
           // url 가져오기
           const { data: imgUrl, error: imgUrlError } = await supabase.storage
@@ -99,14 +101,42 @@ export const uploadFilesAndGetUrls = async ({
             throw error;
           }
 
-          return imgUrl;
+          return imgUrl.publicUrl;
         }
       }),
     );
-    console.log("getImgUrls", getImgUrls);
-    return getImgUrls.filter((url) => url !== null); // null 값 제거
+    return imgUrlsArray.filter((url) => url !== null); // null 값 제거
   } catch (error) {
     console.error("Error uploading files and getting URLs:", error);
     return [];
+  }
+};
+
+// 4. 이미지url들 table에 넣기 - action_id 주의
+export const insertImgUrls = async ({
+  action_id,
+  imgUrlsArray,
+}: InsertImgUrls) => {
+  try {
+    const response = await Promise.all(
+      imgUrlsArray.map(async (url: string) => {
+        const { data, error } = await supabase
+          .from("green_action_images")
+          .insert({
+            action_id,
+            img_url: url,
+          });
+
+        if (error) {
+          throw error;
+        }
+        return data;
+      }),
+    );
+    console.log("response", response);
+    return response;
+  } catch (error) {
+    console.log("error", error);
+    throw error;
   }
 };
