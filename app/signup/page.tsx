@@ -7,9 +7,14 @@ const SignUp = () => {
     e.preventDefault();
   };
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-2">Sign up</h2>
-      <article className="w-[500px] h-[400px]">
+    <div className="flex justify-between">
+      <div className="flex flex-col items-center justify-center">
+        <p className="flex flex-col items-center justify-center mx-auto">
+          Logo
+        </p>
+      </div>
+      <article className="w-[600px] h-[400px] flex flex-col items-center justify-center">
+        <h2 className="text-2xl font-bold mb-2">Sign up</h2>
         <form onSubmit={handleSingUp}>
           <Input type="email" label="Email" />
           <Input type="password" label="Password" />
