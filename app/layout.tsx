@@ -23,7 +23,10 @@ export default function RootLayout({
     <html lang="en" className={GeistSans.className}>
       <body className="bg-background text-foreground">
         <main>
-          <QueryProvider>{children}</QueryProvider>
+          <QueryProvider>
+            {children}
+            {modal}
+          </QueryProvider>
         </main>
       </body>
     </html>
