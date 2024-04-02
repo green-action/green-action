@@ -34,6 +34,7 @@ export const insertCommunityPostTextForm = async ({
       content: String(formData.get("activityDescription")),
       action_type: String(formData.get("action_type")).substring(0, 2),
       action_id: null,
+      img_url: String(formData.get("image_url")),
     };
 
     const { data, error } = await supabase
@@ -83,7 +84,6 @@ export const uploadFileAndGetUrl = async (file: File | null | undefined) => {
       }
 
       const uploadedImgUrl = imgUrl.data.publicUrl;
-      console.log("api-uploadedImgUrl", uploadedImgUrl);
       return uploadedImgUrl;
     }
     // 파일이 없는 경우

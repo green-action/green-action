@@ -91,23 +91,26 @@ const AddPostModal = () => {
     // 드롭다운에서 선택한 값을 formData에 추가
     formData.append("action_type", Array.from(selectedKeys).join(", "));
 
-    // url formData에 append
-
     // formData 자체를 community_posts에 insert
 
     try {
       // 확인창 표시
       const isConfirmed = window.confirm("작성하시겠습니까?");
       if (isConfirmed) {
-        // 텍스트form insert하고 post_id 반환받기
+        // 이미지 스토리지 업로드 후 url 반환받기
+        const imgUrl = await uploadFileAndGetUrl(file);
+
+        // url이 존재하면 formData에 append
+        if (imgUrl) {
+          formData.append("image_url", imgUrl);
+        }
+
+        // 텍스트+url formData insert하고 post_id 반환받기
         const post_id = await insertCommunityPostTextForm({
           formData,
           currentUserUId,
         });
-
-        // 이미지 스토리지 업로드 후 url 반환받기
-        const imgUrl = await uploadFileAndGetUrl(file);
-        console.log("page-imgUrl", imgUrl);
+        console.log("post_id", post_id);
       }
     } catch (error) {
       console.error("Error inserting data:", error);
