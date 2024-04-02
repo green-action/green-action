@@ -1,9 +1,24 @@
 "use client";
 
+import React from "react";
 import AddPostModal from "../_components/community/AddPostModal";
 import CommunityPost from "../_components/community/CommunityPost";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  Button,
+} from "@nextui-org/react";
 
 const CommunityListPage = () => {
+  const [selectedKeys, setSelectedKeys] = React.useState(new Set(["정렬"]));
+
+  const selectedValue = React.useMemo(
+    () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
+    [selectedKeys],
+  );
+
   return (
     <>
       {/* 헤더 */}
@@ -12,12 +27,34 @@ const CommunityListPage = () => {
       <div className="w-[1000px] h-[100vh] mx-auto">
         {/* 정렬 */}
         <div className="flex justify-end">
+          <Dropdown>
+            <DropdownTrigger>
+              <Button variant="bordered" className="capitalize">
+                {selectedValue}
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+              aria-label="Single selection example"
+              variant="flat"
+              disallowEmptySelection
+              selectionMode="single"
+              selectedKeys={selectedKeys}
+              onSelectionChange={setSelectedKeys}
+            >
+              <DropdownItem key="정렬">정렬</DropdownItem>
+              <DropdownItem key="최신순">최신순</DropdownItem>
+              <DropdownItem key="좋아요순">좋아요순</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </div>
+
+        {/* <div className="flex justify-end">
           <select className="w-[120px] h-[30px] pl-4 text-sm rounded-full border-1 border-gray-300 focus:outline-none mb-4">
             <option value="정렬">정렬</option>
             <option value="최신순">최신순</option>
             <option value="좋아요순">좋아요순</option>
           </select>
-        </div>
+        </div> */}
         {/* 커뮤니티 리스트 */}
         <div className="flex flex-wrap gap-4">
           {/* nextUI 카드 */}
