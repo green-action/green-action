@@ -1,7 +1,13 @@
 import React from "react";
+import Goods from "../_components/goods/Goods";
 
-const GoogsPage = () => {
-  return <div>test</div>;
+const GoodsPage = () => {
+  return (
+    <div className="flex flex-col w-[1200px] h-auto mx-auto m-5">
+      <h1 className="font-semibold text-6xl">ECO GOODS</h1>
+      <Goods />
+    </div>
+  );
 };
 
-export default GoogsPage;
+export default GoodsPage;
