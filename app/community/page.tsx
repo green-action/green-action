@@ -6,15 +6,18 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Selection,
 } from "@nextui-org/react";
+import { useQuery } from "@tanstack/react-query";
 import React from "react";
+import { getCommunityList } from "../_api/community/community-api";
 import AddPostModal from "../_components/community/AddPostModal";
 import CommunityPost from "../_components/community/CommunityPost";
-import { useQuery } from "@tanstack/react-query";
-import { getCommunityList } from "../_api/community/community-api";
 
 const CommunityListPage = () => {
-  const [selectedKeys, setSelectedKeys] = React.useState(new Set(["정렬"]));
+  const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
+    new Set(["정렬"]),
+  );
 
   const selectedValue = React.useMemo(
     () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
