@@ -30,7 +30,7 @@ const CommunityListPost = ({
           className="border-none h-[240px] mb-3"
         >
           <img
-            alt="Woman listing to music"
+            alt="Community Post Image"
             className="object-cover w-full h-[198px]"
             src={communityPost?.img_url}
           />

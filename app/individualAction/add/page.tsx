@@ -27,8 +27,8 @@ const AddActionPage = () => {
 
     try {
       // 확인창 표시
-      const confirmed = window.confirm("등록하시겠습니까?");
-      if (confirmed) {
+      const isConfirmed = window.confirm("등록하시겠습니까?");
+      if (isConfirmed) {
         // 1. id와 텍스트 입력값들 formData로 보내기 - insert
         await insertActionTextForm({ formData, currentUserUId });
 
@@ -49,7 +49,6 @@ const AddActionPage = () => {
         // router.push(`/detail/${action_id}`);
       }
     } catch (error) {
-      // 오류 처리
       console.error("Error inserting data:", error);
     }
   };

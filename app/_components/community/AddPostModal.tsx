@@ -1,3 +1,7 @@
+"use client";
+
+import { insertCommunityPostTextForm } from "@/app/_api/community/community-api";
+import { QUERY_KEY_COMMUNITYLIST } from "@/app/_api/queryKeys";
 import {
   Button,
   Dropdown,
@@ -12,6 +16,7 @@ import {
   Selection,
   useDisclosure,
 } from "@nextui-org/react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { LuPencilLine } from "react-icons/lu";
 
@@ -19,6 +24,35 @@ const AddPostModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [uploadedFileUrl, setUploadedFileUrl] = useState<string>("");
   const [file, setFile] = useState<File | undefined | null>(null);
+  // 드랍다운
+  const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
+    new Set(["Green-action 선택하기"]),
+  );
+
+  const queryClient = useQueryClient();
+
+  // 임시 user_uid로 일단 테스트하기
+  // 현재 로그인한 유저의 uid가져오기로 수정해야 함
+  const currentUserUId = "55e7ec4c-473f-4754-af5e-9eae5c587b81";
+
+  // post등록 후 communityList 쿼리키 무효화할 mutation만들기
+  const { mutate: insertTextFormMutation } = useMutation({
+    mutationFn: async ({
+      formData,
+      currentUserUId,
+    }: {
+      formData: FormData;
+      currentUserUId: string;
+    }) => {
+      await insertCommunityPostTextForm({
+        formData,
+        currentUserUId,
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_COMMUNITYLIST] });
+    },
+  });
 
   // 이미지 미리보기 띄우기
   const handleShowPreview = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,15 +71,38 @@ const AddPostModal = () => {
     setFile(null);
   };
 
-  // 드랍다운
-  const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
-    new Set(["Green-action 선택하기"]),
-  );
-
+  // 드랍다운 선택 로직
   const selectedValue = React.useMemo(
     () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
     [selectedKeys],
   );
+
+  // 작성완료 클릭시
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    // 드롭다운에서 선택한 값을 formData에 추가
+    formData.append("action_type", Array.from(selectedKeys).join(", "));
+
+    try {
+      // 확인창 표시
+      const isConfirmed = window.confirm("작성하시겠습니까?");
+      if (isConfirmed) {
+        await insertTextFormMutation({
+          formData,
+          currentUserUId,
+        });
+        // const response = await insertCommunityPostTextForm({
+        //   formData,
+        //   currentUserUId,
+        // });
+        // console.log("response", response);
+      }
+    } catch (error) {
+      console.error("Error inserting data:", error);
+    }
+  };
 
   return (
     <>
@@ -59,7 +116,7 @@ const AddPostModal = () => {
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent className="h-[600px]">
           {(onClose) => (
-            <>
+            <form onSubmit={handleSubmit}>
               <ModalHeader className="flex items-center py-3 px-6 font-medium text-xs">
                 New Post
               </ModalHeader>
@@ -67,7 +124,7 @@ const AddPostModal = () => {
               <ModalBody>
                 <div className="flex flex-col justify-between h-full">
                   {/* 이미지 업로드 */}
-                  <div className="flex mx-auto mt-4 border-1.5 border-dashed border-gray-300 rounded-3xl w-4/5 h-[220px]">
+                  <div className="flex mx-auto mt-4 mb-5 border-1.5 border-dashed border-gray-300 rounded-3xl w-4/5 h-[220px]">
                     {/* 이미지 업로드한 경우 */}
                     {uploadedFileUrl ? (
                       <div className="relative w-full h-full">
@@ -151,7 +208,7 @@ const AddPostModal = () => {
                         id="activityTitle"
                         name="activityTitle"
                         required
-                        className="w-10/12 h-[50px] mx-4 pr-4 bg-inherit focus:outline-none text-sm text-gray-400"
+                        className="w-10/12 h-[30px] mx-4 pr-4 bg-inherit focus:outline-none text-sm text-gray-400"
                       />
                     </div>
                     {/* 활동 내용 */}
@@ -181,13 +238,14 @@ const AddPostModal = () => {
                   취소하기
                 </Button>
                 <Button
+                  type="submit"
                   onPress={onClose}
                   className="rounded-full !w-[110px] h-[27px]"
                 >
                   작성완료
                 </Button>
               </ModalFooter>
-            </>
+            </form>
           )}
         </ModalContent>
       </Modal>
