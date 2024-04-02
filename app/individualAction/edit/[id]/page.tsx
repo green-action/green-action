@@ -1,52 +1,40 @@
 "use client";
 
-import {
-  getActionId,
-  insertActionTextForm,
-  insertImgUrls,
-  uploadFilesAndGetUrls,
-} from "@/app/_api/individualAction-add/add-api";
-import ImgUpload from "@/app/_components/individualAction-add/ImgUpload";
+import { insertAction } from "@/app/_api/individualAction-add/add-api";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
 
-const AddAction = () => {
-  const [uploadedFileUrls, setUploadedFileUrls] = useState<string[]>([]);
-  const [files, setFiles] = useState<(File | undefined)[]>([]);
-  const router = useRouter();
+const EditAction = ({ params }: { params: { id: number } }) => {
+  const id = params.id;
 
+  // 현재 로그인한 유저의 id가져오기
   // 임시 user_uid로 일단 테스트하기
-  // 현재 로그인한 유저의 uid가져오기로 수정해야 함
   const currentUserUId = "55e7ec4c-473f-4754-af5e-9eae5c587b81";
 
-  // '등록완료' 클릭시
+  // id와 입력값들 insert api로 보내기
+  // (입력값들을 formData로 관리할지?)
+
+  const router = useRouter(); // useRouter 훅 사용
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // 기본 제출 동작 방지
 
     const formData = new FormData(event.currentTarget); // 폼 데이터 생성
+    console.log("formData", formData);
 
     try {
+      // Supabase에 데이터 삽입
+      await insertAction(formData);
+
+      // 입력값 재설정
+      const target = event.target as HTMLFormElement;
+      target.reset();
+
       // 확인창 표시
       const confirmed = window.confirm("등록하시겠습니까?");
       if (confirmed) {
-        // 1. id와 텍스트 입력값들 formData로 보내기 - insert
-        await insertActionTextForm({ formData, currentUserUId });
-
-        // 2. id뽑아오기 - action_id로 써야됨
-        const action_id = await getActionId(currentUserUId);
-
-        // 3. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
-        const imgUrlsArray = await uploadFilesAndGetUrls({ files, action_id });
-
-        // 4. 이미지url들 table에 넣기 - action_id에 id사용
-        await insertImgUrls({ action_id, imgUrlsArray });
-
-        // 입력값 초기화
-        const target = event.target as HTMLFormElement;
-        target.reset();
-
-        // 확인을 클릭하면 action_id의 상세페이지로 이동
-        // router.push(`/detail/${action_id}`);
+        // 확인을 클릭하면 페이지 이동
+        router.push(`/individualAction/detail/${id}`);
       }
     } catch (error) {
       // 오류 처리
@@ -61,18 +49,58 @@ const AddAction = () => {
       {/* 전체 박스 */}
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col w-[900px] h-auto border-2 border-gray-300 rounded-3xl mx-auto mb-12">
-          {/* new green-action 타이틀 */}
+          {/* new green-action */}
           <div className="m-4 ml-8 text-md font-semibold">New Green-Action</div>
           <hr className="border-t-2 border-gray-300" />
           {/* 안쪽 박스 */}
           <div className="p-10 w-full h-full">
             {/* 이미지 4장 자리*/}
-            <ImgUpload
-              uploadedFileUrls={uploadedFileUrls}
-              setUploadedFileUrls={setUploadedFileUrls}
-              files={files}
-              setFiles={setFiles}
-            />
+            <div className="flex gap-2 w-full h-auto mb-8">
+              <div className="flex border-2 border-dashed border-gray-300 rounded-3xl w-1/4 h-[200px]">
+                <div className="flex flex-col w-full h-full justify-end items-center mt-auto">
+                  <p className="mb-4 text-4xl font-thin text-gray-500 cursor-pointer">
+                    +
+                  </p>
+                  <p className="mb-px font-medium text-gray-500">
+                    Upload Image
+                  </p>
+                  <p className="text-xs mb-8 text-gray-400">or drag & drop</p>
+                </div>
+              </div>
+              <div className="flex border-2 border-dashed border-gray-300 rounded-3xl w-1/4 h-[200px]">
+                <div className="flex flex-col w-full h-full justify-end items-center mt-auto">
+                  <p className="mb-4 text-4xl font-thin text-gray-500 cursor-pointer">
+                    +
+                  </p>
+                  <p className="mb-px font-medium text-gray-500">
+                    Upload Image
+                  </p>
+                  <p className="text-xs mb-8 text-gray-400">or drag & drop</p>
+                </div>
+              </div>
+              <div className="flex border-2 border-dashed border-gray-300 rounded-3xl w-1/4 h-[200px]">
+                <div className="flex flex-col w-full h-full justify-end items-center mt-auto">
+                  <p className="mb-4 text-4xl font-thin text-gray-500 cursor-pointer">
+                    +
+                  </p>
+                  <p className="mb-px font-medium text-gray-500">
+                    Upload Image
+                  </p>
+                  <p className="text-xs mb-8 text-gray-400">or drag & drop</p>
+                </div>
+              </div>
+              <div className="flex border-2 border-dashed border-gray-300 rounded-3xl w-1/4 h-[200px]">
+                <div className="flex flex-col w-full h-full justify-end items-center mt-auto">
+                  <p className="mb-4 text-4xl font-thin text-gray-500 cursor-pointer">
+                    +
+                  </p>
+                  <p className="mb-px font-medium text-gray-500">
+                    Upload Image
+                  </p>
+                  <p className="text-xs mb-8 text-gray-400">or drag & drop</p>
+                </div>
+              </div>
+            </div>
             {/* 이미지아래 첫번째 박스 */}
             <div className="flex justify-between w-full h-auto border-2 border-gray-300 rounded-3xl mb-4">
               {/* 왼 */}
@@ -189,7 +217,8 @@ const AddAction = () => {
               >
                 활동 소개
               </label>
-              <textarea
+              <input
+                type="text"
                 id="activityDescription"
                 name="activityDescription"
                 required
@@ -202,7 +231,7 @@ const AddAction = () => {
                 type="submit"
                 className="bg-gray-100 w-40 h-10 rounded-full border-2 border-gray-300 text-sm font-medium text-gray-500"
               >
-                등록완료
+                수정완료
               </button>
               <button className="bg-gray-100 w-40 h-10 rounded-full border-2 border-gray-300 text-sm font-medium text-gray-500">
                 취소하기
@@ -215,4 +244,4 @@ const AddAction = () => {
   );
 };
 
-export default AddAction;
+export default EditAction;
