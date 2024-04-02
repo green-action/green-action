@@ -28,7 +28,7 @@ const Bookmark = ({ action_id }: { action_id: string }) => {
     //     .select();
     // }
     if (user_uid !== null) {
-      addBookmarkMutation.mutate({ user_uid, action_id });
+      // addBookmarkMutation.mutate({ user_uid, action_id });
     }
   };
   const handleRemoveBookmarkClick = async (action_id: string) => {
