@@ -1,6 +1,6 @@
 "use client"; // import from "@nextui-org/react"; 시 꼭 필요
 
-import { Card, CardBody, Tab, Tabs } from "@nextui-org/react";
+import { Avatar, Card, CardBody, Tab, Tabs } from "@nextui-org/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -124,8 +124,12 @@ function Header() {
         </Tabs>
       </div>
       <div className="flex gap-10">
+        {/* 임시: 로그인상태에 따라 수정예정 */}
         <Link href={"/signup"}>Sign up</Link>
         <Link href={"/login"}>Log in</Link>
+        <Link href={"/mypage"}>
+          <Avatar showFallback src="" size="md" />
+        </Link>
       </div>
     </div>
   );
