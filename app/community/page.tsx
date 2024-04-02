@@ -29,7 +29,10 @@ const CommunityListPage = () => {
         <div className="flex justify-end">
           <Dropdown>
             <DropdownTrigger>
-              <Button variant="bordered" className="capitalize">
+              <Button
+                variant="bordered"
+                className="capitalize border-1 rounded-full h-7"
+              >
                 {selectedValue}
               </Button>
             </DropdownTrigger>
