@@ -92,16 +92,16 @@ export const uploadFilesAndGetUrls = async ({
           }
 
           // url 가져오기
-          const { data: imgUrl, error: imgUrlError } = await supabase.storage
+          const imgUrl = await supabase.storage
             .from("green_action")
             .getPublicUrl(`${action_id}/${fileName}`);
 
-          if (imgUrlError) {
-            console.log("error", error);
-            throw error;
+          if (!imgUrl || !imgUrl.data) {
+            console.error("Error getting public URL for file:", imgUrl);
+            throw new Error("Error getting public URL for file");
           }
 
-          return imgUrl.publicUrl;
+          return imgUrl.data.publicUrl;
         }
       }),
     );
@@ -138,7 +138,6 @@ export const insertImgUrls = async ({
         return data;
       }),
     );
-    console.log("response", response);
     return response;
   } catch (error) {
     console.log("error", error);

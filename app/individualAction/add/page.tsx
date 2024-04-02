@@ -37,7 +37,6 @@ const AddAction = () => {
 
         // 3. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
         const imgUrlsArray = await uploadFilesAndGetUrls({ files, action_id });
-        console.log("imgUrlsArray", imgUrlsArray);
 
         // 4. 이미지url들 table에 넣기 - action_id에 id사용
         await insertImgUrls({ action_id, imgUrlsArray });
@@ -47,7 +46,7 @@ const AddAction = () => {
         target.reset();
 
         // 확인을 클릭하면 action_id의 상세페이지로 이동
-        router.push(`/detail/${action_id}`);
+        // router.push(`/detail/${action_id}`);
       }
     } catch (error) {
       // 오류 처리
