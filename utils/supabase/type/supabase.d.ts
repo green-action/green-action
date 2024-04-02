@@ -11,14 +11,14 @@ export type Database = {
     Tables: {
       bookmarks: {
         Row: {
-          action_id: string | null;
+          action_id: string;
           id: string;
-          user_uid: string | null;
+          user_uid: string;
         };
         Insert: {
-          action_id?: string | null;
+          action_id?: string;
           id?: string;
-          user_uid?: string | null;
+          user_uid?: string;
         };
         Update: {
           action_id?: string | null;
