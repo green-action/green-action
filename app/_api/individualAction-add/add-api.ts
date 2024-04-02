@@ -1,5 +1,6 @@
 import {
   FileUpload,
+  FormDataType,
   InsertImgUrls,
 } from "@/app/_types/individualAction-add/individualAction-add";
 import { supabase } from "@/utils/supabase/client";
@@ -14,15 +15,15 @@ export const insertActionTextForm = async ({
 }) => {
   try {
     // insert할 텍스트 데이터
-    const inputData = {
+    const inputData: FormDataType = {
       user_uid: currentUserUId,
-      title: formData.get("activityTitle"),
-      content: formData.get("activityDescription"),
-      start_date: formData.get("startDate"),
-      end_date: formData.get("endDate"),
-      location: formData.get("activityLocation"),
-      recruit_number: formData.get("maxParticipants"),
-      kakao_link: formData.get("openKakaoLink"),
+      title: String(formData.get("activityTitle")),
+      content: String(formData.get("activityDescription")),
+      start_date: String(formData.get("startDate")),
+      end_date: String(formData.get("endDate")),
+      location: String(formData.get("activityLocation")),
+      recruit_number: Number(formData.get("maxParticipants")),
+      kakao_link: String(formData.get("openKakaoLink")),
     };
 
     // supabase에 insert하기
