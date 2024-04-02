@@ -12,3 +12,8 @@ export const getCommunityList = async () => {
 
   return communityList;
 };
+
+// user_uid에 해당하는 profile이미지, 닉네임 가져오기
+export const getUserInfo = async (user_uid: string) => {
+  // const {data, error} = await supabase.from('')
+};

@@ -11,9 +11,9 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { getCommunityList } from "../_api/community/community-api";
-import AddPostModal from "../_components/community/AddPostModal";
-import CommunityPost from "../_components/community/CommunityPost";
 import { QUERY_KEY_COMMUNITYLIST } from "../_api/queryKeys";
+import AddPostModal from "../_components/community/AddPostModal";
+import CommunityListPost from "../_components/community/CommunityListPost";
 
 const CommunityListPage = () => {
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
@@ -74,7 +74,7 @@ const CommunityListPage = () => {
         <div className="flex flex-wrap gap-8">
           {/* nextUI 카드 */}
           {communityList?.map((communityPost) => (
-            <CommunityPost
+            <CommunityListPost
               key={communityPost.id}
               communityPost={communityPost}
             />

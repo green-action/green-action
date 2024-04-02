@@ -4,7 +4,7 @@ import { Button, Card, CardFooter } from "@nextui-org/react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { CommunityPostObj } from "@/app/_types/community/community";
 
-const CommunityPost = ({
+const CommunityListPost = ({
   communityPost,
 }: {
   communityPost: CommunityPostObj | undefined;
@@ -83,4 +83,4 @@ const CommunityPost = ({
   );
 };
 
-export default CommunityPost;
+export default CommunityListPost;
