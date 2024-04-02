@@ -25,7 +25,11 @@ const CommunityListPage = () => {
     [selectedKeys],
   );
 
-  const { data, isLoading, isError } = useQuery({
+  const {
+    data: communityList,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: [QUERY_KEY_COMMUNITYLIST],
     queryFn: getCommunityList,
   });
@@ -36,8 +40,6 @@ const CommunityListPage = () => {
   if (isError) {
     return <div>Error</div>;
   }
-
-  console.log("data", data);
 
   return (
     <>
@@ -71,14 +73,7 @@ const CommunityListPage = () => {
         {/* 커뮤니티 리스트 */}
         <div className="flex flex-wrap gap-8">
           {/* nextUI 카드 */}
-          <CommunityPost />
-          <CommunityPost />
-          <CommunityPost />
-          <CommunityPost />
-          <CommunityPost />
-          <CommunityPost />
-          <CommunityPost />
-          <CommunityPost />
+          <CommunityPost communityList={communityList} />
         </div>
         <AddPostModal />
       </div>

@@ -2,8 +2,13 @@ import React from "react";
 import { useState } from "react";
 import { Button, Card, CardFooter } from "@nextui-org/react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { CommunityPostObj } from "@/app/_types/community/community";
 
-const CommunityPost = () => {
+const CommunityPost = ({
+  communityList,
+}: {
+  communityList: CommunityPostObj[] | undefined;
+}) => {
   const [isLike, setIsLike] = useState(false);
 
   const handleLikeOnClick = async () => {
@@ -13,6 +18,8 @@ const CommunityPost = () => {
       setIsLike((prev) => !prev);
     }
   };
+
+  console.log("communityList", communityList);
 
   return (
     <>
