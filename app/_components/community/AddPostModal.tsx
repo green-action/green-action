@@ -135,6 +135,37 @@ const AddPostModal = () => {
                     </DropdownMenu>
                   </Dropdown>
                 </div>
+                {/* 이미지아래 두번째 박스(활동 제목) */}
+                <div className="flex mx-auto w-full h-[30px] items-center pl-8 border-1 border-gray-300 rounded-3xl">
+                  <label
+                    htmlFor="activityTitle"
+                    className="text-xs font-semibold mr-2 w-1/5"
+                  >
+                    활동 제목
+                  </label>
+                  <input
+                    type="text"
+                    id="activityTitle"
+                    name="activityTitle"
+                    required
+                    className="w-10/12 h-[50px] mx-4 pr-4 bg-inherit focus:outline-none text-sm text-gray-400"
+                  />
+                </div>
+                {/* 이미지 아래 세번째 박스(활동 소개) */}
+                <div className="flex items-start w-full h-auto pl-8 border-1 border-gray-300 rounded-3xl mb-8">
+                  <label
+                    htmlFor="activityDescription"
+                    className="text-xs font-semibold w-1/5 mt-2"
+                  >
+                    활동 내용
+                  </label>
+                  <textarea
+                    id="activityDescription"
+                    name="activityDescription"
+                    required
+                    className="resize-none w-10/12 h-[100px] mx-4 mt-4 pr-4 bg-inherit focus:outline-none text-sm text-gray-400"
+                  />
+                </div>
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>

@@ -56,11 +56,9 @@ const AddActionPage = () => {
 
   return (
     <>
-      {/* 헤더 */}
-      <div className="w-full h-28 bg-slate-400 mb-14">Header</div>
       {/* 전체 박스 */}
       <form onSubmit={handleSubmit}>
-        <div className="flex flex-col w-[900px] h-auto border-2 border-gray-300 rounded-3xl mx-auto mb-12">
+        <div className="flex flex-col w-[900px] h-auto border-2 border-gray-300 rounded-3xl mx-auto mb-12 mt-8">
           {/* new green-action 타이틀 */}
           <div className="m-4 ml-8 text-md font-semibold">New Green-Action</div>
           <hr className="border-t-2 border-gray-300" />
