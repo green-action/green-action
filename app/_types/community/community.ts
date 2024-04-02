@@ -4,7 +4,7 @@ export interface CommunityPostObj {
   content: string | null;
   created_at: string | null;
   id: string | null;
-  img_url: string | null;
+  img_url: any;
   title: string | null;
   user_uid: string | null;
 }
