@@ -1,6 +1,7 @@
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 import QueryProvider from "./Provider";
+import ProviderNextUi from "./Provier-NextUi";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -21,7 +22,9 @@ export default function RootLayout({
     <html lang="en" className={GeistSans.className}>
       <body className="bg-background text-foreground">
         <main>
-          <QueryProvider>{children}</QueryProvider>
+          <ProviderNextUi>
+            <QueryProvider>{children}</QueryProvider>
+          </ProviderNextUi>
         </main>
       </body>
     </html>
