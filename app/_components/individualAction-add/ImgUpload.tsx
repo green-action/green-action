@@ -1,8 +1,7 @@
 "use client";
 
 import { ImgUploadProps } from "@/app/_types/individualAction-add/individualAction-add";
-import { Button } from "@nextui-org/react";
-import React, { useState } from "react";
+import React from "react";
 
 const ImgUpload = ({
   uploadedFileUrls,
