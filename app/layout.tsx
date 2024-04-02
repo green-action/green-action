@@ -1,6 +1,6 @@
 import { GeistSans } from "geist/font/sans";
-import "./globals.css";
 import QueryProvider from "./Provider";
+import "./globals.css";
 import Header from "./_components/Header";
 
 const defaultUrl = process.env.VERCEL_URL
@@ -15,15 +15,20 @@ export const metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: {
   children: React.ReactNode;
+  modal: React.ReactNode;
 }) {
   return (
     <html lang="ko" className={GeistSans.className}>
       <body className="bg-background text-foreground">
         <QueryProvider>
           <Header />
-          <main>{children}</main>
+          <main>
+            {children}
+            {modal}
+          </main>
         </QueryProvider>
       </body>
     </html>
