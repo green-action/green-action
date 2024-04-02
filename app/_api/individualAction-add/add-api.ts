@@ -105,7 +105,12 @@ export const uploadFilesAndGetUrls = async ({
         }
       }),
     );
-    return imgUrlsArray.filter((url) => url !== null); // null 값 제거
+    // null 또는 undefined 값 제거 후 string 배열로 변환
+    const TypeFilteredUrls = imgUrlsArray.filter(
+      (url) => url !== null && url !== undefined,
+    ) as string[];
+
+    return TypeFilteredUrls;
   } catch (error) {
     console.error("Error uploading files and getting URLs:", error);
     return [];
