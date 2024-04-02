@@ -16,7 +16,7 @@ const CommunityPost = () => {
 
   return (
     <>
-      <div className=" w-[32%]">
+      <div className=" w-[31%] mb-4">
         <Card
           isFooterBlurred
           radius="lg"
