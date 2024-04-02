@@ -1,6 +1,7 @@
 import { GeistSans } from "geist/font/sans";
 import QueryProvider from "./Provider";
 import "./globals.css";
+import Header from "./_components/Header";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -20,14 +21,15 @@ export default function RootLayout({
   modal: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={GeistSans.className}>
+    <html lang="ko" className={GeistSans.className}>
       <body className="bg-background text-foreground">
-        <main>
-          <QueryProvider>
+        <QueryProvider>
+          <Header />
+          <main>
             {children}
             {modal}
-          </QueryProvider>
-        </main>
+          </main>
+        </QueryProvider>
       </body>
     </html>
   );
