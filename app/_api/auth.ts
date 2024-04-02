@@ -1,4 +1,6 @@
 import { supabase } from "@/utils/supabase/client";
+import { User } from "../_types";
+import { metadata } from "../layout";
 
 //회원가입
 export const signUpNewUser = async (
@@ -13,35 +15,45 @@ export const signUpNewUser = async (
       options: {
         data: {
           display_name,
+          profile_img: "",
+          point: 0,
+          introduction: "자기소개를 아직 작성하지 않았어요",
         },
       },
     });
     if (error) {
       throw error;
     }
+    return data;
   } catch (error) {
     console.error("회원가입 오류:", error);
     throw error;
   }
 };
 
-//로ㅓㄱ인
-export const singInUser = async (email: string, password: string) => {
+//로그인
+export const signInUser = async (
+  email: string,
+  password: string,
+): Promise<User> => {
   try {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
-    if (!data || data.user) {
-      throw Error("유저의데이터가 일치하지 않습니다");
+    console.log(data.user);
+    if (!data || !data.user) {
+      throw new Error("유저의 데이터정보가져오기 실패");
     }
+
+    return data.user.user_metadata as User;
   } catch (error) {
     throw error;
   }
 };
 
 //로그아웃
-export const logout = async () => {
+export const logoutUser = async () => {
   try {
     const { error } = await supabase.auth.signOut();
     if (error) {

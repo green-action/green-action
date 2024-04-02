@@ -27,9 +27,10 @@ const SignUp = () => {
     if (!validatePasswords()) {
       return;
     }
-    e.currentTarget.reset();
+
     try {
       const user = await signUpNewUser(email, password, nickname);
+      console.log(user);
       console.log("회원가입성공:", user);
     } catch (error) {
       console.error("회원가입 오류:", error);
@@ -45,7 +46,7 @@ const SignUp = () => {
       <div className="flex flex-col items-center justify-center">
         <p>Logo</p>
       </div>
-      <Card className="w-[500px] h-[600px] flex flex-col items-center justify-center bg-white rounded-lg">
+      <Card className="w-[500px] h-[550px] flex flex-col items-center justify-center bg-white rounded-lg">
         <CardBody className="flex flex-col items-center px-8 py-8 h-full gap-5">
           <h2 className="text-2xl font-bold mb-2">Sign up</h2>
 
