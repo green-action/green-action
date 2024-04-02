@@ -1,6 +1,5 @@
 import { supabase } from "@/utils/supabase/client";
 import { User } from "../_types";
-import { metadata } from "../layout";
 
 //회원가입
 export const signUpNewUser = async (
@@ -41,7 +40,7 @@ export const signInUser = async (
       email,
       password,
     });
-    console.log(data.user);
+    // console.log(data.user);
     if (!data || !data.user) {
       throw new Error("유저의 데이터정보가져오기 실패");
     }
