@@ -133,9 +133,9 @@ export type Database = {
         Row: {
           id: string;
           img_url: string;
-          point: number | null;
+          point: number;
           product_info: string | null;
-          product_name: string | null;
+          product_name: string;
         };
         Insert: {
           id?: string;
