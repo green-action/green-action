@@ -1,15 +1,17 @@
 "use client";
 
+import {
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+} from "@nextui-org/react";
 import React from "react";
 import AddPostModal from "../_components/community/AddPostModal";
 import CommunityPost from "../_components/community/CommunityPost";
-import {
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-  Button,
-} from "@nextui-org/react";
+import { useQuery } from "@tanstack/react-query";
+import { getCommunityList } from "../_api/community/community-api";
 
 const CommunityListPage = () => {
   const [selectedKeys, setSelectedKeys] = React.useState(new Set(["정렬"]));
@@ -18,6 +20,20 @@ const CommunityListPage = () => {
     () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
     [selectedKeys],
   );
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["communityList"],
+    queryFn: getCommunityList,
+  });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  if (isError) {
+    return <div>Error</div>;
+  }
+
+  console.log("data", data);
 
   return (
     <>
