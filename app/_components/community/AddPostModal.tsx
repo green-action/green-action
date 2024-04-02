@@ -1,6 +1,9 @@
 "use client";
 
-import { insertCommunityPostTextForm } from "@/app/_api/community/community-api";
+import {
+  insertCommunityPostTextForm,
+  uploadFileAndGetUrl,
+} from "@/app/_api/community/community-api";
 import { QUERY_KEY_COMMUNITYLIST } from "@/app/_api/queryKeys";
 import {
   Button,
@@ -24,7 +27,7 @@ const AddPostModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [uploadedFileUrl, setUploadedFileUrl] = useState<string>("");
   const [file, setFile] = useState<File | undefined | null>(null);
-  // 드랍다운
+  // 드랍다운 선택된 key 상태관리
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set(["Green-action 선택하기"]),
   );
@@ -35,24 +38,27 @@ const AddPostModal = () => {
   // 현재 로그인한 유저의 uid가져오기로 수정해야 함
   const currentUserUId = "55e7ec4c-473f-4754-af5e-9eae5c587b81";
 
-  // post등록 후 communityList 쿼리키 무효화할 mutation만들기
-  const { mutate: insertTextFormMutation } = useMutation({
-    mutationFn: async ({
-      formData,
-      currentUserUId,
-    }: {
-      formData: FormData;
-      currentUserUId: string;
-    }) => {
-      await insertCommunityPostTextForm({
-        formData,
-        currentUserUId,
-      });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_COMMUNITYLIST] });
-    },
-  });
+  // post등록 후 communityList 쿼리키 무효화할 mutation
+  // -> 이미지 url insert하는 함수로 쿼리키 무효화하기
+  // const { mutate: insertTextFormMutation } = useMutation({
+  //   mutationFn: async ({
+  //     formData,
+  //     currentUserUId,
+  //   }: {
+  //     formData: FormData;
+  //     currentUserUId: string;
+  //   }) => {
+  //     const post_id = await insertCommunityPostTextForm({
+  //       formData,
+  //       currentUserUId,
+  //     });
+  //     return post_id;
+  //   },
+  //   onSuccess: (post_id) => {
+  //     console.log("mutation-post_id", post_id);
+  //     queryClient.invalidateQueries({ queryKey: [QUERY_KEY_COMMUNITYLIST] });
+  //   },
+  // });
 
   // 이미지 미리보기 띄우기
   const handleShowPreview = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,7 +83,7 @@ const AddPostModal = () => {
     [selectedKeys],
   );
 
-  // 작성완료 클릭시
+  // '작성완료' 클릭시
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -85,19 +91,23 @@ const AddPostModal = () => {
     // 드롭다운에서 선택한 값을 formData에 추가
     formData.append("action_type", Array.from(selectedKeys).join(", "));
 
+    // url formData에 append
+
+    // formData 자체를 community_posts에 insert
+
     try {
       // 확인창 표시
       const isConfirmed = window.confirm("작성하시겠습니까?");
       if (isConfirmed) {
-        await insertTextFormMutation({
+        // 텍스트form insert하고 post_id 반환받기
+        const post_id = await insertCommunityPostTextForm({
           formData,
           currentUserUId,
         });
-        // const response = await insertCommunityPostTextForm({
-        //   formData,
-        //   currentUserUId,
-        // });
-        // console.log("response", response);
+
+        // 이미지 스토리지 업로드 후 url 반환받기
+        const imgUrl = await uploadFileAndGetUrl(file);
+        console.log("page-imgUrl", imgUrl);
       }
     } catch (error) {
       console.error("Error inserting data:", error);
@@ -108,7 +118,7 @@ const AddPostModal = () => {
     <>
       {/* 글쓰기 버튼 */}
       <Button
-        className="fixed bottom-16 right-16 rounded-full w-20 h-20 bg-gray-300 flex items-center justify-center"
+        className="fixed z-50 bottom-16 right-16 rounded-full w-20 h-20 bg-gray-300 flex items-center justify-center"
         onPress={onOpen}
       >
         <LuPencilLine className="w-8 h-8" />

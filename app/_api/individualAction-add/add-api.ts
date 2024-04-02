@@ -76,10 +76,10 @@ export const uploadFilesAndGetUrls = async ({
       // map으로 (파일 스토리지에 업로드 + url 반환) 반복
       files.map(async (file) => {
         if (file) {
-          const fileName = crypto.randomUUID();
+          const fileName = `${(file.name, crypto.randomUUID())}`;
           // 'action_id' 폴더 생성, 파일이름은 uuid
           const filePath = `${action_id}/${fileName}`;
-          const { data: ImgFile, error } = await supabase.storage
+          const { error } = await supabase.storage
             // 'green_action' 버켓에 이미지 업로드
             .from("green_action")
             .upload(filePath, file, {

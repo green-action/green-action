@@ -26,7 +26,7 @@ export const insertCommunityPostTextForm = async ({
 }: {
   formData: FormData;
   currentUserUId: string;
-}) => {
+}): Promise<string | null> => {
   try {
     const inputData = {
       user_uid: currentUserUId,
@@ -44,11 +44,54 @@ export const insertCommunityPostTextForm = async ({
     if (error) {
       throw error;
     }
-    return data;
+
+    // post_id 반환
+    const post_id = data ? data[0]?.id : null;
+    return post_id;
   } catch (error) {
     console.error("Error inserting data:", error);
     throw error;
   }
 };
 // 2. 이미지 스토리지에 업로드 후 url 반환
+export const uploadFileAndGetUrl = async (file: File | null | undefined) => {
+  try {
+    // 스토리지에 이미지파일 업로드
+    if (file) {
+      const uuid = crypto.randomUUID();
+      const fileName = `${(file.name, uuid)}`;
+      const { error } = await supabase.storage
+        .from("community")
+        .upload(fileName, file, {
+          cacheControl: "3600",
+          upsert: true,
+        });
+
+      if (error) {
+        console.error("Error uploading file:", error);
+        return null;
+      }
+
+      // 이미지 url 가져오기
+      const imgUrl = await supabase.storage
+        .from("community")
+        .getPublicUrl(fileName);
+
+      if (!imgUrl || !imgUrl.data) {
+        console.error("Error getting public URL for file:", imgUrl);
+        throw new Error("Error getting public URL for file");
+      }
+
+      const uploadedImgUrl = imgUrl.data.publicUrl;
+      console.log("api-uploadedImgUrl", uploadedImgUrl);
+      return uploadedImgUrl;
+    }
+    // 파일이 없는 경우
+    return null;
+  } catch (error) {
+    console.error("Error uploading file:", error);
+    return null;
+  }
+};
+
 // 3. post_id의 img_url에 url insert
