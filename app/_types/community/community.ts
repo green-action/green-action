@@ -13,3 +13,9 @@ export interface CommunityPostMutation {
   formData: FormData;
   currentUserUId: string;
 }
+
+export interface CommunityDetailProps {
+  isOpen: boolean;
+  onOpen: () => void;
+  onOpenChange: () => void;
+}
