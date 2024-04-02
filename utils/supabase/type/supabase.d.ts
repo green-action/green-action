@@ -184,21 +184,21 @@ export type Database = {
           content: string | null;
           hosted_by: string | null;
           id: string;
-          img_url: string | null;
+          img_url: string;
           title: string | null;
         };
         Insert: {
           content?: string | null;
           hosted_by?: string | null;
           id?: string;
-          img_url?: string | null;
+          img_url?: string;
           title?: string | null;
         };
         Update: {
           content?: string | null;
           hosted_by?: string | null;
           id?: string;
-          img_url?: string | null;
+          img_url?: string;
           title?: string | null;
         };
         Relationships: [];
