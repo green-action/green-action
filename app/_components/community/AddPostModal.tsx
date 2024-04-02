@@ -1,10 +1,11 @@
 "use client";
 
 import {
-  insertCommunityPostTextForm,
+  insertCommunityPostFormData,
   uploadFileAndGetUrl,
 } from "@/app/_api/community/community-api";
 import { QUERY_KEY_COMMUNITYLIST } from "@/app/_api/queryKeys";
+import { CommunityPostMutation } from "@/app/_types/community/community";
 import {
   Button,
   Dropdown,
@@ -39,26 +40,18 @@ const AddPostModal = () => {
   const currentUserUId = "55e7ec4c-473f-4754-af5e-9eae5c587b81";
 
   // post등록 후 communityList 쿼리키 무효화할 mutation
-  // -> 이미지 url insert하는 함수로 쿼리키 무효화하기
-  // const { mutate: insertTextFormMutation } = useMutation({
-  //   mutationFn: async ({
-  //     formData,
-  //     currentUserUId,
-  //   }: {
-  //     formData: FormData;
-  //     currentUserUId: string;
-  //   }) => {
-  //     const post_id = await insertCommunityPostTextForm({
-  //       formData,
-  //       currentUserUId,
-  //     });
-  //     return post_id;
-  //   },
-  //   onSuccess: (post_id) => {
-  //     console.log("mutation-post_id", post_id);
-  //     queryClient.invalidateQueries({ queryKey: [QUERY_KEY_COMMUNITYLIST] });
-  //   },
-  // });
+  const { mutate: insertFormDataMutation } = useMutation({
+    mutationFn: async ({ formData, currentUserUId }: CommunityPostMutation) => {
+      const post_id = await insertCommunityPostFormData({
+        formData,
+        currentUserUId,
+      });
+      return post_id;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_COMMUNITYLIST] });
+    },
+  });
 
   // 이미지 미리보기 띄우기
   const handleShowPreview = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,8 +84,6 @@ const AddPostModal = () => {
     // 드롭다운에서 선택한 값을 formData에 추가
     formData.append("action_type", Array.from(selectedKeys).join(", "));
 
-    // formData 자체를 community_posts에 insert
-
     try {
       // 확인창 표시
       const isConfirmed = window.confirm("작성하시겠습니까?");
@@ -105,12 +96,11 @@ const AddPostModal = () => {
           formData.append("image_url", imgUrl);
         }
 
-        // 텍스트+url formData insert하고 post_id 반환받기
-        const post_id = await insertCommunityPostTextForm({
+        // formData(텍스트, 이미지url) insert하고 post_id 반환받기(여기서 반환은 왜 안되지?)
+        const post_id = insertFormDataMutation({
           formData,
           currentUserUId,
         });
-        console.log("post_id", post_id);
       }
     } catch (error) {
       console.error("Error inserting data:", error);

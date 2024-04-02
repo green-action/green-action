@@ -8,3 +8,8 @@ export interface CommunityPostObj {
   title: string | null;
   user_uid: string | null;
 }
+
+export interface CommunityPostMutation {
+  formData: FormData;
+  currentUserUId: string;
+}

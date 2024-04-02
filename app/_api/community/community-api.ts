@@ -19,42 +19,7 @@ export const getUserInfo = async (user_uid: string) => {
 };
 
 // 커뮤니티 글 등록하기
-// 1. 텍스트(개인, 단체 포함) formData를 테이블에 insert -> post_id를 반환
-export const insertCommunityPostTextForm = async ({
-  formData,
-  currentUserUId,
-}: {
-  formData: FormData;
-  currentUserUId: string;
-}): Promise<string | null> => {
-  try {
-    const inputData = {
-      user_uid: currentUserUId,
-      title: String(formData.get("activityTitle")),
-      content: String(formData.get("activityDescription")),
-      action_type: String(formData.get("action_type")).substring(0, 2),
-      action_id: null,
-      img_url: String(formData.get("image_url")),
-    };
-
-    const { data, error } = await supabase
-      .from("community_posts")
-      .insert(inputData)
-      .select("id");
-
-    if (error) {
-      throw error;
-    }
-
-    // post_id 반환
-    const post_id = data ? data[0]?.id : null;
-    return post_id;
-  } catch (error) {
-    console.error("Error inserting data:", error);
-    throw error;
-  }
-};
-// 2. 이미지 스토리지에 업로드 후 url 반환
+// 1. 이미지 스토리지에 업로드 후 url 반환
 export const uploadFileAndGetUrl = async (file: File | null | undefined) => {
   try {
     // 스토리지에 이미지파일 업로드
@@ -94,4 +59,38 @@ export const uploadFileAndGetUrl = async (file: File | null | undefined) => {
   }
 };
 
-// 3. post_id의 img_url에 url insert
+// 2. 이미지url, 텍스트 입력값 formData를 테이블에 insert -> post_id 반환
+export const insertCommunityPostFormData = async ({
+  formData,
+  currentUserUId,
+}: {
+  formData: FormData;
+  currentUserUId: string;
+}): Promise<string | null> => {
+  try {
+    const inputData = {
+      user_uid: currentUserUId,
+      title: String(formData.get("activityTitle")),
+      content: String(formData.get("activityDescription")),
+      action_type: String(formData.get("action_type")).substring(0, 2),
+      action_id: null,
+      img_url: String(formData.get("image_url")),
+    };
+
+    const { data, error } = await supabase
+      .from("community_posts")
+      .insert(inputData)
+      .select("id");
+
+    if (error) {
+      throw error;
+    }
+
+    // post_id 반환
+    const post_id = data ? data[0]?.id : null;
+    return post_id;
+  } catch (error) {
+    console.error("Error inserting data:", error);
+    throw error;
+  }
+};
