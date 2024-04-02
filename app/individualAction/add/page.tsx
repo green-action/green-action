@@ -10,7 +10,7 @@ import ImgUpload from "@/app/_components/individualAction-add/ImgUpload";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-const AddAction = () => {
+const AddActionPage = () => {
   const [uploadedFileUrls, setUploadedFileUrls] = useState<string[]>([]);
   const [files, setFiles] = useState<(File | undefined)[]>([]);
   const router = useRouter();
@@ -215,4 +215,4 @@ const AddAction = () => {
   );
 };
 
-export default AddAction;
+export default AddActionPage;
