@@ -210,7 +210,7 @@ const CommunityDetailModal = ({
                           id="comment"
                           name="comment"
                           required
-                          className=" h-[34px] ml-5 pr-4 bg-inherit focus:outline-none text-xs text-gray-400"
+                          className="w-[90%] h-[28px] ml-5 pr-4 bg-inherit focus:outline-none text-xs text-gray-400"
                         />
                       </label>
                       <button
