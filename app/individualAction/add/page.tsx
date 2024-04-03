@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  getActionId,
   insertActionTextForm,
   insertImgUrls,
   uploadFilesAndGetUrls,
@@ -27,18 +26,18 @@ const AddActionPage = () => {
 
     try {
       // 확인창 표시
-      const confirmed = window.confirm("등록하시겠습니까?");
-      if (confirmed) {
-        // 1. id와 텍스트 입력값들 formData로 보내기 - insert
-        await insertActionTextForm({ formData, currentUserUId });
+      const isConfirmed = window.confirm("등록하시겠습니까?");
+      if (isConfirmed) {
+        // 1. user_uid와 텍스트 formData insert -> action_id 반환받기
+        const action_id = await insertActionTextForm({
+          formData,
+          currentUserUId,
+        });
 
-        // 2. id뽑아오기 - action_id로 써야됨
-        const action_id = await getActionId(currentUserUId);
-
-        // 3. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
+        // 2. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
         const imgUrlsArray = await uploadFilesAndGetUrls({ files, action_id });
 
-        // 4. 이미지url들 table에 넣기 - action_id에 id사용
+        // 3. 이미지url들 table에 넣기 - action_id에 id사용
         await insertImgUrls({ action_id, imgUrlsArray });
 
         // 입력값 초기화
@@ -49,7 +48,6 @@ const AddActionPage = () => {
         // router.push(`/detail/${action_id}`);
       }
     } catch (error) {
-      // 오류 처리
       console.error("Error inserting data:", error);
     }
   };
