@@ -2,11 +2,7 @@ import {
   getFilterBookmark,
   getFilterLikes,
 } from "@/app/_api/bookmark/bookmarkQueries";
-import {
-  QUERY_KEY_BOOKMARK,
-  QUERY_KEY_LIKES,
-  QUERY_KEY_USER,
-} from "@/app/_api/queryKeys";
+import { QUERY_KEY_BOOKMARK, QUERY_KEY_LIKES } from "@/app/_api/queryKeys";
 import { useQuery } from "@tanstack/react-query";
 
 export const useFilterBookmark = (action_id: string) => {
