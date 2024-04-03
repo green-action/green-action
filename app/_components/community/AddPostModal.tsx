@@ -26,17 +26,19 @@ import React, { useState } from "react";
 import { LuPencilLine } from "react-icons/lu";
 
 const AddPostModal = () => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [uploadedFileUrl, setUploadedFileUrl] = useState<string>("");
-  const [file, setFile] = useState<File | undefined | null>(null);
   // 드랍다운 선택된 key 상태관리
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set(["Green-action 선택하기"]),
   );
+  // 게시글 글쓰기 모달창 open여부 상태관리
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  const [uploadedFileUrl, setUploadedFileUrl] = useState<string>("");
+  const [file, setFile] = useState<File | undefined | null>(null);
 
   const queryClient = useQueryClient();
 
-  // post등록 후 communityList 쿼리키 무효화할 mutation
+  // 게시글 등록 mutation - communityList 쿼리키 무효화
   const { mutate: insertFormDataMutation } = useMutation({
     mutationFn: async ({ formData, currentUserUid }: CommunityPostMutation) => {
       const post_id = await insertCommunityPostFormData({
@@ -67,7 +69,7 @@ const AddPostModal = () => {
     setFile(null);
   };
 
-  // 드랍다운 선택 로직
+  // green-action 드랍다운 선택 로직
   const selectedValue = React.useMemo(
     () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
     [selectedKeys],
@@ -102,8 +104,8 @@ const AddPostModal = () => {
           formData.append("image_url", imgUrl);
         }
 
-        // formData(텍스트, 이미지url) insert하고 post_id 반환받기(여기서 반환은 왜 안되지?)
-        const post_id = insertFormDataMutation({
+        // formData(텍스트, 이미지url) insert
+        insertFormDataMutation({
           formData,
           currentUserUid,
         });
@@ -122,6 +124,7 @@ const AddPostModal = () => {
       >
         <LuPencilLine className="w-8 h-8" />
       </Button>
+      {/* 게시글 글쓰기 모달창 */}
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent className="h-[600px]">
           {(onClose) => (
@@ -238,6 +241,7 @@ const AddPostModal = () => {
                   </div>
                 </div>
               </ModalBody>
+              {/* 취소, 작성 버튼 */}
               <ModalFooter className="flex justify-center mb-8 !p-0">
                 <Button
                   variant="light"

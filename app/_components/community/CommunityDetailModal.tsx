@@ -33,9 +33,11 @@ const CommunityDetailModal = ({
   onOpenChange,
   post_id,
 }: CommunityDetailProps) => {
+  // 좋아요 하트 상태 임시
   const [isLike, setIsLike] = useState(false);
   const queryClient = useQueryClient();
 
+  // 좋아요 버튼 핸들러
   const handleLikeOnClick = async () => {
     if (!isLike) {
       setIsLike((prev) => !prev);
@@ -44,7 +46,7 @@ const CommunityDetailModal = ({
     }
   };
 
-  // 게시글 정보 가져오기
+  // 게시글 정보 가져오기 useQuery
   const {
     data: communityPost,
     isLoading: postIsLoading,
@@ -54,7 +56,7 @@ const CommunityDetailModal = ({
     queryFn: () => getPostContents(post_id),
   });
 
-  // 댓글 리스트 가져오기
+  // 댓글 리스트 가져오기 useQuery
   const {
     data: communityComments,
     isLoading: commentsIsLoading,
@@ -91,11 +93,12 @@ const CommunityDetailModal = ({
     return <div>Error</div>;
   }
 
+  // 게시글 작성자 닉네임, 프로필 이미지 가져오기
   const { display_name, profile_img } = communityPost?.users || {
     display_name: null,
     profile_img: null,
   };
-  // null인 경우 undefined로 변환해주는 과정 (null이면 src안에서 타입에러 발생)
+  // profile_img가 null인 경우 undefined로 변환해주는 과정 (null이면 src안에서 타입에러 발생)
   const imgSrc = profile_img || "";
 
   // 날짜 형식 변경
@@ -110,7 +113,7 @@ const CommunityDetailModal = ({
     try {
       const isConfirm = window.confirm("등록하시겠습니까?");
       if (isConfirm) {
-        // 로그인한 user_uid 가져오기
+        // 로그인한 유저의 user_uid 가져오기
         const user = await getUser();
         const currentUserUid = user?.user?.id;
 
@@ -146,7 +149,7 @@ const CommunityDetailModal = ({
                 <p className="font-normal text-xs">Greener</p>
               </ModalHeader>
               <ModalBody>
-                {/* 이미지 자리 */}
+                {/* 게시글 이미지 */}
                 <img
                   src={communityPost?.img_url ?? "기본 이미지 URL"}
                   alt="Community Post"
@@ -154,7 +157,7 @@ const CommunityDetailModal = ({
                 />
                 {/* 이미지 아래 전체 wrapper */}
                 <div className="flex flex-col gap-2 w-[90%] mx-auto">
-                  {/* 첫 줄 */}
+                  {/* 첫 줄 - 개인과 함께해요, 게시글 제목, 좋아요버튼 */}
                   <div className="flex justify-between mb-2 ">
                     <div className="flex gap-2 items-center">
                       <p className=" rounded-full border-1 border-gray-300 text-xs p-0.5 px-4 w-[110px]">
@@ -184,11 +187,11 @@ const CommunityDetailModal = ({
                       )}
                     </div>
                   </div>
-                  {/* 두번째 : 활동 내용 -> ...더보기 처리하기*/}
+                  {/* 두번째 줄 : 활동 내용 -> 내용 긴 경우 ...더보기 처리하기*/}
                   <p className=" mx-auto text-xs mb-5 w-[97%]">
                     {communityPost?.content}
                   </p>
-                  {/* 세번째 : 작성일, dot -> 내가 쓴 글 일 때만 보이게 */}
+                  {/* 세번째 줄 : 작성일, dot 드롭다운 -> dot은 내가 쓴 글 일 때만 보이게 */}
                   <div className="flex justify-between items-end ">
                     <p className="text-[11px]">{formattedDate}</p>
                     <Dropdown>
@@ -213,7 +216,7 @@ const CommunityDetailModal = ({
                     </Dropdown>
                   </div>
                   <hr className="mb-1" />
-                  {/* 댓글 wrapper */}
+                  {/* 댓글 전체 wrapper */}
                   <div className="flex flex-col mx-auto mb-2 w-[95%]">
                     <p className="text-xs mb-1">댓글</p>
                     {/* 댓글 등록 - 로그인 상태일 때만 보이게 */}
@@ -237,7 +240,7 @@ const CommunityDetailModal = ({
                         | 등록
                       </button>
                     </form>
-                    {/* 댓글 */}
+                    {/* 댓글 map */}
                     {communityComments?.length === 0 ? (
                       <p className="text-center text-[13px] font-light mt-4">
                         첫 댓글의 주인공이 되어보세요 🎉

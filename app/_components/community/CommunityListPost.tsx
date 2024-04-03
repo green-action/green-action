@@ -15,17 +15,19 @@ const CommunityListPost = ({
 }: {
   communityPost: CommunityPostObj | undefined;
 }) => {
-  const [isLike, setIsLike] = useState(false);
-  // 커뮤니티 디테일 모달창 props
+  // 커뮤니티 게시글 모달창 open여부 관리
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  // 좋아요 하트 상태 임시
+  const [isLike, setIsLike] = useState(false);
   const post_id = communityPost?.id as string;
   const { display_name, profile_img } = communityPost?.users || {
     display_name: null,
     profile_img: null,
   };
-  // null인 경우 undefined로 변환해주는 과정 (null이면 src안에서 타입에러 발생)
+  // profile_img가 null인 경우 undefined로 변환해주는 과정 (null이면 src안에서 타입에러 발생)
   const imgSrc = profile_img || "";
 
+  // 좋아요 버튼 핸들러
   const handleLikeOnClick = async () => {
     if (!isLike) {
       setIsLike((prev) => !prev);

@@ -47,7 +47,7 @@ const CommunityListPage = () => {
     <>
       {/* 전체 박스 */}
       <div className="w-[1000px] h-[100vh] mx-auto">
-        {/* 정렬 */}
+        {/* 정렬 드롭다운 */}
         <div className="flex justify-end mt-16 mb-4 mr-2">
           <Dropdown>
             <DropdownTrigger>
@@ -72,9 +72,9 @@ const CommunityListPage = () => {
             </DropdownMenu>
           </Dropdown>
         </div>
-        {/* 커뮤니티 리스트 */}
+        {/* 커뮤니티 리스트 wrapper */}
         <div className="flex flex-wrap gap-8">
-          {/* nextUI 카드 */}
+          {/* 커뮤니티 게시글 카드 map */}
           {communityList?.map((communityPost) => (
             <CommunityListPost
               key={communityPost.id}
