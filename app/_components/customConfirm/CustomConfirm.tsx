@@ -2,7 +2,7 @@
 import { Button } from "@nextui-org/react";
 import React, { useRef } from "react";
 
-interface CustomAlertProps {
+interface CustomConfirmProps {
   text: string;
   buttonName: string;
   okFunction: () => void;
@@ -11,7 +11,7 @@ interface CustomAlertProps {
 // buttonName: button 이름 지정
 // okFunction: ok를 누를때 실행해야하는 함수
 
-const CustomConfirm: React.FC<CustomAlertProps> = ({
+const CustomConfirm: React.FC<CustomConfirmProps> = ({
   text,
   buttonName,
   okFunction,
