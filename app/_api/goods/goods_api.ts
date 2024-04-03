@@ -20,7 +20,15 @@ export const updatePoint = async ({
   id: string;
   newPoint: number;
 }) => {
-  const { data, error } = await supabase.auth.updateUser({
-    data: { point: newPoint },
-  });
+  // const { data, error } = await supabase.auth.updateUser({
+  //   data: { point: newPoint },
+  // });
+  const { data, error } = await supabase
+    .from("users")
+    .update({ point: newPoint })
+    .eq("id", id);
 };
+
+// export const getLoginUserInfo = async()=>{
+
+// }

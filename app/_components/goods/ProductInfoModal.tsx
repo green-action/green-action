@@ -19,7 +19,7 @@ const ProductInfoModal = ({
     id: string;
     img_url: string;
     point: number;
-    product_info: string | null;
+    product_info: string;
     product_name: string;
   };
 }) => {
