@@ -1,16 +1,19 @@
 "use client";
 import { useIndividualAction } from "@/app/_hooks/useQueries/individualActions";
 import { CircularProgress } from "@nextui-org/react";
+import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
+import { useParams } from "next/navigation";
 import React from "react";
 
 const DetailPage = () => {
-  const params = { id: "f0be0faf-6024-4f88-b8f3-59c516181b74" };
+  const { id: postId } = useParams<Params>();
+  const params = { id: postId };
   const {
     data: individualAction,
     isLoading,
     isError,
   } = useIndividualAction({ params });
-  // console.log(individualAction![0].content || "");
+
   if (isLoading || !individualAction)
     return (
       <div>
