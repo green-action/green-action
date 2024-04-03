@@ -238,12 +238,18 @@ const CommunityDetailModal = ({
                       </button>
                     </form>
                     {/* 댓글 */}
-                    {communityComments?.map((comment) => (
-                      <CommunityPostComment
-                        key={comment.id}
-                        comment={comment}
-                      />
-                    ))}
+                    {communityComments?.length === 0 ? (
+                      <p className="text-center text-[13px] font-light mt-4">
+                        첫 댓글의 주인공이 되어보세요 🎉
+                      </p>
+                    ) : (
+                      communityComments?.map((comment) => (
+                        <CommunityPostComment
+                          key={comment.id}
+                          comment={comment}
+                        />
+                      ))
+                    )}
                   </div>
                 </div>
               </ModalBody>
