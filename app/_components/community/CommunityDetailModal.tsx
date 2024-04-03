@@ -1,6 +1,7 @@
 import { getPostContents } from "@/app/_api/community/community-api";
 import { QUERY_KEY_COMMUNITY_POST } from "@/app/_api/queryKeys";
 import { CommunityDetailProps } from "@/app/_types/community/community";
+import { formatToLocaleDateString } from "@/utils/date/date";
 import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
@@ -36,6 +37,10 @@ const CommunityDetailModal = ({
   if (isError) {
     return <div>Error</div>;
   }
+
+  const formattedDate = communityPost
+    ? formatToLocaleDateString(communityPost.created_at)
+    : "";
 
   // console.log("communityPost", communityPost);
   // user_uid로 게시글 작성자 정보 가져오기 필요!!! -> 리스트, 상세모달창 둘다 수정
@@ -96,7 +101,7 @@ const CommunityDetailModal = ({
                   </p>
                   {/* 세번째 : 작성일, dot -> 내가 쓴 글 일 때만 보이게 */}
                   <div className="flex justify-between items-end ">
-                    <p className="text-[11px]">{communityPost?.created_at}</p>
+                    <p className="text-[11px]">{formattedDate}</p>
                     <HiOutlineDotsVertical className="cursor-pointer" />
                   </div>
                   <hr className="mb-1" />
