@@ -1,18 +1,35 @@
 "use client";
-import { useIndividualAction } from "@/app/_hooks/useQueries/individualActions";
+import {
+  useActionImages,
+  useIndividualAction,
+} from "@/app/_hooks/useQueries/individualActions";
+import { useQueryUserMetadata } from "@/app/_hooks/useQueries/user";
 import { CircularProgress } from "@nextui-org/react";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import { useParams } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
 const DetailPage = () => {
   const { id: postId } = useParams<Params>();
   const params = { id: postId };
   const {
     data: individualAction,
-    isLoading,
-    isError,
+    isLoading: individualActionLoading,
+    isError: individualActionError,
   } = useIndividualAction({ params });
+
+  // 이미지 가져오기
+  const {
+    data: imgUrl,
+    isLoading: actionImagesLoading,
+    isError: actionImagesError,
+  } = useActionImages({ params });
+
+  // 두 요청이 모두 완료되었는지 확인
+  const isLoading = individualActionLoading || actionImagesLoading;
+  const isError = individualActionError || actionImagesError;
+
+  console.log("이미지url : ", imgUrl);
 
   if (isLoading || !individualAction)
     return (
@@ -22,6 +39,10 @@ const DetailPage = () => {
     );
   const detail = individualAction![0];
   console.log(detail);
+
+  // 작성자 이름, 자기소개 가져오기
+  const userId = detail.user_uid;
+  // userId를 가진 유저정보를 auth에서 가져와서
 
   if (isError) return <div>Error fetching details...</div>;
   return (
@@ -50,6 +71,11 @@ const DetailPage = () => {
           </div>
           <div className="col-span-3 row-span-2 border-2 border-gray-300 rounded-3xl">
             <p>상세내용 : {detail.content}</p>
+            <div>
+              {imgUrl?.map((item) => {
+                return <img src={item.img_url} alt="green_action_image" />;
+              })}
+            </div>
           </div>
 
           {/* <div className="col-span-1 row-span-1 border-2 border-gray-300 rounded-3xl">

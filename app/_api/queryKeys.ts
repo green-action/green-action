@@ -6,3 +6,4 @@ export const QUERY_KEY_GOODS = `goods`;
 export const QUERY_KEY_INDIVIDUALACTION = `individual_action`;
 export const QUERY_KEY_LIKES = `likes`;
 export const QUERY_KEY_COMMUNITY_POST = `communityPost`;
+export const QUERY_KEY_GREEN_ACTION_IMAGE = `green_action_images`;
