@@ -1,5 +1,6 @@
 import { supabase } from "@/utils/supabase/client";
 
+// 커뮤니티 리스트 가져오기 + user_uid로 작성자 닉네임, 프로필이미지 join테이블
 export const getCommunityList = async () => {
   const { data: communityList, error } = await supabase
     .from("community_posts")
@@ -94,3 +95,23 @@ export const insertCommunityPostFormData = async ({
     throw error;
   }
 };
+
+// post_id로 커뮤니티 상세모달창 정보 가져오기
+export const getPostContents = async (post_id: string) => {
+  try {
+    const { data, error } = await supabase
+      .from("community_posts")
+      .select("*")
+      .eq("id", post_id);
+    if (error) {
+      throw error;
+    }
+
+    return data[0];
+  } catch (error) {
+    console.error("Error inserting data:", error);
+    throw error;
+  }
+};
+
+// post_id로 상세모달창 댓글리스트 가져오기
