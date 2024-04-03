@@ -7,6 +7,13 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import { HiOutlineDotsVertical } from "react-icons/hi";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  Button,
+} from "@nextui-org/react";
 
 const CommunityDetailModal = ({
   isOpen,
@@ -102,7 +109,26 @@ const CommunityDetailModal = ({
                   {/* 세번째 : 작성일, dot -> 내가 쓴 글 일 때만 보이게 */}
                   <div className="flex justify-between items-end ">
                     <p className="text-[11px]">{formattedDate}</p>
-                    <HiOutlineDotsVertical className="cursor-pointer" />
+                    <Dropdown>
+                      <DropdownTrigger>
+                        <Button
+                          className="bg-transparent mb-1 !p-0 mx-0 h-[12px] "
+                          style={{ width: "2px" }}
+                        >
+                          <HiOutlineDotsVertical className="cursor-pointer" />
+                        </Button>
+                      </DropdownTrigger>
+                      <DropdownMenu aria-label="Static Actions">
+                        <DropdownItem key="수정">수정</DropdownItem>
+                        <DropdownItem
+                          key="삭제"
+                          className="text-danger"
+                          color="danger"
+                        >
+                          삭제
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
                   </div>
                   <hr className="mb-1" />
                   {/* 댓글 wrapper */}
