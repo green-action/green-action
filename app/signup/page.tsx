@@ -34,7 +34,7 @@ const SignUp = () => {
     /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value);
 
   // 회원가입 버튼
-  const handleSingUp = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email || !password || !confirmPassword || !nickname) {
       alert("입력란을 입력해주세요.");
@@ -52,11 +52,6 @@ const SignUp = () => {
     }
 
     try {
-      const { data, error } = await supabase.auth.getUser(email);
-      if (error) {
-        throw new Error(error.message);
-      }
-      console.log(data);
       const users = await signUpNewUser(email, password, nickname);
       onOpen();
       console.log(users);
@@ -80,7 +75,7 @@ const SignUp = () => {
         <CardBody className="flex flex-col items-center px-8 py-8 h-full gap-5">
           <h2 className="text-2xl font-bold mb-2">Sign up</h2>
 
-          <form onSubmit={handleSingUp} className="w-full">
+          <form onSubmit={handleSignUp} className="w-full">
             <Input
               type="email"
               label="Email"

@@ -8,3 +8,4 @@ export const QUERY_KEY_LIKES = `likes`;
 export const QUERY_KEY_MY_INDIVIDUALACTION = "my_individual_actions";
 export const QUERY_KEY_MY_COMMUNITYPOST = "my_community_posts";
 export const QUERY_KEY_MY_BOOKMARK = "my_bookmarked_actions";
+export const QUERY_KEY_COMMUNITY_POST = `communityPost`;

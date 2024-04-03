@@ -286,6 +286,41 @@ export type Database = {
           },
         ];
       };
+      users: {
+        Row: {
+          display_name: string | null;
+          email: string | null;
+          id: string;
+          introduction: string | null;
+          point: number | null;
+          profile_img: string | null;
+        };
+        Insert: {
+          display_name?: string | null;
+          email?: string | null;
+          id?: string;
+          introduction?: string | null;
+          point?: number | null;
+          profile_img?: string | null;
+        };
+        Update: {
+          display_name?: string | null;
+          email?: string | null;
+          id?: string;
+          introduction?: string | null;
+          point?: number | null;
+          profile_img?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "public_users_id_fkey";
+            columns: ["id"];
+            isOneToOne: true;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
     };
     Views: {
       [_ in never]: never;

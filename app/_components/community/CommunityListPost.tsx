@@ -1,8 +1,7 @@
-import React from "react";
-import { useState } from "react";
-import { Button, Card, CardFooter, useDisclosure } from "@nextui-org/react";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { CommunityPostObj } from "@/app/_types/community/community";
+import { Button, Card, CardFooter, useDisclosure } from "@nextui-org/react";
+import { useState } from "react";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import CommunityDetailModal from "./CommunityDetailModal";
 
 const CommunityListPost = ({
@@ -13,7 +12,7 @@ const CommunityListPost = ({
   const [isLike, setIsLike] = useState(false);
   // 커뮤니티 디테일 모달창 props
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  // 꼼수 : 상세페이지 버튼을 카드 위에 놓고, 카드 크기랑 똑같이 하되 색을 투명으로 하면 같은 효과를 낼 수 있다?!
+  const post_id = communityPost?.id as string;
 
   // communityPost.user_uid 로 유저의 프로필이미지, 닉네임 가져오기
   // (카드에서 작성자 정보 보여주기)
@@ -33,12 +32,11 @@ const CommunityListPost = ({
           isFooterBlurred
           radius="lg"
           className="border-none h-[240px] mb-3"
-          // onClick={() => onOpen}
-          // onPress={onOpen}
         >
           <img
+            onClick={() => onOpen()}
             alt="Community Post Image"
-            className="object-cover w-full h-[198px]"
+            className="object-cover w-full h-[198px] cursor-pointer"
             src={communityPost?.img_url}
           />
           <CardFooter className="justify-between  border-white/20 border-1 overflow-hidden py-1 absolute bottom-0 w-[calc(100%)] shadow-small  z-10 pl-4 pr-1">
@@ -86,11 +84,14 @@ const CommunityListPost = ({
           </p>
         </div>
       </div>
-      <CommunityDetailModal
-        isOpen={isOpen}
-        onOpen={onOpen}
-        onOpenChange={onOpenChange}
-      />
+      {isOpen && (
+        <CommunityDetailModal
+          isOpen={isOpen}
+          onOpen={onOpen}
+          onOpenChange={onOpenChange}
+          post_id={post_id}
+        />
+      )}
     </>
   );
 };

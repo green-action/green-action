@@ -11,17 +11,19 @@ export const signUpNewUser = async (
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      options: {
-        data: {
-          display_name,
-          profile_img: "",
-          point: 1000,
-          introduction: "자기소개를 아직 작성하지 않았어요",
-        },
-      },
     });
+
     if (error) {
       throw error;
+    }
+
+    // 사용자 정보 데이터베이스에 추가
+    const { data: userData, error: userDataError } = await supabase
+      .from("users")
+      .insert({ id: data.user?.id, email, display_name });
+
+    if (userDataError) {
+      throw userDataError;
     }
 
     return data;
@@ -41,14 +43,22 @@ export const signInUser = async (
       email,
       password,
     });
-    // console.log(data.user);
+
     if (!data || !data.user) {
       throw new Error("유저의 데이터정보가져오기 실패");
     }
 
-    return data.user.user_metadata as User;
-  } catch (error) {
-    throw error;
+    const user = data.user;
+    const { data: userData, error: fetchError } = await supabase
+      .from("users")
+      .select("*")
+      .eq("id", user.id)
+      .single();
+    // console.log(userData);
+    // return data.user.user_metadata as User;
+    return userData as User;
+  } catch (fetchError) {
+    throw fetchError;
   }
 };
 
