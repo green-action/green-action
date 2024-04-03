@@ -13,6 +13,16 @@ export const getGoods = async () => {
   }
 };
 
+export const getPoint = async (id: string) => {
+  try {
+    const { data } = await supabase.from("users").select("point").eq("id", id);
+    return data;
+  } catch (error) {
+    console.error("Error : ", error);
+    throw error;
+  }
+};
+
 export const updatePoint = async ({
   id,
   newPoint,

@@ -292,7 +292,7 @@ export type Database = {
           email: string | null;
           id: string;
           introduction: string | null;
-          point: number | null;
+          point: number;
           profile_img: string | null;
         };
         Insert: {
@@ -300,7 +300,7 @@ export type Database = {
           email?: string | null;
           id?: string;
           introduction?: string | null;
-          point?: number | null;
+          point?: number;
           profile_img?: string | null;
         };
         Update: {
@@ -308,7 +308,7 @@ export type Database = {
           email?: string | null;
           id?: string;
           introduction?: string | null;
-          point?: number | null;
+          point?: number;
           profile_img?: string | null;
         };
         Relationships: [

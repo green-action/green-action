@@ -11,6 +11,7 @@ import {
 import { LuSearch } from "react-icons/lu";
 import { updatePoint } from "@/app/_api/goods/goods_api";
 import { useQueryUser } from "@/app/_hooks/useQueries/user";
+import { useUserPoint } from "@/app/_hooks/useQueries/goods";
 
 const ProductInfoModal = ({
   item,
@@ -26,12 +27,18 @@ const ProductInfoModal = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
 
-  // 로그인 한 유저의 metadata에서 point 가져오기
+  // 로그인한 유저 id 가져오기
   const { data } = useQueryUser();
-  const user = data?.user?.user_metadata || {};
-  const user_point = user.point;
-  // console.log(user);
-  // console.log("user point : ", user.point);
+  const user = data?.user;
+  const user_uid = user!.id;
+  console.log("로그인한 유저 id : ", user_uid);
+
+  // users 테이블에서 로그인 한 유저의 point 가져오기
+  const { data: userPoint, isLoading, isError } = useUserPoint(user_uid);
+  console.log("user point : ", userPoint![0].point);
+  // const { point } = userPoint;
+  // console.log("user point : ", point);
+  const user_point = userPoint![0].point;
 
   const handleConfirmPurchase = async () => {
     // 유저의 포인트가 클릭한 아이템의 포인트보다 작으면 구매 불가
@@ -46,7 +53,7 @@ const ProductInfoModal = ({
     // 아니면, 유저 포인트 업데이트 (유저포인트 - 아이템의 포인트)
     try {
       const updatedPoint = user_point - item.point;
-      await updatePoint({ id: user.id, newPoint: updatedPoint });
+      await updatePoint({ id: user_uid, newPoint: updatedPoint });
 
       alert(`구매 성공! : 남은 포인트 ${updatedPoint}P`);
       setConfirmModalOpen(false);
