@@ -8,12 +8,6 @@ export const getBookmark = async () => {
   }
   return { bookmarks };
 };
-export const getUser = async () => {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  return { user };
-};
 
 export const addBookmark = async (user_uid: string, action_id: string) => {
   const { data, error } = await supabase

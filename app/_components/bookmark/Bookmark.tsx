@@ -1,12 +1,16 @@
 "use client";
 import { useAddBookmark, useRemoveBookmark } from "@/app/_hooks/useMutations";
-import { useBookmark, useQueryUser } from "@/app/_hooks/useQueries/bookmarks";
+import { useBookmark } from "@/app/_hooks/useQueries/bookmarks";
+import { useAuthStore } from "@/app/_store/authStore";
 import { CiStar } from "react-icons/ci";
 import { FaStar } from "react-icons/fa6";
 
 const Bookmark = ({ action_id }: { action_id: string }) => {
   const { data, isLoading } = useBookmark();
-  const { data: user } = useQueryUser();
+  // const { data: user } = useQueryUser();
+
+  const { user } = useAuthStore();
+  const userUid = user?.sub || "";
 
   // const user_uid = user?.user_metadata.user_uid;
   const user_uid = "6f971b1e-abaf-49d5-90e7-f8c6bfe4bd58";

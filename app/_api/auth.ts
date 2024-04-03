@@ -63,3 +63,11 @@ export const logoutUser = async () => {
     console.log(error);
   }
 };
+
+// getUser - auth-user 정보 가져오기
+export const getUser = async () => {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  return { user };
+};
