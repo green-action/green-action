@@ -1,8 +1,7 @@
-import React from "react";
-import { useState } from "react";
-import { Button, Card, CardFooter, useDisclosure } from "@nextui-org/react";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { CommunityPostObj } from "@/app/_types/community/community";
+import { Button, Card, CardFooter, useDisclosure } from "@nextui-org/react";
+import { useState } from "react";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import CommunityDetailModal from "./CommunityDetailModal";
 
 const CommunityListPost = ({
@@ -13,7 +12,7 @@ const CommunityListPost = ({
   const [isLike, setIsLike] = useState(false);
   // 커뮤니티 디테일 모달창 props
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const post_id = communityPost?.id;
+  const post_id = communityPost?.id as string;
 
   // communityPost.user_uid 로 유저의 프로필이미지, 닉네임 가져오기
   // (카드에서 작성자 정보 보여주기)
@@ -85,12 +84,14 @@ const CommunityListPost = ({
           </p>
         </div>
       </div>
-      <CommunityDetailModal
-        isOpen={isOpen}
-        onOpen={onOpen}
-        onOpenChange={onOpenChange}
-        post_id={post_id}
-      />
+      {isOpen && (
+        <CommunityDetailModal
+          isOpen={isOpen}
+          onOpen={onOpen}
+          onOpenChange={onOpenChange}
+          post_id={post_id}
+        />
+      )}
     </>
   );
 };

@@ -1,5 +1,8 @@
+import { getPostContents } from "@/app/_api/community/community-api";
+import { QUERY_KEY_COMMUNITY_POST } from "@/app/_api/queryKeys";
 import { CommunityDetailProps } from "@/app/_types/community/community";
 import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/react";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import { HiOutlineDotsVertical } from "react-icons/hi";
@@ -18,6 +21,24 @@ const CommunityDetailModal = ({
       setIsLike((prev) => !prev);
     }
   };
+
+  const {
+    data: communityPost,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: [QUERY_KEY_COMMUNITY_POST, post_id],
+    queryFn: () => getPostContents(post_id),
+  });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  if (isError) {
+    return <div>Error</div>;
+  }
+
+  console.log("communityPost", communityPost);
 
   return (
     <>
