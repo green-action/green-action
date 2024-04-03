@@ -10,6 +10,7 @@ import {
 import { CommunityDetailProps } from "@/app/_types/community/community";
 import { formatToLocaleDateString } from "@/utils/date/date";
 import {
+  Avatar,
   Button,
   Dropdown,
   DropdownItem,
@@ -93,19 +94,19 @@ const CommunityDetailModal = ({
     return <div>Error</div>;
   }
 
-  // console.log("communityPost", communityPost);
   const { display_name, profile_img } = communityPost?.users || {
     display_name: null,
     profile_img: null,
   };
+  // null인 경우 undefined로 변환해주는 과정 (null이면 src안에서 타입에러 발생)
+  const imgSrc = profile_img || "";
 
+  // 날짜 형식 변경
   const formattedDate = communityPost
     ? formatToLocaleDateString(communityPost.created_at)
     : "";
 
-  // console.log("communityPost", communityPost);
-  // user_uid로 게시글 작성자 정보 가져오기 필요!!! -> 리스트, 상세모달창 둘다 수정
-
+  // 댓글 등록 핸들러
   const handleInsertComment = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -130,7 +131,11 @@ const CommunityDetailModal = ({
           {() => (
             <>
               <ModalHeader className="flex gap-2 items-center mt-1 pb-1 ml-4">
-                <div className="bg-black w-[30px] h-[30px] rounded-full mr-2" />
+                <Avatar
+                  showFallback
+                  src={imgSrc}
+                  className="w-[30px] h-[30px] rounded-full mr-2"
+                />
                 <p className="font-semibold text-xs">{display_name}</p>
                 <p className="font-normal text-xs">Greener</p>
               </ModalHeader>
