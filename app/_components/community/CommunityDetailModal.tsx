@@ -54,10 +54,10 @@ const CommunityDetailModal = ({
               <ModalBody>
                 {/* 이미지 자리 */}
                 <img
-                  src={communityPost?.img_url}
+                  src={communityPost?.img_url ?? "기본 이미지 URL"}
                   alt="Community Post"
                   className="mx-auto mb-1 w-[96%] h-[260px] rounded-2xl bg-slate-300"
-                ></img>
+                />
                 {/* 이미지 아래 전체 wrapper */}
                 <div className="flex flex-col gap-2 w-[90%] mx-auto">
                   {/* 첫 줄 */}
