@@ -65,13 +65,15 @@ const CustomConfirm: React.FC<CustomAlertProps> = ({
         ref={freezeLayerRef}
         className="w-full h-full fixed top-0 left-0 bg-black/30 z-[1] hidden"
       ></div>
-      <button
+      <Button
+        color="primary"
+        variant="ghost"
         onClick={() => {
           customConfirm.show(`${text}`, handleClick);
         }}
       >
         {buttonName}
-      </button>
+      </Button>
       <div
         ref={dialogContRef}
         className="absolute top-[-50%] left-1/2 translate-x-[-50%] translate-y-[-50%] p-[10px] w-[30%] rounded-xl transition-all z-[2] opacity-0"
