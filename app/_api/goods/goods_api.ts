@@ -12,3 +12,15 @@ export const getGoods = async () => {
     throw error;
   }
 };
+
+export const updatePoint = async ({
+  id,
+  newPoint,
+}: {
+  id: string;
+  newPoint: number;
+}) => {
+  const { data, error } = await supabase.auth.updateUser({
+    data: { point: newPoint },
+  });
+};
