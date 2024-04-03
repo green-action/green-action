@@ -1,7 +1,6 @@
-import { InsertComment } from "@/app/_types/community/community";
 import { supabase } from "@/utils/supabase/client";
 
-// 커뮤니티 리스트 가져오기 + user_uid로 작성자 닉네임, 프로필이미지 join테이블
+// 커뮤니티 리스트 가져오기 - 작성자 정보도 함께
 export const getCommunityList = async () => {
   const { data: communityList, error } = await supabase
     .from("community_posts")
@@ -13,11 +12,6 @@ export const getCommunityList = async () => {
   }
 
   return communityList;
-};
-
-// user_uid에 해당하는 profile이미지, 닉네임 가져오기 (리스트에 보여줄)
-export const getUserInfo = async (user_uid: string) => {
-  // const {data, error} = await supabase.from('')
 };
 
 // 커뮤니티 글 등록하기
@@ -97,12 +91,12 @@ export const insertCommunityPostFormData = async ({
   }
 };
 
-// post_id로 커뮤니티 상세모달창 정보 가져오기
+// post_id로 커뮤니티 상세모달창 정보 가져오기 - 작성자 정보도 함께
 export const getPostContents = async (post_id: string) => {
   try {
     const { data, error } = await supabase
       .from("community_posts")
-      .select("*")
+      .select(`*, users(display_name, profile_img)`)
       .eq("id", post_id);
     if (error) {
       throw error;
@@ -111,43 +105,6 @@ export const getPostContents = async (post_id: string) => {
     return data[0];
   } catch (error) {
     console.error("Error inserting data:", error);
-    throw error;
-  }
-};
-
-// post_id로 상세모달창 댓글리스트 가져오기
-export const getCommunityCommentsList = async (post_id: string) => {
-  try {
-    const { data, error } = await supabase
-      .from("community_comments")
-      .select()
-      .eq("post_id", post_id);
-    if (error) {
-      throw error;
-    }
-    return data;
-  } catch (error) {
-    console.error("Error inserting data:", error);
-    throw error;
-  }
-};
-
-// 댓글 insert
-export const insertCommunityComment = async ({
-  content,
-  currentUserUid,
-  post_id,
-}: InsertComment) => {
-  try {
-    const { error } = await supabase
-      .from("community_comments")
-      .insert([{ content, post_id, user_uid: currentUserUid }]);
-
-    if (error) {
-      throw error;
-    }
-  } catch (error) {
-    console.error("Error inserting comment:", error);
     throw error;
   }
 };

@@ -1,8 +1,8 @@
 import {
   getCommunityCommentsList,
-  getPostContents,
   insertCommunityComment,
-} from "@/app/_api/community/community-api";
+} from "@/app/_api/community/comments-api";
+import { getPostContents } from "@/app/_api/community/community-api";
 import {
   QEURY_KEY_COMMUNITY_COMMENTS_LIST,
   QUERY_KEY_COMMUNITY_POST,
@@ -93,6 +93,12 @@ const CommunityDetailModal = ({
     return <div>Error</div>;
   }
 
+  // console.log("communityPost", communityPost);
+  const { display_name, profile_img } = communityPost?.users || {
+    display_name: null,
+    profile_img: null,
+  };
+
   const formattedDate = communityPost
     ? formatToLocaleDateString(communityPost.created_at)
     : "";
@@ -125,7 +131,7 @@ const CommunityDetailModal = ({
             <>
               <ModalHeader className="flex gap-2 items-center mt-1 pb-1 ml-4">
                 <div className="bg-black w-[30px] h-[30px] rounded-full mr-2" />
-                <p className="font-semibold text-xs">뚜찌빠찌</p>
+                <p className="font-semibold text-xs">{display_name}</p>
                 <p className="font-normal text-xs">Greener</p>
               </ModalHeader>
               <ModalBody>
