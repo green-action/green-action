@@ -16,13 +16,6 @@ const CommunityDetailModal = ({
 }: CommunityDetailProps) => {
   return (
     <>
-      {/* 모달창 열기 test 버튼 */}
-      <Button
-        className="fixed bottom-3 right-3 w-100 h-10 bg-gray-300 flex items-center justify-center"
-        onPress={onOpen}
-      >
-        커뮤니티 상세 모달창 열기 test!
-      </Button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent className="h-[600px]">
           {(onClose) => (
@@ -34,6 +27,14 @@ const CommunityDetailModal = ({
               </ModalHeader>
               <ModalBody>
                 <div className="mx-auto w-[96%] h-[60%] rounded-2xl bg-slate-300"></div>
+                <div className="flex justify-between">
+                  <div className="flex gap-2 items-center">
+                    <p className="ml-4 mr-2 rounded-full border-1 border-gray-300 text-xs p-0.5 px-4 w-[110px]">
+                      개인과 함께해요
+                    </p>
+                    <p className="text-sm">쓰레기 줍기 실천 인증!!</p>
+                  </div>
+                </div>
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>

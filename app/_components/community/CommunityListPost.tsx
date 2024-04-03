@@ -33,12 +33,11 @@ const CommunityListPost = ({
           isFooterBlurred
           radius="lg"
           className="border-none h-[240px] mb-3"
-          // onClick={() => onOpen}
-          // onPress={onOpen}
         >
           <img
+            onClick={() => onOpen()}
             alt="Community Post Image"
-            className="object-cover w-full h-[198px]"
+            className="object-cover w-full h-[198px] cursor-pointer"
             src={communityPost?.img_url}
           />
           <CardFooter className="justify-between  border-white/20 border-1 overflow-hidden py-1 absolute bottom-0 w-[calc(100%)] shadow-small  z-10 pl-4 pr-1">
