@@ -9,7 +9,11 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { LuSearch } from "react-icons/lu";
-import { supabase } from "@/utils/supabase/client";
+import { getUserInfo } from "@/app/_api/community/community-api";
+import { useQueryUser } from "@/app/_hooks/useQueries/bookmarks";
+import { User } from "@/app/_types";
+import { signInUser } from "@/app/_api/auth";
+import { updatePoint } from "@/app/_api/goods/goods_api";
 
 const ProductInfoModal = ({
   item,
@@ -25,11 +29,36 @@ const ProductInfoModal = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
 
-  const handleConfirmPurchase = () => {
-    // 포인트 차감 로직
-    alert("구매 성공!");
-    setConfirmModalOpen(false);
-    onClose(); // 첫번째 모달도 같이 닫기
+  // 로그인 한 유저의 metadata에서 point 가져오기
+  const { data } = useQueryUser();
+  const user = data?.user?.user_metadata || {};
+  const user_point = user.point;
+  // console.log(user);
+  // console.log("user point : ", user.point);
+
+  const handleConfirmPurchase = async () => {
+    // 유저의 포인트가 클릭한 아이템의 포인트보다 작으면 구매 불가
+
+    if (user_point < item.point) {
+      alert(`구매 불가 상품입니다 : 보유한 포인트 ${user_point}P`);
+      setConfirmModalOpen(false);
+      onClose();
+      return;
+    }
+
+    // 아니면, 유저 포인트 업데이트 (유저포인트 - 아이템의 포인트)
+    try {
+      const updatedPoint = user_point - item.point;
+      await updatePoint({ id: user.id, newPoint: updatedPoint });
+
+      alert(`구매 성공! : 남은 포인트 ${updatedPoint}P`);
+      setConfirmModalOpen(false);
+      onClose(); // 첫번째 모달도 같이 닫기
+    } catch (error) {
+      console.error("Error updating user point:", error);
+      // 에러 처리
+      alert("구매 실패했습니다. 다시 시도해주세요.");
+    }
   };
 
   const handleModalClose = () => {
