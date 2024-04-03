@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@nextui-org/react";
 import React, { useRef } from "react";
 
 interface CustomAlertProps {
@@ -10,7 +11,7 @@ interface CustomAlertProps {
 // buttonName: button 이름 지정
 // okFunction: ok를 누를때 실행해야하는 함수
 
-const CustomAlert: React.FC<CustomAlertProps> = ({
+const CustomConfirm: React.FC<CustomAlertProps> = ({
   text,
   buttonName,
   okFunction,
@@ -73,32 +74,34 @@ const CustomAlert: React.FC<CustomAlertProps> = ({
       </button>
       <div
         ref={dialogContRef}
-        className="absolute top-[-50%] left-1/2 translate-x-[-50%] translate-y-[-50%] p-[10px] w-[480px] rounded-xl transition-all z-[2] opacity-0"
+        className="absolute top-[-50%] left-1/2 translate-x-[-50%] translate-y-[-50%] p-[10px] w-[30%] rounded-xl transition-all z-[2] opacity-0"
       >
-        <div className="p-[10px] font-bold bg-[#575757] text-[#f6f7f8]"></div>
+        <div className="p-[10px] py-[20px] font-bold bg-[#575757] text-[#f6f7f8]"></div>
         <div
           id="digBody"
-          className="p-[10px] leading-7 bg-white text-center py-5"
+          className="p-[10px] py-[30px] leading-7 bg-white text-center"
         >
           {text}
         </div>
         <div className="text-center bg-[#f5f5f2] flex flex-row gap-3 justify-center py-5">
-          <a
+          <Button
+            color="primary"
             onClick={customConfirm.okay}
-            className="inline-block w-[100px] py-[5px] border border-[#ccc] rounded-xl bg-[#eee] cursor-pointer"
+            className="inline-block w-[100px] py-[5px]  cursor-pointer"
           >
             Ok
-          </a>
-          <a
+          </Button>
+          <Button
+            color="danger"
             onClick={customConfirm.close}
-            className="inline-block w-[100px] py-[5px] border border-[#ccc] rounded-xl bg-[#eee] cursor-pointer"
+            className="inline-block w-[100px] py-[5px]  cursor-pointer"
           >
             cancel
-          </a>
+          </Button>
         </div>
       </div>
     </div>
   );
 };
 
-export default CustomAlert;
+export default CustomConfirm;
