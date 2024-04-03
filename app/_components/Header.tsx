@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { logoutUser } from "../_api/auth";
-import { useQueryUser } from "../_hooks/useQueries/bookmarks";
+import { useQueryUser } from "../_hooks/useQueries/user";
 
 function Header() {
   const { data: session, isLoading: sessionIsLoading } = useQueryUser();

@@ -66,6 +66,14 @@ export const logoutUser = async () => {
   }
 };
 
+// getUser - auth-user 정보 가져오기
+export const getUser = async () => {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  return { user };
+};
+
 // 사용자 로그인상태 확인
 
 // const fetchSession = async () => {
