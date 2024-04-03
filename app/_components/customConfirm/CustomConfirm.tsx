@@ -91,14 +91,14 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
             onClick={customConfirm.okay}
             className="inline-block w-[100px] py-[5px]  cursor-pointer"
           >
-            Ok
+            네
           </Button>
           <Button
             color="danger"
             onClick={customConfirm.close}
             className="inline-block w-[100px] py-[5px]  cursor-pointer"
           >
-            cancel
+            아니오
           </Button>
         </div>
       </div>
