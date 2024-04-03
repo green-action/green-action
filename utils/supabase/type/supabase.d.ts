@@ -288,12 +288,12 @@ export type Database = {
       };
       users: {
         Row: {
-          display_name: string | null;
-          email: string | null;
+          display_name: string;
+          email: string;
           id: string;
           introduction: string | null;
-          point: number | null;
-          profile_img: string | null;
+          point: number;
+          profile_img: string;
         };
         Insert: {
           display_name?: string | null;

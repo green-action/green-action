@@ -11,6 +11,8 @@ import {
   CardHeader,
   Chip,
   CircularProgress,
+  Select,
+  SelectItem,
   Tooltip,
 } from "@nextui-org/react";
 import { HiOutlinePlus } from "react-icons/hi2";
@@ -38,13 +40,8 @@ const MyPage = () => {
   // const user_uid = "6f971b1e-abaf-49d5-90e7-f8c6bfe4bd58"; // 임시 유저 아이디 설정
 
   // FIXME 새로고침 시 로그인상태에서도 userUid가 사라지는 문제
-  // const { user } = useAuthStore();
-  // const user_uid = user?.sub || "";
-  // console.log(user_uid);
-
-  // -> 우선 useQueryUserMetadata 활용하기
-  const { userMetadata, isLoading: isUserLoading } = useQueryUserMetadata();
-  const { sub: user_uid } = userMetadata || {};
+  const { user } = useAuthStore();
+  const user_uid = user?.id || "";
   console.log(user_uid);
 
   // 클릭된 상태 버튼 색깔 다르게하기
@@ -86,7 +83,7 @@ const MyPage = () => {
   return (
     <div className="flex justify-center mt-10">
       <div className="flex w-[1400px]">
-        <MyProfile />
+        <MyProfile user_uid={user_uid} />
         <div className="flex flex-col gap-10 pl-10 pt-1 w-full">
           <div className="flex gap-12 ml-5">
             <Button radius="full" size="md" onClick={handleMyGreenActionClick}>
@@ -106,6 +103,17 @@ const MyPage = () => {
             >
               찜한 Green-Action
             </Button>
+            <Select size="sm" className="w-[10rem]">
+              <SelectItem key="모집" value="모집">
+                전체
+              </SelectItem>
+              <SelectItem key="모집" value="모집">
+                모집 중
+              </SelectItem>
+              <SelectItem key="모집" value="모집">
+                모집 마감
+              </SelectItem>
+            </Select>
           </div>
           <div className="flex flex-wrap gap-7">
             {/* LINK My Green Action */}
@@ -121,22 +129,24 @@ const MyPage = () => {
                   <div
                     key={action.id}
                     className="w-[21rem] h-[23rem] flex flex-wrap gap-3 cursor-pointer "
-                    // bg-yellow-200
                   >
                     {/* TODO 누르면 해당 상세페이지로 이동 */}
                     {/* <CardHeader> */}
                     {/* 이미지 없는 경우 기본? */}
                     {action.actionImgUrls[0] ? (
-                      <img
-                        src={action.actionImgUrls[0]?.img_url}
-                        alt="action-img"
-                        width={`full`}
-                        height={230}
-                        className="rounded-3xl"
-                      />
+                      <Card className="h-[230px]">
+                        <img
+                          src={action.actionImgUrls[0]?.img_url}
+                          alt="Green Action Image"
+                          // width={`full`}
+                          // height={230}
+                          className="h-full object-cover"
+                        />
+                      </Card>
                     ) : (
-                      <div className="bg-gray-300 w-full h-[230px] rounded-3xl"></div>
+                      <Card className="bg-gray-300  w-full h-[230px] rounded-3xl" />
                     )}
+
                     {/* <img
                       src={action.actionImgUrls[0]?.img_url}
                       alt="action-img"
