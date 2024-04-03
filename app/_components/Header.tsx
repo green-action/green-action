@@ -1,11 +1,38 @@
 "use client"; // import from "@nextui-org/react"; 시 꼭 필요
 
-import { Avatar, Card, CardBody, Tab, Tabs } from "@nextui-org/react";
+import { Avatar, Tab, Tabs } from "@nextui-org/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useState } from "react";
+import { logoutUser } from "../_api/auth";
+import { useQueryUser } from "../_hooks/useQueries/user";
 
 function Header() {
+  const { data: session, isLoading: sessionIsLoading } = useQueryUser();
+  const isLoggedIn = session?.user ? true : false;
+  // useEffect로 하면 새로고침할때마다 유저데이터 불러오기전엔 false 값이떠서 로그아웃시UI가 잠깐씩 보이는데 해결방법은없는지..
+  // 로컬스토리지, 세션스토리지
+  // 로그인을 하면 supabase에서 토큰이랑 유저정보를 로컬스토리지에 제공하는데 이걸 어떻게 처리해야되는지..
+  // next auth? 사용해야될거같다!
+  // useState으로 사용하면 최초에 실행이 안되어 새로고침해야지 결과가나옴 <  useEffect를 사용해야될거같은데...
+  // 아니면  로그아웃했을때 강제로 새로고침?  location.reload()
+
+  const handleLogout = async () => {
+    const confirmed = window.confirm("로그아웃 하시겠습니까?");
+    if (confirmed) {
+      try {
+        await logoutUser();
+        // logout();
+        alert("로그아웃 되었습니다.");
+        router.replace("/");
+      } catch (error) {
+        console.error("Logout error:", error);
+      }
+    } else {
+      return;
+    }
+  };
+
   const pathname = usePathname();
   const router = useRouter();
   // TODO 하위 탭 선택 시의 문제 해결하기
@@ -26,6 +53,10 @@ function Header() {
     //   setChildSelected(null); // 부모 탭이 '단체와 함께해요'가 아닌 경우에만 하위 탭의 선택 상태 초기화
     // }
   };
+
+  if (sessionIsLoading) {
+    return <div>세션 정보를 가져오는 중입니다...!</div>;
+  }
 
   return (
     <div className="flex items-center justify-between mx-[5rem] h-[6rem]">
@@ -125,11 +156,21 @@ function Header() {
       </div>
       <div className="flex gap-10">
         {/* 임시: 로그인상태에 따라 수정예정 */}
-        <Link href={"/signup"}>Sign up</Link>
-        <Link href={"/login"}>Log in</Link>
-        <Link href={"/mypage"}>
-          <Avatar showFallback src="" size="md" />
-        </Link>
+        {isLoggedIn ? (
+          <>
+            <Link href={"/"} onClick={handleLogout}>
+              Logout
+            </Link>
+            <Link href={"/mypage"}>
+              <Avatar showFallback src="" size="md" />
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link href={"/signup"}>Sign up</Link>
+            <Link href={"/login"}>Log in</Link>
+          </>
+        )}
       </div>
     </div>
   );

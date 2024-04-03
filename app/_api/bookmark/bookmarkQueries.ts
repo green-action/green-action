@@ -7,12 +7,6 @@ export const getFilterBookmark = async (action_id: string) => {
     .eq(action_id, action_id);
   return { filterBookmark };
 };
-export const getUser = async () => {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  return { user };
-};
 
 export const addBookmark = async ({
   user_uid,

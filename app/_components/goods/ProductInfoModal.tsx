@@ -9,8 +9,8 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { LuSearch } from "react-icons/lu";
-import { useQueryUser } from "@/app/_hooks/useQueries/bookmarks";
 import { updatePoint } from "@/app/_api/goods/goods_api";
+import { useQueryUser } from "@/app/_hooks/useQueries/user";
 
 const ProductInfoModal = ({
   item,

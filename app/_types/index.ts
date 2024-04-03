@@ -6,4 +6,5 @@ export type User = {
   password: string;
   point: number;
   introduction: string;
+  sub: string;
 };
