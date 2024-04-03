@@ -16,10 +16,12 @@ import AddPostModal from "../_components/community/AddPostModal";
 import CommunityListPost from "../_components/community/CommunityListPost";
 
 const CommunityListPage = () => {
+  // 정렬 드랍다운 상태
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set(["정렬"]),
   );
 
+  // 드랍다운 선택 로직
   const selectedValue = React.useMemo(
     () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
     [selectedKeys],
