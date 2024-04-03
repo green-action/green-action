@@ -1,8 +1,8 @@
 import {
   getCommunityCommentsList,
-  getPostContents,
   insertCommunityComment,
-} from "@/app/_api/community/community-api";
+} from "@/app/_api/community/comments-api";
+import { getPostContents } from "@/app/_api/community/community-api";
 import {
   QEURY_KEY_COMMUNITY_COMMENTS_LIST,
   QUERY_KEY_COMMUNITY_POST,
@@ -10,6 +10,7 @@ import {
 import { CommunityDetailProps } from "@/app/_types/community/community";
 import { formatToLocaleDateString } from "@/utils/date/date";
 import {
+  Avatar,
   Button,
   Dropdown,
   DropdownItem,
@@ -25,6 +26,7 @@ import { useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import CommunityPostComment from "./Comment";
+import { getUser } from "@/app/_api/auth";
 
 const CommunityDetailModal = ({
   isOpen,
@@ -33,10 +35,6 @@ const CommunityDetailModal = ({
 }: CommunityDetailProps) => {
   const [isLike, setIsLike] = useState(false);
   const queryClient = useQueryClient();
-
-  // 임시 user_uid로 일단 테스트하기
-  // 현재 로그인한 유저의 uid가져오기로 수정해야 함
-  const currentUserUid = "55e7ec4c-473f-4754-af5e-9eae5c587b81";
 
   const handleLikeOnClick = async () => {
     if (!isLike) {
@@ -93,19 +91,34 @@ const CommunityDetailModal = ({
     return <div>Error</div>;
   }
 
+  const { display_name, profile_img } = communityPost?.users || {
+    display_name: null,
+    profile_img: null,
+  };
+  // null인 경우 undefined로 변환해주는 과정 (null이면 src안에서 타입에러 발생)
+  const imgSrc = profile_img || "";
+
+  // 날짜 형식 변경
   const formattedDate = communityPost
     ? formatToLocaleDateString(communityPost.created_at)
     : "";
 
-  // console.log("communityPost", communityPost);
-  // user_uid로 게시글 작성자 정보 가져오기 필요!!! -> 리스트, 상세모달창 둘다 수정
-
+  // 댓글 등록 핸들러
   const handleInsertComment = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
       const isConfirm = window.confirm("등록하시겠습니까?");
       if (isConfirm) {
+        // 로그인한 user_uid 가져오기
+        const user = await getUser();
+        const currentUserUid = user?.user?.id;
+
+        // currentUserUid가 undefined인 경우 처리
+        if (!currentUserUid) {
+          return null;
+        }
+
         const formData = new FormData(e.target as HTMLFormElement);
         const content = formData.get("comment") as string;
         insertCommentMutation({ content, currentUserUid, post_id });
@@ -124,8 +137,12 @@ const CommunityDetailModal = ({
           {() => (
             <>
               <ModalHeader className="flex gap-2 items-center mt-1 pb-1 ml-4">
-                <div className="bg-black w-[30px] h-[30px] rounded-full mr-2" />
-                <p className="font-semibold text-xs">뚜찌빠찌</p>
+                <Avatar
+                  showFallback
+                  src={imgSrc}
+                  className="w-[30px] h-[30px] rounded-full mr-2"
+                />
+                <p className="font-semibold text-xs">{display_name}</p>
                 <p className="font-normal text-xs">Greener</p>
               </ModalHeader>
               <ModalBody>
@@ -221,12 +238,18 @@ const CommunityDetailModal = ({
                       </button>
                     </form>
                     {/* 댓글 */}
-                    {communityComments?.map((comment) => (
-                      <CommunityPostComment
-                        key={comment.id}
-                        comment={comment}
-                      />
-                    ))}
+                    {communityComments?.length === 0 ? (
+                      <p className="text-center text-[13px] font-light mt-4">
+                        첫 댓글의 주인공이 되어보세요 🎉
+                      </p>
+                    ) : (
+                      communityComments?.map((comment) => (
+                        <CommunityPostComment
+                          key={comment.id}
+                          comment={comment}
+                        />
+                      ))
+                    )}
                   </div>
                 </div>
               </ModalBody>
