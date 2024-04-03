@@ -1,5 +1,6 @@
 import { supabase } from "@/utils/supabase/client";
 
+// 커뮤니티 리스트 가져오기 + user_uid로 작성자 닉네임, 프로필이미지 join테이블
 export const getCommunityList = async () => {
   const { data: communityList, error } = await supabase
     .from("community_posts")
