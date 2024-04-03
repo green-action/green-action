@@ -2,8 +2,17 @@ import { getUser } from "@/app/_api/auth";
 import { QUERY_KEY_USER } from "@/app/_api/queryKeys";
 import { useQuery } from "@tanstack/react-query";
 
-// 유저정보(metadata) 가져오기
+// 유저정보 가져오기
 export const useQueryUser = () => {
+  const { data, isLoading } = useQuery({
+    queryKey: [QUERY_KEY_USER],
+    queryFn: getUser,
+  });
+  return { data, isLoading };
+};
+
+// 유저정보 - metadata 가져오기
+export const useQueryUserMetadata = () => {
   const { data, isLoading } = useQuery({
     queryKey: [QUERY_KEY_USER],
     queryFn: getUser,

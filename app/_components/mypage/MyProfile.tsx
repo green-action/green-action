@@ -31,12 +31,15 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { formatToLocaleDateString } from "@/utils/date/date";
-import { useQueryUser } from "@/app/_hooks/useQueries/user";
+import {
+  useQueryUser,
+  useQueryUserMetadata,
+} from "@/app/_hooks/useQueries/user";
 
 const MyProfile = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const { userMetadata, isLoading: isUserLoading } = useQueryUser();
+  const { userMetadata, isLoading: isUserLoading } = useQueryUserMetadata();
   const {
     sub: userUid,
     display_name,
