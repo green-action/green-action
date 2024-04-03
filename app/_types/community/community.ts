@@ -28,3 +28,9 @@ export interface CommentProps {
   post_id: string | null;
   user_uid: string | null;
 }
+
+export interface InsertComment {
+  content: string;
+  currentUserUid: string;
+  post_id: string;
+}

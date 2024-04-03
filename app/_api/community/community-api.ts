@@ -1,3 +1,4 @@
+import { InsertComment } from "@/app/_types/community/community";
 import { supabase } from "@/utils/supabase/client";
 
 // 커뮤니티 리스트 가져오기 + user_uid로 작성자 닉네임, 프로필이미지 join테이블
@@ -132,6 +133,21 @@ export const getCommunityCommentsList = async (post_id: string) => {
 };
 
 // 댓글 insert
-export const insertCommunityComment = async () => {
-  // const {error} = await supabase.from('community_comment')
+export const insertCommunityComment = async ({
+  content,
+  currentUserUid,
+  post_id,
+}: InsertComment) => {
+  try {
+    const { error } = await supabase
+      .from("community_comments")
+      .insert([{ content, post_id, user_uid: currentUserUid }]);
+
+    if (error) {
+      throw error;
+    }
+  } catch (error) {
+    console.error("Error inserting comment:", error);
+    throw error;
+  }
 };

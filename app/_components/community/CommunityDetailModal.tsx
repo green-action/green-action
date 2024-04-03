@@ -1,6 +1,7 @@
 import {
   getCommunityCommentsList,
   getPostContents,
+  insertCommunityComment,
 } from "@/app/_api/community/community-api";
 import {
   QEURY_KEY_COMMUNITY_COMMENTS_LIST,
@@ -19,7 +20,7 @@ import {
   ModalContent,
   ModalHeader,
 } from "@nextui-org/react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import { HiOutlineDotsVertical } from "react-icons/hi";
@@ -31,6 +32,12 @@ const CommunityDetailModal = ({
   post_id,
 }: CommunityDetailProps) => {
   const [isLike, setIsLike] = useState(false);
+  const queryClient = useQueryClient();
+
+  // 임시 user_uid로 일단 테스트하기
+  // 현재 로그인한 유저의 uid가져오기로 수정해야 함
+  const currentUserUid = "55e7ec4c-473f-4754-af5e-9eae5c587b81";
+
   const handleLikeOnClick = async () => {
     if (!isLike) {
       setIsLike((prev) => !prev);
@@ -39,6 +46,7 @@ const CommunityDetailModal = ({
     }
   };
 
+  // 게시글 정보 가져오기
   const {
     data: communityPost,
     isLoading: postIsLoading,
@@ -48,6 +56,7 @@ const CommunityDetailModal = ({
     queryFn: () => getPostContents(post_id),
   });
 
+  // 댓글 리스트 가져오기
   const {
     data: communityComments,
     isLoading: commentsIsLoading,
@@ -55,6 +64,26 @@ const CommunityDetailModal = ({
   } = useQuery({
     queryKey: [QEURY_KEY_COMMUNITY_COMMENTS_LIST],
     queryFn: () => getCommunityCommentsList(post_id),
+  });
+
+  // 댓글 등록 mutation
+  const { mutate: insertCommentMutation } = useMutation({
+    mutationFn: async ({
+      content,
+      currentUserUid,
+      post_id,
+    }: {
+      content: string;
+      currentUserUid: string;
+      post_id: string;
+    }) => {
+      await insertCommunityComment({ content, currentUserUid, post_id });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QEURY_KEY_COMMUNITY_COMMENTS_LIST],
+      });
+    },
   });
 
   if (postIsLoading || commentsIsLoading) {
@@ -70,6 +99,23 @@ const CommunityDetailModal = ({
 
   // console.log("communityPost", communityPost);
   // user_uid로 게시글 작성자 정보 가져오기 필요!!! -> 리스트, 상세모달창 둘다 수정
+
+  const handleInsertComment = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const isConfirm = window.confirm("등록하시겠습니까?");
+      if (isConfirm) {
+        const formData = new FormData(e.target as HTMLFormElement);
+        const content = formData.get("comment") as string;
+        insertCommentMutation({ content, currentUserUid, post_id });
+
+        (e.target as HTMLFormElement).reset();
+      }
+    } catch (error) {
+      console.error("Error adding comment:", error);
+    }
+  };
 
   return (
     <>
@@ -154,12 +200,15 @@ const CommunityDetailModal = ({
                   <div className="flex flex-col mx-auto mb-2 w-[95%]">
                     <p className="text-xs mb-1">댓글</p>
                     {/* 댓글 등록 - 로그인 상태일 때만 보이게 */}
-                    <form className="flex items-center border-1 border-gray-300 h-[30px] rounded-full mb-4">
+                    <form
+                      onSubmit={handleInsertComment}
+                      className="flex items-center border-1 border-gray-300 h-[30px] rounded-full mb-4"
+                    >
                       <label className="w-[88%]">
                         <input
                           type="text"
-                          id="activityTitle"
-                          name="activityTitle"
+                          id="comment"
+                          name="comment"
                           required
                           className=" h-[34px] ml-5 pr-4 bg-inherit focus:outline-none text-xs text-gray-400"
                         />
