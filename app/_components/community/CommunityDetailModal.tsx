@@ -1,12 +1,5 @@
 import { CommunityDetailProps } from "@/app/_types/community/community";
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-} from "@nextui-org/react";
+import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/react";
 import { useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import { HiOutlineDotsVertical } from "react-icons/hi";
@@ -14,8 +7,8 @@ import { HiOutlineDotsVertical } from "react-icons/hi";
 // AddPostModal 복사본 - 버튼 대신 각 포스트 클릭했을때 이동하도록 수정 필요
 const CommunityDetailModal = ({
   isOpen,
-  onOpen,
   onOpenChange,
+  post_id,
 }: CommunityDetailProps) => {
   const [isLike, setIsLike] = useState(false);
   const handleLikeOnClick = async () => {
@@ -30,7 +23,7 @@ const CommunityDetailModal = ({
     <>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent className="h-[600px] overflow-y-auto scrollbar-hide">
-          {(onClose) => (
+          {() => (
             <>
               <ModalHeader className="flex gap-2 items-center mt-1 pb-1 ml-4">
                 <div className="bg-black w-[30px] h-[30px] rounded-full mr-2" />

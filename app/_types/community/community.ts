@@ -18,4 +18,5 @@ export interface CommunityDetailProps {
   isOpen: boolean;
   onOpen: () => void;
   onOpenChange: () => void;
+  post_id: string | null | undefined;
 }

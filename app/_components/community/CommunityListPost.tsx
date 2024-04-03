@@ -13,7 +13,7 @@ const CommunityListPost = ({
   const [isLike, setIsLike] = useState(false);
   // 커뮤니티 디테일 모달창 props
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  // 꼼수 : 상세페이지 버튼을 카드 위에 놓고, 카드 크기랑 똑같이 하되 색을 투명으로 하면 같은 효과를 낼 수 있다?!
+  const post_id = communityPost?.id;
 
   // communityPost.user_uid 로 유저의 프로필이미지, 닉네임 가져오기
   // (카드에서 작성자 정보 보여주기)
@@ -89,6 +89,7 @@ const CommunityListPost = ({
         isOpen={isOpen}
         onOpen={onOpen}
         onOpenChange={onOpenChange}
+        post_id={post_id}
       />
     </>
   );
