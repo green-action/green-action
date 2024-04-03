@@ -2,18 +2,22 @@ import { getPostContents } from "@/app/_api/community/community-api";
 import { QUERY_KEY_COMMUNITY_POST } from "@/app/_api/queryKeys";
 import { CommunityDetailProps } from "@/app/_types/community/community";
 import { formatToLocaleDateString } from "@/utils/date/date";
-import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/react";
+import {
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+} from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import {
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-  Button,
-} from "@nextui-org/react";
+import CommunityPostComment from "./Comment";
 
 const CommunityDetailModal = ({
   isOpen,
@@ -153,23 +157,7 @@ const CommunityDetailModal = ({
                       </button>
                     </form>
                     {/* 댓글 1개 */}
-                    <div className="flex justify-between">
-                      <div className="flex w-[90%] mx-auto mb-4">
-                        <div className="bg-black mr-2 w-[20px] h-[20px] rounded-full"></div>
-                        <div className="flex flex-col justify-between">
-                          <p className="text-xs mt-1 mb-1">스파르타 Greener</p>
-                          <p className="text-xs text-gray-500">우왕 멋져요!</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center">
-                        <button className="text-xs font-light w-[30px] h-1/4 text-center">
-                          수정
-                        </button>
-                        <button className="text-xs font-light w-[30px] h-1/4 text-center">
-                          삭제
-                        </button>
-                      </div>
-                    </div>
+                    <CommunityPostComment />
                   </div>
                 </div>
               </ModalBody>
