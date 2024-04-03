@@ -24,15 +24,17 @@ const CommunityDetailModal = ({
         커뮤니티 상세 모달창 열기 test!
       </Button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent>
+        <ModalContent className="h-[600px]">
           {(onClose) => (
             <>
-              <ModalHeader className="flex gap-4 items-center mt-4">
-                <div className="bg-black w-[40px] h-[40px] rounded-full" />
-                <p className="font-semibold text-md">뚜찌빠찌</p>
+              <ModalHeader className="flex gap-2 items-center mt-4 pb-2">
+                <div className="bg-black w-[35px] h-[35px] rounded-full mr-2" />
+                <p className="font-semibold text-sm">뚜찌빠찌</p>
                 <p className="font-normal text-sm">Greener</p>
               </ModalHeader>
-              <ModalBody></ModalBody>
+              <ModalBody>
+                <div className="mx-auto w-[96%] h-[60%] rounded-2xl bg-slate-300"></div>
+              </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
                   Close
