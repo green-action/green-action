@@ -1,5 +1,6 @@
 "use client";
 
+import { getUser } from "@/app/_api/auth";
 import {
   insertCommunityPostFormData,
   uploadFileAndGetUrl,
@@ -35,16 +36,12 @@ const AddPostModal = () => {
 
   const queryClient = useQueryClient();
 
-  // 임시 user_uid로 일단 테스트하기
-  // 현재 로그인한 유저의 uid가져오기로 수정해야 함
-  const currentUserUId = "55e7ec4c-473f-4754-af5e-9eae5c587b81";
-
   // post등록 후 communityList 쿼리키 무효화할 mutation
   const { mutate: insertFormDataMutation } = useMutation({
-    mutationFn: async ({ formData, currentUserUId }: CommunityPostMutation) => {
+    mutationFn: async ({ formData, currentUserUid }: CommunityPostMutation) => {
       const post_id = await insertCommunityPostFormData({
         formData,
-        currentUserUId,
+        currentUserUid,
       });
       return post_id;
     },
@@ -80,7 +77,16 @@ const AddPostModal = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const formData = new FormData(event.currentTarget);
+    // 로그인한 user_uid 가져오기
+    const user = await getUser();
+    const currentUserUid = user?.user?.id;
+
+    // currentUserUid가 undefined인 경우 처리
+    if (!currentUserUid) {
+      return null;
+    }
+
+    const formData = new FormData(event.target as HTMLFormElement);
     // 드롭다운에서 선택한 값을 formData에 추가
     formData.append("action_type", Array.from(selectedKeys).join(", "));
 
@@ -99,7 +105,7 @@ const AddPostModal = () => {
         // formData(텍스트, 이미지url) insert하고 post_id 반환받기(여기서 반환은 왜 안되지?)
         const post_id = insertFormDataMutation({
           formData,
-          currentUserUId,
+          currentUserUid,
         });
       }
     } catch (error) {
