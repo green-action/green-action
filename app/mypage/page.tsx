@@ -27,13 +27,25 @@ import { useQuery } from "@tanstack/react-query";
 import { formatToLocaleDateString } from "@/utils/date/date";
 import { useAuthStore } from "../_store/authStore";
 import MyProfile from "../_components/mypage/MyProfile";
+import { useQueryUserMetadata } from "../_hooks/useQueries/user";
+import {
+  useFetchMyGreenActions,
+  usefetchBookmarkedActions,
+  usefetchMyCommunityPosts,
+} from "../_hooks/useQueries/mypage";
 
 const MyPage = () => {
-  // const userUid = "6f971b1e-abaf-49d5-90e7-f8c6bfe4bd58"; // 임시 유저 아이디 설정
-  // 6f971b1e-abaf-49d5-90e7-f8c6bfe4bd58  55e7ec4c-473f-4754-af5e-9eae5c587b81
+  // const user_uid = "6f971b1e-abaf-49d5-90e7-f8c6bfe4bd58"; // 임시 유저 아이디 설정
 
-  const { user } = useAuthStore();
-  const userUid = user?.sub || "";
+  // FIXME 새로고침 시 로그인상태에서도 userUid가 사라지는 문제
+  // const { user } = useAuthStore();
+  // const user_uid = user?.sub || "";
+  // console.log(user_uid);
+
+  // -> 우선 useQueryUserMetadata 활용하기
+  const { userMetadata, isLoading: isUserLoading } = useQueryUserMetadata();
+  const { sub: user_uid } = userMetadata || {};
+  console.log(user_uid);
 
   // 클릭된 상태 버튼 색깔 다르게하기
   const [clicked, setClicked] = useState<string>("myGreenAction");
@@ -41,71 +53,15 @@ const MyPage = () => {
   // TODO: 리스트 순서? - created at 기준
   // TODO: 이미지 여러장일 경우? - 첫 한 장만
   // TODO: myActions 없는 경우 처리
-  // TODO: 리액트 아이콘 사용?
-  // 상태변경할거라 리액트쿼리 사용?
-  const fetchMyGreenActions = async () => {
-    try {
-      // 나중에 따로 분리하기?
-      const { data, error } = await supabase
-        .from("individual_green_actions")
-        .select(
-          // TODO 모두 가져올필요있는지 체크하기 *
-          "*, actionImgUrls: green_action_images(img_url), actionBookmarks: bookmarks(id)",
-        )
-        .eq("user_uid", userUid);
-      if (error) throw error;
-      return data;
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
-  const fetchMyCommunityPosts = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("community_posts")
-        .select("*, communityLikes:likes(id)")
-        .eq("user_uid", userUid);
-      if (error) throw error;
-      return data;
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const { data: myActions, isLoading: isActionsLoading } =
+    useFetchMyGreenActions(user_uid);
 
-  const fetchBookmarkedActions = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("bookmarks")
-        .select(
-          "bookmarkedAction:individual_green_actions(*, actionImgUrls:green_action_images(img_url), actionBookmarks:bookmarks(id))",
-          // TODO 북마크된 action의 이미지, 북마크수 가져오기 (외래키사용)
-          // bookmarkedActions:individual_green_actions(*)  actionImgUrls:green_action_images(img_url), actionBookmarks:bookmarks(id)
-        )
-        .eq("user_uid", userUid);
-      if (error) throw error;
-      console.log("bk data : ", data);
-      return data;
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const { data: myPosts, isLoading: isPostsLoading } =
+    usefetchMyCommunityPosts(user_uid);
 
-  // TODO hook, key 등 분리하기
-  const { data: myActions, isLoading: isActionsLoading } = useQuery({
-    queryKey: ["my_green_actions"],
-    queryFn: fetchMyGreenActions,
-  });
-
-  const { data: myPosts, isLoading: isPostsLoading } = useQuery({
-    queryKey: ["my_community_posts"],
-    queryFn: fetchMyCommunityPosts,
-  });
-
-  const { data: myBookmarks, isLoading: isBookmarksLoading } = useQuery({
-    queryKey: ["my_bookmarked_actions"],
-    queryFn: fetchBookmarkedActions,
-  });
+  const { data: myBookmarks, isLoading: isBookmarksLoading } =
+    usefetchBookmarkedActions(user_uid);
 
   const handleMyGreenActionClick = () => {
     setClicked("myGreenAction");

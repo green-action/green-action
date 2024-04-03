@@ -35,13 +35,18 @@ import {
   useQueryUser,
   useQueryUserMetadata,
 } from "@/app/_hooks/useQueries/user";
+import { useAuthStore } from "@/app/_store/authStore";
+import { useEditIntro } from "@/app/_hooks/useMutations/mypage";
 
 const MyProfile = () => {
+  const { user } = useAuthStore();
+  const userUid = user?.sub || "";
+
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const { userMetadata, isLoading: isUserLoading } = useQueryUserMetadata();
   const {
-    sub: userUid,
+    // sub: userUid,
     display_name,
     email,
     introduction,
@@ -70,10 +75,6 @@ const MyProfile = () => {
   // 자기소개 등록 완료
   const handleEditIntroSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const { data, error } = await supabase.auth.updateUser({
-      data: { introduction: editedIntro },
-    });
 
     setIsEditing(false);
   };
