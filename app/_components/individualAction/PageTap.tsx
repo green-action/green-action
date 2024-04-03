@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Dropdown,
   DropdownTrigger,
@@ -8,27 +8,62 @@ import {
 } from "@nextui-org/react";
 
 const PageTap = () => {
+  const [activeTab, setActiveTab] = useState("모든 캠페인");
+
+  const handleActiveTabClick = (
+    e: React.MouseEvent<HTMLLIElement, MouseEvent>,
+  ) => {
+    const target = e.target as HTMLLIElement;
+    const textContent = target.textContent;
+    if (textContent) {
+      setActiveTab(textContent);
+    }
+  };
+
   return (
-    <div>
-      <ul>
-        <li>모든 캠페인</li>
-        <li>모집중인 캠페인</li>
-        <li>마감된 캠페인</li>
+    <div className="flex justify-between items-center">
+      <ul className="flex justify-around gap-4">
+        <li
+          onClick={handleActiveTabClick}
+          className={`p-3 rounded-full ${
+            activeTab === "모든 캠페인" ? "bg-gray-200" : ""
+          }`}
+        >
+          모든 캠페인
+        </li>
+        <li
+          onClick={handleActiveTabClick}
+          className={`p-3 rounded-full ${
+            activeTab === "모집중인 캠페인" ? "bg-gray-200" : ""
+          }`}
+        >
+          모집중인 캠페인
+        </li>
+        <li
+          onClick={handleActiveTabClick}
+          className={`p-3 rounded-full ${
+            activeTab === "마감된 캠페인" ? "bg-gray-200" : ""
+          }`}
+        >
+          마감된 캠페인
+        </li>
       </ul>
-      <button>캠페인 생성하기</button>
-      <Dropdown>
-        <DropdownTrigger>
-          <Button variant="bordered">Open Menu</Button>
-        </DropdownTrigger>
-        <DropdownMenu aria-label="Static Actions">
-          <DropdownItem key="new">New file</DropdownItem>
-          <DropdownItem key="copy">Copy link</DropdownItem>
-          <DropdownItem key="edit">Edit file</DropdownItem>
-          <DropdownItem key="delete" className="text-danger" color="danger">
-            Delete file
-          </DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
+      <Button color="default" variant="bordered">
+        캠페인 생성하기
+      </Button>
+      <div className="flex justify-end mt-16 mb-4 mr-2">
+        <Dropdown>
+          <DropdownTrigger>
+            <Button color="default" variant="bordered">
+              정렬
+            </Button>
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Static Actions">
+            <DropdownItem key="new">최신순</DropdownItem>
+            <DropdownItem key="copy">찜한순</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      </div>
     </div>
   );
 };

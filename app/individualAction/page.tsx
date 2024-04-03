@@ -5,7 +5,7 @@ import PageList from "../_components/individualAction/PageList";
 
 const page = () => {
   return (
-    <div className="w-[1280px] vh-auto mx-auto bg-black">
+    <div className="w-[1280px] vh-auto mx-auto ">
       <PageTap />
       <PageList />
     </div>
