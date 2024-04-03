@@ -6,7 +6,7 @@ export const getCommunityCommentsList = async (post_id: string) => {
   try {
     const { data, error } = await supabase
       .from("community_comments")
-      .select()
+      .select(`*, users(display_name, profile_img)`)
       .eq("post_id", post_id);
     if (error) {
       throw error;
