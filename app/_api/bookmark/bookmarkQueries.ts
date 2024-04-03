@@ -1,14 +1,5 @@
 import { supabase } from "@/utils/supabase/client";
 
-export const getBookmark = async () => {
-  let { data: bookmarks, error } = await supabase.from("bookmarks").select("*");
-
-  if (error) {
-    throw new Error(error?.message || "에러가 발생했습니다.");
-  }
-  return { bookmarks };
-};
-
 export const getFilterBookmark = async (action_id: string) => {
   let { data: filterBookmark, error } = await supabase
     .from("bookmarks")
