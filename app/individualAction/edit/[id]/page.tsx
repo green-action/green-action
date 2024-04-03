@@ -1,6 +1,6 @@
 "use client";
 
-import { insertAction } from "@/app/_api/individualAction-add/add-api";
+// import { insertAction } from "@/app/_api/individualAction-add/add-api";
 import { useRouter } from "next/navigation";
 import React from "react";
 
