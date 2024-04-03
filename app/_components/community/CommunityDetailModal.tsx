@@ -1,5 +1,11 @@
-import { getPostContents } from "@/app/_api/community/community-api";
-import { QUERY_KEY_COMMUNITY_POST } from "@/app/_api/queryKeys";
+import {
+  getCommunityCommentsList,
+  getPostContents,
+} from "@/app/_api/community/community-api";
+import {
+  QEURY_KEY_COMMUNITY_COMMENTS,
+  QUERY_KEY_COMMUNITY_POST,
+} from "@/app/_api/queryKeys";
 import { CommunityDetailProps } from "@/app/_types/community/community";
 import { formatToLocaleDateString } from "@/utils/date/date";
 import {
@@ -35,17 +41,26 @@ const CommunityDetailModal = ({
 
   const {
     data: communityPost,
-    isLoading,
-    isError,
+    isLoading: postIsLoading,
+    isError: postIsError,
   } = useQuery({
     queryKey: [QUERY_KEY_COMMUNITY_POST, post_id],
     queryFn: () => getPostContents(post_id),
   });
 
-  if (isLoading) {
+  const {
+    data: communityComments,
+    isLoading: commentsIsLoading,
+    isError: commentsIsError,
+  } = useQuery({
+    queryKey: [QEURY_KEY_COMMUNITY_COMMENTS],
+    queryFn: () => getCommunityCommentsList(post_id),
+  });
+
+  if (postIsLoading || commentsIsLoading) {
     return <div>Loading...</div>;
   }
-  if (isError) {
+  if (postIsError || commentsIsError) {
     return <div>Error</div>;
   }
 
@@ -156,8 +171,14 @@ const CommunityDetailModal = ({
                         | 등록
                       </button>
                     </form>
-                    {/* 댓글 1개 */}
-                    <CommunityPostComment />
+                    {/* 댓글 */}
+                    {/* 댓글 */}
+                    {communityComments?.map((comment) => (
+                      <CommunityPostComment
+                        key={comment.id}
+                        comment={comment}
+                      />
+                    ))}
                   </div>
                 </div>
               </ModalBody>

@@ -1,6 +1,7 @@
+import { CommentProps } from "@/app/_types/community/community";
 import React from "react";
 
-const CommunityPostComment = () => {
+const CommunityPostComment = ({ comment }: { comment: CommentProps }) => {
   return (
     <>
       {" "}
@@ -9,7 +10,7 @@ const CommunityPostComment = () => {
           <div className="bg-black mr-2 w-[20px] h-[20px] rounded-full"></div>
           <div className="flex flex-col justify-between">
             <p className="text-xs mt-1 mb-1">스파르타 Greener</p>
-            <p className="text-xs text-gray-500">우왕 멋져요!</p>
+            <p className="text-xs text-gray-500">{comment.content}</p>
           </div>
         </div>
         <div className="flex items-center">
