@@ -93,7 +93,7 @@ const CommunityListPost = ({
             {communityPost?.action_type}와 함께해요
           </div>
           <p className="text-xs w-3/4 mr-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-            {communityPost?.content}
+            {communityPost?.title}
           </p>
         </div>
       </div>
