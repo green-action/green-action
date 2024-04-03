@@ -11,14 +11,14 @@ export type Database = {
     Tables: {
       bookmarks: {
         Row: {
-          action_id: string | null;
+          action_id: string;
           id: string;
-          user_uid: string | null;
+          user_uid: string;
         };
         Insert: {
-          action_id?: string | null;
+          action_id?: string;
           id?: string;
-          user_uid?: string | null;
+          user_uid?: string;
         };
         Update: {
           action_id?: string | null;
@@ -132,10 +132,10 @@ export type Database = {
       goods: {
         Row: {
           id: string;
-          img_url: string | null;
-          point: number | null;
+          img_url: string;
+          point: number;
           product_info: string | null;
-          product_name: string | null;
+          product_name: string;
         };
         Insert: {
           id?: string;
@@ -184,21 +184,21 @@ export type Database = {
           content: string | null;
           hosted_by: string | null;
           id: string;
-          img_url: string | null;
+          img_url: string;
           title: string | null;
         };
         Insert: {
           content?: string | null;
           hosted_by?: string | null;
           id?: string;
-          img_url?: string | null;
+          img_url?: string;
           title?: string | null;
         };
         Update: {
           content?: string | null;
           hosted_by?: string | null;
           id?: string;
-          img_url?: string | null;
+          img_url?: string;
           title?: string | null;
         };
         Relationships: [];
@@ -288,12 +288,12 @@ export type Database = {
       };
       users: {
         Row: {
-          display_name: string | null;
-          email: string | null;
+          display_name: string;
+          email: string;
           id: string;
           introduction: string | null;
-          point: number | null;
-          profile_img: string | null;
+          point: number;
+          profile_img: string;
         };
         Insert: {
           display_name?: string | null;
