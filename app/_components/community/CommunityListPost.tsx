@@ -13,6 +13,10 @@ const CommunityListPost = ({
   // 커뮤니티 디테일 모달창 props
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const post_id = communityPost?.id as string;
+  const { display_name, profile_img } = communityPost?.users || {
+    display_name: null,
+    profile_img: null,
+  };
 
   // communityPost.user_uid 로 유저의 프로필이미지, 닉네임 가져오기
   // (카드에서 작성자 정보 보여주기)
@@ -43,7 +47,7 @@ const CommunityListPost = ({
             <div className="flex items-center">
               <div className="rounded-full bg-black mr-4 w-[26px] h-[26px]"></div>
               <p className="text-tiny text-black text-[13https://cdn.imweb.me/thumbnail/20220707/39dbbc8e6c313.jpgpx]">
-                뚜찌빠찌 Greener
+                {display_name} Greener
               </p>
             </div>
             <div className="flex items-center">
