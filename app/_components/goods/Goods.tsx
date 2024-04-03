@@ -1,18 +1,22 @@
 "use client";
 import React from "react";
-import { Card, CardHeader, CardBody } from "@nextui-org/react";
-import { getGoods } from "@/app/_api/goods/goods_api";
-import { useQuery } from "@tanstack/react-query";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CircularProgress,
+} from "@nextui-org/react";
 import ProductInfoModal from "./ProductInfoModal";
+import { useGoods } from "@/app/_hooks/useQueries/goods";
 
 const Goods = () => {
-  const {
-    data: goods,
-    isLoading,
-    isError,
-  } = useQuery({ queryKey: ["goods"], queryFn: getGoods });
-
-  if (isLoading) return <div>Loading...</div>;
+  const { data: goods, isLoading, isError } = useGoods();
+  if (isLoading)
+    return (
+      <div>
+        <CircularProgress color="success" aria-label="Loading..." />
+      </div>
+    );
   if (isError) return <div>Error fetching goods...</div>;
 
   return (

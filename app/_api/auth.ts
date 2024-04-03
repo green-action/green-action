@@ -15,7 +15,7 @@ export const signUpNewUser = async (
         data: {
           display_name,
           profile_img: "",
-          point: 0,
+          point: 1000,
           introduction: "자기소개를 아직 작성하지 않았어요",
         },
       },
