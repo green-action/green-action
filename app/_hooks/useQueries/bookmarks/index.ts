@@ -1,5 +1,6 @@
 import {
   getBookmark,
+  getFilterBookmark,
   getLikes,
   getUser,
 } from "@/app/_api/bookmark/bookmarkQueries";
@@ -10,6 +11,14 @@ export const useBookmark = () => {
   const { data, isLoading } = useQuery({
     queryKey: [QUERY_KEY_BOOKMARK],
     queryFn: getBookmark,
+  });
+  return { data, isLoading };
+};
+
+export const useFilterBookmark = (action_id: string) => {
+  const { data, isLoading } = useQuery({
+    queryKey: [QUERY_KEY_BOOKMARK, action_id],
+    queryFn: () => getFilterBookmark(action_id),
   });
   return { data, isLoading };
 };

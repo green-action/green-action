@@ -10,7 +10,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 export const useAddBookmark = () => {
   const queryClient = useQueryClient();
   const addBookmarkMutation = useMutation({
-    mutationFn: async () => addBookmark,
+    mutationFn: addBookmark,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_BOOKMARK] });
     },

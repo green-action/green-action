@@ -8,6 +8,14 @@ export const getBookmark = async () => {
   }
   return { bookmarks };
 };
+
+export const getFilterBookmark = async (action_id: string) => {
+  let { data: filterBookmark, error } = await supabase
+    .from("bookmarks")
+    .select("*")
+    .eq(action_id, action_id);
+  return { filterBookmark };
+};
 export const getUser = async () => {
   const {
     data: { user },
@@ -15,7 +23,13 @@ export const getUser = async () => {
   return { user };
 };
 
-export const addBookmark = async (user_uid: string, action_id: string) => {
+export const addBookmark = async ({
+  user_uid,
+  action_id,
+}: {
+  user_uid: string;
+  action_id: string;
+}) => {
   const { data, error } = await supabase
     .from("bookmarks")
     .insert([{ user_uid, action_id }])
