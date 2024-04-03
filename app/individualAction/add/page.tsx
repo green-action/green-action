@@ -13,7 +13,6 @@ import React, { useState } from "react";
 const AddActionPage = () => {
   const [uploadedFileUrls, setUploadedFileUrls] = useState<string[]>([]);
   const [files, setFiles] = useState<(File | undefined)[]>([]);
-  const user = getUser();
   const router = useRouter();
 
   // '등록완료' 클릭시

@@ -26,6 +26,7 @@ import { useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import CommunityPostComment from "./Comment";
+import { getUser } from "@/app/_api/auth";
 
 const CommunityDetailModal = ({
   isOpen,
@@ -34,10 +35,6 @@ const CommunityDetailModal = ({
 }: CommunityDetailProps) => {
   const [isLike, setIsLike] = useState(false);
   const queryClient = useQueryClient();
-
-  // 임시 user_uid로 일단 테스트하기
-  // 현재 로그인한 유저의 uid가져오기로 수정해야 함
-  const currentUserUid = "55e7ec4c-473f-4754-af5e-9eae5c587b81";
 
   const handleLikeOnClick = async () => {
     if (!isLike) {
@@ -113,6 +110,15 @@ const CommunityDetailModal = ({
     try {
       const isConfirm = window.confirm("등록하시겠습니까?");
       if (isConfirm) {
+        // 로그인한 user_uid 가져오기
+        const user = await getUser();
+        const currentUserUid = user?.user?.id;
+
+        // currentUserUid가 undefined인 경우 처리
+        if (!currentUserUid) {
+          return null;
+        }
+
         const formData = new FormData(e.target as HTMLFormElement);
         const content = formData.get("comment") as string;
         insertCommentMutation({ content, currentUserUid, post_id });
