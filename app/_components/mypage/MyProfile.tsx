@@ -1,6 +1,5 @@
 "use client";
 
-import { supabase } from "@/utils/supabase/client";
 import {
   Avatar,
   Button,
@@ -10,6 +9,7 @@ import {
   CardHeader,
   Chip,
   CircularProgress,
+  Input,
   Modal,
   ModalBody,
   ModalContent,
@@ -20,63 +20,78 @@ import {
 } from "@nextui-org/react";
 import { HiOutlinePlus } from "react-icons/hi2";
 import { TfiPencil } from "react-icons/tfi";
-import { GoPerson } from "react-icons/go";
-import { BsPerson } from "react-icons/bs";
-import { FaRegStar } from "react-icons/fa";
-import { IoIosCalendar } from "react-icons/io";
-import { GrLocation } from "react-icons/gr";
 import { IoIosCamera } from "react-icons/io";
 import pointQuestion from "@/app/_assets/question_circle.png";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { useQuery } from "@tanstack/react-query";
-import { formatToLocaleDateString } from "@/utils/date/date";
-import {
-  useQueryUser,
-  useQueryUserMetadata,
-} from "@/app/_hooks/useQueries/user";
 import { useAuthStore } from "@/app/_store/authStore";
-import { useEditIntro } from "@/app/_hooks/useMutations/mypage";
+import {
+  useUpdateUserIntro,
+  useUpdateUserName,
+} from "@/app/_hooks/useMutations/mypage";
+import { User } from "@/app/_types";
+import { useFetchUserInfo } from "@/app/_hooks/useQueries/mypage";
 
-const MyProfile = () => {
-  const { user } = useAuthStore();
-  const userUid = user?.sub || "";
+const MyProfile = ({ user_uid }: { user_uid: string }) => {
+  // const { user } = useAuthStore();
+  // const { display_name, email, introduction, point, profile_img } =
+  //   user as User;
+  console.log(user_uid);
 
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { data, isLoading } = useFetchUserInfo(
+    "ed71fea7-2892-4769-b7d0-1f8ba330c213",
+  );
+  // useEffect(() => {
+  //   const { data, isLoading } = useFetchUserInfo(
+  //     "ed71fea7-2892-4769-b7d0-1f8ba330c213",
+  //   );
+  // }, [data]);
 
-  const { userMetadata, isLoading: isUserLoading } = useQueryUserMetadata();
-  const {
-    // sub: userUid,
-    display_name,
-    email,
-    introduction,
-    point,
-    profile_img,
-  } = userMetadata || {};
+  console.log(data);
+  const { display_name, email, introduction, point, profile_img } =
+    (data as User) || "";
 
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [editedName, setEditedName] = useState<string>(display_name);
+  console.log(display_name);
+
+  const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
+
+  const [isIntroEditing, setIsIntroEditing] = useState<boolean>(false);
+  const [editedName, setEditedName] = useState<string>(display_name); // 초기값 닉네임 떴다가 안떴다가 함
   const [editedIntro, setEditedIntro] = useState<string>(introduction); // 초기값 기존 intro
+
+  const { updateIntro } = useUpdateUserIntro(
+    "ed71fea7-2892-4769-b7d0-1f8ba330c213", // user_uid
+    editedIntro,
+  );
+
+  const { updateName } = useUpdateUserName(
+    "ed71fea7-2892-4769-b7d0-1f8ba330c213", // user_uid
+    editedName,
+  );
 
   const handleEditProfileClick = () => {
     onOpen();
   };
 
   const handleEditIntroClick = () => {
-    setIsEditing(true);
+    setIsIntroEditing(true);
+  };
+
+  const handleModalClose = () => {
+    setEditedName(display_name);
   };
 
   // 자기소개 등록 취소
   const handleCancelEditIntroClick = () => {
-    setIsEditing(false);
+    setIsIntroEditing(false);
     setEditedIntro(introduction);
   };
 
   // 자기소개 등록 완료
   const handleEditIntroSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    setIsEditing(false);
+    await updateIntro();
+    setIsIntroEditing(false);
   };
 
   const handleDisplayNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,14 +105,24 @@ const MyProfile = () => {
   };
 
   // 모달 - 작성완료
-  const handleEditProfileSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    // onClose();
+  const handleEditProfileSubmit = async (
+    e: React.FormEvent<HTMLFormElement>,
+  ) => {
     e.preventDefault();
     if (!editedName.trim()) {
-      return alert("닉네임을 입력해주세요.");
+      return alert("닉네임을 입력해주세요."); //바꾸기
     }
-    setIsEditing(false);
+    await updateName();
+    onClose();
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <CircularProgress color="success" label="Loading..." />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-5 w-[23rem] min-h-[43rem] ">
@@ -106,7 +131,7 @@ const MyProfile = () => {
           <div className="flex gap-4 items-center">
             <Avatar
               showFallback
-              src={profile_img}
+              src={profile_img || ""}
               className="w-[4.5rem] h-[4.5rem]"
             />
             <div className="flex flex-col gap-[0.1rem] w-[9rem]">
@@ -130,7 +155,7 @@ const MyProfile = () => {
         </CardHeader>
         <CardBody>
           {/* SECTION - 자기소개 등록 */}
-          {isEditing ? (
+          {isIntroEditing ? (
             <form onSubmit={handleEditIntroSubmit}>
               <textarea
                 value={editedIntro}
@@ -140,7 +165,7 @@ const MyProfile = () => {
                 className="resize-none rounded-xl w-full h-full p-2 text-sm bg-gray-200/50"
                 placeholder="100자 이내"
                 maxLength={100}
-              ></textarea>
+              />
               <div className="flex justify-end">
                 <Button onClick={handleCancelEditIntroClick}>작성취소</Button>
                 <Button type="submit">작성완료</Button>
@@ -160,7 +185,11 @@ const MyProfile = () => {
       </Card>
 
       {/* SECTION - 모달 */}
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal
+        isOpen={isOpen}
+        onClose={handleModalClose}
+        onOpenChange={onOpenChange}
+      >
         <ModalContent>
           {(onClose) => (
             //   NOTE 모달
@@ -172,28 +201,34 @@ const MyProfile = () => {
                 <ModalHeader>
                   <p className="text-lg">Profile</p>
                 </ModalHeader>
-                <ModalBody>
+                <div className="flex flex-col items-center gap-5">
                   <p className="text-[0.8rem] text-gray-600">
                     나중에 언제든지 변경할 수 있습니다.
                   </p>
                   <Avatar
                     showFallback
-                    src={profile_img}
+                    src={profile_img || ""}
                     className="w-[8rem] h-[8rem]"
                   />
                   <IoIosCamera size="35" />
                   <label htmlFor="user-display-name">사용자 이름</label>
-                  <input
+                  <Input
                     type="text"
+                    label="사용자 이름"
                     value={editedName}
-                    onChange={handleDisplayNameChange}
-                    id="user-display-name"
-                    className="bg-gray-100"
-                    placeholder="15자 이내"
-                    maxLength={15}
-                    required
+                    defaultValue={display_name}
+                    onChange={(e) => {
+                      handleDisplayNameChange(e);
+                    }}
+                    id="User Display Name"
+                    className="rounded"
+                    placeholder="2 ~ 10자 이내"
+                    maxLength={10}
+                    minLength={2}
+                    isRequired
+                    variant="flat"
                   />
-                </ModalBody>
+                </div>
                 <ModalFooter>
                   <Button color="danger" variant="light" onPress={onClose}>
                     Close

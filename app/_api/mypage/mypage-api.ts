@@ -5,14 +5,40 @@ export const fetchUserInfo = async (user_uid: string) => {
   try {
     const { data, error } = await supabase
       .from("users")
-      .select(
-        "*, actionImgUrls: green_action_images(img_url), actionBookmarks: bookmarks(id)",
-      )
-      .eq("user_uid", user_uid);
+      .select("*")
+      .eq("id", user_uid);
+    // console.log("🐰 ~ fetchUserInfo ~ data : ", data);
     if (error) throw error;
-    return data;
+    return data[0];
   } catch (error) {
     console.error(error);
+  }
+};
+
+// 닉네임 수정
+export const updateUserName = async (user_uid: string, editedName: string) => {
+  const { error } = await supabase
+    .from("users")
+    .update({ display_name: editedName })
+    .eq("id", user_uid)
+    .select();
+  if (error) {
+    console.error(`Failed to update data to Supabase - ${error.message}`);
+  }
+};
+
+// 자기소개 수정
+export const updateUserIntro = async (
+  user_uid: string,
+  editedIntro: string,
+) => {
+  const { error } = await supabase
+    .from("users")
+    .update({ introduction: editedIntro })
+    .eq("id", user_uid)
+    .select();
+  if (error) {
+    console.error(`Failed to update data to Supabase - ${error.message}`);
   }
 };
 
@@ -63,13 +89,3 @@ export const fetchBookmarkedActions = async (user_uid: string) => {
     console.error(error);
   }
 };
-
-// 내 프로필 자기소개 수정
-// export const updateMyIntro = async (editedIntro: string) => {
-//   const { error } = await supabase.auth.updateUser({
-//     data: { introduction: editedIntro },
-//   });
-//   if (error) {
-//     console.error(error.message);
-//   }
-// };
