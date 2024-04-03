@@ -1,5 +1,6 @@
 "use client";
 
+import { getUser } from "@/app/_api/auth";
 import {
   insertActionTextForm,
   insertImgUrls,
@@ -12,11 +13,8 @@ import React, { useState } from "react";
 const AddActionPage = () => {
   const [uploadedFileUrls, setUploadedFileUrls] = useState<string[]>([]);
   const [files, setFiles] = useState<(File | undefined)[]>([]);
+  const user = getUser();
   const router = useRouter();
-
-  // 임시 user_uid로 일단 테스트하기
-  // 현재 로그인한 유저의 uid가져오기로 수정해야 함
-  const currentUserUId = "55e7ec4c-473f-4754-af5e-9eae5c587b81";
 
   // '등록완료' 클릭시
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -28,10 +26,19 @@ const AddActionPage = () => {
       // 확인창 표시
       const isConfirmed = window.confirm("등록하시겠습니까?");
       if (isConfirmed) {
+        // 로그인한 user_uid 가져오기
+        const user = await getUser();
+        const currentUserUid = user?.user?.id;
+
+        // currentUserUid가 undefined인 경우 처리
+        if (!currentUserUid) {
+          return null;
+        }
+
         // 1. user_uid와 텍스트 formData insert -> action_id 반환받기
         const action_id = await insertActionTextForm({
           formData,
-          currentUserUId,
+          currentUserUid,
         });
 
         // 2. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
@@ -45,7 +52,7 @@ const AddActionPage = () => {
         target.reset();
 
         // 확인을 클릭하면 action_id의 상세페이지로 이동
-        // router.push(`/detail/${action_id}`);
+        router.push(`individualAction/detail/${action_id}`);
       }
     } catch (error) {
       console.error("Error inserting data:", error);
