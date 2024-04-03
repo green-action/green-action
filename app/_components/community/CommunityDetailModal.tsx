@@ -3,7 +3,7 @@ import {
   getPostContents,
 } from "@/app/_api/community/community-api";
 import {
-  QEURY_KEY_COMMUNITY_COMMENTS,
+  QEURY_KEY_COMMUNITY_COMMENTS_LIST,
   QUERY_KEY_COMMUNITY_POST,
 } from "@/app/_api/queryKeys";
 import { CommunityDetailProps } from "@/app/_types/community/community";
@@ -53,7 +53,7 @@ const CommunityDetailModal = ({
     isLoading: commentsIsLoading,
     isError: commentsIsError,
   } = useQuery({
-    queryKey: [QEURY_KEY_COMMUNITY_COMMENTS],
+    queryKey: [QEURY_KEY_COMMUNITY_COMMENTS_LIST],
     queryFn: () => getCommunityCommentsList(post_id),
   });
 
@@ -171,7 +171,6 @@ const CommunityDetailModal = ({
                         | 등록
                       </button>
                     </form>
-                    {/* 댓글 */}
                     {/* 댓글 */}
                     {communityComments?.map((comment) => (
                       <CommunityPostComment

@@ -130,3 +130,8 @@ export const getCommunityCommentsList = async (post_id: string) => {
     throw error;
   }
 };
+
+// 댓글 insert
+export const insertCommunityComment = async () => {
+  // const {error} = await supabase.from('community_comment')
+};

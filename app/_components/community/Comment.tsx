@@ -4,7 +4,6 @@ import React from "react";
 const CommunityPostComment = ({ comment }: { comment: CommentProps }) => {
   return (
     <>
-      {" "}
       <div className="flex justify-between">
         <div className="flex w-[90%] mx-auto mb-4">
           <div className="bg-black mr-2 w-[20px] h-[20px] rounded-full"></div>
