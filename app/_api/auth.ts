@@ -23,6 +23,7 @@ export const signUpNewUser = async (
     if (error) {
       throw error;
     }
+
     return data;
   } catch (error) {
     console.error("회원가입 오류:", error);
@@ -54,7 +55,9 @@ export const signInUser = async (
 //로그아웃
 export const logoutUser = async () => {
   try {
-    const { error } = await supabase.auth.signOut();
+    const { error } = await supabase.auth.signOut({
+      scope: "global",
+    });
     if (error) {
       throw error;
     }
@@ -62,3 +65,34 @@ export const logoutUser = async () => {
     console.log(error);
   }
 };
+
+// 사용자 로그인상태 확인
+
+const fetchSession = async () => {
+  try {
+    const { data, error } = await supabase.auth.getSession();
+
+    if (error) {
+      throw error;
+    }
+
+    return data?.session;
+  } catch (error) {
+    console.error("세션 정보 가져오기 오류:", error);
+    throw error;
+  }
+};
+
+fetchSession()
+  .then((session) => {
+    if (session) {
+      console.log("사용자가 로그인되어 있습니다.");
+      console.log("사용자 정보:", session.user);
+      console.log("uid:", session.user.id);
+    } else {
+      console.log("사용자가 로그인되어 있지 않습니다.");
+    }
+  })
+  .catch((error) => {
+    console.error("세션 정보 가져오기 오류:", error);
+  });

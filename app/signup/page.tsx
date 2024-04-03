@@ -14,6 +14,7 @@ import {
 import { PiEyeLight, PiEyeSlash } from "react-icons/pi";
 import { signUpNewUser } from "../_api/auth";
 import { useRouter } from "next/navigation";
+import { supabase } from "@/utils/supabase/client";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -51,10 +52,15 @@ const SignUp = () => {
     }
 
     try {
-      const user = await signUpNewUser(email, password, nickname);
+      const { data, error } = await supabase.auth.getUser(email);
+      if (error) {
+        throw new Error(error.message);
+      }
+      console.log(data);
+      const users = await signUpNewUser(email, password, nickname);
       onOpen();
-      console.log(user);
-      console.log("회원가입성공:", user);
+      console.log(users);
+      console.log("회원가입성공:", users);
     } catch (error) {
       console.error("회원가입 오류:", error);
     }
@@ -129,7 +135,7 @@ const SignUp = () => {
             />
             {nickname && (nickname.length < 2 || nickname.length > 10) && (
               <p className="text-red-500 text-xs">
-                닉네임은 최소 2자 이상이어야 하며, 최대 10자 이하이어야 합니다.
+                닉네임은 최소 2글자 이상, 최대 10글자 이하이어야 합니다.
               </p>
             )}
             <div className="flex items-center">
@@ -150,7 +156,7 @@ const SignUp = () => {
               radius="sm"
               className="bg-black text-white text-lg  w-full"
             >
-              Singup
+              Signup
             </Button>
           </form>
           <button onClick={handleClick}>로그인</button>
