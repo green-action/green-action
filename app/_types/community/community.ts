@@ -20,3 +20,17 @@ export interface CommunityDetailProps {
   onOpenChange: () => void;
   post_id: string;
 }
+
+export interface CommentProps {
+  content: string | null;
+  created_at: string;
+  id: string;
+  post_id: string | null;
+  user_uid: string | null;
+}
+
+export interface InsertComment {
+  content: string;
+  currentUserUid: string;
+  post_id: string;
+}
