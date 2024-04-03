@@ -8,15 +8,15 @@ import { supabase } from "@/utils/supabase/client";
 // 1. 텍스트 formData 삽입 함수
 export const insertActionTextForm = async ({
   formData,
-  currentUserUId,
+  currentUserUid,
 }: {
   formData: FormData;
-  currentUserUId: string;
+  currentUserUid: string;
 }) => {
   try {
     // insert할 텍스트 데이터
     const inputData: FormDataType = {
-      user_uid: currentUserUId,
+      user_uid: currentUserUid,
       title: String(formData.get("activityTitle")),
       content: String(formData.get("activityDescription")),
       start_date: String(formData.get("startDate")),

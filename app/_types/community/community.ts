@@ -7,11 +7,12 @@ export interface CommunityPostObj {
   img_url: any;
   title: string | null;
   user_uid: string | null;
+  users: { display_name: string | null; profile_img: string | null } | null;
 }
 
 export interface CommunityPostMutation {
   formData: FormData;
-  currentUserUId: string;
+  currentUserUid: string;
 }
 
 export interface CommunityDetailProps {
@@ -27,6 +28,7 @@ export interface CommentProps {
   id: string;
   post_id: string | null;
   user_uid: string | null;
+  users: { display_name: string | null; profile_img: string | null } | null;
 }
 
 export interface InsertComment {

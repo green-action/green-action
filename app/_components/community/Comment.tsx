@@ -1,14 +1,26 @@
 import { CommentProps } from "@/app/_types/community/community";
+import { Avatar } from "@nextui-org/react";
 import React from "react";
 
 const CommunityPostComment = ({ comment }: { comment: CommentProps }) => {
+  const { display_name, profile_img } = comment?.users || {
+    display_name: null,
+    profile_img: null,
+  };
+  // null인 경우 undefined로 변환해주는 과정 (null이면 src안에서 타입에러 발생)
+  const imgSrc = profile_img || "";
+
   return (
     <>
       <div className="flex justify-between">
         <div className="flex w-[90%] mx-auto mb-4">
-          <div className="bg-black mr-2 w-[20px] h-[20px] rounded-full"></div>
+          <Avatar
+            showFallback
+            src={imgSrc}
+            className="mr-2 w-[20px] h-[20px] rounded-full"
+          />
           <div className="flex flex-col justify-between">
-            <p className="text-xs mt-1 mb-1">스파르타 Greener</p>
+            <p className="text-xs mt-1 mb-1">{display_name} Greener</p>
             <p className="text-xs text-gray-500">{comment.content}</p>
           </div>
         </div>
