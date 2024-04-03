@@ -7,7 +7,6 @@ import { useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 
-// AddPostModal 복사본 - 버튼 대신 각 포스트 클릭했을때 이동하도록 수정 필요
 const CommunityDetailModal = ({
   isOpen,
   onOpenChange,
@@ -38,7 +37,8 @@ const CommunityDetailModal = ({
     return <div>Error</div>;
   }
 
-  console.log("communityPost", communityPost);
+  // console.log("communityPost", communityPost);
+  // user_uid로 게시글 작성자 정보 가져오기 필요!!! -> 리스트, 상세모달창 둘다 수정
 
   return (
     <>
@@ -53,17 +53,21 @@ const CommunityDetailModal = ({
               </ModalHeader>
               <ModalBody>
                 {/* 이미지 자리 */}
-                <div className="mx-auto mb-1 w-[96%] h-[260px] rounded-2xl bg-slate-300"></div>
+                <img
+                  src={communityPost?.img_url}
+                  alt="Community Post"
+                  className="mx-auto mb-1 w-[96%] h-[260px] rounded-2xl bg-slate-300"
+                ></img>
                 {/* 이미지 아래 전체 wrapper */}
                 <div className="flex flex-col gap-2 w-[90%] mx-auto">
                   {/* 첫 줄 */}
                   <div className="flex justify-between mb-2 ">
                     <div className="flex gap-2 items-center">
                       <p className=" rounded-full border-1 border-gray-300 text-xs p-0.5 px-4 w-[110px]">
-                        개인과 함께해요
+                        {communityPost?.action_type}과 함께해요
                       </p>
                       <p className="text-[13px] font-semibold">
-                        쓰레기 줍기 실천 인증!!
+                        {communityPost?.title}
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
@@ -87,17 +91,15 @@ const CommunityDetailModal = ({
                     </div>
                   </div>
                   {/* 두번째 : 활동 내용 -> ...더보기 처리하기*/}
-                  <p className=" mx-auto text-xs mb-2 w-[97%]">
-                    활동내용이 어쩌구저쩌구 이래서 저래서 재밌었고 어쩌구
-                    활동내용이 어쩌구저쩌구 이래서 저래서 재밌었고 어쩌구
-                    활동내용이 ...더보기
+                  <p className=" mx-auto text-xs mb-5 w-[97%]">
+                    {communityPost?.content}
                   </p>
                   {/* 세번째 : 작성일, dot -> 내가 쓴 글 일 때만 보이게 */}
-                  <div className="flex justify-between items-end mb-1">
-                    <p className="text-[11px]">2024-04-03</p>
+                  <div className="flex justify-between items-end ">
+                    <p className="text-[11px]">{communityPost?.created_at}</p>
                     <HiOutlineDotsVertical className="cursor-pointer" />
                   </div>
-                  <hr className="my-2" />
+                  <hr className="mb-1" />
                   {/* 댓글 wrapper */}
                   <div className="flex flex-col mx-auto mb-2 w-[95%]">
                     <p className="text-xs mb-1">댓글</p>
