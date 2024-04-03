@@ -41,7 +41,7 @@ const DetailPage = () => {
   console.log(detail);
 
   // 작성자 이름, 자기소개 가져오기
-  const userId = detail.user_uid;
+  // const userId = detail.user_uid;
   // userId를 가진 유저정보를 auth에서 가져와서
 
   if (isError) return <div>Error fetching details...</div>;
@@ -51,7 +51,9 @@ const DetailPage = () => {
       <div className="flex flex-col w-[1200px] h-auto mx-auto m-5">
         <div className="grid grid-cols-4 grid-rows-5 gap-4">
           <div className="col-span-1 row-span-1 border-2 border-gray-300 rounded-3xl">
-            1번
+            작성자 : {detail.users?.display_name}
+            <hr />
+            {detail.users?.introduction}
           </div>
           <div className="col-span-3 row-span-1 border-2 border-gray-300 rounded-3xl">
             <p>제목 : {detail.title}</p>
