@@ -1,5 +1,8 @@
 "use client";
-import { useAddBookmark, useRemoveBookmark } from "@/app/_hooks/useMutations";
+import {
+  useAddBookmark,
+  useRemoveBookmark,
+} from "@/app/_hooks/useMutations/bookmarks";
 import { useFilterBookmark } from "@/app/_hooks/useQueries/bookmarks";
 import { CircularProgress } from "@nextui-org/react";
 import { CiStar } from "react-icons/ci";
@@ -33,7 +36,7 @@ const Bookmark = ({
     (mark) => mark.user_uid === user_uid,
   );
   if (isLoading) {
-    return <CircularProgress color="success" aria-label="Loading..." />;
+    return <CircularProgress color="warning" aria-label="Loading..." />;
   }
 
   return (
@@ -42,15 +45,15 @@ const Bookmark = ({
         <>
           <button onClick={() => handleRemoveBookmarkClick(action_id)}>
             <FaStar className="text-amber-300 text-xl" />
-            <span>{filterBookmark?.filterBookmark?.length}</span>
           </button>
+          <span>{filterBookmark?.filterBookmark?.length}</span>
         </>
       ) : (
         <>
           <button onClick={() => handleAddBookmarkClick(user_uid, action_id)}>
             <CiStar className="text-xl" />
-            <span>{filterBookmark?.filterBookmark?.length}</span>
           </button>
+          <span>{filterBookmark?.filterBookmark?.length}</span>
         </>
       )}
     </>
@@ -58,17 +61,3 @@ const Bookmark = ({
 };
 
 export default Bookmark;
-
-/* <>
-  <button onClick={() => handleRemoveBookmarkClick(action_id)}>
-    <FaStar className="text-amber-300" />
-    <span>{mark.length}</span>
-  </button>
-</>
-) : (
-<>
-  <button onClick={() => handleAddBookmarkClick(user_uid, action_id)}>
-    <CiStar />
-    <span>{data?.bookmarks?.length}</span>
-  </button>
-</> */
