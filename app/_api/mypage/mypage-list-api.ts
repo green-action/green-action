@@ -1,41 +1,13 @@
+// 내가 생성한 action (My Green Action) - 모집중->마감으로 상태 변경
+
 import { supabase } from "@/utils/supabase/client";
 
-// 내 유저정보 가져오기
-export const fetchUserInfo = async (user_uid: string) => {
-  try {
-    const { data, error } = await supabase
-      .from("users")
-      .select("*")
-      .eq("id", user_uid);
-    // console.log("🐰 ~ fetchUserInfo ~ data : ", data);
-    if (error) throw error;
-    return data[0];
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-// 닉네임 수정
-export const updateUserName = async (user_uid: string, editedName: string) => {
+// 모집마감도 -> 중 으로 토글로 바꿔야할지?
+export const updateActionRecruiting = async (action_id: string) => {
   const { error } = await supabase
-    .from("users")
-    .update({ display_name: editedName })
-    .eq("id", user_uid)
-    .select();
-  if (error) {
-    console.error(`Failed to update data to Supabase - ${error.message}`);
-  }
-};
-
-// 자기소개 수정
-export const updateUserIntro = async (
-  user_uid: string,
-  editedIntro: string,
-) => {
-  const { error } = await supabase
-    .from("users")
-    .update({ introduction: editedIntro })
-    .eq("id", user_uid)
+    .from("individual_green_actions")
+    .update({ is_recruiting: false })
+    .eq("id", action_id)
     .select();
   if (error) {
     console.error(`Failed to update data to Supabase - ${error.message}`);

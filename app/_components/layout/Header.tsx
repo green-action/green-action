@@ -1,11 +1,11 @@
 "use client"; // import from "@nextui-org/react"; 시 꼭 필요
 
-import { Avatar, Tab, Tabs } from "@nextui-org/react";
+import { Avatar, CircularProgress, Tab, Tabs } from "@nextui-org/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import { logoutUser } from "../_api/auth";
-import { useQueryUser } from "../_hooks/useQueries/user";
+import { logoutUser } from "../../_api/auth";
+import { useQueryUser } from "../../_hooks/useQueries/user";
 
 function Header() {
   const { data: session, isLoading: sessionIsLoading } = useQueryUser();
@@ -55,11 +55,19 @@ function Header() {
   };
 
   if (sessionIsLoading) {
-    return <div>세션 정보를 가져오는 중입니다...!</div>;
+    return (
+      // 임시로 처리
+      <div className="flex justify-center items-center h-40">
+        <CircularProgress
+          color="success"
+          label="세션 정보를 가져오는 중입니다...!"
+        />
+      </div>
+    );
   }
 
   return (
-    <div className="flex items-center justify-between mx-[5rem] h-[6rem]">
+    <div className="flex items-center justify-between mx-[5rem] h-[10rem]">
       <div>
         <Link href={"/"}>LOGO</Link>
       </div>
@@ -82,7 +90,7 @@ function Header() {
         >
           <Tab
             key="/about"
-            title="ABOUT"
+            title="About"
             as={Link}
             href="/about"
             className="w-[10rem]"

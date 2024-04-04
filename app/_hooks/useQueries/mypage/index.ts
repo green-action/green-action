@@ -2,8 +2,8 @@ import {
   fetchBookmarkedActions,
   fetchMyCommunityPosts,
   fetchMyGreenActions,
-  fetchUserInfo,
-} from "@/app/_api/mypage/mypage-api";
+} from "@/app/_api/mypage/mypage-list-api";
+import { fetchUserInfo } from "@/app/_api/mypage/mypage-profile-api";
 import {
   QUERY_KEY_MY_BOOKMARK,
   QUERY_KEY_MY_COMMUNITYPOST,
