@@ -1,10 +1,13 @@
 "use client";
 
-import { uploadFilesAndGetUrls } from "@/app/_api/individualAction-add/add-api";
 import {
+  insertImgUrls,
+  uploadFilesAndGetUrls,
+} from "@/app/_api/individualAction-add/add-api";
+import {
+  deleteImagesByIds,
   getActionForEdit,
   updateActionTextForm,
-  updateStorageImages,
 } from "@/app/_api/individualAction-edit/edit-api";
 import { QUERY_KEY_INDIVIDUALACTION_FOR_EDIT } from "@/app/_api/queryKeys";
 import ImgEdit from "@/app/_components/individualAction-edit/ImgEdit";
@@ -13,7 +16,9 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const EditActionPage = ({ params }: { params: { id: string } }) => {
-  const [uploadedFileUrls, setUploadedFileUrls] = useState([]);
+  const [uploadedFileUrls, setUploadedFileUrls] = useState<
+    { id: string; img_url: string }[]
+  >([]);
   const [deleteFileIds, setDeleteFileIds] = useState<string[]>([]);
   const [files, setFiles] = useState<(File | undefined)[]>([]);
   const router = useRouter();
@@ -26,7 +31,8 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
     isError: isOriginalDataError,
   } = useQuery({
     queryKey: [QUERY_KEY_INDIVIDUALACTION_FOR_EDIT],
-    // 데이터 가져오면서 동시에 '이미지 파일을 files에 set' + '이미지url을 useState에 set'
+    // 데이터 가져오면서 동시에 {id: 이미지id, img_url: 이미지url} 객체 배열을 uploadedFileUrls에 set
+    // (이미지 삭제 시 이미지id가 필요하기 때문)
     queryFn: async () => {
       try {
         // getActionForEdit 함수 호출하여 데이터 가져오기
@@ -53,9 +59,9 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
 
   // '수정완료' 클릭시
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // 기본 제출 동작 방지
+    event.preventDefault();
 
-    const formData = new FormData(event.currentTarget); // 폼 데이터 생성
+    const formData = new FormData(event.currentTarget);
 
     try {
       // 확인창 표시
@@ -68,23 +74,22 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
         });
 
         // 2. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
+        // 기존에 있던 이미지 외에, 새롭게 업로드한 이미지들이 file저장 + url반환됨
         const imgUrlsArray = await uploadFilesAndGetUrls({ files, action_id });
-        console.log("imgUrlsArray", imgUrlsArray);
 
-        // (1) 이미지 삭제처리 : 무슨 이미지를 삭제해야 하는지를 알아야 함 ==> deleteFileUrls 여기서 가져오면 ㄷ
-        // (2) 이미지 추가처리
+        // 3. 반환받은 url배열을 테이블에 insert
+        await insertImgUrls({ action_id, imgUrlsArray });
 
-        await updateStorageImages({ action_id, files });
-
-        // // 3. 이미지url들 table에 넣기 - action_id에 id사용
-        // await insertImgUrls({ action_id, imgUrlsArray });
+        // 4. deleteFileIds 참고, 테이블에 해당 id 있으면 행 삭제
+        // 기존에 스토리지에 있던 이미지를 삭제 요청한 경우 테이블에서 삭제해주는 로직
+        await deleteImagesByIds(deleteFileIds);
 
         // 입력값 초기화
         const target = event.target as HTMLFormElement;
         target.reset();
 
         // 확인을 클릭하면 action_id의 상세페이지로 이동
-        // router.push(`/individualAction/detail/${action_id}`);
+        router.push(`/individualAction/detail/${action_id}`);
       }
     } catch (error) {
       console.error("Error inserting data:", error);

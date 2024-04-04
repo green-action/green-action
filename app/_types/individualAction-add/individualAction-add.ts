@@ -7,6 +7,17 @@ export interface ImgUploadProps {
   setFiles: React.Dispatch<React.SetStateAction<(File | undefined)[]>>;
 }
 
+export interface ImgUpdateProps {
+  uploadedFileUrls: { id: string; img_url: string }[];
+  setUploadedFileUrls: React.Dispatch<
+    React.SetStateAction<{ id: string; img_url: string }[]>
+  >;
+  deleteFileIds: string[];
+  setDeleteFileIds: React.Dispatch<React.SetStateAction<string[]>>;
+  files: (File | undefined)[];
+  setFiles: React.Dispatch<React.SetStateAction<(File | undefined)[]>>;
+}
+
 export interface FormDataType {
   user_uid: string;
   title: string;

@@ -1,16 +1,14 @@
 "use client";
 
-import { ImgUploadProps } from "@/app/_types/individualAction-add/individualAction-add";
+import { ImgUpdateProps } from "@/app/_types/individualAction-add/individualAction-add";
 import React from "react";
 
 const ImgEdit = ({
   uploadedFileUrls,
   setUploadedFileUrls,
-  deleteFileIds,
   setDeleteFileIds,
-  files,
   setFiles,
-}: ImgUploadProps) => {
+}: ImgUpdateProps) => {
   // 이미지 미리보기 띄우기
   const handleShowPreview = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -18,13 +16,14 @@ const ImgEdit = ({
       return;
     }
     const imageUrl = URL.createObjectURL(file);
-    setUploadedFileUrls((prev) => [...prev, { id: null, img_url: imageUrl }]);
+    setUploadedFileUrls((prev) => [...prev, { id: "", img_url: imageUrl }]);
     setFiles((prev) => [...prev, file]);
   };
 
   // 미리보기 이미지 삭제
   const handleDeleteImage = (index: number, deletedId: string) => {
-    // deletedId가 null이 아닌 경우 id를 배열에 추가
+    // deletedId가 null이 아닌 경우 이미지id를 배열에 추가
+    // (이 이미지id 배열을 이용해서, 테이블에서 해당id가 있으면 행을 삭제할 예정)
     if (deletedId) {
       setDeleteFileIds((prev) => {
         return [...prev, deletedId];
