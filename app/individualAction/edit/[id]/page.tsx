@@ -6,15 +6,59 @@ import {
   insertImgUrls,
   uploadFilesAndGetUrls,
 } from "@/app/_api/individualAction-add/add-api";
+import { getActionForEdit } from "@/app/_api/individualAction-edit/edit-api";
+import { QUERY_KEY_INDIVIDUALACTION_FOR_EDIT } from "@/app/_api/queryKeys";
 import ImgUpload from "@/app/_components/individualAction-add/ImgUpload";
+import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const EditActionPage = ({ params }: { params: { id: string } }) => {
   const [uploadedFileUrls, setUploadedFileUrls] = useState<string[]>([]);
   const [files, setFiles] = useState<(File | undefined)[]>([]);
   const router = useRouter();
   const { id: action_id } = params;
+
+  // 페이지 접근시 action_id 정보 가져오기
+  const {
+    data: originalActionData,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: [QUERY_KEY_INDIVIDUALACTION_FOR_EDIT],
+    // queryFn: () => getActionForEdit(action_id),
+    queryFn: async () => {
+      try {
+        // getActionForEdit 함수 호출하여 데이터 가져오기
+        const data = await getActionForEdit(action_id);
+
+        // 가져온 데이터를 사용하여 이미지 URL 설정
+        const urls = data.green_action_images.map(
+          (image: { img_url: string }) => image.img_url,
+        );
+        setUploadedFileUrls(urls);
+
+        // 가져온 데이터 반환
+        return data;
+      } catch (error) {
+        throw new Error("Error fetching data");
+      }
+    },
+  });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  if (isError) {
+    return <div>Error</div>;
+  }
+  // console.log("originalActionData", originalActionData);
+
+  // console.log("uploadedFileUrls", uploadedFileUrls);
+
+  // 수정 완료시, 상세페이지로 이동
+  // 상세페이지에서 정보 불러오는 useQuery를 무효화??
+  // 페이지 이동할거니까 알아서 새로운 정보가 들어가려나?
 
   // '등록완료' 클릭시
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -93,6 +137,7 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
                       <input
                         id="startDate"
                         name="startDate"
+                        defaultValue={originalActionData?.start_date || ""}
                         required
                         type="date"
                         className="h-[40px] p-4 border-2 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
@@ -108,6 +153,7 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
                       <input
                         id="endDate"
                         name="endDate"
+                        defaultValue={originalActionData?.end_date || ""}
                         required
                         type="date"
                         className="h-[40px] p-4 border-2 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
@@ -127,6 +173,7 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
                     <input
                       id="maxParticipants"
                       name="maxParticipants"
+                      defaultValue={originalActionData?.recruit_number || ""}
                       required
                       className="w-1/4 h-[35px] text-right mx-4 pr-4  bg-inherit focus:outline-none"
                     />
@@ -149,6 +196,7 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
                         type="text"
                         id="activityLocation"
                         name="activityLocation"
+                        defaultValue={originalActionData?.location || ""}
                         required
                         className="w-10/12 h-[35px] mx-4 pr-4 bg-inherit focus:outline-none"
                       />
@@ -164,6 +212,7 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
                       type="url"
                       id="openKakaoLink"
                       name="openKakaoLink"
+                      defaultValue={originalActionData?.kakao_link || ""}
                       required
                       className="w-10/12 h-[35px] mx-4 pr-4 bg-inherit focus:outline-none"
                     />
@@ -180,6 +229,7 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
                 type="text"
                 id="activityTitle"
                 name="activityTitle"
+                defaultValue={originalActionData?.title || ""}
                 required
                 className="w-10/12 h-[50px] mx-4 pr-4 bg-inherit focus:outline-none text-sm text-gray-400"
               />
@@ -195,17 +245,18 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
               <textarea
                 id="activityDescription"
                 name="activityDescription"
+                defaultValue={originalActionData?.content || ""}
                 required
                 className="resize-none w-10/12 h-[100px] mx-4 mt-4 pr-4 bg-inherit focus:outline-none text-sm text-gray-400"
               />
             </div>
-            {/* 등록, 취소 버튼 */}
+            {/* 수정, 취소 버튼 */}
             <div className="flex justify-center gap-4">
               <button
                 type="submit"
                 className="bg-gray-100 w-40 h-10 rounded-full border-2 border-gray-300 text-sm font-medium text-gray-500"
               >
-                등록완료
+                수정완료
               </button>
               <button className="bg-gray-100 w-40 h-10 rounded-full border-2 border-gray-300 text-sm font-medium text-gray-500">
                 취소하기
