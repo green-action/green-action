@@ -7,7 +7,7 @@ export interface CommunityPostObj {
   img_url: any;
   title: string | null;
   user_uid: string | null;
-  users: { display_name: string | null; profile_img: string | null } | null;
+  users?: { display_name: string | null; profile_img: string | null } | null;
 }
 
 export interface CommunityPostMutation {

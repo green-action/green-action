@@ -1,7 +1,8 @@
 import { GeistSans } from "geist/font/sans";
 import QueryProvider from "./Provider";
 import "./globals.css";
-import Header from "./_components/Header";
+import Header from "./_components/layout/Header";
+import Footer from "./_components/layout/Footer";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -25,10 +26,11 @@ export default function RootLayout({
       <body className="bg-background text-foreground">
         <QueryProvider>
           <Header />
-          <main>
+          <main className="min-h-[50rem] pt-[2rem]">
             {children}
             {modal}
           </main>
+          <Footer />
         </QueryProvider>
       </body>
     </html>
