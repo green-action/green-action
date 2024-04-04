@@ -218,6 +218,7 @@ export const updateStorageImages = async ({
   }
 };
 
+// (이미지 전체의 url을 반환함)
 // 업데이트된 파일들의 URL을 가져오는 함수
 // const getUpdatedFileUrls = async (
 //   action_id: string,
@@ -234,6 +235,7 @@ export const updateStorageImages = async ({
 //   return resolvedUrls.map((url: any) => url?.data?.publicUrl || "");
 // };
 
+// (새로 업로드한 이미지의 url만 반환함)
 // 업데이트된 파일들의 URL을 가져오는 함수
 const getUpdatedFileUrls = async (
   action_id: string,
