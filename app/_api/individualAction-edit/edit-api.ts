@@ -6,7 +6,7 @@ export const getActionForEdit = async (action_id: string) => {
   try {
     const { data, error } = await supabase
       .from("individual_green_actions")
-      .select(`*, green_action_images(img_url)`)
+      .select(`*, green_action_images(img_url, id)`)
       .eq("id", action_id);
 
     if (error) {

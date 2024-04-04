@@ -1,22 +1,19 @@
 "use client";
 
 import {
-  fetchStorageFiles,
   getActionForEdit,
   updateActionTextForm,
   updateStorageImages,
 } from "@/app/_api/individualAction-edit/edit-api";
-import {
-  QUERY_KEY_INDIVIDUALACTION_FOR_EDIT,
-  QUERY_KEY_INDIVIDUALACTION_IMAGE_FILES,
-} from "@/app/_api/queryKeys";
-import ImgUpload from "@/app/_components/individualAction-add/ImgUpload";
+import { QUERY_KEY_INDIVIDUALACTION_FOR_EDIT } from "@/app/_api/queryKeys";
+import ImgEdit from "@/app/_components/individualAction-edit/ImgEdit";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const EditActionPage = ({ params }: { params: { id: string } }) => {
-  const [uploadedFileUrls, setUploadedFileUrls] = useState<string[]>([]);
+  const [uploadedFileUrls, setUploadedFileUrls] = useState([]);
+  const [deleteFileIds, setDeleteFileIds] = useState<string[]>([]);
   const [files, setFiles] = useState<(File | undefined)[]>([]);
   const router = useRouter();
   const { id: action_id } = params;
@@ -34,11 +31,10 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
         // getActionForEdit 함수 호출하여 데이터 가져오기
         const data = await getActionForEdit(action_id);
 
-        // 가져온 데이터를 사용하여 이미지 URL 설정
-        const urls = data.green_action_images.map(
-          (image: { img_url: string }) => image.img_url,
-        );
-        setUploadedFileUrls(urls);
+        // uploadedFileUrls에 {id: img_id, img_url: img_url} 객체 배열을 set하기
+        const idsAndUrls = [...data.green_action_images];
+        setUploadedFileUrls(idsAndUrls);
+        console.log("uploadedFileUrls", uploadedFileUrls);
 
         // 가져온 데이터 반환
         return data;
@@ -48,29 +44,12 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
     },
   });
 
-  // const {
-  //   data: originalFiles,
-  //   isLoading: isFilesLoading,
-  //   isError: isFilesError,
-  // } = useQuery({
-  //   queryKey: [QUERY_KEY_INDIVIDUALACTION_IMAGE_FILES],
-  //   queryFn: async () => {
-  //     // 기존의 이미지 파일들 스토리지에서 가져오기
-  //     const data = await fetchStorageFiles(action_id);
-  //     // files 배열에 넣어주기
-  //     setFiles([...data]);
-  //     return data;
-  //   },
-  // });
-
   if (isOriginalDataLoading) {
     return <div>Loading...</div>;
   }
   if (isOriginalDataError) {
     return <div>Error</div>;
   }
-
-  // console.log("files", files);
 
   // '수정완료' 클릭시
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -90,6 +69,9 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
 
         // 2. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
         // const imgUrlsArray = await uploadFilesAndGetUrls({ files, action_id });
+
+        // (1) 이미지 삭제처리 : 무슨 이미지를 삭제해야 하는지를 알아야 함 ==> deleteFileUrls 여기서 가져오면 ㄷ
+        // (2) 이미지 추가처리
 
         await updateStorageImages({ action_id, files });
 
@@ -119,9 +101,11 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
           {/* 안쪽 박스 */}
           <div className="p-10 w-full h-full">
             {/* 이미지 4장 자리*/}
-            <ImgUpload
+            <ImgEdit
               uploadedFileUrls={uploadedFileUrls}
               setUploadedFileUrls={setUploadedFileUrls}
+              deleteFileIds={deleteFileIds}
+              setDeleteFileIds={setDeleteFileIds}
               files={files}
               setFiles={setFiles}
             />
