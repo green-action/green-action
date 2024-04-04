@@ -1,5 +1,5 @@
 "use client";
-import { Button, Card, Chip } from "@nextui-org/react";
+import { Button, Card, Chip, CircularProgress } from "@nextui-org/react";
 import React from "react";
 import CommunityListPost from "./_components/community/CommunityListPost";
 import {
@@ -11,6 +11,7 @@ import { FaRegStar } from "react-icons/fa";
 import { IoIosCalendar } from "react-icons/io";
 import { GrLocation } from "react-icons/gr";
 import { formatToLocaleDateString } from "@/utils/date/date";
+import Link from "next/link";
 
 const MainPage = () => {
   const { data: communityPostsLikes, isLoading } =
@@ -26,12 +27,19 @@ const MainPage = () => {
   const indivActionsByBookmarks = indivActionsBookmarks?.sort(
     (a, b) => b.actionBookmarks.length - a.actionBookmarks.length,
   );
+  // console.log("🐰 ~ data : ", indivActionsBookmarks);
 
-  console.log("🐰 ~ data : ", indivActionsBookmarks);
+  if (isLoading || isActionsLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <CircularProgress color="success" label="Loading..." />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col min-h-[600px]">
-      <section className="flex w-full h-[600px] justify-center items-end">
+      <section className="flex w-full h-[460px] justify-center items-end">
         <p className="text-[4rem] w-[1000px] m-10">
           {/* bg-lime-300 */}
           EXPERIENCE A NEW WAY <br />
@@ -43,7 +51,7 @@ const MainPage = () => {
         LIFEEXPERIENCE A NEW WAY OF GREEN LIFEEXPERIENCE A NEW WAY OF GREEN
         LIFEEXPERIENCE A NEW{" "}
       </p> */}
-      <section className="flex flex-col gap-[10rem] m-10 mt-[20rem] ">
+      <section className="flex flex-col gap-[10rem] m-[5rem] mt-[20rem] ">
         <div className="flex flex-col items-center gap-[5rem]">
           <Chip size="lg">Community Hot Posts</Chip>
           <div className="flex flex-wrap gap-8">
@@ -58,7 +66,12 @@ const MainPage = () => {
         </div>
         <div className="flex flex-col items-center gap-[5rem]">
           <Chip size="lg">Green-Action Hot Posts</Chip>
-          <p>{`전체보기 > `}</p>
+          <div className="w-full flex justify-end">
+            <Link
+              href={`/individualAction`}
+              className="text-gray-500 text-sm"
+            >{`전체보기 > `}</Link>
+          </div>
           <div className="flex">
             {indivActionsByBookmarks?.map((action) => {
               const formattedStartDate = formatToLocaleDateString(
@@ -79,19 +92,8 @@ const MainPage = () => {
                       className="rounded-3xl p-3"
                     />
                   ) : (
-                    // </Card>
                     <div className="bg-gray-300 width-[100px] h-[230px] rounded-3xl" />
                   )}
-
-                  {/* <img
-                      src={action.actionImgUrls[0]?.img_url}
-                      alt="action-img"
-                      width={320}
-                      height={150}
-                      className="rounded-3xl"
-                    /> */}
-                  {/* </CardHeader> */}
-                  {/* <CardBody> */}
                   <div className="p-2">
                     <div className="flex gap-3">
                       <p className="font-bold">{action.title}</p>
