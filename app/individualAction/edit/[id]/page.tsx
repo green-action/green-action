@@ -1,20 +1,19 @@
 "use client";
 
-import { getUser } from "@/app/_api/auth";
 import {
-  insertActionTextForm,
-  insertImgUrls,
-  uploadFilesAndGetUrls,
-} from "@/app/_api/individualAction-add/add-api";
-import {
+  fetchStorageFiles,
   getActionForEdit,
   updateActionTextForm,
+  updateStorageImages,
 } from "@/app/_api/individualAction-edit/edit-api";
-import { QUERY_KEY_INDIVIDUALACTION_FOR_EDIT } from "@/app/_api/queryKeys";
+import {
+  QUERY_KEY_INDIVIDUALACTION_FOR_EDIT,
+  QUERY_KEY_INDIVIDUALACTION_IMAGE_FILES,
+} from "@/app/_api/queryKeys";
 import ImgUpload from "@/app/_components/individualAction-add/ImgUpload";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const EditActionPage = ({ params }: { params: { id: string } }) => {
   const [uploadedFileUrls, setUploadedFileUrls] = useState<string[]>([]);
@@ -25,11 +24,11 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
   // 페이지 접근시 action_id의 기존 데이터 가져오기
   const {
     data: originalActionData,
-    isLoading,
-    isError,
+    isLoading: isOriginalDataLoading,
+    isError: isOriginalDataError,
   } = useQuery({
     queryKey: [QUERY_KEY_INDIVIDUALACTION_FOR_EDIT],
-    // 데이터 가져오면서 동시에 이미지url을 useState에 set
+    // 데이터 가져오면서 동시에 '이미지 파일을 files에 set' + '이미지url을 useState에 set'
     queryFn: async () => {
       try {
         // getActionForEdit 함수 호출하여 데이터 가져오기
@@ -49,12 +48,29 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
     },
   });
 
-  if (isLoading) {
+  // const {
+  //   data: originalFiles,
+  //   isLoading: isFilesLoading,
+  //   isError: isFilesError,
+  // } = useQuery({
+  //   queryKey: [QUERY_KEY_INDIVIDUALACTION_IMAGE_FILES],
+  //   queryFn: async () => {
+  //     // 기존의 이미지 파일들 스토리지에서 가져오기
+  //     const data = await fetchStorageFiles(action_id);
+  //     // files 배열에 넣어주기
+  //     setFiles([...data]);
+  //     return data;
+  //   },
+  // });
+
+  if (isOriginalDataLoading) {
     return <div>Loading...</div>;
   }
-  if (isError) {
+  if (isOriginalDataError) {
     return <div>Error</div>;
   }
+
+  console.log("files", files);
 
   // '수정완료' 클릭시
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -74,6 +90,8 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
 
         // 2. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
         // const imgUrlsArray = await uploadFilesAndGetUrls({ files, action_id });
+
+        await updateStorageImages({ action_id, files });
 
         // // 3. 이미지url들 table에 넣기 - action_id에 id사용
         // await insertImgUrls({ action_id, imgUrlsArray });

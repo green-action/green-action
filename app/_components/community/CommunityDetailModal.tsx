@@ -2,9 +2,13 @@ import {
   getCommunityCommentsList,
   insertCommunityComment,
 } from "@/app/_api/community/comments-api";
-import { getPostContents } from "@/app/_api/community/community-api";
+import {
+  deleteCommunityPost,
+  getPostContents,
+} from "@/app/_api/community/community-api";
 import {
   QEURY_KEY_COMMUNITY_COMMENTS_LIST,
+  QUERY_KEY_COMMUNITYLIST,
   QUERY_KEY_COMMUNITY_POST,
 } from "@/app/_api/queryKeys";
 import { CommunityDetailProps } from "@/app/_types/community/community";
@@ -66,6 +70,16 @@ const CommunityDetailModal = ({
     queryFn: () => getCommunityCommentsList(post_id),
   });
 
+  // 게시글 삭제 mutation
+  const { mutate: deletePostMutation } = useMutation({
+    mutationFn: (post_id: string) => deleteCommunityPost(post_id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY_COMMUNITYLIST],
+      });
+    },
+  });
+
   // 댓글 등록 mutation
   const { mutate: insertCommentMutation } = useMutation({
     mutationFn: async ({
@@ -105,6 +119,14 @@ const CommunityDetailModal = ({
   const formattedDate = communityPost
     ? formatToLocaleDateString(communityPost.created_at)
     : "";
+
+  // 게시글 삭제 핸들러
+  const handleDeletePost = () => {
+    const isConfirm = window.confirm("삭제하시겠습니까?");
+    if (isConfirm) {
+      deletePostMutation(post_id);
+    }
+  };
 
   // 댓글 등록 핸들러
   const handleInsertComment = async (e: React.FormEvent) => {
@@ -209,6 +231,7 @@ const CommunityDetailModal = ({
                           key="삭제"
                           className="text-danger"
                           color="danger"
+                          onClick={handleDeletePost}
                         >
                           삭제
                         </DropdownItem>

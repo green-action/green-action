@@ -6,7 +6,6 @@ import React from "react";
 const ImgUpload = ({
   uploadedFileUrls,
   setUploadedFileUrls,
-  files,
   setFiles,
 }: ImgUploadProps) => {
   // 이미지 미리보기 띄우기

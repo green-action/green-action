@@ -1,8 +1,3 @@
-import {
-  FileUpload,
-  FormDataType,
-  InsertImgUrls,
-} from "@/app/_types/individualAction-add/individualAction-add";
 import { supabase } from "@/utils/supabase/client";
 
 // individual_green_actions 테이블에서 수정할 정보 가져오기
@@ -87,5 +82,191 @@ export const updateActionTextForm = async ({
   } catch (error) {
     console.error("Error updating data:", error);
     throw error;
+  }
+};
+
+// 2. 스토리지에 이미지 추가 및 삭제 - url배열 반환까지
+
+// export const updateStorageImages = async ({
+//   files,
+//   action_id,
+//   existingFiles,
+// }: {
+//   files: File[];
+//   action_id: string;
+//   existingFiles: string[];
+// }) => {
+//   try {
+//     // 기존 파일들과 유저가 업로드한 파일들을 비교하여 추가할 파일들과 삭제할 파일들을 구분합니다.
+//     const filesToAdd = files.filter(
+//       (file) => !existingFiles.includes(file.name),
+//     );
+//     const filesToDelete = existingFiles.filter(
+//       (existingFile) => !files.some((file) => file.name === existingFile),
+//     );
+
+//     // 스토리지에서 삭제할 파일들을 삭제합니다.
+//     await Promise.all(
+//       filesToDelete.map(async (fileName) => {
+//         const filePath = `${action_id}/${fileName}`;
+//         const { error } = await supabase.storage
+//           .from("green_action")
+//           .remove([filePath]);
+//         if (error) {
+//           console.error("Error deleting file from storage:", error);
+//         }
+//       }),
+//     );
+
+//     // 스토리지에 추가할 파일들을 업로드합니다.
+//     const uploadedUrls = await Promise.all(
+//       filesToAdd.map(async (file) => {
+//         const fileName = `${crypto.randomUUID()}`;
+//         const filePath = `${action_id}/${fileName}`;
+//         const { error } = await supabase.storage
+//           .from("green_action")
+//           .upload(filePath, file, {
+//             cacheControl: "3600",
+//             upsert: true,
+//           });
+//         if (error) {
+//           console.error("Error uploading file to storage:", error);
+//           return null;
+//         }
+//         return filePath;
+//       }),
+//     );
+
+//     // 추가된 파일들의 경로를 반환합니다.
+//     return uploadedUrls.filter((url) => url !== null) as string[];
+//   } catch (error) {
+//     console.error("Error updating storage images:", error);
+//     return [];
+//   }
+// };
+
+// 스토리지에서 파일을 업데이트하고 URL을 반환하는 함수
+export const updateStorageImages = async ({
+  action_id,
+  files,
+}: {
+  action_id: string;
+  files: (File | undefined)[];
+}): Promise<string[]> => {
+  try {
+    // 1. 스토리지에서 action_id에 해당하는 폴더에 있는 파일들을 가져옵니다.
+    const { data: originFiles, error } = await supabase.storage
+      .from("green_action")
+      .list(action_id);
+
+    if (error) {
+      console.error("Error fetching original files:", error);
+      throw new Error("Error fetching original files");
+    }
+
+    // 기존 파일들의 이름 목록을 저장합니다.
+    const originalFileNames = originFiles?.map((file: any) => file.name) || [];
+
+    // (파일들을 합치는 함수)
+    const mergeFiles = (
+      originFiles: File[],
+      files: (File | undefined)[],
+    ): File[] => {
+      // 새로운 파일들과 기존 파일들을 하나의 배열로 합쳐서 반환합니다.
+      return [...originFiles, ...files];
+    };
+
+    // 2. 가져온 파일들과 새로운 파일들을 합칩니다.
+    const mergedFiles = mergeFiles(originalFileNames, files);
+
+    // (파일을 스토리지에 업로드하는 함수)
+    const uploadFiles = async (
+      action_id: string,
+      files: File[],
+    ): Promise<void> => {
+      // 파일들을 스토리지에 업로드합니다.
+      // 파일 이름은 action_id와 파일명을 조합하여 설정합니다.
+      await Promise.all(
+        files.map(async (file) => {
+          const fileName = `${action_id}/${file.name}`;
+          const { error } = await supabase.storage
+            .from("green_action")
+            .upload(fileName, file, {
+              cacheControl: "3600",
+              upsert: true,
+            });
+
+          if (error) {
+            console.error("Error uploading file:", error);
+            throw new Error("Error uploading file");
+          }
+        }),
+      );
+    };
+
+    // 3. 합친 파일들을 해당 폴더에 업데이트합니다.
+    await uploadFiles(action_id, mergedFiles);
+
+    // 4. 업데이트된 파일들의 URL을 반환합니다.
+    // *** 중요 : 업데이트된 파일들의 url이 아니라, files의 url을 반환해야함
+    const updatedFileUrls = await getUpdatedFileUrls(action_id, files);
+    console.log("updatedFileUrls", updatedFileUrls);
+    return updatedFileUrls;
+  } catch (error) {
+    console.error("Error updating storage images:", error);
+    throw new Error("Error updating storage images");
+  }
+};
+
+// 업데이트된 파일들의 URL을 가져오는 함수
+// const getUpdatedFileUrls = async (
+//   action_id: string,
+//   files: File[],
+// ): Promise<string[]> => {
+//   // 업데이트된 파일들의 URL을 반환합니다.
+//   const fileUrls = files.map((file) => {
+//     const fileName = `${action_id}/${file.name}`;
+//     return supabase.storage.from("green_action").getPublicUrl(fileName);
+//   });
+
+//   const resolvedUrls = await Promise.all(fileUrls);
+
+//   return resolvedUrls.map((url: any) => url?.data?.publicUrl || "");
+// };
+
+// 업데이트된 파일들의 URL을 가져오는 함수
+const getUpdatedFileUrls = async (
+  action_id: string,
+  files: File[],
+): Promise<string[]> => {
+  // 새로운 파일들의 URL을 반환합니다.
+  const fileUrls = files.map((file) => {
+    const fileName = `${action_id}/${file.name}`;
+    return supabase.storage.from("green_action").getPublicUrl(fileName);
+  });
+
+  const resolvedUrls = await Promise.all(fileUrls);
+
+  return resolvedUrls.map((url: any) => url?.data?.publicUrl || "");
+};
+
+// 페이지 렌더링시 스토리지에서 파일들 가져오기 (렌더링시 setFiles 하려고)
+export const fetchStorageFiles = async (action_id: string): Promise<any[]> => {
+  try {
+    // 스토리지에서 action_id에 해당하는 폴더에 있는 파일들을 가져옵니다.
+    const { data: files, error } = await supabase.storage
+      .from("green_action")
+      .list(action_id);
+
+    if (error) {
+      console.error("Error fetching files from storage:", error);
+      throw new Error("Error fetching files from storage");
+    }
+
+    // 가져온 파일들의 정보를 반환합니다.
+    return files || [];
+  } catch (error) {
+    console.error("Error fetching files:", error);
+    throw new Error("Error fetching files");
   }
 };
