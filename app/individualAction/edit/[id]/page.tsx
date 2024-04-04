@@ -1,106 +1,81 @@
 "use client";
 
-// import { insertAction } from "@/app/_api/individualAction-add/add-api";
+import { getUser } from "@/app/_api/auth";
+import {
+  insertActionTextForm,
+  insertImgUrls,
+  uploadFilesAndGetUrls,
+} from "@/app/_api/individualAction-add/add-api";
+import ImgUpload from "@/app/_components/individualAction-add/ImgUpload";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
-const EditAction = ({ params }: { params: { id: number } }) => {
-  const id = params.id;
+const EditActionPage = ({ params }: { params: { id: string } }) => {
+  const [uploadedFileUrls, setUploadedFileUrls] = useState<string[]>([]);
+  const [files, setFiles] = useState<(File | undefined)[]>([]);
+  const router = useRouter();
+  const { id: action_id } = params;
 
-  // 현재 로그인한 유저의 id가져오기
-  // 임시 user_uid로 일단 테스트하기
-  const currentUserUId = "55e7ec4c-473f-4754-af5e-9eae5c587b81";
-
-  // id와 입력값들 insert api로 보내기
-  // (입력값들을 formData로 관리할지?)
-
-  const router = useRouter(); // useRouter 훅 사용
-
+  // '등록완료' 클릭시
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // 기본 제출 동작 방지
 
     const formData = new FormData(event.currentTarget); // 폼 데이터 생성
-    console.log("formData", formData);
 
     try {
-      // Supabase에 데이터 삽입
-      await insertAction(formData);
-
-      // 입력값 재설정
-      const target = event.target as HTMLFormElement;
-      target.reset();
-
       // 확인창 표시
-      const confirmed = window.confirm("등록하시겠습니까?");
-      if (confirmed) {
-        // 확인을 클릭하면 페이지 이동
-        router.push(`/individualAction/detail/${id}`);
+      const isConfirmed = window.confirm("등록하시겠습니까?");
+      if (isConfirmed) {
+        // 로그인한 user_uid 가져오기
+        const user = await getUser();
+        const currentUserUid = user?.user?.id;
+
+        // currentUserUid가 undefined인 경우 처리
+        if (!currentUserUid) {
+          return null;
+        }
+
+        // 1. user_uid와 텍스트 formData insert -> action_id 반환받기
+        const action_id = await insertActionTextForm({
+          formData,
+          currentUserUid,
+        });
+
+        // 2. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
+        const imgUrlsArray = await uploadFilesAndGetUrls({ files, action_id });
+
+        // 3. 이미지url들 table에 넣기 - action_id에 id사용
+        await insertImgUrls({ action_id, imgUrlsArray });
+
+        // 입력값 초기화
+        const target = event.target as HTMLFormElement;
+        target.reset();
+
+        // 확인을 클릭하면 action_id의 상세페이지로 이동
+        router.push(`individualAction/detail/${action_id}`);
       }
     } catch (error) {
-      // 오류 처리
       console.error("Error inserting data:", error);
     }
   };
 
   return (
     <>
-      {/* 헤더 */}
-      <div className="w-full h-28 bg-slate-400 mb-14">Header</div>
       {/* 전체 박스 */}
       <form onSubmit={handleSubmit}>
-        <div className="flex flex-col w-[900px] h-auto border-2 border-gray-300 rounded-3xl mx-auto mb-12">
-          {/* new green-action */}
+        <div className="flex flex-col w-[900px] h-auto border-2 border-gray-300 rounded-3xl mx-auto mb-12 mt-8">
+          {/* new green-action 타이틀 */}
           <div className="m-4 ml-8 text-md font-semibold">New Green-Action</div>
           <hr className="border-t-2 border-gray-300" />
           {/* 안쪽 박스 */}
           <div className="p-10 w-full h-full">
             {/* 이미지 4장 자리*/}
-            <div className="flex gap-2 w-full h-auto mb-8">
-              <div className="flex border-2 border-dashed border-gray-300 rounded-3xl w-1/4 h-[200px]">
-                <div className="flex flex-col w-full h-full justify-end items-center mt-auto">
-                  <p className="mb-4 text-4xl font-thin text-gray-500 cursor-pointer">
-                    +
-                  </p>
-                  <p className="mb-px font-medium text-gray-500">
-                    Upload Image
-                  </p>
-                  <p className="text-xs mb-8 text-gray-400">or drag & drop</p>
-                </div>
-              </div>
-              <div className="flex border-2 border-dashed border-gray-300 rounded-3xl w-1/4 h-[200px]">
-                <div className="flex flex-col w-full h-full justify-end items-center mt-auto">
-                  <p className="mb-4 text-4xl font-thin text-gray-500 cursor-pointer">
-                    +
-                  </p>
-                  <p className="mb-px font-medium text-gray-500">
-                    Upload Image
-                  </p>
-                  <p className="text-xs mb-8 text-gray-400">or drag & drop</p>
-                </div>
-              </div>
-              <div className="flex border-2 border-dashed border-gray-300 rounded-3xl w-1/4 h-[200px]">
-                <div className="flex flex-col w-full h-full justify-end items-center mt-auto">
-                  <p className="mb-4 text-4xl font-thin text-gray-500 cursor-pointer">
-                    +
-                  </p>
-                  <p className="mb-px font-medium text-gray-500">
-                    Upload Image
-                  </p>
-                  <p className="text-xs mb-8 text-gray-400">or drag & drop</p>
-                </div>
-              </div>
-              <div className="flex border-2 border-dashed border-gray-300 rounded-3xl w-1/4 h-[200px]">
-                <div className="flex flex-col w-full h-full justify-end items-center mt-auto">
-                  <p className="mb-4 text-4xl font-thin text-gray-500 cursor-pointer">
-                    +
-                  </p>
-                  <p className="mb-px font-medium text-gray-500">
-                    Upload Image
-                  </p>
-                  <p className="text-xs mb-8 text-gray-400">or drag & drop</p>
-                </div>
-              </div>
-            </div>
+            <ImgUpload
+              uploadedFileUrls={uploadedFileUrls}
+              setUploadedFileUrls={setUploadedFileUrls}
+              files={files}
+              setFiles={setFiles}
+            />
             {/* 이미지아래 첫번째 박스 */}
             <div className="flex justify-between w-full h-auto border-2 border-gray-300 rounded-3xl mb-4">
               {/* 왼 */}
@@ -217,8 +192,7 @@ const EditAction = ({ params }: { params: { id: number } }) => {
               >
                 활동 소개
               </label>
-              <input
-                type="text"
+              <textarea
                 id="activityDescription"
                 name="activityDescription"
                 required
@@ -231,7 +205,7 @@ const EditAction = ({ params }: { params: { id: number } }) => {
                 type="submit"
                 className="bg-gray-100 w-40 h-10 rounded-full border-2 border-gray-300 text-sm font-medium text-gray-500"
               >
-                수정완료
+                등록완료
               </button>
               <button className="bg-gray-100 w-40 h-10 rounded-full border-2 border-gray-300 text-sm font-medium text-gray-500">
                 취소하기
@@ -244,4 +218,4 @@ const EditAction = ({ params }: { params: { id: number } }) => {
   );
 };
 
-export default EditAction;
+export default EditActionPage;
