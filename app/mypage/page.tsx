@@ -40,6 +40,7 @@ import {
   usefetchMyCommunityPosts,
 } from "../_hooks/useQueries/mypage";
 import CustomConfirm from "../_components/customConfirm/CustomConfirm";
+import MyActionCard from "../_components/mypage/MyActionCard";
 
 const MyPage = () => {
   const user_uid = "ed71fea7-2892-4769-b7d0-1f8ba330c213";
@@ -55,8 +56,6 @@ const MyPage = () => {
   // const user_uid = userMetadata?.id;
 
   const [clicked, setClicked] = useState<string>("myGreenAction");
-
-  const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
 
   // TODO: 리스트 순서? - created at 기준
   // TODO: 이미지 여러장일 경우? - 첫 한 장만
@@ -98,10 +97,6 @@ const MyPage = () => {
     setFilteredActions(myActions?.filter((action) => !action.is_recruiting));
   };
 
-  const handleRecruitingChange = () => {
-    onOpen();
-  };
-
   if (isLoading || isActionsLoading || isPostsLoading || isBookmarksLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -113,26 +108,6 @@ const MyPage = () => {
   return (
     <div className="flex justify-center mt-10">
       <div className="flex w-[1400px]">
-        {/* SECTION - 모달 => 커스텀 alert 창 사용하기 */}
-        <Modal
-          isOpen={isOpen}
-          // onClose={handleModalClose}
-          onOpenChange={onOpenChange}
-        >
-          <ModalContent>
-            {(onClose) => (
-              //   NOTE 모달
-              <ModalHeader>
-                <p className="text-lg">Profile</p>
-              </ModalHeader>
-            )}
-          </ModalContent>
-        </Modal>
-        <CustomConfirm
-          text=".."
-          buttonName=".."
-          okFunction={handleRecruitingChange}
-        />
         <MyProfile user_uid={user_uid} />
         <div className="flex flex-col gap-10 pl-10 pt-1 w-full">
           <div className="flex justify-between">
@@ -210,78 +185,7 @@ const MyPage = () => {
             {/* LINK My Green Action */}
             {clicked === "myGreenAction" &&
               filteredActions?.map((action) => {
-                const formattedStartDate = formatToLocaleDateString(
-                  action.start_date || "",
-                );
-                const formattedEndDate = formatToLocaleDateString(
-                  action.end_date || "",
-                );
-                return (
-                  // <div
-                  //   key={action.id}
-                  //   className="w-[21rem] h-[23rem] flex flex-wrap gap-3 cursor-pointer "
-                  // >
-                  <Card className="w-[21rem] h-[25rem] flex flex-wrap gap-3 cursor-pointer p-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                    {/* TODO 누르면 해당 상세페이지로 이동 */}
-                    {/* <CardHeader> */}
-                    {/* 이미지 없는 경우 기본? */}
-                    {action.actionImgUrls[0] ? (
-                      // <Card className="h-[230px]">
-                      <img
-                        src={action.actionImgUrls[0]?.img_url}
-                        alt="Green Action Image"
-                        width={350}
-                        height={230}
-                        className="rounded-3xl p-3"
-                      />
-                    ) : (
-                      // </Card>
-                      <div className="bg-gray-300 width-[100px] h-[230px] rounded-3xl" />
-                    )}
-
-                    {/* <img
-                      src={action.actionImgUrls[0]?.img_url}
-                      alt="action-img"
-                      width={320}
-                      height={150}
-                      className="rounded-3xl"
-                    /> */}
-                    {/* </CardHeader> */}
-                    {/* <CardBody> */}
-                    <div className="p-2">
-                      <div className="flex gap-3">
-                        <p className="font-bold">{action.title}</p>
-                        <Button
-                          size="sm"
-                          radius="full"
-                          onClick={handleRecruitingChange}
-                        >
-                          {action.is_recruiting ? "모집중" : "모집마감"}
-                        </Button>
-                      </div>
-                      <div className="flex gap-1">
-                        {/* <BsPerson size="20" /> 아이콘 보류 */}
-                        <GoPerson size="20" />
-                        <p>{action.recruit_number}</p>
-                        <FaRegStar size="20" />
-                        <p>{action.actionBookmarks.length}</p>
-                      </div>
-                      <div className="flex gap-1">
-                        <IoIosCalendar size="18" />
-                        <p>
-                          {formattedStartDate} - {formattedEndDate}
-                        </p>
-                      </div>
-                      <hr className="text-gray-700 w-[14rem]" />
-                      <div className="flex gap-1">
-                        <GrLocation size="18" />
-                        <p>{action.location}</p>
-                      </div>
-                    </div>
-                    {/* </CardBody> */}
-                  </Card>
-                  // </div>
-                );
+                return <MyActionCard action={action} />;
               })}
             {/* 내가 쓴 커뮤니티 글 */}
             {clicked === "myCommunityPosts" &&
@@ -316,7 +220,8 @@ const MyPage = () => {
                     <CardHeader>
                       <img
                         src={
-                          bookmark.bookmarkedAction?.actionImgUrls[0].img_url
+                          bookmark.bookmarkedAction?.actionImgUrls[0]
+                            ?.img_url || ""
                         }
                         alt="action-img"
                         width={250}

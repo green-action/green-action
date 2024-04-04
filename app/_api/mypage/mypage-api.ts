@@ -42,6 +42,19 @@ export const updateUserIntro = async (
   }
 };
 
+// 내가 생성한 action (My Green Action) - 모집중->마감으로 상태 변경
+// 모집마감도 -> 중 으로 토글로 바꿔야할지?
+export const updateActionRecruiting = async (action_id: string) => {
+  const { error } = await supabase
+    .from("individual_green_actions")
+    .update({ is_recruiting: false })
+    .eq("id", action_id)
+    .select();
+  if (error) {
+    console.error(`Failed to update data to Supabase - ${error.message}`);
+  }
+};
+
 // 내가 생성한 action 조회
 export const fetchMyGreenActions = async (user_uid: string) => {
   try {
