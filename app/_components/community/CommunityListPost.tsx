@@ -6,8 +6,7 @@ import {
   CardFooter,
   useDisclosure,
 } from "@nextui-org/react";
-import { useState } from "react";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+import Likes from "../likes/Likes";
 import CommunityDetailModal from "./CommunityDetailModal";
 
 const CommunityListPost = ({
@@ -15,10 +14,8 @@ const CommunityListPost = ({
 }: {
   communityPost: CommunityPostObj | undefined;
 }) => {
-  // 커뮤니티 게시글 모달창 open여부 관리
+  // 커뮤니티 디테일 모달창 props
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  // 좋아요 하트 상태 임시
-  const [isLike, setIsLike] = useState(false);
   const post_id = communityPost?.id as string;
   const { display_name, profile_img } = communityPost?.users || {
     display_name: null,
@@ -26,15 +23,6 @@ const CommunityListPost = ({
   };
   // profile_img가 null인 경우 undefined로 변환해주는 과정 (null이면 src안에서 타입에러 발생)
   const imgSrc = profile_img || "";
-
-  // 좋아요 버튼 핸들러
-  const handleLikeOnClick = async () => {
-    if (!isLike) {
-      setIsLike((prev) => !prev);
-    } else if (isLike) {
-      setIsLike((prev) => !prev);
-    }
-  };
 
   return (
     <>
@@ -68,23 +56,7 @@ const CommunityListPost = ({
                 size="sm"
               >
                 <>
-                  {isLike ? (
-                    <>
-                      <FaHeart
-                        onClick={handleLikeOnClick}
-                        className="hover:cursor-pointer text-rose-600 text-[15px]"
-                      />
-                      <p className="text-xs text-black">3</p>
-                    </>
-                  ) : (
-                    <>
-                      <FaRegHeart
-                        onClick={handleLikeOnClick}
-                        className="hover:cursor-pointer text-rose-600 text-[15px]"
-                      />
-                      <p className="text-xs text-black">3</p>
-                    </>
-                  )}
+                  <Likes post_id={communityPost?.id as string} />
                 </>
               </Button>
             </div>

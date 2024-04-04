@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Button,
   Modal,
@@ -23,13 +22,20 @@ const GroupModal = ({
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   return (
     <>
-      <Button onPress={onOpen}>자세히</Button>
+      <Button
+        className="bg-transparent absolute w-[100%] h-[100%] top-0 left-0 z-10"
+        onPress={onOpen}
+      ></Button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
-                <img src={action.img_url} alt="캠페인 포스터" />
+              <ModalHeader className="flex flex-col gap-1 max-h-[500px]  overflow-hidden">
+                <img
+                  className="rounded-3xl bg-origin-border"
+                  src={action.img_url}
+                  alt="캠페인 포스터"
+                />
               </ModalHeader>
               <ModalBody>
                 <h2>캠페인 명 : {action.title}</h2>
