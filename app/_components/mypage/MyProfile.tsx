@@ -134,7 +134,7 @@ const MyProfile = ({ user_uid }: { user_uid: string }) => {
               src={profile_img || ""}
               className="w-[4.5rem] h-[4.5rem]"
             />
-            <div className="flex flex-col gap-[0.1rem] w-[9rem]">
+            <div className="flex flex-col gap-[0.1rem] w-[9rem] overflow-hidden whitespace-nowrap overflow-ellipsis">
               <p className="font-bold">{display_name}</p>
               <p className="text-[0.7rem]">{email}</p>
               <p className="text-sm font-bold">Greener</p>
