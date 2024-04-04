@@ -23,7 +23,6 @@ import {
   ModalHeader,
 } from "@nextui-org/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import Likes from "../likes/Likes";
 import CommunityPostComment from "./Comment";
@@ -33,16 +32,7 @@ const CommunityDetailModal = ({
   onOpenChange,
   post_id,
 }: CommunityDetailProps) => {
-  const [isLike, setIsLike] = useState(false);
   const queryClient = useQueryClient();
-
-  const handleLikeOnClick = async () => {
-    if (!isLike) {
-      setIsLike((prev) => !prev);
-    } else if (isLike) {
-      setIsLike((prev) => !prev);
-    }
-  };
 
   // 게시글 정보 가져오기
   const {
