@@ -19,8 +19,8 @@ const Likes = ({ post_id }: { post_id: string }) => {
     }
   };
 
-  const handleRemoveLikeClick = (post_id: string) => {
-    removeLikeMutation.mutate(post_id);
+  const handleRemoveLikeClick = (user_uid: string) => {
+    removeLikeMutation.mutate(user_uid);
   };
 
   const getLength = (likeLength: number | undefined) => {
@@ -40,7 +40,7 @@ const Likes = ({ post_id }: { post_id: string }) => {
     <>
       {isLiked ? (
         <>
-          <button onClick={() => handleRemoveLikeClick(post_id)}>
+          <button onClick={() => handleRemoveLikeClick(user_uid)}>
             <FaHeart className="hover:cursor-pointer text-rose-600 text-[15px]" />
           </button>
           <span className="text-xs text-black">

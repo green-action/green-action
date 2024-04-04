@@ -25,8 +25,8 @@ const Bookmark = ({ action_id }: { action_id: string }) => {
       addBookmarkMutation.mutate({ user_uid, action_id });
     }
   };
-  const handleRemoveBookmarkClick = async (action_id: string) => {
-    removeBookmarkMutation.mutate(action_id);
+  const handleRemoveBookmarkClick = async (user_uid: string) => {
+    removeBookmarkMutation.mutate(user_uid);
   };
 
   const isBookmarked = filterBookmark?.filterBookmark?.find(
@@ -40,7 +40,7 @@ const Bookmark = ({ action_id }: { action_id: string }) => {
     <>
       {isBookmarked ? (
         <>
-          <button onClick={() => handleRemoveBookmarkClick(action_id)}>
+          <button onClick={() => handleRemoveBookmarkClick(user_uid)}>
             <FaStar className="text-amber-300 text-xl" />
           </button>
           <span>{filterBookmark?.filterBookmark?.length}</span>
