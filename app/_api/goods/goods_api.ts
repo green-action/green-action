@@ -16,7 +16,7 @@ export const getGoods = async () => {
 export const getPoint = async (id: string) => {
   try {
     const { data } = await supabase.from("users").select("point").eq("id", id);
-    return data;
+    return data![0];
   } catch (error) {
     console.error("Error : ", error);
     throw error;

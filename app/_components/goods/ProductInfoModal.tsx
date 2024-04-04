@@ -12,6 +12,8 @@ import { LuSearch } from "react-icons/lu";
 import { updatePoint } from "@/app/_api/goods/goods_api";
 import { useQueryUser } from "@/app/_hooks/useQueries/user";
 import { useUserPoint } from "@/app/_hooks/useQueries/goods";
+import { fetchUserInfo } from "@/app/_api/mypage/mypage-api";
+import { useFetchUserInfo } from "@/app/_hooks/useQueries/mypage";
 
 const ProductInfoModal = ({
   item,
@@ -33,12 +35,12 @@ const ProductInfoModal = ({
   const user_uid = user!.id;
   console.log("로그인한 유저 id : ", user_uid);
 
-  // users 테이블에서 로그인 한 유저의 point 가져오기
-  const { data: userPoint, isLoading, isError } = useUserPoint(user_uid);
-  console.log("user point : ", userPoint![0].point);
-  // const { point } = userPoint;
-  // console.log("user point : ", point);
-  const user_point = userPoint![0].point;
+  const { data: info, isLoading } = useFetchUserInfo(user_uid);
+  if (isLoading) {
+    return <div>로딩중</div>;
+  }
+  console.log("유저포인트 : ", info?.point);
+  const user_point = info!.point;
 
   const handleConfirmPurchase = async () => {
     // 유저의 포인트가 클릭한 아이템의 포인트보다 작으면 구매 불가
