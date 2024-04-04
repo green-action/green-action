@@ -6,7 +6,10 @@ import {
   insertImgUrls,
   uploadFilesAndGetUrls,
 } from "@/app/_api/individualAction-add/add-api";
-import { getActionForEdit } from "@/app/_api/individualAction-edit/edit-api";
+import {
+  getActionForEdit,
+  updateActionTextForm,
+} from "@/app/_api/individualAction-edit/edit-api";
 import { QUERY_KEY_INDIVIDUALACTION_FOR_EDIT } from "@/app/_api/queryKeys";
 import ImgUpload from "@/app/_components/individualAction-add/ImgUpload";
 import { useQuery } from "@tanstack/react-query";
@@ -19,14 +22,14 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
   const { id: action_id } = params;
 
-  // 페이지 접근시 action_id 정보 가져오기
+  // 페이지 접근시 action_id의 기존 데이터 가져오기
   const {
     data: originalActionData,
     isLoading,
     isError,
   } = useQuery({
     queryKey: [QUERY_KEY_INDIVIDUALACTION_FOR_EDIT],
-    // queryFn: () => getActionForEdit(action_id),
+    // 데이터 가져오면서 동시에 이미지url을 useState에 set
     queryFn: async () => {
       try {
         // getActionForEdit 함수 호출하여 데이터 가져오기
@@ -52,15 +55,8 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
   if (isError) {
     return <div>Error</div>;
   }
-  // console.log("originalActionData", originalActionData);
 
-  // console.log("uploadedFileUrls", uploadedFileUrls);
-
-  // 수정 완료시, 상세페이지로 이동
-  // 상세페이지에서 정보 불러오는 useQuery를 무효화??
-  // 페이지 이동할거니까 알아서 새로운 정보가 들어가려나?
-
-  // '등록완료' 클릭시
+  // '수정완료' 클릭시
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // 기본 제출 동작 방지
 
@@ -70,33 +66,24 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
       // 확인창 표시
       const isConfirmed = window.confirm("등록하시겠습니까?");
       if (isConfirmed) {
-        // 로그인한 user_uid 가져오기
-        const user = await getUser();
-        const currentUserUid = user?.user?.id;
-
-        // currentUserUid가 undefined인 경우 처리
-        if (!currentUserUid) {
-          return null;
-        }
-
-        // 1. user_uid와 텍스트 formData insert -> action_id 반환받기
-        const action_id = await insertActionTextForm({
+        // 1. action_id와 텍스트 formData 보내서 update
+        await updateActionTextForm({
+          action_id,
           formData,
-          currentUserUid,
         });
 
         // 2. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
-        const imgUrlsArray = await uploadFilesAndGetUrls({ files, action_id });
+        // const imgUrlsArray = await uploadFilesAndGetUrls({ files, action_id });
 
-        // 3. 이미지url들 table에 넣기 - action_id에 id사용
-        await insertImgUrls({ action_id, imgUrlsArray });
+        // // 3. 이미지url들 table에 넣기 - action_id에 id사용
+        // await insertImgUrls({ action_id, imgUrlsArray });
 
         // 입력값 초기화
         const target = event.target as HTMLFormElement;
         target.reset();
 
         // 확인을 클릭하면 action_id의 상세페이지로 이동
-        router.push(`individualAction/detail/${action_id}`);
+        router.push(`/individualAction/detail/${action_id}`);
       }
     } catch (error) {
       console.error("Error inserting data:", error);
