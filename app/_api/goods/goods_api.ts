@@ -38,7 +38,3 @@ export const updatePoint = async ({
     .update({ point: newPoint })
     .eq("id", id);
 };
-
-// export const getLoginUserInfo = async()=>{
-
-// }

@@ -3,11 +3,12 @@ import {
   useActionImages,
   useIndividualAction,
 } from "@/app/_hooks/useQueries/individualActions";
-import { useQueryUserMetadata } from "@/app/_hooks/useQueries/user";
 import { CircularProgress } from "@nextui-org/react";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import { useParams } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const DetailPage = () => {
   const { id: postId } = useParams<Params>();
@@ -49,7 +50,7 @@ const DetailPage = () => {
     <>
       <div>개인그린디테일page</div>
       <div className="flex flex-col w-[1200px] h-auto mx-auto m-5">
-        <div className="grid grid-cols-4 grid-rows-5 gap-4">
+        <div className="grid grid-cols-4 grid-rows-4 gap-4">
           <div className="col-span-1 row-span-1 border-2 border-gray-300 rounded-3xl">
             작성자 : {detail.users?.display_name}
             <hr />
@@ -71,17 +72,23 @@ const DetailPage = () => {
               참여하기
             </div>
           </div>
-          <div className="col-span-3 row-span-2 border-2 border-gray-300 rounded-3xl">
+          <div className="col-span-3 row-span-3 border-2 border-gray-300 rounded-3xl">
             <p>상세내용 : {detail.content}</p>
-            <div>
+
+            {/* 이미지 슬라이드 */}
+            <Carousel className="size-60">
               {imgUrl?.map((item) => {
-                return <img src={item.img_url} alt="green_action_image" />;
+                return (
+                  <div>
+                    <img src={item.img_url} alt="green_action_image" />
+                  </div>
+                );
               })}
-            </div>
+            </Carousel>
           </div>
 
           {/* <div className="col-span-1 row-span-1 border-2 border-gray-300 rounded-3xl">
-            5번
+            5번 카카오톡 공유 자리
           </div> */}
         </div>
       </div>
