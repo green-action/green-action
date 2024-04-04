@@ -1,4 +1,3 @@
-import { useQueryUser } from "@/app/_hooks/useQueries/user";
 import { CommunityPostObj } from "@/app/_types/community/community";
 import {
   Avatar,
@@ -24,9 +23,6 @@ const CommunityListPost = ({
   };
   // null인 경우 undefined로 변환해주는 과정 (null이면 src안에서 타입에러 발생)
   const imgSrc = profile_img || "";
-
-  const { data } = useQueryUser();
-  const user_uid = data?.user?.user_metadata.sub;
 
   return (
     <>
@@ -60,10 +56,7 @@ const CommunityListPost = ({
                 size="sm"
               >
                 <>
-                  <Likes
-                    post_id={communityPost?.id as string}
-                    user_uid={user_uid}
-                  />
+                  <Likes post_id={communityPost?.id as string} />
                 </>
               </Button>
             </div>

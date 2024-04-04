@@ -1,19 +1,17 @@
 import { useAddLike, useRemoveLike } from "@/app/_hooks/useMutations/bookmarks";
 import { useFilterLikes } from "@/app/_hooks/useQueries/bookmarks";
+import { useQueryUser } from "@/app/_hooks/useQueries/user";
 import { CircularProgress } from "@nextui-org/react";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 
-const Likes = ({
-  post_id,
-  user_uid,
-}: {
-  post_id: string;
-  user_uid: string;
-}) => {
+const Likes = ({ post_id }: { post_id: string }) => {
   const { data, isLoading } = useFilterLikes(post_id);
   const addLikeMutation = useAddLike();
   const removeLikeMutation = useRemoveLike();
+
+  const { data: users } = useQueryUser();
+  const user_uid = users?.user?.user_metadata.sub;
 
   const handleAddLikeClick = (user_uid: string, post_id: string) => {
     if (user_uid !== null) {

@@ -8,7 +8,6 @@ import {
   QEURY_KEY_COMMUNITY_COMMENTS_LIST,
   QUERY_KEY_COMMUNITY_POST,
 } from "@/app/_api/queryKeys";
-import { useQueryUser } from "@/app/_hooks/useQueries/user";
 import { CommunityDetailProps } from "@/app/_types/community/community";
 import { formatToLocaleDateString } from "@/utils/date/date";
 import {
@@ -84,15 +83,6 @@ const CommunityDetailModal = ({
       });
     },
   });
-
-  // 로그인한 user_uid 가져오기
-  const { data } = useQueryUser();
-  const user_uid = data?.user?.user_metadata.sub;
-
-  // currentUserUid가 undefined인 경우 처리
-  if (!user_uid) {
-    return null;
-  }
 
   if (postIsLoading || commentsIsLoading) {
     return <div>Loading...</div>;
@@ -175,7 +165,7 @@ const CommunityDetailModal = ({
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Likes post_id={post_id} user_uid={user_uid} />
+                      <Likes post_id={post_id} />
                     </div>
                   </div>
                   {/* 두번째 : 활동 내용 -> ...더보기 처리하기*/}
