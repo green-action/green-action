@@ -12,3 +12,5 @@ export const QUERY_KEY_COMMUNITY_POST = `communityPost`;
 export const QEURY_KEY_COMMUNITY_COMMENTS_LIST = `communityCommentsList`;
 export const QUERY_KEY_USER_INFO = `public_user_info`;
 export const QUERY_KEY_GREEN_ACTION_IMAGE = `green_action_images`;
+export const QUERY_KEY_ALLINDIVIDUALACTION = `allIndividual`;
+export const QUERY_KEY_GREEN_ACTION_ALLIMAGE = `allImages`;
