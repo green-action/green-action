@@ -70,7 +70,7 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
     return <div>Error</div>;
   }
 
-  console.log("files", files);
+  // console.log("files", files);
 
   // '수정완료' 클릭시
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
