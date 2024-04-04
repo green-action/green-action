@@ -1,3 +1,4 @@
+import { getUser } from "@/app/_api/auth";
 import {
   getCommunityCommentsList,
   insertCommunityComment,
@@ -23,10 +24,9 @@ import {
 } from "@nextui-org/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import { HiOutlineDotsVertical } from "react-icons/hi";
+import Likes from "../likes/Likes";
 import CommunityPostComment from "./Comment";
-import { getUser } from "@/app/_api/auth";
 
 const CommunityDetailModal = ({
   isOpen,
@@ -165,23 +165,7 @@ const CommunityDetailModal = ({
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
-                      {isLike ? (
-                        <>
-                          <FaHeart
-                            onClick={handleLikeOnClick}
-                            className="hover:cursor-pointer text-rose-600 text-[17px]"
-                          />
-                          <p className="text-xs text-black">3</p>
-                        </>
-                      ) : (
-                        <>
-                          <FaRegHeart
-                            onClick={handleLikeOnClick}
-                            className="hover:cursor-pointer text-rose-600 text-[17px]"
-                          />
-                          <p className="text-xs text-black">3</p>
-                        </>
-                      )}
+                      <Likes post_id={post_id} />
                     </div>
                   </div>
                   {/* 두번째 : 활동 내용 -> ...더보기 처리하기*/}
