@@ -15,7 +15,7 @@ export const useFilterBookmark = (action_id: string) => {
 
 export const useFilterLikes = (post_id: string) => {
   const { data, isLoading } = useQuery({
-    queryKey: [QUERY_KEY_LIKES],
+    queryKey: [QUERY_KEY_LIKES, post_id],
     queryFn: () => getFilterLikes(post_id),
   });
   return { data, isLoading };

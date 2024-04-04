@@ -7,7 +7,6 @@ import {
   CardFooter,
   useDisclosure,
 } from "@nextui-org/react";
-import { useState } from "react";
 import Likes from "../likes/Likes";
 import CommunityDetailModal from "./CommunityDetailModal";
 
@@ -16,7 +15,6 @@ const CommunityListPost = ({
 }: {
   communityPost: CommunityPostObj | undefined;
 }) => {
-  const [isLike, setIsLike] = useState(false);
   // 커뮤니티 디테일 모달창 props
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const post_id = communityPost?.id as string;
@@ -62,11 +60,10 @@ const CommunityListPost = ({
                 size="sm"
               >
                 <>
-                  {communityPost?.id &&
-                    Array.isArray(communityPost.id) &&
-                    communityPost.id.forEach((id) => {
-                      return <Likes post_id={id} user_uid={user_uid} />;
-                    })}
+                  <Likes
+                    post_id={communityPost?.id as string}
+                    user_uid={user_uid}
+                  />
                 </>
               </Button>
             </div>
