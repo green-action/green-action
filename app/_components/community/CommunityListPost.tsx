@@ -1,3 +1,4 @@
+import { useQueryUser } from "@/app/_hooks/useQueries/user";
 import { CommunityPostObj } from "@/app/_types/community/community";
 import {
   Avatar,
@@ -7,7 +8,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { useState } from "react";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+import Likes from "../likes/Likes";
 import CommunityDetailModal from "./CommunityDetailModal";
 
 const CommunityListPost = ({
@@ -26,13 +27,8 @@ const CommunityListPost = ({
   // null인 경우 undefined로 변환해주는 과정 (null이면 src안에서 타입에러 발생)
   const imgSrc = profile_img || "";
 
-  const handleLikeOnClick = async () => {
-    if (!isLike) {
-      setIsLike((prev) => !prev);
-    } else if (isLike) {
-      setIsLike((prev) => !prev);
-    }
-  };
+  const { data } = useQueryUser();
+  const user_uid = data?.user?.user_metadata.sub;
 
   return (
     <>
@@ -66,23 +62,11 @@ const CommunityListPost = ({
                 size="sm"
               >
                 <>
-                  {isLike ? (
-                    <>
-                      <FaHeart
-                        onClick={handleLikeOnClick}
-                        className="hover:cursor-pointer text-rose-600 text-[15px]"
-                      />
-                      <p className="text-xs text-black">3</p>
-                    </>
-                  ) : (
-                    <>
-                      <FaRegHeart
-                        onClick={handleLikeOnClick}
-                        className="hover:cursor-pointer text-rose-600 text-[15px]"
-                      />
-                      <p className="text-xs text-black">3</p>
-                    </>
-                  )}
+                  {communityPost?.id &&
+                    Array.isArray(communityPost.id) &&
+                    communityPost.id.forEach((id) => {
+                      return <Likes post_id={id} user_uid={user_uid} />;
+                    })}
                 </>
               </Button>
             </div>

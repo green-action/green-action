@@ -1,3 +1,4 @@
+import { getUser } from "@/app/_api/auth";
 import {
   getCommunityCommentsList,
   insertCommunityComment,
@@ -7,6 +8,7 @@ import {
   QEURY_KEY_COMMUNITY_COMMENTS_LIST,
   QUERY_KEY_COMMUNITY_POST,
 } from "@/app/_api/queryKeys";
+import { useQueryUser } from "@/app/_hooks/useQueries/user";
 import { CommunityDetailProps } from "@/app/_types/community/community";
 import { formatToLocaleDateString } from "@/utils/date/date";
 import {
@@ -23,10 +25,9 @@ import {
 } from "@nextui-org/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import { HiOutlineDotsVertical } from "react-icons/hi";
+import Likes from "../likes/Likes";
 import CommunityPostComment from "./Comment";
-import { getUser } from "@/app/_api/auth";
 
 const CommunityDetailModal = ({
   isOpen,
@@ -83,6 +84,15 @@ const CommunityDetailModal = ({
       });
     },
   });
+
+  // 로그인한 user_uid 가져오기
+  const { data } = useQueryUser();
+  const user_uid = data?.user?.user_metadata.sub;
+
+  // currentUserUid가 undefined인 경우 처리
+  if (!user_uid) {
+    return null;
+  }
 
   if (postIsLoading || commentsIsLoading) {
     return <div>Loading...</div>;
@@ -165,23 +175,7 @@ const CommunityDetailModal = ({
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
-                      {isLike ? (
-                        <>
-                          <FaHeart
-                            onClick={handleLikeOnClick}
-                            className="hover:cursor-pointer text-rose-600 text-[17px]"
-                          />
-                          <p className="text-xs text-black">3</p>
-                        </>
-                      ) : (
-                        <>
-                          <FaRegHeart
-                            onClick={handleLikeOnClick}
-                            className="hover:cursor-pointer text-rose-600 text-[17px]"
-                          />
-                          <p className="text-xs text-black">3</p>
-                        </>
-                      )}
+                      <Likes post_id={post_id} user_uid={user_uid} />
                     </div>
                   </div>
                   {/* 두번째 : 활동 내용 -> ...더보기 처리하기*/}
