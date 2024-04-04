@@ -8,6 +8,7 @@ const ImgEdit = ({
   setUploadedFileUrls,
   deleteFileIds,
   setDeleteFileIds,
+  files,
   setFiles,
 }: ImgUploadProps) => {
   // 이미지 미리보기 띄우기
@@ -22,7 +23,13 @@ const ImgEdit = ({
   };
 
   // 미리보기 이미지 삭제
-  const handleDeleteImage = (index: number) => {
+  const handleDeleteImage = (index: number, deletedId: string) => {
+    // deletedId가 null이 아닌 경우 id를 배열에 추가
+    if (deletedId) {
+      setDeleteFileIds((prev) => {
+        return [...prev, deletedId];
+      });
+    }
     setUploadedFileUrls((prev) => {
       const updatedUrls = [...prev];
       updatedUrls.splice(index, 1);
@@ -52,7 +59,9 @@ const ImgEdit = ({
                   className="w-full h-full rounded-3xl object-cover"
                 />
                 <button
-                  onClick={() => handleDeleteImage(index)}
+                  onClick={() =>
+                    handleDeleteImage(index, uploadedFileUrls[index].id)
+                  }
                   color="default"
                   className="absolute top-1 right-3 w-4"
                 >

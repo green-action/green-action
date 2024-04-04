@@ -1,5 +1,6 @@
 "use client";
 
+import { uploadFilesAndGetUrls } from "@/app/_api/individualAction-add/add-api";
 import {
   getActionForEdit,
   updateActionTextForm,
@@ -32,9 +33,8 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
         const data = await getActionForEdit(action_id);
 
         // uploadedFileUrls에 {id: img_id, img_url: img_url} 객체 배열을 set하기
-        const idsAndUrls = [...data.green_action_images];
-        setUploadedFileUrls(idsAndUrls);
-        console.log("uploadedFileUrls", uploadedFileUrls);
+        const idsAndUrlsObjArray = [...data.green_action_images];
+        setUploadedFileUrls(idsAndUrlsObjArray);
 
         // 가져온 데이터 반환
         return data;
@@ -59,7 +59,7 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
 
     try {
       // 확인창 표시
-      const isConfirmed = window.confirm("등록하시겠습니까?");
+      const isConfirmed = window.confirm("수정하시겠습니까?");
       if (isConfirmed) {
         // 1. action_id와 텍스트 formData 보내서 update
         await updateActionTextForm({
@@ -68,7 +68,8 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
         });
 
         // 2. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
-        // const imgUrlsArray = await uploadFilesAndGetUrls({ files, action_id });
+        const imgUrlsArray = await uploadFilesAndGetUrls({ files, action_id });
+        console.log("imgUrlsArray", imgUrlsArray);
 
         // (1) 이미지 삭제처리 : 무슨 이미지를 삭제해야 하는지를 알아야 함 ==> deleteFileUrls 여기서 가져오면 ㄷ
         // (2) 이미지 추가처리
@@ -83,7 +84,7 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
         target.reset();
 
         // 확인을 클릭하면 action_id의 상세페이지로 이동
-        router.push(`/individualAction/detail/${action_id}`);
+        // router.push(`/individualAction/detail/${action_id}`);
       }
     } catch (error) {
       console.error("Error inserting data:", error);
