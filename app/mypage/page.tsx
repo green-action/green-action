@@ -1,36 +1,17 @@
 "use client";
 // 되면 ssr로 두고 client 컴포는 따로 빼보기
 
-import { supabase } from "@/utils/supabase/client";
 import {
-  Avatar,
   Button,
   Card,
   CardBody,
-  CardFooter,
   CardHeader,
   Chip,
   CircularProgress,
-  Modal,
-  ModalContent,
-  ModalHeader,
   Select,
   SelectItem,
-  Tooltip,
-  useDisclosure,
 } from "@nextui-org/react";
-import { HiOutlinePlus } from "react-icons/hi2";
-import { TfiPencil } from "react-icons/tfi";
-import { GoPerson } from "react-icons/go";
-import { BsPerson } from "react-icons/bs";
-import { FaRegStar } from "react-icons/fa";
-import { IoIosCalendar } from "react-icons/io";
-import { GrLocation } from "react-icons/gr";
-import pointQuestion from "@/app/_assets/question_circle.png";
 import React, { useState } from "react";
-import Image from "next/image";
-import { useQuery } from "@tanstack/react-query";
-import { formatToLocaleDateString } from "@/utils/date/date";
 import { useAuthStore } from "../_store/authStore";
 import MyProfile from "../_components/mypage/MyProfile";
 import { useQueryUserMetadata } from "../_hooks/useQueries/user";
@@ -42,6 +23,7 @@ import {
 import CustomConfirm from "../_components/customConfirm/CustomConfirm";
 import MyActionCard from "../_components/mypage/MyActionCard";
 
+// 로그인 안 한 상태에서 접근 차단할 것
 const MyPage = () => {
   const user_uid = "ed71fea7-2892-4769-b7d0-1f8ba330c213";
   // 임시 유저 아이디 설정
@@ -187,7 +169,7 @@ const MyPage = () => {
               filteredActions?.map((action) => {
                 return <MyActionCard action={action} />;
               })}
-            {/* 내가 쓴 커뮤니티 글 */}
+            {/* LINK 내가 쓴 커뮤니티 글 */}
             {clicked === "myCommunityPosts" &&
               myPosts?.map((post) => {
                 return (
@@ -209,7 +191,7 @@ const MyPage = () => {
                   </Card>
                 );
               })}
-            {/* 찜한 Green Action */}
+            {/* LINK 찜한 Green Action */}
             {clicked === "bookmarkedActions" &&
               myBookmarks?.map((bookmark) => {
                 return (

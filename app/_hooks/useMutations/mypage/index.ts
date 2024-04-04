@@ -1,8 +1,8 @@
+import { updateActionRecruiting } from "@/app/_api/mypage/mypage-list-api";
 import {
-  updateActionRecruiting,
   updateUserIntro,
   updateUserName,
-} from "@/app/_api/mypage/mypage-api";
+} from "@/app/_api/mypage/mypage-profile-api";
 import {
   QUERY_KEY_MY_INDIVIDUALACTION,
   QUERY_KEY_USER_INFO,

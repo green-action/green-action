@@ -7,28 +7,15 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
-  Chip,
   CircularProgress,
-  Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
   Tooltip,
-  useDisclosure,
 } from "@nextui-org/react";
 import { HiOutlinePlus } from "react-icons/hi2";
-import { TfiPencil } from "react-icons/tfi";
-import { IoIosCamera } from "react-icons/io";
 import pointQuestion from "@/app/_assets/question_circle.png";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useAuthStore } from "@/app/_store/authStore";
-import {
-  useUpdateUserIntro,
-  useUpdateUserName,
-} from "@/app/_hooks/useMutations/mypage";
+import { useUpdateUserIntro } from "@/app/_hooks/useMutations/mypage";
 import { User } from "@/app/_types";
 import { useFetchUserInfo } from "@/app/_hooks/useQueries/mypage";
 import MyProfileEditModal from "./MyProfileEditModal";
@@ -37,11 +24,9 @@ const MyProfile = ({ user_uid }: { user_uid: string }) => {
   // const { user } = useAuthStore();
   // const { display_name, email, introduction, point, profile_img } =
   //   user as User;
-  console.log(user_uid);
+  // console.log(user_uid);
 
-  const { data, isLoading } = useFetchUserInfo(
-    "ed71fea7-2892-4769-b7d0-1f8ba330c213",
-  );
+  const { data, isLoading } = useFetchUserInfo(user_uid);
   // useEffect(() => {
   //   const { data, isLoading } = useFetchUserInfo(
   //     "ed71fea7-2892-4769-b7d0-1f8ba330c213",
@@ -52,17 +37,10 @@ const MyProfile = ({ user_uid }: { user_uid: string }) => {
   const { display_name, email, introduction, point, profile_img } =
     (data as User) || "";
 
-  // console.log(display_name);
-
-  // const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
-
   const [isIntroEditing, setIsIntroEditing] = useState<boolean>(false);
   const [editedIntro, setEditedIntro] = useState<string>(introduction); // 초기값 기존 intro
 
-  const { updateIntro } = useUpdateUserIntro(
-    "ed71fea7-2892-4769-b7d0-1f8ba330c213", // user_uid
-    editedIntro,
-  );
+  const { updateIntro } = useUpdateUserIntro(user_uid, editedIntro);
 
   const handleEditIntroClick = () => {
     setIsIntroEditing(true);
@@ -113,6 +91,7 @@ const MyProfile = ({ user_uid }: { user_uid: string }) => {
           </div>
           <div className="flex items-end pb-2">
             <MyProfileEditModal
+              user_uid={user_uid}
               display_name={display_name}
               profile_img={profile_img || ""}
             />
@@ -153,65 +132,6 @@ const MyProfile = ({ user_uid }: { user_uid: string }) => {
           )}
         </CardBody>
       </Card>
-
-      {/* SECTION - 모달
-      <Modal
-        isOpen={isOpen}
-        onClose={handleModalClose}
-        onOpenChange={onOpenChange}
-      >
-        <ModalContent>
-          {(onClose) => (
-            //   NOTE 모달
-            <div className="p-5 flex flex-col items-center">
-              <form
-                className="flex flex-col gap-5 items-center justify-center"
-                onSubmit={handleEditProfileSubmit}
-              >
-                <ModalHeader>
-                  <p className="text-lg">Profile</p>
-                </ModalHeader>
-                <div className="flex flex-col items-center gap-5">
-                  <p className="text-[0.8rem] text-gray-600">
-                    나중에 언제든지 변경할 수 있습니다.
-                  </p>
-                  <Avatar
-                    showFallback
-                    src={profile_img || ""}
-                    className="w-[8rem] h-[8rem]"
-                  />
-                  <IoIosCamera size="35" />
-                  <label htmlFor="user-display-name">사용자 이름</label>
-                  <Input
-                    type="text"
-                    label="사용자 이름"
-                    value={editedName}
-                    defaultValue={display_name}
-                    onChange={(e) => {
-                      handleDisplayNameChange(e);
-                    }}
-                    id="User Display Name"
-                    className="rounded"
-                    placeholder="2 ~ 10자 이내"
-                    maxLength={10}
-                    minLength={2}
-                    isRequired
-                    variant="flat"
-                  />
-                </div>
-                <ModalFooter>
-                  <Button color="danger" variant="light" onPress={onClose}>
-                    Close
-                  </Button>
-                  <Button type="submit" color="success">
-                    작성완료
-                  </Button>
-                </ModalFooter>
-              </form>
-            </div>
-          )}
-        </ModalContent>
-      </Modal> */}
 
       <Card className="">
         <CardHeader className="mb-[-1.5rem]">
