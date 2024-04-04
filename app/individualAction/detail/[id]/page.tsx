@@ -1,4 +1,5 @@
 "use client";
+import KakaoShareButton from "@/app/_components/kakaoShare/KakaoShare";
 import {
   useActionImages,
   useIndividualAction,
@@ -7,6 +8,8 @@ import { CircularProgress } from "@nextui-org/react";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import { useParams } from "next/navigation";
 import React from "react";
+import { FaRegCalendar } from "react-icons/fa";
+import { LuMapPin } from "react-icons/lu";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
@@ -58,10 +61,14 @@ const DetailPage = () => {
           </div>
           <div className="col-span-3 row-span-1 border-2 border-gray-300 rounded-3xl">
             <p>제목 : {detail.title}</p>
-            <p>
-              날짜 : {detail.start_date} ~ {detail.end_date}
-            </p>
-            <p>장소 : {detail.location}</p>
+            <div className=" border-gray-300 divide-y">
+              <FaRegCalendar className="float-left mr-3" />
+              <p>
+                날짜&nbsp;&nbsp; {detail.start_date} ~ {detail.end_date}
+              </p>
+              <LuMapPin className="float-left mr-3" />
+              <p>장소&nbsp;&nbsp; {detail.location}</p>
+            </div>
           </div>
 
           <div className="col-span-1 row-span-1">
@@ -87,9 +94,10 @@ const DetailPage = () => {
             </Carousel>
           </div>
 
-          {/* <div className="col-span-1 row-span-1 border-2 border-gray-300 rounded-3xl">
-            5번 카카오톡 공유 자리
-          </div> */}
+          <div className="col-span-1 row-span-1 border-2 border-gray-300 rounded-3xl">
+            {/* 5번 카카오톡 공유 자리 */}
+            <KakaoShareButton description={detail.content!} />
+          </div>
         </div>
       </div>
     </>

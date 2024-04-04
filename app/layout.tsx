@@ -2,6 +2,7 @@ import { GeistSans } from "geist/font/sans";
 import QueryProvider from "./Provider";
 import "./globals.css";
 import Header from "./_components/Header";
+import Script from "next/script";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -12,6 +13,12 @@ export const metadata = {
   title: "Green-Action",
   description: "The fastest way to build apps with Next.js and Supabase",
 };
+
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
 
 export default function RootLayout({
   children,
@@ -31,6 +38,10 @@ export default function RootLayout({
           </main>
         </QueryProvider>
       </body>
+      <Script
+        src="https://developers.kakao.com/sdk/js/kakao.js"
+        strategy="afterInteractive"
+      />
     </html>
   );
 }
