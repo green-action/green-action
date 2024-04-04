@@ -31,6 +31,7 @@ import {
 } from "@/app/_hooks/useMutations/mypage";
 import { User } from "@/app/_types";
 import { useFetchUserInfo } from "@/app/_hooks/useQueries/mypage";
+import MyProfileEditModal from "./MyProfileEditModal";
 
 const MyProfile = ({ user_uid }: { user_uid: string }) => {
   // const { user } = useAuthStore();
@@ -47,16 +48,15 @@ const MyProfile = ({ user_uid }: { user_uid: string }) => {
   //   );
   // }, [data]);
 
-  console.log(data);
+  // console.log(data);
   const { display_name, email, introduction, point, profile_img } =
     (data as User) || "";
 
-  console.log(display_name);
+  // console.log(display_name);
 
-  const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
+  // const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
 
   const [isIntroEditing, setIsIntroEditing] = useState<boolean>(false);
-  const [editedName, setEditedName] = useState<string>(display_name); // 초기값 닉네임 떴다가 안떴다가 함
   const [editedIntro, setEditedIntro] = useState<string>(introduction); // 초기값 기존 intro
 
   const { updateIntro } = useUpdateUserIntro(
@@ -64,21 +64,8 @@ const MyProfile = ({ user_uid }: { user_uid: string }) => {
     editedIntro,
   );
 
-  const { updateName } = useUpdateUserName(
-    "ed71fea7-2892-4769-b7d0-1f8ba330c213", // user_uid
-    editedName,
-  );
-
-  const handleEditProfileClick = () => {
-    onOpen();
-  };
-
   const handleEditIntroClick = () => {
     setIsIntroEditing(true);
-  };
-
-  const handleModalClose = () => {
-    setEditedName(display_name);
   };
 
   // 자기소개 등록 취소
@@ -94,26 +81,10 @@ const MyProfile = ({ user_uid }: { user_uid: string }) => {
     setIsIntroEditing(false);
   };
 
-  const handleDisplayNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEditedName(e.target.value);
-  };
-
   const handleEditedIntroChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
     setEditedIntro(e.target.value);
-  };
-
-  // 모달 - 작성완료
-  const handleEditProfileSubmit = async (
-    e: React.FormEvent<HTMLFormElement>,
-  ) => {
-    e.preventDefault();
-    if (!editedName.trim()) {
-      return alert("닉네임을 입력해주세요."); //바꾸기
-    }
-    await updateName();
-    onClose();
   };
 
   if (isLoading) {
@@ -135,16 +106,15 @@ const MyProfile = ({ user_uid }: { user_uid: string }) => {
               className="w-[4.5rem] h-[4.5rem]"
             />
             <div className="flex flex-col gap-[0.1rem] w-[9rem] overflow-hidden whitespace-nowrap overflow-ellipsis">
-              <p className="font-bold">{display_name}</p>
+              <p className="font-bold text-sm">{display_name}</p>
               <p className="text-[0.7rem]">{email}</p>
               <p className="text-sm font-bold">Greener</p>
             </div>
           </div>
           <div className="flex items-end pb-2">
-            <TfiPencil
-              color="gray"
-              onClick={handleEditProfileClick}
-              className="cursor-pointer"
+            <MyProfileEditModal
+              display_name={display_name}
+              profile_img={profile_img || ""}
             />
           </div>
         </div>
@@ -184,7 +154,7 @@ const MyProfile = ({ user_uid }: { user_uid: string }) => {
         </CardBody>
       </Card>
 
-      {/* SECTION - 모달 */}
+      {/* SECTION - 모달
       <Modal
         isOpen={isOpen}
         onClose={handleModalClose}
@@ -241,7 +211,7 @@ const MyProfile = ({ user_uid }: { user_uid: string }) => {
             </div>
           )}
         </ModalContent>
-      </Modal>
+      </Modal> */}
 
       <Card className="">
         <CardHeader className="mb-[-1.5rem]">
