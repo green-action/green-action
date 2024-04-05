@@ -173,7 +173,7 @@ const CommunityDetailModal = ({
                   {/* 첫 줄 - 개인과 함께해요, 게시글 제목, 좋아요버튼 */}
                   <div className="flex justify-between mb-2 ">
                     <div className="flex gap-2 items-center">
-                      <p className=" rounded-full border-1 border-gray-300 text-xs p-0.5 px-4 w-[110px]">
+                      <p className=" rounded-full border-1 border-gray-300 text-xs text-center p-0.5 px-4 mr-0.5 w-[120px]">
                         {communityPost?.action_type}과 함께해요
                       </p>
                       <p className="text-[13px] font-semibold">
