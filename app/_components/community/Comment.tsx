@@ -1,14 +1,19 @@
 import { useQueryUser } from "@/app/_hooks/useQueries/user";
 import { CommentProps } from "@/app/_types/community/community";
 import { Avatar } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
 
 const CommunityPostComment = ({ comment }: { comment: CommentProps }) => {
+  // 현재 로그인한 유저 uid
+  const session = useSession();
+  const loggedInUserUid = session.data?.user.user_uid || "";
+
   // 댓글 작성자 정보 가져오기
   const { display_name, profile_img } = comment?.users || {
     display_name: null,
     profile_img: null,
   };
-  // null인 경우 undefined로 변환해주는 과정 (null이면 src안에서 타입에러 발생)
+
   // profile_img가 null인 경우 undefined로 변환해주는 과정 (null이면 src안에서 타입에러 발생)
   const imgSrc = profile_img || "";
 
@@ -30,7 +35,7 @@ const CommunityPostComment = ({ comment }: { comment: CommentProps }) => {
           </div>
         </div>
         <div className="flex items-center">
-          {comment.user_uid === user_uid && (
+          {comment.user_uid === loggedInUserUid && (
             <>
               <button className="text-xs font-light w-[30px] h-1/4 text-center">
                 수정

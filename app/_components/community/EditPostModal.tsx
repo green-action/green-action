@@ -26,7 +26,6 @@ import {
 } from "@nextui-org/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
-import { LuPencilLine } from "react-icons/lu";
 
 interface EditPostProps {
   isOpen: boolean;
