@@ -37,7 +37,6 @@ const Login = () => {
         password,
         redirect: false,
       });
-      console.log(response);
 
       onOpen();
     } catch (error) {
