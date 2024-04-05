@@ -42,10 +42,6 @@ const handler = NextAuth({
   ],
   callbacks: {
     async session({ session, token }) {
-      console.log("---------------------------");
-      console.log("session의 정보 => ", session);
-      console.log("token의 정보 => ", token);
-      console.log("---------------------------");
       session.user.user_uid = token.sub ?? "";
       return session;
     },

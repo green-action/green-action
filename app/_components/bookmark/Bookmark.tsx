@@ -4,8 +4,8 @@ import {
   useRemoveBookmark,
 } from "@/app/_hooks/useMutations/bookmarks";
 import { useFilterBookmark } from "@/app/_hooks/useQueries/bookmarks";
-import { useQueryUser } from "@/app/_hooks/useQueries/user";
 import { CircularProgress } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
 import { CiStar } from "react-icons/ci";
 import { FaStar } from "react-icons/fa";
 
@@ -14,17 +14,18 @@ const Bookmark = ({ action_id }: { action_id: string }) => {
 
   const addBookmarkMutation = useAddBookmark();
   const removeBookmarkMutation = useRemoveBookmark();
-  const { data: users } = useQueryUser();
-  const user_uid = users?.user?.user_metadata.sub;
+  const session = useSession();
+  const user_uid = session.data?.user.user_uid as string;
 
   const handleAddBookmarkClick = async (
     user_uid: string,
     action_id: string,
   ) => {
+    if (user_uid === null || user_uid === undefined) {
+      return;
+    }
     if (user_uid !== null) {
       addBookmarkMutation.mutate({ user_uid, action_id });
-    } else {
-      return;
     }
   };
   const handleRemoveBookmarkClick = async (user_uid: string) => {
