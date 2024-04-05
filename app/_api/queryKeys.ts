@@ -17,3 +17,4 @@ export const QUERY_KEY_COMMUNITY_POSTS_LIKES = `community_posts_likes`;
 export const QUERY_KEY_INDIV_ACTIONS_BOOKMARKS = `individual_actions_bookmarks`;
 export const QUERY_KEY_INDIVIDUALACTION_FOR_EDIT = `individual_action_for_edit`;
 export const QUERY_KEY_INDIVIDUALACTION_IMAGE_FILES = `individual_action_image_files`;
+export const QUERY_KEY_COMMUNITY_POST_FOR_EDIT = `community_post_for_edit`;

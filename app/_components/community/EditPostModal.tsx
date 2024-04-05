@@ -5,7 +5,11 @@ import {
   insertCommunityPostFormData,
   uploadFileAndGetUrl,
 } from "@/app/_api/community/community-api";
-import { QUERY_KEY_COMMUNITYLIST } from "@/app/_api/queryKeys";
+import { getSinglePostForEdit } from "@/app/_api/community/communityEdit-api";
+import {
+  QUERY_KEY_COMMUNITYLIST,
+  QUERY_KEY_COMMUNITY_POST_FOR_EDIT,
+} from "@/app/_api/queryKeys";
 import { CommunityPostMutation } from "@/app/_types/community/community";
 import {
   Button,
@@ -21,7 +25,7 @@ import {
   Selection,
   useDisclosure,
 } from "@nextui-org/react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { LuPencilLine } from "react-icons/lu";
 
@@ -43,10 +47,30 @@ const EditPostModal = ({
     new Set(["Green-action 선택하기"]),
   );
 
-  const [uploadedFileUrl, setUploadedFileUrl] = useState<string>("");
+  const [uploadedFileUrl, setUploadedFileUrl] = useState<string | null>("");
   const [file, setFile] = useState<File | undefined | null>(null);
 
   const queryClient = useQueryClient();
+
+  // post_id 데이터 가져오기 + 이미지url 바로 set하기
+  const {
+    data: singlePostForEdit,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: [QUERY_KEY_COMMUNITY_POST_FOR_EDIT],
+    queryFn: async () => {
+      try {
+        const data = await getSinglePostForEdit(post_id);
+        setUploadedFileUrl(data.img_url);
+        return data;
+      } catch (error) {}
+    },
+  });
+
+  // '수정완료' 클릭시 - 상세모달창 정보 무효화
+
+  // 기존 - addPostModal
 
   // 게시글 등록 mutation - communityList 쿼리키 무효화
   const { mutate: insertFormDataMutation } = useMutation({
@@ -158,9 +182,11 @@ const EditPostModal = ({
                         <button
                           onClick={handleDeleteImage}
                           color="default"
-                          className="absolute top-1 right-3 w-4"
+                          className="absolute top-2 right-3 w-5 h-5 p-0 bg-gray-300 rounded-full"
                         >
-                          x
+                          <span className="absolute text-sm top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                            x
+                          </span>
                         </button>
                       </div>
                     ) : (
@@ -229,6 +255,7 @@ const EditPostModal = ({
                         type="text"
                         id="activityTitle"
                         name="activityTitle"
+                        defaultValue={singlePostForEdit?.title || ""}
                         required
                         className="w-10/12 h-[30px] mx-4 pr-4 bg-inherit focus:outline-none text-sm text-gray-400"
                       />
@@ -244,6 +271,7 @@ const EditPostModal = ({
                       <textarea
                         id="activityDescription"
                         name="activityDescription"
+                        defaultValue={singlePostForEdit?.content || ""}
                         required
                         className="resize-none w-10/12 h-[100px] mx-4 mt-2 pr-4 bg-inherit focus:outline-none text-sm text-gray-400"
                       />
@@ -265,7 +293,7 @@ const EditPostModal = ({
                   onPress={onClose}
                   className="rounded-full !w-[110px] h-[27px]"
                 >
-                  작성완료
+                  수정완료
                 </Button>
               </ModalFooter>
             </form>
