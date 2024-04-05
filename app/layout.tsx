@@ -1,7 +1,8 @@
 import { GeistSans } from "geist/font/sans";
 import QueryProvider from "./Provider";
 import "./globals.css";
-import Header from "./_components/Header";
+import Header from "./_components/layout/Header";
+import Footer from "./_components/layout/Footer";
 import Script from "next/script";
 
 const defaultUrl = process.env.VERCEL_URL

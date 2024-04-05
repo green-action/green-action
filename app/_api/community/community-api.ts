@@ -91,6 +91,25 @@ export const insertCommunityPostFormData = async ({
   }
 };
 
+// 커뮤니티 글 삭제하기
+export const deleteCommunityPost = async (post_id: string) => {
+  try {
+    const { data, error } = await supabase
+      .from("community_posts")
+      .delete()
+      .eq("id", post_id);
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error inserting data:", error);
+    throw error;
+  }
+};
+
 // post_id로 커뮤니티 상세모달창 정보 가져오기 - 작성자 정보도 함께
 export const getPostContents = async (post_id: string) => {
   try {

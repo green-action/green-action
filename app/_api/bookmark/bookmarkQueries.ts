@@ -25,18 +25,18 @@ export const addBookmark = async ({
   return data;
 };
 
-export const removeBookmark = async (action_id: string) => {
+export const removeBookmark = async (user_uid: string) => {
   const { error } = await supabase
     .from("bookmarks")
     .delete()
-    .eq(action_id, action_id);
+    .eq("user_uid", user_uid);
 };
 
 export const getFilterLikes = async (post_id: string) => {
-  let { data: likes, error } = await supabase
+  const { data: likes, error } = await supabase
     .from("likes")
     .select("*")
-    .eq(post_id, post_id);
+    .eq("post_id", post_id);
   if (error) {
     throw new Error(error?.message || "에러가 발생했습니다.");
   }
@@ -60,6 +60,9 @@ export const addLikes = async ({
   return data;
 };
 
-export const removeLike = async (post_id: string) => {
-  const { error } = await supabase.from("likes").delete().eq(post_id, post_id);
+export const removeLike = async (user_uid: string) => {
+  const { error } = await supabase
+    .from("likes")
+    .delete()
+    .eq("user_uid", user_uid);
 };
