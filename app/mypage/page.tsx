@@ -11,10 +11,8 @@ import {
   Select,
   SelectItem,
 } from "@nextui-org/react";
-import React, { useState } from "react";
-import { useAuthStore } from "../_store/authStore";
+import React, { useEffect, useState } from "react";
 import MyProfile from "../_components/mypage/MyProfile";
-import { useQueryUserMetadata } from "../_hooks/useQueries/user";
 import {
   useFetchMyGreenActions,
   usefetchBookmarkedActions,
@@ -22,22 +20,62 @@ import {
 } from "../_hooks/useQueries/mypage";
 import CustomConfirm from "../_components/customConfirm/CustomConfirm";
 import MyActionCard from "../_components/mypage/MyActionCard";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 // 로그인 안 한 상태에서 접근 차단할 것
 const MyPage = () => {
-  const user_uid = "ed71fea7-2892-4769-b7d0-1f8ba330c213";
+  // TODO props 타입등 재설정
+  // FIXME 유저닉네임 수정 다시 봐야
+  // FIXME 찜한 action 다시 안뜨는 문제
+  // const user_uid = "2c81257f-e4d9-41d8-ad65-3745da3d3b2f";
   // 임시 유저 아이디 설정
+  const router = useRouter();
+  const session = useSession();
+  const isLoggedIn = !!session.data;
+  const user_uid = session?.data?.user.user_uid || "";
+  // let user_uid = "";
+  // 새로고침 시 로그인이 잠시 풀림
+  // if (!isLoggedIn) {
+  //   alert("로그인 해주세요!");
+  //   router.replace("/");
+  // }
+  // const session = useSession();
+  // console.log("🐰 ~ MyPage ~ session : ", session);
+  // const user_uid = session?.data?.user.user_uid || "";
 
-  // FIXME 새로고침 시 로그인상태에서도 userUid가 사라지는 문제
-  // const { user } = useAuthStore();
-  // const user_uid = user?.id || "";
-  // console.log(user_uid);
+  // useEffect(() => {
+  //   const fetchSession = async () => {
+  //     // const session = useSession(); // 여기에 쓰면 invalid hook call
+  //     const isLoggedIn = await !!session.data;
+  //     user_uid = session?.data?.user.user_uid || "";
+  //     if (!isLoggedIn) {
+  //       alert("로그인 해주세요!");
+  //       router.replace("/");
+  //     }
+  //   };
+  //   fetchSession();
+  // }, [user_uid]);
 
-  // NOTE zustand 말고 로그인상태관리, uid - localstroage 사용해보기,
-  const { userMetadata, isLoading } = useQueryUserMetadata();
-  // const user_uid = userMetadata?.id;
+  // FIXME 새로고침 시 로그인 풀리는 문제
+  const checkUserLogin = () => {
+    const isLoggedIn = !!session.data;
+    const user_uid = session?.data?.user.user_uid || "";
+    if (!isLoggedIn) {
+      alert("로그인 해주세요!");
+      router.replace("/");
+    }
+    return user_uid;
+  };
 
-  const [clicked, setClicked] = useState<string>("myGreenAction");
+  // 안됨
+  useEffect(() => {
+    checkUserLogin();
+  }, [isLoggedIn]);
+
+  // const user_uid = fetchSession();
+
+  const [activeTab, setActiveTab] = useState("My Green-Action");
 
   // TODO: 리스트 순서? - created at 기준
   // TODO: 이미지 여러장일 경우? - 첫 한 장만
@@ -46,7 +84,6 @@ const MyPage = () => {
   const { data: myActions, isLoading: isActionsLoading } =
     useFetchMyGreenActions(user_uid);
 
-  // 처음에 myActons 전체 안뜨는 문제
   const [filteredActions, setFilteredActions] = useState(myActions);
 
   const { data: myPosts, isLoading: isPostsLoading } =
@@ -55,16 +92,20 @@ const MyPage = () => {
   const { data: myBookmarks, isLoading: isBookmarksLoading } =
     usefetchBookmarkedActions(user_uid);
 
-  const handleMyGreenActionClick = () => {
-    setClicked("myGreenAction");
-  };
+  // 처음에 데이터 렌더링 안되는 문제 -> 해결 : activeTab은 의존성배열 필요 x
+  // 의존성 배열 myActions (리쿼로 초기에 가져오는 데이터) 넣는게 중요!
+  useEffect(() => {
+    setFilteredActions(myActions);
+  }, [myActions]);
 
-  const handleMyCommunityPostsClick = () => {
-    setClicked("myCommunityPosts");
-  };
-
-  const handleBookmarkedActionClick = () => {
-    setClicked("bookmarkedActions");
+  const handleActiveTabClick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
+    const target = e.target as HTMLLIElement;
+    const textContent = target.textContent;
+    if (textContent) {
+      setActiveTab(textContent);
+    }
   };
 
   const handleAllRecruitingCategory = () => {
@@ -79,7 +120,7 @@ const MyPage = () => {
     setFilteredActions(myActions?.filter((action) => !action.is_recruiting));
   };
 
-  if (isLoading || isActionsLoading || isPostsLoading || isBookmarksLoading) {
+  if (isActionsLoading || isPostsLoading || isBookmarksLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
         <CircularProgress color="success" label="Loading..." />
@@ -88,7 +129,7 @@ const MyPage = () => {
   }
 
   return (
-    <div className="flex justify-center mt-10">
+    <div className="flex justify-center pt-12">
       {/* <CustomConfirm
         text="안녕"
         buttonName="버튼"
@@ -102,34 +143,34 @@ const MyPage = () => {
               <Button
                 radius="full"
                 size="md"
-                onClick={handleMyGreenActionClick}
-                className={clicked === "myGreenAction" ? "bg-green-700/30" : ""}
+                onClick={handleActiveTabClick}
+                className={
+                  activeTab === "My Green-Action" ? "bg-green-700/30" : ""
+                }
               >
                 My Green-Action
               </Button>
               <Button
                 radius="full"
                 size="md"
-                onClick={handleMyCommunityPostsClick}
-                className={
-                  clicked === "myCommunityPosts" ? "bg-green-700/30" : ""
-                }
+                onClick={handleActiveTabClick}
+                className={activeTab === "작성 게시물" ? "bg-green-700/30" : ""}
               >
                 작성 게시물
               </Button>
               <Button
                 radius="full"
                 size="md"
-                onClick={handleBookmarkedActionClick}
+                onClick={handleActiveTabClick}
                 className={
-                  clicked === "bookmarkedActions" ? "bg-green-700/30" : ""
+                  activeTab === "찜한 Green-Action" ? "bg-green-700/30" : ""
                 }
               >
                 찜한 Green-Action
               </Button>
             </div>
             <div className="mr-5">
-              {clicked === "myGreenAction" && (
+              {activeTab === "My Green-Action" && (
                 // || clicked === "bookmarkedActions")  - 찜한 action 분류는 보류
                 <Select
                   aria-label="Select a state of recruiting"
@@ -167,15 +208,14 @@ const MyPage = () => {
               )}
             </div>
           </div>
-
           <div className="flex flex-wrap gap-7">
             {/* LINK My Green Action */}
-            {clicked === "myGreenAction" &&
+            {activeTab === "My Green-Action" &&
               filteredActions?.map((action) => {
-                return <MyActionCard action={action} />;
+                return <MyActionCard action={action} mode="mypost" />;
               })}
             {/* LINK 내가 쓴 커뮤니티 글 */}
-            {clicked === "myCommunityPosts" &&
+            {activeTab === "작성 게시물" &&
               myPosts?.map((post) => {
                 return (
                   <Card key={post.id} className="w-[20rem]">
@@ -185,7 +225,7 @@ const MyPage = () => {
                         alt="post-img"
                         width={250}
                         height={250}
-                      ></img>
+                      />
                     </CardHeader>
                     <CardBody>
                       <p>{post.title}</p>
@@ -197,42 +237,9 @@ const MyPage = () => {
                 );
               })}
             {/* LINK 찜한 Green Action */}
-            {clicked === "bookmarkedActions" &&
+            {activeTab === "찜한 Green-Action" &&
               myBookmarks?.map((bookmark) => {
-                return (
-                  <Card
-                    key={bookmark.bookmarkedAction?.id}
-                    className="w-[20rem]"
-                  >
-                    <CardHeader>
-                      <img
-                        src={
-                          bookmark.bookmarkedAction?.actionImgUrls[0]
-                            ?.img_url || ""
-                        }
-                        alt="action-img"
-                        width={250}
-                        height={250}
-                      ></img>
-                    </CardHeader>
-                    <CardBody>
-                      <p>{bookmark.bookmarkedAction?.title}</p>
-                      <p>{bookmark.bookmarkedAction?.location}</p>
-                      <p>
-                        모집인원 : {bookmark.bookmarkedAction?.recruit_number}
-                      </p>
-                      <p>
-                        북마크 :
-                        {bookmark.bookmarkedAction?.actionBookmarks.length}
-                      </p>
-                      <Chip>
-                        {bookmark.bookmarkedAction?.is_recruiting
-                          ? "모집중"
-                          : "모집마감"}
-                      </Chip>
-                    </CardBody>
-                  </Card>
-                );
+                return <MyActionCard action={bookmark} mode="bookmark" />;
               })}
           </div>
         </div>
