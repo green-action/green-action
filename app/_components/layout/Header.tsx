@@ -27,6 +27,8 @@ import { useQueryUser } from "../../_hooks/useQueries/user";
 function Header() {
   const { data: session, isLoading: sessionIsLoading } = useQueryUser();
   const isLoggedIn = session?.user ? true : false;
+  // true;
+
   // useEffect로 하면 새로고침할때마다 유저데이터 불러오기전엔 false 값이떠서 로그아웃시UI가 잠깐씩 보이는데 해결방법은없는지..
   // 로컬스토리지, 세션스토리지
   // 로그인을 하면 supabase에서 토큰이랑 유저정보를 로컬스토리지에 제공하는데 이걸 어떻게 처리해야되는지..
@@ -155,7 +157,7 @@ function Header() {
               onMouseLeave={() => {
                 setIsOpen(false);
               }}
-              className="flex justify-center absolute mt-[2rem] mr-[36rem] w-[20rem] p-[1rem] text-[11pt] font-bold text-neutral-600"
+              className="flex justify-center absolute mt-[2rem] mr-[27rem] w-[20rem] p-[1rem] text-[11pt] font-bold text-neutral-600"
             >
               <div className="flex gap-5 mt-3 px-2 py-0 items-center justify-center w-full h-[2.5rem] rounded-full bg-gray-200">
                 <Link
@@ -296,7 +298,7 @@ function Header() {
             </Dropdown>
           </>
         ) : (
-          <div className="flex gap-10 w-[20rem]">
+          <div className="flex ml-[3rem] gap-14 w-[20rem]">
             <Link href={"/signup"}>Sign up</Link>
             <Link href={"/login"}>Log in</Link>
           </div>
