@@ -55,6 +55,12 @@ const MainPage = () => {
         <div className="flex flex-col items-center gap-[5rem]">
           <Chip size="lg">Community Hot Posts</Chip>
           <div className="flex flex-wrap gap-8">
+            <div className="w-full flex justify-end">
+              <Link
+                href={`/community`}
+                className="text-gray-500 text-sm"
+              >{`전체보기 > `}</Link>
+            </div>
             {/* nextUI 카드 */}
             {communityPostsByLikes?.map((communityPost) => (
               <CommunityListPost
