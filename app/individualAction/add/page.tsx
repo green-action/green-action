@@ -25,6 +25,11 @@ const AddActionPage = () => {
       // 확인창 표시
       const isConfirmed = window.confirm("등록하시겠습니까?");
       if (isConfirmed) {
+        if (!files.length) {
+          alert("사진은 필수값입니다.");
+          return;
+        }
+
         // 로그인한 user_uid 가져오기
         const user = await getUser();
         const currentUserUid = user?.user?.id;
