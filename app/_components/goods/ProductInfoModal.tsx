@@ -1,25 +1,21 @@
-import React, { useState } from "react";
+import { updatePoint } from "@/app/_api/goods/goods_api";
+import { useFetchUserInfo } from "@/app/_hooks/useQueries/mypage";
+import { useQueryUser } from "@/app/_hooks/useQueries/user";
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
+import { useState } from "react";
 import { LuSearch } from "react-icons/lu";
-import { updatePoint } from "@/app/_api/goods/goods_api";
-import { useQueryUser } from "@/app/_hooks/useQueries/user";
-import { useUserPoint } from "@/app/_hooks/useQueries/goods";
-import { fetchUserInfo } from "@/app/_api/mypage/mypage-api";
-import { useFetchUserInfo } from "@/app/_hooks/useQueries/mypage";
 // import { useUpdateUserPoint } from "@/app/_hooks/useMutations/goods";
+import { QUERY_KEY_USER_INFO } from "@/app/_api/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  QUERY_KEY_USER_INFO,
-  QUERY_KEY_USER_POINT,
-} from "@/app/_api/queryKeys";
+import { useSession } from "next-auth/react";
 
 const ProductInfoModal = ({
   item,
@@ -53,6 +49,9 @@ const ProductInfoModal = ({
   });
 
   // auth에서 로그인한 유저 id 가져오기
+  const session = useSession();
+  console.log("session => ", session);
+
   const { data } = useQueryUser();
   const user = data?.user;
   const user_uid = user!.id;
@@ -66,7 +65,7 @@ const ProductInfoModal = ({
     return <div>로딩중</div>;
   }
   console.log("유저포인트 : ", info?.point);
-  const user_point = info!.point;
+  const user_point = info!.point ?? 0;
 
   const handleConfirmPurchase = async () => {
     // 유저의 포인트가 클릭한 아이템의 포인트보다 작으면 구매 불가
