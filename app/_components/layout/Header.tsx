@@ -94,7 +94,7 @@ function Header() {
         <Link href={"/"}>LOGO</Link>
       </NavbarBrand>
       <NavbarContent>
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center text-[18px]">
           {/* <Dropdown
             isOpen={isOpen}
             // className="absolute top-[5rem] left-[30rem]   "
@@ -128,12 +128,12 @@ function Header() {
             // onSelectionChange={setSelected}
             // key="md"
             selectedKey={parentSelected || pathname} // 선택된 부모 탭의 키 또는 경로 사용
-            size="md"
+            // size="md"
             radius="full"
             aria-label="Options"
-            color="primary"
+            color="default"
             variant="light"
-            className="flex justify-center " // 여기에서 w넓이로 gap 넓힐 수 없고, m,gap 으로도 안됨
+            className="flex justify-center rounded-full bg-gray-200/50 text-[18px]" // 여기에서 w넓이로 gap 넓힐 수 없고, m,gap 으로도 안됨
             // onSelectionChange={(value: any) => {
             //   console.log("The value is", value);
             //   router.push(value);
@@ -243,10 +243,9 @@ function Header() {
               onMouseLeave={() => {
                 setIsOpen(false);
               }}
-              className="flex gap-4 absolute mt-[5rem] mr-14 w-[20rem] p-[1rem] border-solid border-gray-300 rounded-2xl bg-[#616162]/10 "
+              className="flex justify-center absolute mt-[5rem] mr-14 w-[25rem] p-[1rem]"
               //  #f4f4f5 #616162
             >
-              {" "}
               {/* <Listbox
                 className="absolute"
                 aria-label="Actions"
@@ -255,13 +254,20 @@ function Header() {
                 <ListboxItem key="new">New file</ListboxItem>
                 <ListboxItem key="new">New file</ListboxItem>
               </Listbox> */}
-              <Link
-                href={"/individualAction"}
-                className="rounded-xl hover:bg-gray-100"
-              >
-                개인과 함께해요
-              </Link>
-              <Link href={"/groupAction"}>단체와 함께해요</Link>
+              <div className="flex gap-10 mt-6 px-2 py-1 items-center justify-center w-full h-[3rem] rounded-full bg-gray-200/50">
+                <Link
+                  href={"/individualAction"}
+                  className="rounded-full px-2 py-1 hover:bg-default-300/90 w-[10rem] text-center"
+                >
+                  개인과 함께해요
+                </Link>
+                <Link
+                  href={"/groupAction"}
+                  className="rounded-full px-2 py-1 hover:bg-default-300/90 w-[10rem] text-center"
+                >
+                  단체와 함께해요
+                </Link>
+              </div>
             </div>
           )}
         </div>
