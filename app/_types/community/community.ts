@@ -39,6 +39,6 @@ export interface CommentProps {
 
 export interface InsertComment {
   content: string;
-  currentUserUid: string;
+  loggedInUserUid: string;
   post_id: string;
 }

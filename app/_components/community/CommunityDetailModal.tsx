@@ -32,12 +32,17 @@ import { HiOutlineDotsVertical } from "react-icons/hi";
 import Likes from "../likes/Likes";
 import CommunityPostComment from "./Comment";
 import EditPostModal from "./EditPostModal";
+import { useSession } from "next-auth/react";
 
 const CommunityDetailModal = ({
   isOpen,
   onOpenChange,
   post_id,
 }: CommunityDetailProps) => {
+  // 현재 로그인한 유저 uid
+  const session = useSession();
+  const loggedInUserUid = session.data?.user.user_uid || "";
+
   // 게시글 수정 모달창 open여부
   const {
     isOpen: isEditOpen,
@@ -80,14 +85,14 @@ const CommunityDetailModal = ({
   const { mutate: insertCommentMutation } = useMutation({
     mutationFn: async ({
       content,
-      currentUserUid,
+      loggedInUserUid,
       post_id,
     }: {
       content: string;
-      currentUserUid: string;
+      loggedInUserUid: string;
       post_id: string;
     }) => {
-      await insertCommunityComment({ content, currentUserUid, post_id });
+      await insertCommunityComment({ content, loggedInUserUid, post_id });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -131,18 +136,9 @@ const CommunityDetailModal = ({
     try {
       const isConfirm = window.confirm("등록하시겠습니까?");
       if (isConfirm) {
-        // 로그인한 유저의 user_uid 가져오기
-        const user = await getUser();
-        const currentUserUid = user?.user?.id;
-
-        // currentUserUid가 undefined인 경우 처리
-        if (!currentUserUid) {
-          return null;
-        }
-
         const formData = new FormData(e.target as HTMLFormElement);
         const content = formData.get("comment") as string;
-        insertCommentMutation({ content, currentUserUid, post_id });
+        insertCommentMutation({ content, loggedInUserUid, post_id });
 
         (e.target as HTMLFormElement).reset();
       }
