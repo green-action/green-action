@@ -21,19 +21,8 @@ import { useFetchUserInfo } from "@/app/_hooks/useQueries/mypage";
 import MyProfileEditModal from "./MyProfileEditModal";
 
 const MyProfile = ({ user_uid }: { user_uid: string }) => {
-  // const { user } = useAuthStore();
-  // const { display_name, email, introduction, point, profile_img } =
-  //   user as User;
-  // console.log(user_uid);
-
   const { data, isLoading } = useFetchUserInfo(user_uid);
-  // useEffect(() => {
-  //   const { data, isLoading } = useFetchUserInfo(
-  //     "ed71fea7-2892-4769-b7d0-1f8ba330c213",
-  //   );
-  // }, [data]);
 
-  // console.log(data);
   const { display_name, email, introduction, point, profile_img } =
     (data as User) || "";
 
