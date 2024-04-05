@@ -52,7 +52,7 @@ const EditPostModal = ({
 
   const queryClient = useQueryClient();
 
-  // post_id 데이터 가져오기 + 이미지url 바로 set하기
+  // post_id 데이터 가져오기 + 이미지url 바로 set하기, action_type set하기
   const {
     data: singlePostForEdit,
     isLoading,
@@ -63,6 +63,10 @@ const EditPostModal = ({
       try {
         const data = await getSinglePostForEdit(post_id);
         setUploadedFileUrl(data.img_url);
+        if (data.action_type === "개인") {
+          setSelectedKeys(["개인과 함께해요"]);
+        }
+        setSelectedKeys(["단체와 함께해요"]);
         return data;
       } catch (error) {}
     },
