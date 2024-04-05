@@ -18,6 +18,7 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
 }) => {
   const freezeLayerRef = useRef<HTMLDivElement>(null);
   const dialogContRef = useRef<HTMLDivElement>(null);
+  const dialogBodyRef = useRef<HTMLDivElement>(null);
 
   const customConfirm = {
     callback: () => {},
@@ -26,7 +27,7 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
       if (dialogContRef.current) {
         dialogContRef.current.style.top = "50%";
         dialogContRef.current.style.opacity = "1";
-        const digBody = dialogContRef.current.querySelector("#digBody");
+        const digBody = dialogBodyRef.current;
         if (digBody) {
           digBody.textContent = msg;
         }
@@ -80,7 +81,7 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
       >
         <div className="p-[10px] py-[20px] font-bold bg-[#575757] text-[#f6f7f8]"></div>
         <div
-          id="digBody"
+          ref={dialogBodyRef}
           className="p-[10px] py-[30px] leading-7 bg-white text-center"
         >
           {text}
