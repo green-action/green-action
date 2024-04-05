@@ -137,13 +137,6 @@ const EditPostModal = ({
 
   return (
     <>
-      {/* 글쓰기 버튼 */}
-      <Button
-        className="fixed z-50 bottom-16 right-16 rounded-full w-20 h-20 bg-gray-300 flex items-center justify-center"
-        onPress={onOpen}
-      >
-        <LuPencilLine className="w-8 h-8" />
-      </Button>
       {/* 게시글 글쓰기 모달창 */}
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent className="h-[600px]">

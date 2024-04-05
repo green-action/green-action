@@ -192,31 +192,33 @@ const CommunityDetailModal = ({
                   {/* 세번째 줄 : 작성일, dot 드롭다운 -> dot은 내가 쓴 글 일 때만 보이게 */}
                   <div className="flex justify-between items-end ">
                     <p className="text-[11px]">{formattedDate}</p>
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button className="bg-transparent mb-1 !p-0 mx-0 h-[12px] flex justify-end">
-                          <HiOutlineDotsVertical className="cursor-pointer" />
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu aria-label="Static Actions">
-                        <DropdownItem
-                          key="수정"
-                          onClick={() => {
-                            onEditOpen();
-                          }}
-                        >
-                          수정
-                        </DropdownItem>
-                        <DropdownItem
-                          key="삭제"
-                          className="text-danger"
-                          color="danger"
-                          onClick={handleDeletePost}
-                        >
-                          삭제
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
+                    {loggedInUserUid === communityPost?.user_uid && (
+                      <Dropdown>
+                        <DropdownTrigger>
+                          <Button className="bg-transparent mb-1 !p-0 mx-0 h-[12px] flex justify-end">
+                            <HiOutlineDotsVertical className="cursor-pointer" />
+                          </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu aria-label="Static Actions">
+                          <DropdownItem
+                            key="수정"
+                            onClick={() => {
+                              onEditOpen();
+                            }}
+                          >
+                            수정
+                          </DropdownItem>
+                          <DropdownItem
+                            key="삭제"
+                            className="text-danger"
+                            color="danger"
+                            onClick={handleDeletePost}
+                          >
+                            삭제
+                          </DropdownItem>
+                        </DropdownMenu>
+                      </Dropdown>
+                    )}
                   </div>
                   <hr className="mb-1" />
                   {/* 댓글 전체 wrapper */}
