@@ -21,13 +21,13 @@ export const getCommunityCommentsList = async (post_id: string) => {
 // 댓글 insert
 export const insertCommunityComment = async ({
   content,
-  currentUserUid,
+  loggedInUserUid,
   post_id,
 }: InsertComment) => {
   try {
     const { error } = await supabase
       .from("community_comments")
-      .insert([{ content, post_id, user_uid: currentUserUid }]);
+      .insert([{ content, post_id, user_uid: loggedInUserUid }]);
 
     if (error) {
       throw error;

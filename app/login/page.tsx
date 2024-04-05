@@ -13,7 +13,6 @@ import {
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { useAuthStore } from "../_store/authStore";
 
 const Login = () => {
   // const { login } = useAuthStore();
