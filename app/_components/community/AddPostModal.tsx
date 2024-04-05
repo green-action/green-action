@@ -1,6 +1,5 @@
 "use client";
 
-import { getUser } from "@/app/_api/auth";
 import {
   insertCommunityPostFormData,
   uploadFileAndGetUrl,
@@ -95,6 +94,11 @@ const AddPostModal = () => {
       // 확인창 표시
       const isConfirmed = window.confirm("작성하시겠습니까?");
       if (isConfirmed) {
+        if (!file) {
+          alert("사진은 필수값입니다.");
+          return;
+        }
+
         // 이미지 스토리지 업로드 후 url 반환받기
         const imgUrl = await uploadFileAndGetUrl(file);
 
