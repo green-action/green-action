@@ -24,17 +24,18 @@ export const getPoint = async (id: string) => {
 };
 
 export const updatePoint = async ({
-  id,
-  newPoint,
+  user_uid,
+  updatedPoint,
 }: {
-  id: string;
-  newPoint: number;
+  user_uid: string;
+  updatedPoint: number;
 }) => {
-  // const { data, error } = await supabase.auth.updateUser({
-  //   data: { point: newPoint },
-  // });
   const { data, error } = await supabase
     .from("users")
-    .update({ point: newPoint })
-    .eq("id", id);
+    .update({ point: updatedPoint })
+    .eq("id", user_uid);
+
+  if (error) {
+    throw new Error("Failed to update user point");
+  }
 };
