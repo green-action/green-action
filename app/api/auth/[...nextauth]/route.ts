@@ -40,7 +40,12 @@ const handler = NextAuth({
       },
     }),
   ],
-
+  callbacks: {
+    async session({ session, token }) {
+      session.user.user_uid = token.sub ?? "";
+      return session;
+    },
+  },
   pages: {
     signIn: "/login",
   },

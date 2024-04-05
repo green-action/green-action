@@ -198,10 +198,7 @@ const CommunityDetailModal = ({
                     <p className="text-[11px]">{formattedDate}</p>
                     <Dropdown>
                       <DropdownTrigger>
-                        <Button
-                          className="bg-transparent mb-1 !p-0 mx-0 h-[12px] "
-                          style={{ width: "2px" }}
-                        >
+                        <Button className="bg-transparent mb-1 !p-0 mx-0 h-[12px] flex justify-end">
                           <HiOutlineDotsVertical className="cursor-pointer" />
                         </Button>
                       </DropdownTrigger>
