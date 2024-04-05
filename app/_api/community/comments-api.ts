@@ -37,3 +37,22 @@ export const insertCommunityComment = async ({
     throw error;
   }
 };
+
+// 댓글 삭제
+export const deleteCommentPost = async (comment_id: string) => {
+  try {
+    const { data, error } = await supabase
+      .from("community_comments")
+      .delete()
+      .eq("id", comment_id);
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error inserting data:", error);
+    throw error;
+  }
+};
