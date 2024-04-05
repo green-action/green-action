@@ -89,7 +89,7 @@ function Header() {
   return (
     <Navbar
       // shouldHideOnScroll 11rem
-      className="w-full flex items-center justify-start h-[7rem] pt-10  text-[11pt]  bg-gray-200"
+      className="w-full flex items-center justify-start h-[7rem] pt-10  text-[11pt]  bg-[#EBEBEB]"
       // gap 등으로 조정 안돼서 margin 하드코딩으로 위치 조정
     >
       <NavbarBrand className="ml-[7rem] mr-[33%]">
@@ -159,10 +159,10 @@ function Header() {
               }}
               className="flex justify-center absolute mt-[2rem] mr-[27rem] w-[20rem] p-[1rem] text-[11pt] font-bold text-neutral-600"
             >
-              <div className="flex gap-5 mt-3 px-2 py-0 items-center justify-center w-full h-[2.5rem] rounded-full bg-gray-200">
+              <div className="flex gap-5 mt-3 px-2 py-0 items-center justify-center w-full h-[2.5rem] rounded-full bg-[#EBEBEB]">
                 <Link
                   href={"/individualAction"}
-                  className={`rounded-full px-2 py-1 hover:bg-default-300/90 w-[10rem] text-center  ${
+                  className={`rounded-full px-2 py-1 hover:bg-white/60 w-[10rem] text-center  ${
                     childSelected === "/individualAction" && "bg-default-300/90"
                   }`}
                   onClick={() => handleChildTabSelect("/individualAction")}
@@ -171,7 +171,7 @@ function Header() {
                 </Link>
                 <Link
                   href={"/groupAction"}
-                  className={`rounded-full px-2 py-1 hover:bg-default-300/90 w-[10rem] text-center ${
+                  className={`rounded-full px-2 py-1 hover:bg-white/60 w-[10rem] text-center ${
                     childSelected === "/groupAction" && "bg-default-300/90"
                   }`}
                   onClick={() => handleChildTabSelect("/groupAction")}
