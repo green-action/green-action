@@ -56,11 +56,6 @@ export const uploadFileAndGetUrl = async (file: File) => {
     }
     // 파일이 없는 경우
     return null;
-
-    // file 없으면 - url없이 텍스트 formData만 update
-
-    // post_id 해당 id찾아서 ->
-    // formData update하는 로직 (url은 있으면 넣고 없으면 말고)
   } catch (error) {
     console.error(error);
     throw error;

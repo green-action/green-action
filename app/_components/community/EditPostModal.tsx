@@ -71,8 +71,6 @@ const EditPostModal = ({
     },
   });
 
-  // 로직 til 정리, 커뮤니티 리스트 쿼리키도 같이 무효화하고싶음, api 더 간단하게 정리, 모달창 상세&수정 둘다 안움직이게 만들기
-
   // 게시글 수정 mutation - 상세모달창 정보 무효화
   const { mutate: updatePostMutation } = useMutation({
     mutationFn: ({ post_id, imgUrl, formData }: CommunityEditMutation) =>
@@ -87,15 +85,6 @@ const EditPostModal = ({
       });
     },
   });
-
-  // '수정완료' 클릭시 - 상세모달창 정보 무효화
-  // QUERY_KEY_COMMUNITY_POST
-
-  // api 인자 -> post_id, formData, file (post_id 일치하는 행에서 작업)
-  // file이 있으면 -> 스토리지 업로드, getUrl, 테이블에 업데이트 + 텍스트form 업데이트
-  // file이 없으면 -> 이미지는 업데이트 필요 없고, 텍스트form만 업데이트
-
-  // 사진 없는채로는 수정, 등록 안되게 만들기
 
   // 이미지 미리보기 띄우기
   const handleShowPreview = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -125,6 +114,8 @@ const EditPostModal = ({
     event.preventDefault();
 
     const formData = new FormData(event.target as HTMLFormElement);
+    // 드롭다운에서 선택한 값을 formData에 추가
+    formData.append("action_type", Array.from(selectedKeys).join(", "));
 
     try {
       const isConfirmed = window.confirm("수정하시겠습니까?");
