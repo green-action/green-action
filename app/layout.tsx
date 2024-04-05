@@ -37,6 +37,7 @@ export default function RootLayout({
             {children}
             {modal}
           </main>
+          <Footer />
         </QueryProvider>
       </body>
       <Script

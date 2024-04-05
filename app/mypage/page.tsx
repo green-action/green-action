@@ -89,11 +89,11 @@ const MyPage = () => {
 
   return (
     <div className="flex justify-center mt-10">
-      <CustomConfirm
+      {/* <CustomConfirm
         text="안녕"
         buttonName="버튼"
         okFunction={() => setFilteredActions}
-      />
+      /> */}
       <div className="flex w-[1400px]">
         <MyProfile user_uid={user_uid} />
         <div className="flex flex-col gap-10 pl-10 pt-1 w-full">
@@ -236,7 +236,6 @@ const MyPage = () => {
               })}
           </div>
         </div>
-        c
       </div>
     </div>
   );
