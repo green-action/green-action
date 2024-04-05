@@ -1,6 +1,6 @@
+import { useQueryUser } from "@/app/_hooks/useQueries/user";
 import { CommentProps } from "@/app/_types/community/community";
 import { Avatar } from "@nextui-org/react";
-import React from "react";
 
 const CommunityPostComment = ({ comment }: { comment: CommentProps }) => {
   // 댓글 작성자 정보 가져오기
@@ -8,12 +8,16 @@ const CommunityPostComment = ({ comment }: { comment: CommentProps }) => {
     display_name: null,
     profile_img: null,
   };
+  // null인 경우 undefined로 변환해주는 과정 (null이면 src안에서 타입에러 발생)
   // profile_img가 null인 경우 undefined로 변환해주는 과정 (null이면 src안에서 타입에러 발생)
   const imgSrc = profile_img || "";
 
+  const { data: users } = useQueryUser();
+  const user_uid = users?.user?.user_metadata.sub;
+
   return (
     <>
-      <div className="flex justify-between">
+      <div className="flex justify-between" key={comment.id}>
         <div className="flex w-[90%] mx-auto mb-4">
           <Avatar
             showFallback
@@ -26,12 +30,16 @@ const CommunityPostComment = ({ comment }: { comment: CommentProps }) => {
           </div>
         </div>
         <div className="flex items-center">
-          <button className="text-xs font-light w-[30px] h-1/4 text-center">
-            수정
-          </button>
-          <button className="text-xs font-light w-[30px] h-1/4 text-center">
-            삭제
-          </button>
+          {comment.user_uid === user_uid && (
+            <>
+              <button className="text-xs font-light w-[30px] h-1/4 text-center">
+                수정
+              </button>
+              <button className="text-xs font-light w-[30px] h-1/4 text-center">
+                삭제
+              </button>
+            </>
+          )}
         </div>
       </div>
     </>

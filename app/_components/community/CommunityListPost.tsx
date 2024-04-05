@@ -1,13 +1,8 @@
 import { CommunityPostObj } from "@/app/_types/community/community";
-import {
-  Avatar,
-  Button,
-  Card,
-  CardFooter,
-  useDisclosure,
-} from "@nextui-org/react";
+import { Avatar, Card, CardFooter, useDisclosure } from "@nextui-org/react";
 import Likes from "../likes/Likes";
 import CommunityDetailModal from "./CommunityDetailModal";
+import { longStyle } from "./style";
 
 const CommunityListPost = ({
   communityPost,
@@ -50,15 +45,9 @@ const CommunityListPost = ({
               </p>
             </div>
             <div className="flex items-center">
-              <Button
-                className="text-white bg-transparent !p-0"
-                radius="lg"
-                size="sm"
-              >
-                <>
-                  <Likes post_id={communityPost?.id as string} />
-                </>
-              </Button>
+              <div className={longStyle}>
+                <Likes post_id={communityPost?.id as string} />
+              </div>
             </div>
           </CardFooter>
         </Card>
