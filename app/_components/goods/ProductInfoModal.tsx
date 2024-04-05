@@ -11,7 +11,10 @@ import {
 } from "@nextui-org/react";
 import { useState } from "react";
 import { LuSearch } from "react-icons/lu";
-import { QUERY_KEY_USER_INFO } from "@/app/_api/queryKeys";
+import {
+  QUERY_KEY_USER_INFO,
+  QUERY_KEY_USER_POINT,
+} from "@/app/_api/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUserPoint } from "@/app/_hooks/useQueries/goods";
 
@@ -49,7 +52,7 @@ const ProductInfoModal = ({
       updatedPoint: number;
     }) => updatePoint({ loggedInUserUid, updatedPoint }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_USER_INFO] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_USER_POINT] });
     },
     onError: () => {
       alert("처리에 오류가 발생했습니다. 다시 시도해주세요.");
@@ -69,7 +72,6 @@ const ProductInfoModal = ({
       pointMutation({ loggedInUserUid, updatedPoint });
 
       alert(`구매 성공! : 남은 포인트 ${updatedPoint}P`);
-      console.log("구매후포인트", user_point);
       setConfirmModalOpen(false);
       onClose();
     } catch (error) {
