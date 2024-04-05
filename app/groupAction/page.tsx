@@ -1,5 +1,5 @@
 "use client";
-import { CircularProgress, Image } from "@nextui-org/react";
+import { Card, CircularProgress, Image } from "@nextui-org/react";
 import GroupModal from "../_components/groupAction/GroupModal";
 import { useGroupAction } from "../_hooks/useQueries/groupAction";
 
@@ -22,13 +22,16 @@ const groupActionPage = () => {
       {groupGreenActions.map((action) => {
         return (
           <div className="flex flex-col gap-3 relative" key={action.id}>
-            <div className="w-[150px] max-w-64 h-[200px] max-h-96 m-auto">
+            <Card className="w-[150px] max-w-64 h-[200px] max-h-96 m-auto">
               <Image
-                className="w-full h-full inline-block"
+                shadow="sm"
+                radius="lg"
+                width="100%"
+                className="w-full object-cover h-full"
                 src={action.img_url}
                 alt="campaign Img"
               />
-            </div>
+            </Card>
             <h2>캠페인 명 : {action.title}</h2>
             <GroupModal action={action} />
           </div>

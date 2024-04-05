@@ -185,6 +185,7 @@ export type Database = {
       };
       group_green_actions: {
         Row: {
+          action_url: string;
           content: string | null;
           hosted_by: string | null;
           id: string;
@@ -192,6 +193,7 @@ export type Database = {
           title: string | null;
         };
         Insert: {
+          action_url?: string | null;
           content?: string | null;
           hosted_by?: string | null;
           id?: string;
@@ -199,6 +201,7 @@ export type Database = {
           title?: string | null;
         };
         Update: {
+          action_url?: string;
           content?: string | null;
           hosted_by?: string | null;
           id?: string;

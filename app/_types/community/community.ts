@@ -15,6 +15,12 @@ export interface CommunityPostMutation {
   currentUserUid: string;
 }
 
+export interface CommunityEditMutation {
+  post_id: string;
+  imgUrl: string | null;
+  formData: FormData;
+}
+
 export interface CommunityDetailProps {
   isOpen: boolean;
   onOpen: () => void;
