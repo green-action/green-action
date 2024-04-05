@@ -64,15 +64,22 @@ const EditPostModal = ({
         const data = await getSinglePostForEdit(post_id);
         setUploadedFileUrl(data.img_url);
         if (data.action_type === "개인") {
-          setSelectedKeys(["개인과 함께해요"]);
+          setSelectedKeys(new Set(["개인과 함께해요"]));
         }
-        setSelectedKeys(["단체와 함께해요"]);
+        setSelectedKeys(new Set(["단체와 함께해요"]));
         return data;
       } catch (error) {}
     },
   });
 
   // '수정완료' 클릭시 - 상세모달창 정보 무효화
+  // QUERY_KEY_COMMUNITY_POST
+
+  // api 인자 -> post_id, formData, file (post_id 일치하는 행에서 작업)
+  // file이 있으면 -> 스토리지 업로드, getUrl, 테이블에 업데이트 + 텍스트form 업데이트
+  // file이 없으면 -> 이미지는 업데이트 필요 없고, 텍스트form만 업데이트
+
+  // 사진 없는채로는 수정, 등록 안되게 만들기
 
   // 기존 - addPostModal
 
@@ -113,44 +120,38 @@ const EditPostModal = ({
     [selectedKeys],
   );
 
-  // '작성완료' 클릭시
+  // '수정완료' 클릭시
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // 로그인한 user_uid 가져오기
-    const user = await getUser();
-    const currentUserUid = user?.user?.id;
+    const url = await uploadFileAndGetUrl(file);
+    console.log("url", url);
+    return url;
 
-    // currentUserUid가 undefined인 경우 처리
-    if (!currentUserUid) {
-      return null;
-    }
+    // const formData = new FormData(event.target as HTMLFormElement);
+    // // 드롭다운에서 선택한 값을 formData에 추가
+    // formData.append("action_type", Array.from(selectedKeys).join(", "));
 
-    const formData = new FormData(event.target as HTMLFormElement);
-    // 드롭다운에서 선택한 값을 formData에 추가
-    formData.append("action_type", Array.from(selectedKeys).join(", "));
+    // try {
+    //   // 확인창 표시
+    //   const isConfirmed = window.confirm("작성하시겠습니까?");
+    //   if (isConfirmed) {
+    //     // 이미지 스토리지 업로드 후 url 반환받기
+    //     const imgUrl = await uploadFileAndGetUrl(file);
 
-    try {
-      // 확인창 표시
-      const isConfirmed = window.confirm("작성하시겠습니까?");
-      if (isConfirmed) {
-        // 이미지 스토리지 업로드 후 url 반환받기
-        const imgUrl = await uploadFileAndGetUrl(file);
+    //     // url이 존재하면 formData에 append
+    //     if (imgUrl) {
+    //       formData.append("image_url", imgUrl);
+    //     }
 
-        // url이 존재하면 formData에 append
-        if (imgUrl) {
-          formData.append("image_url", imgUrl);
-        }
-
-        // formData(텍스트, 이미지url) insert
-        insertFormDataMutation({
-          formData,
-          currentUserUid,
-        });
-      }
-    } catch (error) {
-      console.error("Error inserting data:", error);
-    }
+    //     // formData(텍스트, 이미지url) insert
+    //     insertFormDataMutation({
+    //       formData
+    //     });
+    //   }
+    // } catch (error) {
+    //   console.error("Error inserting data:", error);
+    // }
   };
 
   return (
