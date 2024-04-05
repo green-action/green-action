@@ -18,29 +18,31 @@ const CommunityPostComment = ({ comment }: { comment: CommentProps }) => {
 
   return (
     <>
-      <div className="flex justify-between" key={comment.id}>
-        <div className="flex w-[90%] mx-auto mb-4">
+      <div className="flex justify-between " key={comment.id}>
+        <div className="flex w-[90%] mx-auto mb-4 ">
           <Avatar
             showFallback
             src={imgSrc}
             className="mr-2 w-[20px] h-[20px] rounded-full"
           />
-          <div className="flex flex-col justify-between">
-            <p className="text-xs mt-1 mb-1">{display_name} Greener</p>
-            <p className="text-xs text-gray-500">{comment.content}</p>
+          <div className="flex w-full justify-between">
+            <div className="flex flex-col justify-between">
+              <p className="text-xs mt-0.5 mb-1">{display_name} Greener</p>
+              <p className="text-xs text-gray-500">{comment.content}</p>
+            </div>
+            <div className="flex items-center">
+              {comment.user_uid === loggedInUserUid && (
+                <div className="flex">
+                  <button className="text-xs font-light w-[30px] h-1/4 text-center">
+                    수정
+                  </button>
+                  <button className="text-xs font-light w-[30px] h-1/4 text-center">
+                    삭제
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-        <div className="flex items-center">
-          {comment.user_uid === loggedInUserUid && (
-            <>
-              <button className="text-xs font-light w-[30px] h-1/4 text-center">
-                수정
-              </button>
-              <button className="text-xs font-light w-[30px] h-1/4 text-center">
-                삭제
-              </button>
-            </>
-          )}
         </div>
       </div>
     </>
