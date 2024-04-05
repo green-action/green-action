@@ -172,7 +172,10 @@ const AddActionPage = () => {
             </div>
             {/* 이미지아래 두번째 박스(활동 제목) */}
             <div className="flex w-full h-auto items-center pl-8 border-2 border-gray-300 rounded-3xl mb-4">
-              <label htmlFor="activityTitle" className="font-semibold mr-8">
+              <label
+                htmlFor="activityTitle"
+                className="font-semibold mr-3 w-[73px]"
+              >
                 활동 제목
               </label>
               <input
@@ -187,7 +190,7 @@ const AddActionPage = () => {
             <div className="flex items-start w-full h-auto pl-8 border-2 border-gray-300 rounded-3xl mb-8">
               <label
                 htmlFor="activityDescription"
-                className="font-semibold mr-8 mt-4"
+                className="font-semibold mr-3 mt-4 w-[73px]"
               >
                 활동 소개
               </label>
