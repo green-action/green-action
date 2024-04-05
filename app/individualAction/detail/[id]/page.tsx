@@ -1,13 +1,17 @@
 "use client";
+import KakaoShareButton from "@/app/_components/kakaoShare/KakaoShare";
 import {
   useActionImages,
   useIndividualAction,
 } from "@/app/_hooks/useQueries/individualActions";
-import { useQueryUserMetadata } from "@/app/_hooks/useQueries/user";
 import { CircularProgress } from "@nextui-org/react";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import { useParams } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
+import { FaRegCalendar } from "react-icons/fa";
+import { LuMapPin } from "react-icons/lu";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const DetailPage = () => {
   const { id: postId } = useParams<Params>();
@@ -41,7 +45,7 @@ const DetailPage = () => {
   console.log(detail);
 
   // 작성자 이름, 자기소개 가져오기
-  const userId = detail.user_uid;
+  // const userId = detail.user_uid;
   // userId를 가진 유저정보를 auth에서 가져와서
 
   if (isError) return <div>Error fetching details...</div>;
@@ -49,16 +53,22 @@ const DetailPage = () => {
     <>
       <div>개인그린디테일page</div>
       <div className="flex flex-col w-[1200px] h-auto mx-auto m-5">
-        <div className="grid grid-cols-4 grid-rows-5 gap-4">
+        <div className="grid grid-cols-4 grid-rows-4 gap-4">
           <div className="col-span-1 row-span-1 border-2 border-gray-300 rounded-3xl">
-            1번
+            작성자 : {detail.users?.display_name}
+            <hr />
+            {detail.users?.introduction}
           </div>
           <div className="col-span-3 row-span-1 border-2 border-gray-300 rounded-3xl">
             <p>제목 : {detail.title}</p>
-            <p>
-              날짜 : {detail.start_date} ~ {detail.end_date}
-            </p>
-            <p>장소 : {detail.location}</p>
+            <div className=" border-gray-300 divide-y">
+              <FaRegCalendar className="float-left mr-3" />
+              <p>
+                날짜&nbsp;&nbsp; {detail.start_date} ~ {detail.end_date}
+              </p>
+              <LuMapPin className="float-left mr-3" />
+              <p>장소&nbsp;&nbsp; {detail.location}</p>
+            </div>
           </div>
 
           <div className="col-span-1 row-span-1">
@@ -69,18 +79,25 @@ const DetailPage = () => {
               참여하기
             </div>
           </div>
-          <div className="col-span-3 row-span-2 border-2 border-gray-300 rounded-3xl">
+          <div className="col-span-3 row-span-3 border-2 border-gray-300 rounded-3xl">
             <p>상세내용 : {detail.content}</p>
-            <div>
+
+            {/* 이미지 슬라이드 */}
+            <Carousel className="size-60">
               {imgUrl?.map((item) => {
-                return <img src={item.img_url} alt="green_action_image" />;
+                return (
+                  <div>
+                    <img src={item.img_url} alt="green_action_image" />
+                  </div>
+                );
               })}
-            </div>
+            </Carousel>
           </div>
 
-          {/* <div className="col-span-1 row-span-1 border-2 border-gray-300 rounded-3xl">
-            5번
-          </div> */}
+          <div className="col-span-1 row-span-1 border-2 border-gray-300 rounded-3xl">
+            {/* 5번 카카오톡 공유 자리 */}
+            <KakaoShareButton description={detail.content!} />
+          </div>
         </div>
       </div>
     </>

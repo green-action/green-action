@@ -3,6 +3,7 @@ import QueryProvider from "./Provider";
 import "./globals.css";
 import Header from "./_components/layout/Header";
 import Footer from "./_components/layout/Footer";
+import Script from "next/script";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -13,6 +14,12 @@ export const metadata = {
   title: "Green-Action",
   description: "The fastest way to build apps with Next.js and Supabase",
 };
+
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
 
 export default function RootLayout({
   children,
@@ -26,13 +33,16 @@ export default function RootLayout({
       <body className="bg-background text-foreground">
         <QueryProvider>
           <Header />
-          <main className="min-h-[50rem] pt-[2rem]">
+          <main>
             {children}
             {modal}
           </main>
-          <Footer />
         </QueryProvider>
       </body>
+      <Script
+        src="https://developers.kakao.com/sdk/js/kakao.js"
+        strategy="afterInteractive"
+      />
     </html>
   );
 }

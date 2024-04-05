@@ -4,7 +4,7 @@ export const getIndividualDetail = async (id: string) => {
   try {
     const { data: igAction, error } = await supabase
       .from("individual_green_actions")
-      .select("*")
+      .select(`*, users(display_name, introduction)`)
       .eq("id", id);
     if (error) {
       throw new Error("Failed to fetch individual_green_actions from database");

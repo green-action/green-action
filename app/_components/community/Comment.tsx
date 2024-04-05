@@ -3,12 +3,14 @@ import { CommentProps } from "@/app/_types/community/community";
 import { Avatar } from "@nextui-org/react";
 
 const CommunityPostComment = ({ comment }: { comment: CommentProps }) => {
+  // 댓글 작성자 정보 가져오기
   const { display_name, profile_img } = comment?.users || {
     display_name: null,
     profile_img: null,
   };
-  console.log(comment);
+
   // null인 경우 undefined로 변환해주는 과정 (null이면 src안에서 타입에러 발생)
+  // profile_img가 null인 경우 undefined로 변환해주는 과정 (null이면 src안에서 타입에러 발생)
   const imgSrc = profile_img || "";
 
   const { data: users } = useQueryUser();
