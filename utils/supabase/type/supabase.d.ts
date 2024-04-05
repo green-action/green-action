@@ -134,7 +134,7 @@ export type Database = {
           id: string;
           img_url: string;
           point: number;
-          product_info: string | null;
+          product_info: string;
           product_name: string;
         };
         Insert: {
@@ -300,7 +300,7 @@ export type Database = {
           email?: string | null;
           id?: string;
           introduction?: string | null;
-          point?: number | null;
+          point?: number;
           profile_img?: string | null;
         };
         Update: {
@@ -308,7 +308,7 @@ export type Database = {
           email?: string | null;
           id?: string;
           introduction?: string | null;
-          point?: number | null;
+          point?: number;
           profile_img?: string | null;
         };
         Relationships: [

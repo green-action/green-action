@@ -25,12 +25,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { LuPencilLine } from "react-icons/lu";
 
-const AddPostModal = () => {
+const EditPostModal = () => {
   // 드랍다운 선택된 key 상태관리
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set(["Green-action 선택하기"]),
   );
-  // 게시글 글쓰기 모달창 open여부 상태관리
+  // 게시글 수정 모달창 open여부
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const [uploadedFileUrl, setUploadedFileUrl] = useState<string>("");
@@ -266,4 +266,4 @@ const AddPostModal = () => {
   );
 };
 
-export default AddPostModal;
+export default EditPostModal;
