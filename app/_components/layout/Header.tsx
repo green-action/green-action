@@ -18,23 +18,16 @@ import {
   Tab,
   Tabs,
 } from "@nextui-org/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import { logoutUser } from "../../_api/auth";
-import { useQueryUser } from "../../_hooks/useQueries/user";
 
 function Header() {
-  const { data: session, isLoading: sessionIsLoading } = useQueryUser();
-  const isLoggedIn = session?.user ? true : false;
-  // true;
-
-  // useEffect로 하면 새로고침할때마다 유저데이터 불러오기전엔 false 값이떠서 로그아웃시UI가 잠깐씩 보이는데 해결방법은없는지..
-  // 로컬스토리지, 세션스토리지
-  // 로그인을 하면 supabase에서 토큰이랑 유저정보를 로컬스토리지에 제공하는데 이걸 어떻게 처리해야되는지..
-  // next auth? 사용해야될거같다!
-  // useState으로 사용하면 최초에 실행이 안되어 새로고침해야지 결과가나옴 <  useEffect를 사용해야될거같은데...
-  // 아니면  로그아웃했을때 강제로 새로고침?  location.reload()
+  const router = useRouter();
+  const pathname = usePathname();
+  const session = useSession();
+  const isLoggedIn = !!session.data;
 
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileHover, setIsProfileHover] = useState(false);
@@ -43,8 +36,7 @@ function Header() {
     const confirmed = window.confirm("로그아웃 하시겠습니까?");
     if (confirmed) {
       try {
-        await logoutUser();
-        // logout();
+        await signOut();
         alert("로그아웃 되었습니다.");
         router.replace("/");
       } catch (error) {
@@ -54,9 +46,6 @@ function Header() {
       return;
     }
   };
-
-  const pathname = usePathname();
-  const router = useRouter();
 
   // 부모 탭의 선택 상태
   const [parentSelected, setParentSelected] = useState<string>("");
@@ -74,17 +63,17 @@ function Header() {
     setChildSelected(key);
   };
 
-  if (sessionIsLoading) {
-    return (
-      // 임시로 처리
-      <div className="flex justify-center items-center h-40">
-        <CircularProgress
-          color="success"
-          label="세션 정보를 가져오는 중입니다...!"
-        />
-      </div>
-    );
-  }
+  // if (session) {
+  //   return (
+  //     // 임시로 처리
+  //     <div className="flex justify-center items-center h-40">
+  //       <CircularProgress
+  //         color="success"
+  //         label="세션 정보를 가져오는 중입니다...!"
+  //       />
+  //     </div>
+  //   );
+  // }
 
   return (
     <Navbar
