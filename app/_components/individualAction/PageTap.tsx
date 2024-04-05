@@ -3,13 +3,17 @@ import { Button, Select, SelectItem } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { LuPencilLine } from "react-icons/lu";
-import PageList from "./PageList";
+import PageList from "./pageList";
+import { useSession } from "next-auth/react";
 
 const PageTap = () => {
   const [activeTab, setActiveTab] = useState("모든 캠페인");
   const { data: actions, isLoading: isActionsLoading } =
     useFetchIndivActionsBookmarks();
   const [filteredActions, setFilteredActions] = useState(actions);
+  // 현재 로그인한 유저 uid
+  const session = useSession();
+  const loggedInUserUid = session.data?.user.user_uid || "";
 
   const router = useRouter();
 
@@ -62,7 +66,17 @@ const PageTap = () => {
     setFilteredActions(sortedActions);
     console.log("찜한순", sortedActions);
   };
-  const handleClick = () => router.push("/individualAction/add");
+
+  const handleClick = () => {
+    if (loggedInUserUid) {
+      router.push("/individualAction/add");
+      return;
+    }
+    alert("로그인이 필요합니다.");
+    router.push("/login");
+    return;
+  };
+
   return (
     <>
       <div className="flex justify-between items-center ">
