@@ -16,6 +16,8 @@ const Likes = ({ post_id }: { post_id: string }) => {
   const handleAddLikeClick = (user_uid: string, post_id: string) => {
     if (user_uid !== null) {
       addLikeMutation.mutate({ user_uid, post_id });
+    } else {
+      return;
     }
   };
 
