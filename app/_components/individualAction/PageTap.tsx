@@ -1,18 +1,9 @@
 import { useFetchIndivActionsBookmarks } from "@/app/_hooks/useQueries/main";
-import {
-  Button,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  Select,
-  SelectItem,
-} from "@nextui-org/react";
+import { Button, Select, SelectItem } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { LuPencilLine } from "react-icons/lu";
 import PageList from "./PageList";
-import { Index } from "@/app/_types";
 
 const PageTap = () => {
   const [activeTab, setActiveTab] = useState("모든 캠페인");
@@ -147,7 +138,7 @@ const PageTap = () => {
         </div>
       </div>
 
-      <PageList filteredActions={filteredActions} activeTab={activeTab} />
+      <PageList filteredActions={filteredActions} />
     </>
   );
 };
