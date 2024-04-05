@@ -6,6 +6,7 @@ import {
   updateEditedPost,
 } from "@/app/_api/community/communityEdit-api";
 import {
+  QUERY_KEY_COMMUNITYLIST,
   QUERY_KEY_COMMUNITY_POST,
   QUERY_KEY_COMMUNITY_POST_FOR_EDIT,
 } from "@/app/_api/queryKeys";
@@ -25,7 +26,6 @@ import {
 } from "@nextui-org/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
-import { LuPencilLine } from "react-icons/lu";
 
 interface EditPostProps {
   isOpen: boolean;
@@ -81,6 +81,9 @@ const EditPostModal = ({
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY_COMMUNITYLIST],
+      });
+      queryClient.invalidateQueries({
         queryKey: [QUERY_KEY_COMMUNITY_POST],
       });
     },
@@ -120,6 +123,11 @@ const EditPostModal = ({
     try {
       const isConfirmed = window.confirm("수정하시겠습니까?");
       if (isConfirmed) {
+        if (!uploadedFileUrl) {
+          alert("사진은 필수값입니다.");
+          return;
+        }
+
         // 새로운 file 업로드한 경우 url 반환
         const imgUrl = await uploadFileAndGetUrl(file);
 
@@ -133,13 +141,6 @@ const EditPostModal = ({
 
   return (
     <>
-      {/* 글쓰기 버튼 */}
-      <Button
-        className="fixed z-50 bottom-16 right-16 rounded-full w-20 h-20 bg-gray-300 flex items-center justify-center"
-        onPress={onOpen}
-      >
-        <LuPencilLine className="w-8 h-8" />
-      </Button>
       {/* 게시글 글쓰기 모달창 */}
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent className="h-[600px]">

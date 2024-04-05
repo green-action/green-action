@@ -1,4 +1,3 @@
-import { getUser } from "@/app/_api/auth";
 import {
   getCommunityCommentsList,
   insertCommunityComment,
@@ -28,6 +27,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import Likes from "../likes/Likes";
 import CommunityPostComment from "./Comment";
@@ -38,6 +38,10 @@ const CommunityDetailModal = ({
   onOpenChange,
   post_id,
 }: CommunityDetailProps) => {
+  // 현재 로그인한 유저 uid
+  const session = useSession();
+  const loggedInUserUid = session.data?.user.user_uid || "";
+
   // 게시글 수정 모달창 open여부
   const {
     isOpen: isEditOpen,
@@ -80,14 +84,14 @@ const CommunityDetailModal = ({
   const { mutate: insertCommentMutation } = useMutation({
     mutationFn: async ({
       content,
-      currentUserUid,
+      loggedInUserUid,
       post_id,
     }: {
       content: string;
-      currentUserUid: string;
+      loggedInUserUid: string;
       post_id: string;
     }) => {
-      await insertCommunityComment({ content, currentUserUid, post_id });
+      await insertCommunityComment({ content, loggedInUserUid, post_id });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -131,18 +135,9 @@ const CommunityDetailModal = ({
     try {
       const isConfirm = window.confirm("등록하시겠습니까?");
       if (isConfirm) {
-        // 로그인한 유저의 user_uid 가져오기
-        const user = await getUser();
-        const currentUserUid = user?.user?.id;
-
-        // currentUserUid가 undefined인 경우 처리
-        if (!currentUserUid) {
-          return null;
-        }
-
         const formData = new FormData(e.target as HTMLFormElement);
         const content = formData.get("comment") as string;
-        insertCommentMutation({ content, currentUserUid, post_id });
+        insertCommentMutation({ content, loggedInUserUid, post_id });
 
         (e.target as HTMLFormElement).reset();
       }
@@ -178,7 +173,7 @@ const CommunityDetailModal = ({
                   {/* 첫 줄 - 개인과 함께해요, 게시글 제목, 좋아요버튼 */}
                   <div className="flex justify-between mb-2 ">
                     <div className="flex gap-2 items-center">
-                      <p className=" rounded-full border-1 border-gray-300 text-xs p-0.5 px-4 w-[110px]">
+                      <p className=" rounded-full border-1 border-gray-300 text-xs text-center p-0.5 px-4 mr-0.5 w-[120px]">
                         {communityPost?.action_type}과 함께해요
                       </p>
                       <p className="text-[13px] font-semibold">
@@ -196,31 +191,33 @@ const CommunityDetailModal = ({
                   {/* 세번째 줄 : 작성일, dot 드롭다운 -> dot은 내가 쓴 글 일 때만 보이게 */}
                   <div className="flex justify-between items-end ">
                     <p className="text-[11px]">{formattedDate}</p>
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button className="bg-transparent mb-1 !p-0 mx-0 h-[12px] flex justify-end">
-                          <HiOutlineDotsVertical className="cursor-pointer" />
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu aria-label="Static Actions">
-                        <DropdownItem
-                          key="수정"
-                          onClick={() => {
-                            onEditOpen();
-                          }}
-                        >
-                          수정
-                        </DropdownItem>
-                        <DropdownItem
-                          key="삭제"
-                          className="text-danger"
-                          color="danger"
-                          onClick={handleDeletePost}
-                        >
-                          삭제
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
+                    {loggedInUserUid === communityPost?.user_uid && (
+                      <Dropdown>
+                        <DropdownTrigger>
+                          <Button className="bg-transparent mb-1 !p-0 mx-0 h-[12px] flex justify-end">
+                            <HiOutlineDotsVertical className="cursor-pointer" />
+                          </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu aria-label="Static Actions">
+                          <DropdownItem
+                            key="수정"
+                            onClick={() => {
+                              onEditOpen();
+                            }}
+                          >
+                            수정
+                          </DropdownItem>
+                          <DropdownItem
+                            key="삭제"
+                            className="text-danger"
+                            color="danger"
+                            onClick={handleDeletePost}
+                          >
+                            삭제
+                          </DropdownItem>
+                        </DropdownMenu>
+                      </Dropdown>
+                    )}
                   </div>
                   <hr className="mb-1" />
                   {/* 댓글 전체 wrapper */}
@@ -232,13 +229,25 @@ const CommunityDetailModal = ({
                       className="flex items-center border-1 border-gray-300 h-[30px] rounded-full mb-4"
                     >
                       <label className="w-[88%]">
-                        <input
-                          type="text"
-                          id="comment"
-                          name="comment"
-                          required
-                          className="w-[90%] h-[28px] ml-5 pr-4 bg-inherit focus:outline-none text-xs text-gray-400"
-                        />
+                        {loggedInUserUid ? (
+                          <input
+                            type="text"
+                            id="comment"
+                            name="comment"
+                            required
+                            className="w-[90%] h-[28px] ml-5 pr-4 bg-inherit focus:outline-none text-xs text-gray-400"
+                          />
+                        ) : (
+                          <input
+                            type="text"
+                            id="comment"
+                            name="comment"
+                            placeholder="로그인이 필요합니다."
+                            readOnly
+                            required
+                            className="w-[90%] h-[28px] ml-5 pr-4 bg-inherit focus:outline-none text-xs text-gray-400"
+                          />
+                        )}
                       </label>
                       <button
                         type="submit"

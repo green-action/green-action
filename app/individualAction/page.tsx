@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import PageTap from "../_components/individualAction/PageTap";
-import PageList from "../_components/individualAction/PageList";
+import PageList from "../_components/individualAction/pageList";
 
 const page = () => {
   return (

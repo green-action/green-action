@@ -58,14 +58,14 @@ export const uploadFileAndGetUrl = async (file: File | null | undefined) => {
 // 2. 이미지url, 텍스트 입력값 formData를 테이블에 insert -> post_id 반환
 export const insertCommunityPostFormData = async ({
   formData,
-  currentUserUid,
+  loggedInUserUid,
 }: {
   formData: FormData;
-  currentUserUid: string;
+  loggedInUserUid: string;
 }): Promise<string | null> => {
   try {
     const inputData = {
-      user_uid: currentUserUid,
+      user_uid: loggedInUserUid,
       title: String(formData.get("activityTitle")),
       content: String(formData.get("activityDescription")),
       action_type: String(formData.get("action_type")).substring(0, 2),

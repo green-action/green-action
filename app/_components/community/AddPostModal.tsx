@@ -1,6 +1,5 @@
 "use client";
 
-import { getUser } from "@/app/_api/auth";
 import {
   insertCommunityPostFormData,
   uploadFileAndGetUrl,
@@ -22,10 +21,17 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { LuPencilLine } from "react-icons/lu";
 
 const AddPostModal = () => {
+  const router = useRouter();
+  // 현재 로그인한 유저 uid
+  const session = useSession();
+  const loggedInUserUid = session.data?.user.user_uid || "";
+
   // 드랍다운 선택된 key 상태관리
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set(["Green-action 선택하기"]),
@@ -40,10 +46,13 @@ const AddPostModal = () => {
 
   // 게시글 등록 mutation - communityList 쿼리키 무효화
   const { mutate: insertFormDataMutation } = useMutation({
-    mutationFn: async ({ formData, currentUserUid }: CommunityPostMutation) => {
+    mutationFn: async ({
+      formData,
+      loggedInUserUid,
+    }: CommunityPostMutation) => {
       const post_id = await insertCommunityPostFormData({
         formData,
-        currentUserUid,
+        loggedInUserUid,
       });
       return post_id;
     },
@@ -51,6 +60,17 @@ const AddPostModal = () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_COMMUNITYLIST] });
     },
   });
+
+  // 글쓰기 버튼 클릭핸들러
+  const handleAddPostClick = () => {
+    if (loggedInUserUid) {
+      onOpen();
+      return;
+    }
+    alert("로그인이 필요합니다.");
+    router.push(`/login`);
+    return;
+  };
 
   // 이미지 미리보기 띄우기
   const handleShowPreview = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,16 +99,6 @@ const AddPostModal = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // 로그인한 user_uid 가져오기
-    const user = await getUser();
-    const currentUserUid = user?.user?.id;
-
-    // currentUserUid가 undefined인 경우 처리
-    if (!currentUserUid) {
-      alert("로그인이 필요합니다");
-      return null;
-    }
-
     const formData = new FormData(event.target as HTMLFormElement);
     // 드롭다운에서 선택한 값을 formData에 추가
     formData.append("action_type", Array.from(selectedKeys).join(", "));
@@ -97,6 +107,11 @@ const AddPostModal = () => {
       // 확인창 표시
       const isConfirmed = window.confirm("작성하시겠습니까?");
       if (isConfirmed) {
+        if (!file) {
+          alert("사진은 필수값입니다.");
+          return;
+        }
+
         // 이미지 스토리지 업로드 후 url 반환받기
         const imgUrl = await uploadFileAndGetUrl(file);
 
@@ -108,7 +123,7 @@ const AddPostModal = () => {
         // formData(텍스트, 이미지url) insert
         insertFormDataMutation({
           formData,
-          currentUserUid,
+          loggedInUserUid,
         });
       }
     } catch (error) {
@@ -121,7 +136,8 @@ const AddPostModal = () => {
       {/* 글쓰기 버튼 */}
       <Button
         className="fixed z-50 bottom-16 right-16 rounded-full w-20 h-20 bg-gray-300 flex items-center justify-center"
-        onPress={onOpen}
+        onClick={handleAddPostClick}
+        // onPress={onOpen}
       >
         <LuPencilLine className="w-8 h-8" />
       </Button>
