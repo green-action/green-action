@@ -24,7 +24,7 @@ export const fetchIndivActionsBookmarks = async () => {
       .select(
         "*, actionImgUrls: green_action_images(img_url), actionBookmarks:bookmarks(id)",
       );
-    console.log("🐰 ~ fetchIndivActionsBookmarks ~ data : ", data);
+    // console.log("🐰 ~ fetchIndivActionsBookmarks ~ data : ", data);
     if (error) throw error;
     return data;
   } catch (error) {

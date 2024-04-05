@@ -11,6 +11,8 @@ export const QUERY_KEY_MY_BOOKMARK = `my_bookmarked_actions`;
 // bookmark, likes
 export const QUERY_KEY_BOOKMARK = `bookmark`;
 export const QUERY_KEY_INDIV_ACTIONS_BOOKMARKS = `individual_actions_bookmarks`;
+export const QUERY_KEY_ALLINDIVIDUALACTION = `allIndividual`;
+export const QUERY_KEY_GREEN_ACTION_ALLIMAGE = `allImages`;
 export const QUERY_KEY_LIKES = `likes`;
 export const QUERY_KEY_COMMUNITY_POSTS_LIKES = `community_posts_likes`;
 
