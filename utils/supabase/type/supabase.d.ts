@@ -11,14 +11,14 @@ export type Database = {
     Tables: {
       bookmarks: {
         Row: {
-          action_id: string;
+          action_id: string | null;
           id: string;
-          user_uid: string;
+          user_uid: string | null;
         };
         Insert: {
-          action_id?: string;
+          action_id?: string | null;
           id?: string;
-          user_uid?: string;
+          user_uid?: string | null;
         };
         Update: {
           action_id?: string | null;
@@ -136,6 +136,10 @@ export type Database = {
           point: number;
           product_info: string;
           product_name: string;
+          img_url: string | null;
+          point: number | null;
+          product_info: string | null;
+          product_name: string | null;
         };
         Insert: {
           id?: string;
@@ -181,24 +185,27 @@ export type Database = {
       };
       group_green_actions: {
         Row: {
+          action_url: string;
           content: string | null;
           hosted_by: string | null;
           id: string;
-          img_url: string;
+          img_url: string | null;
           title: string | null;
         };
         Insert: {
+          action_url?: string | null;
           content?: string | null;
           hosted_by?: string | null;
           id?: string;
-          img_url?: string;
+          img_url?: string | null;
           title?: string | null;
         };
         Update: {
+          action_url?: string;
           content?: string | null;
           hosted_by?: string | null;
           id?: string;
-          img_url?: string;
+          img_url?: string | null;
           title?: string | null;
         };
         Relationships: [];
@@ -288,12 +295,12 @@ export type Database = {
       };
       users: {
         Row: {
-          display_name: string;
-          email: string;
+          display_name: string | null;
+          email: string | null;
           id: string;
           introduction: string | null;
-          point: number;
-          profile_img: string;
+          point: number | null;
+          profile_img: string | null;
         };
         Insert: {
           display_name?: string | null;

@@ -1,12 +1,15 @@
 "use client";
 
-import { getUser } from "@/app/_api/auth";
+import { uploadFileAndGetUrl } from "@/app/_api/community/community-api";
 import {
-  insertCommunityPostFormData,
-  uploadFileAndGetUrl,
-} from "@/app/_api/community/community-api";
-import { QUERY_KEY_COMMUNITYLIST } from "@/app/_api/queryKeys";
-import { CommunityPostMutation } from "@/app/_types/community/community";
+  getSinglePostForEdit,
+  updateEditedPost,
+} from "@/app/_api/community/communityEdit-api";
+import {
+  QUERY_KEY_COMMUNITY_POST,
+  QUERY_KEY_COMMUNITY_POST_FOR_EDIT,
+} from "@/app/_api/queryKeys";
+import { CommunityEditMutation } from "@/app/_types/community/community";
 import {
   Button,
   Dropdown,
@@ -19,36 +22,67 @@ import {
   ModalFooter,
   ModalHeader,
   Selection,
-  useDisclosure,
 } from "@nextui-org/react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { LuPencilLine } from "react-icons/lu";
 
-const EditPostModal = () => {
+interface EditPostProps {
+  isOpen: boolean;
+  onOpen: () => void;
+  onOpenChange: () => void;
+  post_id: string;
+}
+
+const EditPostModal = ({
+  isOpen,
+  onOpen,
+  onOpenChange,
+  post_id,
+}: EditPostProps) => {
   // 드랍다운 선택된 key 상태관리
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set(["Green-action 선택하기"]),
   );
-  // 게시글 수정 모달창 open여부
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const [uploadedFileUrl, setUploadedFileUrl] = useState<string>("");
+  const [uploadedFileUrl, setUploadedFileUrl] = useState<string | null>("");
   const [file, setFile] = useState<File | undefined | null>(null);
 
   const queryClient = useQueryClient();
 
-  // 게시글 등록 mutation - communityList 쿼리키 무효화
-  const { mutate: insertFormDataMutation } = useMutation({
-    mutationFn: async ({ formData, currentUserUid }: CommunityPostMutation) => {
-      const post_id = await insertCommunityPostFormData({
-        formData,
-        currentUserUid,
-      });
-      return post_id;
+  // post_id 데이터 가져오기 useQuery
+  // (데이터 가져옴과 동시에 이미지url 바로 set하기, action_type set하기)
+  const {
+    data: singlePostForEdit,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: [QUERY_KEY_COMMUNITY_POST_FOR_EDIT],
+    queryFn: async () => {
+      try {
+        const data = await getSinglePostForEdit(post_id);
+        setUploadedFileUrl(data.img_url);
+        if (data.action_type === "개인") {
+          setSelectedKeys(new Set(["개인과 함께해요"]));
+        }
+        setSelectedKeys(new Set(["단체와 함께해요"]));
+        return data;
+      } catch (error) {}
     },
+  });
+
+  // 게시글 수정 mutation - 상세모달창 정보 무효화
+  const { mutate: updatePostMutation } = useMutation({
+    mutationFn: ({ post_id, imgUrl, formData }: CommunityEditMutation) =>
+      updateEditedPost({
+        post_id,
+        imgUrl,
+        formData,
+      }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_COMMUNITYLIST] });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY_COMMUNITY_POST],
+      });
     },
   });
 
@@ -75,43 +109,25 @@ const EditPostModal = () => {
     [selectedKeys],
   );
 
-  // '작성완료' 클릭시
+  // '수정완료' 클릭시
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    // 로그인한 user_uid 가져오기
-    const user = await getUser();
-    const currentUserUid = user?.user?.id;
-
-    // currentUserUid가 undefined인 경우 처리
-    if (!currentUserUid) {
-      return null;
-    }
 
     const formData = new FormData(event.target as HTMLFormElement);
     // 드롭다운에서 선택한 값을 formData에 추가
     formData.append("action_type", Array.from(selectedKeys).join(", "));
 
     try {
-      // 확인창 표시
-      const isConfirmed = window.confirm("작성하시겠습니까?");
+      const isConfirmed = window.confirm("수정하시겠습니까?");
       if (isConfirmed) {
-        // 이미지 스토리지 업로드 후 url 반환받기
+        // 새로운 file 업로드한 경우 url 반환
         const imgUrl = await uploadFileAndGetUrl(file);
 
-        // url이 존재하면 formData에 append
-        if (imgUrl) {
-          formData.append("image_url", imgUrl);
-        }
-
-        // formData(텍스트, 이미지url) insert
-        insertFormDataMutation({
-          formData,
-          currentUserUid,
-        });
+        // post_id, imgUrl, formData 전달해서 수정내용 update
+        updatePostMutation({ post_id, imgUrl, formData });
       }
     } catch (error) {
-      console.error("Error inserting data:", error);
+      console.error("Error updating data:", error);
     }
   };
 
@@ -148,9 +164,11 @@ const EditPostModal = () => {
                         <button
                           onClick={handleDeleteImage}
                           color="default"
-                          className="absolute top-1 right-3 w-4"
+                          className="absolute top-2 right-3 w-5 h-5 p-0 bg-gray-300 rounded-full"
                         >
-                          x
+                          <span className="absolute text-sm top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                            x
+                          </span>
                         </button>
                       </div>
                     ) : (
@@ -219,6 +237,7 @@ const EditPostModal = () => {
                         type="text"
                         id="activityTitle"
                         name="activityTitle"
+                        defaultValue={singlePostForEdit?.title || ""}
                         required
                         className="w-10/12 h-[30px] mx-4 pr-4 bg-inherit focus:outline-none text-sm text-gray-400"
                       />
@@ -234,6 +253,7 @@ const EditPostModal = () => {
                       <textarea
                         id="activityDescription"
                         name="activityDescription"
+                        defaultValue={singlePostForEdit?.content || ""}
                         required
                         className="resize-none w-10/12 h-[100px] mx-4 mt-2 pr-4 bg-inherit focus:outline-none text-sm text-gray-400"
                       />
@@ -255,7 +275,7 @@ const EditPostModal = () => {
                   onPress={onClose}
                   className="rounded-full !w-[110px] h-[27px]"
                 >
-                  작성완료
+                  수정완료
                 </Button>
               </ModalFooter>
             </form>

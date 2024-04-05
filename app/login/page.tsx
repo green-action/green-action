@@ -5,15 +5,15 @@ import {
   CardBody,
   Input,
   Modal,
-  ModalContent,
   ModalBody,
+  ModalContent,
   ModalFooter,
   useDisclosure,
 } from "@nextui-org/react";
-import React, { useState } from "react";
-import { signInUser } from "../_api/auth";
-import { useAuthStore } from "../_store/authStore";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import React from "react";
+import { useAuthStore } from "../_store/authStore";
 
 const Login = () => {
   const { login } = useAuthStore();
@@ -32,9 +32,12 @@ const Login = () => {
         alert("이메일과 비밀번호를 입력해주세요.");
       }
 
-      const userData = await signInUser(email, password);
-      console.log(userData);
-      login(userData);
+      const response = await signIn("id-password-credential", {
+        id: email,
+        password,
+        redirect: false,
+      });
+
       onOpen();
     } catch (error) {
       console.error(error);
