@@ -72,7 +72,6 @@ const AddActionPage = () => {
             <ImgUpload
               uploadedFileUrls={uploadedFileUrls}
               setUploadedFileUrls={setUploadedFileUrls}
-              files={files}
               setFiles={setFiles}
             />
             {/* 이미지아래 첫번째 박스 */}
