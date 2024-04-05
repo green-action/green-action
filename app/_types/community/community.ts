@@ -12,7 +12,7 @@ export interface CommunityPostObj {
 
 export interface CommunityPostMutation {
   formData: FormData;
-  currentUserUid: string;
+  loggedInUserUid: string;
 }
 
 export interface CommunityEditMutation {

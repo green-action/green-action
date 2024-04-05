@@ -22,10 +22,15 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 import { LuPencilLine } from "react-icons/lu";
 
 const AddPostModal = () => {
+  // 현재 로그인한 유저 uid
+  const session = useSession();
+  const loggedInUserUid = session.data?.user.user_uid || "";
+
   // 드랍다운 선택된 key 상태관리
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set(["Green-action 선택하기"]),
@@ -40,10 +45,13 @@ const AddPostModal = () => {
 
   // 게시글 등록 mutation - communityList 쿼리키 무효화
   const { mutate: insertFormDataMutation } = useMutation({
-    mutationFn: async ({ formData, currentUserUid }: CommunityPostMutation) => {
+    mutationFn: async ({
+      formData,
+      loggedInUserUid,
+    }: CommunityPostMutation) => {
       const post_id = await insertCommunityPostFormData({
         formData,
-        currentUserUid,
+        loggedInUserUid,
       });
       return post_id;
     },
@@ -79,16 +87,6 @@ const AddPostModal = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // 로그인한 user_uid 가져오기
-    const user = await getUser();
-    const currentUserUid = user?.user?.id;
-
-    // currentUserUid가 undefined인 경우 처리
-    if (!currentUserUid) {
-      alert("로그인이 필요합니다");
-      return null;
-    }
-
     const formData = new FormData(event.target as HTMLFormElement);
     // 드롭다운에서 선택한 값을 formData에 추가
     formData.append("action_type", Array.from(selectedKeys).join(", "));
@@ -108,7 +106,7 @@ const AddPostModal = () => {
         // formData(텍스트, 이미지url) insert
         insertFormDataMutation({
           formData,
-          currentUserUid,
+          loggedInUserUid,
         });
       }
     } catch (error) {
