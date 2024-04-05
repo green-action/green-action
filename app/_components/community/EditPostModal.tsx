@@ -123,6 +123,11 @@ const EditPostModal = ({
     try {
       const isConfirmed = window.confirm("수정하시겠습니까?");
       if (isConfirmed) {
+        if (!uploadedFileUrl) {
+          alert("사진은 필수값입니다.");
+          return;
+        }
+
         // 새로운 file 업로드한 경우 url 반환
         const imgUrl = await uploadFileAndGetUrl(file);
 
