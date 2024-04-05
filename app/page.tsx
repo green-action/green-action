@@ -1,17 +1,16 @@
 "use client";
+import { formatToLocaleDateString } from "@/utils/date/date";
 import { Button, Card, Chip, CircularProgress } from "@nextui-org/react";
-import React from "react";
+import Link from "next/link";
+import { FaRegStar } from "react-icons/fa";
+import { GoPerson } from "react-icons/go";
+import { GrLocation } from "react-icons/gr";
+import { IoIosCalendar } from "react-icons/io";
 import CommunityListPost from "./_components/community/CommunityListPost";
 import {
   useFetchCommunityPostsLikes,
   useFetchIndivActionsBookmarks,
 } from "./_hooks/useQueries/main";
-import { GoPerson } from "react-icons/go";
-import { FaRegStar } from "react-icons/fa";
-import { IoIosCalendar } from "react-icons/io";
-import { GrLocation } from "react-icons/gr";
-import { formatToLocaleDateString } from "@/utils/date/date";
-import Link from "next/link";
 
 const MainPage = () => {
   const { data: communityPostsLikes, isLoading } =
@@ -39,7 +38,7 @@ const MainPage = () => {
 
   return (
     <div className="flex flex-col min-h-[600px]">
-      <section className="flex w-full h-[460px] justify-center items-end">
+      <section className="flex w-full h-[500px] justify-center items-end">
         <p className="text-[4rem] w-[1000px] m-10">
           {/* bg-lime-300 */}
           EXPERIENCE A NEW WAY <br />
@@ -55,6 +54,12 @@ const MainPage = () => {
         <div className="flex flex-col items-center gap-[5rem]">
           <Chip size="lg">Community Hot Posts</Chip>
           <div className="flex flex-wrap gap-8">
+            <div className="w-full flex justify-end">
+              <Link
+                href={`/community`}
+                className="text-gray-500 text-sm"
+              >{`전체보기 > `}</Link>
+            </div>
             {/* nextUI 카드 */}
             {communityPostsByLikes?.map((communityPost) => (
               <CommunityListPost
@@ -81,7 +86,10 @@ const MainPage = () => {
                 action.end_date || "",
               );
               return (
-                <Card className="w-[21rem] h-[25rem] flex flex-wrap gap-3 cursor-pointer p-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
+                <Card
+                  key={action.id}
+                  className="w-[21rem] h-[25rem] flex flex-wrap gap-3 cursor-pointer p-1 overflow-hidden whitespace-nowrap overflow-ellipsis"
+                >
                   {/* TODO 누르면 해당 상세페이지로 이동 */}
                   {action.actionImgUrls[0] ? (
                     <img

@@ -28,7 +28,7 @@ const groupActionPage = () => {
                 radius="lg"
                 width="100%"
                 className="w-full object-cover h-full"
-                src={action.img_url}
+                src={action.img_url as string}
                 alt="campaign Img"
               />
             </Card>

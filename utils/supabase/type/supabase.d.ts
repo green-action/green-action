@@ -189,11 +189,11 @@ export type Database = {
           content: string | null;
           hosted_by: string | null;
           id: string;
-          img_url: string | null;
+          img_url: string;
           title: string | null;
         };
         Insert: {
-          action_url?: string | null;
+          action_url?: string;
           content?: string | null;
           hosted_by?: string | null;
           id?: string;

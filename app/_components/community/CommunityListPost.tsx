@@ -52,7 +52,7 @@ const CommunityListPost = ({
           </CardFooter>
         </Card>
         <div className="flex justify-center items-center">
-          <div className="mr-2 rounded-full border-1 border-gray-300 text-xs p-0.5 px-4 w-[128px]">
+          <div className="mr-2 rounded-full border-1 border-gray-300 text-xs text-center p-0.5 px-4 w-[135px]">
             {communityPost?.action_type}와 함께해요
           </div>
           <p className="text-xs w-3/4 mr-1 overflow-hidden whitespace-nowrap overflow-ellipsis">

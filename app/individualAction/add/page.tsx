@@ -7,6 +7,7 @@ import {
   uploadFilesAndGetUrls,
 } from "@/app/_api/individualAction-add/add-api";
 import ImgUpload from "@/app/_components/individualAction-add/ImgUpload";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
@@ -15,9 +16,27 @@ const AddActionPage = () => {
   const [files, setFiles] = useState<(File | undefined)[]>([]);
   const router = useRouter();
 
+  // 현재 로그인한 유저 uid
+  const session = useSession();
+  const loggedInUserUid = session.data?.user.user_uid || "";
+
   // '등록완료' 클릭시
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // 기본 제출 동작 방지
+
+    // 오픈카톡방 링크 유효성검사
+    // 올바른 링크 양식 : https://open.kakao.com/o/{채팅방 ID}
+    const form = event.target as HTMLFormElement;
+    const openKakaoLinkElement = form.elements.namedItem(
+      "openKakaoLink",
+    ) as HTMLInputElement;
+    const openKakaoLink = openKakaoLinkElement.value;
+    const kakaoLinkPattern = /^https:\/\/open\.kakao\.com\/o\//;
+
+    if (!kakaoLinkPattern.test(openKakaoLink)) {
+      alert("카카오톡 오픈채팅방 링크가 올바르지 않습니다.");
+      return;
+    }
 
     const formData = new FormData(event.currentTarget); // 폼 데이터 생성
 
@@ -25,19 +44,15 @@ const AddActionPage = () => {
       // 확인창 표시
       const isConfirmed = window.confirm("등록하시겠습니까?");
       if (isConfirmed) {
-        // 로그인한 user_uid 가져오기
-        const user = await getUser();
-        const currentUserUid = user?.user?.id;
-
-        // currentUserUid가 undefined인 경우 처리
-        if (!currentUserUid) {
-          return null;
+        if (!files.length) {
+          alert("사진은 필수값입니다.");
+          return;
         }
 
         // 1. user_uid와 텍스트 formData insert -> action_id 반환받기
         const action_id = await insertActionTextForm({
           formData,
-          currentUserUid,
+          loggedInUserUid,
         });
 
         // 2. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
@@ -155,7 +170,7 @@ const AddActionPage = () => {
                 </div>
                 <div>
                   <label htmlFor="openKakaoLink" className="font-semibold mb-2">
-                    오픈 채팅방 링크
+                    카카오톡 오픈채팅방 링크
                   </label>
                   <div className="border-2 border-gray-300 rounded-full text-sm text-gray-400 pl-4">
                     <input
@@ -171,7 +186,10 @@ const AddActionPage = () => {
             </div>
             {/* 이미지아래 두번째 박스(활동 제목) */}
             <div className="flex w-full h-auto items-center pl-8 border-2 border-gray-300 rounded-3xl mb-4">
-              <label htmlFor="activityTitle" className="font-semibold mr-8">
+              <label
+                htmlFor="activityTitle"
+                className="font-semibold mr-3 w-[73px]"
+              >
                 활동 제목
               </label>
               <input
@@ -186,7 +204,7 @@ const AddActionPage = () => {
             <div className="flex items-start w-full h-auto pl-8 border-2 border-gray-300 rounded-3xl mb-8">
               <label
                 htmlFor="activityDescription"
-                className="font-semibold mr-8 mt-4"
+                className="font-semibold mr-3 mt-4 w-[73px]"
               >
                 활동 소개
               </label>

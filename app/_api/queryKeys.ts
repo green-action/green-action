@@ -29,14 +29,7 @@ export const QUERY_KEY_INDIVIDUALACTION_IMAGE_FILES = `individual_action_image_f
 export const QUERY_KEY_GREEN_ACTION_IMAGE = `green_action_images`;
 
 // community
-export const QUERY_KEY_COMMUNITY_LIST_AND_POST = `community`;
-export const QUERY_KEY_COMMUNITYLIST = [
-  QUERY_KEY_COMMUNITY_LIST_AND_POST,
-  { type: `communityList` },
-];
-export const QUERY_KEY_COMMUNITY_POST = [
-  QUERY_KEY_COMMUNITY_LIST_AND_POST,
-  { type: `communityPost` },
-];
+export const QUERY_KEY_COMMUNITYLIST = `communityList`;
+export const QUERY_KEY_COMMUNITY_POST = `communityPost`;
 export const QUERY_KEY_COMMUNITY_POST_FOR_EDIT = `community_post_for_edit`;
 export const QEURY_KEY_COMMUNITY_COMMENTS_LIST = `communityCommentsList`;
