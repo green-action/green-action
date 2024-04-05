@@ -1,7 +1,6 @@
-import {
-  useActionAllImages,
-  useAllIndividualAction,
-} from "@/app/_hooks/useQueries/individualActions";
+"use client";
+
+import { useFetchIndivActionsBookmarks } from "@/app/_hooks/useQueries/main";
 import { Card, Chip } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { CiStar, CiUser } from "react-icons/ci";
@@ -9,43 +8,45 @@ import { ImLocation } from "react-icons/im";
 import { MdDateRange } from "react-icons/md";
 import Bookmark from "../bookmark/Bookmark";
 
-interface ChildProps {
-  action_id: string;
-  id: string;
-  activeTab: string;
-}
+// interface ChildProps {
+//   action_id: string;
+//   id: string;
+//   activeTab: string;
+// }
 
-const PageList: React.FC<ChildProps> = ({ action_id, id, activeTab }) => {
+// const PageList: React.FC<ChildProps> = ({ action_id, id, activeTab }) => {
+const PageList = () => {
   const router = useRouter();
-  // const { user } = useAuthStore();
 
-  const { data: individualAction, isLoading, Error } = useAllIndividualAction();
-  // console.log(individualAction);
+  const { data: indivActionsBookmarks, isLoading: isActionsLoading } =
+    useFetchIndivActionsBookmarks();
+  // console.log(actionData);
 
-  const {
-    data: imgsUrl,
-    isLoading: imgurlLoading,
-    isError: imgurlError,
-  } = useActionAllImages(id);
-  console.log(imgsUrl);
-
-  const handleClick = (id: any) => router.push(`/detail/${id}`);
+  const handleClick = (id: any) =>
+    router.push(`/individualAction/detail/${id}`);
 
   return (
     <div className="mt-12 gap-10 grid grid-cols-1 md:grid-cols-4 p-2 ">
-      {individualAction?.map((post) => (
+      {indivActionsBookmarks?.map((post) => (
         <article key={post.id}>
           <Card
-            onClick={() => handleClick(post.id)}
             isFooterBlurred
             radius="lg"
             className="border-none w-[300px] h-[240px] mb-3 "
           >
-            <img
-              alt="Post Image"
-              className="object-cover w-full h-[198px] cursor-pointer"
-              src=""
-            />
+            {post.actionImgUrls[0] ? (
+              <img
+                alt="Post Image"
+                className=" w-full h-full cursor-pointer"
+                src={post.actionImgUrls[0].img_url}
+                onClick={() => handleClick(post.id)}
+              />
+            ) : (
+              <div
+                className="bg-gray-300 w-full h-full rounded"
+                onClick={() => handleClick(post.id)}
+              />
+            )}
           </Card>
           <div className=" max-w-[100%] relative">
             <div className="flex gap-4 mt-4  border-white/20 border-1 max-w-[70%]">
@@ -79,9 +80,11 @@ const PageList: React.FC<ChildProps> = ({ action_id, id, activeTab }) => {
                 <span className="ml-1 text-sm"> {post.recruit_number} </span>
               </div>
               <div className="flex items-center">
-                {/* <Bookmark action_id={post.id} /> */}
-                <CiStar />
-                <span className="ml-1 text-sm"> 3 </span>
+                <Bookmark action_id={post.actionBookmarks as any} />
+                {/* 배열의 글자수를 확인하면 카운터가됨 */}
+                <span className="ml-1 text-sm">
+                  {post.actionBookmarks.length}
+                </span>
               </div>
             </div>
           </div>

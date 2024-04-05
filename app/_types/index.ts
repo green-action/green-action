@@ -8,3 +8,19 @@ export type User = {
   introduction: string;
   sub: string;
 };
+
+export type Index = {
+  id: string;
+  user_uid: string;
+  title: string;
+  created_at: string;
+  content: string;
+  start_date: string;
+  end_date: string;
+  location: string;
+  recruit_number: number;
+  kakao_link: string;
+  is_recruiting: boolean;
+  actionImgUrls: [];
+  actionBookmarks: [];
+};

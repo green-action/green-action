@@ -11,6 +11,15 @@ import {
 import { LuSearch } from "react-icons/lu";
 import { updatePoint } from "@/app/_api/goods/goods_api";
 import { useQueryUser } from "@/app/_hooks/useQueries/user";
+import { useUserPoint } from "@/app/_hooks/useQueries/goods";
+import { fetchUserInfo } from "@/app/_api/mypage/mypage-api";
+import { useFetchUserInfo } from "@/app/_hooks/useQueries/mypage";
+// import { useUpdateUserPoint } from "@/app/_hooks/useMutations/goods";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  QUERY_KEY_USER_INFO,
+  QUERY_KEY_USER_POINT,
+} from "@/app/_api/queryKeys";
 
 const ProductInfoModal = ({
   item,
@@ -19,23 +28,48 @@ const ProductInfoModal = ({
     id: string;
     img_url: string;
     point: number;
-    product_info: string | null;
+    product_info: string;
     product_name: string;
   };
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const queryClient = useQueryClient();
 
-  // 로그인 한 유저의 metadata에서 point 가져오기
+  const { mutate: pointMutation } = useMutation({
+    mutationFn: ({
+      user_uid,
+      updatedPoint,
+    }: {
+      user_uid: string;
+      updatedPoint: number;
+    }) => updatePoint({ user_uid, updatedPoint }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_USER_INFO] });
+    },
+    onError: () => {
+      alert("처리에 오류가 발생했습니다. 다시 시도해주세요.");
+    },
+  });
+
+  // auth에서 로그인한 유저 id 가져오기
   const { data } = useQueryUser();
-  const user = data?.user?.user_metadata || {};
-  const user_point = user.point;
-  // console.log(user);
-  // console.log("user point : ", user.point);
+  const user = data?.user;
+  const user_uid = user!.id;
+  console.log("로그인한 유저 id : ", user_uid);
+
+  // users 테이블에서 유저정보 가져오기
+  const { data: info, isLoading: userInfo_isLoading } =
+    useFetchUserInfo(user_uid);
+
+  if (userInfo_isLoading) {
+    return <div>로딩중</div>;
+  }
+  console.log("유저포인트 : ", info?.point);
+  const user_point = info!.point;
 
   const handleConfirmPurchase = async () => {
     // 유저의 포인트가 클릭한 아이템의 포인트보다 작으면 구매 불가
-
     if (user_point < item.point) {
       alert(`구매 불가 상품입니다 : 보유한 포인트 ${user_point}P`);
       setConfirmModalOpen(false);
@@ -46,7 +80,9 @@ const ProductInfoModal = ({
     // 아니면, 유저 포인트 업데이트 (유저포인트 - 아이템의 포인트)
     try {
       const updatedPoint = user_point - item.point;
-      await updatePoint({ id: user.id, newPoint: updatedPoint });
+      // const { updateUserPoint } = useUpdateUserPoint()
+      // await updateUserPoint({ id: user_uid, newPoint: updatedPoint });
+      pointMutation({ user_uid, updatedPoint });
 
       alert(`구매 성공! : 남은 포인트 ${updatedPoint}P`);
       setConfirmModalOpen(false);

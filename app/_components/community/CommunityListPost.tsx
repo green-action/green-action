@@ -1,13 +1,8 @@
 import { CommunityPostObj } from "@/app/_types/community/community";
-import {
-  Avatar,
-  Button,
-  Card,
-  CardFooter,
-  useDisclosure,
-} from "@nextui-org/react";
+import { Avatar, Card, CardFooter, useDisclosure } from "@nextui-org/react";
 import Likes from "../likes/Likes";
 import CommunityDetailModal from "./CommunityDetailModal";
+import { longStyle } from "./style";
 
 const CommunityListPost = ({
   communityPost,
@@ -21,7 +16,7 @@ const CommunityListPost = ({
     display_name: null,
     profile_img: null,
   };
-  // null인 경우 undefined로 변환해주는 과정 (null이면 src안에서 타입에러 발생)
+  // profile_img가 null인 경우 undefined로 변환해주는 과정 (null이면 src안에서 타입에러 발생)
   const imgSrc = profile_img || "";
 
   return (
@@ -50,15 +45,9 @@ const CommunityListPost = ({
               </p>
             </div>
             <div className="flex items-center">
-              <Button
-                className="text-white bg-transparent !p-0"
-                radius="lg"
-                size="sm"
-              >
-                <>
-                  <Likes post_id={communityPost?.id as string} />
-                </>
-              </Button>
+              <div className={longStyle}>
+                <Likes post_id={communityPost?.id as string} />
+              </div>
             </div>
           </CardFooter>
         </Card>
