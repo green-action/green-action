@@ -39,13 +39,37 @@ export const insertCommunityComment = async ({
 };
 
 // 댓글 삭제
-export const deleteCommentPost = async (comment_id: string) => {
+export const deleteComment = async (comment_id: string) => {
   try {
     const { data, error } = await supabase
       .from("community_comments")
       .delete()
       .eq("id", comment_id);
 
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error inserting data:", error);
+    throw error;
+  }
+};
+
+// 댓글 수정
+export const editComment = async ({
+  comment_id,
+  editedComment,
+}: {
+  comment_id: string;
+  editedComment: string;
+}) => {
+  try {
+    const { data, error } = await supabase
+      .from("community_comments")
+      .update({ content: editedComment })
+      .eq("id", comment_id);
     if (error) {
       throw error;
     }
