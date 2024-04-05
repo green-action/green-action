@@ -85,6 +85,7 @@ const AddPostModal = () => {
 
     // currentUserUid가 undefined인 경우 처리
     if (!currentUserUid) {
+      alert("로그인이 필요합니다");
       return null;
     }
 
