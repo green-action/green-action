@@ -5,7 +5,10 @@ import {
   insertCommunityPostFormData,
   uploadFileAndGetUrl,
 } from "@/app/_api/community/community-api";
-import { getSinglePostForEdit } from "@/app/_api/community/communityEdit-api";
+import {
+  getSinglePostForEdit,
+  updateEditedPost,
+} from "@/app/_api/community/communityEdit-api";
 import {
   QUERY_KEY_COMMUNITYLIST,
   QUERY_KEY_COMMUNITY_POST_FOR_EDIT,
@@ -124,34 +127,13 @@ const EditPostModal = ({
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const url = await uploadFileAndGetUrl(file);
-    console.log("url", url);
-    return url;
+    const formData = new FormData(event.target as HTMLFormElement);
 
-    // const formData = new FormData(event.target as HTMLFormElement);
-    // // 드롭다운에서 선택한 값을 formData에 추가
-    // formData.append("action_type", Array.from(selectedKeys).join(", "));
+    // 새로운 file 업로드한 경우 url 반환
+    const imgUrl = await uploadFileAndGetUrl(file);
 
-    // try {
-    //   // 확인창 표시
-    //   const isConfirmed = window.confirm("작성하시겠습니까?");
-    //   if (isConfirmed) {
-    //     // 이미지 스토리지 업로드 후 url 반환받기
-    //     const imgUrl = await uploadFileAndGetUrl(file);
-
-    //     // url이 존재하면 formData에 append
-    //     if (imgUrl) {
-    //       formData.append("image_url", imgUrl);
-    //     }
-
-    //     // formData(텍스트, 이미지url) insert
-    //     insertFormDataMutation({
-    //       formData
-    //     });
-    //   }
-    // } catch (error) {
-    //   console.error("Error inserting data:", error);
-    // }
+    // post_id, imgUrl, formData 전달해서 수정내용 update
+    await updateEditedPost({ post_id, imgUrl, formData });
   };
 
   return (
