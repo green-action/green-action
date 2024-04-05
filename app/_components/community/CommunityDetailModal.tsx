@@ -25,17 +25,25 @@ import {
   ModalBody,
   ModalContent,
   ModalHeader,
+  useDisclosure,
 } from "@nextui-org/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import Likes from "../likes/Likes";
 import CommunityPostComment from "./Comment";
+import EditPostModal from "./EditPostModal";
 
 const CommunityDetailModal = ({
   isOpen,
   onOpenChange,
   post_id,
 }: CommunityDetailProps) => {
+  // 게시글 수정 모달창 open여부
+  const {
+    isOpen: isEditOpen,
+    onOpen: onEditOpen,
+    onOpenChange: onEditOpenChange,
+  } = useDisclosure();
   const queryClient = useQueryClient();
 
   // 게시글 정보 가져오기 useQuery
@@ -198,7 +206,14 @@ const CommunityDetailModal = ({
                         </Button>
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Static Actions">
-                        <DropdownItem key="수정">수정</DropdownItem>
+                        <DropdownItem
+                          key="수정"
+                          onClick={() => {
+                            onEditOpen();
+                          }}
+                        >
+                          수정
+                        </DropdownItem>
                         <DropdownItem
                           key="삭제"
                           className="text-danger"
@@ -255,6 +270,12 @@ const CommunityDetailModal = ({
           )}
         </ModalContent>
       </Modal>
+      <EditPostModal
+        isOpen={isEditOpen}
+        onOpen={onEditOpen}
+        onOpenChange={onEditOpenChange}
+        post_id={post_id}
+      />
     </>
   );
 };
