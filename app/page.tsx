@@ -39,7 +39,7 @@ const MainPage = () => {
 
   return (
     <div className="flex flex-col min-h-[600px]">
-      <section className="flex w-full h-[460px] justify-center items-end">
+      <section className="flex w-full h-[500px] justify-center items-end">
         <p className="text-[4rem] w-[1000px] m-10">
           {/* bg-lime-300 */}
           EXPERIENCE A NEW WAY <br />
@@ -81,7 +81,10 @@ const MainPage = () => {
                 action.end_date || "",
               );
               return (
-                <Card className="w-[21rem] h-[25rem] flex flex-wrap gap-3 cursor-pointer p-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
+                <Card
+                  key={action.id}
+                  className="w-[21rem] h-[25rem] flex flex-wrap gap-3 cursor-pointer p-1 overflow-hidden whitespace-nowrap overflow-ellipsis"
+                >
                   {/* TODO 누르면 해당 상세페이지로 이동 */}
                   {action.actionImgUrls[0] ? (
                     <img

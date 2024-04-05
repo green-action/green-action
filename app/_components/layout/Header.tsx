@@ -4,6 +4,7 @@ import {
   Avatar,
   Button,
   Card,
+  Chip,
   CircularProgress,
   Dropdown,
   DropdownItem,
@@ -89,11 +90,11 @@ function Header() {
       className="w-full flex items-center justify-start h-[7rem] pt-10  text-[11pt]  bg-gray-200"
       // gap 등으로 조정 안돼서 margin 하드코딩으로 위치 조정
     >
-      <NavbarBrand className="ml-[5rem] mr-[16rem]">
+      <NavbarBrand className="ml-[7rem] mr-[33%]">
         <Link href={"/"}>LOGO</Link>
       </NavbarBrand>
       <NavbarContent>
-        <div className="flex flex-col mr-[12rem] items-center justify-center">
+        <div className="flex flex-col items-center ">
           <Tabs
             // selectedKey={pathname}
             // selectedKey={selected}
@@ -105,7 +106,7 @@ function Header() {
             aria-label="Options"
             color="default"
             // variant="light"
-            className="flex justify-center rounded-full bg-white font-bold text-[11pt] text-gray-700" // 여기에서 w넓이로 gap 넓힐 수 없고, m,gap 으로도 안됨 text-[18px]
+            className="flex justify-center mr-[40%] rounded-full bg-white font-bold text-[11pt] text-gray-700" // 여기에서 w넓이로 gap 넓힐 수 없고, m,gap 으로도 안됨 text-[18px]
           >
             <Tab
               key="/about"
@@ -154,7 +155,7 @@ function Header() {
               onMouseLeave={() => {
                 setIsOpen(false);
               }}
-              className="flex justify-center absolute mt-[7rem] mr-[10rem] w-[20rem] p-[1rem] text-[11pt] font-bold text-neutral-600"
+              className="flex justify-center absolute mt-[2rem] mr-[36rem] w-[20rem] p-[1rem] text-[11pt] font-bold text-neutral-600"
             >
               <div className="flex gap-5 mt-3 px-2 py-0 items-center justify-center w-full h-[2.5rem] rounded-full bg-gray-200">
                 <Link
@@ -180,72 +181,126 @@ function Header() {
           )}
         </div>
 
-        {/* {isLoggedIn ? ( */}
-        {/* <> */}
+        {isLoggedIn ? (
+          <>
+            <Dropdown
+              placement="bottom-end"
+              isOpen={isProfileHover}
+              className="flex  m-0 rounded-3xl" //max-w-[5rem]
+            >
+              <DropdownTrigger>
+                <div className="flex">
+                  <Chip className="h-[2.5rem] w-[25rem] pl-2 bg-white/60">
+                    <div className="flex gap-5 items-center justify-between">
+                      스파르타 Greener님 ! 환영합니다
+                      {/* 닉네임 넣기 &nbsp;*/}
+                      <Avatar
+                        as="button"
+                        className="transition-transform"
+                        // color="secondary"
+                        // name="Jason Hughes" // 유저 닉네임 넣기
+                        size="sm"
+                        showFallback
+                        src=""
+                        onMouseEnter={() => {
+                          setIsProfileHover(true);
+                        }}
+                        onMouseLeave={() => {
+                          setIsProfileHover(false);
+                        }}
+                      />
+                    </div>
+                  </Chip>
+                </div>
+                {/* <Chip
+              variant="flat"
+              avatar={
+                <Avatar
+                  isBordered
+                  as="button"
+                  className="transition-transform"
+                  // color="secondary"
+                  // name="Jason Hughes" // 유저 닉네임 넣기
+                  size="sm"
+                  showFallback
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHb9zdCrQ_cBTzKMs7hfCFyzRWQ_O7qJxVbDyropTC0w&s"
+                  onMouseEnter={() => {
+                    setIsProfileHover(true);
+                  }}
+                  onMouseLeave={() => {
+                    setIsProfileHover(false);
+                  }}
+                />
+              }
+            > 
+            </Chip>*/}
 
-        <Dropdown
-          placement="bottom-end"
-          isOpen={isProfileHover}
-          className="bg-blue-200 w-[3rem] p-0 m-0 justify-end items-end flex"
-        >
-          <DropdownTrigger>
-            <Avatar
+                {/* <Avatar
               isBordered
-              // as="button"
+              as="button"
               className="transition-transform"
               // color="secondary"
               // name="Jason Hughes" // 유저 닉네임 넣기
               size="sm"
               showFallback
-              src=""
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHb9zdCrQ_cBTzKMs7hfCFyzRWQ_O7qJxVbDyropTC0w&s"
               onMouseEnter={() => {
                 setIsProfileHover(true);
               }}
               onMouseLeave={() => {
                 setIsProfileHover(false);
               }}
-            />
-          </DropdownTrigger>
-          <DropdownMenu
-            aria-label="Profile Actions"
-            variant="flat"
-            className="w-[8rem] p-0 m-0 bg-pink-300 rounded-2xl"
-          >
-            <DropdownItem
-              key="mypage"
-              className="w-[8rem] h-8 "
-              onMouseEnter={() => {
-                setIsProfileHover(true);
-              }}
-              onMouseLeave={() => {
-                setIsProfileHover(false);
-              }}
-            >
-              <Link href={"/mypage"}>마이페이지</Link>
-            </DropdownItem>
-            <DropdownItem
-              key="logout"
-              className="w-[8rem] h-8 "
-              onMouseEnter={() => {
-                setIsProfileHover(true);
-              }}
-              onMouseLeave={() => {
-                setIsProfileHover(false);
-              }}
-            >
-              <Link href={"/"} onClick={handleLogout} color="danger">
-                Logout
-              </Link>
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-        {/* </> */}
-        {/* ) : ( */}
-        {/* <div className="flex gap-10 w-[20rem]"> */}
-        {/* <Link href={"/signup"}>Sign up</Link> */}
-        {/* <Link href={"/login"}>Log in</Link> */}
-        {/* </div> */}
-        {/* )} */}
+            /> */}
+              </DropdownTrigger>
+              <DropdownMenu
+                aria-label="Profile Actions"
+                variant="flat"
+                // aria-setsize={10}
+                className="w-[10rem] flex justify-center p-0 m-0 rounded-3xl "
+                //bg-pink-300
+              >
+                <DropdownItem
+                  key="mypage"
+                  className="w-[8rem] h-8 rounded-3xl"
+                  onMouseEnter={() => {
+                    setIsProfileHover(true);
+                  }}
+                  onMouseLeave={() => {
+                    setIsProfileHover(false);
+                  }}
+                >
+                  <Link href={"/mypage"} className="font-bold p-1">
+                    마이페이지
+                  </Link>
+                </DropdownItem>
+                <DropdownItem
+                  key="logout"
+                  color="danger"
+                  className="w-[8rem] h-8 rounded-3xl  "
+                  onMouseEnter={() => {
+                    setIsProfileHover(true);
+                  }}
+                  onMouseLeave={() => {
+                    setIsProfileHover(false);
+                  }}
+                >
+                  <Link
+                    href={"/"}
+                    onClick={handleLogout}
+                    className="font-bold p-1"
+                  >
+                    Logout
+                  </Link>
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </>
+        ) : (
+          <div className="flex gap-10 w-[20rem]">
+            <Link href={"/signup"}>Sign up</Link>
+            <Link href={"/login"}>Log in</Link>
+          </div>
+        )}
       </NavbarContent>
     </Navbar>
   );
