@@ -12,6 +12,7 @@ export const QUERY_KEY_COMMUNITY_POST = `communityPost`;
 export const QEURY_KEY_COMMUNITY_COMMENTS_LIST = `communityCommentsList`;
 export const QUERY_KEY_USER_INFO = `public_user_info`;
 export const QUERY_KEY_GREEN_ACTION_IMAGE = `green_action_images`;
+export const QUERY_KEY_USER_POINT = `user_point`;
 export const QUERY_KEY_COMMUNITY_POSTS_LIKES = `community_posts_likes`;
 export const QUERY_KEY_INDIV_ACTIONS_BOOKMARKS = `individual_actions_bookmarks`;
 export const QUERY_KEY_INDIVIDUALACTION_FOR_EDIT = `individual_action_for_edit`;
