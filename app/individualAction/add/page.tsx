@@ -7,6 +7,7 @@ import {
   uploadFilesAndGetUrls,
 } from "@/app/_api/individualAction-add/add-api";
 import ImgUpload from "@/app/_components/individualAction-add/ImgUpload";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
@@ -14,6 +15,10 @@ const AddActionPage = () => {
   const [uploadedFileUrls, setUploadedFileUrls] = useState<string[]>([]);
   const [files, setFiles] = useState<(File | undefined)[]>([]);
   const router = useRouter();
+
+  // 현재 로그인한 유저 uid
+  const session = useSession();
+  const loggedInUserUid = session.data?.user.user_uid || "";
 
   // '등록완료' 클릭시
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -30,19 +35,10 @@ const AddActionPage = () => {
           return;
         }
 
-        // 로그인한 user_uid 가져오기
-        const user = await getUser();
-        const currentUserUid = user?.user?.id;
-
-        // currentUserUid가 undefined인 경우 처리
-        if (!currentUserUid) {
-          return null;
-        }
-
         // 1. user_uid와 텍스트 formData insert -> action_id 반환받기
         const action_id = await insertActionTextForm({
           formData,
-          currentUserUid,
+          loggedInUserUid,
         });
 
         // 2. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기

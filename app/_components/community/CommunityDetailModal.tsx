@@ -1,4 +1,3 @@
-import { getUser } from "@/app/_api/auth";
 import {
   getCommunityCommentsList,
   insertCommunityComment,
@@ -28,11 +27,11 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import Likes from "../likes/Likes";
 import CommunityPostComment from "./Comment";
 import EditPostModal from "./EditPostModal";
-import { useSession } from "next-auth/react";
 
 const CommunityDetailModal = ({
   isOpen,

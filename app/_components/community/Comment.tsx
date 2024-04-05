@@ -1,4 +1,3 @@
-import { useQueryUser } from "@/app/_hooks/useQueries/user";
 import { CommentProps } from "@/app/_types/community/community";
 import { Avatar } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
@@ -16,9 +15,6 @@ const CommunityPostComment = ({ comment }: { comment: CommentProps }) => {
 
   // profile_img가 null인 경우 undefined로 변환해주는 과정 (null이면 src안에서 타입에러 발생)
   const imgSrc = profile_img || "";
-
-  const { data: users } = useQueryUser();
-  const user_uid = users?.user?.user_metadata.sub;
 
   return (
     <>
