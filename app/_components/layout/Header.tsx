@@ -1,22 +1,22 @@
 "use client"; // import from "@nextui-org/react"; 시 꼭 필요
 
-import { Avatar, CircularProgress, Tab, Tabs } from "@nextui-org/react";
+import { Avatar, Tab, Tabs } from "@nextui-org/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import { logoutUser } from "../../_api/auth";
-import { useQueryUser } from "../../_hooks/useQueries/user";
 
 function Header() {
-  const { data: session, isLoading: sessionIsLoading } = useQueryUser();
-  const isLoggedIn = session?.user ? true : false;
+  const router = useRouter();
+  const pathname = usePathname();
+  const session = useSession();
+  const isLoggedIn = !!session.data;
 
   const handleLogout = async () => {
     const confirmed = window.confirm("로그아웃 하시겠습니까?");
     if (confirmed) {
       try {
-        await logoutUser();
-        // logout();
+        await signOut();
         alert("로그아웃 되었습니다.");
         router.replace("/");
       } catch (error) {
@@ -27,8 +27,8 @@ function Header() {
     }
   };
 
-  const pathname = usePathname();
-  const router = useRouter();
+  // const pathname = usePathname();
+  // const router = useRouter();
   // TODO 하위 탭 선택 시의 문제 해결하기
 
   // const [selected, setSelected] = useState("/");
@@ -48,17 +48,17 @@ function Header() {
     // }
   };
 
-  if (sessionIsLoading) {
-    return (
-      // 임시로 처리
-      <div className="flex justify-center items-center h-40">
-        <CircularProgress
-          color="success"
-          label="세션 정보를 가져오는 중입니다...!"
-        />
-      </div>
-    );
-  }
+  // if (session) {
+  //   return (
+  //     // 임시로 처리
+  //     <div className="flex justify-center items-center h-40">
+  //       <CircularProgress
+  //         color="success"
+  //         label="세션 정보를 가져오는 중입니다...!"
+  //       />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="flex items-center justify-between mx-[5rem] h-[10rem]">
