@@ -1,17 +1,16 @@
 "use client";
+import { formatToLocaleDateString } from "@/utils/date/date";
 import { Button, Card, Chip, CircularProgress } from "@nextui-org/react";
-import React from "react";
+import Link from "next/link";
+import { FaRegStar } from "react-icons/fa";
+import { GoPerson } from "react-icons/go";
+import { GrLocation } from "react-icons/gr";
+import { IoIosCalendar } from "react-icons/io";
 import CommunityListPost from "./_components/community/CommunityListPost";
 import {
   useFetchCommunityPostsLikes,
   useFetchIndivActionsBookmarks,
 } from "./_hooks/useQueries/main";
-import { GoPerson } from "react-icons/go";
-import { FaRegStar } from "react-icons/fa";
-import { IoIosCalendar } from "react-icons/io";
-import { GrLocation } from "react-icons/gr";
-import { formatToLocaleDateString } from "@/utils/date/date";
-import Link from "next/link";
 
 const MainPage = () => {
   const { data: communityPostsLikes, isLoading } =

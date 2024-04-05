@@ -1,3 +1,4 @@
+"use client";
 import { useAddLike, useRemoveLike } from "@/app/_hooks/useMutations/bookmarks";
 import { useFilterLikes } from "@/app/_hooks/useQueries/bookmarks";
 import { useQueryUser } from "@/app/_hooks/useQueries/user";
@@ -14,10 +15,11 @@ const Likes = ({ post_id }: { post_id: string }) => {
   const user_uid = users?.user?.user_metadata.sub;
 
   const handleAddLikeClick = (user_uid: string, post_id: string) => {
+    if (user_uid === null || user_uid === undefined) {
+      return;
+    }
     if (user_uid !== null) {
       addLikeMutation.mutate({ user_uid, post_id });
-    } else {
-      return;
     }
   };
 
