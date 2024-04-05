@@ -22,10 +22,12 @@ import {
 } from "@nextui-org/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { LuPencilLine } from "react-icons/lu";
 
 const AddPostModal = () => {
+  const router = useRouter();
   // 현재 로그인한 유저 uid
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
@@ -58,6 +60,17 @@ const AddPostModal = () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_COMMUNITYLIST] });
     },
   });
+
+  // 글쓰기 버튼 클릭핸들러
+  const handleAddPostClick = () => {
+    if (loggedInUserUid) {
+      onOpen();
+      return;
+    }
+    alert("로그인이 필요합니다.");
+    router.push(`/login`);
+    return;
+  };
 
   // 이미지 미리보기 띄우기
   const handleShowPreview = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -123,7 +136,8 @@ const AddPostModal = () => {
       {/* 글쓰기 버튼 */}
       <Button
         className="fixed z-50 bottom-16 right-16 rounded-full w-20 h-20 bg-gray-300 flex items-center justify-center"
-        onPress={onOpen}
+        onClick={handleAddPostClick}
+        // onPress={onOpen}
       >
         <LuPencilLine className="w-8 h-8" />
       </Button>
