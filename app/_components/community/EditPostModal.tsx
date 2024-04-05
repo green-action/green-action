@@ -6,6 +6,7 @@ import {
   updateEditedPost,
 } from "@/app/_api/community/communityEdit-api";
 import {
+  QUERY_KEY_COMMUNITYLIST,
   QUERY_KEY_COMMUNITY_POST,
   QUERY_KEY_COMMUNITY_POST_FOR_EDIT,
 } from "@/app/_api/queryKeys";
@@ -80,6 +81,9 @@ const EditPostModal = ({
         formData,
       }),
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY_COMMUNITYLIST],
+      });
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY_COMMUNITY_POST],
       });
