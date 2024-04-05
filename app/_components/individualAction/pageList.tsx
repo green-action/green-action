@@ -8,26 +8,23 @@ import { ImLocation } from "react-icons/im";
 import { MdDateRange } from "react-icons/md";
 import Bookmark from "../bookmark/Bookmark";
 
-// interface ChildProps {
-//   action_id: string;
-//   id: string;
-//   activeTab: string;
-// }
+interface ChildProps {
+  activeTab: string;
+  filteredActions: any;
+}
 
-// const PageList: React.FC<ChildProps> = ({ action_id, id, activeTab }) => {
-const PageList = () => {
+const PageList: React.FC<ChildProps> = ({ filteredActions }) => {
   const router = useRouter();
 
   const { data: indivActionsBookmarks, isLoading: isActionsLoading } =
     useFetchIndivActionsBookmarks();
-  // console.log(actionData);
 
   const handleClick = (id: any) =>
     router.push(`/individualAction/detail/${id}`);
 
   return (
     <div className="mt-12 gap-10 grid grid-cols-1 md:grid-cols-4 p-2 ">
-      {indivActionsBookmarks?.map((post) => (
+      {filteredActions?.map((post: any) => (
         <article key={post.id}>
           <Card
             isFooterBlurred
@@ -80,7 +77,7 @@ const PageList = () => {
                 <span className="ml-1 text-sm"> {post.recruit_number} </span>
               </div>
               <div className="flex items-center">
-                <Bookmark action_id={post.actionBookmarks as any} />
+                <Bookmark action_id={post.actionBookmarks as string} />
                 {/* 배열의 글자수를 확인하면 카운터가됨 */}
                 <span className="ml-1 text-sm">
                   {post.actionBookmarks.length}

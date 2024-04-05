@@ -10,17 +10,17 @@ export type User = {
 };
 
 export type Index = {
-  id: string;
-  user_uid: string;
-  title: string;
+  content: string | null;
   created_at: string;
-  content: string;
-  start_date: string;
-  end_date: string;
-  location: string;
-  recruit_number: number;
-  kakao_link: string;
-  is_recruiting: boolean;
+  end_date: string | null;
+  id: string;
+  is_recruiting: boolean | null;
+  kakao_link: string | null;
+  location: string | null;
+  recruit_number: number | null;
+  start_date: string | null;
+  title: string | null;
+  user_uid: string | null;
   actionImgUrls: [];
   actionBookmarks: [];
 };
