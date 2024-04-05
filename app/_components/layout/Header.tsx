@@ -10,12 +10,6 @@ import { useQueryUser } from "../../_hooks/useQueries/user";
 function Header() {
   const { data: session, isLoading: sessionIsLoading } = useQueryUser();
   const isLoggedIn = session?.user ? true : false;
-  // useEffect로 하면 새로고침할때마다 유저데이터 불러오기전엔 false 값이떠서 로그아웃시UI가 잠깐씩 보이는데 해결방법은없는지..
-  // 로컬스토리지, 세션스토리지
-  // 로그인을 하면 supabase에서 토큰이랑 유저정보를 로컬스토리지에 제공하는데 이걸 어떻게 처리해야되는지..
-  // next auth? 사용해야될거같다!
-  // useState으로 사용하면 최초에 실행이 안되어 새로고침해야지 결과가나옴 <  useEffect를 사용해야될거같은데...
-  // 아니면  로그아웃했을때 강제로 새로고침?  location.reload()
 
   const handleLogout = async () => {
     const confirmed = window.confirm("로그아웃 하시겠습니까?");
