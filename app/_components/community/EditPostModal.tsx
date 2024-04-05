@@ -11,6 +11,7 @@ import {
 } from "@/app/_api/community/communityEdit-api";
 import {
   QUERY_KEY_COMMUNITYLIST,
+  QUERY_KEY_COMMUNITY_POST,
   QUERY_KEY_COMMUNITY_POST_FOR_EDIT,
 } from "@/app/_api/queryKeys";
 import { CommunityPostMutation } from "@/app/_types/community/community";
@@ -75,6 +76,29 @@ const EditPostModal = ({
     },
   });
 
+  // 게시글 수정 - QUERY_KEY_COMMUNITY_POST 무효화 (상세모달창 정보)
+  const { mutate: updatePostMutation } = useMutation({
+    mutationFn: ({
+      post_id,
+      imgUrl,
+      formData,
+    }: {
+      post_id: string;
+      imgUrl: string | null;
+      formData: FormData;
+    }) =>
+      updateEditedPost({
+        post_id,
+        imgUrl,
+        formData,
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY_COMMUNITY_POST],
+      });
+    },
+  });
+
   // '수정완료' 클릭시 - 상세모달창 정보 무효화
   // QUERY_KEY_COMMUNITY_POST
 
@@ -129,11 +153,18 @@ const EditPostModal = ({
 
     const formData = new FormData(event.target as HTMLFormElement);
 
-    // 새로운 file 업로드한 경우 url 반환
-    const imgUrl = await uploadFileAndGetUrl(file);
+    try {
+      const isConfirmed = window.confirm("수정하시겠습니까?");
+      if (isConfirmed) {
+        // 새로운 file 업로드한 경우 url 반환
+        const imgUrl = await uploadFileAndGetUrl(file);
 
-    // post_id, imgUrl, formData 전달해서 수정내용 update
-    await updateEditedPost({ post_id, imgUrl, formData });
+        // post_id, imgUrl, formData 전달해서 수정내용 update
+        updatePostMutation({ post_id, imgUrl, formData });
+      }
+    } catch (error) {
+      console.error("Error updating data:", error);
+    }
   };
 
   return (

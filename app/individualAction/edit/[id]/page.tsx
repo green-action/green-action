@@ -92,7 +92,7 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
         router.push(`/individualAction/detail/${action_id}`);
       }
     } catch (error) {
-      console.error("Error inserting data:", error);
+      console.error("Error updating data:", error);
     }
   };
 
