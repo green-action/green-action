@@ -1,3 +1,4 @@
+import { CommunityEditMutation } from "@/app/_types/community/community";
 import { supabase } from "@/utils/supabase/client";
 
 // 수정할 데이터 가져오기
@@ -21,13 +22,7 @@ export const getSinglePostForEdit = async (post_id: string) => {
 
 // 게시글 수정 update
 // 1. 스토리지 업로드 + 이미지 url 반환
-export const uploadFileAndGetUrl = async ({
-  file,
-}: {
-  post_id: string;
-  file: File;
-  formData: FormData;
-}) => {
+export const uploadFileAndGetUrl = async (file: File) => {
   try {
     // file 있으면 - 스토리지 업로드 + url 반환 -> formData + url을 update
     // 스토리지에 이미지파일 업로드
@@ -65,67 +60,38 @@ export const uploadFileAndGetUrl = async ({
     // file 없으면 - url없이 텍스트 formData만 update
 
     // post_id 해당 id찾아서 ->
-    // formData update하는 로직 (url은 있으면 넣고 없으면 말고) -> 없으면 부분은 ? 이걸로 할수있으려나
+    // formData update하는 로직 (url은 있으면 넣고 없으면 말고)
   } catch (error) {
     console.error(error);
     throw error;
   }
 };
 
-// 2. formData update (url은 있으면 넣고 없으면 말고)
+// 2. formData update (url은 있으면 넣고, 없으면 넣지말기)
 export const updateEditedPost = async ({
   post_id,
   imgUrl,
   formData,
-}: {
-  post_id: string;
-  imgUrl: string | null;
-  formData: FormData;
-}) => {
+}: CommunityEditMutation) => {
   try {
-    // 텍스트 formData만 update
+    // formData에서 업데이트할 텍스트 데이터 추출
     const nextData = {
       title: String(formData.get("activityTitle")),
       content: String(formData.get("activityDescription")),
       action_type: String(formData.get("action_type")).substring(0, 2),
     };
 
-    // <edit action 복사>
-    // supabase에서 해당 post_id의 데이터 가져오기
-    const { data: existingData, error } = await supabase
-      .from("community_posts")
-      .select()
-      .eq("id", post_id)
-      .single();
+    // 이미지 URL 업데이트할 객체 생성
+    const imageData = imgUrl ? { img_url: imgUrl } : {};
 
-    if (error) {
-      throw error;
-    }
-
-    // 기존 데이터와 새 데이터 비교하여 변경된 부분 업데이트 (덮어쓰기)
-    const updatedData = { ...existingData, ...nextData };
-
-    // supabase에서 업데이트
+    // 데이터 업데이트
     const { error: updateError } = await supabase
       .from("community_posts")
-      .update(updatedData)
+      .update({ ...nextData, ...imageData })
       .eq("id", post_id);
 
     if (updateError) {
       throw updateError;
-    }
-
-    // img_url이 있는 경우 update (없는경우 update하면 null로 덮어쓰기 되니까 필요한 로직)
-    if (imgUrl) {
-      // supabase에서 업데이트
-      const { error: updateError } = await supabase
-        .from("community_posts")
-        .update({ img_url: imgUrl })
-        .eq("id", post_id);
-
-      if (updateError) {
-        throw updateError;
-      }
     }
   } catch (error) {
     console.error(error);

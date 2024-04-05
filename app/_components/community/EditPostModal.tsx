@@ -1,20 +1,15 @@
 "use client";
 
-import { getUser } from "@/app/_api/auth";
-import {
-  insertCommunityPostFormData,
-  uploadFileAndGetUrl,
-} from "@/app/_api/community/community-api";
+import { uploadFileAndGetUrl } from "@/app/_api/community/community-api";
 import {
   getSinglePostForEdit,
   updateEditedPost,
 } from "@/app/_api/community/communityEdit-api";
 import {
-  QUERY_KEY_COMMUNITYLIST,
   QUERY_KEY_COMMUNITY_POST,
   QUERY_KEY_COMMUNITY_POST_FOR_EDIT,
 } from "@/app/_api/queryKeys";
-import { CommunityPostMutation } from "@/app/_types/community/community";
+import { CommunityEditMutation } from "@/app/_types/community/community";
 import {
   Button,
   Dropdown,
@@ -27,7 +22,6 @@ import {
   ModalFooter,
   ModalHeader,
   Selection,
-  useDisclosure,
 } from "@nextui-org/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
@@ -56,7 +50,8 @@ const EditPostModal = ({
 
   const queryClient = useQueryClient();
 
-  // post_id 데이터 가져오기 + 이미지url 바로 set하기, action_type set하기
+  // post_id 데이터 가져오기 useQuery
+  // (데이터 가져옴과 동시에 이미지url 바로 set하기, action_type set하기)
   const {
     data: singlePostForEdit,
     isLoading,
@@ -76,17 +71,11 @@ const EditPostModal = ({
     },
   });
 
-  // 게시글 수정 - QUERY_KEY_COMMUNITY_POST 무효화 (상세모달창 정보)
+  // 로직 til 정리, 커뮤니티 리스트 쿼리키도 같이 무효화하고싶음, api 더 간단하게 정리, 모달창 상세&수정 둘다 안움직이게 만들기
+
+  // 게시글 수정 mutation - 상세모달창 정보 무효화
   const { mutate: updatePostMutation } = useMutation({
-    mutationFn: ({
-      post_id,
-      imgUrl,
-      formData,
-    }: {
-      post_id: string;
-      imgUrl: string | null;
-      formData: FormData;
-    }) =>
+    mutationFn: ({ post_id, imgUrl, formData }: CommunityEditMutation) =>
       updateEditedPost({
         post_id,
         imgUrl,
@@ -107,22 +96,6 @@ const EditPostModal = ({
   // file이 없으면 -> 이미지는 업데이트 필요 없고, 텍스트form만 업데이트
 
   // 사진 없는채로는 수정, 등록 안되게 만들기
-
-  // 기존 - addPostModal
-
-  // 게시글 등록 mutation - communityList 쿼리키 무효화
-  const { mutate: insertFormDataMutation } = useMutation({
-    mutationFn: async ({ formData, currentUserUid }: CommunityPostMutation) => {
-      const post_id = await insertCommunityPostFormData({
-        formData,
-        currentUserUid,
-      });
-      return post_id;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_COMMUNITYLIST] });
-    },
-  });
 
   // 이미지 미리보기 띄우기
   const handleShowPreview = (e: React.ChangeEvent<HTMLInputElement>) => {
