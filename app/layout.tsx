@@ -33,7 +33,7 @@ export default function RootLayout({
       <body className="bg-background text-foreground">
         <QueryProvider>
           <Header />
-          <main>
+          <main className="pt-10">
             {children}
             {modal}
           </main>
