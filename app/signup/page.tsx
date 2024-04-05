@@ -161,7 +161,7 @@ const SignUp = () => {
         <ModalContent>
           {() => (
             <>
-              <ModalBody>🎉회원가입을 축합니다!🎉</ModalBody>
+              <ModalBody>🎉회원가입을 축하합니다!🎉</ModalBody>
               <ModalFooter>
                 <Button
                   className="bg-black text-white"

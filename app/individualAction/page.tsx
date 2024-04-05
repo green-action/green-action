@@ -7,7 +7,7 @@ const page = () => {
   return (
     <div className="w-[1280px] vh-auto mx-auto ">
       <PageTap />
-      <PageList />
+      {/* <PageList /> */}
     </div>
   );
 };
