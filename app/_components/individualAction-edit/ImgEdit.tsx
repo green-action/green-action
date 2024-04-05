@@ -1,13 +1,14 @@
 "use client";
 
-import { ImgUploadProps } from "@/app/_types/individualAction-add/individualAction-add";
+import { ImgUpdateProps } from "@/app/_types/individualAction-add/individualAction-add";
 import React from "react";
 
-const ImgUpload = ({
+const ImgEdit = ({
   uploadedFileUrls,
   setUploadedFileUrls,
+  setDeleteFileIds,
   setFiles,
-}: ImgUploadProps) => {
+}: ImgUpdateProps) => {
   // 이미지 미리보기 띄우기
   const handleShowPreview = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -15,12 +16,19 @@ const ImgUpload = ({
       return;
     }
     const imageUrl = URL.createObjectURL(file);
-    setUploadedFileUrls((prev) => [...prev, imageUrl]);
+    setUploadedFileUrls((prev) => [...prev, { id: "", img_url: imageUrl }]);
     setFiles((prev) => [...prev, file]);
   };
 
   // 미리보기 이미지 삭제
-  const handleDeleteImage = (index: number) => {
+  const handleDeleteImage = (index: number, deletedId: string) => {
+    // deletedId가 null이 아닌 경우 이미지id를 배열에 추가
+    // (이 이미지id 배열을 이용해서, 테이블에서 해당id가 있으면 행을 삭제할 예정)
+    if (deletedId) {
+      setDeleteFileIds((prev) => {
+        return [...prev, deletedId];
+      });
+    }
     setUploadedFileUrls((prev) => {
       const updatedUrls = [...prev];
       updatedUrls.splice(index, 1);
@@ -45,12 +53,14 @@ const ImgUpload = ({
             {uploadedFileUrls[index] ? (
               <div className="relative w-full h-full">
                 <img
-                  src={uploadedFileUrls[index]}
+                  src={uploadedFileUrls[index].img_url}
                   alt={`Uploaded Image ${index}`}
                   className="w-full h-full rounded-3xl object-cover"
                 />
                 <button
-                  onClick={() => handleDeleteImage(index)}
+                  onClick={() =>
+                    handleDeleteImage(index, uploadedFileUrls[index].id)
+                  }
                   color="default"
                   className="absolute top-1 right-3 w-4"
                 >
@@ -84,4 +94,4 @@ const ImgUpload = ({
   );
 };
 
-export default ImgUpload;
+export default ImgEdit;

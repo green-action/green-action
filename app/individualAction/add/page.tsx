@@ -51,7 +51,7 @@ const AddActionPage = () => {
         target.reset();
 
         // 확인을 클릭하면 action_id의 상세페이지로 이동
-        router.push(`individualAction/detail/${action_id}`);
+        router.push(`detail/${action_id}`);
       }
     } catch (error) {
       console.error("Error inserting data:", error);
