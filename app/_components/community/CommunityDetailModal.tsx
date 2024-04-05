@@ -229,13 +229,25 @@ const CommunityDetailModal = ({
                       className="flex items-center border-1 border-gray-300 h-[30px] rounded-full mb-4"
                     >
                       <label className="w-[88%]">
-                        <input
-                          type="text"
-                          id="comment"
-                          name="comment"
-                          required
-                          className="w-[90%] h-[28px] ml-5 pr-4 bg-inherit focus:outline-none text-xs text-gray-400"
-                        />
+                        {loggedInUserUid ? (
+                          <input
+                            type="text"
+                            id="comment"
+                            name="comment"
+                            required
+                            className="w-[90%] h-[28px] ml-5 pr-4 bg-inherit focus:outline-none text-xs text-gray-400"
+                          />
+                        ) : (
+                          <input
+                            type="text"
+                            id="comment"
+                            name="comment"
+                            placeholder="로그인이 필요합니다."
+                            readOnly
+                            required
+                            className="w-[90%] h-[28px] ml-5 pr-4 bg-inherit focus:outline-none text-xs text-gray-400"
+                          />
+                        )}
                       </label>
                       <button
                         type="submit"
