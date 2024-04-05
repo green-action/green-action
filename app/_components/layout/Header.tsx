@@ -1,5 +1,7 @@
 "use client"; // import from "@nextui-org/react"; 시 꼭 필요
 
+import { useFetchUserInfo } from "@/app/_hooks/useQueries/mypage";
+import { User } from "@/app/_types";
 import {
   Avatar,
   Button,
@@ -28,6 +30,10 @@ function Header() {
   const pathname = usePathname();
   const session = useSession();
   const isLoggedIn = !!session.data;
+  const user_uid = session?.data?.user.user_uid || "";
+  // console.log("🐰 ~ Header ~ data : ", session.data.user.user_uid);
+  const { data, isLoading } = useFetchUserInfo(user_uid);
+  const { display_name, profile_img } = (data as User) || "";
 
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileHover, setIsProfileHover] = useState(false);
@@ -78,18 +84,15 @@ function Header() {
   return (
     <Navbar
       // shouldHideOnScroll 11rem
-      className="w-full flex items-center justify-start h-[7rem] pt-10  text-[11pt]  bg-[#EBEBEB]"
+      className="w-full flex items-center justify-between h-[7rem] pt-10  text-[11pt]  bg-[#EBEBEB]"
       // gap 등으로 조정 안돼서 margin 하드코딩으로 위치 조정
     >
-      <NavbarBrand className="ml-[7rem] mr-[33%]">
+      <NavbarBrand className="ml-[170px] mr-[160px]">
         <Link href={"/"}>LOGO</Link>
       </NavbarBrand>
       <NavbarContent>
         <div className="flex flex-col items-center ">
           <Tabs
-            // selectedKey={pathname}
-            // selectedKey={selected}
-            // onSelectionChange={setSelected}
             // key="md"
             selectedKey={parentSelected || pathname} // 선택된 부모 탭의 키 또는 경로 사용
             // size="lg"
@@ -97,14 +100,14 @@ function Header() {
             aria-label="Options"
             color="default"
             // variant="light"
-            className="flex justify-center mr-[40%] rounded-full bg-white font-bold text-[11pt] text-gray-700" // 여기에서 w넓이로 gap 넓힐 수 없고, m,gap 으로도 안됨 text-[18px]
+            className="flex justify-center mr-[140px] rounded-full bg-white font-bold text-[11pt] text-gray-700" // 여기에서 w넓이로 gap 넓힐 수 없고, m,gap 으로도 안됨 text-[18px]
           >
             <Tab
               key="/about"
               title="About"
               as={Link}
               href="/about"
-              className="w-[10rem]  "
+              className="w-[10rem]"
               onSelect={() => handleParentTabSelect("/about")}
             />
             <Tab
@@ -146,12 +149,12 @@ function Header() {
               onMouseLeave={() => {
                 setIsOpen(false);
               }}
-              className="flex justify-center absolute mt-[2rem] mr-[27rem] w-[20rem] p-[1rem] text-[11pt] font-bold text-neutral-600"
+              className="flex justify-center absolute mt-[2rem] mr-[20rem] w-[20rem] p-[1rem] text-[11pt] font-bold text-neutral-600"
             >
               <div className="flex gap-5 mt-3 px-2 py-0 items-center justify-center w-full h-[2.5rem] rounded-full bg-[#EBEBEB]">
                 <Link
                   href={"/individualAction"}
-                  className={`rounded-full px-2 py-1 hover:bg-white/60 w-[10rem] text-center  ${
+                  className={`rounded-full px-2 py-1 hover:bg-default-300/90 w-[10rem] text-center  ${
                     childSelected === "/individualAction" && "bg-default-300/90"
                   }`}
                   onClick={() => handleChildTabSelect("/individualAction")}
@@ -160,7 +163,7 @@ function Header() {
                 </Link>
                 <Link
                   href={"/groupAction"}
-                  className={`rounded-full px-2 py-1 hover:bg-white/60 w-[10rem] text-center ${
+                  className={`rounded-full px-2 py-1 hover:bg-default-300/90 w-[10rem] text-center ${
                     childSelected === "/groupAction" && "bg-default-300/90"
                   }`}
                   onClick={() => handleChildTabSelect("/groupAction")}
@@ -183,16 +186,15 @@ function Header() {
                 <div className="flex">
                   <Chip className="h-[2.5rem] w-[25rem] pl-2 bg-white/60">
                     <div className="flex gap-5 items-center justify-between">
-                      스파르타 Greener님 ! 환영합니다
-                      {/* 닉네임 넣기 &nbsp;*/}
+                      {display_name} Greener님 ! 환영합니다
                       <Avatar
                         as="button"
                         className="transition-transform"
                         // color="secondary"
-                        // name="Jason Hughes" // 유저 닉네임 넣기
+                        name={display_name} // 유저 닉네임 넣기
                         size="sm"
                         showFallback
-                        src=""
+                        src={profile_img || ""}
                         onMouseEnter={() => {
                           setIsProfileHover(true);
                         }}
@@ -203,45 +205,6 @@ function Header() {
                     </div>
                   </Chip>
                 </div>
-                {/* <Chip
-              variant="flat"
-              avatar={
-                <Avatar
-                  isBordered
-                  as="button"
-                  className="transition-transform"
-                  // color="secondary"
-                  // name="Jason Hughes" // 유저 닉네임 넣기
-                  size="sm"
-                  showFallback
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHb9zdCrQ_cBTzKMs7hfCFyzRWQ_O7qJxVbDyropTC0w&s"
-                  onMouseEnter={() => {
-                    setIsProfileHover(true);
-                  }}
-                  onMouseLeave={() => {
-                    setIsProfileHover(false);
-                  }}
-                />
-              }
-            > 
-            </Chip>*/}
-
-                {/* <Avatar
-              isBordered
-              as="button"
-              className="transition-transform"
-              // color="secondary"
-              // name="Jason Hughes" // 유저 닉네임 넣기
-              size="sm"
-              showFallback
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHb9zdCrQ_cBTzKMs7hfCFyzRWQ_O7qJxVbDyropTC0w&s"
-              onMouseEnter={() => {
-                setIsProfileHover(true);
-              }}
-              onMouseLeave={() => {
-                setIsProfileHover(false);
-              }}
-            /> */}
               </DropdownTrigger>
               <DropdownMenu
                 aria-label="Profile Actions"
@@ -275,19 +238,15 @@ function Header() {
                     setIsProfileHover(false);
                   }}
                 >
-                  <Link
-                    href={"/"}
-                    onClick={handleLogout}
-                    className="font-bold p-1"
-                  >
+                  <p onClick={handleLogout} className="font-bold p-1">
                     Logout
-                  </Link>
+                  </p>
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </>
         ) : (
-          <div className="flex ml-[3rem] gap-14 w-[20rem]">
+          <div className="flex ml-[3rem] gap-14 w-[10rem]">
             <Link href={"/signup"}>Sign up</Link>
             <Link href={"/login"}>Log in</Link>
           </div>
