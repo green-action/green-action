@@ -9,7 +9,6 @@ import {
   Selection,
 } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
 import React from "react";
 import { getCommunityList } from "../_api/community/community-api";
 import { QUERY_KEY_COMMUNITYLIST } from "../_api/queryKeys";
@@ -36,8 +35,6 @@ const CommunityListPage = () => {
     queryKey: [QUERY_KEY_COMMUNITYLIST],
     queryFn: getCommunityList,
   });
-  const test = useSession();
-  console.log(test);
 
   if (isLoading) {
     return <div>Loading...</div>;
