@@ -16,7 +16,7 @@ import React from "react";
 import { useAuthStore } from "../_store/authStore";
 
 const Login = () => {
-  const { login } = useAuthStore();
+  // const { login } = useAuthStore();
   const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
