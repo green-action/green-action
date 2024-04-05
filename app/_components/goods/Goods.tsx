@@ -8,9 +8,11 @@ import {
 } from "@nextui-org/react";
 import ProductInfoModal from "./ProductInfoModal";
 import { useGoods } from "@/app/_hooks/useQueries/goods";
+import { useSession } from "next-auth/react";
 
 const Goods = () => {
   const { data: goods, isLoading, isError } = useGoods();
+  const session = useSession();
   if (isLoading)
     return (
       <div>
@@ -41,7 +43,7 @@ const Goods = () => {
                   {item.product_name}
                 </p>
                 <small className="text-default-500">{item.point}P</small>
-                <ProductInfoModal item={item} />
+                <ProductInfoModal item={item} session={session} />
               </CardBody>
             </Card>
           );

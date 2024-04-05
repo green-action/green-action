@@ -137,21 +137,21 @@ export type Database = {
           product_info: string;
           product_name: string;
           img_url: string | null;
-          point: number | null;
+          point: number;
           product_info: string | null;
           product_name: string | null;
         };
         Insert: {
           id?: string;
           img_url?: string | null;
-          point?: number | null;
+          point?: number;
           product_info?: string | null;
           product_name?: string | null;
         };
         Update: {
           id?: string;
           img_url?: string | null;
-          point?: number | null;
+          point?: number;
           product_info?: string | null;
           product_name?: string | null;
         };
