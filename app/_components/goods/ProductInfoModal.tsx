@@ -1,6 +1,5 @@
 import { updatePoint } from "@/app/_api/goods/goods_api";
 import { useFetchUserInfo } from "@/app/_hooks/useQueries/mypage";
-import { useQueryUser } from "@/app/_hooks/useQueries/user";
 import {
   Button,
   Modal,
@@ -12,13 +11,16 @@ import {
 } from "@nextui-org/react";
 import { useState } from "react";
 import { LuSearch } from "react-icons/lu";
-// import { useUpdateUserPoint } from "@/app/_hooks/useMutations/goods";
-import { QUERY_KEY_USER_INFO } from "@/app/_api/queryKeys";
+import {
+  QUERY_KEY_USER_INFO,
+  QUERY_KEY_USER_POINT,
+} from "@/app/_api/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
+import { useUserPoint } from "@/app/_hooks/useQueries/goods";
 
 const ProductInfoModal = ({
   item,
+  session, // 세션 정보를 전달 받음
 }: {
   item: {
     id: string;
@@ -27,48 +29,37 @@ const ProductInfoModal = ({
     product_info: string;
     product_name: string;
   };
+  session: any; // 세션 정보의 타입
 }) => {
+  const queryClient = useQueryClient();
+  const loggedInUserUid = session.data?.user.user_uid;
+  // const { data: info, isLoading: userInfo_isLoading } =
+  //   useFetchUserInfo(loggedInUserUid);
+
+  const { data, isLoading } = useUserPoint(loggedInUserUid);
+  const user_point = data?.point || 0;
+  // console.log(data?.point);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
-  const queryClient = useQueryClient();
 
   const { mutate: pointMutation } = useMutation({
     mutationFn: ({
-      user_uid,
+      loggedInUserUid,
       updatedPoint,
     }: {
-      user_uid: string;
+      loggedInUserUid: string;
       updatedPoint: number;
-    }) => updatePoint({ user_uid, updatedPoint }),
+    }) => updatePoint({ loggedInUserUid, updatedPoint }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_USER_INFO] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_USER_POINT] });
     },
     onError: () => {
       alert("처리에 오류가 발생했습니다. 다시 시도해주세요.");
     },
   });
 
-  // auth에서 로그인한 유저 id 가져오기
-  const session = useSession();
-  console.log("session => ", session);
-
-  const { data } = useQueryUser();
-  const user = data?.user;
-  const user_uid = user!.id;
-  console.log("로그인한 유저 id : ", user_uid);
-
-  // users 테이블에서 유저정보 가져오기
-  const { data: info, isLoading: userInfo_isLoading } =
-    useFetchUserInfo(user_uid);
-
-  if (userInfo_isLoading) {
-    return <div>로딩중</div>;
-  }
-  console.log("유저포인트 : ", info?.point);
-  const user_point = info!.point ?? 0;
-
   const handleConfirmPurchase = async () => {
-    // 유저의 포인트가 클릭한 아이템의 포인트보다 작으면 구매 불가
     if (user_point < item.point) {
       alert(`구매 불가 상품입니다 : 보유한 포인트 ${user_point}P`);
       setConfirmModalOpen(false);
@@ -76,27 +67,26 @@ const ProductInfoModal = ({
       return;
     }
 
-    // 아니면, 유저 포인트 업데이트 (유저포인트 - 아이템의 포인트)
     try {
       const updatedPoint = user_point - item.point;
-      // const { updateUserPoint } = useUpdateUserPoint()
-      // await updateUserPoint({ id: user_uid, newPoint: updatedPoint });
-      pointMutation({ user_uid, updatedPoint });
+      pointMutation({ loggedInUserUid, updatedPoint });
 
       alert(`구매 성공! : 남은 포인트 ${updatedPoint}P`);
       setConfirmModalOpen(false);
-      onClose(); // 첫번째 모달도 같이 닫기
+      onClose();
     } catch (error) {
       console.error("Error updating user point:", error);
-      // 에러 처리
       alert("구매 실패했습니다. 다시 시도해주세요.");
     }
   };
-
   const handleModalClose = () => {
     setConfirmModalOpen(false);
     onClose();
   };
+
+  if (isLoading) {
+    return <div>로딩중</div>;
+  }
 
   return (
     <>
@@ -112,17 +102,26 @@ const ProductInfoModal = ({
             <p>{item.product_info}</p>
           </ModalBody>
           <ModalFooter>
+            {loggedInUserUid ? (
+              <Button
+                className="rounded-3xl"
+                color="primary"
+                onClick={() => setConfirmModalOpen(true)}
+              >
+                구매하기
+              </Button>
+            ) : null}
+            {/*             
             <Button
               className="rounded-3xl"
               color="primary"
               onClick={() => setConfirmModalOpen(true)}
             >
               구매하기
-            </Button>
+            </Button> */}
           </ModalFooter>
         </ModalContent>
       </Modal>
-      {/* 구매 확인 모달 */}
       <Modal
         isOpen={confirmModalOpen}
         onClose={() => setConfirmModalOpen(false)}
