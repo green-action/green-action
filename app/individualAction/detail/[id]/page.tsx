@@ -113,20 +113,30 @@ const DetailPage = () => {
               <br />
               <p className="text-neutral-600">{detail.content}</p>
             </div>
-            {/* 이미지 슬라이드 */}
-            <Slider {...settings} className="w-[250px] h-[250px]">
-              {imgUrl?.map((item) => {
-                return (
-                  <div>
-                    <img
-                      src={item.img_url}
-                      alt="green_action_image"
-                      className="w-[250px] h-[250px]"
-                    />
-                  </div>
-                );
-              })}
-            </Slider>
+            <div>
+              {/* 이미지 슬라이드 */}
+              {imgUrl!.length === 1 ? (
+                <img
+                  src={imgUrl![0].img_url}
+                  alt="green_action_image"
+                  className="w-[250px] h-[250px]"
+                />
+              ) : (
+                <Slider {...settings} className="w-[250px] h-[250px]">
+                  {imgUrl?.map((item) => {
+                    return (
+                      <div>
+                        <img
+                          src={item.img_url}
+                          alt="green_action_image"
+                          className="w-[250px] h-[250px]"
+                        />
+                      </div>
+                    );
+                  })}
+                </Slider>
+              )}
+            </div>
           </div>
 
           <div className="col-span-1 row-span-1">
