@@ -22,6 +22,7 @@ import CustomConfirm from "../_components/customConfirm/CustomConfirm";
 import MyActionCard from "../_components/mypage/MyActionCard";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import RecruitSelectTab from "../_components/mypage/RecruitSelectTab";
 
 // 로그인 안 한 상태에서 접근 차단할 것 -
 // FIXME My green action, 찜한 action 초기 다시 안뜨는 문제, 모집상태별 분류 다시 안됨
@@ -110,9 +111,11 @@ const MyPage = () => {
   // 의존성 배열 myActions (리쿼로 초기에 가져오는 데이터) 넣는게 중요!
   useEffect(() => {
     filterRecruit();
-    setFilteredActions(sortedMyActions); // useEffect 안 setState 경고 - 이걸 없애줘야 데이터 모집상태별 잘 렌더링됨 / 그랬다가 또 넣어줘야 데이터 초기 잘 뜸
-  }, [myActions, activeTab, myRecruitClicked]); // myActions 를 꼭 넣어야? sorted말고 리쿼데이터 ?  -> 그래도 안될때가
+    // setFilteredActions(sortedMyActions); // 이거때문에
+    // useEffect 안 setState 경고 - 이걸 없애줘야 데이터 모집상태별 잘 렌더링됨 / 그랬다가 또 넣어줘야 데이터 초기 잘 뜸
+  }, [myActions, activeTab, myRecruitClicked, bookmarkedRecruitClicked]); // myActions 를 꼭 넣어야? sorted말고 리쿼데이터 ?  -> 그래도 안될때가
   // 둘다 넣어야? = 됐다가 안될 떄가
+  // myRecruitClicked 꼭 넣어줘야 ! 바뀔때마다 새로 필터처리
 
   useEffect(() => {
     checkUserLogin(); // 안됨 -> 이걸해줘야 처음 렌더링시 유저확인되고 데이터가 뜬다
@@ -133,47 +136,76 @@ const MyPage = () => {
   //  같이 한꺼번에 해서인지 두번눌러줘야 제대로 뜨는 버그 -> 따로한다고 되지않음
   // 눌렀을떄 바로 set clicked해서 인가..
   // 콘솔찍었을때. 이전게 뜨기도 함. 다시누르면 되지만.  prev=> 처리무의미
-  const handleCategorizeByRecruiting = async (
-    e: React.MouseEvent<HTMLLIElement, MouseEvent>,
-    activeTab: string,
-  ) => {
-    // // setClicked(e.currentTarget.textContent as string);
-    const clickedTarget = e.target as HTMLLIElement;
-    const clickedText = clickedTarget.textContent as string;
-    // // console.log("🐰 ~ MyPage ~ clickedText : ", clickedText);
-    // // setClicked(clickedText);
-    // // activeTab === "My Green-Action"
-    // setMyRecruitClicked((prev) => clickedText);
-    // // : setBookmarkedRecruitClicked((prev) => clickedText);
-    // console.log(myRecruitClicked);
+  // const handleCategorizeByRecruiting = async (
+  //   e: React.MouseEvent<HTMLLIElement, MouseEvent>,
+  //   activeTab: string,
+  // ) => {
+  //   // // setClicked(e.currentTarget.textContent as string);
+  //   const clickedTarget = e.target as HTMLLIElement;
+  //   const clickedText = clickedTarget.textContent as string;
+  //   // // console.log("🐰 ~ MyPage ~ clickedText : ", clickedText);
+  //   // // setClicked(clickedText);
+  //   // // activeTab === "My Green-Action"
+  //   // setMyRecruitClicked((prev) => clickedText);
+  //   // // : setBookmarkedRecruitClicked((prev) => clickedText);
+  //   // console.log(myRecruitClicked);
 
-    // activeTab === "My Green-Action"
-    //   ? setFilteredActions(
-    //       sortedMyActions?.filter((action) => action.is_recruiting),
-    //     )
-    //   : setFilteredBookmarkedActions(
-    //       sortedMyBookmarks?.filter(
-    //         (action) => action.bookmarkedAction?.is_recruiting,
-    //       ),
-    //     );
-    activeTab === "My Green-Action"
-      ? setMyRecruitClicked(clickedText)
-      : setBookmarkedRecruitClicked(clickedText);
-    filterRecruit();
-    // console.log(myRecruitClicked);
-  };
+  //   // activeTab === "My Green-Action"
+  //   //   ? setFilteredActions(
+  //   //       sortedMyActions?.filter((action) => action.is_recruiting),
+  //   //     )
+  //   //   : setFilteredBookmarkedActions(
+  //   //       sortedMyBookmarks?.filter(
+  //   //         (action) => action.bookmarkedAction?.is_recruiting,
+  //   //       ),
+  //   //     );
+  //   activeTab === "My Green-Action"
+  //     ? setMyRecruitClicked(clickedText)
+  //     : setBookmarkedRecruitClicked(clickedText);
+  //   filterRecruit();
+  //   // console.log(myRecruitClicked);
+  // };
 
   // console.log(activeTab);
 
   const filterRecruit = () => {
-    // if (clicked === "전체") {
     if (activeTab === "My Green-Action") {
+      // console.log(
+      //   "🐰 ~ filterRecruit ~ activeTab : ",
+      //   activeTab,
+      //   myRecruitClicked,
+      // );
+
       if (myRecruitClicked === "전체") {
         setFilteredActions(sortedMyActions);
       }
       if (myRecruitClicked === "모집 중") {
         setFilteredActions(
           sortedMyActions?.filter((action) => action.is_recruiting),
+        );
+        // console.log(filteredActions);
+      } else if (myRecruitClicked === "모집 마감") {
+        setFilteredActions(
+          sortedMyActions?.filter((action) => !action.is_recruiting),
+        );
+      }
+    }
+    if (activeTab === "찜한 Green-Action") {
+      if (bookmarkedRecruitClicked === "전체") {
+        setFilteredBookmarkedActions(sortedMyBookmarks);
+      }
+      if (bookmarkedRecruitClicked === "모집 중") {
+        setFilteredBookmarkedActions(
+          sortedMyBookmarks?.filter(
+            (action) => action.bookmarkedAction?.is_recruiting,
+          ),
+        );
+        // console.log(filteredActions);
+      } else if (bookmarkedRecruitClicked === "모집 마감") {
+        setFilteredBookmarkedActions(
+          sortedMyBookmarks?.filter(
+            (action) => !action.bookmarkedAction?.is_recruiting,
+          ),
         );
       }
     }
@@ -298,45 +330,60 @@ const MyPage = () => {
               </Button>
             </div>
             <div className="mr-5">
-              {(activeTab === "My Green-Action" ||
-                activeTab === "찜한 Green-Action") && (
-                <Select
-                  aria-label="Select a state of recruiting"
-                  defaultSelectedKeys={["전체"]}
-                  size="md"
-                  radius="full"
-                  className="w-[8rem] "
-                  variant="bordered"
-                  disallowEmptySelection
-                  selectionMode="single"
-                >
-                  <SelectItem
-                    key="전체"
-                    value="전체"
-                    className="rounded-xl"
-                    onClick={(e) => handleCategorizeByRecruiting(e, activeTab)}
-                  >
-                    전체
-                  </SelectItem>
-                  <SelectItem
-                    key="모집 중"
-                    value="모집 중"
-                    className="rounded-xl"
-                    onClick={(e) => handleCategorizeByRecruiting(e, activeTab)}
-                    // onClick={handleCategorizeByRecruiting}
-                  >
-                    모집 중
-                  </SelectItem>
-                  <SelectItem
-                    key="모집 마감"
-                    value="모집 마감"
-                    className="rounded-xl"
-                    onClick={(e) => handleCategorizeByRecruiting(e, activeTab)}
-                  >
-                    모집 마감
-                  </SelectItem>
-                </Select>
+              {/* {(activeTab === "My Green-Action" ||
+                activeTab === "찜한 Green-Action") && ( */}
+              {activeTab === "My Green-Action" && (
+                <RecruitSelectTab
+                  mode="myAction"
+                  selected={myRecruitClicked}
+                  setSelected={setMyRecruitClicked}
+                />
               )}
+              {activeTab === "찜한 Green-Action" && (
+                <RecruitSelectTab
+                  mode="bookmarkedAction"
+                  selected={bookmarkedRecruitClicked}
+                  setSelected={setBookmarkedRecruitClicked}
+                />
+              )}
+              {/* // <RecruitSelectTab mode=""/> */}
+              {/* // <Select> */}
+              {/* //   aria-label="Select a state of recruiting" */}
+              {/* //   defaultSelectedKeys={["전체"]} */}
+              {/* //   size="md" */}
+              {/* //   radius="full" */}
+              {/* //   className="w-[8rem] " */}
+              {/* //   variant="bordered" */}
+              {/* //   disallowEmptySelection */}
+              {/* //   selectionMode="single" */}
+              {/* // > */}
+              {/* //   <SelectItem */}
+              {/* //     key="전체"
+                //     value="전체"
+                //     className="rounded-xl"
+                //     onClick={(e) => handleCategorizeByRecruiting(e, activeTab)}
+                //   >
+                //     전체
+                //   </SelectItem>
+                //   <SelectItem */}
+              {/* //     key="모집 중"
+                //     value="모집 중"
+                //     className="rounded-xl"
+                //     onClick={(e) => handleCategorizeByRecruiting(e, activeTab)}
+                //     // onClick={handleCategorizeByRecruiting}
+                //   >
+                //     모집 중
+                //   </SelectItem>
+                //   <SelectItem */}
+              {/* //     key="모집 마감"
+                //     value="모집 마감"
+                //     className="rounded-xl"
+                //     onClick={(e) => handleCategorizeByRecruiting(e, activeTab)}
+                //   >
+                //     모집 마감
+                //   </SelectItem>
+                // </Select> */}
+              {/* // )} */}
             </div>
           </div>
           <div className="flex flex-wrap gap-7">
