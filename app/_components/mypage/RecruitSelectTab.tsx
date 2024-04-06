@@ -2,8 +2,10 @@ import { Select, SelectItem } from "@nextui-org/react";
 import React, { useState } from "react";
 
 const RecruitSelectTab = ({
+  selected,
   setSelected,
 }: {
+  selected: string;
   setSelected: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const handleCategorizeByRecruiting = async (
@@ -17,7 +19,7 @@ const RecruitSelectTab = ({
   return (
     <Select
       aria-label="Select a state of recruiting"
-      defaultSelectedKeys={["전체"]}
+      defaultSelectedKeys={[selected]} // ["전체"]로 할 시 탭이동후 돌아올 때 기존데이터렌더링 시에도 '전체'로 뜨는 문제 -> selected(state)로 해결 (다만 탭 이동시 리셋되진않음)
       size="md"
       radius="full"
       className="w-[8rem] "

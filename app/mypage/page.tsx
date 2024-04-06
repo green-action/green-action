@@ -1,16 +1,7 @@
 "use client";
-// 되면 ssr로 두고 client 컴포는 따로 빼보기
+// 되면 ssr로 두고 client 컴포는 따로 빼보기 ?
 
-import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Chip,
-  CircularProgress,
-  Select,
-  SelectItem,
-} from "@nextui-org/react";
+import { Button, CircularProgress } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import MyProfile from "../_components/mypage/MyProfile";
 import {
@@ -26,17 +17,17 @@ import RecruitSelectTab from "../_components/mypage/RecruitSelectTab";
 import CommunityListPost from "../_components/community/CommunityListPost";
 
 // 로그인 안 한 상태에서 접근 차단할 것 -
-// FIXME My green action, 찜한 action 초기 다시 안뜨는 문제, 모집상태별 분류 다시 안됨
+// FIXME  모집상태별 분류 다시 안됨
 const MyPage = () => {
   // TODO props 타입등 재설정
   // FIXME 유저닉네임 수정 다시 봐야
-  const user_uid = "2c81257f-e4d9-41d8-ad65-3745da3d3b2f";
+  // const user_uid = "2c81257f-e4d9-41d8-ad65-3745da3d3b2f";
   // 임시 유저 아이디 설정
   const router = useRouter();
   const session = useSession();
 
   const isLoggedIn = !!session.data;
-  // const user_uid = session.data?.user.user_uid as string;
+  const user_uid = session.data?.user.user_uid as string;
   // let user_uid = "";
   // 새로고침 시 로그인이 잠시 풀림
   // if (!isLoggedIn) {
@@ -68,13 +59,9 @@ const MyPage = () => {
     //   alert("로그인 해주세요!");
     //   router.replace("/");
     // }
-    return user_uid; // uid를 리턴해줘야만 됨. why? 쓰지않는데도
+    return user_uid; // uid를 리턴해줘야만 됨.? why? 쓰지않는데도
   };
 
-  // const user_uid = fetchSession();
-
-  // TODO: 리스트 순서? - created at 기준
-  // TODO: 이미지 여러장일 경우? - 첫 한 장만
   // TODO: myActions 없는 경우 처리
 
   const { data: myActions, isLoading: isActionsLoading } =
@@ -220,10 +207,16 @@ const MyPage = () => {
             </div>
             <div className="mr-5">
               {activeTab === "My Green-Action" && (
-                <RecruitSelectTab setSelected={setMyRecruitClicked} />
+                <RecruitSelectTab
+                  selected={myRecruitClicked}
+                  setSelected={setMyRecruitClicked}
+                />
               )}
               {activeTab === "찜한 Green-Action" && (
-                <RecruitSelectTab setSelected={setBookmarkedRecruitClicked} />
+                <RecruitSelectTab
+                  selected={bookmarkedRecruitClicked}
+                  setSelected={setBookmarkedRecruitClicked}
+                />
               )}
             </div>
           </div>
