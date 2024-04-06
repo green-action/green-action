@@ -17,6 +17,7 @@ import MyActionRecruitingModal from "./MyActionRecruitingModal";
 import { useRouter } from "next/navigation";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import Bookmark from "../bookmark/Bookmark";
+import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
 
 interface ActionCardProps {}
 
@@ -44,13 +45,20 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
   const actionImgUrl = actionImgUrls[0];
   const bookmarkCount = actionBookmarks?.length;
 
+  const { deleteAction } = useDeleteAction(id);
+
   const handleActionClick = () => router.push(`/individualAction/detail/${id}`);
 
   const handleEditClick = () => {
     router.push(`/individualAction/edit/${id}`);
   };
 
-  const handleDeleteClick = () => {};
+  const handleDeleteClick = () => {
+    // 커스텀 confirm 창 사용? - but 드롭/다운에 버튼넣어야 하는 문제
+    if (window.confirm("정말 삭제하시겠습니까?")) {
+      deleteAction();
+    } else return;
+  };
 
   return (
     <div key={id}>
