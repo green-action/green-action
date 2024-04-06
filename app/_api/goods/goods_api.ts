@@ -16,26 +16,38 @@ export const getGoods = async () => {
 export const getPoint = async (id: string) => {
   try {
     const { data } = await supabase.from("users").select("point").eq("id", id);
+    // console.log(data![0]);
+    if (!data || data.length === 0) {
+      // throw new Error("User not found or point data is missing");
+      console.log("로그인 안됨");
+    }
     return data![0];
   } catch (error) {
-    console.error("Error : ", error);
+    console.error("Error: ", error);
     throw error;
   }
 };
 
 export const updatePoint = async ({
-  user_uid,
+  loggedInUserUid,
   updatedPoint,
 }: {
-  user_uid: string;
+  loggedInUserUid: string;
   updatedPoint: number;
 }) => {
-  const { data, error } = await supabase
-    .from("users")
-    .update({ point: updatedPoint })
-    .eq("id", user_uid);
+  try {
+    const { data, error } = await supabase
+      .from("users")
+      .update({ point: updatedPoint })
+      .eq("id", loggedInUserUid);
 
-  if (error) {
-    throw new Error("Failed to update user point");
+    if (error) {
+      throw new Error("Failed to update user point");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error updating user point:", error);
+    throw error;
   }
 };
