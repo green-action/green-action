@@ -28,8 +28,8 @@ const DetailPage = () => {
     slidesToScroll: 1,
   };
 
-  const { data, isLoading: fetchUserInfoLoading } = useFetchUserInfo(user_uid);
-  const { display_name, introduction, profile_img } = (data as User) || "";
+  // const { data, isLoading: fetchUserInfoLoading } = useFetchUserInfo(user_uid);
+  // const { display_name, introduction, profile_img } = (data as User) || "";
 
   const { id: postId } = useParams<Params>();
   const params = { id: postId };
@@ -47,8 +47,7 @@ const DetailPage = () => {
   } = useActionImages({ params });
 
   // 두 요청이 모두 완료되었는지 확인
-  const isLoading =
-    individualActionLoading || actionImagesLoading || fetchUserInfoLoading;
+  const isLoading = individualActionLoading || actionImagesLoading;
   const isError = individualActionError || actionImagesError;
 
   console.log("이미지url : ", imgUrl);
@@ -72,18 +71,20 @@ const DetailPage = () => {
               <div className="flex gap-4 items-center">
                 <Avatar
                   showFallback
-                  src={profile_img || ""}
+                  src={detail.users?.profile_img || ""}
                   className="w-[2.5rem] h-[2.5rem]"
                 />
                 <div className="flex flex-col gap-[0.1rem] w-[9rem]">
                   <p className="text-[0.7rem]">작성자</p>
-                  <p className="font-bold text-sm">{display_name} Greener</p>
+                  <p className="font-bold text-sm">
+                    {detail.users?.display_name} Greener
+                  </p>
                 </div>
               </div>
               <div className="flex items-end pb-2"></div>
             </div>
             <div className="ml-5">
-              <p className="text-[0.8rem]">{introduction}</p>
+              <p className="text-[0.8rem]">{detail.users?.introduction}</p>
             </div>
           </div>
           <div className="col-span-3 row-span-1 border-2 border-gray-300 rounded-3xl">
@@ -99,10 +100,10 @@ const DetailPage = () => {
           </div>
 
           <div className="col-span-1 row-span-1">
-            <div className="p-2 mb-4 border-2 border-gray-300 rounded-3xl">
+            <div className="p-2 mb-4 border-2 border-gray-300 rounded-3xl text-center font-extrabold">
               1:1 채팅하기
             </div>
-            <div className="p-2 mb-4 border-2 border-gray-300 rounded-3xl">
+            <div className="p-2 mb-4 border-2 border-gray-300 rounded-3xl text-center font-extrabold">
               참여하기
             </div>
           </div>
@@ -128,7 +129,7 @@ const DetailPage = () => {
             </Slider>
           </div>
 
-          <div className="col-span-1 row-span-1 border-2 border-gray-300 rounded-3xl">
+          <div className="col-span-1 row-span-1">
             {/* 5번 카카오톡 공유 자리 */}
             <KakaoShareButton description={detail.content!} />
           </div>
