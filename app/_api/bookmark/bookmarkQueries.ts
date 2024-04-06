@@ -1,10 +1,10 @@
 import { supabase } from "@/utils/supabase/client";
 
 export const getFilterBookmark = async (action_id: string) => {
-  let { data: filterBookmark, error } = await supabase
+  let { data: filterBookmark } = await supabase
     .from("bookmarks")
     .select("*")
-    .eq(action_id, action_id);
+    .eq("action_id", action_id);
   return { filterBookmark };
 };
 
