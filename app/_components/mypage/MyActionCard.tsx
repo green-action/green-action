@@ -22,6 +22,13 @@ interface ActionCardProps {}
 const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
   const router = useRouter();
   const {
+    isOpen,
+    onOpen: handleModalOpen,
+    onClose,
+    onOpenChange,
+  } = useDisclosure();
+
+  const {
     id,
     title,
     is_recruiting,
@@ -37,45 +44,42 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
   const bookmarkCount = actionBookmarks?.length;
 
   const handleActionClick = () => router.push(`/individualAction/detail/${id}`);
+
   const handleEditClick = () => {
     router.push(`/individualAction/edit/${id}`);
   };
 
-  const {
-    isOpen,
-    onOpen: handleModalOpen,
-    onClose,
-    onOpenChange,
-  } = useDisclosure();
+  const handleDeleteClick = () => {};
 
   return (
     <div key={id}>
       {/* SECTION - 모달 => 커스텀 alert 창 사용하기 ? / 모달 -> 카드 내에서 뜨도록 구현 시도해보기? */}
-      <div
-        onClick={handleActionClick}
-        className="none w-[330px] h-[25rem] flex flex-wrap cursor-pointer p-1 "
-      >
-        {/* TODO 누르면 해당 상세페이지로 이동 */}
-        {/* 이미지 없는 경우 기본? */}
+      <div className="none w-[330px] h-[25rem] flex flex-wrap  p-1 ">
         <Card
           isFooterBlurred
           radius="lg"
-          className="border-none w-full h-[260px]"
+          className="border-none w-full h-[260px] cursor-pointer"
         >
           {actionImgUrl ? (
             <img
               src={actionImgUrl.img_url}
               alt="Green Action Image"
               className="w-full h-full"
+              onClick={handleActionClick}
             />
           ) : (
-            <div className="none bg-gray-300 w-full h-full rounded-3xl" />
+            <div
+              className="none bg-gray-300 w-full h-full rounded"
+              onClick={handleActionClick}
+            />
           )}
         </Card>
-        <div className="pl-2 pt-2">
-          <div className="flex w-[300px] justify-between overflow-hidden whitespace-nowrap overflow-ellipsis">
+        <div className={`pl-2 ${mode === "mypost" && "pt-5"}`}>
+          <div className="flex w-[300px] justify-between">
             <div className="flex gap-3 mb-4 ">
-              <p className="font-bold">{title}</p>
+              <p className="max-w-[160px] font-bold  overflow-hidden whitespace-nowrap overflow-ellipsis">
+                {title}
+              </p>
               {is_recruiting ? (
                 <Chip size="sm" color="success" className="text-white">
                   모집중
@@ -86,7 +90,7 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
                 </Chip>
               )}
             </div>
-            <div className="flex gap-2 text-sm">
+            <div className="flex pt-1 gap-2 text-sm">
               <div className="flex gap-1">
                 <GoPerson size="15" />
                 <p>{recruit_number}</p>
@@ -113,7 +117,9 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
           <div className="flex justify-between">
             <div className="flex gap-1">
               <GrLocation size="15" />
-              <p className="text-sm">{location}</p>
+              <p className="text-sm overflow-hidden whitespace-nowrap overflow-ellipsis">
+                {location}
+              </p>
             </div>
 
             {mode === "mypost" && (
@@ -136,7 +142,11 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
                     <DropdownItem key="수정" onClick={handleEditClick}>
                       수정
                     </DropdownItem>
-                    <DropdownItem key="삭제" color="danger">
+                    <DropdownItem
+                      key="삭제"
+                      color="danger"
+                      onClick={handleDeleteClick}
+                    >
                       삭제
                     </DropdownItem>
                   </DropdownMenu>
