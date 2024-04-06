@@ -10,10 +10,19 @@ import { useParams } from "next/navigation";
 import React from "react";
 import { FaRegCalendar } from "react-icons/fa";
 import { LuMapPin } from "react-icons/lu";
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const DetailPage = () => {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+
   const { id: postId } = useParams<Params>();
   const params = { id: postId };
   const {
@@ -79,19 +88,23 @@ const DetailPage = () => {
               참여하기
             </div>
           </div>
-          <div className="col-span-3 row-span-3 border-2 border-gray-300 rounded-3xl">
+          <div className="col-span-3 row-span-3 border-2 border-gray-300 rounded-3xl flex justify-center pt-20">
             <p>상세내용 : {detail.content}</p>
 
             {/* 이미지 슬라이드 */}
-            <Carousel className="size-60">
+            <Slider {...settings} className="w-[250px] h-[250px]">
               {imgUrl?.map((item) => {
                 return (
                   <div>
-                    <img src={item.img_url} alt="green_action_image" />
+                    <img
+                      src={item.img_url}
+                      alt="green_action_image"
+                      className="w-[250px] h-[250px]"
+                    />
                   </div>
                 );
               })}
-            </Carousel>
+            </Slider>
           </div>
 
           <div className="col-span-1 row-span-1 border-2 border-gray-300 rounded-3xl">
