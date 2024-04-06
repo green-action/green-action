@@ -16,6 +16,7 @@ import { IoIosCalendar } from "react-icons/io";
 import MyActionRecruitingModal from "./MyActionRecruitingModal";
 import { useRouter } from "next/navigation";
 import { HiOutlineDotsVertical } from "react-icons/hi";
+import Bookmark from "../bookmark/Bookmark";
 
 interface ActionCardProps {}
 
@@ -75,8 +76,8 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
           )}
         </Card>
         <div className={`pl-2 ${mode === "mypost" && "pt-5"}`}>
-          <div className="flex w-[300px] justify-between">
-            <div className="flex gap-3 mb-4 ">
+          <div className="flex w-[300px] justify-around ">
+            <div className="flex gap-2 mb-4 ">
               <p className="max-w-[160px] font-bold  overflow-hidden whitespace-nowrap overflow-ellipsis">
                 {title}
               </p>
@@ -90,15 +91,16 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
                 </Chip>
               )}
             </div>
-            <div className="flex pt-1 gap-2 text-sm">
+            <div className="flex items-start pt-1 gap-2 text-sm">
               <div className="flex gap-1">
                 <GoPerson size="15" />
                 <p>{recruit_number}</p>
               </div>
-              <div className="flex gap-1">
-                <FaRegStar size="15" />
-                <p>{bookmarkCount}</p>
-              </div>
+              {/* <div className="flex gap-1 items-center"> */}
+              {/* <FaRegStar size="15" /> */}
+              {/* LINK 북마크 컴포넌트 */}
+              <Bookmark action_id={id} />
+              {/* </div> */}
             </div>
             {/* 커스텀컨펌창 - 크기?등 ui 수정 어려운 문제 */}
             {/* <CustomConfirm
