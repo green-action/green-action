@@ -40,10 +40,9 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
     end_date,
     location,
     actionBookmarks,
-  } = mode === "bookmark" ? action.bookmarkedAction : action;
+  } = mode === "myBookmarks" ? action.bookmarkedAction : action;
 
   const actionImgUrl = actionImgUrls[0];
-  const bookmarkCount = actionBookmarks?.length;
 
   const { deleteAction } = useDeleteAction(id);
 
@@ -83,10 +82,10 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
             />
           )}
         </Card>
-        <div className={`pl-2 ${mode === "mypost" && "pt-5"}`}>
-          <div className="flex w-[300px] justify-around ">
-            <div className="flex gap-2 mb-4 ">
-              <p className="max-w-[160px] font-bold  overflow-hidden whitespace-nowrap overflow-ellipsis">
+        <div className={`pl-2 ${mode === "myPosts" && "pt-5"}`}>
+          <div className="flex w-[300px] gap-2">
+            <div className="flex gap-2 mb-4 min-w-[225px] ">
+              <p className=" max-w-[165px] font-bold overflow-hidden whitespace-nowrap overflow-ellipsis">
                 {title}
               </p>
               {is_recruiting ? (
@@ -99,23 +98,16 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
                 </Chip>
               )}
             </div>
-            <div className="flex items-start pt-1 gap-2 text-sm">
+            <div className="flex justify-end items-start pt-0 gap-2 text-sm">
               <div className="flex gap-1">
-                <GoPerson size="15" />
+                <GoPerson size="15" className="mt-[1.5px]" />
                 <p>{recruit_number}</p>
               </div>
-              {/* <div className="flex gap-1 items-center"> */}
-              {/* <FaRegStar size="15" /> */}
               {/* LINK 북마크 컴포넌트 */}
-              <Bookmark action_id={id} />
-              {/* </div> */}
+              {/* mode === "myBookmarks" */}
+              {/* {mode === "myBookmarks" ? <Bookmark action_id={id} mode={mode} /> : } */}
+              <Bookmark action_id={id} mode={mode} />
             </div>
-            {/* 커스텀컨펌창 - 크기?등 ui 수정 어려운 문제 */}
-            {/* <CustomConfirm
-              text=".."
-              buttonName={action.is_recruiting ? "모집중" : "모집마감"}
-              okFunction={handleRecruitingChange}
-            /> */}
           </div>
           <div className="flex gap-1 text-sm">
             <IoIosCalendar size="15" />
@@ -132,7 +124,7 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
               </p>
             </div>
 
-            {mode === "mypost" && (
+            {mode === "myPosts" && (
               <>
                 <Dropdown
                   placement="bottom-end"

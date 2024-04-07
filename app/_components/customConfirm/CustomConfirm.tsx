@@ -1,19 +1,23 @@
 "use client";
 import { Button } from "@nextui-org/react";
 import React, { useRef } from "react";
+import { FaStar } from "react-icons/fa";
 
 interface CustomConfirmProps {
   text: string;
-  buttonName: string;
+  buttonName?: string;
+  mode?: string;
   okFunction: () => void;
 }
 // text : 안에 내용
 // buttonName: button 이름 지정
 // okFunction: ok를 누를때 실행해야하는 함수
+// + mode : mode 에 따라 조건부 디자인
 
 const CustomConfirm: React.FC<CustomConfirmProps> = ({
   text,
   buttonName,
+  mode,
   okFunction,
 }) => {
   const freezeLayerRef = useRef<HTMLDivElement>(null);
@@ -66,15 +70,24 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
         ref={freezeLayerRef}
         className="w-full h-full fixed top-0 left-0 bg-black/30 z-[1] hidden"
       ></div>
-      <Button
-        color="primary"
-        variant="ghost"
-        onClick={() => {
-          customConfirm.show(`${text}`, handleClick);
-        }}
-      >
-        {buttonName}
-      </Button>
+
+      {/* mode가 myBookmarks(마이페이지 찜한 action) 인 경우에 버튼 대신 북마크아이콘 */}
+      {mode === "myBookmarks" ? (
+        <button onClick={() => customConfirm.show(`${text}`, handleClick)}>
+          <FaStar className="text-amber-300 text-[17px]  ml-[1.5px] mb-10 " />
+        </button>
+      ) : (
+        <Button
+          color="primary"
+          variant="ghost"
+          onClick={() => {
+            customConfirm.show(`${text}`, handleClick);
+          }}
+        >
+          {buttonName}
+        </Button>
+      )}
+
       <div
         ref={dialogContRef}
         className="absolute top-[-50%] left-1/2 translate-x-[-50%] translate-y-[-50%] p-[10px] w-[30%] rounded-xl transition-all z-[2] opacity-0"
