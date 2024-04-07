@@ -4,7 +4,7 @@ export const QUERY_KEY_USER_INFO = `public_user_info`;
 export const QUERY_KEY_USER_POINT = `user_point`;
 
 // mypage
-export const QUERY_KEY_MY_INDIVIDUALACTION = `my_individual_actions`; // queryFn은 다른데 key 통일할수있을지?
+export const QUERY_KEY_MY_INDIVIDUALACTION = `my_individual_actions`;
 export const QUERY_KEY_MY_COMMUNITYPOST = `my_community_posts`;
 export const QUERY_KEY_MY_BOOKMARK = `my_bookmarked_actions`;
 

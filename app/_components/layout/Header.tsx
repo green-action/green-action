@@ -161,7 +161,7 @@ function Header() {
               onMouseLeave={() => {
                 setIsOpen(false);
               }}
-              className="flex justify-center absolute mt-[2rem] mr-[20rem] w-[20rem] p-[1rem] text-[11pt] font-bold text-neutral-600"
+              className="flex justify-center absolute mt-[3.2%] mr-[37%] w-[20rem] p-[1rem] text-[11pt] font-bold text-neutral-600"
             >
               <div className="flex gap-5 mt-3 px-2 py-0 items-center justify-center w-full h-[2.5rem] rounded-full bg-[#EBEBEB]">
                 <Link
