@@ -1,5 +1,7 @@
 "use client";
 
+import React from "react";
+
 import {
   Button,
   Dropdown,
@@ -8,14 +10,14 @@ import {
   DropdownTrigger,
   Selection,
 } from "@nextui-org/react";
-import { useQuery } from "@tanstack/react-query";
-import React from "react";
-import { getCommunityList } from "../_api/community/community-api";
-import { QUERY_KEY_COMMUNITYLIST } from "../_api/queryKeys";
+
 import AddPostModal from "../_components/community/AddPostModal";
 import CommunityListPost from "../_components/community/CommunityListPost";
+import { useGetCommunityList } from "../_hooks/useQueries/community";
 
 const CommunityListPage = () => {
+  const { communityList, isLoading, isError } = useGetCommunityList();
+
   // 정렬 드랍다운 상태
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set(["정렬"]),
@@ -26,15 +28,6 @@ const CommunityListPage = () => {
     () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
     [selectedKeys],
   );
-
-  const {
-    data: communityList,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: [QUERY_KEY_COMMUNITYLIST],
-    queryFn: getCommunityList,
-  });
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -65,7 +58,7 @@ const CommunityListPage = () => {
 
   return (
     <>
-      {/* 전체 박스 */}
+      {/* 전체 Wrapper */}
       <div className="w-[1000px] h-[100vh] mx-auto">
         {/* 정렬 드롭다운 */}
         <div className="flex justify-end mt-16 mb-4 mr-2">
