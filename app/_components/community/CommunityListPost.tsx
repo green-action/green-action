@@ -72,6 +72,7 @@ const CommunityListPost = ({
           onOpen={onOpen}
           onOpenChange={onOpenChange}
           post_id={post_id}
+          mode={mode}
         />
       )}
     </>
