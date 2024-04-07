@@ -10,6 +10,7 @@ import {
   QUERY_KEY_COMMUNITY_POST,
   QUERY_KEY_COMMUNITY_POSTS_LIKES,
   QUERY_KEY_COMMUNITY_POST_FOR_EDIT,
+  QUERY_KEY_MY_COMMUNITYPOST,
 } from "@/app/_api/queryKeys";
 import { CommunityEditMutation } from "@/app/_types/community/community";
 import {
@@ -86,13 +87,19 @@ const EditPostModal = ({
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY_COMMUNITY_POST],
       });
-      mode === "main"
-        ? queryClient.invalidateQueries({
-            queryKey: [QUERY_KEY_COMMUNITY_POSTS_LIKES],
-          })
-        : queryClient.invalidateQueries({
-            queryKey: [QUERY_KEY_COMMUNITYLIST],
-          });
+
+      mode === "main" &&
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY_COMMUNITY_POSTS_LIKES],
+        });
+      mode === "community" &&
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY_COMMUNITYLIST],
+        });
+      mode === "myPosts" &&
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY_MY_COMMUNITYPOST],
+        });
     },
   });
 
