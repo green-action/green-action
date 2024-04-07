@@ -16,6 +16,15 @@ import "slick-carousel/slick/slick-theme.css";
 import { useSession } from "next-auth/react";
 import { RxPerson } from "react-icons/rx";
 import Bookmark from "@/app/_components/bookmark/Bookmark";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  useDisclosure,
+} from "@nextui-org/react";
 
 const DetailPage = () => {
   const session = useSession();
@@ -26,6 +35,12 @@ const DetailPage = () => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+  };
+
+  // 참여하기 모달창
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const handleOpen = () => {
+    onOpen();
   };
 
   // const { data, isLoading: fetchUserInfoLoading } = useFetchUserInfo(user_uid);
@@ -119,9 +134,33 @@ const DetailPage = () => {
           </div>
 
           <div className="col-span-1 row-span-1">
-            <div className="p-2 mb-4 border-2 border-gray-300 rounded-3xl text-center font-extrabold cursor-pointer">
+            <div
+              className="p-2 mb-4 border-2 border-gray-300 rounded-3xl text-center font-extrabold cursor-pointer"
+              key={"opaque"}
+              color="warning"
+              onClick={() => handleOpen()}
+            >
               1:1 채팅하기
             </div>
+            <Modal backdrop={"opaque"} isOpen={isOpen} onClose={onClose}>
+              <ModalContent>
+                {(onClose) => (
+                  <>
+                    <ModalHeader className="flex flex-col gap-1">
+                      Green-action 참여 오픈채팅방
+                    </ModalHeader>
+                    <ModalBody>
+                      <a href={detail.kakao_link!}>{detail.kakao_link}</a>
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button color="primary" onPress={onClose}>
+                        닫기
+                      </Button>
+                    </ModalFooter>
+                  </>
+                )}
+              </ModalContent>
+            </Modal>
             <div className="p-2 mb-4 border-2 border-gray-300 rounded-3xl text-center font-extrabold cursor-pointer">
               참여하기
             </div>
