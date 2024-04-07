@@ -1,9 +1,7 @@
-import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 
 import type { CommunityDetailProps } from "@/app/_types/community/community";
 
-import { useInsertCommunityCommentMutation } from "@/app/_hooks/useMutations/comments";
 import { useDeleteCommunityPostMutation } from "@/app/_hooks/useMutations/community";
 import { useGetCommunityCommentsList } from "@/app/_hooks/useQueries/comments";
 import { useGetPostContents } from "@/app/_hooks/useQueries/community";
@@ -11,6 +9,7 @@ import { useGetPostContents } from "@/app/_hooks/useQueries/community";
 import Likes from "../likes/Likes";
 import CommunityPostComment from "./Comment";
 import EditPostModal from "./EditPostModal";
+import AddComment from "./AddComment";
 
 import {
   Avatar,
@@ -56,9 +55,6 @@ const CommunityDetailModal = ({
   // 게시글 삭제 mutation
   const { deletePostMutation } = useDeleteCommunityPostMutation();
 
-  // 댓글 등록 mutation
-  const { insertCommentMutation } = useInsertCommunityCommentMutation();
-
   if (isPostLoading || isCommentsLoading) {
     return <div>Loading...</div>;
   }
@@ -89,24 +85,6 @@ const CommunityDetailModal = ({
     const isConfirm = window.confirm("삭제하시겠습니까?");
     if (isConfirm) {
       deletePostMutation(post_id);
-    }
-  };
-
-  // 댓글 등록 핸들러
-  const handleInsertComment = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    try {
-      const isConfirm = window.confirm("등록하시겠습니까?");
-      if (isConfirm) {
-        const formData = new FormData(e.target as HTMLFormElement);
-        const content = formData.get("comment") as string;
-        insertCommentMutation({ content, loggedInUserUid, post_id });
-
-        (e.target as HTMLFormElement).reset();
-      }
-    } catch (error) {
-      console.error("Error adding comment:", error);
     }
   };
 
@@ -148,11 +126,11 @@ const CommunityDetailModal = ({
                       <Likes post_id={post_id} />
                     </div>
                   </div>
-                  {/* 두번째 줄 : 활동 내용 -> 내용 긴 경우 ...더보기 처리하기*/}
+                  {/* 두번째 줄 : 활동 내용 */}
                   <p className=" mx-auto text-xs mb-5 w-[97%]">
                     {communityPost?.content}
                   </p>
-                  {/* 세번째 줄 : 작성일, dot 드롭다운 -> dot은 내가 쓴 글 일 때만 보이게 */}
+                  {/* 세번째 줄 : 작성일, dot 드롭다운 */}
                   <div className="flex justify-between items-end ">
                     <p className="text-[11px]">{formattedDate}</p>
                     {loggedInUserUid === communityPost?.user_uid && (
@@ -187,39 +165,11 @@ const CommunityDetailModal = ({
                   {/* 댓글 전체 wrapper */}
                   <div className="flex flex-col mx-auto mb-2 w-[95%]">
                     <p className="text-xs mb-1">댓글</p>
-                    {/* 댓글 등록 - 로그인 상태일 때만 보이게 */}
-                    <form
-                      onSubmit={handleInsertComment}
-                      className="flex items-center border-1 border-gray-300 h-[30px] rounded-full mb-4"
-                    >
-                      <label className="w-[88%]">
-                        {loggedInUserUid ? (
-                          <input
-                            type="text"
-                            id="comment"
-                            name="comment"
-                            required
-                            className="w-[90%] h-[28px] ml-5 pr-4 bg-inherit focus:outline-none text-xs text-gray-400"
-                          />
-                        ) : (
-                          <input
-                            type="text"
-                            id="comment"
-                            name="comment"
-                            placeholder="로그인이 필요합니다."
-                            readOnly
-                            required
-                            className="w-[90%] h-[28px] ml-5 pr-4 bg-inherit focus:outline-none text-xs text-gray-400"
-                          />
-                        )}
-                      </label>
-                      <button
-                        type="submit"
-                        className="text-xs mr-2 cursor-pointer"
-                      >
-                        | 등록
-                      </button>
-                    </form>
+                    {/* 댓글 등록 */}
+                    <AddComment
+                      loggedInUserUid={loggedInUserUid}
+                      post_id={post_id}
+                    />
                     {/* 댓글 map */}
                     {sortedLatestCommentsList?.length === 0 ? (
                       <p className="text-center text-[13px] font-light mt-4">
