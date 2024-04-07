@@ -4,7 +4,7 @@ import {
   useActionImages,
   useIndividualAction,
 } from "@/app/_hooks/useQueries/individualActions";
-import { Avatar, CircularProgress } from "@nextui-org/react";
+import { Avatar, Chip, CircularProgress } from "@nextui-org/react";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import { useParams } from "next/navigation";
 import React from "react";
@@ -16,6 +16,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { useFetchUserInfo } from "@/app/_hooks/useQueries/mypage";
 import { useSession } from "next-auth/react";
 import { User } from "@/app/_types";
+import { RxPerson } from "react-icons/rx";
 
 const DetailPage = () => {
   const session = useSession();
@@ -65,7 +66,7 @@ const DetailPage = () => {
   return (
     <>
       <div className="flex flex-col w-[1200px] h-auto mx-auto m-5">
-        <div className="grid grid-cols-4 grid-rows-4 gap-4">
+        <div className="grid grid-cols-4 grid-rows-3 gap-4">
           <div className="col-span-1 row-span-1 border-2 border-gray-300 rounded-3xl">
             <div className="mt-5 ml-5 mr-5 mb-3 border-b-2 border-b-gray-300 content-center">
               <div className="flex gap-4 items-center">
@@ -83,32 +84,52 @@ const DetailPage = () => {
               </div>
               <div className="flex items-end pb-2"></div>
             </div>
-            <div className="ml-5">
+            <div className="m-5">
               <p className="text-[0.8rem]">{detail.users?.introduction}</p>
             </div>
           </div>
-          <div className="col-span-3 row-span-1 border-2 border-gray-300 rounded-3xl">
-            <p>제목 : {detail.title}</p>
-            <div className=" border-gray-300 divide-y">
+
+          <div className="col-span-3 row-span-1 border-2 border-gray-300 rounded-3xl pt-4 pl-10 pr-10">
+            <Chip className="text-base">Green-action</Chip>
+            <div className="flex justify-between mt-5 mb-6 pb-1 border-b-2 border-gray-300">
+              <p className="font-extrabold text-xl">{detail.title}</p>
+              <div className="flex flex-row text-sm">
+                <Chip
+                  size="sm"
+                  color={`${detail.is_recruiting ? "success" : "default"}`}
+                  className="text-white mr-3"
+                >
+                  {detail.is_recruiting ? "모집중" : "마감됨"}
+                </Chip>
+                <RxPerson className="float-end mr-1" />
+                <p className="float-end">최대 {detail.recruit_number}명</p>
+                {/* 북마크 자리 */}
+              </div>
+            </div>
+
+            <div className="border-b-2 w-2/5 text-sm">
               <FaRegCalendar className="float-left mr-3" />
               <p>
                 날짜&nbsp;&nbsp; {detail.start_date} ~ {detail.end_date}
               </p>
+            </div>
+            <div className="mt-1 mb-2 text-sm">
               <LuMapPin className="float-left mr-3" />
               <p>장소&nbsp;&nbsp; {detail.location}</p>
             </div>
           </div>
 
           <div className="col-span-1 row-span-1">
-            <div className="p-2 mb-4 border-2 border-gray-300 rounded-3xl text-center font-extrabold">
+            <div className="p-2 mb-4 border-2 border-gray-300 rounded-3xl text-center font-extrabold cursor-pointer">
               1:1 채팅하기
             </div>
-            <div className="p-2 mb-4 border-2 border-gray-300 rounded-3xl text-center font-extrabold">
+            <div className="p-2 mb-4 border-2 border-gray-300 rounded-3xl text-center font-extrabold cursor-pointer">
               참여하기
             </div>
+            <KakaoShareButton description={detail.content!} />
           </div>
-          <div className="col-span-3 row-span-3 border-2 border-gray-300 rounded-3xl flex justify-around pt-12">
-            <div>
+          <div className="col-span-3 row-span-2 border-2 border-gray-300 rounded-3xl flex justify-around pt-12">
+            <div className="w-[300px] h-[400px]">
               <p className="text-neutral-600">상세내용</p>
               <br />
               <p className="text-neutral-600">{detail.content}</p>
@@ -137,11 +158,6 @@ const DetailPage = () => {
                 </Slider>
               )}
             </div>
-          </div>
-
-          <div className="col-span-1 row-span-1">
-            {/* 5번 카카오톡 공유 자리 */}
-            <KakaoShareButton description={detail.content!} />
           </div>
         </div>
       </div>
