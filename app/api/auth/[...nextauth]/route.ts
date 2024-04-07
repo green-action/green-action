@@ -1,6 +1,7 @@
 import { supabase } from "@/utils/supabase/client";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import KakaoProvider from "next-auth/providers/kakao";
 
 const handler = NextAuth({
   providers: [
@@ -20,6 +21,7 @@ const handler = NextAuth({
           placeholder: "비밀번호를 입력해주세요.",
         },
       },
+
       async authorize(credentials, req) {
         if (!credentials || !credentials.id || !credentials.password) {
           throw new Error("유효하지 않은 자격 증명입니다.");
@@ -29,6 +31,7 @@ const handler = NextAuth({
             email: credentials.id,
             password: credentials.password,
           });
+          console.log("로그인 토큰:", response.data.session);
           if (response) {
             return response.data.user;
           }
@@ -39,17 +42,31 @@ const handler = NextAuth({
         }
       },
     }),
+    KakaoProvider({
+      clientId: process.env.NEXT_KAKAO_CLIENT_ID!,
+      clientSecret: process.env.NEXT_KAKAO_CLIENT_SECRET!,
+    }),
   ],
   callbacks: {
+    async jwt({ token, user }) {
+      console.log("jwt 토큰:", token);
+      console.log("jwt유저=>>", user);
+
+      return token;
+    },
+
     async session({ session, token }) {
       session.user.user_uid = token.sub ?? "";
+      console.log("세션유저-->>", session);
+
       return session;
     },
   },
+
   pages: {
     signIn: "/login",
   },
-  secret: "secret",
+  secret: process.env.NEXTAUTH_SECRET,
 });
 
 export { handler as GET, handler as POST };

@@ -1,4 +1,5 @@
 "use client";
+import React, { useState } from "react";
 import {
   Button,
   Card,
@@ -12,10 +13,15 @@ import {
 } from "@nextui-org/react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import React from "react";
+import { PiEyeLight, PiEyeSlash } from "react-icons/pi";
+import Image from "next/image";
+import kakaoimg from "../_assets/kakao_login.png";
+import Kakao from "next-auth/providers/kakao";
+import { logInWithKakao } from "../_api/auth";
+import { supabase } from "@/utils/supabase/client";
 
 const Login = () => {
-  // const { login } = useAuthStore();
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -29,9 +35,10 @@ const Login = () => {
 
       if (!email || !password) {
         alert("이메일과 비밀번호를 입력해주세요.");
+        return;
       }
 
-      const response = await signIn("id-password-credential", {
+      await signIn("id-password-credential", {
         id: email,
         password,
         redirect: false,
@@ -39,9 +46,20 @@ const Login = () => {
 
       onOpen();
     } catch (error) {
-      console.error(error);
       alert("로그인을 실패했습니다. 이메일과 비밀번호를 확인해주세요!");
+      console.error(error);
     }
+  };
+
+  const handleKaKakSingIn = async () => {
+    signIn("kakao", {
+      redirect: false,
+      callbackUrl: "/",
+    });
+  };
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
   };
 
   return (
@@ -62,10 +80,28 @@ const Login = () => {
               className="mb-5  border-[BFBFBF] border-1 rounded-[12px]"
             />
             <Input
-              type="password"
+              type={passwordVisible ? "text" : "password"}
               name="password"
               label="Password"
               className="mb-5  border-[BFBFBF] border-1 rounded-[12px]"
+              endContent={
+                <>
+                  <div className="flex items-center">
+                    <button
+                      type="button"
+                      id="togglePasswordVisibility"
+                      onClick={togglePasswordVisibility}
+                      className="mb-5"
+                    />
+                  </div>
+                  <label
+                    htmlFor="togglePasswordVisibility"
+                    className="flex items-center"
+                  >
+                    {passwordVisible ? <PiEyeSlash /> : <PiEyeLight />}
+                  </label>
+                </>
+              }
             />
 
             <Button
@@ -78,13 +114,25 @@ const Login = () => {
             </Button>
           </form>
           <p>or</p>
-          <div className="flex">
+          <div className="flex justify-between gap-7">
             <button>구글</button>
-            <button>카카오</button>
+
+            <Image
+              src={kakaoimg}
+              alt="카카오로그인"
+              onClick={handleKaKakSingIn}
+              className="cursor-pointer"
+            />
           </div>
         </CardBody>
       </Card>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false}>
+      <Modal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        isDismissable={false}
+        isKeyboardDismissDisabled={true}
+        hideCloseButton={true}
+      >
         <ModalContent>
           {() => (
             <>

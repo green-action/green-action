@@ -1,16 +1,29 @@
-import { NextResponse } from "next/server";
+import { NextFetchEvent, NextResponse } from "next/server";
 import { updateSession } from "@/utils/supabase/middleware";
 import { type NextRequest } from "next/server";
+import { getToken } from "next-auth/jwt";
 
-export async function middleware(request: NextRequest) {
-  // if (request.nextUrl.pathname.startsWith("/mypage")) {
-  //   return NextResponse.rewrite(new URL("/login", request.url));
-  // }
+const secret = process.env.NEXTAUTH_SECRET;
 
-  // if (request.nextUrl.pathname.startsWith("/login")) {
-  //   return NextResponse.redirect(new URL("/", request.url));
-  // }
-  return await updateSession(request);
+export async function middleware(req: NextRequest) {
+  // event: NextFetchEvent
+  // 로그인 했을 경우에만 토큰 존재
+  const session = await getToken({ req, secret, raw: true });
+  const { pathname } = req.nextUrl;
+  // console.log("JSON Web Token===>", session);
+
+  if (pathname.startsWith("/login") || pathname.startsWith("/signup")) {
+    if (session) {
+      return NextResponse.redirect(new URL("/", req.url));
+    }
+  }
+  if (pathname.startsWith("/mypage") || pathname.startsWith("/goods")) {
+    if (!session) {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
+  }
+
+  return await updateSession(req);
 }
 
 export const config = {
@@ -24,5 +37,7 @@ export const config = {
      * Feel free to modify this pattern to include more paths.
      */
     "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    "/login",
+    "/signup",
   ],
 };
