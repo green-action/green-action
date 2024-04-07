@@ -15,7 +15,7 @@ const Goods = () => {
   const session = useSession();
   if (isLoading)
     return (
-      <div>
+      <div className="flex justify-center items-center h-screen">
         <CircularProgress color="success" aria-label="Loading..." />
       </div>
     );
