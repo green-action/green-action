@@ -53,16 +53,25 @@ function Header() {
     }
   };
 
+  const [selected, setSelected] = useState("");
+
   // 부모 탭의 선택 상태
   const [parentSelected, setParentSelected] = useState<string>("");
+  // console.log("🐰 ~ Header ~ parentSelected : ", parentSelected);
 
   // 하위 탭의 선택 상태
   const [childSelected, setChildSelected] = useState<string>("");
 
   // 부모 탭 선택 시 하위 탭 선택 상태 초기화
+  // Tab 태그에서 onPress (+onClick) 로 작동하지않음
   const handleParentTabSelect = (key: any) => {
     setParentSelected(key);
-    setChildSelected("");
+    if (key === "/individualAction") {
+      setChildSelected("/individualAction");
+    } else {
+      setChildSelected("");
+    }
+    // console.log("🐰 ~ handleParentTabSelect ~ key : ", key);
   };
   const handleChildTabSelect = (key: any) => {
     setParentSelected("/individualAction");
@@ -95,6 +104,7 @@ function Header() {
           <Tabs
             // key="md"
             selectedKey={parentSelected || pathname} // 선택된 부모 탭의 키 또는 경로 사용
+            onSelectionChange={() => setParentSelected(parentSelected)}
             // size="lg"
             radius="full"
             aria-label="Options"
@@ -108,7 +118,7 @@ function Header() {
               as={Link}
               href="/about"
               className="w-[10rem]"
-              onSelect={() => handleParentTabSelect("/about")}
+              // onSelect={() => handleParentTabSelect("/about")}
             />
             <Tab
               as={Link}
@@ -122,7 +132,9 @@ function Header() {
               onMouseLeave={() => {
                 setIsOpen(false);
               }}
-              onSelect={() => handleParentTabSelect("/individualAction")}
+              // onSelectionChange={handleParentTabSelect}
+              // onSelect={() => handleParentTabSelect("/individualAction")}
+              // data-pressed={() => handleParentTabSelect("/individualAction")} 안먹힘
             />
             <Tab
               as={Link}
@@ -130,7 +142,7 @@ function Header() {
               title="Community"
               href="/community"
               className="w-[10rem] "
-              onSelect={() => handleParentTabSelect("/community")}
+              // onSelect={() => handleParentTabSelect("/community")}
             />
             <Tab
               as={Link}
@@ -138,7 +150,7 @@ function Header() {
               title="Goods"
               href="/goods"
               className="w-[10rem] "
-              onSelect={() => handleParentTabSelect("/goods")}
+              // onSelect={() => handleParentTabSelect("/goods")}
             />
           </Tabs>
           {isOpen && (

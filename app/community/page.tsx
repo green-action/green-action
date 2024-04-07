@@ -79,6 +79,7 @@ const CommunityListPage = () => {
             <CommunityListPost
               key={communityPost.id}
               communityPost={communityPost}
+              mode="community"
             />
           ))}
         </div>
