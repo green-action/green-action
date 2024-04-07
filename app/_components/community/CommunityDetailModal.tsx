@@ -1,18 +1,17 @@
-import {
-  getCommunityCommentsList,
-  insertCommunityComment,
-} from "@/app/_api/community/comments-api";
-import {
-  deleteCommunityPost,
-  getPostContents,
-} from "@/app/_api/community/community-api";
-import {
-  QEURY_KEY_COMMUNITY_COMMENTS_LIST,
-  QUERY_KEY_COMMUNITYLIST,
-  QUERY_KEY_COMMUNITY_POST,
-} from "@/app/_api/queryKeys";
-import { CommunityDetailProps } from "@/app/_types/community/community";
-import { formatToLocaleDateString } from "@/utils/date/date";
+import { useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+
+import type { CommunityDetailProps } from "@/app/_types/community/community";
+
+import { useInsertCommunityCommentMutation } from "@/app/_hooks/useMutations/comments";
+import { useDeleteCommunityPostMutation } from "@/app/_hooks/useMutations/community";
+import { useGetCommunityCommentsList } from "@/app/_hooks/useQueries/comments";
+import { useGetPostContents } from "@/app/_hooks/useQueries/community";
+
+import Likes from "../likes/Likes";
+import CommunityPostComment from "./Comment";
+import EditPostModal from "./EditPostModal";
+
 import {
   Avatar,
   Button,
@@ -26,12 +25,9 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
+
+import { formatToLocaleDateString } from "@/utils/date/date";
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import Likes from "../likes/Likes";
-import CommunityPostComment from "./Comment";
-import EditPostModal from "./EditPostModal";
 
 const CommunityDetailModal = ({
   isOpen,
@@ -48,62 +44,25 @@ const CommunityDetailModal = ({
     onOpen: onEditOpen,
     onOpenChange: onEditOpenChange,
   } = useDisclosure();
-  const queryClient = useQueryClient();
 
-  // 게시글 정보 가져오기 useQuery
-  const {
-    data: communityPost,
-    isLoading: postIsLoading,
-    isError: postIsError,
-  } = useQuery({
-    queryKey: [QUERY_KEY_COMMUNITY_POST, post_id],
-    queryFn: () => getPostContents(post_id),
-  });
+  // 게시글 정보 가져오기
+  const { communityPost, isPostLoading, isPostError } =
+    useGetPostContents(post_id);
+
+  // 댓글 리스트 가져오기
+  const { communityComments, isCommentsLoading, isCommentsError } =
+    useGetCommunityCommentsList(post_id);
 
   // 게시글 삭제 mutation
-  const { mutate: deletePostMutation } = useMutation({
-    mutationFn: (post_id: string) => deleteCommunityPost(post_id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY_COMMUNITYLIST],
-      });
-    },
-  });
-
-  // 댓글 리스트 가져오기 useQuery
-  const {
-    data: communityComments,
-    isLoading: commentsIsLoading,
-    isError: commentsIsError,
-  } = useQuery({
-    queryKey: [QEURY_KEY_COMMUNITY_COMMENTS_LIST],
-    queryFn: () => getCommunityCommentsList(post_id),
-  });
+  const { deletePostMutation } = useDeleteCommunityPostMutation();
 
   // 댓글 등록 mutation
-  const { mutate: insertCommentMutation } = useMutation({
-    mutationFn: async ({
-      content,
-      loggedInUserUid,
-      post_id,
-    }: {
-      content: string;
-      loggedInUserUid: string;
-      post_id: string;
-    }) => {
-      await insertCommunityComment({ content, loggedInUserUid, post_id });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [QEURY_KEY_COMMUNITY_COMMENTS_LIST],
-      });
-    },
-  });
+  const { insertCommentMutation } = useInsertCommunityCommentMutation();
 
-  if (postIsLoading || commentsIsLoading) {
+  if (isPostLoading || isCommentsLoading) {
     return <div>Loading...</div>;
   }
-  if (postIsError || commentsIsError) {
+  if (isPostError || isCommentsError) {
     return <div>Error</div>;
   }
 
