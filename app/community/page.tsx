@@ -21,13 +21,11 @@ const CommunityListPage = () => {
     new Set(["정렬"]),
   );
 
-  // 드랍다운 선택 로직
+  // 드랍다운 선택값 추출 로직
   const selectedValue = React.useMemo(
     () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
     [selectedKeys],
   );
-
-  // console.log("selectedValue", selectedValue);
 
   const {
     data: communityList,
@@ -46,13 +44,13 @@ const CommunityListPage = () => {
   }
 
   // 리스트 최신순 정렬
-  // (new Date()를 사용하여 날짜를 비교할 때에는 각 날짜를 밀리초 단위로 변환해야 함 - .getTime() 사용)
+  // (new Date()를 사용하여 날짜를 비교할 때에는 각 날짜를 밀리초 단위로 변환해야 함 -> .getTime() 사용)
   const sortedLatestCommunityList = communityList?.slice().sort((a, b) => {
     return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
   });
 
   // 리스트 좋아요순 정렬
-  // 각 게시물의 좋아요 개수 계산
+  // 각 게시물의 좋아요 개수 계산 - communityList key에 likes_count 추가하기
   const communityListWithLikesCount = communityList?.map((post) => {
     return {
       ...post,
@@ -60,7 +58,7 @@ const CommunityListPage = () => {
     };
   });
 
-  // 좋아요 개수를 기준으로 정렬
+  // 좋아요 개수(likes_count)를 기준으로 정렬
   const sortedLikesCommunityList = communityListWithLikesCount?.sort(
     (a, b) => b.likes_count - a.likes_count,
   );
@@ -112,13 +110,6 @@ const CommunityListPage = () => {
                   mode="community"
                 />
               ))}
-          {/* {communityList?.map((communityPost) => (
-            <CommunityListPost
-              key={communityPost.id}
-              communityPost={communityPost}
-              mode="community"
-            />
-          ))} */}
         </div>
         <AddPostModal />
       </div>
