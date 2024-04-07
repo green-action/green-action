@@ -6,8 +6,10 @@ import { longStyle } from "./style";
 
 const CommunityListPost = ({
   communityPost,
+  mode,
 }: {
   communityPost: CommunityPostObj | undefined;
+  mode: string;
 }) => {
   // 커뮤니티 디테일 모달창 props
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -21,7 +23,11 @@ const CommunityListPost = ({
 
   return (
     <>
-      <div className=" w-[31%] mb-2 ">
+      <div
+        className={` ${
+          mode === "main" ? "w-[330px] h-[600px]" : "w-[31%] mb-2"
+        }`}
+      >
         <Card
           isFooterBlurred
           radius="lg"

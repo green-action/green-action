@@ -31,10 +31,7 @@ const MyProfileEditModal = ({
   const [uploadedFileUrl, setUploadedFileUrl] = useState<string>("");
   const [file, setFile] = useState<File | undefined>();
 
-  const { updateName } = useUpdateUserName(
-    "ed71fea7-2892-4769-b7d0-1f8ba330c213", // user_uid
-    editedName,
-  );
+  const { updateName } = useUpdateUserName(user_uid, editedName);
 
   // 모달창 '작성완료'없이 닫을 시 초기화
   const handleModalClose = () => {

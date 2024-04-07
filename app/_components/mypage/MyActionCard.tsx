@@ -1,12 +1,11 @@
-import { formatToLocaleDateString } from "@/utils/date/date";
 import {
   Button,
   Card,
   Chip,
-  Modal,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
   useDisclosure,
 } from "@nextui-org/react";
 import React from "react";
@@ -14,80 +13,103 @@ import { FaRegStar } from "react-icons/fa";
 import { GoPerson } from "react-icons/go";
 import { GrLocation } from "react-icons/gr";
 import { IoIosCalendar } from "react-icons/io";
-import CustomConfirm from "../customConfirm/CustomConfirm";
-import { useUpdateActionRecruiting } from "@/app/_hooks/useMutations/mypage";
 import MyActionRecruitingModal from "./MyActionRecruitingModal";
+import { useRouter } from "next/navigation";
+import { HiOutlineDotsVertical } from "react-icons/hi";
+import Bookmark from "../bookmark/Bookmark";
+import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
 
 interface ActionCardProps {}
 
-const MyActionCard = ({ action }: any) => {
-  const formattedStartDate = formatToLocaleDateString(action.start_date || "");
-  const formattedEndDate = formatToLocaleDateString(action.end_date || "");
+const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
+  const router = useRouter();
+  const {
+    isOpen,
+    onOpen: handleModalOpen,
+    onClose,
+    onOpenChange,
+  } = useDisclosure();
+
+  const {
+    id,
+    title,
+    is_recruiting,
+    actionImgUrls,
+    recruit_number,
+    start_date,
+    end_date,
+    location,
+    actionBookmarks,
+  } = mode === "bookmark" ? action.bookmarkedAction : action;
+
+  const actionImgUrl = actionImgUrls[0];
+  const bookmarkCount = actionBookmarks?.length;
+
+  const { deleteAction } = useDeleteAction(id);
+
+  const handleActionClick = () => router.push(`/individualAction/detail/${id}`);
+
+  const handleEditClick = () => {
+    router.push(`/individualAction/edit/${id}`);
+  };
+
+  const handleDeleteClick = () => {
+    // 커스텀 confirm 창 사용? - but 드롭/다운에 버튼넣어야 하는 문제
+    if (window.confirm("정말 삭제하시겠습니까?")) {
+      deleteAction();
+    } else return;
+  };
 
   return (
-    <div key={action.id}>
+    <div key={id}>
       {/* SECTION - 모달 => 커스텀 alert 창 사용하기 ? / 모달 -> 카드 내에서 뜨도록 구현 시도해보기? */}
-      {/* <Modal
-        isOpen={isOpen}
-        // onClose={handleModalClose}
-        onOpenChange={onOpenChange}
-      >
-        <ModalContent>
-          {(onClose) => (
-            //   NOTE 모달
-            <div className="flex flex-col items-center p-10">
-              <ModalHeader>
-                <p className="text-lg">모집 마감을 하시겠습니까?</p>
-              </ModalHeader>
-              <ModalFooter>
-                <Button color="primary" onPress={handleUpdateRecruiting}>
-                  네
-                </Button>
-                <Button color="danger" onPress={onClose}>
-                  아니오
-                </Button>
-              </ModalFooter>
-            </div>
+      <div className="none w-[330px] h-[25rem] flex flex-wrap  p-1 ">
+        <Card
+          isFooterBlurred
+          radius="lg"
+          className="border-none w-full h-[260px] cursor-pointer"
+        >
+          {actionImgUrl ? (
+            <img
+              src={actionImgUrl.img_url}
+              alt="Green Action Image"
+              className="w-full h-full"
+              onClick={handleActionClick}
+            />
+          ) : (
+            <div
+              className="none bg-gray-300 w-full h-full rounded"
+              onClick={handleActionClick}
+            />
           )}
-        </ModalContent>
-      </Modal> */}
-
-      <Card className="w-[21rem] h-[25rem] flex flex-wrap gap-3 cursor-pointer p-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-        {/* TODO 누르면 해당 상세페이지로 이동 */}
-        {/* <CardHeader> */}
-        {/* 이미지 없는 경우 기본? */}
-        {action.actionImgUrls[0] ? (
-          // <Card className="h-[230px]">
-          <img
-            src={action.actionImgUrls[0]?.img_url}
-            alt="Green Action Image"
-            width={350}
-            height={230}
-            className="rounded-3xl p-3"
-          />
-        ) : (
-          // </Card>
-          <div className="bg-gray-300 width-[100px] h-[230px] rounded-3xl" />
-        )}
-
-        {/* <img
-                      src={action.actionImgUrls[0]?.img_url}
-                      alt="action-img"
-                      width={320}
-                      height={150}
-                      className="rounded-3xl"
-                    /> */}
-        {/* </CardHeader> */}
-        {/* <CardBody> */}
-        <div className="p-2">
-          <div className="flex gap-3">
-            <p className="font-bold">{action.title}</p>
-            {action.is_recruiting ? (
-              <MyActionRecruitingModal id={action.id} />
-            ) : (
-              <Chip size="sm">모집마감</Chip>
-            )}
-
+        </Card>
+        <div className={`pl-2 ${mode === "mypost" && "pt-5"}`}>
+          <div className="flex w-[300px] justify-around ">
+            <div className="flex gap-2 mb-4 ">
+              <p className="max-w-[160px] font-bold  overflow-hidden whitespace-nowrap overflow-ellipsis">
+                {title}
+              </p>
+              {is_recruiting ? (
+                <Chip size="sm" color="success" className="text-white">
+                  모집중
+                </Chip>
+              ) : (
+                <Chip size="sm" className="text-white">
+                  모집마감
+                </Chip>
+              )}
+            </div>
+            <div className="flex items-start pt-1 gap-2 text-sm">
+              <div className="flex gap-1">
+                <GoPerson size="15" />
+                <p>{recruit_number}</p>
+              </div>
+              {/* <div className="flex gap-1 items-center"> */}
+              {/* <FaRegStar size="15" /> */}
+              {/* LINK 북마크 컴포넌트 */}
+              <Bookmark action_id={id} />
+              {/* </div> */}
+            </div>
             {/* 커스텀컨펌창 - 크기?등 ui 수정 어려운 문제 */}
             {/* <CustomConfirm
               text=".."
@@ -95,27 +117,63 @@ const MyActionCard = ({ action }: any) => {
               okFunction={handleRecruitingChange}
             /> */}
           </div>
-          <div className="flex gap-1">
-            {/* <BsPerson size="20" /> 아이콘 보류 */}
-            <GoPerson size="20" />
-            <p>{action.recruit_number}</p>
-            <FaRegStar size="20" />
-            <p>{action.actionBookmarks.length}</p>
-          </div>
-          <div className="flex gap-1">
-            <IoIosCalendar size="18" />
+          <div className="flex gap-1 text-sm">
+            <IoIosCalendar size="15" />
             <p>
-              {formattedStartDate} - {formattedEndDate}
+              {start_date} - {end_date}
             </p>
           </div>
-          <hr className="text-gray-700 w-[14rem]" />
-          <div className="flex gap-1">
-            <GrLocation size="18" />
-            <p>{action.location}</p>
+          <hr className="text-gray-700 w-[13rem] my-1" />
+          <div className="flex justify-between">
+            <div className="flex gap-1">
+              <GrLocation size="15" />
+              <p className="text-sm overflow-hidden whitespace-nowrap overflow-ellipsis">
+                {location}
+              </p>
+            </div>
+
+            {mode === "mypost" && (
+              <>
+                <Dropdown
+                  placement="bottom-end"
+                  className="flex w-[10px] p-0 m-0 rounded-3xl justify-end" //max-w-[5rem]
+                >
+                  <DropdownTrigger>
+                    <Button className="bg-transparent ">
+                      <HiOutlineDotsVertical className="cursor-pointer" />
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu aria-label="Static Actions" className="p-3">
+                    {is_recruiting && (
+                      <DropdownItem key="모집마감" onClick={handleModalOpen}>
+                        모집마감
+                      </DropdownItem>
+                    )}
+                    <DropdownItem key="수정" onClick={handleEditClick}>
+                      수정
+                    </DropdownItem>
+                    <DropdownItem
+                      key="삭제"
+                      color="danger"
+                      onClick={handleDeleteClick}
+                    >
+                      삭제
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+
+                {/* 모집마감 변경 모달 */}
+                <MyActionRecruitingModal
+                  id={id}
+                  isOpen={isOpen}
+                  onClose={onClose}
+                  onOpenChange={onOpenChange}
+                />
+              </>
+            )}
           </div>
         </div>
-        {/* </CardBody> */}
-      </Card>
+      </div>
     </div>
   );
 };

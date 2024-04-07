@@ -42,19 +42,20 @@ const Bookmark = ({ action_id }: { action_id: string }) => {
   return (
     <>
       {isBookmarked ? (
-        <>
+        <div className="flex gap-[5px] h-[20px] ">
           <button onClick={() => handleRemoveBookmarkClick(user_uid)}>
-            <FaStar className="text-amber-300 text-xl" />
+            <FaStar className="text-amber-300 text-[17px]  ml-[1.5px] mb-10 " />
+            {/* mr-[3px] */}
           </button>
           <span>{filterBookmark?.filterBookmark?.length}</span>
-        </>
+        </div>
       ) : (
-        <>
+        <div className="flex gap-[3px] h-[20px] ">
           <button onClick={() => handleAddBookmarkClick(user_uid, action_id)}>
-            <CiStar className="text-xl" />
+            <CiStar className="text-[20px] mb-20" />
           </button>
           <span>{filterBookmark?.filterBookmark?.length}</span>
-        </>
+        </div>
       )}
     </>
   );

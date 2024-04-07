@@ -1,20 +1,9 @@
 "use client";
-// 되면 ssr로 두고 client 컴포는 따로 빼보기
+// 되면 ssr로 두고 client 컴포는 따로 빼보기 ?
 
-import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Chip,
-  CircularProgress,
-  Select,
-  SelectItem,
-} from "@nextui-org/react";
-import React, { useState } from "react";
-import { useAuthStore } from "../_store/authStore";
+import { Button, CircularProgress } from "@nextui-org/react";
+import React, { useEffect, useState } from "react";
 import MyProfile from "../_components/mypage/MyProfile";
-import { useQueryUserMetadata } from "../_hooks/useQueries/user";
 import {
   useFetchMyGreenActions,
   usefetchBookmarkedActions,
@@ -22,32 +11,61 @@ import {
 } from "../_hooks/useQueries/mypage";
 import CustomConfirm from "../_components/customConfirm/CustomConfirm";
 import MyActionCard from "../_components/mypage/MyActionCard";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import RecruitSelectTab from "../_components/mypage/RecruitSelectTab";
+import CommunityListPost from "../_components/community/CommunityListPost";
 
-// 로그인 안 한 상태에서 접근 차단할 것
+// 로그인 안 한 상태에서 접근 차단할 것 -
+// FIXME  모집상태별 분류 다시 안됨
 const MyPage = () => {
-  const user_uid = "ed71fea7-2892-4769-b7d0-1f8ba330c213";
+  // TODO props 타입등 재설정
+  // FIXME 유저닉네임 수정 다시 봐야
+  // const user_uid = "2c81257f-e4d9-41d8-ad65-3745da3d3b2f";
   // 임시 유저 아이디 설정
+  const router = useRouter();
+  const session = useSession();
 
-  // FIXME 새로고침 시 로그인상태에서도 userUid가 사라지는 문제
-  // const { user } = useAuthStore();
-  // const user_uid = user?.id || "";
-  // console.log(user_uid);
+  const isLoggedIn = !!session.data;
+  const user_uid = session.data?.user.user_uid as string;
+  // let user_uid = "";
+  // 새로고침 시 로그인이 잠시 풀림
+  // if (!isLoggedIn) {
+  //   alert("로그인 해주세요!");
+  //   router.replace("/");
+  // }
+  // const session = useSession();
+  // console.log("🐰 ~ MyPage ~ session : ", session);
+  // const user_uid = session?.data?.user.user_uid || "";
 
-  // NOTE zustand 말고 로그인상태관리, uid - localstroage 사용해보기,
-  const { userMetadata, isLoading } = useQueryUserMetadata();
-  // const user_uid = userMetadata?.id;
+  // useEffect(() => {
+  //   const fetchSession = async () => {
+  //     // const session = useSession(); // 여기에 쓰면 invalid hook call
+  //     const isLoggedIn = await !!session.data;
+  //     user_uid = session?.data?.user.user_uid || "";
+  //     if (!isLoggedIn) {
+  //       alert("로그인 해주세요!");
+  //       router.replace("/");
+  //     }
+  //   };
+  //   fetchSession();
+  // }, [user_uid]);
 
-  const [clicked, setClicked] = useState<string>("myGreenAction");
+  // FIXME 새로고침 시 로그인 풀리는 문제
+  const checkUserLogin = () => {
+    const isLoggedIn = !!session.data;
+    const user_uid = session?.data?.user.user_uid || "";
+    // if (!isLoggedIn) {
+    //   alert("로그인 해주세요!");
+    //   router.replace("/");
+    // }
+    return user_uid; // uid를 리턴해줘야만 됨.? why? 쓰지않는데도
+  };
 
-  // TODO: 리스트 순서? - created at 기준
-  // TODO: 이미지 여러장일 경우? - 첫 한 장만
   // TODO: myActions 없는 경우 처리
 
   const { data: myActions, isLoading: isActionsLoading } =
     useFetchMyGreenActions(user_uid);
-
-  // 처음에 myActons 전체 안뜨는 문제
-  const [filteredActions, setFilteredActions] = useState(myActions);
 
   const { data: myPosts, isLoading: isPostsLoading } =
     usefetchMyCommunityPosts(user_uid);
@@ -55,31 +73,90 @@ const MyPage = () => {
   const { data: myBookmarks, isLoading: isBookmarksLoading } =
     usefetchBookmarkedActions(user_uid);
 
-  const handleMyGreenActionClick = () => {
-    setClicked("myGreenAction");
+  // my action - created_at (작성일) 기준으로 정렬하기
+  const sortedMyActions = myActions?.slice().sort((a, b) => {
+    return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+  });
+
+  // 찜한 action - created_at (작성일) 기준으로 정렬하기
+  const sortedMyBookmarks = myBookmarks?.slice().sort((a, b) => {
+    return (
+      new Date(a?.bookmarkedAction?.created_at || "").getTime() -
+      new Date(b?.bookmarkedAction?.created_at || "").getTime()
+    );
+  });
+
+  const [activeTab, setActiveTab] = useState("My Green-Action");
+  const [myRecruitClicked, setMyRecruitClicked] = useState("전체");
+  const [bookmarkedRecruitClicked, setBookmarkedRecruitClicked] =
+    useState("전체");
+
+  const [filteredActions, setFilteredActions] = useState(sortedMyActions);
+  const [filteredBookmarkedActions, setFilteredBookmarkedActions] =
+    useState(sortedMyBookmarks);
+
+  useEffect(() => {
+    filterByRecruiting();
+  }, [
+    myActions,
+    myPosts,
+    myBookmarks,
+    activeTab,
+    myRecruitClicked,
+    bookmarkedRecruitClicked,
+  ]);
+
+  useEffect(() => {
+    checkUserLogin(); // 안됨 -> 이걸해줘야 처음 렌더링시 유저확인되고 데이터가 뜬다
+  }, [isLoggedIn]);
+
+  // My Action, 작성 커뮤니티 글, 찜한 Action 탭 선택시
+  const handleActiveTabClick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
+    const target = e.target as HTMLButtonElement;
+    const textContent = target.textContent;
+    if (textContent) {
+      setActiveTab(textContent);
+    }
   };
 
-  const handleMyCommunityPostsClick = () => {
-    setClicked("myCommunityPosts");
+  const filterByRecruiting = () => {
+    if (activeTab === "My Green-Action") {
+      if (myRecruitClicked === "전체") {
+        setFilteredActions(sortedMyActions);
+      }
+      if (myRecruitClicked === "모집 중") {
+        setFilteredActions(
+          sortedMyActions?.filter((action) => action.is_recruiting),
+        );
+      } else if (myRecruitClicked === "모집 마감") {
+        setFilteredActions(
+          sortedMyActions?.filter((action) => !action.is_recruiting),
+        );
+      }
+    }
+    if (activeTab === "찜한 Green-Action") {
+      if (bookmarkedRecruitClicked === "전체") {
+        setFilteredBookmarkedActions(sortedMyBookmarks);
+      }
+      if (bookmarkedRecruitClicked === "모집 중") {
+        setFilteredBookmarkedActions(
+          sortedMyBookmarks?.filter(
+            (action) => action.bookmarkedAction?.is_recruiting,
+          ),
+        );
+      } else if (bookmarkedRecruitClicked === "모집 마감") {
+        setFilteredBookmarkedActions(
+          sortedMyBookmarks?.filter(
+            (action) => !action.bookmarkedAction?.is_recruiting,
+          ),
+        );
+      }
+    }
   };
 
-  const handleBookmarkedActionClick = () => {
-    setClicked("bookmarkedActions");
-  };
-
-  const handleAllRecruitingCategory = () => {
-    setFilteredActions(myActions);
-  };
-
-  const handleRecruitingCategory = () => {
-    setFilteredActions(myActions?.filter((action) => action.is_recruiting));
-  };
-
-  const handleNotRecruitingCategory = () => {
-    setFilteredActions(myActions?.filter((action) => !action.is_recruiting));
-  };
-
-  if (isLoading || isActionsLoading || isPostsLoading || isBookmarksLoading) {
+  if (isActionsLoading || isPostsLoading || isBookmarksLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
         <CircularProgress color="success" label="Loading..." />
@@ -88,7 +165,12 @@ const MyPage = () => {
   }
 
   return (
-    <div className="flex justify-center mt-10">
+    <div className="flex justify-center pt-12 mb-[100px]">
+      {/* <CustomConfirm
+        text="안녕"
+        buttonName="버튼"
+        okFunction={() => setFilteredActions}
+      /> */}
       <div className="flex w-[1400px]">
         <MyProfile user_uid={user_uid} />
         <div className="flex flex-col gap-10 pl-10 pt-1 w-full">
@@ -97,136 +179,69 @@ const MyPage = () => {
               <Button
                 radius="full"
                 size="md"
-                onClick={handleMyGreenActionClick}
-                className={clicked === "myGreenAction" ? "bg-green-700/30" : ""}
+                onClick={handleActiveTabClick}
+                className={
+                  activeTab === "My Green-Action" ? "bg-green-700/30" : ""
+                }
               >
                 My Green-Action
               </Button>
               <Button
                 radius="full"
                 size="md"
-                onClick={handleMyCommunityPostsClick}
-                className={
-                  clicked === "myCommunityPosts" ? "bg-green-700/30" : ""
-                }
+                onClick={handleActiveTabClick}
+                className={activeTab === "작성 게시물" ? "bg-green-700/30" : ""}
               >
                 작성 게시물
               </Button>
               <Button
                 radius="full"
                 size="md"
-                onClick={handleBookmarkedActionClick}
+                onClick={handleActiveTabClick}
                 className={
-                  clicked === "bookmarkedActions" ? "bg-green-700/30" : ""
+                  activeTab === "찜한 Green-Action" ? "bg-green-700/30" : ""
                 }
               >
                 찜한 Green-Action
               </Button>
             </div>
             <div className="mr-5">
-              {clicked === "myGreenAction" && (
-                // || clicked === "bookmarkedActions")  - 찜한 action 분류는 보류
-                <Select
-                  aria-label="Select a state of recruiting"
-                  defaultSelectedKeys={["전체"]}
-                  size="md"
-                  radius="full"
-                  className="w-[8rem] "
-                  variant="bordered"
-                >
-                  <SelectItem
-                    key="전체"
-                    value="전체"
-                    className="rounded-xl"
-                    onClick={handleAllRecruitingCategory}
-                  >
-                    전체
-                  </SelectItem>
-                  <SelectItem
-                    key="모집중"
-                    value="모집중"
-                    className="rounded-xl"
-                    onClick={handleRecruitingCategory}
-                  >
-                    모집 중
-                  </SelectItem>
-                  <SelectItem
-                    key="모집마감"
-                    value="모집마감"
-                    className="rounded-xl"
-                    onClick={handleNotRecruitingCategory}
-                  >
-                    모집 마감
-                  </SelectItem>
-                </Select>
+              {activeTab === "My Green-Action" && (
+                <RecruitSelectTab
+                  selected={myRecruitClicked}
+                  setSelected={setMyRecruitClicked}
+                />
+              )}
+              {activeTab === "찜한 Green-Action" && (
+                <RecruitSelectTab
+                  selected={bookmarkedRecruitClicked}
+                  setSelected={setBookmarkedRecruitClicked}
+                />
               )}
             </div>
           </div>
-
           <div className="flex flex-wrap gap-7">
             {/* LINK My Green Action */}
-            {clicked === "myGreenAction" &&
+            {activeTab === "My Green-Action" &&
               filteredActions?.map((action) => {
-                return <MyActionCard action={action} />;
-              })}
-            {/* LINK 내가 쓴 커뮤니티 글 */}
-            {clicked === "myCommunityPosts" &&
-              myPosts?.map((post) => {
                 return (
-                  <Card key={post.id} className="w-[20rem]">
-                    <CardHeader>
-                      <img
-                        src={post.img_url || ""}
-                        alt="post-img"
-                        width={250}
-                        height={250}
-                      ></img>
-                    </CardHeader>
-                    <CardBody>
-                      <p>{post.title}</p>
-                      <p>{post.content}</p>
-                      <p>{post.action_type}</p>
-                      <p>좋아요 : {post.communityLikes.length}</p>
-                    </CardBody>
-                  </Card>
+                  <MyActionCard key={action.id} action={action} mode="mypost" />
                 );
               })}
+            {/* LINK 내가 쓴 커뮤니티 글 */}
+            {activeTab === "작성 게시물" &&
+              myPosts?.map((post) => {
+                return <CommunityListPost mode="mypost" communityPost={post} />;
+              })}
             {/* LINK 찜한 Green Action */}
-            {clicked === "bookmarkedActions" &&
-              myBookmarks?.map((bookmark) => {
+            {activeTab === "찜한 Green-Action" &&
+              filteredBookmarkedActions?.map((bookmark) => {
                 return (
-                  <Card
-                    key={bookmark.bookmarkedAction?.id}
-                    className="w-[20rem]"
-                  >
-                    <CardHeader>
-                      <img
-                        src={
-                          bookmark.bookmarkedAction?.actionImgUrls[0]
-                            ?.img_url || ""
-                        }
-                        alt="action-img"
-                        width={250}
-                        height={250}
-                      ></img>
-                    </CardHeader>
-                    <CardBody>
-                      <p>{bookmark.bookmarkedAction?.title}</p>
-                      <p>{bookmark.bookmarkedAction?.location}</p>
-                      <p>
-                        모집인원 : {bookmark.bookmarkedAction?.recruit_number}
-                      </p>
-                      <p>
-                        북마크 :
-                        {bookmark.bookmarkedAction?.actionBookmarks.length}
-                      </p>
-                      <Chip>
-                        {bookmark.bookmarkedAction?.is_recruiting
-                          ? "모집중"
-                          : "모집마감"}
-                      </Chip>
-                    </CardBody>
-                  </Card>
+                  <MyActionCard
+                    key={bookmark?.bookmarkedAction?.id || ""}
+                    action={bookmark}
+                    mode="bookmark"
+                  />
                 );
               })}
           </div>
