@@ -1,6 +1,8 @@
-import { deleteCommunityPost } from "@/app/_api/community/community-api";
-import { QUERY_KEY_COMMUNITYLIST } from "@/app/_api/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { QUERY_KEY_COMMUNITYLIST } from "@/app/_api/queryKeys";
+
+import { deleteCommunityPost } from "@/app/_api/community/community-api";
 
 export const useDeleteCommunityPostMutation = () => {
   const queryClient = useQueryClient();
