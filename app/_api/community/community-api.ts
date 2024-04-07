@@ -1,6 +1,6 @@
 import { supabase } from "@/utils/supabase/client";
 
-// 커뮤니티 리스트 가져오기 - 작성자 정보도 함께
+// 커뮤니티 리스트 가져오기 - 작성자 정보, 좋아요도 함께
 export const getCommunityList = async () => {
   const { data: communityList, error } = await supabase
     .from("community_posts")

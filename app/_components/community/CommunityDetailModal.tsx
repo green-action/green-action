@@ -60,16 +60,6 @@ const CommunityDetailModal = ({
     queryFn: () => getPostContents(post_id),
   });
 
-  // 댓글 리스트 가져오기 useQuery
-  const {
-    data: communityComments,
-    isLoading: commentsIsLoading,
-    isError: commentsIsError,
-  } = useQuery({
-    queryKey: [QEURY_KEY_COMMUNITY_COMMENTS_LIST],
-    queryFn: () => getCommunityCommentsList(post_id),
-  });
-
   // 게시글 삭제 mutation
   const { mutate: deletePostMutation } = useMutation({
     mutationFn: (post_id: string) => deleteCommunityPost(post_id),
@@ -78,6 +68,16 @@ const CommunityDetailModal = ({
         queryKey: [QUERY_KEY_COMMUNITYLIST],
       });
     },
+  });
+
+  // 댓글 리스트 가져오기 useQuery
+  const {
+    data: communityComments,
+    isLoading: commentsIsLoading,
+    isError: commentsIsError,
+  } = useQuery({
+    queryKey: [QEURY_KEY_COMMUNITY_COMMENTS_LIST],
+    queryFn: () => getCommunityCommentsList(post_id),
   });
 
   // 댓글 등록 mutation
@@ -107,6 +107,16 @@ const CommunityDetailModal = ({
     return <div>Error</div>;
   }
 
+  // 날짜 형식 변경
+  const formattedDate = communityPost
+    ? formatToLocaleDateString(communityPost.created_at)
+    : "";
+
+  // 댓글 리스트 최신순 정렬
+  const sortedLatestCommentsList = communityComments?.slice().sort((a, b) => {
+    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+  });
+
   // 게시글 작성자 닉네임, 프로필 이미지 가져오기
   const { display_name, profile_img } = communityPost?.users || {
     display_name: null,
@@ -114,11 +124,6 @@ const CommunityDetailModal = ({
   };
   // profile_img가 null인 경우 undefined로 변환해주는 과정 (null이면 src안에서 타입에러 발생)
   const imgSrc = profile_img || "";
-
-  // 날짜 형식 변경
-  const formattedDate = communityPost
-    ? formatToLocaleDateString(communityPost.created_at)
-    : "";
 
   // 게시글 삭제 핸들러
   const handleDeletePost = () => {
@@ -257,12 +262,12 @@ const CommunityDetailModal = ({
                       </button>
                     </form>
                     {/* 댓글 map */}
-                    {communityComments?.length === 0 ? (
+                    {sortedLatestCommentsList?.length === 0 ? (
                       <p className="text-center text-[13px] font-light mt-4">
                         첫 댓글의 주인공이 되어보세요 🎉
                       </p>
                     ) : (
-                      communityComments?.map((comment) => (
+                      sortedLatestCommentsList?.map((comment) => (
                         <CommunityPostComment
                           key={comment.id}
                           comment={comment}
