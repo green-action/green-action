@@ -27,6 +27,8 @@ const CommunityListPage = () => {
     [selectedKeys],
   );
 
+  // console.log("selectedValue", selectedValue);
+
   const {
     data: communityList,
     isLoading,
@@ -42,6 +44,26 @@ const CommunityListPage = () => {
   if (isError) {
     return <div>Error</div>;
   }
+
+  // 리스트 최신순 정렬
+  // (new Date()를 사용하여 날짜를 비교할 때에는 각 날짜를 밀리초 단위로 변환해야 함 - .getTime() 사용)
+  const sortedLatestCommunityList = communityList?.slice().sort((a, b) => {
+    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+  });
+
+  // 리스트 좋아요순 정렬
+  // 각 게시물의 좋아요 개수 계산
+  const communityListWithLikesCount = communityList?.map((post) => {
+    return {
+      ...post,
+      likes_count: post.likes.length,
+    };
+  });
+
+  // 좋아요 개수를 기준으로 정렬
+  const sortedLikesCommunityList = communityListWithLikesCount?.sort(
+    (a, b) => b.likes_count - a.likes_count,
+  );
 
   return (
     <>
@@ -67,7 +89,7 @@ const CommunityListPage = () => {
               onSelectionChange={setSelectedKeys}
             >
               <DropdownItem key="정렬">정렬</DropdownItem>
-              <DropdownItem key="최신순">최신순</DropdownItem>
+              <DropdownItem key="최신순(기본)">최신순(기본)</DropdownItem>
               <DropdownItem key="좋아요순">좋아요순</DropdownItem>
             </DropdownMenu>
           </Dropdown>
@@ -75,13 +97,28 @@ const CommunityListPage = () => {
         {/* 커뮤니티 리스트 wrapper */}
         <div className="flex flex-wrap gap-8">
           {/* 커뮤니티 게시글 카드 map */}
-          {communityList?.map((communityPost) => (
+          {selectedValue === "정렬" || selectedValue === "최신순(기본)"
+            ? sortedLatestCommunityList?.map((communityPost) => (
+                <CommunityListPost
+                  key={communityPost.id}
+                  communityPost={communityPost}
+                  mode="community"
+                />
+              ))
+            : sortedLikesCommunityList?.map((communityPost) => (
+                <CommunityListPost
+                  key={communityPost.id}
+                  communityPost={communityPost}
+                  mode="community"
+                />
+              ))}
+          {/* {communityList?.map((communityPost) => (
             <CommunityListPost
               key={communityPost.id}
               communityPost={communityPost}
               mode="community"
             />
-          ))}
+          ))} */}
         </div>
         <AddPostModal />
       </div>

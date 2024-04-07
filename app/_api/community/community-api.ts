@@ -4,7 +4,7 @@ import { supabase } from "@/utils/supabase/client";
 export const getCommunityList = async () => {
   const { data: communityList, error } = await supabase
     .from("community_posts")
-    .select(`*, users(display_name, profile_img)`);
+    .select(`*, users(display_name, profile_img), likes(post_id)`);
 
   if (error) {
     console.log("error", error);
