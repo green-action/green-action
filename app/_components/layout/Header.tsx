@@ -30,7 +30,7 @@ function Header() {
   const pathname = usePathname();
   const session = useSession();
   const isLoggedIn = !!session.data;
-  const user_uid = session?.data?.user.user_uid || "";
+  const user_uid = session?.data?.user.user_uid as string;
   // console.log("🐰 ~ Header ~ data : ", session.data.user.user_uid);
   const { data, isLoading } = useFetchUserInfo(user_uid);
   const { display_name, profile_img } = (data as User) || "";
@@ -96,11 +96,11 @@ function Header() {
       className="w-full flex items-center justify-between h-[7rem] pt-10  text-[11pt]  bg-[#EBEBEB]"
       // gap 등으로 조정 안돼서 margin 하드코딩으로 위치 조정
     >
-      <NavbarBrand className="ml-[170px] mr-[160px]">
+      <NavbarBrand className="ml-[10%] mr-[37%]">
         <Link href={"/"}>LOGO</Link>
       </NavbarBrand>
       <NavbarContent>
-        <div className="flex flex-col items-center ">
+        <div className="flex flex-col items-center">
           <Tabs
             // key="md"
             selectedKey={parentSelected || pathname} // 선택된 부모 탭의 키 또는 경로 사용
@@ -110,7 +110,7 @@ function Header() {
             aria-label="Options"
             color="default"
             // variant="light"
-            className="flex justify-center mr-[140px] rounded-full bg-white font-bold text-[11pt] text-gray-700" // 여기에서 w넓이로 gap 넓힐 수 없고, m,gap 으로도 안됨 text-[18px]
+            className="flex justify-center mr-[33%] rounded-full bg-white font-bold text-[11pt] text-gray-700" // 여기에서 w넓이로 gap 넓힐 수 없고, m,gap 으로도 안됨 text-[18px]
           >
             <Tab
               key="/about"
@@ -196,7 +196,7 @@ function Header() {
             >
               <DropdownTrigger>
                 <div className="flex">
-                  <Chip className="h-[2.5rem] w-[25rem] pl-2 bg-white/60">
+                  <Chip className="h-[2.5rem] w-[15rem] pl-2 bg-white/60">
                     <div className="flex gap-5 items-center justify-between">
                       {display_name} Greener님 ! 환영합니다
                       <Avatar
