@@ -84,7 +84,7 @@ const Login = () => {
           </div>
         </CardBody>
       </Card>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false}>
         <ModalContent>
           {() => (
             <>
