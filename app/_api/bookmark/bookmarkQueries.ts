@@ -25,11 +25,18 @@ export const addBookmark = async ({
   return data;
 };
 
-export const removeBookmark = async (user_uid: string) => {
+export const removeBookmark = async ({
+  user_uid,
+  action_id,
+}: {
+  user_uid: string;
+  action_id: string;
+}) => {
   const { error } = await supabase
     .from("bookmarks")
     .delete()
-    .eq("user_uid", user_uid);
+    .eq("user_uid", user_uid)
+    .eq("action_id", action_id);
 };
 
 export const getFilterLikes = async (post_id: string) => {
@@ -60,9 +67,16 @@ export const addLikes = async ({
   return data;
 };
 
-export const removeLike = async (user_uid: string) => {
+export const removeLike = async ({
+  user_uid,
+  post_id,
+}: {
+  user_uid: string;
+  post_id: string;
+}) => {
   const { error } = await supabase
     .from("likes")
     .delete()
-    .eq("user_uid", user_uid);
+    .eq("user_uid", user_uid)
+    .eq("post_id", post_id);
 };
