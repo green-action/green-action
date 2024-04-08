@@ -1,5 +1,6 @@
 import { NextFetchEvent, NextResponse } from "next/server";
 import { updateSession } from "@/utils/supabase/middleware";
+import { getSession } from "next-auth/react";
 import { type NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 
@@ -23,6 +24,47 @@ export async function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL("/login", req.url));
     }
   }
+
+  const session = await getSession();
+  console.log("-----------------");
+  console.log(session);
+  console.log("-----------------");
+
+  // 로그인이 필요한 페이지 리스트
+  const LOGIN_REQUIRED_PAGES = [
+    `/mypage`,
+    `/community`,
+    `/individualAction`,
+    `/goods`,
+  ];
+  const LOGIN_NOT_REQUIRED_PAGES = [`/login`, `/signup`];
+
+  // 로그인이 필요한 페이지 리스트
+  LOGIN_REQUIRED_PAGES.forEach((page) => {
+    if (request.nextUrl.pathname === page) {
+      if (!session) {
+        return {
+          status: 302,
+          headers: {
+            location: `/login`,
+          },
+        };
+      }
+    }
+  });
+
+  LOGIN_NOT_REQUIRED_PAGES.forEach((page) => {
+    if (request.nextUrl.pathname === page) {
+      if (session) {
+        return {
+          status: 302,
+          headers: {
+            location: `/`,
+          },
+        };
+      }
+    }
+  });
 
   return await updateSession(req);
 }
