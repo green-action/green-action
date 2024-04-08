@@ -1,20 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import type {
-  CommunityEditMutation,
-  EditPostProps,
-} from "@/app/_types/community/community";
-
-import {
-  QUERY_KEY_COMMUNITYLIST,
-  QUERY_KEY_COMMUNITY_POST,
-} from "@/app/_api/queryKeys";
+import type { EditPostProps } from "@/app/_types/community/community";
 
 import { uploadFileAndGetUrl } from "@/app/_api/community/community-api";
-import { updateEditedPost } from "@/app/_api/community/communityEdit-api";
+import { useGetSinglePostForEdit } from "@/app/_hooks/useQueries/community";
+import { useUpdateEditPostMutation } from "@/app/_hooks/useMutations/community";
 
 import {
   Button,
@@ -29,7 +21,6 @@ import {
   ModalHeader,
   Selection,
 } from "@nextui-org/react";
-import { useGetSinglePostForEdit } from "@/app/_hooks/useQueries/community";
 
 const EditPostModal = ({ isOpen, onOpenChange, post_id }: EditPostProps) => {
   // 드랍다운 선택된 key 상태관리
@@ -39,8 +30,6 @@ const EditPostModal = ({ isOpen, onOpenChange, post_id }: EditPostProps) => {
 
   const [uploadedFileUrl, setUploadedFileUrl] = useState<string | null>("");
   const [file, setFile] = useState<File | undefined | null>(null);
-
-  const queryClient = useQueryClient();
 
   // post_id 데이터 가져오기
   const { singlePostForEdit } = useGetSinglePostForEdit(post_id);
@@ -56,23 +45,8 @@ const EditPostModal = ({ isOpen, onOpenChange, post_id }: EditPostProps) => {
     setSelectedKeys(new Set(["단체와 함께해요"]));
   }, [singlePostForEdit]);
 
-  // 게시글 수정 mutation - 상세모달창 정보 무효화
-  const { mutate: updatePostMutation } = useMutation({
-    mutationFn: ({ post_id, imgUrl, formData }: CommunityEditMutation) =>
-      updateEditedPost({
-        post_id,
-        imgUrl,
-        formData,
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY_COMMUNITYLIST],
-      });
-      queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY_COMMUNITY_POST],
-      });
-    },
-  });
+  // 게시글 수정 mutation - 상세모달창, 게시글 리스트 무효화
+  const { updatePostMutation } = useUpdateEditPostMutation();
 
   // 이미지 미리보기 띄우기
   const handleShowPreview = (e: React.ChangeEvent<HTMLInputElement>) => {

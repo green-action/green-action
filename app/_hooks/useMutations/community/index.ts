@@ -1,12 +1,19 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { QUERY_KEY_COMMUNITYLIST } from "@/app/_api/queryKeys";
+import {
+  QUERY_KEY_COMMUNITYLIST,
+  QUERY_KEY_COMMUNITY_POST,
+} from "@/app/_api/queryKeys";
 
 import {
   deleteCommunityPost,
   insertCommunityPostFormData,
 } from "@/app/_api/community/community-api";
-import { CommunityPostMutation } from "@/app/_types/community/community";
+import {
+  CommunityEditMutation,
+  CommunityPostMutation,
+} from "@/app/_types/community/community";
+import { updateEditedPost } from "@/app/_api/community/communityEdit-api";
 
 export const useDeleteCommunityPostMutation = () => {
   const queryClient = useQueryClient();
@@ -41,4 +48,26 @@ export const useInsertCommunityPostFormData = () => {
   });
 
   return { insertFormDataMutation };
+};
+
+export const useUpdateEditPostMutation = () => {
+  const queryClient = useQueryClient();
+  const { mutate: updatePostMutation } = useMutation({
+    mutationFn: ({ post_id, imgUrl, formData }: CommunityEditMutation) =>
+      updateEditedPost({
+        post_id,
+        imgUrl,
+        formData,
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY_COMMUNITYLIST],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY_COMMUNITY_POST],
+      });
+    },
+  });
+
+  return { updatePostMutation };
 };
