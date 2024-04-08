@@ -24,6 +24,7 @@ const Bookmark = ({
   const removeBookmarkMutation = useRemoveBookmark(mode || "");
   const session = useSession();
   const user_uid = session.data?.user.user_uid as string;
+  // const user_uid = "2c81257f-e4d9-41d8-ad65-3745da3d3b2f";
 
   const handleAddBookmarkClick = async (
     user_uid: string,

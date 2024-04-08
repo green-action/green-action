@@ -10,6 +10,10 @@ import {
 } from "@nextui-org/react";
 import React from "react";
 
+interface MyActionRecruitingChange {
+  isOpen: boolean;
+}
+
 const MyActionRecruitingModal = ({
   id,
   isOpen,
@@ -20,15 +24,7 @@ const MyActionRecruitingModal = ({
   const { updateRecruiting } = useUpdateActionRecruiting(id);
 
   // 모집상태 - 모집중>마감 으로 변경하기
-  // FIXME mutation으로 쿼리키 무효화시키는데 바로 렌더링되지 않음
   const handleUpdateRecruiting = async () => {
-    // return (
-    //   <CustomConfirm
-    //     text=".."
-    //     buttonName=".."
-    //     okFunction={handleRecruitingChange}
-    //   />
-    // );
     await updateRecruiting();
     onClose();
   };

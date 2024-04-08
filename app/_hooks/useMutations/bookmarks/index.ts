@@ -6,6 +6,7 @@ import {
 } from "@/app/_api/bookmark/bookmarkQueries";
 import {
   QUERY_KEY_BOOKMARK,
+  QUERY_KEY_COMMUNITYLIST,
   QUERY_KEY_LIKES,
   QUERY_KEY_MY_BOOKMARK,
 } from "@/app/_api/queryKeys";
