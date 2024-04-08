@@ -4,7 +4,11 @@ import {
   removeBookmark,
   removeLike,
 } from "@/app/_api/bookmark/bookmarkQueries";
-import { QUERY_KEY_BOOKMARK, QUERY_KEY_LIKES } from "@/app/_api/queryKeys";
+import {
+  QUERY_KEY_BOOKMARK,
+  QUERY_KEY_COMMUNITYLIST,
+  QUERY_KEY_LIKES,
+} from "@/app/_api/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 // usemuataion을 활용해서 export까지 해주면 됨
@@ -39,6 +43,9 @@ export const useAddLike = () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY_LIKES],
       });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY_COMMUNITYLIST],
+      });
     },
   });
   return addLikeMutation;
@@ -51,6 +58,9 @@ export const useRemoveLike = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY_LIKES],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY_COMMUNITYLIST],
       });
     },
   });
