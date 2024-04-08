@@ -168,6 +168,7 @@ const SignUp = () => {
               value={nickname}
               onChange={(e) => SetNickname(e.target.value)}
               className="mb-5  border-[BFBFBF] border-1 rounded-[12px]"
+              maxLength={10}
             />
             {nickname && (nickname.length < 2 || nickname.length > 10) && (
               <p className="text-red-500 text-xs">

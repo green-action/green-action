@@ -17,7 +17,8 @@ export async function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL("/", req.url));
     }
   }
-  if (pathname.startsWith("/mypage") || pathname.startsWith("/goods")) {
+  if (pathname.startsWith("/mypage")) {
+    //pathname.startsWith("/goods"
     if (!session) {
       return NextResponse.redirect(new URL("/login", req.url));
     }
