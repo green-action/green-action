@@ -5,10 +5,9 @@ export const fetchCommunityPostsLikes = async () => {
   try {
     const { data, error } = await supabase
       .from("community_posts")
-      .select("*, communityLikes:likes(id)");
+      .select("*, users(display_name, profile_img), communityLikes:likes(id)");
     // .limit(8);
     // 개수제한이 문제, 가져올때 likes.length ? 기준이여야
-    // console.log("🐰 ~ fetchCommunityPosts ~ data : ", data);
     if (error) throw error;
     return data;
   } catch (error) {
@@ -24,7 +23,6 @@ export const fetchIndivActionsBookmarks = async () => {
       .select(
         "*, actionImgUrls: green_action_images(img_url), actionBookmarks:bookmarks(id)",
       );
-    // console.log("🐰 ~ fetchIndivActionsBookmarks ~ data : ", data);
     if (error) throw error;
     return data;
   } catch (error) {

@@ -23,6 +23,7 @@ export const useUpdateUserName = (user_uid: string, editedName: string) => {
     },
     onError: () => {
       alert("처리에 오류가 발생했습니다. 다시 시도해주세요.");
+      console.error(Error);
     },
   });
 
@@ -44,6 +45,7 @@ export const useUpdateUserIntro = (user_uid: string, editedIntro: string) => {
     },
     onError: () => {
       alert("처리에 오류가 발생했습니다. 다시 시도해주세요.");
+      console.error(Error);
     },
   });
 
@@ -67,6 +69,7 @@ export const useUpdateActionRecruiting = (action_id: string) => {
     },
     onError: () => {
       alert("처리에 오류가 발생했습니다. 다시 시도해주세요.");
+      console.error(Error);
     },
   });
 
@@ -90,6 +93,7 @@ export const useDeleteAction = (action_id: string) => {
     },
     onError: () => {
       alert("처리에 오류가 발생했습니다. 다시 시도해주세요.");
+      console.error(Error);
     },
   });
 

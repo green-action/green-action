@@ -24,7 +24,7 @@ const Likes = ({ post_id }: { post_id: string }) => {
   };
 
   const handleRemoveLikeClick = (user_uid: string) => {
-    removeLikeMutation.mutate(user_uid);
+    removeLikeMutation.mutate({ user_uid, post_id });
   };
 
   const getLength = (likeLength: number | undefined) => {

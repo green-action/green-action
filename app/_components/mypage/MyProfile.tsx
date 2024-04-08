@@ -7,24 +7,25 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
-  CircularProgress,
   Tooltip,
 } from "@nextui-org/react";
 import { HiOutlinePlus } from "react-icons/hi2";
 import pointQuestion from "@/app/_assets/question_circle.png";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { useAuthStore } from "@/app/_store/authStore";
 import { useUpdateUserIntro } from "@/app/_hooks/useMutations/mypage";
 import { User } from "@/app/_types";
-import { useFetchUserInfo } from "@/app/_hooks/useQueries/mypage";
 import MyProfileEditModal from "./MyProfileEditModal";
 
-const MyProfile = ({ user_uid }: { user_uid: string }) => {
-  const { data, isLoading } = useFetchUserInfo(user_uid);
-
-  const { display_name, email, introduction, point, profile_img } =
-    (data as User) || "";
+const MyProfile = ({ userInfo }: { userInfo: User }) => {
+  const {
+    id: user_uid,
+    display_name,
+    email,
+    introduction,
+    point,
+    profile_img,
+  } = (userInfo as User) || "";
 
   const [isIntroEditing, setIsIntroEditing] = useState<boolean>(false);
   const [editedIntro, setEditedIntro] = useState<string>(introduction); // 초기값 기존 intro
@@ -53,14 +54,6 @@ const MyProfile = ({ user_uid }: { user_uid: string }) => {
   ) => {
     setEditedIntro(e.target.value);
   };
-
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <CircularProgress color="success" label="Loading..." />
-      </div>
-    );
-  }
 
   return (
     <div className="flex flex-col gap-5 w-[23rem] min-h-[43rem] ">
@@ -101,7 +94,7 @@ const MyProfile = ({ user_uid }: { user_uid: string }) => {
                   handleEditedIntroChange(e);
                 }}
                 className="resize-none rounded-xl w-full h-full p-2 text-sm bg-gray-200/50"
-                placeholder="100자 이내"
+                placeholder="100자 이내로 작성해주세요."
                 maxLength={100}
               />
               <div className="flex justify-end">
@@ -122,7 +115,7 @@ const MyProfile = ({ user_uid }: { user_uid: string }) => {
         </CardBody>
       </Card>
 
-      <Card className="">
+      <Card>
         <CardHeader className="mb-[-1.5rem]">
           <p>Points</p>
         </CardHeader>

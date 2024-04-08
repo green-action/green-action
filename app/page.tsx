@@ -5,13 +5,6 @@ import Link from "next/link";
 import MainSlider from "./_components/main/MainSlider";
 
 const MainPage = () => {
-  // const { data: communityPostsLikes, isLoading } =
-  //   useFetchCommunityPostsLikes();
-
-  // const communityPostsByLikes = communityPostsLikes?.sort(
-  //   (a, b) => b.communityLikes.length - a.communityLikes.length,
-  // );
-
   return (
     <div className="flex flex-col min-h-[2600px]">
       <section className="flex w-full h-[500px] justify-center items-end">
@@ -47,7 +40,7 @@ const MainPage = () => {
           >{`전체보기 > `}</Link>
         </div>
       </section>
-      <section className="mx-[5rem]">
+      <section className="flex items-center justify-center mx-[5rem]">
         <MainSlider mode="community" />
       </section>
       <section className="flex flex-col items-center gap-[5rem] m-[5rem] mt-[20rem] ">
@@ -67,7 +60,7 @@ const MainPage = () => {
           >{`전체보기 > `}</Link>
         </div>
       </section>
-      <section className="mx-[5rem]">
+      <section className="flex items-center justify-center mx-[5rem]">
         <MainSlider mode="action" />
       </section>
       {/* </section> */}
