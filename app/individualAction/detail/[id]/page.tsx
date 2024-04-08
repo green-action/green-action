@@ -134,13 +134,17 @@ const DetailPage = () => {
           </div>
 
           <div className="col-span-1 row-span-1">
+            <div className="p-2 mb-4 border-2 border-gray-300 rounded-3xl text-center font-extrabold cursor-pointer">
+              1:1 채팅하기
+            </div>
+
             <div
               className="p-2 mb-4 border-2 border-gray-300 rounded-3xl text-center font-extrabold cursor-pointer"
               key={"opaque"}
               color="warning"
               onClick={() => handleOpen()}
             >
-              1:1 채팅하기
+              참여하기
             </div>
             <Modal backdrop={"opaque"} isOpen={isOpen} onClose={onClose}>
               <ModalContent>
@@ -161,9 +165,6 @@ const DetailPage = () => {
                 )}
               </ModalContent>
             </Modal>
-            <div className="p-2 mb-4 border-2 border-gray-300 rounded-3xl text-center font-extrabold cursor-pointer">
-              참여하기
-            </div>
             <KakaoShareButton description={detail.content!} />
           </div>
           <div className="col-span-3 row-span-2 border-2 border-gray-300 rounded-3xl flex justify-around pt-12">
