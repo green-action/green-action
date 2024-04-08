@@ -11,7 +11,10 @@ import {
 import React from "react";
 
 interface MyActionRecruitingChange {
+  id: string;
   isOpen: boolean;
+  onClose: () => void;
+  onOpenChange: () => void;
 }
 
 const MyActionRecruitingModal = ({
@@ -19,7 +22,7 @@ const MyActionRecruitingModal = ({
   isOpen,
   onClose,
   onOpenChange,
-}: any) => {
+}: MyActionRecruitingChange) => {
   // 타입 변경하기
   const { updateRecruiting } = useUpdateActionRecruiting(id);
 
