@@ -8,7 +8,9 @@ import {
 import {
   QUERY_KEY_COMMUNITYLIST,
   QUERY_KEY_COMMUNITY_POST,
+  QUERY_KEY_COMMUNITY_POSTS_LIKES,
   QUERY_KEY_COMMUNITY_POST_FOR_EDIT,
+  QUERY_KEY_MY_COMMUNITYPOST,
 } from "@/app/_api/queryKeys";
 import { CommunityEditMutation } from "@/app/_types/community/community";
 import {
@@ -32,6 +34,7 @@ interface EditPostProps {
   onOpen: () => void;
   onOpenChange: () => void;
   post_id: string;
+  mode: string;
 }
 
 const EditPostModal = ({
@@ -39,6 +42,7 @@ const EditPostModal = ({
   onOpen,
   onOpenChange,
   post_id,
+  mode,
 }: EditPostProps) => {
   // 드랍다운 선택된 key 상태관리
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
@@ -81,11 +85,21 @@ const EditPostModal = ({
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY_COMMUNITYLIST],
-      });
-      queryClient.invalidateQueries({
         queryKey: [QUERY_KEY_COMMUNITY_POST],
       });
+
+      mode === "main" &&
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY_COMMUNITY_POSTS_LIKES],
+        });
+      mode === "community" &&
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY_COMMUNITYLIST],
+        });
+      mode === "myPosts" &&
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY_MY_COMMUNITYPOST],
+        });
     },
   });
 

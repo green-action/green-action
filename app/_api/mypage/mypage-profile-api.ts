@@ -11,7 +11,6 @@ export const fetchUserInfo = async (user_uid: string) => {
       .from("users")
       .select("*")
       .eq("id", user_uid);
-    // console.log("🐰 ~ fetchUserInfo ~ data : ", data);
     if (error) throw error;
     return data[0];
   } catch (error) {
@@ -96,7 +95,6 @@ export const insertProfileImgUrl = async ({
         profile_img: imgUrl,
       })
       .eq("id", user_uid);
-    // console.log("🐰 ~ const{data,error}=awaitsupabase.from ~ data : ", data);
     if (error) {
       throw error;
     }

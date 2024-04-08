@@ -9,11 +9,13 @@ import {
 import CommunityListPost from "../community/CommunityListPost";
 import { CircularProgress } from "@nextui-org/react";
 import MyActionCard from "../mypage/MyActionCard";
+import { MdArrowBack, MdArrowRight } from "react-icons/md";
+import { IoIosArrowDropleft, IoIosArrowDropright } from "react-icons/io";
 
 // export const revalidate = 0;
 
 const MainSlider = ({ mode }: { mode: string }) => {
-  // FIXME 근데 메인페이지 mode action 인 경우 모집중인 것만 뜨게할지?
+  // FIXME 메인페이지 mode action 인 경우 모집중인 것만 뜨게할지?
 
   var settings = {
     dots: true,
@@ -22,8 +24,9 @@ const MainSlider = ({ mode }: { mode: string }) => {
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 4,
-    // variableWidth: true,
     adaptiveHeight: true,
+    nextArrow: <IoIosArrowDropright color="#A1BA9D" />,
+    prevArrow: <IoIosArrowDropleft color="#A1BA9D" />,
   };
 
   const { data: communityPostsLikes, isLoading: isPostsLoading } =
@@ -39,7 +42,6 @@ const MainSlider = ({ mode }: { mode: string }) => {
   const indivActionsByBookmarks = indivActionsBookmarks
     ?.slice()
     .sort((a, b) => b.actionBookmarks.length - a.actionBookmarks.length);
-  //   console.log("🐰 ~ data : ", indivActionsBookmarks);
 
   if (isPostsLoading || isActionsLoading) {
     return (
@@ -50,15 +52,14 @@ const MainSlider = ({ mode }: { mode: string }) => {
   }
 
   return (
-    //  높이 설정해도 아래만 늘어나고 카드 위가 잘리는 ? 문제 (그림자 등)
+    //  높이 설정해도 아래만 늘어나고 카드 위가 잘리는 문제 (그림자 등)
     // <div className="h-[300px]">
     <Slider
       {...settings}
       className={`${
         mode === "community" ? "h-[350px]" : "h-[450px]"
-      }  w-[1350px]`}
+      }  w-[1410px]  flex items-center  justify-center px-2 `}
     >
-      {/* bg-pink-200 */}
       {/* <div className="w-300"> */}
       {mode === "community"
         ? communityPostsByLikes?.slice(0, 8).map(

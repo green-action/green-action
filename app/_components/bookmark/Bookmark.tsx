@@ -8,14 +8,23 @@ import { CircularProgress } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import { CiStar } from "react-icons/ci";
 import { FaStar } from "react-icons/fa";
+import CustomConfirm from "../customConfirm/CustomConfirm";
 
-const Bookmark = ({ action_id }: { action_id: string }) => {
+const Bookmark = ({
+  action_id,
+  mode,
+}: {
+  action_id: string;
+  mode?: string;
+  // mode는 없어도 되는 인자
+}) => {
   const { data: filterBookmark, isLoading } = useFilterBookmark(action_id);
 
-  const addBookmarkMutation = useAddBookmark();
-  const removeBookmarkMutation = useRemoveBookmark();
+  const addBookmarkMutation = useAddBookmark(mode || "");
+  const removeBookmarkMutation = useRemoveBookmark(mode || "");
   const session = useSession();
-  const user_uid = session.data?.user.user_uid as string;
+  // const user_uid = session.data?.user.user_uid as string;
+  const user_uid = "2c81257f-e4d9-41d8-ad65-3745da3d3b2f";
 
   const handleAddBookmarkClick = async (
     user_uid: string,
@@ -29,7 +38,7 @@ const Bookmark = ({ action_id }: { action_id: string }) => {
     }
   };
   const handleRemoveBookmarkClick = async (user_uid: string) => {
-    removeBookmarkMutation.mutate(user_uid);
+    removeBookmarkMutation.mutate({ user_uid, action_id });
   };
 
   const isBookmarked = filterBookmark?.filterBookmark?.find(
@@ -41,18 +50,38 @@ const Bookmark = ({ action_id }: { action_id: string }) => {
 
   return (
     <>
+      {/* 이중 삼항 연산자 */}
+      {/* 북마크된 상태일 때 */}
       {isBookmarked ? (
-        <div className="flex gap-[5px] h-[20px] ">
-          <button onClick={() => handleRemoveBookmarkClick(user_uid)}>
-            <FaStar className="text-amber-300 text-[17px]  ml-[1.5px] mb-10 " />
-            {/* mr-[3px] */}
-          </button>
-          <span>{filterBookmark?.filterBookmark?.length}</span>
-        </div>
+        mode === "myBookmarks" ? (
+          <>
+            {/* isBookmarked - true 이면서 mode === "myBookmarks" 인 경우 Custom Confirm 창으로 연결*/}
+            <div className="flex gap-[5px] h-[20px]">
+              <CustomConfirm
+                text="해당 Green Action을 북마크 목록에서 해제할까요?"
+                mode={mode as string}
+                okFunction={() =>
+                  removeBookmarkMutation.mutate({ user_uid, action_id })
+                }
+              />
+              <span>{filterBookmark?.filterBookmark?.length}</span>
+            </div>
+          </>
+        ) : (
+          // isBookmarked - true 이지만 mode !== "myBookmarks"인 경우
+          <div className="flex gap-[5px] h-[20px]">
+            <button onClick={() => handleRemoveBookmarkClick(user_uid)}>
+              <FaStar className="text-amber-300 text-[17px]  ml-[1.5px] mb-10 " />
+              {/* mr-[3px] */}
+            </button>
+            <span>{filterBookmark?.filterBookmark?.length}</span>
+          </div>
+        )
       ) : (
-        <div className="flex gap-[3px] h-[20px] ">
+        // isBookmarked - false
+        <div className="flex gap-[3px] h-[10px]">
           <button onClick={() => handleAddBookmarkClick(user_uid, action_id)}>
-            <CiStar className="text-[20px] mb-20" />
+            <CiStar className="text-[19px]" />
           </button>
           <span>{filterBookmark?.filterBookmark?.length}</span>
         </div>
