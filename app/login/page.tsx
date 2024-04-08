@@ -1,5 +1,4 @@
 "use client";
-import React, { useState } from "react";
 import {
   Button,
   Card,
@@ -12,13 +11,11 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { PiEyeLight, PiEyeSlash } from "react-icons/pi";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { PiEyeLight, PiEyeSlash } from "react-icons/pi";
 import kakaoimg from "../_assets/kakao_login.png";
-import Kakao from "next-auth/providers/kakao";
-import { logInWithKakao } from "../_api/auth";
-import { supabase } from "@/utils/supabase/client";
 
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -38,19 +35,24 @@ const Login = () => {
         return;
       }
 
-      await signIn("id-password-credential", {
+      const result = await signIn("id-password-credential", {
         id: email,
         password,
         redirect: false,
       });
+      if (result?.error) {
+        console.error(result.error);
+        alert("로그인을 실패했습니다. 이메일과 비밀번호를 확인해주세요!");
+        return;
+      }
 
       onOpen();
     } catch (error) {
-      alert("로그인을 실패했습니다. 이메일과 비밀번호를 확인해주세요!");
       console.error(error);
+      alert("로그인을 실패했습니다. 양식을 확인해주세요");
     }
   };
-
+  // @유저정보가 안가져와짐 수정해야함@
   const handleKaKakSingIn = async () => {
     signIn("kakao", {
       redirect: false,

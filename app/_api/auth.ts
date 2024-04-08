@@ -84,9 +84,9 @@ export const getUser = async () => {
   return { user };
 };
 
-export const logInWithKakao = async () => {
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: "kakao",
-  });
-  if (error) throw error.message;
-};
+// export const logInWithKakao = async () => {
+//   const { data, error } = await supabase.auth.signInWithOAuth({
+//     provider: "kakao",
+//   });
+//   if (error) throw error.message;
+// };
