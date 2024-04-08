@@ -44,7 +44,7 @@ const ImgEdit = ({
     });
   };
 
-  // 드래그 앤 드랍 이벤트 핸들러
+  // 드래그 이벤트 핸들러
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(true);
@@ -59,6 +59,7 @@ const ImgEdit = ({
     setIsDragging(false);
   };
 
+  // 드롭 이벤트 핸들러
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(false);
@@ -76,7 +77,6 @@ const ImgEdit = ({
   return (
     <>
       <div
-        // className="flex gap-2 w-full h-auto mb-8"
         className={`flex gap-2 w-full h-auto mb-8 ${
           isDragging ? "border-blue-400" : "border-gray-300"
         }`}

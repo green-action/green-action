@@ -36,7 +36,7 @@ const ImgUpload = ({
     });
   };
 
-  // 드래그 앤 드랍 이벤트 핸들러
+  // 드래그 이벤트 핸들러
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(true);
@@ -51,6 +51,7 @@ const ImgUpload = ({
     setIsDragging(false);
   };
 
+  // 드롭 이벤트 핸들러
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(false);

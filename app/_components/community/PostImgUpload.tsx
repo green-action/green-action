@@ -60,7 +60,6 @@ const PostImgUpload = ({
     <>
       {/* 이미지 업로드 */}
       <div
-        // className="flex mx-auto mt-4 mb-5 border-1.5 border-dashed border-gray-300 rounded-3xl w-4/5 h-[220px]"
         className={`flex mx-auto mt-4 mb-5 border-1.5 border-dashed border-gray-300 rounded-3xl w-4/5 h-[220px] ${
           isDragging ? "border-blue-400" : "border-gray-300"
         }`}
