@@ -1,7 +1,4 @@
 import React, { useEffect } from "react";
-import Image from "next/image";
-import KakaoImage from "../../kakao.png";
-import { BsShare } from "react-icons/bs";
 import { IoShareSocialOutline } from "react-icons/io5";
 
 type KakaoShareButtonProps = {
