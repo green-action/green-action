@@ -1,19 +1,19 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
 import {
   insertImgUrls,
   uploadFilesAndGetUrls,
 } from "@/app/_api/individualAction-add/add-api";
 import {
   deleteImagesByIds,
-  getActionForEdit,
   updateActionTextForm,
 } from "@/app/_api/individualAction-edit/edit-api";
-import { QUERY_KEY_INDIVIDUALACTION_FOR_EDIT } from "@/app/_api/queryKeys";
+
 import ImgEdit from "@/app/_components/individualAction-edit/ImgEdit";
-import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useGetActionForEdit } from "@/app/_hooks/useQueries/individualAction-edit";
 
 const EditActionPage = ({ params }: { params: { id: string } }) => {
   const [uploadedFileUrls, setUploadedFileUrls] = useState<
@@ -21,34 +21,22 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
   >([]);
   const [deleteFileIds, setDeleteFileIds] = useState<string[]>([]);
   const [files, setFiles] = useState<(File | undefined)[]>([]);
+
   const router = useRouter();
   const { id: action_id } = params;
 
   // 페이지 접근시 action_id의 기존 데이터 가져오기
-  const {
-    data: originalActionData,
-    isLoading: isOriginalDataLoading,
-    isError: isOriginalDataError,
-  } = useQuery({
-    queryKey: [QUERY_KEY_INDIVIDUALACTION_FOR_EDIT],
-    // 데이터 가져오면서 동시에 {id: 이미지id, img_url: 이미지url} 객체 배열을 uploadedFileUrls에 set
-    // (이미지 삭제 시 이미지id가 필요하기 때문)
-    queryFn: async () => {
-      try {
-        // getActionForEdit 함수 호출하여 데이터 가져오기
-        const data = await getActionForEdit(action_id);
+  const { originalActionData, isOriginalDataLoading, isOriginalDataError } =
+    useGetActionForEdit(action_id);
 
-        // uploadedFileUrls에 {id: img_id, img_url: img_url} 객체 배열을 set하기
-        const idsAndUrlsObjArray = [...data.green_action_images];
-        setUploadedFileUrls(idsAndUrlsObjArray);
-
-        // 가져온 데이터 반환
-        return data;
-      } catch (error) {
-        throw new Error("Error fetching data");
-      }
-    },
-  });
+  // uploadedFileUrls에 {id: img_id, img_url: img_url} 객체 배열을 set하기
+  // (이미지 삭제 시 이미지id가 필요하기 때문)
+  useEffect(() => {
+    if (originalActionData) {
+      const idsAndUrlsObjArray = [...originalActionData.green_action_images];
+      setUploadedFileUrls(idsAndUrlsObjArray);
+    }
+  }, [originalActionData]);
 
   if (isOriginalDataLoading) {
     return <div>Loading...</div>;

@@ -1,7 +1,7 @@
 "use client";
 
-import { ImgUpdateProps } from "@/app/_types/individualAction-add/individualAction-add";
 import React from "react";
+import type { ImgUpdateProps } from "@/app/_types/individualAction-add/individualAction-add";
 
 const ImgEdit = ({
   uploadedFileUrls,

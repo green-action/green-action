@@ -1,7 +1,9 @@
-import { CommunityPostObj } from "@/app/_types/community/community";
-import { Avatar, Card, CardFooter, useDisclosure } from "@nextui-org/react";
+import type { CommunityPostObj } from "@/app/_types/community/community";
+
 import Likes from "../likes/Likes";
 import CommunityDetailModal from "./CommunityDetailModal";
+
+import { Avatar, Card, CardFooter, useDisclosure } from "@nextui-org/react";
 import { longStyle } from "./style";
 
 const CommunityListPost = ({
@@ -11,14 +13,17 @@ const CommunityListPost = ({
   communityPost: CommunityPostObj | undefined;
   mode: string;
 }) => {
-  // 커뮤니티 디테일 모달창 props
+  // 게시글 상세 모달창 open여부 props
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
   const post_id = communityPost?.id as string;
+
+  // 게시글 작성자 정보
   const { display_name, profile_img } = communityPost?.users || {
     display_name: null,
     profile_img: null,
   };
-  // profile_img가 null인 경우 undefined로 변환해주는 과정 (null이면 src안에서 타입에러 발생)
+  // profile_img가 null인 경우 undefined로 변환 (null이면 src안에서 타입에러 발생)
   const imgSrc = profile_img || "";
 
   return (

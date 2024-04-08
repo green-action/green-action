@@ -77,7 +77,7 @@ const CommunityDetailModal = ({
     display_name: null,
     profile_img: null,
   };
-  // profile_img가 null인 경우 undefined로 변환해주는 과정 (null이면 src안에서 타입에러 발생)
+  // profile_img가 null인 경우 undefined로 변환 (null이면 src안에서 타입에러 발생)
   const imgSrc = profile_img || "";
 
   // 게시글 삭제 핸들러
