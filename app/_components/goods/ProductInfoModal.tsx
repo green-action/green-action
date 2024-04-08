@@ -29,12 +29,6 @@ const ProductInfoModal = ({
 }) => {
   const queryClient = useQueryClient();
   const loggedInUserUid = session.data?.user.user_uid;
-  // const { data: info, isLoading: userInfo_isLoading } =
-  //   useFetchUserInfo(loggedInUserUid);
-
-  const { data, isLoading } = useUserPoint(loggedInUserUid);
-  const user_point = data?.point || 0;
-  // console.log(data?.point);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
@@ -54,6 +48,12 @@ const ProductInfoModal = ({
       alert("처리에 오류가 발생했습니다. 다시 시도해주세요.");
     },
   });
+
+  // 로그인된 사용자의 ID가 있는 경우에만 포인트를 가져옴
+  const { data, isLoading } = loggedInUserUid
+    ? useUserPoint(loggedInUserUid)
+    : { data: { point: 0 }, isLoading: false };
+  const user_point = data?.point || 0;
 
   const handleConfirmPurchase = async () => {
     if (user_point < item.point) {

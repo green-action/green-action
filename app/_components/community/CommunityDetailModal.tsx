@@ -32,6 +32,7 @@ const CommunityDetailModal = ({
   isOpen,
   onOpenChange,
   post_id,
+  mode,
 }: CommunityDetailProps) => {
   // 현재 로그인한 유저 uid
   const session = useSession();
@@ -194,6 +195,7 @@ const CommunityDetailModal = ({
         isOpen={isEditOpen}
         onOpenChange={onEditOpenChange}
         post_id={post_id}
+        mode={mode || ""}
       />
     </>
   );

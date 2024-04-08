@@ -9,9 +9,13 @@ import { longStyle } from "./style";
 const CommunityListPost = ({
   communityPost,
   mode,
+  my_display_name,
+  my_profile_img,
 }: {
   communityPost: CommunityPostObj | undefined;
   mode: string;
+  my_display_name?: string;
+  my_profile_img?: string | null;
 }) => {
   // 게시글 상세 모달창 open여부 props
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -19,7 +23,8 @@ const CommunityListPost = ({
   const post_id = communityPost?.id as string;
 
   // 게시글 작성자 정보
-  const { display_name, profile_img } = communityPost?.users || {
+  const { display_name, profile_img } = (mode !== "myPosts" &&
+    communityPost?.users) || {
     display_name: null,
     profile_img: null,
   };
@@ -48,11 +53,11 @@ const CommunityListPost = ({
             <div className="flex items-center">
               <Avatar
                 showFallback
-                src={imgSrc}
+                src={imgSrc || my_profile_img || ""}
                 className="rounded-full mr-4 w-[26px] h-[26px]"
               />
               <p className="text-tiny text-black text-[13https://cdn.imweb.me/thumbnail/20220707/39dbbc8e6c313.jpgpx]">
-                {display_name} Greener
+                {display_name || my_display_name} Greener
               </p>
             </div>
             <div className="flex items-center">
@@ -77,6 +82,7 @@ const CommunityListPost = ({
           onOpen={onOpen}
           onOpenChange={onOpenChange}
           post_id={post_id}
+          mode={mode}
         />
       )}
     </>

@@ -6,15 +6,16 @@ import React, { useEffect, useState } from "react";
 import MyProfile from "../_components/mypage/MyProfile";
 import {
   useFetchMyGreenActions,
+  useFetchUserInfo,
   usefetchBookmarkedActions,
   usefetchMyCommunityPosts,
 } from "../_hooks/useQueries/mypage";
-import CustomConfirm from "../_components/customConfirm/CustomConfirm";
 import MyActionCard from "../_components/mypage/MyActionCard";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import RecruitSelectTab from "../_components/mypage/RecruitSelectTab";
 import CommunityListPost from "../_components/community/CommunityListPost";
+import { User } from "../_types";
 
 // 로그인 안 한 상태에서 접근 차단할 것 -
 // FIXME  모집상태별 분류 다시 안됨
@@ -22,10 +23,12 @@ const MyPage = () => {
   // TODO props 타입등 재설정
   // FIXME 유저닉네임 수정 다시 봐야
   // const user_uid = "2c81257f-e4d9-41d8-ad65-3745da3d3b2f";
+  // const user_uid = "9da3ec56-3796-4f4f-aa99-06517955400b";
   // 임시 유저 아이디 설정
   const router = useRouter();
   const session = useSession();
 
+  // FIXME 로그인 해도 session.data null로 뜨는 문제
   const isLoggedIn = !!session.data;
   const user_uid = session.data?.user.user_uid as string;
   // let user_uid = "";
@@ -62,8 +65,6 @@ const MyPage = () => {
     return user_uid; // uid를 리턴해줘야만 됨.? why? 쓰지않는데도
   };
 
-  // TODO: myActions 없는 경우 처리
-
   const { data: myActions, isLoading: isActionsLoading } =
     useFetchMyGreenActions(user_uid);
 
@@ -72,6 +73,12 @@ const MyPage = () => {
 
   const { data: myBookmarks, isLoading: isBookmarksLoading } =
     usefetchBookmarkedActions(user_uid);
+
+  // 유저 정보 조회
+  const { data: userInfo, isLoading: isUserInfoLoading } =
+    useFetchUserInfo(user_uid);
+
+  const { display_name, profile_img } = (userInfo as User) || ""; // as User 외에도 || '' 처리해줘야 에러안뜸
 
   // my action - created_at (작성일) 기준으로 정렬하기
   const sortedMyActions = myActions?.slice().sort((a, b) => {
@@ -99,7 +106,6 @@ const MyPage = () => {
     filterByRecruiting();
   }, [
     myActions,
-    myPosts,
     myBookmarks,
     activeTab,
     myRecruitClicked,
@@ -107,7 +113,7 @@ const MyPage = () => {
   ]);
 
   useEffect(() => {
-    checkUserLogin(); // 안됨 -> 이걸해줘야 처음 렌더링시 유저확인되고 데이터가 뜬다
+    checkUserLogin(); // 안됨 -> 이걸해줘야 처음 렌더링시 유저확인되고 데이터가 뜬다?
   }, [isLoggedIn]);
 
   // My Action, 작성 커뮤니티 글, 찜한 Action 탭 선택시
@@ -156,7 +162,12 @@ const MyPage = () => {
     }
   };
 
-  if (isActionsLoading || isPostsLoading || isBookmarksLoading) {
+  if (
+    isActionsLoading ||
+    isPostsLoading ||
+    isBookmarksLoading ||
+    isUserInfoLoading
+  ) {
     return (
       <div className="flex justify-center items-center h-screen">
         <CircularProgress color="success" label="Loading..." />
@@ -166,13 +177,8 @@ const MyPage = () => {
 
   return (
     <div className="flex justify-center pt-12 mb-[100px]">
-      {/* <CustomConfirm
-        text="안녕"
-        buttonName="버튼"
-        okFunction={() => setFilteredActions}
-      /> */}
       <div className="flex w-[1400px]">
-        <MyProfile user_uid={user_uid} />
+        <MyProfile userInfo={userInfo as User} />
         <div className="flex flex-col gap-10 pl-10 pt-1 w-full">
           <div className="flex justify-between">
             <div className="flex gap-12 ml-5">
@@ -225,13 +231,25 @@ const MyPage = () => {
             {activeTab === "My Green-Action" &&
               filteredActions?.map((action) => {
                 return (
-                  <MyActionCard key={action.id} action={action} mode="mypost" />
+                  <MyActionCard
+                    key={action.id}
+                    action={action}
+                    mode="myPosts"
+                  />
                 );
               })}
             {/* LINK 내가 쓴 커뮤니티 글 */}
             {activeTab === "작성 게시물" &&
               myPosts?.map((post) => {
-                return <CommunityListPost mode="mypost" communityPost={post} />;
+                return (
+                  <CommunityListPost
+                    key={post.id}
+                    mode="myPosts"
+                    communityPost={post}
+                    my_display_name={display_name}
+                    my_profile_img={profile_img || null}
+                  />
+                );
               })}
             {/* LINK 찜한 Green Action */}
             {activeTab === "찜한 Green-Action" &&
@@ -240,7 +258,7 @@ const MyPage = () => {
                   <MyActionCard
                     key={bookmark?.bookmarkedAction?.id || ""}
                     action={bookmark}
-                    mode="bookmark"
+                    mode="myBookmarks"
                   />
                 );
               })}

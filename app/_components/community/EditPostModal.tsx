@@ -24,7 +24,12 @@ import {
   Selection,
 } from "@nextui-org/react";
 
-const EditPostModal = ({ isOpen, onOpenChange, post_id }: EditPostProps) => {
+const EditPostModal = ({
+  isOpen,
+  onOpenChange,
+  post_id,
+  mode,
+}: EditPostProps) => {
   // 드랍다운 선택된 key 상태관리
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set(["Green-action 선택하기"]),
@@ -48,7 +53,7 @@ const EditPostModal = ({ isOpen, onOpenChange, post_id }: EditPostProps) => {
   }, [singlePostForEdit]);
 
   // 게시글 수정 mutation - 상세모달창, 게시글 리스트 무효화
-  const { updatePostMutation } = useUpdateEditPostMutation();
+  const { updatePostMutation } = useUpdateEditPostMutation(mode);
 
   // green-action 드랍다운 선택 로직
   const selectedValue = React.useMemo(

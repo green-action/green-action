@@ -18,7 +18,6 @@ export const useFetchUserInfo = (user_uid: string) => {
     queryKey: [QUERY_KEY_USER_INFO, user_uid],
     queryFn: () => fetchUserInfo(user_uid),
   });
-  // console.log("🐰 ~ useFetchUserInfo ~ data : ", data);
   return { data, isLoading };
 };
 
@@ -39,9 +38,12 @@ export const usefetchMyCommunityPosts = (user_uid: string) => {
 };
 
 export const usefetchBookmarkedActions = (user_uid: string) => {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: [QUERY_KEY_MY_BOOKMARK],
     queryFn: () => fetchBookmarkedActions(user_uid),
   });
+  if (error) {
+    console.error(error.message);
+  }
   return { data, isLoading };
 };

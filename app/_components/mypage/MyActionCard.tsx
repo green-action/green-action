@@ -9,7 +9,6 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import React from "react";
-import { FaRegStar } from "react-icons/fa";
 import { GoPerson } from "react-icons/go";
 import { GrLocation } from "react-icons/gr";
 import { IoIosCalendar } from "react-icons/io";
@@ -18,9 +17,9 @@ import { useRouter } from "next/navigation";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import Bookmark from "../bookmark/Bookmark";
 import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
+import { MyAction } from "@/app/_types/mypage/mypage";
 
-interface ActionCardProps {}
-
+// TODO MyAction 타입 사용 후 에러 해결하기
 const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
   const router = useRouter();
   const {
@@ -39,11 +38,10 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
     start_date,
     end_date,
     location,
-    actionBookmarks,
-  } = mode === "bookmark" ? action.bookmarkedAction : action;
+    // actionBookmarks,
+  } = mode === "myBookmarks" ? action.bookmarkedAction : action;
 
-  const actionImgUrl = actionImgUrls[0];
-  const bookmarkCount = actionBookmarks?.length;
+  const actionImgUrl = actionImgUrls[0]; // as string || ''
 
   const { deleteAction } = useDeleteAction(id);
 
@@ -62,7 +60,6 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
 
   return (
     <div key={id}>
-      {/* SECTION - 모달 => 커스텀 alert 창 사용하기 ? / 모달 -> 카드 내에서 뜨도록 구현 시도해보기? */}
       <div className="none w-[330px] h-[25rem] flex flex-wrap  p-1 ">
         <Card
           isFooterBlurred
@@ -72,6 +69,7 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
           {actionImgUrl ? (
             <img
               src={actionImgUrl.img_url}
+              // actionImgUrl.img_url
               alt="Green Action Image"
               className="w-full h-full"
               onClick={handleActionClick}
@@ -83,10 +81,10 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
             />
           )}
         </Card>
-        <div className={`pl-2 ${mode === "mypost" && "pt-5"}`}>
-          <div className="flex w-[300px] justify-around ">
-            <div className="flex gap-2 mb-4 ">
-              <p className="max-w-[160px] font-bold  overflow-hidden whitespace-nowrap overflow-ellipsis">
+        <div className={`pl-2 ${mode === "myPosts" && "pt-5"}`}>
+          <div className="flex w-[300px] gap-2">
+            <div className="flex gap-2 mb-4 min-w-[225px] ">
+              <p className=" max-w-[165px] font-bold overflow-hidden whitespace-nowrap overflow-ellipsis">
                 {title}
               </p>
               {is_recruiting ? (
@@ -99,23 +97,14 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
                 </Chip>
               )}
             </div>
-            <div className="flex items-start pt-1 gap-2 text-sm">
+            <div className="flex justify-end items-start pt-0 gap-2 text-sm">
               <div className="flex gap-1">
-                <GoPerson size="15" />
+                <GoPerson size="15" className="mt-[1.5px]" />
                 <p>{recruit_number}</p>
               </div>
-              {/* <div className="flex gap-1 items-center"> */}
-              {/* <FaRegStar size="15" /> */}
               {/* LINK 북마크 컴포넌트 */}
-              <Bookmark action_id={id} />
-              {/* </div> */}
+              <Bookmark action_id={id} mode={mode} />
             </div>
-            {/* 커스텀컨펌창 - 크기?등 ui 수정 어려운 문제 */}
-            {/* <CustomConfirm
-              text=".."
-              buttonName={action.is_recruiting ? "모집중" : "모집마감"}
-              okFunction={handleRecruitingChange}
-            /> */}
           </div>
           <div className="flex gap-1 text-sm">
             <IoIosCalendar size="15" />
@@ -132,7 +121,7 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
               </p>
             </div>
 
-            {mode === "mypost" && (
+            {mode === "myPosts" && (
               <>
                 <Dropdown
                   placement="bottom-end"
@@ -144,7 +133,7 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" className="p-3">
-                    {is_recruiting && (
+                    {is_recruiting && ( // !!
                       <DropdownItem key="모집마감" onClick={handleModalOpen}>
                         모집마감
                       </DropdownItem>
