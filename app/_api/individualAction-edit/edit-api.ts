@@ -1,9 +1,10 @@
-import {
+import { supabase } from "@/utils/supabase/client";
+
+import type {
   FileUpload,
   FormDataType,
   InsertImgUrls,
 } from "@/app/_types/individualAction-add/individualAction-add";
-import { supabase } from "@/utils/supabase/client";
 
 // 수정할 action_id의 데이터 가져오기
 // (외래키 연결된 green_action_images 테이블에서 이미지 url도 함께 가져오기)
@@ -89,7 +90,6 @@ export const uploadFilesAndGetUrls = async ({
       // map으로 (파일 스토리지에 업로드 + url 반환) 반복
       files.map(async (file) => {
         if (file) {
-          console.log("file.name", file.name);
           const fileName = `${(file.name, crypto.randomUUID())}`;
           // 'action_id' 폴더 생성, 파일이름은 uuid
           const filePath = `${action_id}/${fileName}`;

@@ -26,23 +26,19 @@ const AddActionPage = () => {
 
   // '등록완료' 클릭시
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // 기본 제출 동작 방지
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
 
     // 오픈카톡방 링크 유효성검사
     // 올바른 링크 양식 : https://open.kakao.com/o/{채팅방 ID}
-    const form = event.target as HTMLFormElement;
-    const openKakaoLinkElement = form.elements.namedItem(
-      "openKakaoLink",
-    ) as HTMLInputElement;
-    const openKakaoLink = openKakaoLinkElement.value;
+    const openKakaoLink = formData.get("openKakaoLink") as string;
     const kakaoLinkPattern = /^https:\/\/open\.kakao\.com\/o\//;
 
     if (!kakaoLinkPattern.test(openKakaoLink)) {
       alert("카카오톡 오픈채팅방 링크가 올바르지 않습니다.");
       return;
     }
-
-    const formData = new FormData(event.currentTarget); // 폼 데이터 생성
 
     try {
       // 확인창 표시

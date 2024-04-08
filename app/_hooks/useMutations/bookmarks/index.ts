@@ -58,6 +58,9 @@ export const useAddLike = () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY_LIKES],
       });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY_COMMUNITYLIST],
+      });
     },
   });
   return addLikeMutation;
@@ -70,6 +73,9 @@ export const useRemoveLike = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY_LIKES],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY_COMMUNITYLIST],
       });
     },
   });

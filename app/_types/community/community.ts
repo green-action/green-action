@@ -43,3 +43,22 @@ export interface InsertComment {
   loggedInUserUid: string;
   post_id: string;
 }
+
+export interface PostImgUploadProps {
+  uploadedFileUrl: string;
+  setUploadedFileUrl: React.Dispatch<React.SetStateAction<string>>;
+  setFile: React.Dispatch<React.SetStateAction<File | null | undefined>>;
+}
+
+export interface EditPostProps {
+  isOpen: boolean;
+  onOpenChange: () => void;
+  post_id: string;
+  mode: string;
+}
+
+export interface EditImgProps {
+  uploadedFileUrl: string | null;
+  setUploadedFileUrl: React.Dispatch<React.SetStateAction<string | null>>;
+  setFile: React.Dispatch<React.SetStateAction<File | null | undefined>>;
+}

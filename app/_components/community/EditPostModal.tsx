@@ -1,18 +1,15 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
+
+import type { EditPostProps } from "@/app/_types/community/community";
+
 import { uploadFileAndGetUrl } from "@/app/_api/community/community-api";
-import {
-  getSinglePostForEdit,
-  updateEditedPost,
-} from "@/app/_api/community/communityEdit-api";
-import {
-  QUERY_KEY_COMMUNITYLIST,
-  QUERY_KEY_COMMUNITY_POST,
-  QUERY_KEY_COMMUNITY_POSTS_LIKES,
-  QUERY_KEY_COMMUNITY_POST_FOR_EDIT,
-  QUERY_KEY_MY_COMMUNITYPOST,
-} from "@/app/_api/queryKeys";
-import { CommunityEditMutation } from "@/app/_types/community/community";
+import { useGetSinglePostForEdit } from "@/app/_hooks/useQueries/community";
+import { useUpdateEditPostMutation } from "@/app/_hooks/useMutations/community";
+
+import PostImgEdit from "./PostImgEdit";
+
 import {
   Button,
   Dropdown,
@@ -26,20 +23,9 @@ import {
   ModalHeader,
   Selection,
 } from "@nextui-org/react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import React, { useState } from "react";
-
-interface EditPostProps {
-  isOpen: boolean;
-  onOpen: () => void;
-  onOpenChange: () => void;
-  post_id: string;
-  mode: string;
-}
 
 const EditPostModal = ({
   isOpen,
-  onOpen,
   onOpenChange,
   post_id,
   mode,
@@ -52,73 +38,22 @@ const EditPostModal = ({
   const [uploadedFileUrl, setUploadedFileUrl] = useState<string | null>("");
   const [file, setFile] = useState<File | undefined | null>(null);
 
-  const queryClient = useQueryClient();
+  // post_id 데이터 가져오기
+  const { singlePostForEdit } = useGetSinglePostForEdit(post_id);
 
-  // post_id 데이터 가져오기 useQuery
-  // (데이터 가져옴과 동시에 이미지url 바로 set하기, action_type set하기)
-  const {
-    data: singlePostForEdit,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: [QUERY_KEY_COMMUNITY_POST_FOR_EDIT],
-    queryFn: async () => {
-      try {
-        const data = await getSinglePostForEdit(post_id);
-        setUploadedFileUrl(data.img_url);
-        if (data.action_type === "개인") {
-          setSelectedKeys(new Set(["개인과 함께해요"]));
-        }
-        setSelectedKeys(new Set(["단체와 함께해요"]));
-        return data;
-      } catch (error) {}
-    },
-  });
-
-  // 게시글 수정 mutation - 상세모달창 정보 무효화
-  const { mutate: updatePostMutation } = useMutation({
-    mutationFn: ({ post_id, imgUrl, formData }: CommunityEditMutation) =>
-      updateEditedPost({
-        post_id,
-        imgUrl,
-        formData,
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY_COMMUNITY_POST],
-      });
-
-      mode === "main" &&
-        queryClient.invalidateQueries({
-          queryKey: [QUERY_KEY_COMMUNITY_POSTS_LIKES],
-        });
-      mode === "community" &&
-        queryClient.invalidateQueries({
-          queryKey: [QUERY_KEY_COMMUNITYLIST],
-        });
-      mode === "myPosts" &&
-        queryClient.invalidateQueries({
-          queryKey: [QUERY_KEY_MY_COMMUNITYPOST],
-        });
-    },
-  });
-
-  // 이미지 미리보기 띄우기
-  const handleShowPreview = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) {
-      return;
+  // 이미지url set하기, action_type set하기
+  useEffect(() => {
+    if (singlePostForEdit) {
+      setUploadedFileUrl(singlePostForEdit.img_url);
     }
-    const imageUrl = URL.createObjectURL(file);
-    setUploadedFileUrl(imageUrl);
-    setFile(file);
-  };
+    if (singlePostForEdit?.action_type === "개인") {
+      setSelectedKeys(new Set(["개인과 함께해요"]));
+    }
+    setSelectedKeys(new Set(["단체와 함께해요"]));
+  }, [singlePostForEdit]);
 
-  // 미리보기 이미지 삭제
-  const handleDeleteImage = () => {
-    setUploadedFileUrl("");
-    setFile(null);
-  };
+  // 게시글 수정 mutation - 상세모달창, 게시글 리스트 무효화
+  const { updatePostMutation } = useUpdateEditPostMutation(mode);
 
   // green-action 드랍다운 선택 로직
   const selectedValue = React.useMemo(
@@ -167,50 +102,11 @@ const EditPostModal = ({
               <ModalBody>
                 <div className="flex flex-col justify-between h-full">
                   {/* 이미지 업로드 */}
-                  <div className="flex mx-auto mt-4 mb-5 border-1.5 border-dashed border-gray-300 rounded-3xl w-4/5 h-[220px]">
-                    {/* 이미지 업로드한 경우 */}
-                    {uploadedFileUrl ? (
-                      <div className="relative w-full h-full">
-                        <img
-                          src={uploadedFileUrl}
-                          alt={`Uploaded Image`}
-                          className="w-full h-full rounded-3xl object-cover"
-                        />
-                        <button
-                          onClick={handleDeleteImage}
-                          color="default"
-                          className="absolute top-2 right-3 w-5 h-5 p-0 bg-gray-300 rounded-full"
-                        >
-                          <span className="absolute text-sm top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                            x
-                          </span>
-                        </button>
-                      </div>
-                    ) : (
-                      // 보여줄 이미지 없는 경우
-                      <div className="flex flex-col w-full h-full justify-end items-center mt-auto">
-                        <label
-                          htmlFor={`fileInput`}
-                          className="mb-4 text-4xl font-thin text-gray-500 cursor-pointer"
-                        >
-                          +
-                        </label>
-                        <input
-                          id={`fileInput`}
-                          type="file"
-                          accept=".png, .jpg, .jpeg"
-                          hidden
-                          onChange={handleShowPreview}
-                        />
-                        <p className="mb-px font-medium text-gray-500">
-                          Upload Image
-                        </p>
-                        <p className="text-xs mb-14 text-gray-400">
-                          or drag & drop
-                        </p>
-                      </div>
-                    )}
-                  </div>
+                  <PostImgEdit
+                    uploadedFileUrl={uploadedFileUrl}
+                    setUploadedFileUrl={setUploadedFileUrl}
+                    setFile={setFile}
+                  />
                   <div className="flex flex-col gap-3">
                     {/* action_type선택 드랍다운 */}
                     <div className="flex justify-end">
