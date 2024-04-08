@@ -9,6 +9,7 @@ import { MdDateRange } from "react-icons/md";
 import Bookmark from "../bookmark/Bookmark";
 
 import type { Index } from "@/app/_types";
+import { useFilterBookmark } from "@/app/_hooks/useQueries/bookmarks";
 
 interface ChildProps {
   filteredActions: Index;
@@ -41,7 +42,7 @@ const PageList: React.FC<ChildProps> = ({ filteredActions }) => {
               />
             ) : (
               <div
-                className="bg-gray-300 w-full h-full rounded"
+                className="bg-gray-300 w-full h-full rounded cursor-pointer"
                 onClick={() => handleClick(post.id)}
               />
             )}
@@ -77,17 +78,7 @@ const PageList: React.FC<ChildProps> = ({ filteredActions }) => {
                 <CiUser />
                 <span className="ml-1 text-sm"> {post.recruit_number} </span>
               </div>
-              <div className="flex items-center">
-                {/* {post.actionBookmarks.map((bookmark) => (
-                  <Bookmark action_id={bookmark.id as string} />
-                ))} */}
-                {/* <Bookmark action_id={post.actionBookmarks as string} /> */}
-
-                {/* 배열의 글자수를 확인하면 카운터가됨 */}
-                <span className="ml-1 text-sm">
-                  {post.actionBookmarks.length}
-                </span>
-              </div>
+              <Bookmark action_id={post?.id} />
             </div>
           </div>
         </article>
