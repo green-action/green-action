@@ -78,9 +78,7 @@ const PageList: React.FC<ChildProps> = ({ filteredActions }) => {
                 <CiUser />
                 <span className="ml-1 text-sm"> {post.recruit_number} </span>
               </div>
-              <div className="flex items-center ml-1 text-sm">
-                <Bookmark action_id={post?.id} />
-              </div>
+              <Bookmark action_id={post?.id} />
             </div>
           </div>
         </article>
