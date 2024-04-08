@@ -13,13 +13,11 @@ const ProfileImgUpload = ({
   // 이미지 미리보기 띄우기
   const handleShowPreview = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    console.log("🐰 ~ handleShowPreview ~ file : ", file);
 
     if (!file) {
       return;
     }
     const imageUrl = URL.createObjectURL(file);
-    // console.log("🐰 ~ handleShowPreview ~ imageUrl : ", imageUrl);
     setUploadedFileUrl(imageUrl);
     setFile(file);
   };

@@ -26,6 +26,7 @@ export interface CommunityDetailProps {
   onOpen: () => void;
   onOpenChange: () => void;
   post_id: string;
+  mode?: string;
 }
 
 export interface CommentProps {
