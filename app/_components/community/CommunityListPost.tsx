@@ -3,8 +3,17 @@ import type { CommunityPostObj } from "@/app/_types/community/community";
 import Likes from "../likes/Likes";
 import CommunityDetailModal from "./CommunityDetailModal";
 
-import { Avatar, Card, CardFooter, useDisclosure } from "@nextui-org/react";
+import {
+  Avatar,
+  Card,
+  CardFooter,
+  Spinner,
+  useDisclosure,
+} from "@nextui-org/react";
 import { longStyle } from "./style";
+
+import { useGetPostContents } from "@/app/_hooks/useQueries/community";
+import { useGetCommunityCommentsList } from "@/app/_hooks/useQueries/comments";
 
 const CommunityListPost = ({
   communityPost,
@@ -22,6 +31,13 @@ const CommunityListPost = ({
 
   const post_id = communityPost?.id as string;
 
+  // 게시글 정보 처리상태 가져오기
+  const { isPostLoading, isPostError } = useGetPostContents(post_id);
+
+  // 댓글 리스트 처리상태 가져오기
+  const { isCommentsLoading, isCommentsError } =
+    useGetCommunityCommentsList(post_id);
+
   // 게시글 작성자 정보
   const { display_name, profile_img } = (mode !== "myPosts" &&
     communityPost?.users) || {
@@ -30,6 +46,13 @@ const CommunityListPost = ({
   };
   // profile_img가 null인 경우 undefined로 변환 (null이면 src안에서 타입에러 발생)
   const imgSrc = profile_img || "";
+
+  if (isPostLoading || isCommentsLoading) {
+    return <Spinner color="danger" />;
+  }
+  if (isPostError || isCommentsError) {
+    return <div>Error</div>;
+  }
 
   return (
     <>

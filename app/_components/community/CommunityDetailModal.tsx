@@ -46,22 +46,13 @@ const CommunityDetailModal = ({
   } = useDisclosure();
 
   // 게시글 정보 가져오기
-  const { communityPost, isPostLoading, isPostError } =
-    useGetPostContents(post_id);
+  const { communityPost } = useGetPostContents(post_id);
 
   // 댓글 리스트 가져오기
-  const { communityComments, isCommentsLoading, isCommentsError } =
-    useGetCommunityCommentsList(post_id);
+  const { communityComments } = useGetCommunityCommentsList(post_id);
 
   // 게시글 삭제 mutation
   const { deletePostMutation } = useDeleteCommunityPostMutation();
-
-  if (isPostLoading || isCommentsLoading) {
-    return <div>Loading...</div>;
-  }
-  if (isPostError || isCommentsError) {
-    return <div>Error</div>;
-  }
 
   // 날짜 형식 변경
   const formattedDate = communityPost
