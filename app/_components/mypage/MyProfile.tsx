@@ -7,7 +7,6 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
-  CircularProgress,
   Tooltip,
 } from "@nextui-org/react";
 import { HiOutlinePlus } from "react-icons/hi2";
@@ -116,7 +115,7 @@ const MyProfile = ({ userInfo }: { userInfo: User }) => {
         </CardBody>
       </Card>
 
-      <Card className="">
+      <Card>
         <CardHeader className="mb-[-1.5rem]">
           <p>Points</p>
         </CardHeader>

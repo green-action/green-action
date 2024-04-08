@@ -10,7 +10,6 @@ import {
   usefetchBookmarkedActions,
   usefetchMyCommunityPosts,
 } from "../_hooks/useQueries/mypage";
-import CustomConfirm from "../_components/customConfirm/CustomConfirm";
 import MyActionCard from "../_components/mypage/MyActionCard";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -23,13 +22,15 @@ import { User } from "../_types";
 const MyPage = () => {
   // TODO props 타입등 재설정
   // FIXME 유저닉네임 수정 다시 봐야
-  const user_uid = "2c81257f-e4d9-41d8-ad65-3745da3d3b2f";
+  // const user_uid = "2c81257f-e4d9-41d8-ad65-3745da3d3b2f";
+  // const user_uid = "9da3ec56-3796-4f4f-aa99-06517955400b";
   // 임시 유저 아이디 설정
   const router = useRouter();
   const session = useSession();
 
+  // FIXME 로그인 해도 session.data null로 뜨는 문제
   const isLoggedIn = !!session.data;
-  // const user_uid = session.data?.user.user_uid as string;
+  const user_uid = session.data?.user.user_uid as string;
   // let user_uid = "";
   // 새로고침 시 로그인이 잠시 풀림
   // if (!isLoggedIn) {
@@ -63,8 +64,6 @@ const MyPage = () => {
     // }
     return user_uid; // uid를 리턴해줘야만 됨.? why? 쓰지않는데도
   };
-
-  // TODO: myActions 없는 경우 처리
 
   const { data: myActions, isLoading: isActionsLoading } =
     useFetchMyGreenActions(user_uid);
@@ -107,7 +106,6 @@ const MyPage = () => {
     filterByRecruiting();
   }, [
     myActions,
-    myPosts,
     myBookmarks,
     activeTab,
     myRecruitClicked,
@@ -115,7 +113,7 @@ const MyPage = () => {
   ]);
 
   useEffect(() => {
-    checkUserLogin(); // 안됨 -> 이걸해줘야 처음 렌더링시 유저확인되고 데이터가 뜬다
+    checkUserLogin(); // 안됨 -> 이걸해줘야 처음 렌더링시 유저확인되고 데이터가 뜬다?
   }, [isLoggedIn]);
 
   // My Action, 작성 커뮤니티 글, 찜한 Action 탭 선택시
