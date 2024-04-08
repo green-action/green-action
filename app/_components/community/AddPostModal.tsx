@@ -1,11 +1,11 @@
 "use client";
 
-import {
-  insertCommunityPostFormData,
-  uploadFileAndGetUrl,
-} from "@/app/_api/community/community-api";
-import { QUERY_KEY_COMMUNITYLIST } from "@/app/_api/queryKeys";
-import { CommunityPostMutation } from "@/app/_types/community/community";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+
+import { uploadFileAndGetUrl } from "@/app/_api/community/community-api";
+
 import {
   Button,
   Dropdown,
@@ -20,14 +20,20 @@ import {
   Selection,
   useDisclosure,
 } from "@nextui-org/react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+
 import { LuPencilLine } from "react-icons/lu";
+import { useInsertCommunityPostFormData } from "@/app/_hooks/useMutations/community";
+import PostImgUpload from "./PostImgUpload";
 
 const AddPostModal = () => {
+  const [uploadedFileUrl, setUploadedFileUrl] = useState<string>("");
+  const [file, setFile] = useState<File | undefined | null>(null);
+
   const router = useRouter();
+
+  // 게시글 글쓰기 모달창 open여부 상태관리
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
   // 현재 로그인한 유저 uid
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
@@ -36,30 +42,9 @@ const AddPostModal = () => {
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set(["Green-action 선택하기"]),
   );
-  // 게시글 글쓰기 모달창 open여부 상태관리
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
-  const [uploadedFileUrl, setUploadedFileUrl] = useState<string>("");
-  const [file, setFile] = useState<File | undefined | null>(null);
-
-  const queryClient = useQueryClient();
 
   // 게시글 등록 mutation - communityList 쿼리키 무효화
-  const { mutate: insertFormDataMutation } = useMutation({
-    mutationFn: async ({
-      formData,
-      loggedInUserUid,
-    }: CommunityPostMutation) => {
-      const post_id = await insertCommunityPostFormData({
-        formData,
-        loggedInUserUid,
-      });
-      return post_id;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_COMMUNITYLIST] });
-    },
-  });
+  const { insertFormDataMutation } = useInsertCommunityPostFormData();
 
   // 글쓰기 버튼 클릭핸들러
   const handleAddPostClick = () => {
@@ -70,23 +55,6 @@ const AddPostModal = () => {
     alert("로그인이 필요합니다.");
     router.push(`/login`);
     return;
-  };
-
-  // 이미지 미리보기 띄우기
-  const handleShowPreview = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) {
-      return;
-    }
-    const imageUrl = URL.createObjectURL(file);
-    setUploadedFileUrl(imageUrl);
-    setFile(file);
-  };
-
-  // 미리보기 이미지 삭제
-  const handleDeleteImage = () => {
-    setUploadedFileUrl("");
-    setFile(null);
   };
 
   // green-action 드랍다운 선택 로직
@@ -137,7 +105,6 @@ const AddPostModal = () => {
       <Button
         className="fixed z-50 bottom-16 right-16 rounded-full w-20 h-20 bg-gray-300 flex items-center justify-center"
         onClick={handleAddPostClick}
-        // onPress={onOpen}
       >
         <LuPencilLine className="w-8 h-8" />
       </Button>
@@ -153,48 +120,11 @@ const AddPostModal = () => {
               <ModalBody>
                 <div className="flex flex-col justify-between h-full">
                   {/* 이미지 업로드 */}
-                  <div className="flex mx-auto mt-4 mb-5 border-1.5 border-dashed border-gray-300 rounded-3xl w-4/5 h-[220px]">
-                    {/* 이미지 업로드한 경우 */}
-                    {uploadedFileUrl ? (
-                      <div className="relative w-full h-full">
-                        <img
-                          src={uploadedFileUrl}
-                          alt={`Uploaded Image`}
-                          className="w-full h-full rounded-3xl object-cover"
-                        />
-                        <button
-                          onClick={handleDeleteImage}
-                          color="default"
-                          className="absolute top-1 right-3 w-4"
-                        >
-                          x
-                        </button>
-                      </div>
-                    ) : (
-                      // 보여줄 이미지 없는 경우
-                      <div className="flex flex-col w-full h-full justify-end items-center mt-auto">
-                        <label
-                          htmlFor={`fileInput`}
-                          className="mb-4 text-4xl font-thin text-gray-500 cursor-pointer"
-                        >
-                          +
-                        </label>
-                        <input
-                          id={`fileInput`}
-                          type="file"
-                          accept=".png, .jpg, .jpeg"
-                          hidden
-                          onChange={handleShowPreview}
-                        />
-                        <p className="mb-px font-medium text-gray-500">
-                          Upload Image
-                        </p>
-                        <p className="text-xs mb-14 text-gray-400">
-                          or drag & drop
-                        </p>
-                      </div>
-                    )}
-                  </div>
+                  <PostImgUpload
+                    uploadedFileUrl={uploadedFileUrl}
+                    setUploadedFileUrl={setUploadedFileUrl}
+                    setFile={setFile}
+                  />
                   <div className="flex flex-col gap-3">
                     {/* action_type선택 드랍다운 */}
                     <div className="flex justify-end">

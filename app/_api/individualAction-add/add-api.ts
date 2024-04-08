@@ -1,9 +1,10 @@
-import {
+import { supabase } from "@/utils/supabase/client";
+
+import type {
   FileUpload,
   FormDataType,
   InsertImgUrls,
 } from "@/app/_types/individualAction-add/individualAction-add";
-import { supabase } from "@/utils/supabase/client";
 
 // 1. 텍스트 formData 삽입 함수
 export const insertActionTextForm = async ({
@@ -96,7 +97,7 @@ export const uploadFilesAndGetUrls = async ({
   }
 };
 
-// 3. 이미지url들 table에 넣기 - action_id 주의
+// 3. 이미지url들 table에 넣기 - action_id도 함께 넣어야 함
 export const insertImgUrls = async ({
   action_id,
   imgUrlsArray,

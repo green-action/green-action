@@ -54,11 +54,11 @@ export const signInUser = async (
       .select("*")
       .eq("id", user.id)
       .single();
-    // console.log(userData);
-    // return data.user.user_metadata as User;
+
+    if (fetchError) throw fetchError;
     return userData as User;
-  } catch (fetchError) {
-    throw fetchError;
+  } catch (error) {
+    throw error;
   }
 };
 
@@ -84,33 +84,9 @@ export const getUser = async () => {
   return { user };
 };
 
-// 사용자 로그인상태 확인
-
-// const fetchSession = async () => {
-//   try {
-//     const { data, error } = await supabase.auth.getSession();
-
-//     if (error) {
-//       throw error;
-//     }
-
-//     return data?.session;
-//   } catch (error) {
-//     console.error("세션 정보 가져오기 오류:", error);
-//     throw error;
-//   }
-// };
-
-// fetchSession()
-//   .then((session) => {
-//     if (session) {
-//       console.log("사용자가 로그인되어 있습니다.");
-//       console.log("사용자 정보:", session.user);
-//       console.log("uid:", session.user.id);
-//     } else {
-//       console.log("사용자가 로그인되어 있지 않습니다.");
-//     }
-//   })
-//   .catch((error) => {
-//     console.error("세션 정보 가져오기 오류:", error);
+// export const logInWithKakao = async () => {
+//   const { data, error } = await supabase.auth.signInWithOAuth({
+//     provider: "kakao",
 //   });
+//   if (error) throw error.message;
+// };

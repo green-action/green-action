@@ -2,6 +2,11 @@
 
 import React from "react";
 
+import { useGetCommunityList } from "../_hooks/useQueries/community";
+
+import AddPostModal from "../_components/community/AddPostModal";
+import CommunityListPost from "../_components/community/CommunityListPost";
+
 import {
   Button,
   Dropdown,
@@ -10,10 +15,6 @@ import {
   DropdownTrigger,
   Selection,
 } from "@nextui-org/react";
-
-import AddPostModal from "../_components/community/AddPostModal";
-import CommunityListPost from "../_components/community/CommunityListPost";
-import { useGetCommunityList } from "../_hooks/useQueries/community";
 
 const CommunityListPage = () => {
   const { communityList, isLoading, isError } = useGetCommunityList();
