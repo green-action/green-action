@@ -41,9 +41,11 @@ function Header() {
     const confirmed = window.confirm("로그아웃 하시겠습니까?");
     if (confirmed) {
       try {
-        await signOut();
+        await signOut({
+          redirect: true,
+          callbackUrl: "/",
+        });
         alert("로그아웃 되었습니다.");
-        router.replace("/");
       } catch (error) {
         console.error("Logout error:", error);
       }

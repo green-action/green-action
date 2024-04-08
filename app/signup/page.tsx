@@ -1,20 +1,19 @@
 "use client";
-import React, { useState } from "react";
 import {
   Button,
   Card,
   CardBody,
   Input,
   Modal,
-  ModalContent,
   ModalBody,
+  ModalContent,
   ModalFooter,
   useDisclosure,
 } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import { PiEyeLight, PiEyeSlash } from "react-icons/pi";
 import { signUpNewUser } from "../_api/auth";
-import { useRouter } from "next/navigation";
-import { supabase } from "@/utils/supabase/client";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -38,6 +37,7 @@ const SignUp = () => {
     e.preventDefault();
     if (!email || !password || !confirmPassword || !nickname) {
       alert("입력란을 입력해주세요.");
+      return;
     }
 
     if (
@@ -54,10 +54,14 @@ const SignUp = () => {
     try {
       const users = await signUpNewUser(email, password, nickname);
       onOpen();
-      console.log(users);
-      console.log("회원가입성공:", users);
     } catch (error) {
+      if (error === "User already registered") {
+        console.error("회원가입 오류:", error);
+        alert("이미 등록된 사용자입니다. 다른 이메일을 시도해주세요.");
+        return;
+      }
       console.error("회원가입 오류:", error);
+      alert("회원가입중 오류가 발생하였습니다!");
     }
   };
 
@@ -93,6 +97,24 @@ const SignUp = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="mb-5  border-[BFBFBF] border-1 rounded-[12px]"
+              endContent={
+                <>
+                  <div className="flex items-center">
+                    <button
+                      type="button"
+                      id="togglePasswordVisibility"
+                      onClick={togglePasswordVisibility}
+                      className="mb-5"
+                    />
+                  </div>
+                  <label
+                    htmlFor="togglePasswordVisibility"
+                    className="flex items-center"
+                  >
+                    {passwordVisible ? <PiEyeSlash /> : <PiEyeLight />}
+                  </label>
+                </>
+              }
             />
             {password !== "" && !validatePassword(password) && (
               <p className="text-red-500 text-xs">
@@ -106,7 +128,26 @@ const SignUp = () => {
               value={confirmPassword}
               onChange={(e) => SetConfirmPassword(e.target.value)}
               className="mb-5  border-[BFBFBF] border-1 rounded-[12px]"
+              endContent={
+                <>
+                  <div className="flex items-center">
+                    <button
+                      type="button"
+                      id="togglePasswordVisibility"
+                      onClick={togglePasswordVisibility}
+                      className="mb-5"
+                    />
+                  </div>
+                  <label
+                    htmlFor="togglePasswordVisibility"
+                    className="flex items-center"
+                  >
+                    {passwordVisible ? <PiEyeSlash /> : <PiEyeLight />}
+                  </label>
+                </>
+              }
             />
+
             {validatePasswords() &&
               password !== "" &&
               confirmPassword !== "" && (
@@ -127,23 +168,13 @@ const SignUp = () => {
               value={nickname}
               onChange={(e) => SetNickname(e.target.value)}
               className="mb-5  border-[BFBFBF] border-1 rounded-[12px]"
+              maxLength={10}
             />
             {nickname && (nickname.length < 2 || nickname.length > 10) && (
               <p className="text-red-500 text-xs">
                 닉네임은 최소 2글자 이상, 최대 10글자 이하이어야 합니다.
               </p>
             )}
-            <div className="flex items-center">
-              <button
-                type="button"
-                id="togglePasswordVisibility"
-                onClick={togglePasswordVisibility}
-                className="mb-5"
-              />
-              <label htmlFor="togglePasswordVisibility">
-                {passwordVisible ? <PiEyeSlash /> : <PiEyeLight />}
-              </label>
-            </div>
 
             <Button
               type="submit"
@@ -154,20 +185,35 @@ const SignUp = () => {
               Signup
             </Button>
           </form>
-          <button onClick={handleClick}>로그인</button>
+          <div className="flex gap-4">
+            <p className="text-gray-500">이미 회원이신가요?</p>
+            <button onClick={handleClick}>로그인</button>
+          </div>
         </CardBody>
       </Card>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        isDismissable={false}
+        isKeyboardDismissDisabled={true}
+        hideCloseButton={true}
+      >
         <ModalContent>
           {() => (
             <>
-              <ModalBody>🎉회원가입을 축하합니다!🎉</ModalBody>
+              <ModalBody>
+                <div>
+                  회원가입완료
+                  <br />
+                  🎉SOOM에 오신 것을 환영합니다🎉
+                </div>
+              </ModalBody>
               <ModalFooter>
                 <Button
                   className="bg-black text-white"
                   onPress={() => router.push("/login")}
                 >
-                  ok
+                  OK
                 </Button>
               </ModalFooter>
             </>

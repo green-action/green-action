@@ -3,8 +3,8 @@ import { Button, Select, SelectItem } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { LuPencilLine } from "react-icons/lu";
-import PageList from "./pageList";
 import { useSession } from "next-auth/react";
+import PageList from "./PageList";
 
 const PageTap = () => {
   const [activeTab, setActiveTab] = useState("모든 캠페인");
@@ -29,7 +29,7 @@ const PageTap = () => {
       } else if (activeTab === "마감된 캠페인") {
         filtered = actions?.filter((action) => !action.is_recruiting);
       }
-      console.log("필터 캠페인->", filtered); // 필터링된 결과를 콘솔에 출력
+      // console.log("필터 캠페인->", filtered);
       setFilteredActions(filtered);
     }
   };
@@ -79,13 +79,13 @@ const PageTap = () => {
 
   return (
     <>
-      <div className="flex justify-between items-center ">
+      <div className="flex justify-between items-center mt-7">
         <ul className="flex gap-4">
           <li
             onClick={handleActiveTabClick}
-            className={`p-3 rounded-full ${
+            className={`p-4 rounded-full cursor-pointer ${
               activeTab === "모든 캠페인"
-                ? "bg-gray-200 transition duration-300 ease-in-out"
+                ? "bg-gray-200 transition duration-300 ease-in-out font-bold"
                 : ""
             }`}
           >
@@ -93,9 +93,9 @@ const PageTap = () => {
           </li>
           <li
             onClick={handleActiveTabClick}
-            className={`p-3 rounded-full ${
+            className={`p-4 rounded-full cursor-pointer ${
               activeTab === "모집중인 캠페인"
-                ? "bg-gray-200 transition duration-300 ease-in-out"
+                ? "bg-gray-200 transition duration-300 ease-in-out font-bold"
                 : ""
             }`}
           >
@@ -103,27 +103,17 @@ const PageTap = () => {
           </li>
           <li
             onClick={handleActiveTabClick}
-            className={`p-3 rounded-full ${
+            className={`p-4 rounded-full cursor-pointer ${
               activeTab === "마감된 캠페인"
-                ? "bg-gray-200 transition duration-300 ease-in-out"
+                ? "bg-gray-200 transition duration-300 ease-in-out font-bold"
                 : ""
             }`}
           >
             마감된 캠페인
           </li>
         </ul>
-        {/* 글쓰기버튼 삭제하고 동그란 아이콘으로 바꾸기 */}
 
-        {/* <Button color="default" variant="bordered" onClick={handleClick}>
-            캠페인 생성하기
-          </Button> */}
-        <Button
-          className="fixed z-50 bottom-16 right-16 rounded-full w-20 h-20 bg-gray-300 flex items-center justify-center"
-          onClick={handleClick}
-        >
-          <LuPencilLine className="w-8 h-8" />
-        </Button>
-        <div className="flex justify-end mt-16 mb-4 mr-2 gap-9">
+        <div className="flex items-center gap-4">
           <Select
             aria-label="Select"
             defaultSelectedKeys={["최신등록글"]}
@@ -151,6 +141,18 @@ const PageTap = () => {
           </Select>
         </div>
       </div>
+
+      {/* 글쓰기버튼 삭제하고 동그란 아이콘으로 바꾸기 */}
+
+      {/* <Button color="default" variant="bordered" onClick={handleClick}>
+            캠페인 생성하기
+          </Button> */}
+      <Button
+        className="fixed z-50 bottom-16 right-16 rounded-full w-20 h-20 bg-gray-300 flex items-center justify-center"
+        onClick={handleClick}
+      >
+        <LuPencilLine className="w-8 h-8" />
+      </Button>
 
       <PageList filteredActions={filteredActions} />
     </>
