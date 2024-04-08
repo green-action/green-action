@@ -1,11 +1,11 @@
 "use client";
 
-import {
-  insertCommunityPostFormData,
-  uploadFileAndGetUrl,
-} from "@/app/_api/community/community-api";
-import { QUERY_KEY_COMMUNITYLIST } from "@/app/_api/queryKeys";
-import { CommunityPostMutation } from "@/app/_types/community/community";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+
+import { uploadFileAndGetUrl } from "@/app/_api/community/community-api";
+
 import {
   Button,
   Dropdown,
@@ -20,14 +20,19 @@ import {
   Selection,
   useDisclosure,
 } from "@nextui-org/react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+
 import { LuPencilLine } from "react-icons/lu";
+import { useInsertCommunityPostFormData } from "@/app/_hooks/useMutations/community";
 
 const AddPostModal = () => {
+  const [uploadedFileUrl, setUploadedFileUrl] = useState<string>("");
+  const [file, setFile] = useState<File | undefined | null>(null);
+
   const router = useRouter();
+
+  // 게시글 글쓰기 모달창 open여부 상태관리
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
   // 현재 로그인한 유저 uid
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
@@ -36,30 +41,9 @@ const AddPostModal = () => {
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set(["Green-action 선택하기"]),
   );
-  // 게시글 글쓰기 모달창 open여부 상태관리
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
-  const [uploadedFileUrl, setUploadedFileUrl] = useState<string>("");
-  const [file, setFile] = useState<File | undefined | null>(null);
-
-  const queryClient = useQueryClient();
 
   // 게시글 등록 mutation - communityList 쿼리키 무효화
-  const { mutate: insertFormDataMutation } = useMutation({
-    mutationFn: async ({
-      formData,
-      loggedInUserUid,
-    }: CommunityPostMutation) => {
-      const post_id = await insertCommunityPostFormData({
-        formData,
-        loggedInUserUid,
-      });
-      return post_id;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_COMMUNITYLIST] });
-    },
-  });
+  const { insertFormDataMutation } = useInsertCommunityPostFormData();
 
   // 글쓰기 버튼 클릭핸들러
   const handleAddPostClick = () => {
@@ -137,7 +121,6 @@ const AddPostModal = () => {
       <Button
         className="fixed z-50 bottom-16 right-16 rounded-full w-20 h-20 bg-gray-300 flex items-center justify-center"
         onClick={handleAddPostClick}
-        // onPress={onOpen}
       >
         <LuPencilLine className="w-8 h-8" />
       </Button>
