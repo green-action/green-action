@@ -62,9 +62,11 @@ const ImgEdit = ({
                     handleDeleteImage(index, uploadedFileUrls[index].id)
                   }
                   color="default"
-                  className="absolute top-1 right-3 w-4"
+                  className="absolute top-2 right-3 w-5 h-5 p-0 bg-gray-300 rounded-full"
                 >
-                  x
+                  <span className="absolute text-sm top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    x
+                  </span>
                 </button>
               </div>
             ) : (

@@ -55,7 +55,7 @@ export const uploadFilesAndGetUrls = async ({
       // map으로 (파일 스토리지에 업로드 + url 반환) 반복
       files.map(async (file) => {
         if (file) {
-          const fileName = `${(file.name, crypto.randomUUID())}`;
+          const fileName = `${file.name}_${crypto.randomUUID()}`;
           // 'action_id' 폴더 생성, 파일이름은 uuid
           const filePath = `${action_id}/${fileName}`;
           const { error } = await supabase.storage
@@ -74,7 +74,7 @@ export const uploadFilesAndGetUrls = async ({
           // url 가져오기
           const imgUrl = await supabase.storage
             .from("green_action")
-            .getPublicUrl(`${action_id}/${fileName}`);
+            .getPublicUrl(filePath);
 
           if (!imgUrl || !imgUrl.data) {
             console.error("Error getting public URL for file:", imgUrl);
