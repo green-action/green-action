@@ -8,6 +8,8 @@ import { uploadFileAndGetUrl } from "@/app/_api/community/community-api";
 import { useGetSinglePostForEdit } from "@/app/_hooks/useQueries/community";
 import { useUpdateEditPostMutation } from "@/app/_hooks/useMutations/community";
 
+import PostImgEdit from "./PostImgEdit";
+
 import {
   Button,
   Dropdown,
@@ -21,7 +23,6 @@ import {
   ModalHeader,
   Selection,
 } from "@nextui-org/react";
-import PostImgEdit from "./PostImgEdit";
 
 const EditPostModal = ({ isOpen, onOpenChange, post_id }: EditPostProps) => {
   // 드랍다운 선택된 key 상태관리

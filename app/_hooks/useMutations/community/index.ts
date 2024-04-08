@@ -1,5 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+import type {
+  CommunityEditMutation,
+  CommunityPostMutation,
+} from "@/app/_types/community/community";
+
 import {
   QUERY_KEY_COMMUNITYLIST,
   QUERY_KEY_COMMUNITY_POST,
@@ -9,10 +14,6 @@ import {
   deleteCommunityPost,
   insertCommunityPostFormData,
 } from "@/app/_api/community/community-api";
-import {
-  CommunityEditMutation,
-  CommunityPostMutation,
-} from "@/app/_types/community/community";
 import { updateEditedPost } from "@/app/_api/community/communityEdit-api";
 
 export const useDeleteCommunityPostMutation = () => {
