@@ -42,3 +42,9 @@ export interface InsertComment {
   loggedInUserUid: string;
   post_id: string;
 }
+
+export interface PostImgUploadProps {
+  uploadedFileUrl: string;
+  setUploadedFileUrl: React.Dispatch<React.SetStateAction<string>>;
+  setFile: React.Dispatch<React.SetStateAction<File | null | undefined>>;
+}
