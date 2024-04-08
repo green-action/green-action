@@ -1,5 +1,4 @@
 import { updatePoint } from "@/app/_api/goods/goods_api";
-import { useFetchUserInfo } from "@/app/_hooks/useQueries/mypage";
 import {
   Button,
   Modal,
@@ -10,11 +9,8 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { useState } from "react";
-import { LuSearch } from "react-icons/lu";
-import {
-  QUERY_KEY_USER_INFO,
-  QUERY_KEY_USER_POINT,
-} from "@/app/_api/queryKeys";
+import { LiaSearchSolid } from "react-icons/lia";
+import { QUERY_KEY_USER_POINT } from "@/app/_api/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUserPoint } from "@/app/_hooks/useQueries/goods";
 
@@ -29,7 +25,7 @@ const ProductInfoModal = ({
     product_info: string;
     product_name: string;
   };
-  session: any; // 세션 정보의 타입
+  session: any;
 }) => {
   const queryClient = useQueryClient();
   const loggedInUserUid = session.data?.user.user_uid;
@@ -90,9 +86,11 @@ const ProductInfoModal = ({
 
   return (
     <>
-      <Button className="rounded-full" onPress={onOpen}>
-        <LuSearch />
-      </Button>
+      <LiaSearchSolid
+        className="w-7 h-7 cursor-pointer border-1 rounded-full p-1 m-auto bg-gray-200 border-none"
+        onClick={onOpen}
+      />
+
       <Modal isOpen={isOpen} onOpenChange={onClose}>
         <ModalContent>
           <ModalHeader className="flex flex-col gap-1 text-center">
