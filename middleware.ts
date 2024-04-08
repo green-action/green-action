@@ -1,8 +1,6 @@
-import { NextFetchEvent, NextResponse } from "next/server";
 import { updateSession } from "@/utils/supabase/middleware";
-import { getSession } from "next-auth/react";
-import { type NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
+import { NextResponse, type NextRequest } from "next/server";
 
 const secret = process.env.NEXTAUTH_SECRET;
 
@@ -11,60 +9,19 @@ export async function middleware(req: NextRequest) {
   // 로그인 했을 경우에만 토큰 존재
   const session = await getToken({ req, secret, raw: true });
   const { pathname } = req.nextUrl;
-  // console.log("JSON Web Token===>", session);
-
-  if (pathname.startsWith("/login") || pathname.startsWith("/signup")) {
-    if (session) {
-      return NextResponse.redirect(new URL("/", req.url));
-    }
-  }
-  if (pathname.startsWith("/mypage")) {
-    //pathname.startsWith("/goods"
-    if (!session) {
-      return NextResponse.redirect(new URL("/login", req.url));
-    }
-  }
-
-  const session = await getSession();
-  console.log("-----------------");
-  console.log(session);
-  console.log("-----------------");
 
   // 로그인이 필요한 페이지 리스트
-  const LOGIN_REQUIRED_PAGES = [
-    `/mypage`,
-    `/community`,
-    `/individualAction`,
-    `/goods`,
-  ];
+  const LOGIN_REQUIRED_PAGES = [`/mypage`];
   const LOGIN_NOT_REQUIRED_PAGES = [`/login`, `/signup`];
 
   // 로그인이 필요한 페이지 리스트
-  LOGIN_REQUIRED_PAGES.forEach((page) => {
-    if (request.nextUrl.pathname === page) {
-      if (!session) {
-        return {
-          status: 302,
-          headers: {
-            location: `/login`,
-          },
-        };
-      }
-    }
-  });
+  if (LOGIN_REQUIRED_PAGES.includes(pathname) && !session) {
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
 
-  LOGIN_NOT_REQUIRED_PAGES.forEach((page) => {
-    if (request.nextUrl.pathname === page) {
-      if (session) {
-        return {
-          status: 302,
-          headers: {
-            location: `/`,
-          },
-        };
-      }
-    }
-  });
+  if (LOGIN_NOT_REQUIRED_PAGES.includes(pathname) && session) {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
 
   return await updateSession(req);
 }

@@ -48,12 +48,12 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
-      console.log("jwt 토큰:", token);
-      console.log("jwt유저=>>", user);
+    // async jwt({ token, user }) {
+    //   console.log("jwt 토큰:", token);
+    //   console.log("jwt유저=>>", user);
 
-      return token;
-    },
+    //   return token;
+    // },
 
     async session({ session, token }) {
       session.user.user_uid = token.sub ?? "";
