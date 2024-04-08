@@ -1,19 +1,14 @@
-"use client"; // import from "@nextui-org/react"; 시 꼭 필요
+"use client";
 
 import { useFetchUserInfo } from "@/app/_hooks/useQueries/mypage";
 import { User } from "@/app/_types";
 import {
   Avatar,
-  Button,
-  Card,
   Chip,
-  CircularProgress,
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-  Listbox,
-  ListboxItem,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -31,12 +26,16 @@ function Header() {
   const session = useSession();
   const isLoggedIn = !!session.data;
   const user_uid = session?.data?.user.user_uid as string;
-  // console.log("🐰 ~ Header ~ data : ", session.data.user.user_uid);
+
   const { data, isLoading } = useFetchUserInfo(user_uid);
   const { display_name, profile_img } = (data as User) || "";
 
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileHover, setIsProfileHover] = useState(false);
+
+  const handleMypageLink = () => {
+    router.push("/mypage");
+  };
 
   const handleLogout = async () => {
     const confirmed = window.confirm("로그아웃 하시겠습니까?");
@@ -202,8 +201,7 @@ function Header() {
                       <Avatar
                         as="button"
                         className="transition-transform"
-                        // color="secondary"
-                        name={display_name} // 유저 닉네임 넣기
+                        name={display_name}
                         size="sm"
                         showFallback
                         src={profile_img || ""}
@@ -221,9 +219,7 @@ function Header() {
               <DropdownMenu
                 aria-label="Profile Actions"
                 variant="flat"
-                // aria-setsize={10}
                 className="w-[10rem] flex justify-center p-0 m-0 rounded-3xl "
-                //bg-pink-300
               >
                 <DropdownItem
                   key="mypage"
@@ -235,9 +231,9 @@ function Header() {
                     setIsProfileHover(false);
                   }}
                 >
-                  <Link href={"/mypage"} className="font-bold p-1">
+                  <div onClick={handleMypageLink} className="font-bold p-1">
                     마이페이지
-                  </Link>
+                  </div>
                 </DropdownItem>
                 <DropdownItem
                   key="logout"
@@ -250,9 +246,9 @@ function Header() {
                     setIsProfileHover(false);
                   }}
                 >
-                  <p onClick={handleLogout} className="font-bold p-1">
+                  <div onClick={handleLogout} className="font-bold p-1">
                     Logout
-                  </p>
+                  </div>
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
