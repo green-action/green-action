@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import type { PostImgUploadProps } from "@/app/_types/community/community";
 
 const PostImgUpload = ({
@@ -6,6 +6,9 @@ const PostImgUpload = ({
   setUploadedFileUrl,
   setFile,
 }: PostImgUploadProps) => {
+  // 드래그 앤 드랍 상태
+  const [isDragging, setIsDragging] = useState(false);
+
   // 이미지 미리보기 띄우기
   const handleShowPreview = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -23,10 +26,48 @@ const PostImgUpload = ({
     setFile(null);
   };
 
+  // 드래그 이벤트 핸들러
+  const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  const handleDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  // 드롭 이벤트 핸들러
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+
+    const files = e.dataTransfer.files;
+    if (!files || files.length === 0) {
+      return;
+    }
+    const file = files[0];
+    const imageUrl = URL.createObjectURL(file);
+    setUploadedFileUrl(imageUrl);
+    setFile(file);
+  };
+
   return (
     <>
       {/* 이미지 업로드 */}
-      <div className="flex mx-auto mt-4 mb-5 border-1.5 border-dashed border-gray-300 rounded-3xl w-4/5 h-[220px]">
+      <div
+        className={`flex mx-auto mt-4 mb-5 border-1.5 border-dashed border-gray-300 rounded-3xl w-4/5 h-[220px] ${
+          isDragging ? "border-blue-400" : "border-gray-300"
+        }`}
+        onDragEnter={handleDragStart}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragEnd}
+        onDrop={handleDrop}
+      >
         {/* 이미지 업로드한 경우 */}
         {uploadedFileUrl ? (
           <div className="relative w-full h-full">
@@ -38,9 +79,11 @@ const PostImgUpload = ({
             <button
               onClick={handleDeleteImage}
               color="default"
-              className="absolute top-1 right-3 w-4"
+              className="absolute top-2 right-3 w-5 h-5 p-0 bg-gray-300 rounded-full"
             >
-              x
+              <span className="absolute text-sm top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                x
+              </span>
             </button>
           </div>
         ) : (

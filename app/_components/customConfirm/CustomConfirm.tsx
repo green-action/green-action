@@ -28,14 +28,20 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
     callback: () => {},
 
     show: function (msg: string, callback: () => void) {
+      // 버튼 클릭 시
       if (dialogContRef.current) {
+        // top: -50% -> 50%
         dialogContRef.current.style.top = "50%";
+        // opacity: 0 -> 1
         dialogContRef.current.style.opacity = "1";
         const digBody = dialogBodyRef.current;
+        // 안에 내용 넘겨주기
         if (digBody) {
           digBody.textContent = msg;
         }
+        // handleClick 할당
         this.callback = callback;
+        // confirm 뒤에 배경 display:none -> display:black
         if (freezeLayerRef.current) {
           freezeLayerRef.current.style.display = "block";
         }
@@ -43,6 +49,7 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
     },
 
     okay: () => {
+      // handleClick 시
       if (customConfirm.callback) {
         customConfirm.callback();
       }
@@ -50,6 +57,7 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
     },
 
     close: () => {
+      // 원상 복귀
       if (dialogContRef.current) {
         dialogContRef.current.style.top = "-50%";
         dialogContRef.current.style.opacity = "0";

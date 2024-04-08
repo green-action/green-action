@@ -7,6 +7,7 @@ import {
   updateUserName,
 } from "@/app/_api/mypage/mypage-profile-api";
 import {
+  QUERY_KEY_MY_BOOKMARK,
   QUERY_KEY_MY_INDIVIDUALACTION,
   QUERY_KEY_USER_INFO,
 } from "@/app/_api/queryKeys";
@@ -66,6 +67,9 @@ export const useUpdateActionRecruiting = (action_id: string) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY_MY_INDIVIDUALACTION],
       });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY_MY_BOOKMARK],
+      });
     },
     onError: () => {
       alert("처리에 오류가 발생했습니다. 다시 시도해주세요.");
@@ -89,6 +93,9 @@ export const useDeleteAction = (action_id: string) => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY_MY_INDIVIDUALACTION],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY_MY_BOOKMARK],
       });
     },
     onError: () => {

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import type { ImgUpdateProps } from "@/app/_types/individualAction-add/individualAction-add";
 
 const ImgEdit = ({
@@ -9,6 +9,9 @@ const ImgEdit = ({
   setDeleteFileIds,
   setFiles,
 }: ImgUpdateProps) => {
+  // 드래그 앤 드랍 상태
+  const [isDragging, setIsDragging] = useState(false);
+
   // 이미지 미리보기 띄우기
   const handleShowPreview = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -41,9 +44,47 @@ const ImgEdit = ({
     });
   };
 
+  // 드래그 이벤트 핸들러
+  const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  const handleDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  // 드롭 이벤트 핸들러
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+
+    const files = e.dataTransfer.files;
+    if (!files || files.length === 0) {
+      return;
+    }
+    const file = files[0];
+    const imageUrl = URL.createObjectURL(file);
+    setUploadedFileUrls((prev) => [...prev, { id: "", img_url: imageUrl }]);
+    setFiles((prev) => [...prev, file]);
+  };
+
   return (
     <>
-      <div className="flex gap-2 w-full h-auto mb-8">
+      <div
+        className={`flex gap-2 w-full h-auto mb-8 ${
+          isDragging ? "border-blue-400" : "border-gray-300"
+        }`}
+        onDragEnter={handleDragStart}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragEnd}
+        onDrop={handleDrop}
+      >
         {[...Array(4)].map((_, index) => (
           <div
             key={index}
@@ -62,9 +103,11 @@ const ImgEdit = ({
                     handleDeleteImage(index, uploadedFileUrls[index].id)
                   }
                   color="default"
-                  className="absolute top-1 right-3 w-4"
+                  className="absolute top-2 right-3 w-5 h-5 p-0 bg-gray-300 rounded-full"
                 >
-                  x
+                  <span className="absolute text-sm top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    x
+                  </span>
                 </button>
               </div>
             ) : (
