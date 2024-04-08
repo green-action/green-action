@@ -2,6 +2,7 @@ import { supabase } from "@/utils/supabase/client";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import KakaoProvider from "next-auth/providers/kakao";
+import { use } from "react";
 
 const handler = NextAuth({
   providers: [
@@ -42,10 +43,10 @@ const handler = NextAuth({
         }
       },
     }),
-    KakaoProvider({
-      clientId: process.env.NEXT_KAKAO_CLIENT_ID!,
-      clientSecret: process.env.NEXT_KAKAO_CLIENT_SECRET!,
-    }),
+    // KakaoProvider({
+    //   clientId: process.env.NEXT_KAKAO_CLIENT_ID!,
+    //   clientSecret: process.env.NEXT_KAKAO_CLIENT_SECRET!,
+    // }),
   ],
   callbacks: {
     // async jwt({ token, user }) {
@@ -57,8 +58,9 @@ const handler = NextAuth({
 
     async session({ session, token }) {
       session.user.user_uid = token.sub ?? "";
-      console.log("세션유저-->>", session);
 
+      console.log("세션유저-->>", session);
+      // supabase user 테이블에 데이터 업로드해줘야될거같음? or auth 테이블에 등록해야될지?
       return session;
     },
   },

@@ -13,9 +13,10 @@ import {
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { cache, useState } from "react";
 import { PiEyeLight, PiEyeSlash } from "react-icons/pi";
 import kakaoimg from "../_assets/kakao_login.png";
+import { logInWithKakao } from "../_api/auth";
 
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -54,10 +55,15 @@ const Login = () => {
   };
   // @유저정보가 안가져와짐 수정해야함@
   const handleKaKakSingIn = async () => {
-    signIn("kakao", {
-      redirect: false,
-      callbackUrl: "/",
-    });
+    try {
+      await logInWithKakao();
+    } catch (error) {
+      console.log("로그인실패 에러=>", error);
+    }
+    // signIn("kakao", {
+    //   redirect: false,
+    //   callbackUrl: "/",
+    // });
   };
 
   const togglePasswordVisibility = () => {

@@ -10,6 +10,7 @@ const PageTap = () => {
   const [activeTab, setActiveTab] = useState("모든 캠페인");
   const { data: actions, isLoading: isActionsLoading } =
     useFetchIndivActionsBookmarks();
+  const [selectedOrder, setSelectedOrder] = useState(null);
   const [filteredActions, setFilteredActions] = useState(actions);
   // 현재 로그인한 유저 uid
   const session = useSession();
@@ -40,7 +41,6 @@ const PageTap = () => {
     const target = e.target as HTMLLIElement;
     const textContent = target.textContent;
     if (textContent) {
-      // console.log("Tab clicked:", textContent);
       setActiveTab(textContent);
     }
   };
