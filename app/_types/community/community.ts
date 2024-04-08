@@ -54,6 +54,7 @@ export interface EditPostProps {
   isOpen: boolean;
   onOpenChange: () => void;
   post_id: string;
+  mode: string;
 }
 
 export interface EditImgProps {

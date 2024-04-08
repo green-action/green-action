@@ -8,6 +8,8 @@ import type {
 import {
   QUERY_KEY_COMMUNITYLIST,
   QUERY_KEY_COMMUNITY_POST,
+  QUERY_KEY_COMMUNITY_POSTS_LIKES,
+  QUERY_KEY_MY_COMMUNITYPOST,
 } from "@/app/_api/queryKeys";
 
 import {
@@ -51,7 +53,7 @@ export const useInsertCommunityPostFormData = () => {
   return { insertFormDataMutation };
 };
 
-export const useUpdateEditPostMutation = () => {
+export const useUpdateEditPostMutation = (mode: string) => {
   const queryClient = useQueryClient();
   const { mutate: updatePostMutation } = useMutation({
     mutationFn: ({ post_id, imgUrl, formData }: CommunityEditMutation) =>
@@ -62,11 +64,20 @@ export const useUpdateEditPostMutation = () => {
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY_COMMUNITYLIST],
-      });
-      queryClient.invalidateQueries({
         queryKey: [QUERY_KEY_COMMUNITY_POST],
       });
+      mode === "main" &&
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY_COMMUNITY_POSTS_LIKES],
+        });
+      mode === "community" &&
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY_COMMUNITYLIST],
+        });
+      mode === "myPosts" &&
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY_MY_COMMUNITYPOST],
+        });
     },
   });
 
