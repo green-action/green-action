@@ -1,16 +1,21 @@
 "use client";
 
-import { uploadFileAndGetUrl } from "@/app/_api/community/community-api";
-import {
-  getSinglePostForEdit,
-  updateEditedPost,
-} from "@/app/_api/community/communityEdit-api";
+import React, { useEffect, useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import type {
+  CommunityEditMutation,
+  EditPostProps,
+} from "@/app/_types/community/community";
+
 import {
   QUERY_KEY_COMMUNITYLIST,
   QUERY_KEY_COMMUNITY_POST,
-  QUERY_KEY_COMMUNITY_POST_FOR_EDIT,
 } from "@/app/_api/queryKeys";
-import { CommunityEditMutation } from "@/app/_types/community/community";
+
+import { uploadFileAndGetUrl } from "@/app/_api/community/community-api";
+import { updateEditedPost } from "@/app/_api/community/communityEdit-api";
+
 import {
   Button,
   Dropdown,
@@ -24,22 +29,9 @@ import {
   ModalHeader,
   Selection,
 } from "@nextui-org/react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import React, { useState } from "react";
+import { useGetSinglePostForEdit } from "@/app/_hooks/useQueries/community";
 
-interface EditPostProps {
-  isOpen: boolean;
-  onOpen: () => void;
-  onOpenChange: () => void;
-  post_id: string;
-}
-
-const EditPostModal = ({
-  isOpen,
-  onOpen,
-  onOpenChange,
-  post_id,
-}: EditPostProps) => {
+const EditPostModal = ({ isOpen, onOpenChange, post_id }: EditPostProps) => {
   // 드랍다운 선택된 key 상태관리
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set(["Green-action 선택하기"]),
@@ -50,26 +42,19 @@ const EditPostModal = ({
 
   const queryClient = useQueryClient();
 
-  // post_id 데이터 가져오기 useQuery
-  // (데이터 가져옴과 동시에 이미지url 바로 set하기, action_type set하기)
-  const {
-    data: singlePostForEdit,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: [QUERY_KEY_COMMUNITY_POST_FOR_EDIT],
-    queryFn: async () => {
-      try {
-        const data = await getSinglePostForEdit(post_id);
-        setUploadedFileUrl(data.img_url);
-        if (data.action_type === "개인") {
-          setSelectedKeys(new Set(["개인과 함께해요"]));
-        }
-        setSelectedKeys(new Set(["단체와 함께해요"]));
-        return data;
-      } catch (error) {}
-    },
-  });
+  // post_id 데이터 가져오기
+  const { singlePostForEdit } = useGetSinglePostForEdit(post_id);
+
+  // 이미지url set하기, action_type set하기
+  useEffect(() => {
+    if (singlePostForEdit) {
+      setUploadedFileUrl(singlePostForEdit.img_url);
+    }
+    if (singlePostForEdit?.action_type === "개인") {
+      setSelectedKeys(new Set(["개인과 함께해요"]));
+    }
+    setSelectedKeys(new Set(["단체와 함께해요"]));
+  }, [singlePostForEdit]);
 
   // 게시글 수정 mutation - 상세모달창 정보 무효화
   const { mutate: updatePostMutation } = useMutation({

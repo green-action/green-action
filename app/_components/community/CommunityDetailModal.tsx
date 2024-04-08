@@ -192,7 +192,6 @@ const CommunityDetailModal = ({
       </Modal>
       <EditPostModal
         isOpen={isEditOpen}
-        onOpen={onEditOpen}
         onOpenChange={onEditOpenChange}
         post_id={post_id}
       />
