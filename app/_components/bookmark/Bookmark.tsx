@@ -20,7 +20,7 @@ const Bookmark = ({
 }) => {
   const { data: filterBookmark, isLoading } = useFilterBookmark(action_id);
 
-  const addBookmarkMutation = useAddBookmark();
+  const addBookmarkMutation = useAddBookmark(mode || "");
   const removeBookmarkMutation = useRemoveBookmark(mode || "");
   const session = useSession();
   // const user_uid = session.data?.user.user_uid as string;

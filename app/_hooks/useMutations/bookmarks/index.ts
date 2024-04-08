@@ -13,7 +13,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 // usemuataion을 활용해서 export까지 해주면 됨
 
-export const useAddBookmark = (mode?: string) => {
+export const useAddBookmark = (mode: string) => {
   const queryClient = useQueryClient();
   const addBookmarkMutation = useMutation({
     mutationFn: addBookmark,
@@ -21,7 +21,7 @@ export const useAddBookmark = (mode?: string) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY_BOOKMARK],
       });
-      (mode === "myBookmarks" || mode === "myPosts") &&
+      mode === "myPosts" &&
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEY_MY_BOOKMARK],
         });
