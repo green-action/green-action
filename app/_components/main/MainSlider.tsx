@@ -9,7 +9,6 @@ import {
 import CommunityListPost from "../community/CommunityListPost";
 import { CircularProgress } from "@nextui-org/react";
 import MyActionCard from "../mypage/MyActionCard";
-import { MdArrowBack, MdArrowRight } from "react-icons/md";
 import { IoIosArrowDropleft, IoIosArrowDropright } from "react-icons/io";
 
 // export const revalidate = 0;

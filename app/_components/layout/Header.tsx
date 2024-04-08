@@ -18,7 +18,7 @@ import {
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function Header() {
   const router = useRouter();
@@ -54,30 +54,27 @@ function Header() {
     }
   };
 
-  const [selected, setSelected] = useState("");
+  const [parentSelected, setParentSelected] = useState<string>(""); // 부모 탭의 선택 상태
+  const [childSelected, setChildSelected] = useState<string>(""); // 하위 탭의 선택 상태
 
-  // 부모 탭의 선택 상태
-  const [parentSelected, setParentSelected] = useState<string>("");
-  // console.log("🐰 ~ Header ~ parentSelected : ", parentSelected);
+  const handleSelectedTab = () => {
+    setParentSelected(pathname);
 
-  // 하위 탭의 선택 상태
-  const [childSelected, setChildSelected] = useState<string>("");
-
-  // 부모 탭 선택 시 하위 탭 선택 상태 초기화
-  // Tab 태그에서 onPress (+onClick) 로 작동하지않음
-  const handleParentTabSelect = (key: any) => {
-    setParentSelected(key);
-    if (key === "/individualAction") {
-      setChildSelected("/individualAction");
-    } else {
-      setChildSelected("");
+    if (pathname !== "/individualAction" && pathname !== "/groupAction") {
+      setChildSelected(""); // 해당부모탭 아닌 다른 탭 선택시 하위탭선택 없애기 (초기화)
     }
-    // console.log("🐰 ~ handleParentTabSelect ~ key : ", key);
+    if (pathname === "/groupAction") {
+      setParentSelected("/individualAction");
+      setChildSelected("/groupAction");
+    }
+    if (pathname === "/individualAction") {
+      setChildSelected("/individualAction");
+    }
   };
-  const handleChildTabSelect = (key: any) => {
-    setParentSelected("/individualAction");
-    setChildSelected(key);
-  };
+
+  useEffect(() => {
+    handleSelectedTab();
+  }, [pathname]);
 
   // if (session) {
   //   return (
@@ -93,7 +90,6 @@ function Header() {
 
   return (
     <Navbar
-      // shouldHideOnScroll 11rem
       className="w-full flex items-center justify-between h-[7rem] pt-10  text-[11pt]  bg-[#EBEBEB]"
       // gap 등으로 조정 안돼서 margin 하드코딩으로 위치 조정
     >
@@ -103,9 +99,7 @@ function Header() {
       <NavbarContent>
         <div className="flex flex-col items-center">
           <Tabs
-            // key="md"
-            selectedKey={parentSelected || pathname} // 선택된 부모 탭의 키 또는 경로 사용
-            onSelectionChange={() => setParentSelected(parentSelected)}
+            selectedKey={parentSelected} // 선택된 부모 탭의 키
             // size="lg"
             radius="full"
             aria-label="Options"
@@ -119,39 +113,33 @@ function Header() {
               as={Link}
               href="/about"
               className="w-[10rem]"
-              // onSelect={() => handleParentTabSelect("/about")}
             />
             <Tab
               as={Link}
               href="/individualAction"
               key="/individualAction"
               title="Green Action"
-              className="w-[10rem] cursor-pointer "
+              className="w-[10rem] cursor-pointer"
               onMouseEnter={() => {
                 setIsOpen(true);
               }}
               onMouseLeave={() => {
                 setIsOpen(false);
               }}
-              // onSelectionChange={handleParentTabSelect}
-              // onSelect={() => handleParentTabSelect("/individualAction")}
-              // data-pressed={() => handleParentTabSelect("/individualAction")} 안먹힘
             />
             <Tab
               as={Link}
               key="/community"
               title="Community"
               href="/community"
-              className="w-[10rem] "
-              // onSelect={() => handleParentTabSelect("/community")}
+              className="w-[10rem]"
             />
             <Tab
               as={Link}
               key="/goods"
               title="Goods"
               href="/goods"
-              className="w-[10rem] "
-              // onSelect={() => handleParentTabSelect("/goods")}
+              className="w-[10rem]"
             />
           </Tabs>
           {isOpen && (
@@ -170,7 +158,6 @@ function Header() {
                   className={`rounded-full px-2 py-1 hover:bg-default-300/90 w-[10rem] text-center  ${
                     childSelected === "/individualAction" && "bg-default-300/90"
                   }`}
-                  onClick={() => handleChildTabSelect("/individualAction")}
                 >
                   개인과 함께해요
                 </Link>
@@ -179,7 +166,6 @@ function Header() {
                   className={`rounded-full px-2 py-1 hover:bg-default-300/90 w-[10rem] text-center ${
                     childSelected === "/groupAction" && "bg-default-300/90"
                   }`}
-                  onClick={() => handleChildTabSelect("/groupAction")}
                 >
                   단체와 함께해요
                 </Link>

@@ -1,13 +1,16 @@
 "use client";
 
 import { ImgUploadProps } from "@/app/_types/individualAction-add/individualAction-add";
-import React from "react";
+import React, { useState } from "react";
 
 const ImgUpload = ({
   uploadedFileUrls,
   setUploadedFileUrls,
   setFiles,
 }: ImgUploadProps) => {
+  // 드래그 앤 드랍 상태
+  const [isDragging, setIsDragging] = useState(false);
+
   // 이미지 미리보기 띄우기
   const handleShowPreview = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -33,9 +36,46 @@ const ImgUpload = ({
     });
   };
 
+  // 드래그 앤 드랍 이벤트 핸들러
+  const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  const handleDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+
+    const files = e.dataTransfer.files;
+    if (!files || files.length === 0) {
+      return;
+    }
+    const file = files[0];
+    const imageUrl = URL.createObjectURL(file);
+    setUploadedFileUrls((prev) => [...prev, imageUrl]);
+    setFiles((prev) => [...prev, file]);
+  };
+
   return (
     <>
-      <div className="flex gap-2 w-full h-auto mb-8">
+      <div
+        className={`flex gap-2 w-full h-auto mb-8 ${
+          isDragging ? "border-blue-400" : "border-gray-300"
+        }`}
+        onDragEnter={handleDragStart}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragEnd}
+        onDrop={handleDrop}
+      >
         {[...Array(4)].map((_, index) => (
           <div
             key={index}
