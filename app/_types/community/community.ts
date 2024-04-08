@@ -54,3 +54,9 @@ export interface EditPostProps {
   onOpenChange: () => void;
   post_id: string;
 }
+
+export interface EditImgProps {
+  uploadedFileUrl: string | null;
+  setUploadedFileUrl: React.Dispatch<React.SetStateAction<string | null>>;
+  setFile: React.Dispatch<React.SetStateAction<File | null | undefined>>;
+}
