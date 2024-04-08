@@ -1,7 +1,7 @@
 "use client";
 
-import { ImgUploadProps } from "@/app/_types/individualAction-add/individualAction-add";
 import React, { useState } from "react";
+import type { ImgUploadProps } from "@/app/_types/individualAction-add/individualAction-add";
 
 const ImgUpload = ({
   uploadedFileUrls,
