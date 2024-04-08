@@ -25,10 +25,7 @@ const Bookmark = ({
   const session = useSession();
   const user_uid = session.data?.user.user_uid as string;
 
-  const handleAddBookmarkClick = async (
-    user_uid: string,
-    action_id: string,
-  ) => {
+  const handleAddBookmarkClick = async () => {
     if (user_uid === null || user_uid === undefined) {
       return;
     }
@@ -36,13 +33,21 @@ const Bookmark = ({
       addBookmarkMutation.mutate({ user_uid, action_id });
     }
   };
-  const handleRemoveBookmarkClick = async (user_uid: string) => {
+  const handleRemoveBookmarkClick = async () => {
     removeBookmarkMutation.mutate({ user_uid, action_id });
   };
 
   const isBookmarked = filterBookmark?.filterBookmark?.find(
     (mark) => mark.user_uid === user_uid,
   );
+  const handleToggle = () => {
+    const isBookmarked = filterBookmark?.filterBookmark?.find(
+      (mark) => mark.user_uid === user_uid,
+    );
+    return isBookmarked
+      ? handleRemoveBookmarkClick()
+      : handleAddBookmarkClick();
+  };
   if (isLoading) {
     return <CircularProgress color="warning" aria-label="Loading..." />;
   }
@@ -69,20 +74,20 @@ const Bookmark = ({
         ) : (
           // isBookmarked - true 이지만 mode !== "myBookmarks"인 경우
           <div className="flex gap-[5px] h-[20px]">
-            <button onClick={() => handleRemoveBookmarkClick(user_uid)}>
+            <button onClick={() => handleRemoveBookmarkClick()}>
               <FaStar className="text-amber-300 text-[17px]  ml-[1.5px] mb-10 " />
               {/* mr-[3px] */}
             </button>
-            <span>{filterBookmark?.filterBookmark?.length}</span>
+            <span>{filterBookmark?.filterBookmark?.length ?? 0}</span>
           </div>
         )
       ) : (
         // isBookmarked - false
         <div className="flex gap-[3px] h-[10px]">
-          <button onClick={() => handleAddBookmarkClick(user_uid, action_id)}>
+          <button onClick={() => handleAddBookmarkClick()}>
             <CiStar className="text-[19px]" />
           </button>
-          <span>{filterBookmark?.filterBookmark?.length}</span>
+          <span>{filterBookmark?.filterBookmark?.length ?? 0}</span>
         </div>
       )}
     </>
