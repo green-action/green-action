@@ -155,13 +155,8 @@ const CommunityDetailModal = ({
                   </div>
                   <hr className="mb-1" />
                   {/* 댓글 전체 wrapper */}
-                  <div className="flex flex-col mx-auto mb-2 w-[95%]">
-                    <p className="text-xs mb-1">댓글</p>
-                    {/* 댓글 등록 */}
-                    {/* <AddComment
-                      loggedInUserUid={loggedInUserUid}
-                      post_id={post_id}
-                    /> */}
+                  <div className="flex flex-col mx-auto mb-2 w-[98%]">
+                    <p className="text-xs mb-[20px]">댓글</p>
                     {/* 댓글 map */}
                     {sortedLatestCommentsList?.length === 0 ? (
                       <p className="text-center text-[13px] font-light mt-4">
@@ -178,7 +173,7 @@ const CommunityDetailModal = ({
                   </div>
                 </div>
                 {/* 댓글 등록 */}
-                <div className="sticky bottom-0 pt-3 py-0 flex justify-center w-[100%] bg-white">
+                <div className="sticky bottom-0 pt-3  mx-auto flex justify-center w-[90%] bg-white">
                   <AddComment
                     loggedInUserUid={loggedInUserUid}
                     post_id={post_id}

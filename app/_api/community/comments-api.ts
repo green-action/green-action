@@ -32,6 +32,8 @@ export const insertCommunityComment = async ({
     if (error) {
       throw error;
     }
+
+    return;
   } catch (error) {
     console.error("Error inserting comment:", error);
     throw error;

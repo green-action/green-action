@@ -1,10 +1,14 @@
-import { deleteComment, editComment } from "@/app/_api/community/comments-api";
-import { QEURY_KEY_COMMUNITY_COMMENTS_LIST } from "@/app/_api/queryKeys";
-import { CommentProps } from "@/app/_types/community/community";
-import { Avatar } from "@nextui-org/react";
+import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+
+import type { CommentProps } from "@/app/_types/community/community";
+
+import { QEURY_KEY_COMMUNITY_COMMENTS_LIST } from "@/app/_api/queryKeys";
+
+import { deleteComment, editComment } from "@/app/_api/community/comments-api";
+
+import { Avatar } from "@nextui-org/react";
 
 const CommunityPostComment = ({ comment }: { comment: CommentProps }) => {
   // 현재 로그인한 유저 uid
