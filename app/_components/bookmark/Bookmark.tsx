@@ -1,5 +1,5 @@
 "use client";
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 
 import {
   useAddBookmark,
@@ -33,11 +33,12 @@ const Bookmark = ({
 
   const handleAddBookmarkClick = useCallback(
     debounce(() => {
+      if (user_uid === null || user_uid === undefined) {
+        alert("로그인하고 이용해주세요");
+        return;
+      }
       if (user_uid !== null) {
         addBookmarkMutation.mutate({ user_uid, action_id });
-      } else {
-        alert("로그인이 필요합니다");
-        return;
       }
     }, 1000),
     [user_uid, action_id, addBookmarkMutation],
@@ -99,4 +100,4 @@ const Bookmark = ({
   );
 };
 
-export default Bookmark;
+export default React.memo(Bookmark);

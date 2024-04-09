@@ -1,7 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 
 import { useAddLike, useRemoveLike } from "@/app/_hooks/useMutations/bookmarks";
 import { useFilterLikes } from "@/app/_hooks/useQueries/bookmarks";
@@ -27,11 +27,12 @@ const Likes = ({ post_id }: { post_id: string }) => {
       };
     } else {
       return () => {
+        if (user_uid === null || user_uid === undefined) {
+          alert("로그인하고 이용해주세요");
+          return;
+        }
         if (user_uid !== null) {
           addLikeMutation.mutate({ user_uid, post_id });
-        } else {
-          alert("로그인이 필요합니다");
-          return;
         }
       };
     }
@@ -59,4 +60,4 @@ const Likes = ({ post_id }: { post_id: string }) => {
   );
 };
 
-export default Likes;
+export default React.memo(Likes);
