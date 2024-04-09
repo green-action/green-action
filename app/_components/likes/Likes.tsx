@@ -1,15 +1,18 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import React, { useCallback } from "react";
+import { useSession } from "next-auth/react";
 
 import { useAddLike, useRemoveLike } from "@/app/_hooks/useMutations/bookmarks";
 import { useFilterLikes } from "@/app/_hooks/useQueries/bookmarks";
+
 import { debounce } from "@/utils/debounce/debounce";
 
 import { CircularProgress } from "@nextui-org/react";
-import { CiHeart } from "react-icons/ci";
-import { FaHeart } from "react-icons/fa";
+import Image from "next/image";
+
+import heart from "../../../app/_assets/image/logo_icon/icon/community/Group 130.png";
+import emptyHeart from "../../../app/_assets/image/logo_icon/icon/community/Group 83.png";
 
 const Likes = ({ post_id }: { post_id: string }) => {
   const { data, isLoading } = useFilterLikes(post_id);
@@ -50,9 +53,17 @@ const Likes = ({ post_id }: { post_id: string }) => {
     <>
       <button onClick={() => handleDebounce()}>
         {isLiked ? (
-          <FaHeart className="hover:cursor-pointer text-rose-600 text-[15px]" />
+          <Image
+            src={heart}
+            alt="Liked heart"
+            className="hover:cursor-pointer w-[18px] h-[16px]"
+          />
         ) : (
-          <CiHeart className="hover:cursor-pointer text-rose-600 text-[15px]" />
+          <Image
+            src={emptyHeart}
+            alt="Liked heart"
+            className="hover:cursor-pointer w-[18px] h-[16px]"
+          />
         )}
       </button>
       <span className="text-[16px] text-white">{data?.likes?.length ?? 0}</span>
