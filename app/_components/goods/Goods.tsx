@@ -3,11 +3,10 @@ import React from "react";
 import { CircularProgress } from "@nextui-org/react";
 import ProductInfoModal from "./ProductInfoModal";
 import { useGoods } from "@/app/_hooks/useQueries/goods";
-import { useSession } from "next-auth/react";
 
 const Goods = () => {
   const { data: goods, isLoading, isError } = useGoods();
-  const session = useSession();
+
   if (isLoading)
     return (
       <div className="flex justify-center items-center h-screen">
@@ -39,7 +38,7 @@ const Goods = () => {
                   </p>
                 </div>
                 <div>
-                  <ProductInfoModal item={item} session={session} />
+                  <ProductInfoModal item={item} />
                 </div>
               </div>
             </div>
