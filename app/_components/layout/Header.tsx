@@ -32,6 +32,11 @@ function Header() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileHover, setIsProfileHover] = useState(false);
+  const [shouldRender, setShouldRender] = useState(false);
+
+  useEffect(() => {
+    setShouldRender(true);
+  }, []);
 
   const handleMypageLink = () => {
     router.push("/mypage");
@@ -185,7 +190,26 @@ function Header() {
                 <div className="flex">
                   <Chip className="h-[2.5rem] w-[15rem] pl-2 bg-white/60">
                     <div className="flex gap-5 items-center justify-between">
-                      {display_name} Greener님 ! 환영합니다
+                      {shouldRender && (
+                        <>
+                          {display_name} Greener님 ! 환영합니다
+                          <Avatar
+                            as="button"
+                            className="transition-transform"
+                            name={display_name}
+                            size="sm"
+                            showFallback
+                            src={profile_img || ""}
+                            onMouseEnter={() => {
+                              setIsProfileHover(true);
+                            }}
+                            onMouseLeave={() => {
+                              setIsProfileHover(false);
+                            }}
+                          />
+                        </>
+                      )}
+                      {/* {display_name} Greener님 ! 환영합니다
                       <Avatar
                         as="button"
                         className="transition-transform"
@@ -199,7 +223,7 @@ function Header() {
                         onMouseLeave={() => {
                           setIsProfileHover(false);
                         }}
-                      />
+                      /> */}
                     </div>
                   </Chip>
                 </div>

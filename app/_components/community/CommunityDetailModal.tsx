@@ -83,7 +83,7 @@ const CommunityDetailModal = ({
   return (
     <>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent className="h-[600px] overflow-y-auto scrollbar-hide">
+        <ModalContent className="relative h-[600px] overflow-y-auto scrollbar-hide">
           {() => (
             <>
               <ModalHeader className="flex gap-2 items-center mt-1 pb-1 ml-4">
@@ -158,10 +158,10 @@ const CommunityDetailModal = ({
                   <div className="flex flex-col mx-auto mb-2 w-[95%]">
                     <p className="text-xs mb-1">댓글</p>
                     {/* 댓글 등록 */}
-                    <AddComment
+                    {/* <AddComment
                       loggedInUserUid={loggedInUserUid}
                       post_id={post_id}
-                    />
+                    /> */}
                     {/* 댓글 map */}
                     {sortedLatestCommentsList?.length === 0 ? (
                       <p className="text-center text-[13px] font-light mt-4">
@@ -176,6 +176,13 @@ const CommunityDetailModal = ({
                       ))
                     )}
                   </div>
+                </div>
+                {/* 댓글 등록 */}
+                <div className="sticky bottom-0 pt-3 py-0 flex justify-center w-[100%] bg-white">
+                  <AddComment
+                    loggedInUserUid={loggedInUserUid}
+                    post_id={post_id}
+                  />
                 </div>
               </ModalBody>
             </>

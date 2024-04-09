@@ -80,3 +80,22 @@ export const editComment = async ({
     throw error;
   }
 };
+
+// 현재 로그인한 유저 프로필이미지 가져오기
+export const getCurrentUserProfileImg = async (user_uid: string) => {
+  try {
+    const { data, error } = await supabase
+      .from("users")
+      .select("profile_img")
+      .eq("id", user_uid);
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error inserting data:", error);
+    throw error;
+  }
+};
