@@ -93,6 +93,10 @@ const AddPostModal = () => {
           formData,
           loggedInUserUid,
         });
+
+        // 입력값 초기화
+        const target = event.target as HTMLFormElement;
+        target.reset();
       }
     } catch (error) {
       console.error("Error inserting data:", error);
