@@ -1,5 +1,5 @@
 import { supabase } from "@/utils/supabase/client";
-import { InsertComment } from "@/app/_types/community/community";
+import type { InsertComment } from "@/app/_types/community/community";
 
 // post_id로 상세모달창 댓글리스트 가져오기
 export const getCommunityCommentsList = async (post_id: string) => {

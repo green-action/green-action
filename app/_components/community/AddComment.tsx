@@ -1,13 +1,17 @@
 import React from "react";
+
 import type { AddCommentProps } from "@/app/_types/comments/comments";
+
 import { useInsertCommunityCommentMutation } from "@/app/_hooks/useMutations/comments";
 import { useGetCurrentUerProfileImg } from "@/app/_hooks/useQueries/comments";
+
 import { Avatar, Spinner } from "@nextui-org/react";
 
 const AddComment = ({ loggedInUserUid, post_id }: AddCommentProps) => {
   // 로그인한 유저 프로필이미지
-  const { currentUserProfileImg, isLoading, isError } =
-    useGetCurrentUerProfileImg(loggedInUserUid);
+  const { currentUserProfileImg, isLoading, isError } = loggedInUserUid
+    ? useGetCurrentUerProfileImg(loggedInUserUid)
+    : { currentUserProfileImg: null, isLoading: false, isError: false };
 
   // 댓글 등록 mutation
   const { insertCommentMutation } = useInsertCommunityCommentMutation();
@@ -15,6 +19,7 @@ const AddComment = ({ loggedInUserUid, post_id }: AddCommentProps) => {
   if (isLoading) {
     return <Spinner />;
   }
+
   if (isError) {
     return <div>Error</div>;
   }
@@ -39,7 +44,7 @@ const AddComment = ({ loggedInUserUid, post_id }: AddCommentProps) => {
 
   return (
     <>
-      {/* 댓글 등록 - 로그인 상태일 때만 보이게 */}
+      {/* 댓글 등록 */}
       <Avatar
         showFallback
         src={currentUserProfileImg || ""}
@@ -47,7 +52,9 @@ const AddComment = ({ loggedInUserUid, post_id }: AddCommentProps) => {
       />
       <form
         onSubmit={handleInsertComment}
-        className="w-[100%] flex items-center border-1 border-gray-300 h-[30px] rounded-full mb-5"
+        className={`w-[100%] flex items-center border-1 border-gray-300 h-[30px] rounded-full mb-5 ${
+          !loggedInUserUid ? "opacity-50 cursor-not-allowed" : ""
+        }`}
       >
         <label className="w-[88%]">
           <input
@@ -62,9 +69,7 @@ const AddComment = ({ loggedInUserUid, post_id }: AddCommentProps) => {
         </label>
         <button
           type="submit"
-          className={`text-xs mr-2 cursor-pointer ${
-            !loggedInUserUid ? "opacity-50 cursor-not-allowed" : ""
-          }`}
+          className="text-xs mr-2 cursor-pointer"
           disabled={!loggedInUserUid}
         >
           | 등록
