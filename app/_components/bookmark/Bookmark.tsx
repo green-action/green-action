@@ -15,6 +15,9 @@ import { useSession } from "next-auth/react";
 import { CircularProgress } from "@nextui-org/react";
 import { CiStar } from "react-icons/ci";
 import { FaStar } from "react-icons/fa";
+import bookmarkFill from "/app/_assets/image/logo_icon/icon/mypage/Star 32.png";
+import bookmarkEmpty from "/app/_assets/image/logo_icon/icon/mypage/Star 31.png";
+import Image from "next/image";
 
 const Bookmark = ({
   action_id,
@@ -65,7 +68,7 @@ const Bookmark = ({
         mode === "myBookmarks" ? (
           <>
             {/* isBookmarked - true 이면서 mode === "myBookmarks" 인 경우 Custom Confirm 창으로 연결*/}
-            <div className="flex gap-[5px] h-[20px]">
+            <div className="flex">
               <CustomConfirm
                 text="해당 Green Action을 북마크 목록에서 해제할까요?"
                 mode={mode as string}
@@ -78,19 +81,31 @@ const Bookmark = ({
           </>
         ) : (
           // isBookmarked - true 이지만 mode !== "myBookmarks"인 경우
-          <div className="flex gap-[5px] h-[20px]">
+          <div className="flex">
             <button onClick={() => handleRemoveBookmarkClick()}>
-              <FaStar className="text-amber-300 text-[17px]  ml-[1.5px] mb-10 " />
-              {/* mr-[3px] */}
+              {mode === "detailPage" && (
+                <Image
+                  src={bookmarkFill}
+                  alt="북마크"
+                  className="size-[22px] mr-[6px]"
+                />
+              )}
             </button>
             <span>{filterBookmark?.filterBookmark?.length ?? 0}</span>
           </div>
         )
       ) : (
         // isBookmarked - false
-        <div className="flex gap-[3px] h-[10px]">
+        <div className="flex">
           <button onClick={() => handleAddBookmarkClick()}>
-            <CiStar className="text-[19px]" />
+            {mode === "detailPage" && (
+              <Image
+                src={bookmarkEmpty}
+                alt="북마크"
+                className="size-[22px] mr-[6px]"
+              />
+            )}
+            {/* <CiStar className="text-[19px]" /> */}
           </button>
           <span>{filterBookmark?.filterBookmark?.length ?? 0}</span>
         </div>
