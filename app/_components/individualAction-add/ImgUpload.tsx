@@ -69,7 +69,7 @@ const ImgUpload = ({
   return (
     <>
       <div
-        className={`flex gap-2 h-auto mb-[26px] ${
+        className={`flex gap-2 h-auto mb-[23px] ${
           isDragging ? "border-blue-400" : "border-gray-300"
         }`}
         onDragEnter={handleDragStart}
