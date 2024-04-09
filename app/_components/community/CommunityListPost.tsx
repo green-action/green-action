@@ -64,10 +64,10 @@ const CommunityListPost = ({
             <img
               onClick={() => onOpen()}
               alt="Community Post Image"
-              className="object-cover w-full h-full cursor-pointer brightness-90 "
+              className="object-cover w-full h-full cursor-pointer brightness-90"
               src={communityPost?.img_url}
             />
-            <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-zinc-800  to-transparent"></div>
+            <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-[#737373] to-transparent"></div>
           </div>
           <div className="flex items-center justify-between pl-[24px] pr-[16px] absolute bottom-0 text-white w-full h-[66px]">
             <div className="flex items-center">
@@ -105,11 +105,11 @@ const CommunityListPost = ({
             </div>
           </CardFooter> */}
         </Card>
-        <div className="flex justify-center items-center">
-          <div className="flex items-center ml-[24px] mr-2 rounded-full border-2 border-black text-xs text-center font-extrabold p-0.5 px-4 w-[130px] h-[31px]">
+        <div className="flex justify-center items-center mt-4">
+          <div className="flex items-center justify-center ml-[24px] rounded-full border-2 border-black text-[13px] font-extrabold p-0.5 px-4 w-[150px] h-[31px] ">
             {communityPost?.action_type}와 함께해요
           </div>
-          <p className="text-xs w-3/4 mr-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
+          <p className="text-[15px] font-extrabold w-3/4 ml-[27px] mr-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
             {communityPost?.title}
           </p>
         </div>
