@@ -7,7 +7,9 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
+import Image from "next/image";
 import Link from "next/link";
+import search from "/app/_assets/image/logo_icon/icon/goods/Group 128.png";
 
 const GroupModal = ({
   action,
@@ -25,35 +27,37 @@ const GroupModal = ({
   return (
     <>
       <Button
-        className="bg-transparent absolute w-[100%] h-[100%] top-0 left-0 z-10"
+        className=" rounded-[100%] bg-transparent absolute right-[30px] bottom-[-10px]"
         onPress={onOpen}
-      ></Button>
+      >
+        <Image className="w-full h-full" src={search} alt="search" />
+      </Button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent className="h-[600px] overflow-y-auto scrollbar-hide">
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1 relative">
+              <ModalHeader className="flex flex-col gap-1 relative z-[-9999]">
                 <img
-                  className="rounded-3xl bg-origin-border"
+                  className="rounded-3xl bg-origin-border mt-4"
                   src={action.img_url}
                   alt="캠페인 포스터"
                 />
                 <Link
                   href={action.action_url}
                   target="_blank"
-                  className="absolute bottom-6 right-6 bg-white/70 px-4 py-2 rounded-3xl text-sm text-[#929292]"
+                  className="absolute bottom-[15px] right-[30px] bg-black/30 px-4 py-2 rounded-3xl text-sm text-white"
                 >
                   홈페이지 바로가기
                 </Link>
               </ModalHeader>
               <ModalBody className="box-border">
-                <h2 className="hover:border hover:border-[#BFBFBF] hover:rounded-3xl text-[#848484]  bg-white  py-2 px-4 border border-[#BFBFBF]/0">
+                <h2 className="border-b border-[#BFBFBF] hover:border hover:border-[#BFBFBF] hover:rounded-3xl text-[#848484]  bg-white  py-2 px-4 border border-[#BFBFBF]/0">
                   캠페인 명{" "}
                   <span className="text-[#929292] ml-[30px]">
                     {action.title}
                   </span>
                 </h2>
-                <p className="hover:border hover:border-[#BFBFBF] hover:rounded-3xl text-[#848484]  bg-white  py-2 px-4 border border-[#BFBFBF]/0">
+                <p className="border-b border-[#BFBFBF] hover:border hover:border-[#BFBFBF] hover:rounded-3xl text-[#848484]  bg-white  py-2 px-4 border border-[#BFBFBF]/0">
                   주관{" "}
                   <span className="text-[#929292] ml-[61px]">
                     {action.hosted_by}
@@ -67,7 +71,12 @@ const GroupModal = ({
                 </p>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
+                <Button
+                  className="z-10 mb-4"
+                  color="danger"
+                  variant="light"
+                  onPress={onClose}
+                >
                   Close
                 </Button>
               </ModalFooter>
