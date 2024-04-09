@@ -105,17 +105,16 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
               files={files}
               setFiles={setFiles}
             />
-            {/* 이미지아래 첫번째 박스 */}
-            <div className="flex justify-between w-full h-auto border-2 border-gray-300 rounded-3xl mb-4">
-              {/* 왼 */}
-              <div className="flex flex-col justify-center w-1/2 h-[230px] gap-2 p-4 pl-6 pr-12">
-                <div className="mb-4">
-                  <p className="font-semibold mb-2">활동 날짜</p>
-                  <div className="flex w-full gap-4 justify-between">
-                    <div className="flex flex-col w-1/2">
+            {/* 이미지아래 첫번째 박스(날짜, 장소, 인원, 링크) */}
+            <div className="flex justify-between gap-[88px] w-[724px] h-[209px] border-1.5 border-gray-300 rounded-3xl pt-[21px] px-[28px] pb-[28px] mb-4 ">
+              <div className="flex flex-col justify-center w-1/2 gap-6">
+                <div className="">
+                  <p className="text-[13px] font-extrabold mb-1">활동 날짜</p>
+                  <div className="flex w-full gap-4 justify-between mb-[18px]">
+                    <div className="flex flex-col w-[134px] h-[31px]">
                       <label
                         htmlFor="startDate"
-                        className="text-xs text-gray-400"
+                        className="text-[10px] text-gray-400 mb-1"
                       >
                         시작일
                       </label>
@@ -125,13 +124,13 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
                         defaultValue={originalActionData?.start_date || ""}
                         required
                         type="date"
-                        className="h-[40px] p-4 border-2 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
+                        className="h-[40px] p-4 border-1.5 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
                       />
                     </div>
-                    <div className="flex flex-col w-1/2">
+                    <div className="flex flex-col w-[134px] h-[31px]">
                       <label
                         htmlFor="endDate"
-                        className="text-xs text-gray-400"
+                        className="text-[10px] text-gray-400 mb-1"
                       >
                         종료일
                       </label>
@@ -141,73 +140,77 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
                         defaultValue={originalActionData?.end_date || ""}
                         required
                         type="date"
-                        className="h-[40px] p-4 border-2 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
+                        className="h-[40px] p-4 border-1.5 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
                       />
                     </div>
                   </div>
                 </div>
                 <div>
-                  <label
-                    htmlFor="maxParticipants"
-                    className="font-semibold mb-2"
-                  >
-                    모집 인원
+                  <label htmlFor="maxParticipants">
+                    <span className="text-[13px] font-extrabold">
+                      모집 인원
+                    </span>
                   </label>
-                  <div className="border-2 border-gray-300 rounded-full text-xs text-gray-400 pl-4">
+                  <div className="h-[33px] flex items-center mt-2 border-1.5 border-gray-300 rounded-full text-xs text-gray-400 pl-7">
                     최대
                     <input
                       id="maxParticipants"
                       name="maxParticipants"
                       defaultValue={originalActionData?.recruit_number || ""}
                       required
-                      className="w-1/4 h-[35px] text-right mx-4 pr-4  bg-inherit focus:outline-none"
+                      className=" w-1/6 h-[30px] text-right mx-2 pr-4 bg-inherit focus:outline-none"
                     />
                     명
                   </div>
                 </div>
               </div>
-              {/* 오 */}
-              <div className="flex flex-col justify-center w-1/2 h-[230px] gap-2 p-4 pl-6 pr-12">
+              <div className="flex flex-col justify-center w-1/2  gap-2 ">
                 <div className="mb-7">
                   <div>
                     <label
                       htmlFor="activityLocation"
-                      className="font-semibold mb-2"
+                      className="text-[13px] font-extrabold"
                     >
                       활동 장소
                     </label>
-                    <div className="border-2 border-gray-300 rounded-full text-sm text-gray-400 pl-4">
+                    <div className=" w-[294px] h-[33px] mt-2 border-1.5 border-gray-300 rounded-full text-sm text-gray-400 pl-4">
                       <input
                         type="text"
                         id="activityLocation"
                         name="activityLocation"
                         defaultValue={originalActionData?.location || ""}
                         required
-                        className="w-10/12 h-[35px] mx-4 pr-4 bg-inherit focus:outline-none"
+                        className="w-10/12 h-[30px] mx-4 pr-2 bg-inherit focus:outline-none"
                       />
                     </div>
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="openKakaoLink" className="font-semibold mb-2">
-                    오픈 채팅방 링크
+                  <label
+                    htmlFor="openKakaoLink"
+                    className="text-[13px] font-extrabold"
+                  >
+                    카카오톡 오픈채팅방 링크
                   </label>
-                  <div className="border-2 border-gray-300 rounded-full text-sm text-gray-400 pl-4">
+                  <div className="w-[294px] h-[33px] mt-2 border-1.5 border-gray-300 rounded-full text-sm text-gray-400 pl-4">
                     <input
                       type="url"
                       id="openKakaoLink"
                       name="openKakaoLink"
                       defaultValue={originalActionData?.kakao_link || ""}
                       required
-                      className="w-10/12 h-[35px] mx-4 pr-4 bg-inherit focus:outline-none"
+                      className="w-10/12 h-[30px] mx-4 pr-2 bg-inherit focus:outline-none"
                     />
                   </div>
                 </div>
               </div>
             </div>
             {/* 이미지아래 두번째 박스(활동 제목) */}
-            <div className="flex w-full h-auto items-center pl-8 border-2 border-gray-300 rounded-3xl mb-4">
-              <label htmlFor="activityTitle" className="font-semibold mr-8">
+            <div className="flex w-[724px] h-[53px] h-auto items-center pl-8 border-1.5 border-gray-300 rounded-3xl mb-4">
+              <label
+                htmlFor="activityTitle"
+                className="text-[13px] font-extrabold mr-3 w-[73px]"
+              >
                 활동 제목
               </label>
               <input
@@ -220,10 +223,10 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
               />
             </div>
             {/* 이미지 아래 세번째 박스(활동 소개) */}
-            <div className="flex items-start w-full h-auto pl-8 border-2 border-gray-300 rounded-3xl mb-8">
+            <div className="flex items-start w-[724px] h-[137px] pl-8 border-1.5 border-gray-300 rounded-3xl mb-5">
               <label
                 htmlFor="activityDescription"
-                className="font-semibold mr-8 mt-4"
+                className="text-[13px] font-semibold mr-3 mt-4 w-[73px]"
               >
                 활동 소개
               </label>
@@ -236,15 +239,15 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
               />
             </div>
             {/* 수정, 취소 버튼 */}
-            <div className="flex justify-center gap-4">
+            <div className="w-[724px] flex justify-center gap-4">
               <button
                 type="submit"
-                className="bg-gray-100 w-40 h-10 rounded-full border-2 border-gray-300 text-sm font-medium text-gray-500"
+                className="bg-gray-200 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500"
               >
-                수정완료
+                <span className="font-extrabold">수정완료</span>
               </button>
-              <button className="bg-gray-100 w-40 h-10 rounded-full border-2 border-gray-300 text-sm font-medium text-gray-500">
-                취소하기
+              <button className="bg-gray-100 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500">
+                <span className="font-extrabold">취소하기</span>
               </button>
             </div>
           </div>

@@ -71,7 +71,7 @@ const FirstInputBox = () => {
                   id="activityLocation"
                   name="activityLocation"
                   required
-                  className="w-10/12 h-[35px] mx-4 pr-4 bg-inherit focus:outline-none"
+                  className="w-10/12 h-[30px] mx-4 pr-2 bg-inherit focus:outline-none"
                 />
               </div>
             </div>
@@ -89,7 +89,7 @@ const FirstInputBox = () => {
                 id="openKakaoLink"
                 name="openKakaoLink"
                 required
-                className="w-10/12 h-[35px] mx-4 pr-4 bg-inherit focus:outline-none"
+                className="w-10/12 h-[30px] mx-4 pr-2 bg-inherit focus:outline-none"
               />
             </div>
           </div>
