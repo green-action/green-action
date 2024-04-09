@@ -18,7 +18,7 @@ export const getCommunityCommentsList = async (post_id: string) => {
   }
 };
 
-// 댓글 insert
+// 댓글 등록
 export const insertCommunityComment = async ({
   content,
   loggedInUserUid,

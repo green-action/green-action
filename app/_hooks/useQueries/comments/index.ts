@@ -13,7 +13,7 @@ export const useGetCommunityCommentsList = (post_id: string) => {
     isLoading: isCommentsLoading,
     isError: isCommentsError,
   } = useQuery({
-    queryKey: [QEURY_KEY_COMMUNITY_COMMENTS_LIST],
+    queryKey: [QEURY_KEY_COMMUNITY_COMMENTS_LIST, post_id],
     queryFn: () => getCommunityCommentsList(post_id),
   });
 
