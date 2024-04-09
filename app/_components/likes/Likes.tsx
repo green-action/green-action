@@ -1,11 +1,13 @@
 "use client";
 
+import { useSession } from "next-auth/react";
+import { useCallback } from "react";
+
 import { useAddLike, useRemoveLike } from "@/app/_hooks/useMutations/bookmarks";
 import { useFilterLikes } from "@/app/_hooks/useQueries/bookmarks";
 import { debounce } from "@/utils/debounce/debounce";
+
 import { CircularProgress } from "@nextui-org/react";
-import { useSession } from "next-auth/react";
-import { useCallback } from "react";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 
@@ -25,12 +27,11 @@ const Likes = ({ post_id }: { post_id: string }) => {
       };
     } else {
       return () => {
-        if (user_uid === null || user_uid === undefined) {
-          alert("로그인이 필요합니다");
-          return;
-        }
         if (user_uid !== null) {
           addLikeMutation.mutate({ user_uid, post_id });
+        } else {
+          alert("로그인이 필요합니다");
+          return;
         }
       };
     }
@@ -48,13 +49,9 @@ const Likes = ({ post_id }: { post_id: string }) => {
     <>
       <button onClick={() => handleDebounce()}>
         {isLiked ? (
-          <>
-            <FaHeart className="hover:cursor-pointer text-rose-600 text-[15px]" />
-          </>
+          <FaHeart className="hover:cursor-pointer text-rose-600 text-[15px]" />
         ) : (
-          <>
-            <CiHeart className="hover:cursor-pointer text-rose-600 text-[15px]" />
-          </>
+          <CiHeart className="hover:cursor-pointer text-rose-600 text-[15px]" />
         )}
       </button>
       <span className="text-xs text-black">{data?.likes?.length ?? 0}</span>
