@@ -69,7 +69,7 @@ const ImgUpload = ({
   return (
     <>
       <div
-        className={`flex gap-2 w-full h-auto mb-8 ${
+        className={`flex gap-2 h-auto mb-[26px] ${
           isDragging ? "border-blue-400" : "border-gray-300"
         }`}
         onDragEnter={handleDragStart}
@@ -80,7 +80,7 @@ const ImgUpload = ({
         {[...Array(4)].map((_, index) => (
           <div
             key={index}
-            className="flex border-2 border-dashed border-gray-300 rounded-3xl w-1/4 h-[200px]"
+            className="flex border-2 border-dashed border-gray-300 rounded-3xl w-[175px] h-[177px]"
           >
             {/* 이미지 업로드한 경우 */}
             {uploadedFileUrls[index] ? (

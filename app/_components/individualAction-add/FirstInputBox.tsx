@@ -3,7 +3,7 @@ import React from "react";
 const FirstInputBox = () => {
   return (
     <>
-      <div className="flex justify-between w-full h-auto border-2 border-gray-300 rounded-3xl mb-4">
+      <div className="flex justify-between w-[724px] h-auto border-2 border-gray-300 rounded-3xl mb-4">
         <div className="flex flex-col justify-center w-1/2 h-[230px] gap-2 p-4 pl-6 pr-12">
           <div className="mb-4">
             <p className="font-semibold mb-2">활동 날짜</p>
