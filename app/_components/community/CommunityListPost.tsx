@@ -3,13 +3,7 @@ import type { CommunityPostObj } from "@/app/_types/community/community";
 import Likes from "../likes/Likes";
 import CommunityDetailModal from "./CommunityDetailModal";
 
-import {
-  Avatar,
-  Card,
-  CardFooter,
-  Spinner,
-  useDisclosure,
-} from "@nextui-org/react";
+import { Avatar, Card, Spinner, useDisclosure } from "@nextui-org/react";
 import { longStyle } from "./style";
 
 import { useGetPostContents } from "@/app/_hooks/useQueries/community";
@@ -112,7 +106,7 @@ const CommunityListPost = ({
           </CardFooter> */}
         </Card>
         <div className="flex justify-center items-center">
-          <div className="mr-2 rounded-full border-1 border-gray-300 text-xs text-center p-0.5 px-4 w-[135px]">
+          <div className="flex items-center ml-[24px] mr-2 rounded-full border-2 border-black text-xs text-center font-extrabold p-0.5 px-4 w-[130px] h-[31px]">
             {communityPost?.action_type}와 함께해요
           </div>
           <p className="text-xs w-3/4 mr-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
