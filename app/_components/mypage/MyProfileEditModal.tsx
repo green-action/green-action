@@ -28,7 +28,7 @@ const MyProfileEditModal = ({
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
 
   const [editedName, setEditedName] = useState<string>(display_name); // 초기값 닉네임 떴다가 안떴다가 함
-  const [uploadedFileUrl, setUploadedFileUrl] = useState<string>("");
+  const [uploadedFileUrl, setUploadedFileUrl] = useState<string>(profile_img); // 초기값 기존 프로필이미지
   const [file, setFile] = useState<File | undefined>();
 
   const { updateName } = useUpdateUserName(user_uid, editedName);
@@ -36,7 +36,7 @@ const MyProfileEditModal = ({
   // 모달창 '작성완료'없이 닫을 시 초기화
   const handleModalClose = () => {
     setEditedName(display_name);
-    setUploadedFileUrl("");
+    setUploadedFileUrl(profile_img);
     setFile(undefined);
   };
 
@@ -47,6 +47,7 @@ const MyProfileEditModal = ({
   const handleEditProfileClick = () => {
     onOpen();
   };
+  console.log(file);
 
   // NOTE TODO 기존 이미지 업로드시 ?
   // 모달창 - 작성완료
@@ -56,16 +57,19 @@ const MyProfileEditModal = ({
     e.preventDefault();
 
     if (!editedName.trim()) {
-      return alert("닉네임을 입력해주세요."); // 바꾸기?
+      return alert("닉네임을 입력해주세요.");
     }
     if (editedName.length >= 10) {
       return alert("닉네임을 10자 이내로 써주세요");
     }
 
-    // 이미지 stroage url 받아오기
-    const imgUrl = await uploadProfileFileAndGetUrl({ file, user_uid });
-    // 받아온 img url 을 users table에 업데이트
-    await insertProfileImgUrl({ user_uid, imgUrl });
+    if (file) {
+      const imgUrl = await uploadProfileFileAndGetUrl({ file, user_uid }); // 이미지 stroage url 받아오기
+      await insertProfileImgUrl({ user_uid, imgUrl }); // 받아온 img url 을 users table에 업데이트
+    } else if (!file) {
+      await insertProfileImgUrl({ user_uid, imgUrl: "" }); // 파일업로드안한 경우 (이미지 x버튼 등) imgUrl : 빈 문자열 넣기
+    }
+
     // 닉네임 업데이트
     await updateName();
     onClose();
@@ -101,9 +105,7 @@ const MyProfileEditModal = ({
                   <ProfileImgUpload
                     uploadedFileUrl={uploadedFileUrl}
                     setUploadedFileUrl={setUploadedFileUrl}
-                    file={file}
                     setFile={setFile}
-                    profile_img={profile_img}
                   />
                   <label htmlFor="user-display-name">사용자 이름</label>
                   <Input
