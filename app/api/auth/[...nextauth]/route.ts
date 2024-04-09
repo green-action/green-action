@@ -57,7 +57,7 @@ const handler = NextAuth({
 
     async session({ session, token }) {
       session.user.user_uid = token.sub ?? "";
-      console.log("세션유저-->>", session);
+      // console.log("세션유저-->>", session);
 
       return session;
     },
