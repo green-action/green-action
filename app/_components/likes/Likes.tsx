@@ -55,7 +55,7 @@ const Likes = ({ post_id }: { post_id: string }) => {
           <CiHeart className="hover:cursor-pointer text-rose-600 text-[15px]" />
         )}
       </button>
-      <span className="text-xs text-black">{data?.likes?.length ?? 0}</span>
+      <span className="text-[16px] text-white">{data?.likes?.length ?? 0}</span>
     </>
   );
 };
