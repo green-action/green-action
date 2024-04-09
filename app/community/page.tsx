@@ -58,11 +58,11 @@ const CommunityListPage = () => {
   );
 
   return (
-    <>
+    <div className="w-[1920px] mx-auto">
       {/* 전체 Wrapper */}
-      <div className="w-[1000px] h-[100vh] mx-auto">
+      <div className="w-[1306px] h-[100vh] mx-auto">
         {/* 정렬 드롭다운 */}
-        <div className="flex justify-end mt-16 mb-4 mr-2">
+        <div className="flex justify-end mt-16 mb-4 mr-8">
           <Dropdown>
             <DropdownTrigger>
               <Button
@@ -107,7 +107,7 @@ const CommunityListPage = () => {
         </div>
         <AddPostModal />
       </div>
-    </>
+    </div>
   );
 };
 

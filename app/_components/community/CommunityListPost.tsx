@@ -64,14 +64,25 @@ const CommunityListPost = ({
         <Card
           isFooterBlurred
           radius="lg"
-          className="border-none h-[240px] mb-3"
+          className="border-none w-[410px] h-[295px] mb-3 relative"
         >
-          <img
-            onClick={() => onOpen()}
-            alt="Community Post Image"
-            className="object-cover w-full h-[198px] cursor-pointer"
-            src={communityPost?.img_url}
-          />
+          <div className="relative w-full h-[295px] overflow-hidden">
+            <img
+              onClick={() => onOpen()}
+              alt="Community Post Image"
+              className="object-cover w-full h-full cursor-pointer brightness-90"
+              src={communityPost?.img_url}
+            />
+            <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-black to-transparent"></div>
+          </div>
+          {/* <CardFooter className="justify-between before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
+            <p className="text-tiny text-white/80">Available soon.</p>
+            <div className="flex items-center">
+              <div className={longStyle}>
+                <Likes post_id={communityPost?.id as string} />
+              </div>
+            </div>
+          </CardFooter> */}
           <CardFooter className="justify-between  border-white/20 border-1 overflow-hidden py-1 absolute bottom-0 w-[calc(100%)] shadow-small  z-10 pl-4 pr-1">
             <div className="flex items-center">
               <Avatar
@@ -79,7 +90,7 @@ const CommunityListPost = ({
                 src={imgSrc || my_profile_img || ""}
                 className="rounded-full mr-4 w-[26px] h-[26px]"
               />
-              <p className="text-tiny text-black text-[13https://cdn.imweb.me/thumbnail/20220707/39dbbc8e6c313.jpgpx]">
+              <p className="text-tiny text-white text-[13https://cdn.imweb.me/thumbnail/20220707/39dbbc8e6c313.jpgpx]">
                 {display_name || my_display_name} Greener
               </p>
             </div>
