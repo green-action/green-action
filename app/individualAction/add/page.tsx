@@ -79,12 +79,12 @@ const AddActionPage = () => {
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col w-[809px] h-[826px] border-1.5 border-gray-300 rounded-3xl mx-auto mb-12 mt-8">
           {/* new green-action 타이틀 */}
-          <div className="ml-8 my-[20px] ">
+          <div className="ml-8 my-[16px] ">
             <span className="font-black text-[15px]">New Green-Action</span>
           </div>
           <hr className="border-t-1.5 border-gray-300" />
           {/* 타이틀 아래 Wrapper */}
-          <div className=" w-full h-full mt-[31px] mb-[26px] mx-[44px]">
+          <div className="w-full h-full mt-[31px] mb-[26px] mx-[44px]">
             {/* 이미지 4장 자리*/}
             <ImgUpload
               uploadedFileUrls={uploadedFileUrls}

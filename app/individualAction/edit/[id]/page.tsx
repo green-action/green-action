@@ -85,15 +85,17 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
   };
 
   return (
-    <>
-      {/* 전체 박스 */}
+    <div className="w-[1920px] mx-auto">
+      {/* 전체 Wrapper */}
       <form onSubmit={handleSubmit}>
-        <div className="flex flex-col w-[900px] h-auto border-2 border-gray-300 rounded-3xl mx-auto mb-12 mt-8">
+        <div className="flex flex-col w-[809px] h-[826px] border-1.5 border-gray-300 rounded-3xl mx-auto mb-12 mt-8">
           {/* new green-action 타이틀 */}
-          <div className="m-4 ml-8 text-md font-semibold">New Green-Action</div>
-          <hr className="border-t-2 border-gray-300" />
-          {/* 안쪽 박스 */}
-          <div className="p-10 w-full h-full">
+          <div className="ml-8 my-[16px]">
+            <span className="font-black text-[15px]">New Green-Action</span>
+          </div>
+          <hr className="border-t-1.5 border-gray-300" />
+          {/* 타이틀 아래 Wrapper */}
+          <div className="w-full h-full mt-[31px] mb-[26px] mx-[44px]">
             {/* 이미지 4장 자리*/}
             <ImgEdit
               uploadedFileUrls={uploadedFileUrls}
@@ -248,7 +250,7 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
           </div>
         </div>
       </form>
-    </>
+    </div>
   );
 };
 
