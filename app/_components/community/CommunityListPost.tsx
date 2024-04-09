@@ -73,9 +73,9 @@ const CommunityListPost = ({
               className="object-cover w-full h-full cursor-pointer brightness-90 "
               src={communityPost?.img_url}
             />
-            <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-zinc-700 to-transparent"></div>
+            <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-zinc-800  to-transparent"></div>
           </div>
-          <div className="flex items-center justify-between px-[30px] absolute bottom-0 text-white w-full h-[66px]">
+          <div className="flex items-center justify-between pl-[24px] pr-[16px] absolute bottom-0 text-white w-full h-[66px]">
             <div className="flex items-center">
               <Avatar
                 showFallback

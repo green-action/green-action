@@ -87,7 +87,7 @@ const CommunityListPage = () => {
           </Dropdown>
         </div>
         {/* 커뮤니티 리스트 wrapper */}
-        <div className="flex flex-wrap gap-8">
+        <div className="flex flex-wrap gap-x-[42px] gap-y-[92px]">
           {/* 커뮤니티 게시글 카드 map */}
           {selectedValue === "정렬" || selectedValue === "최신순(기본)"
             ? sortedLatestCommunityList?.map((communityPost) => (
