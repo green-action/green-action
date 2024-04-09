@@ -95,6 +95,9 @@ const AddPostModal = () => {
         });
 
         // 입력값 초기화
+        setFile(null);
+        setUploadedFileUrl("");
+        setSelectedKeys(new Set(["Green-action 선택하기"]));
         const target = event.target as HTMLFormElement;
         target.reset();
       }
