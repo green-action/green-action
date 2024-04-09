@@ -1,6 +1,7 @@
 "use client";
-import { Button } from "@nextui-org/react";
 import React, { useRef } from "react";
+
+import { Button } from "@nextui-org/react";
 import { FaStar } from "react-icons/fa";
 
 interface CustomConfirmProps {
@@ -22,23 +23,17 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
 }) => {
   const freezeLayerRef = useRef<HTMLDivElement>(null);
   const dialogContRef = useRef<HTMLDivElement>(null);
-  const dialogBodyRef = useRef<HTMLDivElement>(null);
 
   const customConfirm = {
     callback: () => {},
 
-    show: function (msg: string, callback: () => void) {
+    show: function (callback: () => void) {
       // 버튼 클릭 시
       if (dialogContRef.current) {
         // top: -50% -> 50%
         dialogContRef.current.style.top = "50%";
         // opacity: 0 -> 1
         dialogContRef.current.style.opacity = "1";
-        const digBody = dialogBodyRef.current;
-        // 안에 내용 넘겨주기
-        if (digBody) {
-          digBody.textContent = msg;
-        }
         // handleClick 할당
         this.callback = callback;
         // confirm 뒤에 배경 display:none -> display:black
@@ -81,7 +76,7 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
 
       {/* mode가 myBookmarks(마이페이지 찜한 action) 인 경우에 버튼 대신 북마크아이콘 */}
       {mode === "myBookmarks" ? (
-        <button onClick={() => customConfirm.show(`${text}`, handleClick)}>
+        <button onClick={() => customConfirm.show(handleClick)}>
           <FaStar className="text-amber-300 text-[17px]  ml-[1.5px] mb-10 " />
         </button>
       ) : (
@@ -89,7 +84,7 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
           color="primary"
           variant="ghost"
           onClick={() => {
-            customConfirm.show(`${text}`, handleClick);
+            customConfirm.show(handleClick);
           }}
         >
           {buttonName}
@@ -98,13 +93,10 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
 
       <div
         ref={dialogContRef}
-        className="absolute top-[-50%] left-1/2 translate-x-[-50%] translate-y-[-50%] p-[10px] w-[30%] rounded-xl transition-all z-[2] opacity-0"
+        className="fixed top-[-50%] left-1/2 translate-x-[-50%] translate-y-[-50%] p-[10px] w-[30%] rounded-xl transition-all z-[2] opacity-0"
       >
         <div className="p-[10px] py-[20px] font-bold bg-[#575757] text-[#f6f7f8]"></div>
-        <div
-          ref={dialogBodyRef}
-          className="p-[10px] py-[30px] leading-7 bg-white text-center"
-        >
+        <div className="p-[10px] py-[30px] leading-7 bg-white text-center">
           {text}
         </div>
         <div className="text-center bg-[#f5f5f2] flex flex-row gap-3 justify-center py-5">

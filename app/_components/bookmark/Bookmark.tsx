@@ -1,14 +1,20 @@
 "use client";
+import { useCallback } from "react";
+
 import {
   useAddBookmark,
   useRemoveBookmark,
 } from "@/app/_hooks/useMutations/bookmarks";
 import { useFilterBookmark } from "@/app/_hooks/useQueries/bookmarks";
-import { CircularProgress } from "@nextui-org/react";
+import { debounce } from "@/utils/debounce/debounce";
+
+import CustomConfirm from "../customConfirm/CustomConfirm";
+
 import { useSession } from "next-auth/react";
+
+import { CircularProgress } from "@nextui-org/react";
 import { CiStar } from "react-icons/ci";
 import { FaStar } from "react-icons/fa";
-import CustomConfirm from "../customConfirm/CustomConfirm";
 
 const Bookmark = ({
   action_id,
@@ -25,29 +31,28 @@ const Bookmark = ({
   const session = useSession();
   const user_uid = session.data?.user.user_uid as string;
 
-  const handleAddBookmarkClick = async () => {
-    if (user_uid === null || user_uid === undefined) {
-      return;
-    }
-    if (user_uid !== null) {
-      addBookmarkMutation.mutate({ user_uid, action_id });
-    }
-  };
-  const handleRemoveBookmarkClick = async () => {
-    removeBookmarkMutation.mutate({ user_uid, action_id });
-  };
+  const handleAddBookmarkClick = useCallback(
+    debounce(() => {
+      if (user_uid !== null) {
+        addBookmarkMutation.mutate({ user_uid, action_id });
+      } else {
+        alert("로그인이 필요합니다");
+        return;
+      }
+    }, 1000),
+    [user_uid, action_id, addBookmarkMutation],
+  );
+  const handleRemoveBookmarkClick = useCallback(
+    debounce(() => {
+      removeBookmarkMutation.mutate({ user_uid, action_id });
+    }, 1000),
+    [user_uid, action_id, removeBookmarkMutation],
+  );
 
   const isBookmarked = filterBookmark?.filterBookmark?.find(
     (mark) => mark.user_uid === user_uid,
   );
-  const handleToggle = () => {
-    const isBookmarked = filterBookmark?.filterBookmark?.find(
-      (mark) => mark.user_uid === user_uid,
-    );
-    return isBookmarked
-      ? handleRemoveBookmarkClick()
-      : handleAddBookmarkClick();
-  };
+
   if (isLoading) {
     return <CircularProgress color="warning" aria-label="Loading..." />;
   }
