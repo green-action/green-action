@@ -93,7 +93,7 @@ export const getCurrentUserProfileImg = async (user_uid: string) => {
       throw error;
     }
 
-    return data;
+    return data[0].profile_img;
   } catch (error) {
     console.error("Error inserting data:", error);
     throw error;

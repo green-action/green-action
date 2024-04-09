@@ -42,7 +42,7 @@ const AddComment = ({ loggedInUserUid, post_id }: AddCommentProps) => {
   return (
     <>
       {/* 댓글 등록 - 로그인 상태일 때만 보이게 */}
-      {/* <Avatar /> */}
+      <Avatar showFallback src={currentUserProfileImg || ""} />
       <form
         onSubmit={handleInsertComment}
         className="w-[100%] flex items-center border-1 border-gray-300 h-[30px] rounded-full mb-5"
