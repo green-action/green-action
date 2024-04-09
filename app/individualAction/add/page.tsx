@@ -74,12 +74,14 @@ const AddActionPage = () => {
   };
 
   return (
-    <>
+    <div className="w-[1920px] bg-black mx-auto">
       {/* 전체 Wrapper */}
       <form onSubmit={handleSubmit}>
-        <div className="flex flex-col w-[900px] h-auto border-2 border-gray-300 rounded-3xl mx-auto mb-12 mt-8">
+        <div className="flex flex-col w-[809px] h-[826px] border-2 border-gray-300 rounded-3xl mx-auto mb-12 mt-8">
           {/* new green-action 타이틀 */}
-          <div className="m-4 ml-8 text-md font-semibold">New Green-Action</div>
+          <div className="h-[58px] bg-white  ml-8 text-md font-semibold">
+            New Green-Action
+          </div>
           <hr className="border-t-2 border-gray-300" />
           {/* 타이틀 아래 Wrapper */}
           <div className="p-10 w-full h-full">
@@ -110,7 +112,7 @@ const AddActionPage = () => {
           </div>
         </div>
       </form>
-    </>
+    </div>
   );
 };
 
