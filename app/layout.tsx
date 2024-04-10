@@ -1,9 +1,9 @@
 import { GeistSans } from "geist/font/sans";
-import QueryProvider from "./Provider";
-import "./globals.css";
-import Header from "./_components/layout/Header";
-import Footer from "./_components/layout/Footer";
 import Script from "next/script";
+import QueryProvider from "./Provider";
+import Footer from "./_components/layout/Footer";
+import Header from "./_components/layout/Header";
+import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -30,7 +30,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" className={GeistSans.className}>
-      <body className="bg-background text-foreground">
+      <body className="bg-background text-foreground min-w-[1920px]">
         <QueryProvider>
           <Header />
           <main>

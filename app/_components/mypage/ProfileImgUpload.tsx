@@ -1,14 +1,14 @@
-import { ProfileImgUploadProps } from "@/app/_types/mypage/mypage";
-import { Avatar } from "@nextui-org/react";
 import React from "react";
+
+import type { ProfileImgUploadProps } from "@/app/_types/mypage/mypage";
+
+import { Avatar } from "@nextui-org/react";
 import { IoIosCamera } from "react-icons/io";
 
 const ProfileImgUpload = ({
   uploadedFileUrl,
   setUploadedFileUrl,
-  file,
   setFile,
-  profile_img,
 }: ProfileImgUploadProps) => {
   // 이미지 미리보기 띄우기
   const handleShowPreview = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,24 +23,28 @@ const ProfileImgUpload = ({
   };
 
   // 미리보기 이미지 삭제
+  // 기존 프로필 이미지 있을 경우 해당 이미지 삭제
   const handleDeleteImage = () => {
     setUploadedFileUrl("");
-    setFile(undefined); // ?
+    setFile(undefined);
   };
 
   return (
     <>
-      <button
-        //  누를 시 모달이 닫히는 문제
-        onClick={handleDeleteImage}
-        color="default"
-        className="absolute top-[9.2rem] right-[9rem]"
-      >
-        x
-      </button>
+      {uploadedFileUrl && (
+        <button
+          //  누를 시 모달이 닫히는 문제 - form 안 button이라 form태그로 제출되어서? -> type="reset"으로 해결
+          onClick={handleDeleteImage}
+          color="default"
+          className="absolute top-[9.2rem] right-[9rem]"
+          type="reset"
+        >
+          x
+        </button>
+      )}
       <Avatar
         showFallback
-        src={uploadedFileUrl ? uploadedFileUrl : profile_img}
+        src={uploadedFileUrl}
         className="w-[9rem] h-[9rem]"
       />
       <div className="absolute bottom-[15rem] right-[9rem]">
