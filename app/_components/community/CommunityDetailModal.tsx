@@ -115,7 +115,7 @@ const CommunityDetailModal = ({
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Likes post_id={post_id} />
+                      <Likes post_id={post_id} isOpen={isOpen} />
                     </div>
                   </div>
                   {/* 두번째 줄 : 활동 내용 */}
@@ -159,7 +159,7 @@ const CommunityDetailModal = ({
                     <p className="text-xs text-gray-500 mb-[20px]">댓글</p>
                     {/* 댓글 map */}
                     {sortedLatestCommentsList?.length === 0 ? (
-                      <p className="text-center text-[13px] font-light mt-4 h-[55px]">
+                      <p className="text-center text-[13px] text-gray-500 font-light mt-4 h-[55px]">
                         댓글로 Greener를 응원해보아요 🎉
                       </p>
                     ) : (

@@ -9,12 +9,15 @@ import { useFilterLikes } from "@/app/_hooks/useQueries/bookmarks";
 import { debounce } from "@/utils/debounce/debounce";
 
 import { CircularProgress } from "@nextui-org/react";
-import Image from "next/image";
 
-import heart from "../../../app/_assets/image/logo_icon/icon/community/Group 130.png";
-import emptyHeart from "../../../app/_assets/image/logo_icon/icon/community/Group 83.png";
+import { GoHeart } from "react-icons/go";
+import { GoHeartFill } from "react-icons/go";
 
-const Likes = ({ post_id }: { post_id: string }) => {
+// import Image from "next/image";
+// import heart from "../../../app/_assets/image/logo_icon/icon/community/Group 130.png";
+// import emptyHeart from "../../../app/_assets/image/logo_icon/icon/community/Group 83.png";
+
+const Likes = ({ post_id, isOpen }: { post_id: string; isOpen: boolean }) => {
   const { data, isLoading } = useFilterLikes(post_id);
   const addLikeMutation = useAddLike();
   const removeLikeMutation = useRemoveLike();
@@ -53,20 +56,26 @@ const Likes = ({ post_id }: { post_id: string }) => {
     <>
       <button onClick={() => handleDebounce()}>
         {isLiked ? (
-          <Image
-            src={heart}
-            alt="Liked heart"
-            className="hover:cursor-pointer w-[18px] h-[16px]"
-          />
+          // 아이콘 이미지 - 이미지가 흰색밖에 없어서 리액트 아이콘으로 수정
+
+          // <Image
+          //   src={heart}
+          //   alt="Liked heart"
+          //   className="hover:cursor-pointer w-[18px] h-[16px]"
+          // />
+          <GoHeartFill className="size-[18px]" />
         ) : (
-          <Image
-            src={emptyHeart}
-            alt="Liked heart"
-            className="hover:cursor-pointer w-[18px] h-[16px]"
-          />
+          // <Image
+          //   src={emptyHeart}
+          //   alt="Liked heart"
+          //   className="hover:cursor-pointer w-[18px] h-[16px]"
+          // />
+          <GoHeart className="size-[18px]" />
         )}
       </button>
-      <span className="text-[16px] text-white">{data?.likes?.length ?? 0}</span>
+      <span className={`text-[16px] ${isOpen ? `text-black` : `text-white`} `}>
+        {data?.likes?.length ?? 0}
+      </span>
     </>
   );
 };
