@@ -79,13 +79,13 @@ const PageTap = () => {
 
   return (
     <>
-      <div className="flex justify-between items-center mt-7">
-        <ul className="flex gap-4">
+      <div className="flex justify-between items-center w-[100%]">
+        <ul className="flex gap-4 ml-6">
           <li
             onClick={handleActiveTabClick}
-            className={`p-4 rounded-full cursor-pointer ${
+            className={`flex justify-center items-center cursor-pointer  rounded-2xl w-[130px] h-[34px] text-[12px] ${
               activeTab === "모든 캠페인"
-                ? "bg-gray-200 transition duration-300 ease-in-out font-bold"
+                ? "bg-gray-200 transition duration-300 ease-in-out  text-[12px]"
                 : ""
             }`}
           >
@@ -93,9 +93,9 @@ const PageTap = () => {
           </li>
           <li
             onClick={handleActiveTabClick}
-            className={`p-4 rounded-full cursor-pointer ${
+            className={`flex justify-center items-center cursor-pointer  rounded-2xl w-[130px] h-[34px]  text-[12px] ${
               activeTab === "모집중인 캠페인"
-                ? "bg-gray-200 transition duration-300 ease-in-out font-bold"
+                ? "bg-gray-200 transition duration-300 ease-in-out  text-[12px]"
                 : ""
             }`}
           >
@@ -103,9 +103,9 @@ const PageTap = () => {
           </li>
           <li
             onClick={handleActiveTabClick}
-            className={`p-4 rounded-full cursor-pointer ${
+            className={`flex justify-center items-center cursor-pointer  rounded-2xl w-[130px] h-[34px]  text-[12px] ${
               activeTab === "마감된 캠페인"
-                ? "bg-gray-200 transition duration-300 ease-in-out font-bold"
+                ? "bg-gray-200 transition duration-300 ease-in-out  text-[12px]"
                 : ""
             }`}
           >
@@ -113,13 +113,13 @@ const PageTap = () => {
           </li>
         </ul>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 ">
           <Select
             aria-label="Select"
             defaultSelectedKeys={["최신등록글"]}
             size="md"
             radius="full"
-            className="w-[8rem]"
+            className="w-[161px] h-[38px]"
             variant="bordered"
           >
             <SelectItem

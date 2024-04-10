@@ -10,13 +10,14 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@nextui-org/react";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { cache, useState } from "react";
 import { PiEyeLight, PiEyeSlash } from "react-icons/pi";
 import kakaoimg from "../_assets/kakao_login.png";
 import { logInWithKakao } from "../_api/auth";
+import { supabase } from "@/utils/supabase/client";
 
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -54,16 +55,19 @@ const Login = () => {
     }
   };
   // @유저정보가 안가져와짐 수정해야함@
+  // supabase 에서 소셜로그인 하면 auth테이블엔 저장됨 근데 토큰이 브라우저에서보임 그리고 토큰? 이 nextAuth랑 연결이 안되는지 로그인이안됨
+  // nextAuth 로그인은 세션정보는 들어오고 기존 로컬로그인이랑 호환이되어서 로그인은됨(nextAuth로그인) 근데 supabase에 연결이안되어있어서(유저정보저장이 안되어있음)
+  // 마이페이지나 댓글 이런거 이용못함 (내정보도 안뜸)
   const handleKaKakSingIn = async () => {
-    try {
-      await logInWithKakao();
-    } catch (error) {
-      console.log("로그인실패 에러=>", error);
-    }
-    // signIn("kakao", {
-    //   redirect: false,
-    //   callbackUrl: "/",
-    // });
+    // try {
+    //   await logInWithKakao();
+    // } catch (error) {
+    //   console.log("로그인실패 에러=>", error);
+    // }
+    signIn("kakao", {
+      redirect: false,
+      callbackUrl: "/",
+    });
   };
 
   const togglePasswordVisibility = () => {

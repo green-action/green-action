@@ -20,7 +20,7 @@ export const signUpNewUser = async (
     // 사용자 정보 데이터베이스에 추가
     const { data: userData, error: userDataError } = await supabase
       .from("users")
-      .insert({ id: data.user?.id, email, display_name });
+      .insert({ email, display_name });
 
     if (userDataError) {
       throw userDataError;
@@ -33,7 +33,7 @@ export const signUpNewUser = async (
   }
 };
 
-//로그인
+//supabase 로그인
 export const signInUser = async (
   email: string,
   password: string,
@@ -62,7 +62,7 @@ export const signInUser = async (
   }
 };
 
-//로그아웃
+//supabase 로그아웃
 export const logoutUser = async () => {
   try {
     const { error } = await supabase.auth.signOut({
@@ -84,10 +84,35 @@ export const getUser = async () => {
   return { user };
 };
 
+//카카오
 export const logInWithKakao = async () => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "kakao",
+    options: {
+      queryParams: {
+        access_type: "offline",
+        prompt: "consent",
+      },
+    },
   });
+
   if (error) throw error.message;
-  console.log(data);
+
+  // const user = session.data?.user;
+  // const { data: kakaoUserData, error: kakaoUserDataError } = await supabase
+  //   .from("users")
+  //   .insert({
+  //     id: user?.user_uid,
+  //     email: user?.email,
+  //     display_name: user?.name,
+  //     profile_img: user?.image,
+  //   });
+
+  // console.log(kakaoUserData);
+
+  // if (kakaoUserDataError) {
+  //   throw kakaoUserDataError.message;
+  // }
+
+  return data;
 };
