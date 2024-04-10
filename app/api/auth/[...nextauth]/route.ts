@@ -2,7 +2,6 @@ import { supabase } from "@/utils/supabase/client";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import KakaoProvider from "next-auth/providers/kakao";
-import { v4 as uuidv4 } from "uuid";
 
 const handler = NextAuth({
   providers: [
