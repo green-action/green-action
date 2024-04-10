@@ -83,7 +83,7 @@ const CommunityListPost = ({
             </div>
             <div className="flex items-center">
               <div className={longStyle}>
-                <Likes post_id={communityPost?.id as string} />
+                <Likes post_id={communityPost?.id as string} isOpen={isOpen} />
               </div>
             </div>
           </div>

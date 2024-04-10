@@ -7,10 +7,13 @@ import textBg1 from "../../app/_assets/image/about/2.png";
 import textBg2 from "../../app/_assets/image/about/3.png";
 import mainImg from "../../app/_assets/image/about/main.png";
 import Link from "next/link";
+import DynamicHeader from "../_components/layout/DynamicHeader";
 
 const AboutPage = () => {
   return (
-    <>
+    <div className="min-w-[1920px] mx-auto relative">
+      {/* <div className="flex flex-col bg-cover bg-opacity-10"> */}
+      {/* <DynamicHeader /> */}
       {/* first part - title 이미지 및 문구 */}
       <div className="relative">
         {/* 이미지 */}
@@ -25,6 +28,7 @@ const AboutPage = () => {
           <p className="font-['Italiana']">together in your daily life</p>
         </div>
       </div>
+
       {/* second part - 설명글 */}
       <div className="mx-auto w-[75%] mb-[440px]">
         <div className="text-[36px]">
@@ -167,7 +171,8 @@ const AboutPage = () => {
           </Link>
         </div>
       </div>
-    </>
+      {/* </div> */}
+    </div>
   );
 };
 
