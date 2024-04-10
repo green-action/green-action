@@ -18,7 +18,7 @@ const groupActionPage = () => {
   }
 
   return (
-    <div className="grid grid-cols-4 m-auto mt-14 mx-auto w-[1920px]">
+    <div className="grid grid-cols-4 m-auto mt-14 mx-auto">
       {groupGreenActions.map((action) => {
         return (
           <div className="flex flex-col mb-[100px] relative" key={action.id}>
@@ -27,13 +27,13 @@ const groupActionPage = () => {
                 shadow="sm"
                 radius="lg"
                 width="100%"
-                className="w-full object-cover h-full"
+                className="w-full object-cover h-[550px]"
                 src={action.img_url as string}
                 alt="campaign Img"
               />
             </Card>
-            <section className="flex flex-row w-[250px] indent-[50px]">
-              <h2 className="font-bold mt-[30px] text-[14px] text-ellipsis whitespace-nowrap ">
+            <section className="flex flex-row w-[250px] indent-[60px]">
+              <h2 className="font-bold mt-[30px] text-[14px] text-ellipsis whitespace-nowrap">
                 {action.title}
               </h2>
               <GroupModal action={action} />
