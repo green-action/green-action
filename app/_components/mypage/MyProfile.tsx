@@ -10,7 +10,7 @@ import {
   Tooltip,
 } from "@nextui-org/react";
 import { HiOutlinePlus } from "react-icons/hi2";
-import pointQuestion from "@/app/_assets/question_circle.png";
+import pointQuestion from "@/app/_assets/image/mainpage/question_circle.png";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useUpdateUserIntro } from "@/app/_hooks/useMutations/mypage";

@@ -54,6 +54,8 @@ const handler = NextAuth({
     async session({ session, token }) {
       console.log("session >>>", session);
       console.log("토큰 >>>", token);
+      session.user.user_uid = token.sub ?? "";
+      // console.log("세션유저-->>", session);
 
       const isSocialLogin = token.name ? true : false;
       // console.log("세션uid=>>", session.user.user_uid);

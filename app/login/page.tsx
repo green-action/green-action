@@ -15,7 +15,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { cache, useState } from "react";
 import { PiEyeLight, PiEyeSlash } from "react-icons/pi";
-import kakaoimg from "../_assets/kakao_login.png";
+import kakaoimg from "../_assets/image/login/kakao_login.png";
 import { logInWithKakao } from "../_api/auth";
 import { supabase } from "@/utils/supabase/client";
 
