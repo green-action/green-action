@@ -87,7 +87,7 @@ const CommunityPostComment = ({ comment }: { comment: CommentProps }) => {
           <Avatar
             showFallback
             src={imgSrc}
-            className="mr-2 w-[20px] h-[20px] rounded-full"
+            className="mr-2 w-[25px] h-[25px] rounded-full"
           />
           <div className="flex w-full justify-between">
             {isEditing ? (
@@ -99,8 +99,13 @@ const CommunityPostComment = ({ comment }: { comment: CommentProps }) => {
               />
             ) : (
               <div className="flex flex-col justify-between">
-                <p className="text-xs mt-0.5 mb-1">{display_name} Greener</p>
-                <p className="text-xs text-gray-500">{comment.content}</p>
+                <p className=" mt-0.2 mb-1">
+                  <span className="text-[14px] font-extrabold mr-1">
+                    {display_name}
+                  </span>
+                  <span className="text-[12px] font-thin">Greener</span>
+                </p>
+                <p className="text-xs text-gray-500 mb-1">{comment.content}</p>
               </div>
             )}
             <div className="flex items-center">
