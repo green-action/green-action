@@ -30,7 +30,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" className={GeistSans.className}>
-      {/* TODO - min-w-1920 지우기ㅠㅠ */}
       <body className="bg-background text-foreground min-w-[1920px]">
         <QueryProvider>
           <Header />
