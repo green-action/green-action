@@ -98,7 +98,6 @@ export const insertProfileImgUrl = async ({
     if (error) {
       throw error;
     }
-    // return data;
   } catch (error) {
     console.log("error", error);
     throw error;

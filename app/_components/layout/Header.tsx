@@ -11,7 +11,6 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Navbar,
-  NavbarBrand,
   NavbarContent,
   Tab,
   Tabs,
@@ -20,6 +19,9 @@ import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+
+import logoImg from "/app/_assets/image/logo_icon/logo/gray.png";
+import Image from "next/image";
 
 function Header() {
   const router = useRouter();
@@ -34,7 +36,11 @@ function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileHover, setIsProfileHover] = useState(false);
 
-  const handleMypageLink = () => {
+  const handleLogoLinkClick = () => {
+    router.push("/");
+  };
+
+  const handleMypageLinkClick = () => {
     router.push("/mypage");
   };
 
@@ -93,166 +99,194 @@ function Header() {
   // }
 
   return (
-    <Navbar
-      className="w-full flex items-center justify-between h-[7rem] pt-10  text-[11pt]  bg-[#EBEBEB]"
-      // gap 등으로 조정 안돼서 margin 하드코딩으로 위치 조정
-    >
-      <NavbarBrand className="ml-[10%] mr-[37%]">
-        <Link href={"/"}>LOGO</Link>
-      </NavbarBrand>
-      <NavbarContent>
-        <div className="flex flex-col items-center">
-          <Tabs
-            selectedKey={parentSelected} // 선택된 부모 탭의 키
-            // size="lg"
-            radius="full"
-            aria-label="Options"
-            color="default"
-            // variant="light"
-            className="flex justify-center mr-[33%] rounded-full bg-white font-bold text-[11pt] text-gray-700" // 여기에서 w넓이로 gap 넓힐 수 없고, m,gap 으로도 안됨 text-[18px]
+    <>
+      {/* NOTE 메인페이지, 회원가입/로그인, about 페이지가 아닌 나머지 페이지인 경우에만 layout Header 적용 */}
+      {pathname !== "/" &&
+        pathname !== "/signup" &&
+        pathname !== "/login" &&
+        pathname !== "/about" && (
+          // <div>
+          <Navbar
+            // NavBar 바깥에 div 두면 스크롤고정 안됨
+            isBlurred={true} // TODO 스크롤내리면 isBlurred 처리
+            className="min-w-[1920px] flex h-[10rem] items-center justify-center pt-[90px] mb-[200px] text-[13pt] bg-transparent"
+            // gap 등으로 조정 안돼서 margin 하드코딩으로 위치 조정
           >
-            <Tab
-              key="/about"
-              title="About"
-              as={Link}
-              href="/about"
-              className="w-[10rem]"
+            <Image
+              src={logoImg}
+              alt="logo-image"
+              className="w-[94px] h-[21.63px] ml-[-400px] mr-[430px] cursor-pointer"
+              onClick={handleLogoLinkClick}
             />
-            <Tab
-              as={Link}
-              href="/individualAction"
-              key="/individualAction"
-              title="Green Action"
-              className="w-[10rem] cursor-pointer"
-              onMouseEnter={() => {
-                setIsOpen(true);
-              }}
-              onMouseLeave={() => {
-                setIsOpen(false);
-              }}
-            />
-            <Tab
-              as={Link}
-              key="/community"
-              title="Community"
-              href="/community"
-              className="w-[10rem]"
-            />
-            <Tab
-              as={Link}
-              key="/goods"
-              title="Goods"
-              href="/goods"
-              className="w-[10rem]"
-            />
-          </Tabs>
-          {isOpen && (
-            <div
-              onMouseEnter={() => {
-                setIsOpen(true);
-              }}
-              onMouseLeave={() => {
-                setIsOpen(false);
-              }}
-              className="flex justify-center absolute mt-[3.2%] mr-[37%] w-[20rem] p-[1rem] text-[11pt] font-bold text-neutral-600"
-            >
-              <div className="flex gap-5 mt-3 px-2 py-0 items-center justify-center w-full h-[2.5rem] rounded-full bg-[#EBEBEB]">
-                <Link
-                  href={"/individualAction"}
-                  className={`rounded-full px-2 py-1 hover:bg-default-300/90 w-[10rem] text-center  ${
-                    childSelected === "/individualAction" && "bg-default-300/90"
-                  }`}
+            {/* </Link> */}
+            <NavbarContent>
+              <div className="flex flex-col items-center">
+                <Tabs
+                  selectedKey={parentSelected}
+                  size="lg"
+                  radius="full"
+                  aria-label="NavBar-Tab-Options"
+                  variant="light"
+                  className="flex justify-center rounded-full bg-[#E8E8E8]/30 font-bold  text-white"
+                  // 글자 색깔 속성 안먹힘 -> 해결하기 / 폰트 사이즈 조절 안됨 - size로
                 >
-                  개인과 함께해요
-                </Link>
-                <Link
-                  href={"/groupAction"}
-                  className={`rounded-full px-2 py-1 hover:bg-default-300/90 w-[10rem] text-center ${
-                    childSelected === "/groupAction" && "bg-default-300/90"
-                  }`}
-                >
-                  단체와 함께해요
-                </Link>
+                  <Tab
+                    key="/about"
+                    title="About"
+                    as={Link}
+                    href="/about"
+                    className="w-[10rem] text-black"
+                  />
+                  <Tab
+                    as={Link}
+                    href="/individualAction"
+                    key="/individualAction"
+                    title="Green Action"
+                    className="w-[10rem] cursor-pointer"
+                    onMouseEnter={() => {
+                      setIsOpen(true);
+                    }}
+                    onMouseLeave={() => {
+                      setIsOpen(false);
+                    }}
+                  />
+                  <Tab
+                    as={Link}
+                    key="/community"
+                    title="Community"
+                    href="/community"
+                    className="w-[10rem]"
+                  />
+                  <Tab
+                    as={Link}
+                    key="/goods"
+                    title="Goods"
+                    href="/goods"
+                    className="w-[10rem]"
+                  />
+                </Tabs>
+                {isOpen && (
+                  <div
+                    onMouseEnter={() => {
+                      setIsOpen(true);
+                    }}
+                    onMouseLeave={() => {
+                      setIsOpen(false);
+                    }}
+                    className="flex justify-center absolute mt-[3.2%] mr-[17%] pt-[23px] text-[13pt]  text-[#454545]"
+                  >
+                    {/* 폰트크기 넓이 안맞음 / font-bold? */}
+                    <Navbar
+                      isBlurred={false}
+                      className="flex gap-[23px] mt-3 px-0 py-0 items-center justify-center w-[345px] h-[45px] rounded-full bg-[#E8E8E8]/90  "
+                      // 원래 bg-[#E8E8E8]/30
+                    >
+                      <Link
+                        href={"/individualAction"}
+                        // 안 맞아서 폰트크기 13pt에 각각 넓이 130px으로 자체적 맞춤
+                        className={`rounded-full px-2 py-1 hover:bg-[#FFFFFF]/50 hover:border-medium hover:border-[#DDDDDD] w-[130px] text-center  ${
+                          childSelected === "/individualAction" &&
+                          "bg-[#FFFFFF]/50"
+                        }`}
+                      >
+                        개인과 함께해요
+                      </Link>
+                      <Link
+                        href={"/groupAction"}
+                        className={`rounded-full px-2 py-1 hover:bg-[#FFFFFF]/50 hover:border-medium hover:border-[#DDDDDD] w-[130px] text-center ${
+                          childSelected === "/groupAction" && "bg-[#FFFFFF]/50"
+                        }`}
+                      >
+                        단체와 함께해요
+                      </Link>
+                    </Navbar>
+                  </div>
+                )}
               </div>
-            </div>
-          )}
-        </div>
 
-        {user_uid && isLoggedIn ? (
-          <>
-            <Dropdown
-              placement="bottom-end"
-              isOpen={isProfileHover}
-              className="flex  m-0 rounded-3xl" //max-w-[5rem]
-            >
-              <DropdownTrigger>
-                <div className="flex">
-                  <Chip className="h-[2.5rem] w-[15rem] pl-2 bg-white/60">
-                    <div className="flex gap-5 items-center justify-between">
-                      {display_name} Greener님 ! 환영합니다
-                      <Avatar
-                        as="button"
-                        className="transition-transform"
-                        name={display_name}
-                        size="sm"
-                        showFallback
-                        src={profile_img || ""}
+              {user_uid && isLoggedIn ? (
+                <>
+                  <Dropdown
+                    placement="bottom-end"
+                    isOpen={isProfileHover}
+                    className="flex  m-0 rounded-3xl bg-[#F1F1F1]/50" //max-w-[5rem]
+                  >
+                    <DropdownTrigger>
+                      <div className="flex">
+                        {/* ml 360px / border-[#DDDDDD] - 자체변경 */}
+                        <Chip className="h-[43px] w-[249px] ml-[280px] mr-[0px] bg-[#F1F1F1]/50 border-small border-[#404040]/40">
+                          <div className="flex gap-[15px] items-center justify-between text-[13pt] text-[#404040]">
+                            {display_name} Greener님 ! 환영합니다
+                            <Avatar
+                              as="button"
+                              className="transition-transform"
+                              name={display_name}
+                              size="sm"
+                              showFallback
+                              src={profile_img || ""}
+                              onMouseEnter={() => {
+                                setIsProfileHover(true);
+                              }}
+                              onMouseLeave={() => {
+                                setIsProfileHover(false);
+                              }}
+                            />
+                          </div>
+                        </Chip>
+                      </div>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                      aria-label="Profile Actions"
+                      variant="flat"
+                      className="w-[10rem] flex justify-center p-0 m-0 rounded-3xl text-[#454545]"
+                    >
+                      <DropdownItem
+                        key="mypage"
+                        className="w-[8rem] h-8 rounded-3xl"
                         onMouseEnter={() => {
                           setIsProfileHover(true);
                         }}
                         onMouseLeave={() => {
                           setIsProfileHover(false);
                         }}
-                      />
-                    </div>
-                  </Chip>
+                      >
+                        <div
+                          onClick={handleMypageLinkClick}
+                          className="font-bold p-1"
+                        >
+                          마이페이지
+                        </div>
+                      </DropdownItem>
+                      <DropdownItem
+                        key="logout"
+                        color="danger"
+                        className="w-[8rem] h-8 rounded-3xl  "
+                        onMouseEnter={() => {
+                          setIsProfileHover(true);
+                        }}
+                        onMouseLeave={() => {
+                          setIsProfileHover(false);
+                        }}
+                      >
+                        <div onClick={handleLogout} className="font-bold p-1">
+                          Logout
+                        </div>
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </>
+              ) : (
+                // text-[#454545] 로 자체설정(통일)
+                <div className="flex gap-14 w-[170px] text-[#454545] font-['Pretendard-Light']  ml-[380px]">
+                  <Link href={"/signup"}>Sign up</Link>
+                  <Link href={"/login"}>Log in</Link>
                 </div>
-              </DropdownTrigger>
-              <DropdownMenu
-                aria-label="Profile Actions"
-                variant="flat"
-                className="w-[10rem] flex justify-center p-0 m-0 rounded-3xl "
-              >
-                <DropdownItem
-                  key="mypage"
-                  className="w-[8rem] h-8 rounded-3xl"
-                  onMouseEnter={() => {
-                    setIsProfileHover(true);
-                  }}
-                  onMouseLeave={() => {
-                    setIsProfileHover(false);
-                  }}
-                >
-                  <div onClick={handleMypageLink} className="font-bold p-1">
-                    마이페이지
-                  </div>
-                </DropdownItem>
-                <DropdownItem
-                  key="logout"
-                  color="danger"
-                  className="w-[8rem] h-8 rounded-3xl  "
-                  onMouseEnter={() => {
-                    setIsProfileHover(true);
-                  }}
-                  onMouseLeave={() => {
-                    setIsProfileHover(false);
-                  }}
-                >
-                  <div onClick={handleLogout} className="font-bold p-1">
-                    Logout
-                  </div>
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </>
-        ) : (
-          <div className="flex ml-[3rem] gap-14 w-[10rem]">
-            <Link href={"/signup"}>Sign up</Link>
-            <Link href={"/login"}>Log in</Link>
-          </div>
+              )}
+            </NavbarContent>
+          </Navbar>
+          // </div>
         )}
-      </NavbarContent>
-    </Navbar>
+    </>
   );
 }
 
