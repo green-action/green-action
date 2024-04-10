@@ -34,8 +34,8 @@ import prevBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 132.png";
 import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
 
 const DetailPage = () => {
-  // const session = useSession();
-  // // const user_uid = session?.data?.user.user_uid || "";
+  const session = useSession();
+  const user_uid = session?.data?.user.user_uid || "";
 
   const settings = {
     dots: false,
@@ -80,7 +80,6 @@ const DetailPage = () => {
 
   // 게시글 삭제
   const handleDeleteClick = () => {
-    // 커스텀 confirm 창 사용? - but 드롭/다운에 버튼넣어야 하는 문제
     if (window.confirm("정말 삭제하시겠습니까?")) {
       deleteAction();
       router.push("/individualAction");
@@ -194,20 +193,22 @@ const DetailPage = () => {
                 <div className="w-[147px] h-10 bg-[#f1f1f1] rounded-3xl text-[15px] text-[#797979] font-bold text-center content-center">
                   Green-action
                 </div>
-                <div className="flex">
-                  <Image
-                    src={editAction}
-                    alt="수정"
-                    className="size-[19px] mr-[30px] cursor-pointer"
-                    onClick={handleEditClick}
-                  />
-                  <Image
-                    src={delAction}
-                    alt="삭제"
-                    className="size-[17px] cursor-pointer"
-                    onClick={handleDeleteClick}
-                  />
-                </div>
+                {user_uid === detail.user_uid ? (
+                  <div className="flex">
+                    <Image
+                      src={editAction}
+                      alt="수정"
+                      className="size-[19px] mr-[30px] cursor-pointer"
+                      onClick={handleEditClick}
+                    />
+                    <Image
+                      src={delAction}
+                      alt="삭제"
+                      className="size-[17px] cursor-pointer"
+                      onClick={handleDeleteClick}
+                    />
+                  </div>
+                ) : null}
               </div>
               <div className="flex justify-between mt-[51px] border-b-2 border-[#bfbfbf]">
                 <p className="font-bold text-xl pb-[27px]">{detail.title}</p>
