@@ -60,7 +60,7 @@ const PostImgUpload = ({
     <>
       {/* 이미지 업로드 */}
       <div
-        className={`flex mx-auto mt-7 mb-8 border-1.5 border-dashed border-gray-300 rounded-3xl w-[350px] h-[250px] ${
+        className={`flex mx-auto mt-7 mb-6 border-1.5 border-dashed border-gray-300 rounded-3xl w-[370px] h-[260px] ${
           isDragging ? "border-blue-400" : "border-gray-300"
         }`}
         onDragEnter={handleDragStart}
