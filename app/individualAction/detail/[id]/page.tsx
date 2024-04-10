@@ -1,21 +1,19 @@
 "use client";
+import React from "react";
+import { useSession } from "next-auth/react";
 import KakaoShareButton from "@/app/_components/kakaoShare/KakaoShare";
+import Bookmark from "@/app/_components/bookmark/Bookmark";
 import {
   useActionImages,
   useIndividualAction,
 } from "@/app/_hooks/useQueries/individualActions";
-import { Avatar, Chip, CircularProgress } from "@nextui-org/react";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
-import { useParams } from "next/navigation";
-import React from "react";
-import { FaRegCalendar } from "react-icons/fa";
-import { LuMapPin } from "react-icons/lu";
+import { useParams, useRouter } from "next/navigation";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useSession } from "next-auth/react";
-import { RxPerson } from "react-icons/rx";
-import Bookmark from "@/app/_components/bookmark/Bookmark";
+import { Avatar, CircularProgress } from "@nextui-org/react";
+import { Breadcrumbs, BreadcrumbItem } from "@nextui-org/react";
 import {
   Modal,
   ModalContent,
@@ -25,23 +23,38 @@ import {
   Button,
   useDisclosure,
 } from "@nextui-org/react";
+import Image from "next/image";
 import calendar from "/app/_assets/image/logo_icon/icon/mypage/image 127.png";
 import mapPin from "/app/_assets/image/logo_icon/icon/mypage/image 169.png";
 import person from "/app/_assets/image/logo_icon/icon/mypage/image 166.png";
 import editAction from "/app/_assets/image/logo_icon/icon/mypage/image 55.png";
-import deleteAction from "/app/_assets/image/logo_icon/icon/mypage/Group 131.png";
-
-import Image from "next/image";
+import delAction from "/app/_assets/image/logo_icon/icon/mypage/Group 131.png";
+import nextBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 133.png";
+import prevBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 132.png";
+import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
 
 const DetailPage = () => {
-  const session = useSession();
-  const user_uid = session?.data?.user.user_uid || "";
+  // const session = useSession();
+  // // const user_uid = session?.data?.user.user_uid || "";
+
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    //오른쪽 화살표
+    nextArrow: (
+      <Image
+        src={nextBtn}
+        alt="오른쪽 버튼"
+        className="size-[27px] ml-[12px]"
+      />
+    ),
+    //왼쪽 화살표
+    prevArrow: (
+      <Image src={prevBtn} alt="왼쪽 버튼" className="size-[27px] mr-[12px]" />
+    ),
   };
 
   // 참여하기 모달창
@@ -57,6 +70,22 @@ const DetailPage = () => {
     isLoading: individualActionLoading,
     isError: individualActionError,
   } = useIndividualAction({ params });
+
+  const router = useRouter();
+  const { deleteAction } = useDeleteAction(postId);
+  // 게시글 수정
+  const handleEditClick = () => {
+    router.push(`/individualAction/edit/${postId}`);
+  };
+
+  // 게시글 삭제
+  const handleDeleteClick = () => {
+    // 커스텀 confirm 창 사용? - but 드롭/다운에 버튼넣어야 하는 문제
+    if (window.confirm("정말 삭제하시겠습니까?")) {
+      deleteAction();
+      router.push("/individualAction");
+    } else return;
+  };
 
   // 상세 이미지 가져오기
   const {
@@ -84,13 +113,18 @@ const DetailPage = () => {
 
   if (isError) return <div>Error fetching details...</div>;
   return (
-    <div className="w-[1920px] border-red-400 border-2 m-auto mt-[62px]">
-      <div className="w-[1576.3px] border-2 mb-[25px] mx-[171px]">bread</div>
-      <div className="flex flex-row w-[1576.3px] border-2 border-blue-500 h-auto mx-[171px] content-center">
-        <div
-          className="border-2 border-yellow-500
-         w-[439.34px] mr-[43px]"
-        >
+    <div className="w-[1920px] m-auto mt-[62px]">
+      <div className="w-[1576.3px] mb-[25px] mx-[171px]">
+        <Breadcrumbs>
+          <BreadcrumbItem href="/individualAction">Green-action</BreadcrumbItem>
+          <BreadcrumbItem href="/individualAction">
+            개인과 함께 해요
+          </BreadcrumbItem>
+          <BreadcrumbItem href="">{detail.title}</BreadcrumbItem>
+        </Breadcrumbs>
+      </div>
+      <div className="flex flex-row w-[1576.3px] h-auto mx-[171px] content-center">
+        <div className="w-[439.34px] mr-[43px]">
           <div className="border-1 border-[#bfbfbf]  h-[232.96px] rounded-[20px] mb-7">
             <div className="flex w-[336.78px] h-[95px] mt-[48px] ml-[54px] border-b-2 border-[#d9d9d9]">
               <Avatar
@@ -118,15 +152,42 @@ const DetailPage = () => {
           <div className="border-1 border-[#bfbfbf] bg-[#fafafa] h-[74.7px] rounded-[20px] mb-[22px] text-center content-center font-semibold cursor-pointer">
             1:1 채팅하기
           </div>
-          <div className="border-1 border-[#bfbfbf] bg-[#fafafa] h-[74.7px] rounded-[20px] text-center content-center font-semibold cursor-pointer">
+          <div
+            className="border-1 border-[#bfbfbf] bg-[#fafafa] h-[74.7px] rounded-[20px] text-center content-center font-semibold cursor-pointer"
+            key={"opaque"}
+            color="warning"
+            onClick={() => handleOpen()}
+          >
             참여하기
           </div>
-          <div>4</div>
+          <Modal backdrop={"opaque"} isOpen={isOpen} onClose={onClose}>
+            <ModalContent>
+              {(onClose) => (
+                <>
+                  <ModalHeader className="flex flex-col gap-1">
+                    Green-action 참여 오픈채팅방
+                  </ModalHeader>
+                  <ModalBody>
+                    <a href={detail.kakao_link!}>{detail.kakao_link}</a>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button
+                      className="bg-[#929292] opacity-50 text-white"
+                      onPress={onClose}
+                    >
+                      닫기
+                    </Button>
+                  </ModalFooter>
+                </>
+              )}
+            </ModalContent>
+          </Modal>
+
+          <div className="flex justify-center mt-[67px]">
+            <KakaoShareButton description={detail.content!} />
+          </div>
         </div>
-        <div
-          className="border-2 border-green-500
-         w-[1093.92px]"
-        >
+        <div className="w-[1093.92px]">
           <div className="border-1 border-[#bfbfbf] mb-[15px] h-[343.11px] rounded-[20px]">
             <div className="h-[139px] mt-[33px] mb-[54px] mx-[63px]">
               <div className="flex justify-between items-center">
@@ -138,17 +199,19 @@ const DetailPage = () => {
                     src={editAction}
                     alt="수정"
                     className="size-[19px] mr-[30px] cursor-pointer"
+                    onClick={handleEditClick}
                   />
                   <Image
-                    src={deleteAction}
+                    src={delAction}
                     alt="삭제"
                     className="size-[17px] cursor-pointer"
+                    onClick={handleDeleteClick}
                   />
                 </div>
               </div>
               <div className="flex justify-between mt-[51px] border-b-2 border-[#bfbfbf]">
-                <p className="font-bold text-xl">{detail.title}</p>
-                <div className="flex flex-row text-sm items-center mr-[20px]">
+                <p className="font-bold text-xl pb-[27px]">{detail.title}</p>
+                <div className="flex flex-row text-sm items-center mr-[20px] pb-[20px]">
                   <div
                     className="w-[57px] h-[18px] rounded-[5px] content-center text-center text-white mr-[35px] 
                     ${detail.is_recruiting ? bg-[#B3C8A1] : bg-[#5F5F5F]}"
@@ -199,7 +262,45 @@ const DetailPage = () => {
             </div>
           </div>
           <div className="border-1 border-[#bfbfbf] h-[545.69px] rounded-[20px]">
-            2-2
+            <div className="m-[78px] flex justify-between">
+              <div>
+                <div className="mb-[37px] font-semibold text-[11px] text-[#848484]">
+                  상세내용
+                </div>
+                <div className="w-[327.92px]">
+                  <p className="font-medium text-[11px] text-[#848484] leading-[170%]">
+                    {detail.content}
+                  </p>
+                </div>
+              </div>
+              <div className="rounded-[20px]">
+                {" "}
+                {imgUrl!.length === 1 ? (
+                  <img
+                    src={imgUrl![0].img_url}
+                    alt="green_action_image"
+                    className="w-[387px] h-[390px] rounded-[20px]"
+                  />
+                ) : (
+                  <Slider
+                    {...settings}
+                    className="w-[387px] h-[390px] rounded-[20px]"
+                  >
+                    {imgUrl?.map((item) => {
+                      return (
+                        <div>
+                          <img
+                            src={item.img_url}
+                            alt="green_action_image"
+                            className="w-[387px] h-[390px]  rounded-[20px]"
+                          />
+                        </div>
+                      );
+                    })}
+                  </Slider>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>
