@@ -214,8 +214,9 @@ const DetailPage = () => {
                 <p className="font-bold text-xl pb-[27px]">{detail.title}</p>
                 <div className="flex flex-row text-sm items-center mr-[20px] pb-[20px]">
                   <div
-                    className="w-[57px] h-[18px] rounded-[5px] content-center text-center text-white mr-[35px] 
-                    ${detail.is_recruiting ? bg-[#B3C8A1] : bg-[#5F5F5F]}"
+                    className={`w-[57px] h-[18px] rounded-[5px] content-center text-center text-white mr-[35px] ${
+                      detail.is_recruiting ? "bg-[#B3C8A1]" : "bg-[#5F5F5F]"
+                    }`}
                   >
                     {detail.is_recruiting ? "모집중" : "모집마감"}
                   </div>
