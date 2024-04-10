@@ -19,6 +19,9 @@ module.exports = {
       },
     },
     darkMode: "class",
+    backgroundImage: {
+      "main-img": "url('../app/_assets/image/mainpage/main.png')",
+    },
   },
   plugins: [nextui()],
 };
