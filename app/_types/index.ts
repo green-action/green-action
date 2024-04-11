@@ -26,3 +26,10 @@ export type Index =
       actionBookmarks: { id: string }[];
     }[]
   | undefined;
+
+export interface kakaoUser {
+  sub: number;
+  email: string;
+  name: string;
+  avatar_url: string;
+}

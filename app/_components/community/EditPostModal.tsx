@@ -90,12 +90,12 @@ const EditPostModal = ({
 
   return (
     <>
-      {/* 게시글 글쓰기 모달창 */}
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent className="h-[600px]">
+      {/* 게시글 수정하기 모달창 */}
+      <Modal size="lg" isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent className="h-[740px]">
           {(onClose) => (
             <form onSubmit={handleSubmit}>
-              <ModalHeader className="flex items-center py-3 px-6 font-medium text-xs">
+              <ModalHeader className="flex items-center py-3 px-6 font-extrabold text-[15px]">
                 New Post
               </ModalHeader>
               <hr className="border-t-1 border-gray-300" />
@@ -109,12 +109,12 @@ const EditPostModal = ({
                   />
                   <div className="flex flex-col gap-3">
                     {/* action_type선택 드랍다운 */}
-                    <div className="flex justify-end">
+                    <div className="flex justify-end mr-3">
                       <Dropdown>
                         <DropdownTrigger>
                           <Button
                             variant="bordered"
-                            className="capitalize border-1 rounded-full h-7"
+                            className="capitalize border-1 rounded-full h-8 text-gray-500"
                           >
                             {selectedValue}
                           </Button>
@@ -127,20 +127,26 @@ const EditPostModal = ({
                           selectedKeys={selectedKeys}
                           onSelectionChange={setSelectedKeys}
                         >
-                          <DropdownItem key="개인과 함께해요">
+                          <DropdownItem
+                            key="개인과 함께해요"
+                            className="text-gray-500"
+                          >
                             개인과 함께해요
                           </DropdownItem>
-                          <DropdownItem key="단체와 함께해요">
+                          <DropdownItem
+                            key="단체와 함께해요"
+                            className="text-gray-500"
+                          >
                             단체와 함께해요
                           </DropdownItem>
                         </DropdownMenu>
                       </Dropdown>
                     </div>
                     {/* 활동 제목 */}
-                    <div className="flex mx-auto w-full h-[34px] items-center pl-8 border-1 border-gray-300 rounded-3xl">
+                    <div className="flex mx-auto w-[95%] h-[42px] items-center pl-8 border-1 border-gray-300 rounded-3xl">
                       <label
                         htmlFor="activityTitle"
-                        className="text-xs font-semibold w-[61px]"
+                        className="text-sm text-gray-500 font-semibold w-[61px]"
                       >
                         활동 제목
                       </label>
@@ -154,10 +160,10 @@ const EditPostModal = ({
                       />
                     </div>
                     {/* 활동 내용 */}
-                    <div className="flex items-start w-full h-auto pl-8 border-1 border-gray-300 rounded-3xl mb-8">
+                    <div className="flex items-start flex-col w-[95%] h-auto pl-8 border-1 border-gray-300 rounded-3xl mb-3.5 mx-auto">
                       <label
                         htmlFor="activityDescription"
-                        className="text-xs font-semibold w-[61px] mt-3"
+                        className="text-sm text-gray-500 font-semibold w-[61px] mt-4"
                       >
                         활동 내용
                       </label>
@@ -166,25 +172,25 @@ const EditPostModal = ({
                         name="activityDescription"
                         defaultValue={singlePostForEdit?.content || ""}
                         required
-                        className="resize-none w-10/12 h-[100px] mx-4 mt-2 pr-4 bg-inherit focus:outline-none text-sm text-gray-400"
+                        className="resize-none w-11/12 h-[150px] mt-3 bg-inherit focus:outline-none text-sm text-gray-400"
                       />
                     </div>
                   </div>
                 </div>
               </ModalBody>
               {/* 취소, 작성 버튼 */}
-              <ModalFooter className="flex justify-center mb-8 !p-0">
-                <Button
+              <ModalFooter className="flex justify-center mb-12 !p-0">
+                {/* <Button
                   variant="light"
                   onPress={onClose}
                   className="rounded-full !w-[110px] h-[27px] border-1"
                 >
                   취소하기
-                </Button>
+                </Button> */}
                 <Button
                   type="submit"
                   onPress={onClose}
-                  className="rounded-full !w-[110px] h-[27px]"
+                  className="text-gray-500 rounded-full !w-[140px] h-[33px] border border-gray-400 bg-[#EFEFEF]"
                 >
                   수정완료
                 </Button>

@@ -1,10 +1,14 @@
-import { deleteComment, editComment } from "@/app/_api/community/comments-api";
-import { QEURY_KEY_COMMUNITY_COMMENTS_LIST } from "@/app/_api/queryKeys";
-import { CommentProps } from "@/app/_types/community/community";
-import { Avatar } from "@nextui-org/react";
+import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+
+import type { CommentProps } from "@/app/_types/community/community";
+
+import { QEURY_KEY_COMMUNITY_COMMENTS_LIST } from "@/app/_api/queryKeys";
+
+import { deleteComment, editComment } from "@/app/_api/community/comments-api";
+
+import { Avatar } from "@nextui-org/react";
 
 const CommunityPostComment = ({ comment }: { comment: CommentProps }) => {
   // 현재 로그인한 유저 uid
@@ -83,7 +87,7 @@ const CommunityPostComment = ({ comment }: { comment: CommentProps }) => {
           <Avatar
             showFallback
             src={imgSrc}
-            className="mr-2 w-[20px] h-[20px] rounded-full"
+            className="mr-2 w-[25px] h-[25px] rounded-full"
           />
           <div className="flex w-full justify-between">
             {isEditing ? (
@@ -95,8 +99,13 @@ const CommunityPostComment = ({ comment }: { comment: CommentProps }) => {
               />
             ) : (
               <div className="flex flex-col justify-between">
-                <p className="text-xs mt-0.5 mb-1">{display_name} Greener</p>
-                <p className="text-xs text-gray-500">{comment.content}</p>
+                <p className=" mt-0.2 mb-1">
+                  <span className="text-[14px] font-extrabold mr-1">
+                    {display_name}
+                  </span>
+                  <span className="text-[12px] font-thin">Greener</span>
+                </p>
+                <p className="text-xs text-gray-500 mb-1">{comment.content}</p>
               </div>
             )}
             <div className="flex items-center">

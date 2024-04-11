@@ -1,3 +1,4 @@
+import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
 import {
   Button,
   Card,
@@ -8,16 +9,13 @@ import {
   DropdownTrigger,
   useDisclosure,
 } from "@nextui-org/react";
-import React from "react";
+import { useRouter } from "next/navigation";
 import { GoPerson } from "react-icons/go";
 import { GrLocation } from "react-icons/gr";
-import { IoIosCalendar } from "react-icons/io";
-import MyActionRecruitingModal from "./MyActionRecruitingModal";
-import { useRouter } from "next/navigation";
 import { HiOutlineDotsVertical } from "react-icons/hi";
+import { IoIosCalendar } from "react-icons/io";
 import Bookmark from "../bookmark/Bookmark";
-import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
-import { MyAction } from "@/app/_types/mypage/mypage";
+import MyActionRecruitingModal from "./MyActionRecruitingModal";
 
 // TODO MyAction 타입 사용 후 에러 해결하기
 const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
@@ -60,7 +58,7 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
 
   return (
     <div key={id}>
-      <div className="none w-[330px] h-[25rem] flex flex-wrap  p-1 ">
+      <div className="none w-[330px] h-[25rem] flex flex-wrap  p-1 relative">
         <Card
           isFooterBlurred
           radius="lg"

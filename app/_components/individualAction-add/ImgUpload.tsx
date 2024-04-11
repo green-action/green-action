@@ -69,7 +69,7 @@ const ImgUpload = ({
   return (
     <>
       <div
-        className={`flex gap-2 w-full h-auto mb-8 ${
+        className={`flex gap-2 h-auto mb-[23px] ${
           isDragging ? "border-blue-400" : "border-gray-300"
         }`}
         onDragEnter={handleDragStart}
@@ -80,7 +80,7 @@ const ImgUpload = ({
         {[...Array(4)].map((_, index) => (
           <div
             key={index}
-            className="flex border-2 border-dashed border-gray-300 rounded-3xl w-1/4 h-[200px]"
+            className="flex border-2 border-dashed border-gray-300 rounded-3xl w-[175px] h-[177px]"
           >
             {/* 이미지 업로드한 경우 */}
             {uploadedFileUrls[index] ? (
@@ -105,7 +105,7 @@ const ImgUpload = ({
               <div className="flex flex-col w-full h-full justify-end items-center mt-auto">
                 <label
                   htmlFor={`fileInput-${index}`}
-                  className="mb-4 text-4xl font-thin text-gray-500 cursor-pointer"
+                  className="mb-3 text-4xl font-thin text-gray-500 cursor-pointer"
                 >
                   +
                 </label>
@@ -116,7 +116,9 @@ const ImgUpload = ({
                   hidden
                   onChange={handleShowPreview}
                 />
-                <p className="mb-px font-medium text-gray-500">Upload Image</p>
+                <p className="text-sm font-medium text-gray-500">
+                  Upload Image
+                </p>
                 <p className="text-xs mb-8 text-gray-400">or drag & drop</p>
               </div>
             )}
