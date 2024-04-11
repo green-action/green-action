@@ -90,6 +90,7 @@
 }
 
 body {
+  width: 100%;
   min-height: 1000px;
   width: 100%;
   font-family: "Pretendard-Regular"; /* 기본 폰트 */

@@ -74,15 +74,17 @@ const AddActionPage = () => {
   };
 
   return (
-    <>
+    <div className="w-[1920px] mx-auto">
       {/* 전체 Wrapper */}
       <form onSubmit={handleSubmit}>
-        <div className="flex flex-col w-[900px] h-auto border-2 border-gray-300 rounded-3xl mx-auto mb-12 mt-8">
+        <div className="flex flex-col w-[809px] h-[826px] border-1.5 border-gray-300 rounded-3xl mx-auto mb-12 mt-8">
           {/* new green-action 타이틀 */}
-          <div className="m-4 ml-8 text-md font-semibold">New Green-Action</div>
-          <hr className="border-t-2 border-gray-300" />
+          <div className="ml-8 my-[16px] ">
+            <span className="font-black text-[15px]">New Green-Action</span>
+          </div>
+          <hr className="border-t-1.5 border-gray-300" />
           {/* 타이틀 아래 Wrapper */}
-          <div className="p-10 w-full h-full">
+          <div className="w-full h-full mt-[31px] mb-[26px] mx-[44px]">
             {/* 이미지 4장 자리*/}
             <ImgUpload
               uploadedFileUrls={uploadedFileUrls}
@@ -96,21 +98,21 @@ const AddActionPage = () => {
             {/* 이미지 아래 세번째 박스(활동 소개) */}
             <ThirdInputBox />
             {/* 등록, 취소 버튼 */}
-            <div className="flex justify-center gap-4">
+            <div className="w-[724px] flex justify-center gap-4">
               <button
                 type="submit"
-                className="bg-gray-100 w-40 h-10 rounded-full border-2 border-gray-300 text-sm font-medium text-gray-500"
+                className="bg-gray-200 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500"
               >
-                등록완료
+                <span className="font-extrabold">등록완료</span>
               </button>
-              <button className="bg-gray-100 w-40 h-10 rounded-full border-2 border-gray-300 text-sm font-medium text-gray-500">
-                취소하기
+              <button className="bg-gray-100 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500">
+                <span className="font-extrabold">취소하기</span>
               </button>
             </div>
           </div>
         </div>
       </form>
-    </>
+    </div>
   );
 };
 

@@ -1,5 +1,5 @@
 import { supabase } from "@/utils/supabase/client";
-import { InsertComment } from "@/app/_types/community/community";
+import type { InsertComment } from "@/app/_types/community/community";
 
 // post_id로 상세모달창 댓글리스트 가져오기
 export const getCommunityCommentsList = async (post_id: string) => {
@@ -18,7 +18,7 @@ export const getCommunityCommentsList = async (post_id: string) => {
   }
 };
 
-// 댓글 insert
+// 댓글 등록
 export const insertCommunityComment = async ({
   content,
   loggedInUserUid,
@@ -32,6 +32,8 @@ export const insertCommunityComment = async ({
     if (error) {
       throw error;
     }
+
+    return;
   } catch (error) {
     console.error("Error inserting comment:", error);
     throw error;
@@ -75,6 +77,25 @@ export const editComment = async ({
     }
 
     return data;
+  } catch (error) {
+    console.error("Error inserting data:", error);
+    throw error;
+  }
+};
+
+// 현재 로그인한 유저 프로필이미지 가져오기
+export const getCurrentUserProfileImg = async (user_uid: string) => {
+  try {
+    const { data, error } = await supabase
+      .from("users")
+      .select("profile_img")
+      .eq("id", user_uid);
+
+    if (error) {
+      throw error;
+    }
+
+    return data[0].profile_img;
   } catch (error) {
     console.error("Error inserting data:", error);
     throw error;

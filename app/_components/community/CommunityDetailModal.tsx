@@ -82,17 +82,17 @@ const CommunityDetailModal = ({
 
   return (
     <>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent className="h-[600px] overflow-y-auto scrollbar-hide">
+      <Modal size="lg" isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent className="relative h-[740px] overflow-y-auto scrollbar-hide">
           {() => (
             <>
-              <ModalHeader className="flex gap-2 items-center mt-1 pb-1 ml-4">
+              <ModalHeader className="flex gap-2 items-center mt-6 mb-2 pb-1 ml-4">
                 <Avatar
                   showFallback
                   src={imgSrc}
                   className="w-[30px] h-[30px] rounded-full mr-2"
                 />
-                <p className="font-semibold text-xs">{display_name}</p>
+                <p className="font-semibold text-[14px]">{display_name}</p>
                 <p className="font-normal text-xs">Greener</p>
               </ModalHeader>
               <ModalBody>
@@ -100,26 +100,26 @@ const CommunityDetailModal = ({
                 <img
                   src={communityPost?.img_url ?? "기본 이미지 URL"}
                   alt="Community Post"
-                  className="mx-auto mb-1 w-[96%] h-[260px] rounded-2xl bg-slate-300"
+                  className="mx-auto mb-2 mb-1 w-[95%] h-[300px] rounded-2xl bg-slate-300 object-cover"
                 />
                 {/* 이미지 아래 전체 wrapper */}
                 <div className="flex flex-col gap-2 w-[90%] mx-auto">
                   {/* 첫 줄 - 개인과 함께해요, 게시글 제목, 좋아요버튼 */}
                   <div className="flex justify-between mb-2 ">
                     <div className="flex gap-2 items-center">
-                      <p className=" rounded-full border-1 border-gray-300 text-xs text-center p-0.5 px-4 mr-0.5 w-[120px]">
+                      <p className="flex items-center justify-center rounded-full border-1.5 border-black text-xs text-center p-0.5 px-4 mr-1 w-[120px] h-[25px]">
                         {communityPost?.action_type}과 함께해요
                       </p>
-                      <p className="text-[13px] font-semibold">
+                      <p className="text-[14px] font-extrabold">
                         {communityPost?.title}
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Likes post_id={post_id} />
+                      <Likes post_id={post_id} isOpen={isOpen} />
                     </div>
                   </div>
                   {/* 두번째 줄 : 활동 내용 */}
-                  <p className=" mx-auto text-xs mb-5 w-[97%]">
+                  <p className=" mx-auto text-[12.5px] mb-5 w-[97%]">
                     {communityPost?.content}
                   </p>
                   {/* 세번째 줄 : 작성일, dot 드롭다운 */}
@@ -155,17 +155,12 @@ const CommunityDetailModal = ({
                   </div>
                   <hr className="mb-1" />
                   {/* 댓글 전체 wrapper */}
-                  <div className="flex flex-col mx-auto mb-2 w-[95%]">
-                    <p className="text-xs mb-1">댓글</p>
-                    {/* 댓글 등록 */}
-                    <AddComment
-                      loggedInUserUid={loggedInUserUid}
-                      post_id={post_id}
-                    />
+                  <div className="flex flex-col mx-auto mb-2 w-[98%]">
+                    <p className="text-xs text-gray-500 mb-[20px]">댓글</p>
                     {/* 댓글 map */}
                     {sortedLatestCommentsList?.length === 0 ? (
-                      <p className="text-center text-[13px] font-light mt-4">
-                        첫 댓글의 주인공이 되어보세요 🎉
+                      <p className="text-center text-[13px] text-gray-500 font-light mt-4 h-[55px]">
+                        댓글로 Greener를 응원해보아요 🎉
                       </p>
                     ) : (
                       sortedLatestCommentsList?.map((comment) => (
@@ -177,6 +172,14 @@ const CommunityDetailModal = ({
                     )}
                   </div>
                 </div>
+                {/* 댓글 등록 */}
+                <div className="sticky flex items-end bottom-0 pt-3 mx-auto w-[90%] bg-white">
+                  <AddComment
+                    loggedInUserUid={loggedInUserUid}
+                    post_id={post_id}
+                  />
+                </div>
+                {/* </div> */}
               </ModalBody>
             </>
           )}
