@@ -91,6 +91,13 @@ const Bookmark = ({
                   className="size-[22px] mr-[6px]"
                 />
               )}
+              {mode === "individualAction" && (
+                <Image
+                  src={bookmarkFill}
+                  alt="북마크"
+                  className="size-[16px] mr-[6px]"
+                />
+              )}
             </button>
             <span>{filterBookmark?.filterBookmark?.length ?? 0}</span>
           </div>
@@ -104,6 +111,13 @@ const Bookmark = ({
                 src={bookmarkEmpty}
                 alt="북마크"
                 className="size-[22px] mr-[6px]"
+              />
+            )}
+            {mode === "individualAction" && (
+              <Image
+                src={bookmarkEmpty}
+                alt="북마크"
+                className="size-[16px] mr-[6px]"
               />
             )}
             {/* <CiStar className="text-[19px]" /> */}

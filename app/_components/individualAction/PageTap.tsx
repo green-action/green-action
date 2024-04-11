@@ -85,7 +85,7 @@ const PageTap = () => {
             onClick={handleActiveTabClick}
             className={`flex justify-center items-center cursor-pointer  rounded-2xl w-[130px] h-[34px] text-[12px] ${
               activeTab === "모든 캠페인"
-                ? "bg-gray-200 transition duration-300 ease-in-out  text-[12px]"
+                ? "bg-[#F1F1F1] transition duration-300 ease-in-out  text-[12px]"
                 : ""
             }`}
           >
@@ -95,7 +95,7 @@ const PageTap = () => {
             onClick={handleActiveTabClick}
             className={`flex justify-center items-center cursor-pointer  rounded-2xl w-[130px] h-[34px]  text-[12px] ${
               activeTab === "모집중인 캠페인"
-                ? "bg-gray-200 transition duration-300 ease-in-out  text-[12px]"
+                ? "bg-[#F1F1F1] transition duration-300 ease-in-out  text-[12px]"
                 : ""
             }`}
           >
@@ -105,7 +105,7 @@ const PageTap = () => {
             onClick={handleActiveTabClick}
             className={`flex justify-center items-center cursor-pointer  rounded-2xl w-[130px] h-[34px]  text-[12px] ${
               activeTab === "마감된 캠페인"
-                ? "bg-gray-200 transition duration-300 ease-in-out  text-[12px]"
+                ? "bg-[#F1F1F1] transition duration-300 ease-in-out  text-[12px]"
                 : ""
             }`}
           >

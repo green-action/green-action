@@ -65,6 +65,13 @@ const Login = () => {
     });
   };
 
+  const handleGoogleSingIn = async () => {
+    signIn("google", {
+      redirect: false,
+      callbackUrl: "/",
+    });
+  };
+
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
@@ -142,6 +149,7 @@ const Login = () => {
               <Image
                 src={googleimg}
                 alt="구글로그인"
+                onClick={handleGoogleSingIn}
                 className="cursor-pointer w-[20px] h-[20px] "
               />
             </div>
