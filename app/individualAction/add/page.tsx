@@ -74,7 +74,7 @@ const AddActionPage = () => {
   };
 
   return (
-    <div className="w-[1920px] mx-auto">
+    <div className="w-[100%] mx-auto">
       {/* 전체 Wrapper */}
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col w-[809px] h-[826px] border-1.5 border-gray-300 rounded-3xl mx-auto mb-12 mt-8">

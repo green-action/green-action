@@ -25,6 +25,7 @@ const SignUp = () => {
   const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [modalPlacement, setModalPlacement] = React.useState("auto");
 
   const validatePasswords = () => password !== confirmPassword;
 
@@ -33,6 +34,8 @@ const SignUp = () => {
     /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/.test(value);
   const validateEmail = (value: string) =>
     /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value);
+
+  // 이메일 중복확인해보기@@
 
   // 회원가입 버튼
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -74,8 +77,13 @@ const SignUp = () => {
 
   return (
     <div className="w-screen h-screen flex justify-around items-center bg-cover bg-main-img  bg-blend-darken bg-black bg-opacity-10">
-      <div className="flex flex-col items-center justify-center ">
-        <Image className="w-[126px] h-[29px]" src={logoImg} alt="logo" />
+      <div className="flex flex-col items-center justify-center">
+        <Image
+          className="w-[126px] h-[29px] cursor-pointer"
+          src={logoImg}
+          alt="logo"
+          onClick={() => router.push("/")}
+        />
       </div>
       <Card className="w-[578px] xh-full flex flex-col items-center justify-center bg-white rounded-3xl">
         <CardBody className="flex flex-col items-center px-8 py-8 h-full gap-5 mt-[60px]">
@@ -91,10 +99,10 @@ const SignUp = () => {
               variant="bordered"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mb-8 w-[427px] h-[60px]"
+              className="mb-9 w-[427px] h-[60px] relative"
             />
             {email !== "" && !validateEmail(email) && (
-              <p className="text-red-500 text-xs flex justify-start">
+              <p className="text-red-500 text-xs absolute top-[160px] left-[80px]">
                 잘못된 이메일형식 입니다
               </p>
             )}
@@ -104,7 +112,7 @@ const SignUp = () => {
               variant="bordered"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mb-8 w-[427px] h-[60px] "
+              className="mb-9 w-[427px] h-[60px] relative"
               endContent={
                 <>
                   <div className="flex items-center">
@@ -124,7 +132,7 @@ const SignUp = () => {
               }
             />
             {password !== "" && !validatePassword(password) && (
-              <p className="text-red-500 text-xs">
+              <p className="text-red-500 text-xs absolute top-[255px] left-[80px]">
                 비밀번호는 영문자, 숫자, 특수문자(@$!%*?&)를 포함하여 6자
                 이상이어야 합니다.
               </p>
@@ -135,7 +143,7 @@ const SignUp = () => {
               value={confirmPassword}
               variant="bordered"
               onChange={(e) => SetConfirmPassword(e.target.value)}
-              className="mb-8 w-[427px] h-[60px]"
+              className="mb-9 w-[427px] h-[60px] relative"
               endContent={
                 <>
                   <div className="flex items-center">
@@ -158,16 +166,16 @@ const SignUp = () => {
             {validatePasswords() &&
               password !== "" &&
               confirmPassword !== "" && (
-                <div className="text-red-500 text-xs">
+                <p className="text-red-500 text-xs absolute top-[350px] left-[80px]">
                   비밀번호가 일치하지 않습니다.
-                </div>
+                </p>
               )}
             {!validatePasswords() &&
               password !== "" &&
               confirmPassword !== "" && (
-                <div className="text-green-500 text-xs">
+                <p className="text-green-500 text-xs absolute top-[350px] left-[80px]">
                   비밀번호가 일치합니다.
-                </div>
+                </p>
               )}
             <Input
               type="text"
@@ -175,11 +183,11 @@ const SignUp = () => {
               variant="bordered"
               value={nickname}
               onChange={(e) => SetNickname(e.target.value)}
-              className="mb-8 w-[427px] h-[60px]"
+              className="mb-9 w-[427px] h-[60px] relative"
               maxLength={10}
             />
             {nickname && (nickname.length < 2 || nickname.length > 10) && (
-              <p className="text-red-500 text-xs">
+              <p className="text-red-500 text-xs absolute top-[448px] left-[80px]">
                 닉네임은 최소 2글자 이상, 최대 10글자 이하이어야 합니다.
               </p>
             )}
@@ -205,6 +213,7 @@ const SignUp = () => {
         isDismissable={false}
         isKeyboardDismissDisabled={true}
         hideCloseButton={true}
+        placement="center"
       >
         <ModalContent>
           {() => (
