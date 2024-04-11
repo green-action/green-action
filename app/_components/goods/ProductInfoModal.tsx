@@ -14,6 +14,8 @@ import { QUERY_KEY_USER_POINT } from "@/app/_api/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUserPoint } from "@/app/_hooks/useQueries/goods";
 import { useSession } from "next-auth/react";
+import search from "/app/_assets/image/logo_icon/icon/goods/Group 128.png";
+import Image from "next/image";
 
 const ProductInfoModal = ({
   item,
@@ -88,8 +90,14 @@ const ProductInfoModal = ({
 
   return (
     <>
-      <LiaSearchSolid
+      {/* <LiaSearchSolid
         className="w-7 h-7 cursor-pointer border-1 rounded-full p-1 m-auto bg-gray-200 border-none"
+        onClick={onOpen}
+      /> */}
+      <Image
+        src={search}
+        alt="제품상세정보"
+        className="size-[33px] cursor-pointer"
         onClick={onOpen}
       />
 
