@@ -25,6 +25,7 @@ import { usePathname, useRouter } from "next/navigation";
 import logoImg from "/app/_assets/image/logo_icon/logo/white.png";
 import Image from "next/image";
 
+// 메인, 어바웃 페이지에서 import해 쓰일 헤더 컴포넌트 (to 배경이미지와 함께 적용)
 const DynamicHeader = () => {
   const router = useRouter();
   const pathname = usePathname();
@@ -88,7 +89,7 @@ const DynamicHeader = () => {
   return (
     <Navbar
       isBlurred={false} // TODO 스크롤내리면 isBlurred 처리
-      className="min-w-[1920px] flex h-[10rem] items-center justify-center pt-[90px] text-[13pt] bg-transparent"
+      className="min-w-[1920px] flex h-[10rem] items-center justify-center pt-[90px] text-[13pt] bg-transparent "
       // gap 등으로 조정 안돼서 margin 하드코딩으로 위치 조정
     >
       <Image
@@ -97,24 +98,26 @@ const DynamicHeader = () => {
         className="w-[94px] h-[21.63px] ml-[-400px] mr-[430px] cursor-pointer"
         onClick={handleLogoLinkClick}
       />
-      {/* </Link> */}
-      <NavbarContent>
+      <NavbarContent className="text-white">
         <div className="flex flex-col items-center">
           <Tabs
             selectedKey={parentSelected} // 선택된 부모 탭의 키
-            size="lg"
+            // size="lg"
             radius="full"
             aria-label="NavBar-Tab-Options"
             variant="light"
-            className="flex justify-center rounded-full bg-white/30 font-bold  text-white"
-            // 글자 색깔 속성 안먹힘 -> 해결하기 / 폰트 사이즈 조절 안됨 - size로
+            className="flex rounded-full bg-white/30 font-bold" // + 볼드체
+            classNames={{
+              tabList: "flex gap-[10px] h-[42px] ", // w-[511px] h-[39px]인데 자체변경?
+              tabContent: "text-[#454545] text-[13pt]",
+            }}
           >
             <Tab
               key="/about"
               title="About"
               as={Link}
               href="/about"
-              className="w-[10rem] text-black"
+              className="w-[10rem] text-white"
             />
             <Tab
               as={Link}
@@ -157,7 +160,7 @@ const DynamicHeader = () => {
               {/* 폰트크기 넓이 안맞음 */}
               <Navbar
                 isBlurred={false}
-                className="flex gap-[23px] mt-3 px-0 py-0 items-center justify-center w-[345px] h-[45px] rounded-full bg-[#E8E8E8]/30  "
+                className="flex gap-[23px] mt-3 px-0 py-0 items-center justify-center w-[345px] h-[42px] rounded-full bg-[#E8E8E8]/30  "
               >
                 <Link
                   href={"/individualAction"}
@@ -190,8 +193,12 @@ const DynamicHeader = () => {
             >
               <DropdownTrigger>
                 <div className="flex">
-                  {/* ml 360px / border-[#DDDDDD] - 자체변경 */}
-                  <Chip className="h-[43px] w-[249px] ml-[280px] mr-[0px] bg-[#F1F1F1]/50 border-small border-[#404040]/40">
+                  {/* ml 360px  ml-[280px] mr-[0px] / border-[#DDDDDD] - 자체변경 */}
+                  <Chip
+                    className={`h-[42px] w-[249px] bg-[#F1F1F1]/50 border-small border-[#404040]/40 ${
+                      display_name?.length >= 5 ? `ml-[210px]` : `ml-[280px] `
+                    } `}
+                  >
                     <div className="flex gap-[15px] items-center justify-between text-[13pt] text-[#404040]">
                       {display_name} Greener님 ! 환영합니다
                       <Avatar
