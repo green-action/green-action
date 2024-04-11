@@ -71,7 +71,7 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
     <div>
       <div
         ref={freezeLayerRef}
-        className="w-full h-full fixed top-0 left-0 bg-black/30 z-[1] hidden"
+        className="w-full h-full top-0 left-0 bg-black/30 z-[1] hidden absolute"
       ></div>
 
       {/* mode가 myBookmarks(마이페이지 찜한 action) 인 경우에 버튼 대신 북마크아이콘 */}
@@ -93,24 +93,21 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
 
       <div
         ref={dialogContRef}
-        className="fixed top-[-50%] left-1/2 translate-x-[-50%] translate-y-[-50%] p-[10px] w-[30%] rounded-xl transition-all z-[2] opacity-0"
+        className="absolute top-[-50%] left-1/2 translate-x-[-50%] translate-y-[-50%] p-[10px] w-full transition-all z-[2] opacity-0"
       >
-        <div className="p-[10px] py-[20px] font-bold bg-[#575757] text-[#f6f7f8]"></div>
-        <div className="p-[10px] py-[30px] leading-7 bg-white text-center">
+        <div className="p-[10px] py-[50px] leading-7 bg-[#f5f5f2] text-center rounded-xl mb-[-20px]">
           {text}
         </div>
-        <div className="text-center bg-[#f5f5f2] flex flex-row gap-3 justify-center py-5">
+        <div className="text-center bg-[#f5f5f2] flex flex-row gap-3 justify-center py-5 rounded-xl">
           <Button
-            color="primary"
             onClick={customConfirm.okay}
-            className="inline-block w-[100px] py-[5px]  cursor-pointer"
+            className="inline-block w-[100px] py-[5px]  cursor-pointer border border-[#999] bg-white hover:bg-[#f1f1f1]"
           >
             네
           </Button>
           <Button
-            color="danger"
             onClick={customConfirm.close}
-            className="inline-block w-[100px] py-[5px]  cursor-pointer"
+            className="inline-block w-[100px] py-[5px]  cursor-pointer border border-[#999] bg-white hover:bg-[#f1f1f1]"
           >
             아니오
           </Button>
