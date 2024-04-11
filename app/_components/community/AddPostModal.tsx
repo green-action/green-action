@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 
 import { uploadFileAndGetUrl } from "@/app/_api/community/community-api";
 import { useInsertCommunityPostFormData } from "@/app/_hooks/useMutations/community";
@@ -30,14 +30,11 @@ import CustomConfirm from "../customConfirm/CustomConfirm";
 const AddPostModal = () => {
   const [uploadedFileUrl, setUploadedFileUrl] = useState<string>("");
   const [file, setFile] = useState<File | undefined | null>(null);
-  const [isButton, setIsButton] = useState(true); // true가 비활성화 false가 활성화
 
   const router = useRouter();
 
-  const ModalRef = useRef(null);
-
   // 게시글 글쓰기 모달창 open여부 상태관리
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
   // 현재 로그인한 유저 uid
   const session = useSession();
@@ -83,19 +80,15 @@ const AddPostModal = () => {
       if (isConfirmed) {
         if (!file) {
           alert("사진은 필수값입니다.");
-          setIsButton(true);
           return;
         } else if (
           !formData.get("activityTitle") ||
-          !formData.get("activityDescription")
+          !formData.get("activityDescription") ||
+          !formData.get("action_type")
         ) {
           alert("입력하신 내용이 없습니다.");
-          setIsButton(true);
           return;
-        } else {
-          setIsButton(false);
         }
-
         // 이미지 스토리지 업로드 후 url 반환받기
         const imgUrl = await uploadFileAndGetUrl(file);
 
@@ -116,6 +109,7 @@ const AddPostModal = () => {
         setSelectedKeys(new Set(["Green-action 선택하기"]));
         const target = event.target as HTMLFormElement;
         target.reset();
+        onClose();
       }
     } catch (error) {
       console.error("Error inserting data:", error);
@@ -132,12 +126,7 @@ const AddPostModal = () => {
         <LuPencilLine className="w-8 h-8" />
       </Button>
       {/* 게시글 글쓰기 모달창 */}
-      <Modal
-        ref={ModalRef}
-        size="lg"
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-      >
+      <Modal size="lg" isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent className="h-[740px] relative">
           {(onClose) => (
             <>
@@ -239,8 +228,6 @@ const AddPostModal = () => {
                 </Button> */}
                   <Button
                     type="submit"
-                    isDisabled={isButton}
-                    onPress={onClose}
                     className="text-gray-500 rounded-full !w-[140px] h-[33px] border border-gray-400 bg-[#EFEFEF]"
                   >
                     작성완료
