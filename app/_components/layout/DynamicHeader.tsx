@@ -88,7 +88,7 @@ const DynamicHeader = () => {
   return (
     <Navbar
       isBlurred={false} // TODO 스크롤내리면 isBlurred 처리
-      className="min-w-[1920px] flex h-[10rem] items-center justify-center pt-[90px] text-[13pt] bg-transparent"
+      className="min-w-[1920px] flex h-[10rem] items-center justify-center pt-[90px] text-[13pt] bg-transparent "
       // gap 등으로 조정 안돼서 margin 하드코딩으로 위치 조정
     >
       <Image
@@ -97,24 +97,26 @@ const DynamicHeader = () => {
         className="w-[94px] h-[21.63px] ml-[-400px] mr-[430px] cursor-pointer"
         onClick={handleLogoLinkClick}
       />
-      {/* </Link> */}
-      <NavbarContent>
+      <NavbarContent className="text-white">
         <div className="flex flex-col items-center">
           <Tabs
             selectedKey={parentSelected} // 선택된 부모 탭의 키
-            size="lg"
+            // size="lg"
             radius="full"
             aria-label="NavBar-Tab-Options"
             variant="light"
-            className="flex justify-center rounded-full bg-white/30 font-bold  text-white"
-            // 글자 색깔 속성 안먹힘 -> 해결하기 / 폰트 사이즈 조절 안됨 - size로
+            className="flex rounded-full bg-white/30 font-bold" // + 볼드체
+            classNames={{
+              tabList: "flex gap-[100px] h-[42px] ", // w-[511px] h-[39px]인데 자체변경?
+              tabContent: "text-[#454545] text-[13pt]",
+            }}
           >
             <Tab
               key="/about"
               title="About"
               as={Link}
               href="/about"
-              className="w-[10rem] text-black"
+              className="w-[10rem] text-white"
             />
             <Tab
               as={Link}

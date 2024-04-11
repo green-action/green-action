@@ -114,7 +114,6 @@ function Header() {
               className="w-[94px] h-[21.63px] ml-[-400px] mr-[430px] cursor-pointer"
               onClick={handleLogoLinkClick}
             />
-            {/* </Link> */}
             <NavbarContent>
               <div className="flex flex-col items-center">
                 <Tabs
