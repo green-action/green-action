@@ -58,7 +58,7 @@ const CommunityListPost = ({
         <Card
           isFooterBlurred
           radius="lg"
-          className="border-none w-[410px] h-[295px] mb-3 rounded-2xl"
+          className="shadow-none border-none w-[410px] h-[295px] mb-3 rounded-2xl"
         >
           <div className="relative w-full h-[295px] overflow-hidden">
             <img

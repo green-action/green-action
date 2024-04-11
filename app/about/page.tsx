@@ -1,12 +1,13 @@
 import React from "react";
 
 import Image from "next/image";
+import Link from "next/link";
 
 import titleImg from "../../app/_assets/image/about/1.png";
 import textBg1 from "../../app/_assets/image/about/2.png";
 import textBg2 from "../../app/_assets/image/about/3.png";
 import mainImg from "../../app/_assets/image/about/main.png";
-import Link from "next/link";
+
 import DynamicHeader from "../_components/layout/DynamicHeader";
 
 const AboutTest = () => {
@@ -32,7 +33,77 @@ const AboutTest = () => {
         </div>
         <div className="mt-[700px] flex flex-col items-center">
           {/* second part - 설명글 */}
-          <div className="mx-auto w-[75%] mb-[420px]">
+
+          {/* text-with-background 예시 */}
+          {/* 문제 : 이미지 어둡게 처리했을 시 글씨도 같이 어두워짐 */}
+          {/* <div className="flex items-center justify-center mx-auto w-[75%]">
+            <div className="text-with-background bg-text-bg-1 bg-cover bg-center w-[400px] text-center text-3xl rounded-full py-2">
+              <p className="text-white">일상의 행복은 어디에나</p>
+            </div>
+            <div>
+              <p className="text-3xl">
+                있습니다 일상의 행복은 어디에나일상의 행복은
+              </p>
+            </div>
+          </div> */}
+
+          {/* p태그로 줄바꿈, 가운데정렬 가능 예시 */}
+          {/* <div className="w-[75%] flex text-center">
+            <p className="text-wrap text-4xl inline-block">
+              우와 어쩌고저꺼고우와 어쩌고저꺼고우와 어쩌고저꺼고우와
+              어쩌고저꺼고우와 어쩌고저꺼고우와
+              <p className="inline-block text-with-background bg-text-bg-1 bg-cover bg-center rounded-full w-[600px] h-[50px]">
+                일상의 행복
+              </p>
+              <p className="inline-block">어쩌고저꺼고우와 어쩌고저꺼고</p>
+            </p>
+          </div> */}
+
+          {/* text background로 수정후 */}
+          <div className="w-[75%] flex flex-col justify-center text-center text-[36px] mb-[420px] font-bold">
+            {/* 첫 줄 */}
+            <div>
+              <p className="inline-block text-with-background bg-text-bg-1 bg-cover bg-center rounded-full text-white pt-1 mr-2 w-[444px] h-[60px] ">
+                '일상에서 쉽게 실천할 수 있는
+              </p>
+              <p className="inline-block">
+                환경 캠페인'은 지구를 지키는 우리의 작은 노력으로부터
+                출발합니다.
+              </p>
+            </div>
+            {/* 두번째 줄 */}
+            <div>
+              <p className="inline-block">당신의 일상에서 환경을 지키는</p>
+              <p className="inline-block text-with-background bg-text-bg-2 bg-cover bg-center rounded-full text-white pt-1 mr-2 w-[444px] h-[60px]">
+                작은 습관들이 모여 큰 변화를
+              </p>
+              <p className="inline-block">이끌어낼 수 있습니다.</p>
+              {/* 3~4번째 줄 */}
+              <p className="inline-block">
+                우리의 목표는 모든 사람이 쉽게 실천할 수 있는 환경 보호 방법을
+                제시하고, 그것들을 실제 행동으로
+                <br /> 이어지게 하는 것입니다. 이제 당신의 일상을 환경 보호의
+                일부로 만들어보세요.
+              </p>
+            </div>
+            {/* 마지막 2문장 */}
+            <div>
+              <p className="inline-block">지금 바로</p>
+              <p className="inline-block text-with-background bg-text-bg-3 bg-cover bg-center rounded-full text-white pt-1 mx-2 w-[370px] h-[60px]">
+                '지구가 숨쉬다. SOOM'
+              </p>
+              <p className="inline-block">
+                에 참여하여 우리의 지구를 함께 지켜 나가는 데 기여하세요.
+              </p>
+              <p className="inline-block">
+                당신의 작은 노력이 큰 변화를 만들어낼 수 있습니다. 함께해요!
+              </p>
+            </div>
+          </div>
+
+          {/* 기존 */}
+          {/* 문제 : 가운제정렬을 하면 (justify-center) 화면 % 줄일시 absolute 안의 글자가 이미지 밖으로 삐져나감 */}
+          {/* <div className="mx-auto w-[75%] mb-[420px]">
             <div className="text-[36px]">
               <div className="flex items-center relative">
                 <Image
@@ -84,7 +155,7 @@ const AboutTest = () => {
                 작은 노력이 큰 변화를 만들어낼 수 있습니다. 함께해요!
               </span>
             </div>
-          </div>
+          </div> */}
           {/* third part - 카드 4장 */}
           <div className="flex flex-col w-[80%] h-[1344px] mx-auto items-center mb-[730px]">
             <div>

@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import React, { useRef, useState } from "react";
 
 import { uploadFileAndGetUrl } from "@/app/_api/community/community-api";
 import { useInsertCommunityPostFormData } from "@/app/_hooks/useMutations/community";
@@ -32,8 +32,10 @@ const AddPostModal = () => {
 
   const router = useRouter();
 
+  const ModalRef = useRef(null);
+
   // 게시글 글쓰기 모달창 open여부 상태관리
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
   // 현재 로그인한 유저 uid
   const session = useSession();
@@ -70,13 +72,13 @@ const AddPostModal = () => {
 
     const formData = new FormData(event.target as HTMLFormElement);
 
-    // if (
-    //   !formData.get("activityTitle") ||
-    //   !formData.get("activityDescription")
-    // ) {
-    //   alert("입력하신 내용이 없습니다.");
-    //   return;
-    // }
+    if (
+      !formData.get("activityTitle") ||
+      !formData.get("activityDescription")
+    ) {
+      alert("입력하신 내용이 없습니다.");
+      return;
+    }
 
     // 드롭다운에서 선택한 값을 formData에 추가
     formData.append("action_type", Array.from(selectedKeys).join(", "));
@@ -116,6 +118,25 @@ const AddPostModal = () => {
     }
   };
 
+  const handleClick = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target as HTMLFormElement);
+
+    if (
+      !formData.get("activityTitle") ||
+      !formData.get("activityDescription")
+    ) {
+      alert("입력하신 내용이 없습니다.");
+      return;
+    } else if (!file) {
+      alert("사진은 필수값입니다.");
+      return;
+    } else {
+      return onClose();
+    }
+  };
+
   return (
     <>
       {/* 글쓰기 버튼 */}
@@ -126,7 +147,12 @@ const AddPostModal = () => {
         <LuPencilLine className="w-8 h-8" />
       </Button>
       {/* 게시글 글쓰기 모달창 */}
-      <Modal size="lg" isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal
+        ref={ModalRef}
+        size="lg"
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+      >
         <ModalContent className="h-[740px]">
           {(onClose) => (
             <form onSubmit={handleSubmit}>
@@ -222,7 +248,7 @@ const AddPostModal = () => {
                 </Button> */}
                 <Button
                   type="submit"
-                  onPress={onClose}
+                  onPress={() => handleClick}
                   className="text-gray-500 rounded-full !w-[140px] h-[33px] border border-gray-400 bg-[#EFEFEF]"
                 >
                   작성완료
