@@ -72,7 +72,12 @@ const Login = () => {
   return (
     <div className=" w-screen h-screen flex justify-around items-center bg-cover bg-main-img  bg-blend-darken bg-black bg-opacity-10">
       <div className="flex flex-col items-center justify-center">
-        <Image className="w-[126px] h-[29px]" src={logoImg} alt="logo" />
+        <Image
+          className="w-[126px] h-[29px] cursor-pointer"
+          src={logoImg}
+          alt="logo"
+          onClick={() => router.push("/")}
+        />
       </div>
       <Card className="w-[578px] h-[655px] flex flex-col items-center justify-center bg-white rounded-3xl">
         <CardBody className="flex flex-col items-center px-8 py-8 h-full gap-5 mt-[70px]">
