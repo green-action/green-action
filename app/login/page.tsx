@@ -23,6 +23,7 @@ const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [modalPlacement, setModalPlacement] = React.useState("auto");
 
   const handleSingIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -65,14 +66,28 @@ const Login = () => {
     });
   };
 
+  const handleGoogleSingIn = async () => {
+    signIn("google", {
+      redirect: false,
+      callbackUrl: "/",
+    });
+  };
+
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
 
+  // 비밀번호찾기 해보기 @@
+
   return (
     <div className=" w-screen h-screen flex justify-around items-center bg-cover bg-main-img  bg-blend-darken bg-black bg-opacity-10">
       <div className="flex flex-col items-center justify-center">
-        <Image className="w-[126px] h-[29px]" src={logoImg} alt="logo" />
+        <Image
+          className="w-[126px] h-[29px] cursor-pointer"
+          src={logoImg}
+          alt="logo"
+          onClick={() => router.push("/")}
+        />
       </div>
       <Card className="w-[578px] h-[655px] flex flex-col items-center justify-center bg-white rounded-3xl">
         <CardBody className="flex flex-col items-center px-8 py-8 h-full gap-5 mt-[70px]">
@@ -137,6 +152,7 @@ const Login = () => {
               <Image
                 src={googleimg}
                 alt="구글로그인"
+                onClick={handleGoogleSingIn}
                 className="cursor-pointer w-[20px] h-[20px] "
               />
             </div>
@@ -153,6 +169,7 @@ const Login = () => {
         isDismissable={false}
         isKeyboardDismissDisabled={true}
         hideCloseButton={true}
+        placement="center"
       >
         <ModalContent>
           {() => (

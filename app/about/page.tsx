@@ -1,12 +1,13 @@
 import React from "react";
 
 import Image from "next/image";
+import Link from "next/link";
 
 import titleImg from "../../app/_assets/image/about/1.png";
-import textBg1 from "../../app/_assets/image/about/2.png";
-import textBg2 from "../../app/_assets/image/about/3.png";
+import cardBg1 from "../../app/_assets/image/about/2.png";
+import cardBg2 from "../../app/_assets/image/about/3.png";
 import mainImg from "../../app/_assets/image/about/main.png";
-import Link from "next/link";
+
 import DynamicHeader from "../_components/layout/DynamicHeader";
 
 const AboutTest = () => {
@@ -24,7 +25,6 @@ const AboutTest = () => {
             alt="about title image"
             className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[95%] h-[1090px] object-cover mx-auto mb-[282px] rounded-b-[60px] brightness-[.4]"
           />
-          {/* <div className="absolute z-0 bottom-[60px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-white text-[64px] font-thin"> */}
           <div className=" z-0 mt-[500px] flex flex-col items-center text-white text-[64px] font-thin">
             <p className="font-['Italiana']">Experience the earth breathing</p>
             <p className="font-['Italiana']">together in your daily life</p>
@@ -32,57 +32,44 @@ const AboutTest = () => {
         </div>
         <div className="mt-[700px] flex flex-col items-center">
           {/* second part - 설명글 */}
-          <div className="mx-auto w-[75%] mb-[420px]">
-            <div className="text-[36px]">
-              <div className="flex items-center relative">
-                <Image
-                  src={textBg1}
-                  alt="text-bg-1"
-                  className="w-[444px] h-[60px] object-cover rounded-full"
-                />
-                <span className="absolute text-white left-4">
-                  '일상에서 쉽게 실천할 수 있는
-                </span>
-                <span>
-                  환경 캠페인'은 지구를 지키는 우리의 작은 노력으로부터
-                  출발합니다.
-                </span>
-              </div>
-              <div className="flex flex-wrap items-center">
-                <span>당신의 일상에서 환경을 지키는 </span>
-                <div className="flex items-center relative h-[60px]">
-                  <Image
-                    src={textBg2}
-                    alt="text-bg-1"
-                    className="w-[444px] h-[60px] object-cover rounded-full"
-                  />
-                  <span className="absolute text-white left-4">
-                    작은 습관들이 모여 큰 변화를
-                  </span>
-                </div>
-                <span className="text-wrap">
-                  이끌어낼 수 있습니다. 이제 우리의 캠페인에 참여하여 당신도
-                  환경보호의 일원이 되어보세요. 우리의 목표는 모든 사람이 쉽게
-                  실천할 수 있는 환경 보호 방법을 제시하고, 그것들을 실제
-                  행동으로 이어지게 하는 것입니다. 이제 당신의 일상을 환경
-                  보호의 일부로 만들어보세요. 지금 바로
-                </span>
-              </div>
-
-              <div className="flex items-center relative h-[60px]">
-                <Image
-                  src={mainImg}
-                  alt="text-bg-1"
-                  className="w-[370px] h-[60px] object-cover rounded-full"
-                />
-                <span className="absolute text-white left-4">
-                  '지구가 숨쉬다. SOOM'
-                </span>
-              </div>
-              <span>
-                에 참여하여 우리의 지구를 함께 지켜 나가는 데 기여하세요. 당신의
-                작은 노력이 큰 변화를 만들어낼 수 있습니다. 함께해요!
-              </span>
+          <div className="w-[75%] flex flex-col justify-center text-center text-[36px] mb-[420px] font-bold">
+            {/* 첫 줄 */}
+            <div>
+              <p className="inline-block text-with-background bg-text-bg-1 bg-cover bg-center rounded-full text-white pt-1 mr-2 w-[444px] h-[60px] ">
+                '일상에서 쉽게 실천할 수 있는
+              </p>
+              <p className="inline-block">
+                환경 캠페인'은 지구를 지키는 우리의 작은 노력으로부터
+                출발합니다.
+              </p>
+            </div>
+            {/* 두번째 줄 */}
+            <div>
+              <p className="inline-block">당신의 일상에서 환경을 지키는</p>
+              <p className="inline-block text-with-background bg-text-bg-2 bg-cover bg-center rounded-full text-white pt-1 mr-2 w-[444px] h-[60px]">
+                작은 습관들이 모여 큰 변화를
+              </p>
+              <p className="inline-block">이끌어낼 수 있습니다.</p>
+              {/* 3~4번째 줄 */}
+              <p className="inline-block">
+                우리의 목표는 모든 사람이 쉽게 실천할 수 있는 환경 보호 방법을
+                제시하고, 그것들을 실제 행동으로
+                <br /> 이어지게 하는 것입니다. 이제 당신의 일상을 환경 보호의
+                일부로 만들어보세요.
+              </p>
+            </div>
+            {/* 마지막 2문장 */}
+            <div>
+              <p className="inline-block">지금 바로</p>
+              <p className="inline-block text-with-background bg-text-bg-3 bg-cover bg-center rounded-full text-white pt-1 mx-2 w-[370px] h-[60px]">
+                '지구가 숨쉬다. SOOM'
+              </p>
+              <p className="inline-block">
+                에 참여하여 우리의 지구를 함께 지켜 나가는 데 기여하세요.
+              </p>
+              <p className="inline-block">
+                당신의 작은 노력이 큰 변화를 만들어낼 수 있습니다. 함께해요!
+              </p>
             </div>
           </div>
           {/* third part - 카드 4장 */}
@@ -103,7 +90,7 @@ const AboutTest = () => {
                 {/* 카드 2 */}
                 <div className="w-[450px] h-[590px] rounded-[30px] mt-[140px] mb-[30px] relative">
                   <Image
-                    src={textBg1}
+                    src={cardBg1}
                     alt="card1"
                     className="w-full h-full object-cover rounded-[40px] brightness-[.8]"
                   />
@@ -124,7 +111,7 @@ const AboutTest = () => {
                 {/* 카드 3 */}
                 <div className="bg-white w-[450px] h-[590px] rounded-[40px] ml-[360px] mr-[40px] relative">
                   <Image
-                    src={textBg2}
+                    src={cardBg2}
                     alt="card1"
                     className="w-full h-full object-cover rounded-[40px] brightness-[.8]"
                   />
