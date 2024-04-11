@@ -17,15 +17,18 @@ const MainSlider = ({ mode }: { mode: string }) => {
   // FIXME 메인페이지 mode action 인 경우 모집중인 것만 뜨게할지?
 
   var settings = {
+    autoplay: true,
+    autoplaySpeed: 3000,
+    // fade: true,
     dots: true,
     infinite: true,
-    arrows: true,
-    speed: 500,
+    arrows: false,
+    speed: 2000,
     slidesToShow: 4,
     slidesToScroll: 4,
     adaptiveHeight: true,
-    nextArrow: <IoIosArrowDropright color="#A1BA9D" />,
-    prevArrow: <IoIosArrowDropleft color="#A1BA9D" />,
+    // nextArrow: <IoIosArrowDropright color="#A1BA9D" />,
+    // prevArrow: <IoIosArrowDropleft color="#A1BA9D" />,
   };
 
   const { data: communityPostsLikes, isLoading: isPostsLoading } =
@@ -57,7 +60,7 @@ const MainSlider = ({ mode }: { mode: string }) => {
       {...settings}
       className={`${
         mode === "community" ? "h-[350px]" : "h-[450px]"
-      }  w-[1410px]  flex items-center  justify-center px-2 `}
+      }  w-[1750px] flex items-center  justify-center`}
     >
       {/* <div className="w-300"> */}
       {mode === "community"

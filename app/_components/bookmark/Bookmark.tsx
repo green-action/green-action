@@ -91,6 +91,14 @@ const Bookmark = ({
                   className="size-[22px] mr-[6px]"
                 />
               )}
+
+              {mode === "myPosts" && (
+                <Image
+                  src={bookmarkFill}
+                  alt="북마크"
+                  className="size-[14px] mr-[6px] mb-[2px]"
+                />
+              )}
               {mode === "individualAction" && (
                 <Image
                   src={bookmarkFill}
@@ -111,13 +119,6 @@ const Bookmark = ({
                 src={bookmarkEmpty}
                 alt="북마크"
                 className="size-[22px] mr-[6px]"
-              />
-            )}
-            {mode === "individualAction" && (
-              <Image
-                src={bookmarkEmpty}
-                alt="북마크"
-                className="size-[16px] mr-[6px]"
               />
             )}
             {/* <CiStar className="text-[19px]" /> */}

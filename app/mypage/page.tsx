@@ -18,11 +18,9 @@ import CommunityListPost from "../_components/community/CommunityListPost";
 import { User } from "../_types";
 
 // 로그인 안 한 상태에서 접근 차단할 것 -
-// FIXME  모집상태별 분류 다시 안됨
 const MyPage = () => {
   // TODO props 타입등 재설정
   // FIXME 유저닉네임 수정 다시 봐야
-  // const user_uid = "2c81257f-e4d9-41d8-ad65-3745da3d3b2f";
   // const user_uid = "9da3ec56-3796-4f4f-aa99-06517955400b";
   // 임시 유저 아이디 설정
   const router = useRouter();
