@@ -119,7 +119,6 @@ function Header() {
               className="w-[94px] h-[21.63px] ml-[-400px] mr-[430px] cursor-pointer"
               onClick={handleLogoLinkClick}
             />
-            {/* </Link> */}
             <NavbarContent>
               <div className="flex flex-col items-center">
                 <Tabs
@@ -128,8 +127,11 @@ function Header() {
                   radius="full"
                   aria-label="NavBar-Tab-Options"
                   variant="light"
-                  className="flex justify-center rounded-full bg-[#E8E8E8]/30 font-bold  text-white"
-                  // 글자 색깔 속성 안먹힘 -> 해결하기 / 폰트 사이즈 조절 안됨 - size로
+                  className="flex rounded-full bg-white/30 font-bold"
+                  classNames={{
+                    tabList: "flex gap-[10px] h-[42px]", // w-[511px] h-[39px]인데 자체변경?
+                    tabContent: "text-[#454545] text-[13pt]",
+                  }}
                 >
                   <Tab
                     key="/about"
@@ -215,7 +217,13 @@ function Header() {
                     <DropdownTrigger>
                       <div className="flex">
                         {/* ml 360px / border-[#DDDDDD] - 자체변경 */}
-                        <Chip className="h-[43px] w-[249px] ml-[280px] mr-[0px] bg-[#F1F1F1]/50 border-small border-[#404040]/40">
+                        <Chip
+                          className={`h-[42px] w-[249px] bg-[#F1F1F1]/50 border-small border-[#404040]/40 ${
+                            display_name?.length >= 5
+                              ? `ml-[210px]`
+                              : `ml-[280px] `
+                          } `}
+                        >
                           <div className="flex gap-[15px] items-center justify-between text-[13pt] text-[#404040]">
                             {display_name} Greener님 ! 환영합니다
                             <Avatar
