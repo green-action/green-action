@@ -1,4 +1,8 @@
+import Bookmark from "../bookmark/Bookmark";
+import MyActionRecruitingModal from "./MyActionRecruitingModal";
+
 import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
+
 import {
   Button,
   Card,
@@ -9,13 +13,14 @@ import {
   DropdownTrigger,
   useDisclosure,
 } from "@nextui-org/react";
+
 import { useRouter } from "next/navigation";
 import { GoPerson } from "react-icons/go";
 import { GrLocation } from "react-icons/gr";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { IoIosCalendar } from "react-icons/io";
-import Bookmark from "../bookmark/Bookmark";
-import MyActionRecruitingModal from "./MyActionRecruitingModal";
+import person from "/app/_assets/image/logo_icon/icon/mypage/image 166.png";
+import Image from "next/image";
 
 // TODO MyAction 타입 사용 후 에러 해결하기
 const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
@@ -50,7 +55,6 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
   };
 
   const handleDeleteClick = () => {
-    // 커스텀 confirm 창 사용? - but 드롭/다운에 버튼넣어야 하는 문제
     if (window.confirm("정말 삭제하시겠습니까?")) {
       deleteAction();
     } else return;
@@ -81,23 +85,33 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
         </Card>
         <div className={`pl-2 ${mode === "myPosts" && "pt-5"}`}>
           <div className="flex w-[300px] gap-2">
-            <div className="flex gap-2 mb-4 min-w-[225px] ">
-              <p className=" max-w-[165px] font-bold overflow-hidden whitespace-nowrap overflow-ellipsis">
+            <div className="flex gap-2 mb-4 min-w-[225px] items-center">
+              <p className=" max-w-[165px] text-[15px] font-bold overflow-hidden whitespace-nowrap overflow-ellipsis">
                 {title}
               </p>
               {is_recruiting ? (
-                <Chip size="sm" color="success" className="text-white">
+                <Chip
+                  size="sm"
+                  className="text-white w-[41px] h-[16px] bg-[#B3C8A1] rounded-[5px] text-center text-[9pt]"
+                >
                   모집중
                 </Chip>
               ) : (
-                <Chip size="sm" className="text-white">
+                <Chip
+                  size="sm"
+                  className="text-white w-[50px] h-[16px] bg-[#5F5F5F] rounded-[5px] text-center text-[9pt]"
+                >
                   모집마감
                 </Chip>
               )}
             </div>
-            <div className="flex justify-end items-start pt-0 gap-2 text-sm">
-              <div className="flex gap-1">
-                <GoPerson size="15" className="mt-[1.5px]" />
+            <div className="flex justify-end items-start pt-0 gap-[15px] text-sm w-[100px] ">
+              <div className="flex">
+                <Image
+                  src={person}
+                  alt="person-icon"
+                  className="w-[22px] h-[20px]"
+                />
                 <p>{recruit_number}</p>
               </div>
               {/* LINK 북마크 컴포넌트 */}

@@ -96,7 +96,7 @@ const Bookmark = ({
                 <Image
                   src={bookmarkFill}
                   alt="북마크"
-                  className="size-[14px] mr-[6px] mb-[2px]"
+                  className="w-[15px] h-[14px] mt-[2px] mr-[11px] mb-[2px]"
                 />
               )}
             </button>
@@ -119,7 +119,7 @@ const Bookmark = ({
               <Image
                 src={bookmarkEmpty}
                 alt="북마크"
-                className="size-[14px] mr-[6px] mb-[2px]"
+                className="w-[15px] h-[14px] mr-[10px] mb-[1px]"
               />
             )}
             {/* <CiStar className="text-[19px]" /> */}

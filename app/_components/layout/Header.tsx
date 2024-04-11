@@ -218,7 +218,7 @@ function Header() {
                       <div className="flex">
                         {/* ml 360px / border-[#DDDDDD] - 자체변경 */}
                         <Chip
-                          className={`h-[42px] w-[249px] bg-[#F1F1F1]/50 border-small border-[#404040]/40 ${
+                          className={`h-[42px] w-[249px] bg-[#F1F1F1]/50 border-[2px] border-[#DDDDDD]/50 ${
                             display_name?.length >= 5
                               ? `ml-[210px]`
                               : `ml-[280px] `
