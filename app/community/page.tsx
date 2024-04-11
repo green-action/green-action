@@ -53,7 +53,7 @@ const CommunityListPage = () => {
   return (
     <div className="w-[1920px] mx-auto">
       {/* 전체 Wrapper */}
-      <div className="w-[1306px] h-[100vh] mx-auto">
+      <div className="w-[1306px] mx-auto mb-12">
         {/* 정렬 select */}
         <div className="flex justify-end mt-16 mb-4">
           <Select
