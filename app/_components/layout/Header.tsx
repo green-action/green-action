@@ -216,7 +216,13 @@ function Header() {
                     <DropdownTrigger>
                       <div className="flex">
                         {/* ml 360px / border-[#DDDDDD] - 자체변경 */}
-                        <Chip className="h-[43px] w-[249px] ml-[280px] mr-[0px] bg-[#F1F1F1]/50 border-small border-[#404040]/40">
+                        <Chip
+                          className={`h-[42px] w-[249px] bg-[#F1F1F1]/50 border-small border-[#404040]/40 ${
+                            display_name?.length >= 5
+                              ? `ml-[210px]`
+                              : `ml-[280px] `
+                          } `}
+                        >
                           <div className="flex gap-[15px] items-center justify-between text-[13pt] text-[#404040]">
                             {display_name} Greener님 ! 환영합니다
                             <Avatar
