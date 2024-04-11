@@ -104,8 +104,7 @@ function Header() {
       {pathname !== "/" &&
         pathname !== "/signup" &&
         pathname !== "/login" &&
-        pathname !== "/about" &&
-        pathname !== "/test" && (
+        pathname !== "/about" && (
           // <div>
           <Navbar
             // NavBar 바깥에 div 두면 스크롤고정 안됨
