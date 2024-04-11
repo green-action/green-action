@@ -1,37 +1,20 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 import { useGetCommunityList } from "../_hooks/useQueries/community";
 
 import AddPostModal from "../_components/community/AddPostModal";
 import CommunityListPost from "../_components/community/CommunityListPost";
 
-import {
-  Button,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  Selection,
-} from "@nextui-org/react";
+import { Select, SelectItem, Spinner } from "@nextui-org/react";
 
 const CommunityListPage = () => {
+  const [selectedValue, setSelectedValue] = useState("정렬");
   const { communityList, isLoading, isError } = useGetCommunityList();
 
-  // 정렬 드랍다운 상태
-  const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
-    new Set(["정렬"]),
-  );
-
-  // 드랍다운 선택값 추출 로직
-  const selectedValue = React.useMemo(
-    () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
-    [selectedKeys],
-  );
-
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Spinner />;
   }
   if (isError) {
     return <div>Error</div>;
@@ -57,37 +40,49 @@ const CommunityListPage = () => {
     (a, b) => b.likes_count - a.likes_count,
   );
 
+  // 정렬 select option 클릭핸들러
+  const handleCategorizeByRecruiting = async (
+    e: React.MouseEvent<HTMLLIElement, MouseEvent>,
+  ) => {
+    const clickedTarget = e.target as HTMLLIElement;
+    const clickedText = clickedTarget.textContent as string;
+    setSelectedValue(clickedText);
+  };
+
   return (
-    <>
+    <div className="w-[1920px] mx-auto">
       {/* 전체 Wrapper */}
-      <div className="w-[1000px] h-[100vh] mx-auto">
-        {/* 정렬 드롭다운 */}
-        <div className="flex justify-end mt-16 mb-4 mr-2">
-          <Dropdown>
-            <DropdownTrigger>
-              <Button
-                variant="bordered"
-                className="capitalize border-1 rounded-full h-7"
-              >
-                {selectedValue}
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu
-              aria-label="Single selection example"
-              variant="flat"
-              disallowEmptySelection
-              selectionMode="single"
-              selectedKeys={selectedKeys}
-              onSelectionChange={setSelectedKeys}
+      <div className="w-[1306px] h-[100vh] mx-auto">
+        {/* 정렬 select */}
+        <div className="flex justify-end mt-16 mb-4">
+          <Select
+            placeholder="정렬"
+            items={selectedValue}
+            labelPlacement="outside"
+            variant="bordered"
+            radius="full"
+            className="w-[10rem] mb-3"
+          >
+            <SelectItem
+              key="최신순(기본)"
+              textValue="최신순(기본)"
+              className="rounded-xl"
+              onClick={handleCategorizeByRecruiting}
             >
-              <DropdownItem key="정렬">정렬</DropdownItem>
-              <DropdownItem key="최신순(기본)">최신순(기본)</DropdownItem>
-              <DropdownItem key="좋아요순">좋아요순</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+              최신순(기본)
+            </SelectItem>
+            <SelectItem
+              key="좋아요순"
+              textValue="좋아요순"
+              className="rounded-xl"
+              onClick={handleCategorizeByRecruiting}
+            >
+              좋아요순
+            </SelectItem>
+          </Select>
         </div>
         {/* 커뮤니티 리스트 wrapper */}
-        <div className="flex flex-wrap gap-8">
+        <div className="flex flex-wrap gap-x-[42px] gap-y-[92px]">
           {/* 커뮤니티 게시글 카드 map */}
           {selectedValue === "정렬" || selectedValue === "최신순(기본)"
             ? sortedLatestCommunityList?.map((communityPost) => (
@@ -107,7 +102,7 @@ const CommunityListPage = () => {
         </div>
         <AddPostModal />
       </div>
-    </>
+    </div>
   );
 };
 
