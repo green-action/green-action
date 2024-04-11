@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
-import { IoShareSocialOutline } from "react-icons/io5";
+import share from "/app/_assets/image/logo_icon/icon/mypage/Group 134.png";
+import Image from "next/image";
 
 type KakaoShareButtonProps = {
   description: string;
@@ -33,7 +34,11 @@ const KakaoShareButton = ({ description }: KakaoShareButtonProps) => {
 
   return (
     <div onClick={handleShare}>
-      <IoShareSocialOutline className="w-11 h-11 cursor-pointer border-1 rounded-full p-2 m-auto" />
+      <Image
+        src={share}
+        alt="공유하기"
+        className="size-[55.71px] cursor-pointer"
+      />
     </div>
   );
 };
