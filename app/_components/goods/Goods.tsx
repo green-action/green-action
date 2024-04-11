@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
+import { useGoods } from "@/app/_hooks/useQueries/goods";
 import { CircularProgress } from "@nextui-org/react";
 import ProductInfoModal from "./ProductInfoModal";
-import { useGoods } from "@/app/_hooks/useQueries/goods";
 
 const Goods = () => {
   const { data: goods, isLoading, isError } = useGoods();
@@ -16,8 +16,8 @@ const Goods = () => {
   if (isError) return <div>Error fetching goods...</div>;
 
   return (
-    <div className="border-2 border-blue-400 mt-[160px]">
-      <div className="border-2">
+    <div className="mt-[160px]">
+      <div>
         <div className="gap-[23px] grid grid-cols-5 md:grid-cols-5">
           {goods?.map((item) => {
             return (

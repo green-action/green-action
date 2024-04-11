@@ -90,10 +90,6 @@ const ProductInfoModal = ({
 
   return (
     <>
-      {/* <LiaSearchSolid
-        className="w-7 h-7 cursor-pointer border-1 rounded-full p-1 m-auto bg-gray-200 border-none"
-        onClick={onOpen}
-      /> */}
       <Image
         src={search}
         alt="제품상세정보"
