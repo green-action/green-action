@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import StackGrid from "react-stack-grid";
 
 import { useGetCommunityList } from "../_hooks/useQueries/community";
 
@@ -53,7 +52,7 @@ const CommunityListPage = () => {
   return (
     <div className="w-[1920px] mx-auto">
       {/* 전체 Wrapper */}
-      <div className="w-[1306px] h-[100vh] mx-auto">
+      <div className="w-[1306px] mx-auto mb-12">
         {/* 정렬 select */}
         <div className="flex justify-end mt-16 mb-4">
           <Select
@@ -100,23 +99,6 @@ const CommunityListPage = () => {
                   mode="community"
                 />
               ))}
-          {/* <StackGrid columnWidth={150}>
-            {selectedValue === "정렬" || selectedValue === "최신순(기본)"
-              ? sortedLatestCommunityList?.map((communityPost) => (
-                  <CommunityListPost
-                    key={communityPost.id}
-                    communityPost={communityPost}
-                    mode="community"
-                  />
-                ))
-              : sortedLikesCommunityList?.map((communityPost) => (
-                  <CommunityListPost
-                    key={communityPost.id}
-                    communityPost={communityPost}
-                    mode="community"
-                  />
-                ))}
-          </StackGrid> */}
         </div>
         <AddPostModal />
       </div>
