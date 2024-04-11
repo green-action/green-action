@@ -23,6 +23,7 @@ const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [modalPlacement, setModalPlacement] = React.useState("auto");
 
   const handleSingIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -166,6 +167,7 @@ const Login = () => {
         isDismissable={false}
         isKeyboardDismissDisabled={true}
         hideCloseButton={true}
+        placement="center"
       >
         <ModalContent>
           {() => (

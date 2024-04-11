@@ -1,39 +1,71 @@
 import { useFetchIndivActionsBookmarks } from "@/app/_hooks/useQueries/main";
 import { Button, Select, SelectItem } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { LuPencilLine } from "react-icons/lu";
-import { useSession } from "next-auth/react";
 import PageList from "./PageList";
 
 const PageTap = () => {
   const [activeTab, setActiveTab] = useState("모든 캠페인");
+  const [selectedOrder, setSelectedOrder] = useState("최신등록글");
+
   const { data: actions, isLoading: isActionsLoading } =
     useFetchIndivActionsBookmarks();
-  const [selectedOrder, setSelectedOrder] = useState(null);
-  const [filteredActions, setFilteredActions] = useState(actions);
+
   // 현재 로그인한 유저 uid
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
 
   const router = useRouter();
 
-  useEffect(() => {
-    filterActions();
-  }, [activeTab, actions]);
+  // 정렬
+  const sortedActions = actions?.slice().sort((a, b) => {
+    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+  });
 
-  const filterActions = () => {
-    if (!isActionsLoading) {
-      let filtered = actions;
-      if (activeTab === "모집중인 캠페인") {
-        filtered = actions?.filter((action) => action.is_recruiting);
-      } else if (activeTab === "마감된 캠페인") {
-        filtered = actions?.filter((action) => !action.is_recruiting);
+  const sortedPopularActions = actions?.slice().sort((a, b) => {
+    return b.actionBookmarks.length - a.actionBookmarks.length;
+  });
+
+  const [filteredActions, setFilteredActions] = useState(sortedActions);
+
+  const filterAndSortActions = () => {
+    if (activeTab === "모든 캠페인") {
+      if (selectedOrder === "최신등록글") {
+        setFilteredActions(sortedActions);
+      } else if (selectedOrder === "찜한순") {
+        setFilteredActions(sortedPopularActions);
       }
-      // console.log("필터 캠페인->", filtered);
-      setFilteredActions(filtered);
+    }
+
+    if (activeTab === "모집중인 캠페인") {
+      if (selectedOrder === "최신등록글") {
+        setFilteredActions(
+          sortedActions?.filter((action) => action.is_recruiting),
+        );
+      } else if (selectedOrder === "찜한순") {
+        setFilteredActions(
+          sortedPopularActions?.filter((action) => action.is_recruiting),
+        );
+      }
+    }
+    if (activeTab === "마감된 캠페인") {
+      if (selectedOrder === "최신등록글") {
+        setFilteredActions(
+          sortedActions?.filter((action) => !action.is_recruiting),
+        );
+      } else if (selectedOrder === "찜한순") {
+        setFilteredActions(
+          sortedPopularActions?.filter((action) => !action.is_recruiting),
+        );
+      }
     }
   };
+
+  useEffect(() => {
+    filterAndSortActions();
+  }, [activeTab, selectedOrder, actions]);
 
   const handleActiveTabClick = (
     e: React.MouseEvent<HTMLLIElement, MouseEvent>,
@@ -45,26 +77,12 @@ const PageTap = () => {
     }
   };
 
-  // 정렬
-
   const handleLatestOrder = () => {
-    const sortedActions = actions?.slice().sort((a, b) => {
-      const createdAtA = new Date(a.created_at);
-      const createdAtB = new Date(b.created_at);
-      return createdAtB.getTime() - createdAtA.getTime();
-    });
-
-    setFilteredActions(sortedActions);
-    console.log("최신순", sortedActions);
+    setSelectedOrder("최신등록글");
   };
 
   const handlePopularOrder = () => {
-    const sortedActions = actions?.slice().sort((a, b) => {
-      return b.actionBookmarks.length - a.actionBookmarks.length;
-    });
-
-    setFilteredActions(sortedActions);
-    console.log("찜한순", sortedActions);
+    setSelectedOrder("찜한순");
   };
 
   const handleClick = () => {
@@ -80,12 +98,12 @@ const PageTap = () => {
   return (
     <>
       <div className="flex justify-between items-center w-[100%]">
-        <ul className="flex gap-4 ml-6">
+        <ul className="flex gap-4 ml-6 font-bold">
           <li
             onClick={handleActiveTabClick}
-            className={`flex justify-center items-center cursor-pointer  rounded-2xl w-[130px] h-[34px] text-[12px] ${
+            className={`flex justify-center items-center cursor-pointer rounded-2xl w-[130px] h-[34px] text-[12px]  ${
               activeTab === "모든 캠페인"
-                ? "bg-[#F1F1F1] transition duration-300 ease-in-out  text-[12px]"
+                ? "bg-[#F1F1F1] transition duration-300 ease-in-out text-[12px]"
                 : ""
             }`}
           >
@@ -93,9 +111,9 @@ const PageTap = () => {
           </li>
           <li
             onClick={handleActiveTabClick}
-            className={`flex justify-center items-center cursor-pointer  rounded-2xl w-[130px] h-[34px]  text-[12px] ${
+            className={`flex justify-center items-center cursor-pointer rounded-2xl w-[130px] h-[34px]  text-[12px] ${
               activeTab === "모집중인 캠페인"
-                ? "bg-[#F1F1F1] transition duration-300 ease-in-out  text-[12px]"
+                ? "bg-[#F1F1F1] transition duration-300 ease-in-out text-[12px]"
                 : ""
             }`}
           >
@@ -103,9 +121,9 @@ const PageTap = () => {
           </li>
           <li
             onClick={handleActiveTabClick}
-            className={`flex justify-center items-center cursor-pointer  rounded-2xl w-[130px] h-[34px]  text-[12px] ${
+            className={`flex justify-center items-center cursor-pointer rounded-2xl w-[130px] h-[34px]  text-[12px] ${
               activeTab === "마감된 캠페인"
-                ? "bg-[#F1F1F1] transition duration-300 ease-in-out  text-[12px]"
+                ? "bg-[#F1F1F1] transition duration-300 ease-in-out text-[12px] "
                 : ""
             }`}
           >
@@ -113,19 +131,22 @@ const PageTap = () => {
           </li>
         </ul>
 
-        <div className="flex items-center gap-4 ">
+        <div className="flex items-center gap-4">
           <Select
             aria-label="Select"
-            defaultSelectedKeys={["최신등록글"]}
+            placeholder="최신등록글"
             size="md"
             radius="full"
-            className="w-[161px] h-[38px]"
+            items={selectedOrder}
+            className="w-[161px] h-[30px] text-[15px]"
             variant="bordered"
+            disallowEmptySelection
+            defaultSelectedKeys={["최신등록글"]}
           >
             <SelectItem
               key="최신등록글"
               value="최신등록글"
-              className="rounded-xl"
+              className="rounded-xl "
               onClick={handleLatestOrder}
             >
               최신등록글
@@ -133,7 +154,7 @@ const PageTap = () => {
             <SelectItem
               key="찜한순"
               value="찜한순"
-              className="rounded-xl"
+              className="rounded-xl "
               onClick={handlePopularOrder}
             >
               찜한순
@@ -141,12 +162,6 @@ const PageTap = () => {
           </Select>
         </div>
       </div>
-
-      {/* 글쓰기버튼 삭제하고 동그란 아이콘으로 바꾸기 */}
-
-      {/* <Button color="default" variant="bordered" onClick={handleClick}>
-            캠페인 생성하기
-          </Button> */}
       <Button
         className="fixed z-50 bottom-16 right-16 rounded-full w-20 h-20 bg-gray-300 flex items-center justify-center"
         onClick={handleClick}

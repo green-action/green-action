@@ -21,18 +21,18 @@ interface ChildProps {
 const PageList: React.FC<ChildProps> = ({ filteredActions }) => {
   const router = useRouter();
 
-  const { data: indivActionsBookmarks, isLoading: isActionsLoading } =
-    useFetchIndivActionsBookmarks();
+  // const { data: indivActionsBookmarks, isLoading: isActionsLoading } =
+  //   useFetchIndivActionsBookmarks();
 
   const handleClick = (id: any) =>
     router.push(`/individualAction/detail/${id}`);
   // 데이터불러올때 (로딩중일때) 스켈레톤 UI 적용해보기
 
   return (
-    <div className="mt-10 gap-10 grid grid-cols-1 md:grid-cols-4 p-2 ">
+    <div className="mt-10 gap-10 grid grid-cols-1 p-2 desktop:grid-cols-4 laptop:grid-cols-3">
       {filteredActions?.map((post) => (
         <>
-          <article key={post.id} className="w-[356px] mb-30">
+          <article key={post.id} className="w-[356px] mb-unit-3xl">
             <Card
               isFooterBlurred
               radius="lg"

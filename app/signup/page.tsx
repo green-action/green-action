@@ -25,6 +25,7 @@ const SignUp = () => {
   const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [modalPlacement, setModalPlacement] = React.useState("auto");
 
   const validatePasswords = () => password !== confirmPassword;
 
@@ -210,6 +211,7 @@ const SignUp = () => {
         isDismissable={false}
         isKeyboardDismissDisabled={true}
         hideCloseButton={true}
+        placement="center"
       >
         <ModalContent>
           {() => (
