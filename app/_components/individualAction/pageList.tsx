@@ -1,7 +1,7 @@
 "use client";
 
 import { useFetchIndivActionsBookmarks } from "@/app/_hooks/useQueries/main";
-import { Card, Chip } from "@nextui-org/react";
+import { Card, Chip, Skeleton } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { CiUser } from "react-icons/ci";
 import { ImLocation } from "react-icons/im";
@@ -23,7 +23,7 @@ const PageList: React.FC<ChildProps> = ({ filteredActions }) => {
 
   const handleClick = (id: any) =>
     router.push(`/individualAction/detail/${id}`);
-
+  // 데이터불러올때 (로딩중일때) 스켈레톤 UI 적용해보기
   return (
     <div className="mt-10 gap-10 grid grid-cols-1 md:grid-cols-4 p-2 ">
       {filteredActions?.map((post) => (
