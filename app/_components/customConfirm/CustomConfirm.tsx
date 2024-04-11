@@ -2,7 +2,8 @@
 import React, { useRef } from "react";
 
 import { Button } from "@nextui-org/react";
-import { FaStar } from "react-icons/fa";
+import bookmarkFill from "/app/_assets/image/logo_icon/icon/mypage/Star 32.png";
+import Image from "next/image";
 
 interface CustomConfirmProps {
   text: string;
@@ -77,7 +78,11 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
       {/* mode가 myBookmarks(마이페이지 찜한 action) 인 경우에 버튼 대신 북마크아이콘 */}
       {mode === "myBookmarks" ? (
         <button onClick={() => customConfirm.show(handleClick)}>
-          <FaStar className="text-amber-300 text-[17px]  ml-[1.5px] mb-10 " />
+          <Image
+            src={bookmarkFill}
+            alt="북마크"
+            className="size-[14px] mr-[6px] mt-[2px]"
+          />
         </button>
       ) : (
         <Button
