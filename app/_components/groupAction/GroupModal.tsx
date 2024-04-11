@@ -63,7 +63,7 @@ const GroupModal = ({
                     {action.hosted_by}
                   </span>
                 </p>
-                <p className="border border-[#BFBFBF]/0 border-b-[#BFBFBF] rounded-3xl hover:border hover:border-[#BFBFBF] hover:rounded-3xl text-[#848484]  bg-white  py-2 px-4 border border-[#BFBFBF]/0">
+                <p className="border border-[#BFBFBF]/0 border-b-[#BFBFBF] rounded-3xl hover:border hover:border-[#BFBFBF] hover:rounded-3xl text-[#848484]  bg-white  py-2 px-4">
                   상세내용{" "}
                   <span className="text-[#929292] ml-[35px]">
                     {action.content}
