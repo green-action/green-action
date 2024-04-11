@@ -1,8 +1,8 @@
 "use client";
 
 import { Chip } from "@nextui-org/react";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 
 import DynamicHeader from "./_components/layout/DynamicHeader";
 import MainSlider from "./_components/main/MainSlider";
@@ -18,7 +18,7 @@ const MainPage = () => {
           <p className="text-center text-[80pt] w-full font-['Italiana']">
             EXPERIENCE A NEW WAY OF
             {/* 간격 조정하기 */}
-            <p className="mt-[-40px]">GREEN LIFE</p>
+            <span className="mt-[-40px] block">GREEN LIFE</span>
           </p>
           <p className="text-center text-[15pt] font-['Pretendard-ExtraLight'] mt-[20px]">
             지구와 함께 숨쉬다
