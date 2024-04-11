@@ -5,7 +5,7 @@ import PageTap from "../_components/individualAction/PageTap";
 const page = () => {
   return (
     <div>
-      <div className=" w-[79%] vh-auto mx-auto ">
+      <div className=" mx-auto vh-auto desktop:w-[79%] laptop:w-[92%]">
         <PageTap />
       </div>
     </div>
