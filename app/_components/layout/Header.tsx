@@ -126,8 +126,11 @@ function Header() {
                   radius="full"
                   aria-label="NavBar-Tab-Options"
                   variant="light"
-                  className="flex justify-center rounded-full bg-[#E8E8E8]/30 font-bold  text-white"
-                  // 글자 색깔 속성 안먹힘 -> 해결하기 / 폰트 사이즈 조절 안됨 - size로
+                  className="flex rounded-full bg-white/30 font-bold"
+                  classNames={{
+                    tabList: "flex gap-[10px] h-[42px]", // w-[511px] h-[39px]인데 자체변경?
+                    tabContent: "text-[#454545] text-[13pt]",
+                  }}
                 >
                   <Tab
                     key="/about"
