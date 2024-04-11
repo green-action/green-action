@@ -47,9 +47,7 @@ const MyProfileEditModal = ({
   const handleEditProfileClick = () => {
     onOpen();
   };
-  console.log(file);
 
-  // NOTE TODO 기존 이미지 업로드시 ?
   // 모달창 - 작성완료
   const handleEditProfileSubmit = async (
     e: React.FormEvent<HTMLFormElement>,
@@ -59,19 +57,26 @@ const MyProfileEditModal = ({
     if (!editedName.trim()) {
       return alert("닉네임을 입력해주세요.");
     }
-    if (editedName.length >= 10) {
-      return alert("닉네임을 10자 이내로 써주세요");
-    }
+    // if (editedName.trim().length >= 11) { 처리하면 이상해짐
+    //   return alert("닉네임을 10자 이내로 써주세요");
+    // }
 
     if (file) {
+      // 업로드한 이미지 파일이 있을 시에만 'users'의 profile_img 칼럼 업데이트
       const imgUrl = await uploadProfileFileAndGetUrl({ file, user_uid }); // 이미지 stroage url 받아오기
       await insertProfileImgUrl({ user_uid, imgUrl }); // 받아온 img url 을 users table에 업데이트
-    } else if (!file) {
-      await insertProfileImgUrl({ user_uid, imgUrl: "" }); // 파일업로드안한 경우 (이미지 x버튼 등) imgUrl : 빈 문자열 넣기
+    } else if (!file && uploadedFileUrl) {
+      // 이미지 업로드는 안했지만 기존 프로필 이미지가 존재하는 경우
+      await insertProfileImgUrl({ user_uid, imgUrl: uploadedFileUrl });
+    } else {
+      // 기존 프로필 이미지까지 모두 없는 경우 (업로드이미지 삭제 등), 파일업로드 안한 경우 (이미지 x버튼 등) imgUrl : 빈 문자열 넣기
+      await insertProfileImgUrl({ user_uid, imgUrl: "" });
     }
 
     // 닉네임 업데이트
-    await updateName();
+    if (editedName !== display_name) {
+      await updateName();
+    }
     onClose();
   };
   return (
