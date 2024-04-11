@@ -27,12 +27,12 @@ const GroupModal = ({
   return (
     <>
       <Button
-        className=" rounded-[100%] bg-transparent absolute right-[30px] bottom-[-10px]"
+        className=" rounded-[100%] bg-transparent laptop:bottom-[-20px] laptop:right-[20px]"
         onPress={onOpen}
       >
         <Image className="w-full h-full" src={search} alt="search" />
       </Button>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal placement="center" isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent className="h-[600px] overflow-y-auto scrollbar-hide">
           {(onClose) => (
             <>
@@ -51,19 +51,19 @@ const GroupModal = ({
                 </Link>
               </ModalHeader>
               <ModalBody className="box-border">
-                <h2 className="border-b border-[#BFBFBF] hover:border hover:border-[#BFBFBF] hover:rounded-3xl text-[#848484]  bg-white  py-2 px-4 border border-[#BFBFBF]/0">
+                <h2 className="border border-[#BFBFBF]/0 border-b-[#BFBFBF] rounded-3xl hover:rounded-3xl hover:border hover:border-[#BFBFBF]  text-[#848484]  bg-white  py-2 px-4 ">
                   캠페인 명{" "}
                   <span className="text-[#929292] ml-[30px]">
                     {action.title}
                   </span>
                 </h2>
-                <p className="border-b border-[#BFBFBF] hover:border hover:border-[#BFBFBF] hover:rounded-3xl text-[#848484]  bg-white  py-2 px-4 border border-[#BFBFBF]/0">
+                <p className="border border-[#BFBFBF]/0 border-b-[#BFBFBF] rounded-3xl hover:rounded-3xl hover:border hover:border-[#BFBFBF]  text-[#848484]  bg-white  py-2 px-4 ">
                   주관{" "}
                   <span className="text-[#929292] ml-[61px]">
                     {action.hosted_by}
                   </span>
                 </p>
-                <p className="hover:border hover:border-[#BFBFBF] hover:rounded-3xl text-[#848484]  bg-white  py-2 px-4 border border-[#BFBFBF]/0">
+                <p className="border border-[#BFBFBF]/0 border-b-[#BFBFBF] rounded-3xl hover:border hover:border-[#BFBFBF] hover:rounded-3xl text-[#848484]  bg-white  py-2 px-4 border border-[#BFBFBF]/0">
                   상세내용{" "}
                   <span className="text-[#929292] ml-[35px]">
                     {action.content}

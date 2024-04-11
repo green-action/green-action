@@ -5,6 +5,7 @@ import { useGroupAction } from "../_hooks/useQueries/groupAction";
 
 const groupActionPage = () => {
   const { data: groupAction, isLoading } = useGroupAction();
+
   if (isLoading || !groupAction) {
     return (
       <div>
@@ -35,8 +36,8 @@ const groupActionPage = () => {
                 alt="campaign Img"
               />
             </Card>
-            <section className="flex flex-row desktop:w-[250px] desktop:indent-[60px] laptop:indent-[120px]">
-              <h2 className="font-bold mt-[30px] text-[14px] text-ellipsis whitespace-nowrap">
+            <section className="flex flex-row justify-around laptop:indent-[35px]">
+              <h2 className="font-bold mt-[30px] text-[14px]  whitespace-nowrap">
                 {action.title}
               </h2>
               <GroupModal action={action} />
