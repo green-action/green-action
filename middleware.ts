@@ -11,7 +11,8 @@ export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // 로그인이 필요한 페이지 리스트
-  const LOGIN_REQUIRED_PAGES = [`/mypage`, `/individualAction/add`];
+  // const LOGIN_REQUIRED_PAGES = [`/mypage`, `/individualAction/add`];
+  const LOGIN_REQUIRED_PAGES = [`/mypage`];
   const LOGIN_NOT_REQUIRED_PAGES = [`/login`, `/signup`];
 
   // 로그인이 필요한 페이지 리스트

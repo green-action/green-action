@@ -5,6 +5,7 @@ import { User } from "@/app/_types";
 import {
   Avatar,
   Chip,
+  CircularProgress,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -48,7 +49,6 @@ function Header() {
     if (confirmed) {
       try {
         await signOut({
-          redirect: true,
           callbackUrl: "/",
         });
         alert("로그아웃 되었습니다.");
@@ -77,12 +77,16 @@ function Header() {
       setChildSelected("/individualAction");
     }
   };
+  const handleChildTabSelect = (key: any) => {
+    setParentSelected("/individualAction");
+    setChildSelected(key);
+  };
 
   useEffect(() => {
     handleSelectedTab();
   }, [pathname]);
 
-  // if (session) {
+  // if (isLoading) {
   //   return (
   //     // 임시로 처리
   //     <div className="flex justify-center items-center h-40">
@@ -199,7 +203,7 @@ function Header() {
                 )}
               </div>
 
-              {isLoggedIn ? (
+              {user_uid && isLoggedIn ? (
                 <>
                   <Dropdown
                     placement="bottom-end"

@@ -14,6 +14,8 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { PiEyeLight, PiEyeSlash } from "react-icons/pi";
 import { signUpNewUser } from "../_api/auth";
+import logoImg from "../_assets/image/logo_icon/logo/white.png";
+import Image from "next/image";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -71,32 +73,38 @@ const SignUp = () => {
   const handleClick = () => router.push("/login");
 
   return (
-    <div className="bg-[#EBEBEB] w-screen h-screen flex justify-around items-center">
-      <div className="flex flex-col items-center justify-center">
-        <p>Logo</p>
+    <div className="w-screen h-screen flex justify-around items-center bg-cover bg-main-img  bg-blend-darken bg-black bg-opacity-10">
+      <div className="flex flex-col items-center justify-center ">
+        <Image className="w-[126px] h-[29px]" src={logoImg} alt="logo" />
       </div>
-      <Card className="w-[500px] xh-hull flex flex-col items-center justify-center bg-white rounded-lg">
-        <CardBody className="flex flex-col items-center px-8 py-8 h-full gap-5">
-          <h2 className="text-2xl font-bold mb-2">Sign up</h2>
+      <Card className="w-[578px] xh-full flex flex-col items-center justify-center bg-white rounded-3xl">
+        <CardBody className="flex flex-col items-center px-8 py-8 h-full gap-5 mt-[60px]">
+          <h2 className="text-[24px] font-bold mb-2">Sign up</h2>
 
-          <form onSubmit={handleSignUp} className="w-full">
+          <form
+            onSubmit={handleSignUp}
+            className="w-full flex flex-col items-center"
+          >
             <Input
               type="email"
               label="Email"
-              size="md"
+              variant="bordered"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mb-5 border-[BFBFBF] border-1 rounded-[12px]"
+              className="mb-8 w-[427px] h-[60px]"
             />
             {email !== "" && !validateEmail(email) && (
-              <p className="text-red-500 text-xs">잘못된 이메일형식 입니다</p>
+              <p className="text-red-500 text-xs flex justify-start">
+                잘못된 이메일형식 입니다
+              </p>
             )}
             <Input
               type={passwordVisible ? "text" : "password"}
               label="password"
+              variant="bordered"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mb-5  border-[BFBFBF] border-1 rounded-[12px]"
+              className="mb-8 w-[427px] h-[60px] "
               endContent={
                 <>
                   <div className="flex items-center">
@@ -104,12 +112,11 @@ const SignUp = () => {
                       type="button"
                       id="togglePasswordVisibility"
                       onClick={togglePasswordVisibility}
-                      className="mb-5"
                     />
                   </div>
                   <label
                     htmlFor="togglePasswordVisibility"
-                    className="flex items-center"
+                    className="flex items-center mb-2"
                   >
                     {passwordVisible ? <PiEyeSlash /> : <PiEyeLight />}
                   </label>
@@ -126,8 +133,9 @@ const SignUp = () => {
               type={passwordVisible ? "text" : "password"}
               label="confirmPassword"
               value={confirmPassword}
+              variant="bordered"
               onChange={(e) => SetConfirmPassword(e.target.value)}
-              className="mb-5  border-[BFBFBF] border-1 rounded-[12px]"
+              className="mb-8 w-[427px] h-[60px]"
               endContent={
                 <>
                   <div className="flex items-center">
@@ -135,12 +143,11 @@ const SignUp = () => {
                       type="button"
                       id="togglePasswordVisibility"
                       onClick={togglePasswordVisibility}
-                      className="mb-5"
                     />
                   </div>
                   <label
                     htmlFor="togglePasswordVisibility"
-                    className="flex items-center"
+                    className="flex items-center mb-2"
                   >
                     {passwordVisible ? <PiEyeSlash /> : <PiEyeLight />}
                   </label>
@@ -165,9 +172,10 @@ const SignUp = () => {
             <Input
               type="text"
               label="Nickname"
+              variant="bordered"
               value={nickname}
               onChange={(e) => SetNickname(e.target.value)}
-              className="mb-5  border-[BFBFBF] border-1 rounded-[12px]"
+              className="mb-8 w-[427px] h-[60px]"
               maxLength={10}
             />
             {nickname && (nickname.length < 2 || nickname.length > 10) && (
@@ -180,7 +188,7 @@ const SignUp = () => {
               type="submit"
               variant="solid"
               radius="sm"
-              className="bg-black text-white text-lg  w-full"
+              className="bg-black text-white text-[15px]  w-[427px] h-[40px] mt-5"
             >
               Signup
             </Button>

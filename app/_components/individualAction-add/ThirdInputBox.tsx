@@ -3,10 +3,10 @@ import React from "react";
 const ThirdInputBox = () => {
   return (
     <>
-      <div className="flex items-start w-full h-auto pl-8 border-2 border-gray-300 rounded-3xl mb-8">
+      <div className="flex items-start w-[724px] h-[137px] pl-8 border-1.5 border-gray-300 rounded-3xl mb-5">
         <label
           htmlFor="activityDescription"
-          className="font-semibold mr-3 mt-4 w-[73px]"
+          className="text-[13px] font-semibold mr-3 mt-4 w-[73px]"
         >
           활동 소개
         </label>

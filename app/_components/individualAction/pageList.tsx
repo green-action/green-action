@@ -1,7 +1,7 @@
 "use client";
 
 import { useFetchIndivActionsBookmarks } from "@/app/_hooks/useQueries/main";
-import { Card, Chip } from "@nextui-org/react";
+import { Card, Chip, Skeleton } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { CiUser } from "react-icons/ci";
 import { ImLocation } from "react-icons/im";
@@ -23,15 +23,15 @@ const PageList: React.FC<ChildProps> = ({ filteredActions }) => {
 
   const handleClick = (id: any) =>
     router.push(`/individualAction/detail/${id}`);
-
+  // 데이터불러올때 (로딩중일때) 스켈레톤 UI 적용해보기
   return (
-    <div className="mt-12 gap-10 grid grid-cols-1 md:grid-cols-4 p-2 ">
+    <div className="mt-10 gap-10 grid grid-cols-1 md:grid-cols-4 p-2 ">
       {filteredActions?.map((post) => (
-        <article key={post.id}>
+        <article key={post.id} className="w-[356px] bg-white mb-30">
           <Card
             isFooterBlurred
             radius="lg"
-            className="border-none w-[300px] h-[240px] mb-3 "
+            className="border-none w-[356px] h-[311px] mb-3 brightness-90"
           >
             {post.actionImgUrls[0] ? (
               <img
@@ -42,18 +42,19 @@ const PageList: React.FC<ChildProps> = ({ filteredActions }) => {
               />
             ) : (
               <div
-                className="bg-gray-300 w-full h-full rounded cursor-pointer"
+                className="bg-gray-300 w-full h-full rounded cursor-pointer "
                 onClick={() => handleClick(post.id)}
               />
             )}
           </Card>
-          <div className=" max-w-[100%] relative">
+          {/* bg-gray-200 rounded-lg */}
+          <div className=" w-[356px] relative  p-2">
             <div className="flex gap-4 mt-4  border-white/20 border-1 max-w-[70%]">
               <h4 className="font-bold text-md">
-                {/* {(post.title?.length as any) > 10
-                  ? `${post.title?.substring(0, 10)}...`
-                  : post.title} */}
-                {post.title}
+                {(post.title?.length as any) > 12
+                  ? `${post.title?.substring(0, 12)}...`
+                  : post.title}
+                {/* {post.title} */}
               </h4>
               <Chip
                 size="sm"
@@ -63,7 +64,7 @@ const PageList: React.FC<ChildProps> = ({ filteredActions }) => {
                 {post.is_recruiting ? "모집중" : "마감됨"}
               </Chip>
             </div>
-            <div className="flex items-center gap-1 mt-4 border-b border-gray-300  max-w-[70%]">
+            <div className="flex items-center gap-1 mt-4 border-b border-gray-300  max-w-[70%] p-2">
               <MdDateRange />
               <small className="text-default-500">
                 {post.start_date} - {post.end_date}

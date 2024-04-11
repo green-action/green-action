@@ -60,7 +60,7 @@ const PostImgUpload = ({
     <>
       {/* 이미지 업로드 */}
       <div
-        className={`flex mx-auto mt-4 mb-5 border-1.5 border-dashed border-gray-300 rounded-3xl w-4/5 h-[220px] ${
+        className={`flex mx-auto mt-7 mb-6 border-1.5 border-dashed border-gray-300 rounded-3xl w-[370px] h-[260px] ${
           isDragging ? "border-blue-400" : "border-gray-300"
         }`}
         onDragEnter={handleDragStart}
@@ -91,7 +91,7 @@ const PostImgUpload = ({
           <div className="flex flex-col w-full h-full justify-end items-center mt-auto">
             <label
               htmlFor={`fileInput`}
-              className="mb-4 text-4xl font-thin text-gray-500 cursor-pointer"
+              className="mb-2 text-4xl font-thin text-gray-500 cursor-pointer"
             >
               +
             </label>
@@ -102,8 +102,10 @@ const PostImgUpload = ({
               hidden
               onChange={handleShowPreview}
             />
-            <p className="mb-px font-medium text-gray-500">Upload Image</p>
-            <p className="text-xs mb-14 text-gray-400">or drag & drop</p>
+            <p className="mb-px font-medium text-gray-500 text-sm">
+              Upload Image
+            </p>
+            <p className="text-xs mb-20 text-gray-400">or drag & drop</p>
           </div>
         )}
       </div>
