@@ -8,6 +8,11 @@ module.exports = {
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    screens: {
+      'phone': '360px',
+      'laptop': '1020px',
+      'desktop': '1920px',
+    },
     extend: {
       colors: {
         background: "hsl(var(--background))",

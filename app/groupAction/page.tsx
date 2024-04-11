@@ -18,21 +18,24 @@ const groupActionPage = () => {
   }
 
   return (
-    <div className="grid grid-cols-4 m-auto mt-14 mx-auto">
+    <div className="grid desktop:grid-cols-4 laptop:grid-cols-3 m-auto mt-14 mx-auto">
       {groupGreenActions.map((action) => {
         return (
-          <div className="flex flex-col mb-[100px] relative" key={action.id}>
-            <Card className="w-[365px] h-[550px] m-auto brightness-90">
+          <div
+            className="flex flex-col desktop:mb-[100px] laptop:mb-[180px] relative"
+            key={action.id}
+          >
+            <Card className="desktop:w-[365px] desktop:h-[550px] laptop:w-[289px] laptop:h-[433px] m-auto brightness-90">
               <Image
                 shadow="sm"
                 radius="lg"
                 width="100%"
-                className="w-full object-cover h-[550px]"
+                className="w-full object-cover desktop:h-[550px] laptop:h-[433px]"
                 src={action.img_url as string}
                 alt="campaign Img"
               />
             </Card>
-            <section className="flex flex-row w-[250px] indent-[60px]">
+            <section className="flex flex-row desktop:w-[250px] desktop:indent-[60px] laptop:indent-[120px]">
               <h2 className="font-bold mt-[30px] text-[14px] text-ellipsis whitespace-nowrap">
                 {action.title}
               </h2>

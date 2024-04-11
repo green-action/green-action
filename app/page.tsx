@@ -1,32 +1,25 @@
 "use client";
 
 import { Chip } from "@nextui-org/react";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 
 import DynamicHeader from "./_components/layout/DynamicHeader";
 import MainSlider from "./_components/main/MainSlider";
 
 import downArrow from "/app/_assets/image/logo_icon/icon/mainpage/Group_124.png";
-import mainImg from "/app/_assets/image/mainpage/main.png";
 
 const MainPage = () => {
   return (
     <div className="min-w-[1920px]">
       <div className="flex flex-col">
         <DynamicHeader />
-        <Image
-          src={mainImg}
-          alt="main-image"
-          className="absolute min-w-[1920px] h-[2550px] brightness-[90%]"
-          //  그냥 w-full, w-[100%], w-[1920px] 안됨. 반드시 min-w로 줘야 채워짐
-        />
-        <section className="z-0 flex flex-col w-full h-[500px] justify-center items-center mt-[200px] text-white">
-          {/* z-0 필수 */}
-          <div className="text-center text-[80pt] w-full font-['Italiana']">
-            <p>EXPERIENCE A NEW WAY OF</p>
-            <p className="mt-[-40px]">GREEN LIFE</p>
-          </div>
+        <section className="flex flex-col w-full h-[500px] justify-center items-center mt-[200px] text-white">
+          <p className="text-center text-[80pt] w-full font-['Italiana']">
+            EXPERIENCE A NEW WAY OF
+            {/* 간격 조정하기 */}
+            <span className="mt-[-40px] block">GREEN LIFE</span>
+          </p>
           <p className="text-center text-[15pt] font-['Pretendard-ExtraLight'] mt-[20px]">
             지구와 함께 숨쉬다
             <br />

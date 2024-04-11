@@ -248,7 +248,7 @@ const AddPostModal = () => {
                 </Button> */}
                 <Button
                   type="submit"
-                  onPress={() => handleClick}
+                  onClick={() => handleClick}
                   className="text-gray-500 rounded-full !w-[140px] h-[33px] border border-gray-400 bg-[#EFEFEF]"
                 >
                   작성완료
