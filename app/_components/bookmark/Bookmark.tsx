@@ -88,7 +88,7 @@ const Bookmark = ({
                 <Image
                   src={bookmarkFill}
                   alt="북마크"
-                  className="size-[22px] mr-[6px]"
+                  className="desktop:size-[22px] desktop:mr-[6px]"
                 />
               )}
 
@@ -120,7 +120,7 @@ const Bookmark = ({
               <Image
                 src={bookmarkEmpty}
                 alt="북마크"
-                className="size-[22px] mr-[6px]"
+                className="desktop:size-[22px] desktop:mr-[6px]"
               />
             )}
             {mode === "individualAction" && (

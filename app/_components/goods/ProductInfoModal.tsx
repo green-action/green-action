@@ -9,7 +9,6 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { useState } from "react";
-import { LiaSearchSolid } from "react-icons/lia";
 import { QUERY_KEY_USER_POINT } from "@/app/_api/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUserPoint } from "@/app/_hooks/useQueries/goods";
@@ -93,7 +92,7 @@ const ProductInfoModal = ({
       <Image
         src={search}
         alt="제품상세정보"
-        className="size-[33px] cursor-pointer"
+        className="desktop:size-[33px] cursor-pointer"
         onClick={onOpen}
       />
 

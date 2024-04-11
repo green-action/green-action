@@ -3,9 +3,9 @@ import Goods from "../_components/goods/Goods";
 
 const GoodsPage = () => {
   return (
-    <div className="w-[1920px] mx-auto mt-[165px]">
-      <div className="w-[1752px] mx-[85px]">
-        <p className="font-['Italiana'] text-[96px] mb-[11px]">
+    <div className="desktop:w-[1920px] desktop:mx-auto desktop:mt-[165px]">
+      <div className="desktop:w-[1752px] desktop:mx-[85px]">
+        <p className="font-['Italiana'] text-[96px] desktop:mb-[11px]">
           ECO GOODS PRODUCT
         </p>
         <div className="text-[13px] text-[#929292]">
@@ -14,10 +14,12 @@ const GoodsPage = () => {
         </div>
         <Goods />
       </div>
-      <div className="mt-[530px] h-[708px] bg-[#D4D4D4] flex justify-between">
-        <div className="mt-[353px] ml-[99px]">
-          <div className="font-['Italiana'] text-[48px] mb-[70px]">ABOUT</div>
-          <div className="w-[465px] text-[13px] font-medium">
+      <div className="desktop:mt-[530px] desktop:h-[708px] bg-[#D4D4D4] flex justify-between">
+        <div className="desktop:mt-[353px] desktop:ml-[99px]">
+          <div className="font-['Italiana'] text-[48px] desktop:mb-[70px]">
+            ABOUT
+          </div>
+          <div className="desktop:w-[465px] text-[13px] font-medium">
             <p>
               ECO GOODS는 SOOM에서 자체 개발한 상품으로 친환경 소재 업체와
               협력하여 제작
@@ -28,7 +30,7 @@ const GoodsPage = () => {
             </p>
           </div>
         </div>
-        <div className="border-blue-100 border-2 w-[1195px]">오</div>
+        <div className="border-blue-100 border-2 desktop:w-[1195px]">오</div>
       </div>
     </div>
   );

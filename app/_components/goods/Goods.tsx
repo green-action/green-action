@@ -16,18 +16,18 @@ const Goods = () => {
   if (isError) return <div>Error fetching goods...</div>;
 
   return (
-    <div className="mt-[160px]">
+    <div className="desktop:mt-[160px]">
       <div>
-        <div className="gap-[23px] grid grid-cols-5 md:grid-cols-5">
+        <div className="desktop:gap-[23px] grid desktop:grid-cols-5">
           {goods?.map((item) => {
             return (
               <div>
                 <img
                   alt="Card background"
-                  className="rounded-2xl h-[494px]"
+                  className="rounded-2xl desktop:h-[494px]"
                   src={item.img_url}
                 />
-                <div className="flex justify-between mt-[28px] mx-[33px]">
+                <div className="flex justify-between desktop:mt-[28px] desktop:mx-[33px]">
                   <div className="text-[15px] ">
                     <p>{item.product_name}</p>
                     <p className="text-[#929292]">
