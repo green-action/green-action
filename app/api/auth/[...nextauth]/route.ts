@@ -68,19 +68,19 @@ const handler = NextAuth({
         const { data: existingUser, error: existingUserError } = await supabase
           .from("users")
           .select("id")
-          .eq("email", session.user.email);
+          .eq("id", session.user.user_uid);
 
         // 사용자 정보가 없는 경우에만 업데이트 (빈배열일때)
         if (!existingUser || existingUser.length === 0) {
           const { data, error } = await supabase
             .from("users")
             .insert({
-              email: token.email,
+              email: session.user.email,
               display_name: session.user.name,
               profile_img: session.user.image,
             })
             .select("id");
-          // 이걸 session.user.user_uid에 넣어주기 배열이니깐 [0]넣어주기
+          // 생성된 data uuid를 session.user.user_uid에 넣어주기 배열이니깐 [0]넣어주기
           session.user.user_uid = data![0].id;
           console.log("소셜로그인정보 인서트 후 로직");
           console.log("data==>>", data);
@@ -88,7 +88,6 @@ const handler = NextAuth({
           console.log("세션유저정보-->>", session.user);
         }
 
-        session.user.user_uid = existingUser![0].id;
         return session;
       }
 
