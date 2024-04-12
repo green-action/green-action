@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import {
   insertActionTextForm,
   insertImgUrls,
+  updateUserPoint,
   uploadFilesAndGetUrls,
 } from "@/app/_api/individualAction-add/add-api";
 
@@ -55,10 +56,13 @@ const AddActionPage = () => {
           loggedInUserUid,
         });
 
-        // 2. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
+        // 2. 500point 업데이트
+        await updateUserPoint(loggedInUserUid);
+
+        // 3. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
         const imgUrlsArray = await uploadFilesAndGetUrls({ files, action_id });
 
-        // 3. 이미지url들 table에 넣기 - action_id에 id사용
+        // 4. 이미지url들 table에 넣기 - action_id에 id사용
         await insertImgUrls({ action_id, imgUrlsArray });
 
         // 입력값 초기화
