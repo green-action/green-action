@@ -62,7 +62,7 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
 
   return (
     <div key={id}>
-      <div className="none w-[330px] h-[25rem] flex flex-wrap  p-1 relative">
+      <div className="none desktop:w-[330px] desktop:h-[25rem] flex flex-wrap  desktop:p-1 relative">
         <Card
           isFooterBlurred
           radius="lg"
@@ -71,7 +71,6 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
           {actionImgUrl ? (
             <img
               src={actionImgUrl.img_url}
-              // actionImgUrl.img_url
               alt="Green Action Image"
               className="w-full h-full"
               onClick={handleActionClick}

@@ -32,7 +32,7 @@ export default function RootLayout({
     <html lang="ko" className={GeistSans.className}>
       <body className="bg-background text-foreground">
         <QueryProvider>
-          <Header />
+          {/* <Header /> */}
           <main>
             {children}
             {modal}
