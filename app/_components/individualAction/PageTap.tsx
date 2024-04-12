@@ -97,11 +97,11 @@ const PageTap = () => {
 
   return (
     <>
-      <div className="flex justify-between items-center w-[100%]">
+      <div className="flex justify-between items-center desktop:w-[1510px] laptop:w-[920px]  mx-auto">
         <ul className="flex gap-4 ml-6 font-bold">
           <li
             onClick={handleActiveTabClick}
-            className={`flex justify-center items-center cursor-pointer rounded-2xl w-[130px] h-[34px] text-[12px]  ${
+            className={`flex justify-center items-center cursor-pointer rounded-2xl  desktop:w-[130px] h-[34px] text-[12px]  laptop:w-[108px] ${
               activeTab === "모든 캠페인"
                 ? "bg-[#F1F1F1] transition duration-300 ease-in-out text-[12px]"
                 : ""
@@ -111,7 +111,7 @@ const PageTap = () => {
           </li>
           <li
             onClick={handleActiveTabClick}
-            className={`flex justify-center items-center cursor-pointer rounded-2xl w-[130px] h-[34px]  text-[12px] ${
+            className={`flex justify-center items-center cursor-pointer rounded-2xl desktop:w-[130px] h-[34px]  text-[12px]  laptop:w-[108px] ${
               activeTab === "모집중인 캠페인"
                 ? "bg-[#F1F1F1] transition duration-300 ease-in-out text-[12px]"
                 : ""
@@ -121,7 +121,7 @@ const PageTap = () => {
           </li>
           <li
             onClick={handleActiveTabClick}
-            className={`flex justify-center items-center cursor-pointer rounded-2xl w-[130px] h-[34px]  text-[12px] ${
+            className={`flex justify-center items-center cursor-pointer rounded-2xl desktop:w-[130px] h-[34px]  text-[12px]  laptop:w-[108px] ${
               activeTab === "마감된 캠페인"
                 ? "bg-[#F1F1F1] transition duration-300 ease-in-out text-[12px] "
                 : ""
@@ -131,14 +131,14 @@ const PageTap = () => {
           </li>
         </ul>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 mr-4">
           <Select
             aria-label="Select"
             placeholder="최신등록글"
             size="md"
             radius="full"
             items={selectedOrder}
-            className="w-[161px] h-[30px] text-[15px]"
+            className=" desktop:w-[161px] h-[30px] text-[15px] laptop:w-[127px] "
             variant="bordered"
             disallowEmptySelection
             defaultSelectedKeys={["최신등록글"]}
