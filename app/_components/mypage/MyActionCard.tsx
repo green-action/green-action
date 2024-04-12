@@ -63,11 +63,18 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
 
   return (
     <div key={id}>
-      <div className="none desktop:w-[356px] desktop:h-[25rem] laptop:w-[287px] laptop:h-[251px] flex flex-wrap desktop:p-1 relative desktop:gap-[13.2px]">
+      <div
+        className={`none desktop:w-[356px] desktop:h-[25rem] ${
+          (mode === "myBookmarks" || mode === "myPosts") &&
+          "laptop:w-[330px] laptop:h-[415px]"
+        } ${
+          mode === "main" && "laptop:w-[287px] laptop:h-[251px]"
+        }flex flex-wrap desktop:p-1 relative desktop:gap-[13.2px]`}
+      >
         <Card
           isFooterBlurred
           radius="lg"
-          className="border-none w-full desktop:h-[311px] laptop:h-[251px] cursor-pointer"
+          className="border-none w-full desktop:h-[311px] laptop:h-[251px] laptop:mb-[10px] cursor-pointer"
         >
           {actionImgUrl ? (
             <img
