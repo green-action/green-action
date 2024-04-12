@@ -112,8 +112,8 @@ const DetailPage = () => {
 
   if (isError) return <div>Error fetching details...</div>;
   return (
-    <div className="w-[1920px] m-auto mt-[62px]">
-      <div className="w-[1576.3px] mb-[25px] mx-[171px]">
+    <div className="m-auto desktop:mt-[62px]">
+      <div className="desktop:w-[1576.3px] desktop:mb-[25px] desktop:mx-[171px]">
         <Breadcrumbs>
           <BreadcrumbItem href="/individualAction">Green-action</BreadcrumbItem>
           <BreadcrumbItem href="/individualAction">
@@ -122,37 +122,37 @@ const DetailPage = () => {
           <BreadcrumbItem href="">{detail.title}</BreadcrumbItem>
         </Breadcrumbs>
       </div>
-      <div className="flex flex-row w-[1576.3px] h-auto mx-[171px] content-center">
-        <div className="w-[439.34px] mr-[43px]">
-          <div className="border-1 border-[#bfbfbf]  h-[232.96px] rounded-[20px] mb-7">
-            <div className="flex w-[336.78px] h-[95px] mt-[48px] ml-[54px] border-b-2 border-[#d9d9d9]">
+      <div className="flex flex-row desktop:w-[1576.3px] h-auto desktop:mx-[171px] desktop:mb-96 content-center">
+        <div className="desktop:w-[439.34px] desktop:mr-[43px]">
+          <div className="border-1 border-[#bfbfbf]  desktop:h-[232.96px] rounded-[20px] desktop:mb-7">
+            <div className="flex desktop:w-[336.78px] desktop:h-[95px] desktop:mt-[48px] desktop:ml-[54px] border-b-2 border-[#d9d9d9]">
               <Avatar
                 showFallback
                 src={detail.users?.profile_img || ""}
-                className="w-[73.43px] h-[73.43px] mr-[31px]"
+                className="desktop:w-[73.43px] desktop:h-[73.43px] desktop:mr-[31px]"
               />
 
               <div>
-                <div className="mb-[15px] font-semibold text-[10px] font-[#848484]">
+                <div className="desktop:mb-[15px] font-semibold text-[10px] font-[#848484]">
                   작성자
                 </div>
                 <div className="flex">
-                  <div className="mr-[32px] font-semibold text-[15px]">
+                  <div className="desktop:mr-[32px] font-semibold text-[15px]">
                     {detail.users?.display_name}
                   </div>
                   <div className="font-normal text-[13px]">Greener</div>
                 </div>
               </div>
             </div>
-            <div className="w-[336.78px] mt-[25px] ml-[54px] text-[10px] font-[#848484]">
+            <div className="desktop:w-[336.78px] desktop:mt-[25px] desktop:ml-[54px] text-[10px] font-[#848484]">
               {detail.users?.introduction}
             </div>
           </div>
-          <div className="border-1 border-[#bfbfbf] bg-[#fafafa] h-[74.7px] rounded-[20px] mb-[22px] text-center content-center font-semibold cursor-pointer">
+          <div className="border-1 border-[#bfbfbf] bg-[#fafafa] desktop:h-[74.7px] rounded-[20px] desktop:mb-[22px] text-center content-center font-semibold cursor-pointer">
             1:1 채팅하기
           </div>
           <div
-            className="border-1 border-[#bfbfbf] bg-[#fafafa] h-[74.7px] rounded-[20px] text-center content-center font-semibold cursor-pointer"
+            className="border-1 border-[#bfbfbf] bg-[#fafafa] desktop:h-[74.7px] rounded-[20px] text-center content-center font-semibold cursor-pointer"
             key={"opaque"}
             color="warning"
             onClick={() => handleOpen()}
@@ -182,15 +182,15 @@ const DetailPage = () => {
             </ModalContent>
           </Modal>
 
-          <div className="flex justify-center mt-[67px]">
+          <div className="flex justify-center desktop:mt-[67px]">
             <KakaoShareButton description={detail.content!} />
           </div>
         </div>
-        <div className="w-[1093.92px]">
-          <div className="border-1 border-[#bfbfbf] mb-[15px] h-[343.11px] rounded-[20px]">
-            <div className="h-[139px] mt-[33px] mb-[54px] mx-[63px]">
+        <div className="desktop:w-[1093.92px]">
+          <div className="border-1 border-[#bfbfbf] desktop:mb-[15px] desktop:h-[343.11px] rounded-[20px]">
+            <div className="desktop:h-[139px] desktop:mt-[33px] desktop:mb-[54px] desktop:mx-[63px]">
               <div className="flex justify-between items-center">
-                <div className="w-[147px] h-10 bg-[#f1f1f1] rounded-3xl text-[15px] text-[#797979] font-bold text-center content-center">
+                <div className="desktop:w-[147px] desktop:h-10 bg-[#f1f1f1] rounded-3xl text-[15px] text-[#797979] font-bold text-center content-center">
                   Green-action
                 </div>
                 {user_uid === detail.user_uid ? (
@@ -198,23 +198,25 @@ const DetailPage = () => {
                     <Image
                       src={editAction}
                       alt="수정"
-                      className="size-[19px] mr-[30px] cursor-pointer"
+                      className="desktop:size-[19px] desktop:mr-[30px] cursor-pointer"
                       onClick={handleEditClick}
                     />
                     <Image
                       src={delAction}
                       alt="삭제"
-                      className="size-[17px] cursor-pointer"
+                      className="desktop:size-[17px] cursor-pointer"
                       onClick={handleDeleteClick}
                     />
                   </div>
                 ) : null}
               </div>
-              <div className="flex justify-between mt-[51px] border-b-2 border-[#bfbfbf]">
-                <p className="font-bold text-xl pb-[27px]">{detail.title}</p>
-                <div className="flex flex-row text-sm items-center mr-[20px] pb-[20px]">
+              <div className="flex justify-between desktop:mt-[51px] border-b-2 border-[#bfbfbf]">
+                <p className="font-bold text-xl desktop:pb-[27px]">
+                  {detail.title}
+                </p>
+                <div className="flex flex-row text-sm items-center desktop:mr-[20px] desktop:pb-[20px]">
                   <div
-                    className={`w-[57px] h-[18px] rounded-[5px] content-center text-center text-white mr-[35px] ${
+                    className={`desktop:w-[57px] desktop:h-[18px] rounded-[5px] content-center text-center text-white desktop:mr-[35px] ${
                       detail.is_recruiting ? "bg-[#B3C8A1]" : "bg-[#5F5F5F]"
                     }`}
                   >
@@ -223,24 +225,24 @@ const DetailPage = () => {
                   <Image
                     src={person}
                     alt="사람 아이콘"
-                    className="w-[31px] h-[30px] float-end mr-1"
+                    className="desktop:w-[31px] desktop:h-[30px] float-end desktop:mr-1"
                   />
-                  <p className="float-end mr-[20px] font-[13px]">
+                  <p className="float-end desktop:mr-[20px] font-[13px]">
                     {detail.recruit_number}
                   </p>
                   <Bookmark action_id={params.id} mode={mode} />
                 </div>
               </div>
             </div>
-            <div className="ml-[77px] w-[284px]">
-              <div className="border-b-1 border-[#bfbfbf] w-[284px] text-xs">
-                <div className="mb-[9px]">
+            <div className="desktop:ml-[77px] desktop:w-[284px]">
+              <div className="border-b-1 border-[#bfbfbf] desktop:w-[284px] text-xs">
+                <div className="desktop:mb-[9px]">
                   <Image
                     src={calendar}
                     alt="달력 아이콘"
-                    className="w-[15.19px] h-[16.46px] float-left mr-[16px] ml-[2.74px]"
+                    className="desktop:w-[15.19px] desktop:h-[16.46px] float-left desktop:mr-[16px] desktop:ml-[2.74px]"
                   />
-                  <p className="float-left mr-8 font-semibold text-[11px] text-[#848484]">
+                  <p className="float-left desktop:mr-8 font-semibold text-[11px] text-[#848484]">
                     날짜
                   </p>
                   <p className="font-medium text-[13px] text-[#1e1e1e]">
@@ -248,13 +250,13 @@ const DetailPage = () => {
                   </p>
                 </div>
               </div>
-              <div className="flex mt-[7px] items-center">
+              <div className="flex desktop:mt-[7px] items-center">
                 <Image
                   src={mapPin}
                   alt="위치 아이콘"
-                  className="float-left mr-[15px] size-[20.26px]"
+                  className="float-left desktop:mr-[15px] desktop:size-[20.26px]"
                 />
-                <p className="float-left mr-8 font-semibold text-[11px] text-[#848484]">
+                <p className="float-left desktop:mr-8 font-semibold text-[11px] text-[#848484]">
                   장소
                 </p>
                 <p className="font-semibold text-[13px] text-[#1e1e1e]">
@@ -263,13 +265,13 @@ const DetailPage = () => {
               </div>
             </div>
           </div>
-          <div className="border-1 border-[#bfbfbf] h-[545.69px] rounded-[20px]">
-            <div className="m-[78px] flex justify-between">
+          <div className="border-1 border-[#bfbfbf] desktop:h-[545.69px] rounded-[20px]">
+            <div className="desktop:m-[78px] flex justify-between">
               <div>
-                <div className="mb-[37px] font-semibold text-[11px] text-[#848484]">
+                <div className="desktop:mb-[37px] font-semibold text-[11px] text-[#848484]">
                   상세내용
                 </div>
-                <div className="w-[327.92px]">
+                <div className="desktop:w-[327.92px]">
                   <p className="font-medium text-[11px] text-[#848484] leading-[170%]">
                     {detail.content}
                   </p>
@@ -281,12 +283,12 @@ const DetailPage = () => {
                   <img
                     src={imgUrl![0].img_url}
                     alt="green_action_image"
-                    className="w-[387px] h-[390px] rounded-[20px]"
+                    className="desktop:w-[387px] desktop:h-[390px] rounded-[20px]"
                   />
                 ) : (
                   <Slider
                     {...settings}
-                    className="w-[387px] h-[390px] rounded-[20px]"
+                    className="desktop:w-[387px] desktop:h-[390px] rounded-[20px]"
                   >
                     {imgUrl?.map((item) => {
                       return (
@@ -294,7 +296,7 @@ const DetailPage = () => {
                           <img
                             src={item.img_url}
                             alt="green_action_image"
-                            className="w-[387px] h-[390px]  rounded-[20px]"
+                            className="desktop:w-[387px] desktop:h-[390px] rounded-[20px]"
                           />
                         </div>
                       );
