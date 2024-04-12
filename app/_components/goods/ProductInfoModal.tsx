@@ -1,19 +1,11 @@
 import { updatePoint } from "@/app/_api/goods/goods_api";
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  useDisclosure,
-} from "@nextui-org/react";
 import { useState } from "react";
-import { LiaSearchSolid } from "react-icons/lia";
 import { QUERY_KEY_USER_POINT } from "@/app/_api/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUserPoint } from "@/app/_hooks/useQueries/goods";
 import { useSession } from "next-auth/react";
+import search from "/app/_assets/image/logo_icon/icon/goods/Group 128.png";
+import Image from "next/image";
 
 const ProductInfoModal = ({
   item,
@@ -30,8 +22,12 @@ const ProductInfoModal = ({
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid;
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const [showProductInfo, setShowProductInfo] = useState(false);
+  const [confirmPurchase, setConfirmPurchase] = useState(false);
+
+  const handleToggleProductInfo = () => {
+    setShowProductInfo(!showProductInfo);
+  };
 
   const { mutate: pointMutation } = useMutation({
     mutationFn: ({
@@ -58,8 +54,8 @@ const ProductInfoModal = ({
   const handleConfirmPurchase = async () => {
     if (loggedInUserUid && user_point < item.point) {
       alert(`구매 불가 상품입니다 : 보유한 포인트 ${user_point}P`);
-      setConfirmModalOpen(false);
-      onClose();
+      setConfirmPurchase(false);
+      setShowProductInfo(false);
       return;
     }
 
@@ -70,16 +66,12 @@ const ProductInfoModal = ({
 
         alert(`구매 성공! : 남은 포인트 ${updatedPoint}P`);
       }
-      setConfirmModalOpen(false);
-      onClose();
+      setConfirmPurchase(false);
+      setShowProductInfo(false);
     } catch (error) {
       console.error("Error updating user point:", error);
       alert("구매 실패했습니다. 다시 시도해주세요.");
     }
-  };
-  const handleModalClose = () => {
-    setConfirmModalOpen(false);
-    onClose();
   };
 
   if (isLoading) {
@@ -87,63 +79,69 @@ const ProductInfoModal = ({
   }
 
   return (
-    <>
-      <LiaSearchSolid
-        className="w-7 h-7 cursor-pointer border-1 rounded-full p-1 m-auto bg-gray-200 border-none"
-        onClick={onOpen}
+    <div>
+      <Image
+        src={search}
+        alt="제품상세정보"
+        className="desktop:size-[33px] cursor-pointer"
+        onClick={handleToggleProductInfo}
       />
-
-      <Modal isOpen={isOpen} onOpenChange={onClose}>
-        <ModalContent>
-          <ModalHeader className="flex flex-col gap-1 text-center">
-            제품 상세 정보
-          </ModalHeader>
-          <ModalBody className="text-center">
+      {showProductInfo && (
+        <div
+          className="absolute w-[250px] h-[270px] rounded-[20px] top-[130px] left-[40px] 
+        bg-[#ffffff]"
+        >
+          <div className="flex flex-col gap-1 text-center m-[22px]">
+            <p className="mb-[20px]">제품 상세 정보</p>
             <p>{item.product_info}</p>
-          </ModalBody>
-          <ModalFooter>
-            {loggedInUserUid ? (
-              <Button
-                className="rounded-3xl"
-                color="primary"
-                onClick={() => setConfirmModalOpen(true)}
-              >
-                구매하기
-              </Button>
-            ) : null}
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-      <Modal
-        isOpen={confirmModalOpen}
-        onClose={() => setConfirmModalOpen(false)}
-      >
-        <ModalContent>
-          <ModalHeader className="flex flex-col gap-1 text-center">
-            구매 확인
-          </ModalHeader>
-          <ModalBody className="text-center">
+            {loggedInUserUid && (
+              <div className="flex justify-center gap-2 mt-5">
+                <button
+                  className="rounded-[20px] text-[13px] bg-[#EDF1E8] border-2 border-[#8A8A8A] w-[132px] h-[35px] mb-[25px]"
+                  onClick={() => setConfirmPurchase(true)}
+                >
+                  구매하기
+                </button>
+                {/* <button
+                  className="rounded-3xl bg-warning text-white px-4 py-2"
+                   onClick={() => {
+                  setConfirmPurchase(false);
+                  setShowProductInfo(false);
+                }}
+                >
+                  취소
+                </button> */}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+      {confirmPurchase && (
+        <div className="absolute w-[250px] h-[270px] rounded-[20px] top-[130px] left-[40px] bg-[#ffffff]">
+          <div className="flex flex-col gap-1 text-center m-[22px]">
+            <p className="mb-[20px]">구매 확인</p>
             <p>{item.point}P를 차감하고 구매하시겠습니까?</p>
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              className="rounded-3xl"
-              color="primary"
-              onClick={handleConfirmPurchase}
-            >
-              구매
-            </Button>
-            <Button
-              className="rounded-3xl"
-              color="warning"
-              onClick={handleModalClose}
-            >
-              취소
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </>
+            <div className="flex justify-center gap-2 mt-5">
+              <button
+                className="rounded-[20px] text-[13px] bg-[#EDF1E8] border-2 border-[#656565] w-[91px] h-[28px]"
+                onClick={handleConfirmPurchase}
+              >
+                구매
+              </button>
+              <button
+                className="rounded-[20px] text-[13px] border-2 border-[#656565] w-[91px] h-[28px]"
+                onClick={() => {
+                  setConfirmPurchase(false);
+                  setShowProductInfo(false);
+                }}
+              >
+                취소
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

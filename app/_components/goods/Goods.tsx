@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
+import { useGoods } from "@/app/_hooks/useQueries/goods";
 import { CircularProgress } from "@nextui-org/react";
 import ProductInfoModal from "./ProductInfoModal";
-import { useGoods } from "@/app/_hooks/useQueries/goods";
 
 const Goods = () => {
   const { data: goods, isLoading, isError } = useGoods();
@@ -16,34 +16,32 @@ const Goods = () => {
   if (isError) return <div>Error fetching goods...</div>;
 
   return (
-    <div className="mt-5">
-      <div className="text-gray-400 font-medium">
-        캠페인에 참여하고 포인트를 모아보세요!
-      </div>
-
-      <div className="gap-3 grid grid-cols-5 md:grid-cols-5 mt-12">
-        {goods?.map((item) => {
-          return (
-            <div>
-              <img
-                alt="Card background"
-                className="rounded-2xl"
-                src={item.img_url}
-              />
-              <div className="flex justify-between mt-4">
-                <div>
-                  <p>{item.product_name}</p>
-                  <p className="text-default-500">
-                    {item.point.toLocaleString()}P
-                  </p>
-                </div>
-                <div>
-                  <ProductInfoModal item={item} />
+    <div className="desktop:mt-[160px]">
+      <div>
+        <div className="desktop:gap-[23px] laptop:gap-[20px] grid desktop:grid-cols-5 laptop:grid-cols-3">
+          {goods?.map((item) => {
+            return (
+              <div className="relative">
+                <img
+                  alt="Card background"
+                  className="rounded-2xl desktop:h-[494px] laptop:h-[431px]"
+                  src={item.img_url}
+                />
+                <div className="flex justify-between desktop:mt-[28px] desktop:mx-[33px]">
+                  <div className="text-[15px] ">
+                    <p>{item.product_name}</p>
+                    <p className="text-[#929292]">
+                      {item.point.toLocaleString()}P
+                    </p>
+                  </div>
+                  <div>
+                    <ProductInfoModal item={item} />
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </div>
   );
