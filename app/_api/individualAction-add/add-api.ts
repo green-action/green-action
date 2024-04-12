@@ -45,10 +45,16 @@ export const insertActionTextForm = async ({
   }
 };
 
-// 2. 500 point 업데이트해주기
-// (다른 컴포넌트에서도 사용 예정이라 로직 분리)
-export const updateUserPoint = async (loggedInUserUid: string) => {
+// 2. point 업데이트 - mode에 따라 업데이트되는 포인트가 달라짐
+// (다른 컴포넌트에서도 사용하기 때문에 로직 분리)
+export const updateUserPoint = async (
+  loggedInUserUid: string,
+  option: { mode: string },
+) => {
   try {
+    const { mode } = option;
+
+    // 포인트 가져오기
     const { data, error } = await supabase
       .from("users")
       .select("point")
@@ -59,12 +65,22 @@ export const updateUserPoint = async (loggedInUserUid: string) => {
     }
 
     const point = data[0].point;
-    if (point) {
-      const updatedPoint = point + 500;
-      await supabase
-        .from("users")
-        .update({ point: updatedPoint })
-        .eq("id", loggedInUserUid);
+    let updatedPoint;
+
+    // 댓글은 200포인트, 개인액션 및 게시글 등록은 500포인트 업데이트
+    if (point && mode === "comment") {
+      updatedPoint = point + 200;
+    } else if (point && (mode === "addAction" || mode === "addPost")) {
+      updatedPoint = point + 500;
+    }
+
+    const { error: updatePointError } = await supabase
+      .from("users")
+      .update({ point: updatedPoint })
+      .eq("id", loggedInUserUid);
+
+    if (updatePointError) {
+      throw error;
     }
   } catch (error) {
     console.error("Error inserting data:", error);

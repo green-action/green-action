@@ -102,7 +102,7 @@ const AddPostModal = () => {
         }
 
         // 500포인트 업데이트
-        await updateUserPoint(loggedInUserUid);
+        await updateUserPoint(loggedInUserUid, { mode: "addPost" });
 
         setShowPointModal(true);
 

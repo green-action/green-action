@@ -57,7 +57,7 @@ const AddActionPage = () => {
         });
 
         // 2. 500point 업데이트
-        await updateUserPoint(loggedInUserUid);
+        await updateUserPoint(loggedInUserUid, { mode: "addAction" });
 
         // 3. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
         const imgUrlsArray = await uploadFilesAndGetUrls({ files, action_id });
