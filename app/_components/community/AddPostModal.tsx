@@ -1,8 +1,8 @@
 "use client";
 
+import React, { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
 
 import { uploadFileAndGetUrl } from "@/app/_api/community/community-api";
 import { useInsertCommunityPostFormData } from "@/app/_hooks/useMutations/community";
@@ -24,12 +24,13 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 
-import { LuPencilLine } from "react-icons/lu";
 import CustomConfirm from "../customConfirm/CustomConfirm";
 import PointModal from "./PointModal";
 
+import { LuPencilLine } from "react-icons/lu";
+import { updateUserPoint } from "@/app/_api/individualAction-add/add-api";
+
 const AddPostModal = () => {
-  const [modalPlacement, setModalPlacement] = React.useState("auto");
   const [uploadedFileUrl, setUploadedFileUrl] = useState<string>("");
   const [file, setFile] = useState<File | undefined | null>(null);
   const [showPointModal, setShowPointModal] = useState(false);
@@ -99,6 +100,9 @@ const AddPostModal = () => {
         if (imgUrl) {
           formData.append("image_url", imgUrl);
         }
+
+        // 500포인트 업데이트
+        await updateUserPoint(loggedInUserUid);
 
         setShowPointModal(true);
 
