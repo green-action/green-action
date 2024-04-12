@@ -2,8 +2,8 @@
 import React, { useRef } from "react";
 
 import { Button } from "@nextui-org/react";
-import bookmarkFill from "/app/_assets/image/logo_icon/icon/mypage/Star 32.png";
 import Image from "next/image";
+import bookmarkFill from "/app/_assets/image/logo_icon/icon/mypage/Star 32.png";
 
 interface CustomConfirmProps {
   text: string;
@@ -81,24 +81,51 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
           <Image
             src={bookmarkFill}
             alt="북마크"
-            className="size-[14px] mr-[6px] mt-[2px]"
+            className="w-[15px] h-[14px] mt-[3px] mr-[11px] "
           />
         </button>
       ) : (
-        <Button
-          color="primary"
-          variant="ghost"
-          onClick={() => {
-            customConfirm.show(handleClick);
-          }}
+        mode !== "community" && (
+          <Button
+            variant="ghost"
+            className="text-gray-500 rounded-full !w-[140px] h-[33px] border border-gray-400 bg-[#EFEFEF]"
+            onClick={() => {
+              customConfirm.show(handleClick);
+            }}
+          >
+            {buttonName}
+          </Button>
+        )
+      )}
+      {mode === "community" && (
+        <button
+          onClick={() => customConfirm.show(handleClick)}
+          role="button"
+          aria-label="Close"
+          className="absolute appearance-none select-none top-1 right-1 p-2 text-foreground-500 rounded-full hover:bg-default-100 active:bg-default-200 tap-highlight-transparent outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2"
+          type="button"
         >
-          {buttonName}
-        </Button>
+          <svg
+            aria-hidden="true"
+            fill="none"
+            focusable="false"
+            height="1em"
+            role="presentation"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="1em"
+          >
+            <path d="M18 6L6 18M6 6l12 12"></path>
+          </svg>
+        </button>
       )}
 
       <div
         ref={dialogContRef}
-        className="absolute top-[-50%] left-1/2 translate-x-[-50%] translate-y-[-50%] p-[10px] w-full transition-all z-[2] opacity-0"
+        className="absolute top-[-50%] left-1/2 translate-x-[-50%] translate-y-[-50%] p-[10px] w-full transition-all z-[50] opacity-0"
       >
         <div className="p-[10px] py-[50px] leading-7 bg-[#f5f5f2] text-center rounded-xl mb-[-20px]">
           {text}

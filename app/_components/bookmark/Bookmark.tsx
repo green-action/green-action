@@ -82,7 +82,7 @@ const Bookmark = ({
           </>
         ) : (
           // isBookmarked - true 이지만 mode !== "myBookmarks"인 경우
-          <div className="flex">
+          <div className="flex items-center">
             <button onClick={() => handleRemoveBookmarkClick()}>
               {mode === "detailPage" && (
                 <Image
@@ -91,21 +91,29 @@ const Bookmark = ({
                   className="size-[22px] mr-[6px]"
                 />
               )}
-
+              {mode === "individualAction" && (
+                <Image
+                  src={bookmarkFill}
+                  alt="북마크"
+                  className="size-[16px] desktop:size-[16px] mr-[6px] laptop:size-[13px]"
+                />
+              )}
               {mode === "myPosts" && (
                 <Image
                   src={bookmarkFill}
                   alt="북마크"
-                  className="size-[14px] mr-[6px] mb-[2px]"
+                  className="desktop:w-[15px] desktop:h-[14px] desktop:mt-[2px] desktop:mr-[11px] desktop:mb-[2px]"
                 />
               )}
             </button>
-            <span>{filterBookmark?.filterBookmark?.length ?? 0}</span>
+            <span className="desktop:text-sm laptop:text-[11px]">
+              {filterBookmark?.filterBookmark?.length ?? 0}
+            </span>
           </div>
         )
       ) : (
         // isBookmarked - false
-        <div className="flex">
+        <div className="flex items-center">
           <button onClick={() => handleAddBookmarkClick()}>
             {mode === "detailPage" && (
               <Image
@@ -114,17 +122,25 @@ const Bookmark = ({
                 className="size-[22px] mr-[6px]"
               />
             )}
-
-            {mode === "myPosts" && (
+            {mode === "individualAction" && (
               <Image
                 src={bookmarkEmpty}
                 alt="북마크"
-                className="size-[14px] mr-[6px] mb-[2px]"
+                className="size-[16px] desktop:size-[16px] mr-[6px] laptop:size-[13px] "
+              />
+            )}
+            {mode === "myPosts" && (
+              <Image
+                src={bookmarkFill}
+                alt="북마크"
+                className="desktop:w-[15px] desktop:h-[14px] desktop:mt-[2px] desktop:mr-[11px] desktop:mb-[2px]"
               />
             )}
             {/* <CiStar className="text-[19px]" /> */}
           </button>
-          <span>{filterBookmark?.filterBookmark?.length ?? 0}</span>
+          <span className="desktop:text-sm laptop:text-[11px]">
+            {filterBookmark?.filterBookmark?.length ?? 0}
+          </span>
         </div>
       )}
     </>

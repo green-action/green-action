@@ -1,4 +1,11 @@
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+
+import Bookmark from "../bookmark/Bookmark";
+import MyActionRecruitingModal from "./MyActionRecruitingModal";
+
 import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
+
 import {
   Button,
   Card,
@@ -9,13 +16,12 @@ import {
   DropdownTrigger,
   useDisclosure,
 } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
-import { GoPerson } from "react-icons/go";
+
 import { GrLocation } from "react-icons/gr";
-import { HiOutlineDotsVertical } from "react-icons/hi";
 import { IoIosCalendar } from "react-icons/io";
-import Bookmark from "../bookmark/Bookmark";
-import MyActionRecruitingModal from "./MyActionRecruitingModal";
+
+import person from "/app/_assets/image/logo_icon/icon/mypage/image 166.png";
+import optionDots from "/app/_assets/image/logo_icon/icon/mypage/Group 100.png";
 
 // TODO MyAction 타입 사용 후 에러 해결하기
 const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
@@ -50,7 +56,6 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
   };
 
   const handleDeleteClick = () => {
-    // 커스텀 confirm 창 사용? - but 드롭/다운에 버튼넣어야 하는 문제
     if (window.confirm("정말 삭제하시겠습니까?")) {
       deleteAction();
     } else return;
@@ -58,16 +63,15 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
 
   return (
     <div key={id}>
-      <div className="none w-[330px] h-[25rem] flex flex-wrap  p-1 relative">
+      <div className="none desktop:w-[356px] desktop:h-[25rem] flex flex-wrap desktop:p-1 relative desktop:gap-[13.2px]">
         <Card
           isFooterBlurred
           radius="lg"
-          className="border-none w-full h-[260px] cursor-pointer"
+          className="border-none w-full desktop:h-[311px] cursor-pointer"
         >
           {actionImgUrl ? (
             <img
               src={actionImgUrl.img_url}
-              // actionImgUrl.img_url
               alt="Green Action Image"
               className="w-full h-full"
               onClick={handleActionClick}
@@ -79,25 +83,39 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
             />
           )}
         </Card>
-        <div className={`pl-2 ${mode === "myPosts" && "pt-5"}`}>
-          <div className="flex w-[300px] gap-2">
-            <div className="flex gap-2 mb-4 min-w-[225px] ">
-              <p className=" max-w-[165px] font-bold overflow-hidden whitespace-nowrap overflow-ellipsis">
+        <div
+          className={`pl-2 ${
+            mode === "myPosts" && "pt-5"
+          } bg-[#F9F9F9]  desktop:p-5 desktop:rounded-2xl w-full`}
+        >
+          <div className="flex w-full gap-0">
+            <div className="flex gap-2 mb-4 min-w-[240px] items-center ">
+              <p className=" max-w-[165px] desktop:text-[15px] font-bold overflow-hidden whitespace-nowrap overflow-ellipsis">
                 {title}
               </p>
               {is_recruiting ? (
-                <Chip size="sm" color="success" className="text-white">
+                <Chip
+                  size="sm"
+                  className="text-white w-[41px] h-[16px] bg-[#B3C8A1] rounded-[5px] text-center text-[9pt]"
+                >
                   모집중
                 </Chip>
               ) : (
-                <Chip size="sm" className="text-white">
+                <Chip
+                  size="sm"
+                  className="text-white w-[50px] h-[16px] bg-[#5F5F5F] rounded-[5px] text-center text-[9pt]"
+                >
                   모집마감
                 </Chip>
               )}
             </div>
-            <div className="flex justify-end items-start pt-0 gap-2 text-sm">
-              <div className="flex gap-1">
-                <GoPerson size="15" className="mt-[1.5px]" />
+            <div className="flex justify-end items-start pt-0 gap-[15px] text-sm w-full">
+              <div className="flex">
+                <Image
+                  src={person}
+                  alt="person-icon"
+                  className="w-[22px] h-[20px]"
+                />
                 <p>{recruit_number}</p>
               </div>
               {/* LINK 북마크 컴포넌트 */}
@@ -122,12 +140,16 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
             {mode === "myPosts" && (
               <>
                 <Dropdown
-                  placement="bottom-end"
+                  placement="bottom"
                   className="flex w-[10px] p-0 m-0 rounded-3xl justify-end" //max-w-[5rem]
                 >
                   <DropdownTrigger>
-                    <Button className="bg-transparent ">
-                      <HiOutlineDotsVertical className="cursor-pointer" />
+                    <Button className="bg-transparent ml-[20px] justify-end">
+                      <Image
+                        src={optionDots}
+                        alt="option-three-dots-icon"
+                        className="w-[2.3px]"
+                      />
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" className="p-3">

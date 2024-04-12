@@ -2,6 +2,7 @@ import { supabase } from "@/utils/supabase/client";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import KakaoProvider from "next-auth/providers/kakao";
+import GoogleProvider from "next-auth/providers/google";
 
 const handler = NextAuth({
   providers: [
@@ -48,6 +49,10 @@ const handler = NextAuth({
       clientId: process.env.NEXT_KAKAO_CLIENT_ID!,
       clientSecret: process.env.NEXT_KAKAO_CLIENT_SECRET!,
     }),
+    GoogleProvider({
+      clientId: process.env.NEXT_GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.NEXT_GOOGLE_CLIENT_SECRET!,
+    }),
   ],
   callbacks: {
     async session({ session, token }) {
@@ -75,7 +80,7 @@ const handler = NextAuth({
               profile_img: session.user.image,
             })
             .select("id");
-          // 이걸 session.user.user_uid에 넣어주기
+          // 이걸 session.user.user_uid에 넣어주기 배열이니깐 [0]넣어주기
           session.user.user_uid = data![0].id;
           console.log("소셜로그인정보 인서트 후 로직");
           console.log("data==>>", data);
@@ -87,12 +92,10 @@ const handler = NextAuth({
         return session;
       }
 
-      // console.log(typeof token.sub);
-
       // 데이터에있는 uid를 세션유저 user_uid
       session.user.user_uid = token.sub ?? "";
       session.user.email = token.email ?? "";
-      // console.log(session.user.user_uid);
+
       // 토큰의 sub가아니라 users테이블의 생성된 id(uuid)를 넣어야됨
       return session;
     },

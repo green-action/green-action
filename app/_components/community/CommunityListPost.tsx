@@ -51,14 +51,17 @@ const CommunityListPost = ({
   return (
     <>
       <div
-        className={` ${
-          mode === "main" ? "w-[330px] h-[600px]" : "w-[31%] mb-2"
-        }`}
+        className={` ${mode === "main" && "w-[330px] h-[600px]"}
+            ${mode === "myPosts" && "desktop:w-[356px]"}
+          ${mode !== "main" && mode !== "myPosts" && "w-[31%] mb-2"}
+        `}
       >
         <Card
           isFooterBlurred
           radius="lg"
-          className="shadow-none border-none desktop:w-[410px] desktop:h-[295px] laptop:w-[433px] laptop:h-[311px] mb-3 rounded-2xl"
+          className={`shadow-none border-none desktop:w-[410px] desktop:h-[295px] laptop:w-[433px] laptop:h-[311px] mb-3 rounded-2xl ${
+            mode === "myPosts" && "desktop:w-full desktop:h-[250px]"
+          }`}
         >
           <div className="relative w-full desktop:h-[295px] laptop:h-[311px] overflow-hidden">
             <img
@@ -76,7 +79,11 @@ const CommunityListPost = ({
                 src={imgSrc || my_profile_img || ""}
                 className="rounded-full mr-4 w-[28px] h-[28px]"
               />
-              <p className="text-white text-[16px] font-extrabold mr-3">
+              <p
+                className={`text-white text-[16px] font-extrabold mr-3 ${
+                  mode === "myPosts" && "desktop:text-[13px]"
+                }`}
+              >
                 {display_name || my_display_name}
               </p>
               <span className="text-[14px]">Greener</span>
@@ -106,7 +113,12 @@ const CommunityListPost = ({
           </CardFooter> */}
         </Card>
         <div className="flex justify-center items-center mt-4 desktop:w-[410px] laptop:w-[433px]">
-          <div className="flex items-center justify-center ml-[24px] rounded-full border-2 border-black text-[13px] font-extrabold p-0.5 px-4 w-[150px] h-[31px] ">
+          <div
+            className={`flex items-center justify-center ml-[24px] rounded-full border-2 border-black text-[13px] font-extrabold p-0.5 px-4 w-[150px] h-[31px]
+          ${mode === "myPosts" && "w-[160px]"}  ${
+              mode === "main" && "w-[180px]"
+            }`}
+          >
             {communityPost?.action_type}와 함께해요
           </div>
           <p className="text-[15px] font-extrabold w-3/4 ml-[27px] mr-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
