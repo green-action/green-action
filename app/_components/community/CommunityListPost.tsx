@@ -62,20 +62,20 @@ const CommunityListPost = ({
         <Card
           isFooterBlurred
           radius="lg"
-          className={`shadow-none border-none w-[410px] h-[295px] mb-3 rounded-2xl ${
+          className={`shadow-none border-none desktop:w-[410px] desktop:h-[295px] laptop:w-[433px] laptop:h-[311px] mb-3 rounded-2xl ${
             mode === "myPosts" && "desktop:w-full desktop:h-[250px]"
           }
             ${mode === "main" && "laptop:w-full laptop:h-full"}
             `}
         >
-          <div className="relative w-full h-[295px] overflow-hidden">
+          <div className="relative w-full desktop:h-[295px] laptop:h-[311px] overflow-hidden">
             <img
               onClick={() => onOpen()}
               alt="Community Post Image"
               className="object-cover w-full h-full cursor-pointer brightness-90"
               src={communityPost?.img_url}
             />
-            <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-[#6d6d6d] to-transparent"></div>
+            <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t"></div>
           </div>
           <div className="flex items-center justify-between pl-[24px] pr-[16px] absolute bottom-0 text-white w-full h-[66px]">
             <div className="flex items-center">
@@ -118,7 +118,7 @@ const CommunityListPost = ({
             </div>
           </CardFooter> */}
         </Card>
-        <div className="flex justify-center items-center mt-4">
+        <div className="flex justify-center items-center mt-4 desktop:w-[410px] laptop:w-[433px]">
           <div
             className={`flex items-center justify-center ml-[24px] rounded-full border-2 border-black text-[13px] font-extrabold p-0.5 px-4 w-[150px] h-[31px]
           ${mode === "myPosts" && "w-[160px]"}  
