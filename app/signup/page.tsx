@@ -16,6 +16,7 @@ import { PiEyeLight, PiEyeSlash } from "react-icons/pi";
 import { signUpNewUser } from "../_api/auth";
 import logoImg from "../_assets/image/logo_icon/logo/white.png";
 import Image from "next/image";
+import mainImg from "../_assets/image/login/main.png";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -77,6 +78,7 @@ const SignUp = () => {
 
   return (
     <div className="w-screen h-screen flex justify-around items-center bg-cover bg-main-img  bg-blend-darken bg-black bg-opacity-10">
+      {/* <Image src={mainImg} alt=""/> */}
       <div className="flex flex-col items-center justify-center">
         <Image
           className="w-[126px] h-[29px] cursor-pointer"
