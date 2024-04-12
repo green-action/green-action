@@ -36,7 +36,6 @@ const groupActionPage = () => {
                 alt="campaign Img"
               />
             </Card>
-            {/* laptop:indent-[35px] */}
             <section className="flex flex-row justify-between items-center">
               <h2 className="font-bold mt-[30px] text-[14px]  whitespace-nowrap">
                 {action.title}
