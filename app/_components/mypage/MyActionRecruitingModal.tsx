@@ -32,7 +32,7 @@ const MyActionRecruitingModal = ({
     onClose();
   };
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+    <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center">
       <ModalContent>
         {(onClose) => (
           <div className="flex flex-col items-center p-10">

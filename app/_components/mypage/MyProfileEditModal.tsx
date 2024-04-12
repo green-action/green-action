@@ -91,6 +91,7 @@ const MyProfileEditModal = ({
         isOpen={isOpen}
         onClose={handleModalClose}
         onOpenChange={onOpenChange}
+        placement="center"
       >
         <ModalContent>
           {(onClose) => (

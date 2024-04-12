@@ -177,20 +177,19 @@ const MyPage = () => {
   return (
     <>
       {/* 닉넴수정 후 메인페이지 -> 마이페이지 이동시 : 임포트한 헤더 컴포넌트에서만 닉넴 수정 반영됨 */}
-      <DynamicHeader />
-      <div className="flex justify-center desktop:pt-12 desktop:mb-[100px]">
-        <div className="flex desktop:w-[1400px]">
+      {/* <DynamicHeader /> */}
+      <div className="flex justify-center desktop:mb-[100px]">
+        <div className="flex desktop:w-[1540px]">
           <MyProfile userInfo={userInfo as User} />
-          <div className="flex flex-col desktop:gap-10 desktop:pl-10 desktop:pt-1 w-full">
+          <div className="flex flex-col desktop:gap-10 desktop:pl-[82px] desktop:pt-1 w-full">
             <div className="flex justify-between">
-              <div className="flex desktop:gap-12 desktop:ml-5">
+              <div className="flex desktop:gap-[45px] desktop:ml-5 desktop:text-[12pt]">
                 <Button
                   radius="full"
                   size="md"
                   onClick={handleActiveTabClick}
-                  className={
-                    activeTab === "My Green-Action" ? "bg-green-700/30" : ""
-                  }
+                  className={` bg-transparent  desktop:text-[12pt]
+                     ${activeTab === "My Green-Action" && "bg-[#F1F1F1]"}`}
                 >
                   My Green-Action
                 </Button>
@@ -198,9 +197,8 @@ const MyPage = () => {
                   radius="full"
                   size="md"
                   onClick={handleActiveTabClick}
-                  className={
-                    activeTab === "작성 게시물" ? "bg-green-700/30" : ""
-                  }
+                  className={`bg-transparent  desktop:text-[12pt]
+                    ${activeTab === "작성 게시물" && "bg-[#F1F1F1]"}`}
                 >
                   작성 게시물
                 </Button>
@@ -208,14 +206,13 @@ const MyPage = () => {
                   radius="full"
                   size="md"
                   onClick={handleActiveTabClick}
-                  className={
-                    activeTab === "찜한 Green-Action" ? "bg-green-700/30" : ""
-                  }
+                  className={`bg-transparent  desktop:text-[12pt]
+                     ${activeTab === "찜한 Green-Action" && "bg-[#F1F1F1]"}`}
                 >
                   찜한 Green-Action
                 </Button>
               </div>
-              <div className="mr-5">
+              <div className="mr-[80px]">
                 {activeTab === "My Green-Action" && (
                   <RecruitSelectTab
                     selected={myRecruitClicked}
@@ -230,7 +227,7 @@ const MyPage = () => {
                 )}
               </div>
             </div>
-            <div className="flex flex-wrap gap-7">
+            <div className="flex flex-wrap desktop:gap-[20px]">
               {/* LINK My Green Action */}
               {activeTab === "My Green-Action" &&
                 filteredActions?.map((action) => {

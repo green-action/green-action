@@ -27,6 +27,7 @@ import graylogoImg from "/app/_assets/image/logo_icon/logo/gray.png";
 import Image from "next/image";
 
 // 메인, 어바웃 페이지에서 import해 쓰일 헤더 컴포넌트 (to 배경이미지와 함께 적용)
+// 우선 안 합치고 메인,어바웃 페이지에서만 쓰기로
 const DynamicHeader = () => {
   const router = useRouter();
   const pathname = usePathname();

@@ -56,14 +56,14 @@ const MyProfile = ({ userInfo }: { userInfo: User }) => {
   };
 
   return (
-    <div className="flex flex-col gap-5 w-[23rem] min-h-[43rem] ">
+    <div className="flex flex-col gap-5 desktop:w-[347px] min-h-[43rem] ">
       <Card>
-        <div className="flex p-3">
-          <div className="flex gap-4 items-center">
+        <div className="flex pl-5">
+          <div className="flex gap-4 items-center h-[102px]">
             <Avatar
               showFallback
               src={profile_img || ""}
-              className="w-[4.5rem] h-[4.5rem]"
+              className="w-[58px] h-[58px]"
             />
             <div className="flex flex-col gap-[0.1rem] w-[9rem] overflow-hidden whitespace-nowrap overflow-ellipsis">
               <p className="font-bold text-sm">{display_name}</p>
@@ -71,7 +71,7 @@ const MyProfile = ({ userInfo }: { userInfo: User }) => {
               <p className="text-sm font-bold">Greener</p>
             </div>
           </div>
-          <div className="flex items-end pb-2">
+          <div className="flex items-end pb-5">
             <MyProfileEditModal
               user_uid={user_uid}
               display_name={display_name}
@@ -80,7 +80,7 @@ const MyProfile = ({ userInfo }: { userInfo: User }) => {
           </div>
         </div>
       </Card>
-      <Card className="w-full min-h-[18rem] p-[0.5rem]">
+      <Card className="w-full min-h-[276px] p-[0.5rem]">
         <CardHeader className="font-bold">
           <p>My Profile</p>
         </CardHeader>
@@ -93,18 +93,25 @@ const MyProfile = ({ userInfo }: { userInfo: User }) => {
                 onChange={(e) => {
                   handleEditedIntroChange(e);
                 }}
-                className="resize-none rounded-xl w-full h-full p-2 text-sm bg-gray-200/50"
+                className="resize-none rounded-xl w-full min-h-[150px] p-2 text-sm bg-gray-200/50"
                 placeholder="100자 이내로 작성해주세요."
                 maxLength={100}
               />
-              <div className="flex justify-end">
-                <Button onClick={handleCancelEditIntroClick}>작성취소</Button>
-                <Button type="submit">작성완료</Button>
+              <div className="flex justify-end gap-[10px] text-sm">
+                <Button
+                  onClick={handleCancelEditIntroClick}
+                  className="h-[30px]"
+                >
+                  작성취소
+                </Button>
+                <Button type="submit" className="h-[30px]">
+                  작성완료
+                </Button>
               </div>
             </form>
           ) : (
             <>
-              <p className="text-sm">{introduction}</p>
+              <p className="text-sm min-h-[170px]">{introduction}</p>
               <div className="flex justify-end">
                 <button onClick={handleEditIntroClick}>
                   <HiOutlinePlus className="cursor-pointer" />
@@ -117,12 +124,13 @@ const MyProfile = ({ userInfo }: { userInfo: User }) => {
 
       <Card>
         <CardHeader className="mb-[-1.5rem]">
+          {/* text-[15pt] */}
           <p>Points</p>
         </CardHeader>
-        <CardBody className="flex">
-          <div className="font-bold w-[10rem]">{point} P</div>
-        </CardBody>
-        <CardFooter className="flex justify-end">
+        <CardBody className="flex flex-row">
+          <div className="font-bold w-[235px]">{point} P</div>
+
+          {/* <CardFooter className="flex justify-end"> */}
           {/* mt-[-2.7rem] - hover 안됨*/}
           <Tooltip
             showArrow={true}
@@ -147,9 +155,14 @@ const MyProfile = ({ userInfo }: { userInfo: User }) => {
             }
             className="w-[19rem]"
           >
-            <Image src={pointQuestion} alt="questionMark" width={17} />
+            <Image
+              src={pointQuestion}
+              alt="questionMark"
+              className="w-[17px] h-[17px]"
+            />
           </Tooltip>
-        </CardFooter>
+        </CardBody>
+        {/* </CardFooter> */}
       </Card>
     </div>
   );
