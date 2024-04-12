@@ -81,7 +81,7 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
           <Image
             src={bookmarkFill}
             alt="북마크"
-            className="size-[14px] mr-[6px] mt-[2px]"
+            className="w-[15px] h-[14px] mt-[3px] mr-[11px] "
           />
         </button>
       ) : (
