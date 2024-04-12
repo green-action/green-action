@@ -1,8 +1,8 @@
 "use client";
 
+import React, { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
 
 import { uploadFileAndGetUrl } from "@/app/_api/community/community-api";
 import { useInsertCommunityPostFormData } from "@/app/_hooks/useMutations/community";
@@ -28,6 +28,7 @@ import { LuPencilLine } from "react-icons/lu";
 import CustomConfirm from "../customConfirm/CustomConfirm";
 
 const AddPostModal = () => {
+  const [modalPlacement, setModalPlacement] = React.useState("auto");
   const [uploadedFileUrl, setUploadedFileUrl] = useState<string>("");
   const [file, setFile] = useState<File | undefined | null>(null);
 
@@ -126,7 +127,12 @@ const AddPostModal = () => {
         <LuPencilLine className="w-8 h-8" />
       </Button>
       {/* 게시글 글쓰기 모달창 */}
-      <Modal size="lg" isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal
+        size="lg"
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        placement="center"
+      >
         <ModalContent className="h-[740px] relative">
           {(onClose) => (
             <>

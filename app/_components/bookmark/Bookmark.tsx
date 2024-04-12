@@ -89,19 +89,18 @@ const Bookmark = ({
                   className="size-[22px] mr-[6px]"
                 />
               )}
-
-              {mode === "myPosts" && (
-                <Image
-                  src={bookmarkFill}
-                  alt="북마크"
-                  className="size-[14px] mr-[6px] mb-[2px]"
-                />
-              )}
               {mode === "individualAction" && (
                 <Image
                   src={bookmarkFill}
                   alt="북마크"
                   className="size-[16px] desktop:size-[16px] mr-[6px] laptop:size-[13px]"
+                />
+              )}
+              {mode === "myPosts" && (
+                <Image
+                  src={bookmarkFill}
+                  alt="북마크"
+                  className="desktop:w-[15px] desktop:h-[14px] desktop:mt-[2px] desktop:mr-[11px] desktop:mb-[2px]"
                 />
               )}
             </button>
@@ -126,6 +125,13 @@ const Bookmark = ({
                 src={bookmarkEmpty}
                 alt="북마크"
                 className="size-[16px] desktop:size-[16px] mr-[6px] laptop:size-[13px] "
+              />
+            )}
+            {mode === "myPosts" && (
+              <Image
+                src={bookmarkFill}
+                alt="북마크"
+                className="desktop:w-[15px] desktop:h-[14px] desktop:mt-[2px] desktop:mr-[11px] desktop:mb-[2px]"
               />
             )}
             {/* <CiStar className="text-[19px]" /> */}
