@@ -63,11 +63,11 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
 
   return (
     <div key={id}>
-      <div className="none desktop:w-[356px] desktop:h-[25rem] flex flex-wrap desktop:p-1 relative desktop:gap-[13.2px]">
+      <div className="none desktop:w-[356px] laptop:w-[330px] desktop:h-[25rem] laptop:h-[415px] flex flex-wrap desktop:p-1 relative desktop:gap-[13.2px]">
         <Card
           isFooterBlurred
           radius="lg"
-          className="border-none w-full desktop:h-[311px] cursor-pointer"
+          className="border-none w-full desktop:h-[311px] laptop:mb-[10px] cursor-pointer"
         >
           {actionImgUrl ? (
             <img
