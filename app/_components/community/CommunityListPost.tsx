@@ -53,7 +53,7 @@ const CommunityListPost = ({
       <div
         className={` ${
           mode === "main" &&
-          "desktop:w-[330px] desktop:h-[600px] laptop:w-[287px] laptop:h-[207px]"
+          "desktop:w-[410px] desktop:h-[295px] laptop:w-[287px] laptop:h-[207px]"
         }
             ${mode === "myPosts" && "desktop:w-[356px]"}
           ${mode !== "main" && mode !== "myPosts" && "w-[31%] mb-2"}
@@ -65,7 +65,10 @@ const CommunityListPost = ({
           className={`shadow-none border-none desktop:w-[410px] desktop:h-[295px] laptop:w-[433px] laptop:h-[311px] mb-3 rounded-2xl ${
             mode === "myPosts" && "desktop:w-full desktop:h-[250px]"
           }
-            ${mode === "main" && "laptop:w-full laptop:h-full"}
+            ${
+              mode === "main" &&
+              "desktop:w-full desktop:h-full laptop:w-full laptop:h-full "
+            }
             `}
         >
           <div className="relative w-full desktop:h-[295px] laptop:h-[311px] overflow-hidden">
@@ -88,7 +91,7 @@ const CommunityListPost = ({
                 className={`text-white text-[16px] font-extrabold mr-3 ${
                   mode === "myPosts" && "desktop:text-[13px]"
                 }
-                ${mode === "main" && "laptop:text-[12px]"}`}
+                ${mode === "main" && "desktop:text-[16px] laptop:text-[12px]"}`}
               >
                 {display_name || my_display_name}
               </p>
@@ -124,14 +127,14 @@ const CommunityListPost = ({
           ${mode === "myPosts" && "w-[160px]"}  
           ${
             mode === "main" &&
-            "w-[180px] laptop:text-[11px] laptop:px-0 laptop:w-[130px] h-[28px]"
+            "w-[180px] laptop:text-[11px] desktop:text-[13px] laptop:px-0 laptop:w-[130px] h-[28px]"
           }`}
           >
             {communityPost?.action_type}와 함께해요
           </div>
           <p
             className={`text-[15px] font-extrabold w-3/4 ml-[27px] mr-1 overflow-hidden whitespace-nowrap overflow-ellipsis ${
-              mode === "main" && "laptop:text-[11px]"
+              mode === "main" && "desktop:text-[15px] laptop:text-[11px]"
             }`}
           >
             {communityPost?.title}

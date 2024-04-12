@@ -13,11 +13,10 @@ import { useResponsive } from "@/app/_hooks/responsive";
 
 // export const revalidate = 0;
 
-const MainSlider = ({ mode }: { mode: string }) => {
+const LaptopMainSlidder = ({ mode }: { mode: string }) => {
   // FIXME 메인페이지 mode action 인 경우 모집중인 것만 뜨게할지?
-  const { isDesktop, isLaptop, isMobile } = useResponsive();
 
-  var desktopSettings = {
+  var settings = {
     autoplay: true,
     autoplaySpeed: 3000,
     // fade: true,
@@ -25,8 +24,8 @@ const MainSlider = ({ mode }: { mode: string }) => {
     infinite: true,
     arrows: false,
     speed: 2000,
-    slidesToShow: 4,
-    slidesToScroll: 4,
+    slidesToShow: 3,
+    slidesToScroll: 3,
     adaptiveHeight: true,
   };
 
@@ -56,10 +55,9 @@ const MainSlider = ({ mode }: { mode: string }) => {
     //  높이 설정해도 아래만 늘어나고 카드 위가 잘리는 문제 (그림자 등)
     // <div className="h-[300px]">
     <Slider
-      // {{ isDesktop && (' ...desktopSettings ')}}
-      {...desktopSettings}
+      {...settings}
       className={`${
-        mode === "community" ? "h-[400px]" : "h-[550px]"
+        mode === "community" ? "h-[300px]" : "h-[400px]"
       }  desktop:w-[1750px] laptop:w-[904px] flex items-center justify-center`}
     >
       {mode === "community"
@@ -87,4 +85,4 @@ const MainSlider = ({ mode }: { mode: string }) => {
   );
 };
 
-export default MainSlider;
+export default LaptopMainSlidder;
