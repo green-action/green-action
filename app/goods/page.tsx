@@ -3,8 +3,8 @@ import Goods from "../_components/goods/Goods";
 
 const GoodsPage = () => {
   return (
-    <div className="desktop:w-[1920px] desktop:mx-auto desktop:mt-[165px]">
-      <div className="desktop:w-[1752px] desktop:mx-[85px]">
+    <div className="desktop:mx-auto desktop:mt-[165px]">
+      <div className="desktop:w-[1752px] desktop:mx-[85px] laptop:w-[910px] laptop:mx-[56px]">
         <p className="font-['Italiana'] text-[96px] desktop:mb-[11px]">
           ECO GOODS PRODUCT
         </p>
