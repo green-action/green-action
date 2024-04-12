@@ -15,10 +15,16 @@ import FirstInputBox from "@/app/_components/individualAction-add/FirstInputBox"
 import ImgUpload from "@/app/_components/individualAction-add/ImgUpload";
 import SecondInputBox from "@/app/_components/individualAction-add/SecondInputBox";
 import ThirdInputBox from "@/app/_components/individualAction-add/ThirdInputBox";
+import AlertModal from "@/app/_components/community/AlertModal";
 
 const AddActionPage = () => {
   const [uploadedFileUrls, setUploadedFileUrls] = useState<string[]>([]);
   const [files, setFiles] = useState<(File | undefined)[]>([]);
+
+  // alert 대체 모달창을 위한 상태관리
+  const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
+  const [message, setMessage] = useState("");
+
   const router = useRouter();
 
   // 현재 로그인한 유저 uid
@@ -37,7 +43,16 @@ const AddActionPage = () => {
     const kakaoLinkPattern = /^https:\/\/open\.kakao\.com\/o\//;
 
     if (!kakaoLinkPattern.test(openKakaoLink)) {
-      alert("카카오톡 오픈채팅방 링크가 올바르지 않습니다.");
+      // alert("카카오톡 오픈채팅방 링크가 올바르지 않습니다.");
+      setMessage("카카오톡 오픈채팅방 링크가 올바르지 않습니다.");
+      setIsOpenAlertModal(true);
+      return;
+    }
+
+    if (!files.length) {
+      // alert("사진은 필수값입니다.");
+      setMessage("사진은 필수값입니다.");
+      setIsOpenAlertModal(true);
       return;
     }
 
@@ -45,11 +60,6 @@ const AddActionPage = () => {
       // 확인창 표시
       const isConfirmed = window.confirm("등록하시겠습니까?");
       if (isConfirmed) {
-        if (!files.length) {
-          alert("사진은 필수값입니다.");
-          return;
-        }
-
         // 1. user_uid와 텍스트 formData insert -> action_id 반환받기
         const action_id = await insertActionTextForm({
           formData,
@@ -117,6 +127,13 @@ const AddActionPage = () => {
           </div>
         </div>
       </form>
+      {isOpenAlertModal && (
+        <AlertModal
+          isOpen={isOpenAlertModal}
+          onClose={() => setIsOpenAlertModal(false)}
+          message={message}
+        />
+      )}
     </div>
   );
 };
