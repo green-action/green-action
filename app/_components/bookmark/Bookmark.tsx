@@ -13,11 +13,9 @@ import CustomConfirm from "../customConfirm/CustomConfirm";
 import { useSession } from "next-auth/react";
 
 import { CircularProgress } from "@nextui-org/react";
-import { CiStar } from "react-icons/ci";
-import { FaStar } from "react-icons/fa";
-import bookmarkFill from "/app/_assets/image/logo_icon/icon/mypage/Star 32.png";
-import bookmarkEmpty from "/app/_assets/image/logo_icon/icon/mypage/Star 31.png";
 import Image from "next/image";
+import bookmarkEmpty from "/app/_assets/image/logo_icon/icon/mypage/Star 31.png";
+import bookmarkFill from "/app/_assets/image/logo_icon/icon/mypage/Star 32.png";
 
 const Bookmark = ({
   action_id,
@@ -88,7 +86,7 @@ const Bookmark = ({
                 <Image
                   src={bookmarkFill}
                   alt="북마크"
-                  className="size-[22px] mr-[6px]"
+                  className="desktop:size-[22px] desktop:mr-[6px]"
                 />
               )}
               {mode === "individualAction" && (
@@ -119,7 +117,7 @@ const Bookmark = ({
               <Image
                 src={bookmarkEmpty}
                 alt="북마크"
-                className="size-[22px] mr-[6px]"
+                className="desktop:size-[22px] desktop:mr-[6px]"
               />
             )}
             {mode === "individualAction" && (
