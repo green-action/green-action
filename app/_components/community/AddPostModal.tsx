@@ -29,11 +29,16 @@ import PointModal from "./PointModal";
 
 import { LuPencilLine } from "react-icons/lu";
 import { updateUserPoint } from "@/app/_api/individualAction-add/add-api";
+import AlertModal from "./AlertModal";
 
 const AddPostModal = () => {
   const [uploadedFileUrl, setUploadedFileUrl] = useState<string>("");
   const [file, setFile] = useState<File | undefined | null>(null);
   const [showPointModal, setShowPointModal] = useState(false);
+
+  // alert 대체 모달창을 위한 상태관리
+  const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
+  const [message, setMessage] = useState("");
 
   const router = useRouter();
 
@@ -58,8 +63,10 @@ const AddPostModal = () => {
       onOpen();
       return;
     }
-    alert("로그인이 필요합니다.");
-    router.push(`/login`);
+    // alert("로그인이 필요합니다.");
+    setMessage("로그인이 필요한 서비스입니다.");
+    setIsOpenAlertModal(true);
+    // router.push(`/login`);
     return;
   };
 
@@ -231,15 +238,8 @@ const AddPostModal = () => {
                     </div>
                   </div>
                 </ModalBody>
-                {/* 취소, 작성 버튼 */}
+                {/* 작성완료 버튼 */}
                 <ModalFooter className="flex justify-center mb-12 !p-0">
-                  {/* <Button
-                  variant="light"
-                  onPress={onClose}
-                  className="rounded-full !w-[110px] h-[27px] border-1"
-                >
-                  취소하기
-                </Button> */}
                   <Button
                     type="submit"
                     className="text-gray-500 rounded-full !w-[140px] h-[33px] border border-gray-400 bg-[#EFEFEF]"
@@ -256,6 +256,13 @@ const AddPostModal = () => {
         <PointModal
           isOpen={showPointModal}
           onClose={() => setShowPointModal(false)}
+        />
+      )}
+      {isOpenAlertModal && (
+        <AlertModal
+          isOpen={isOpenAlertModal}
+          onClose={() => setIsOpenAlertModal(false)}
+          message={message}
         />
       )}
     </>

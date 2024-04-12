@@ -67,11 +67,11 @@ export const updateUserPoint = async (
     const point = data[0].point;
     let updatedPoint;
 
-    // 댓글은 200포인트, 개인액션 및 게시글 등록은 500포인트 업데이트
+    // 댓글은 100포인트, 개인액션 및 게시글 등록은 300포인트 업데이트
     if (point && mode === "comment") {
-      updatedPoint = point + 200;
+      updatedPoint = point + 100;
     } else if (point && (mode === "addAction" || mode === "addPost")) {
-      updatedPoint = point + 500;
+      updatedPoint = point + 300;
     }
 
     const { error: updatePointError } = await supabase
