@@ -66,7 +66,7 @@ const AddPostModal = () => {
     // alert("로그인이 필요합니다.");
     setMessage("로그인이 필요한 서비스입니다.");
     setIsOpenAlertModal(true);
-    // router.push(`/login`);
+    router.push(`/login`);
     return;
   };
 
