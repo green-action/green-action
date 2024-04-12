@@ -19,7 +19,7 @@ const groupActionPage = () => {
   }
 
   return (
-    <div className="grid desktop:grid-cols-4 laptop:grid-cols-3 m-auto mt-14 mx-auto">
+    <div className="grid desktop:grid-cols-4 desktop:w-[1500px] laptop:w-[910px] gap-[50px] laptop:grid-cols-3 m-auto mt-14 mx-auto">
       {groupGreenActions.map((action) => {
         return (
           <div
@@ -36,7 +36,7 @@ const groupActionPage = () => {
                 alt="campaign Img"
               />
             </Card>
-            <section className="flex flex-row justify-around laptop:indent-[35px]">
+            <section className="flex flex-row justify-between items-center">
               <h2 className="font-bold mt-[30px] text-[14px]  whitespace-nowrap">
                 {action.title}
               </h2>

@@ -63,11 +63,18 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
 
   return (
     <div key={id}>
-      <div className="none desktop:w-[356px] desktop:h-[25rem] flex flex-wrap desktop:p-1 relative desktop:gap-[13.2px]">
+      <div
+        className={`none desktop:w-[356px] desktop:h-[25rem] ${
+          (mode === "myBookmarks" || mode === "myPosts") &&
+          "laptop:w-[330px] laptop:h-[415px]"
+        } ${
+          mode === "main" && "laptop:w-[287px] laptop:h-[251px]"
+        }flex flex-wrap desktop:p-1 relative desktop:gap-[13.2px]`}
+      >
         <Card
           isFooterBlurred
           radius="lg"
-          className="border-none w-full desktop:h-[311px] cursor-pointer"
+          className="border-none w-full desktop:h-[311px] laptop:h-[251px] laptop:mb-[10px] cursor-pointer"
         >
           {actionImgUrl ? (
             <img
@@ -85,36 +92,36 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
         </Card>
         <div
           className={`pl-2 ${
-            mode === "myPosts" && "pt-5"
-          } bg-[#F9F9F9]  desktop:p-5 desktop:rounded-2xl w-full`}
+            (mode === "main" || mode === "myPosts") && "pt-5"
+          } bg-[#F9F9F9]  p-5 rounded-2xl w-full mt-3`}
         >
           <div className="flex w-full gap-0">
-            <div className="flex gap-2 mb-4 min-w-[240px] items-center ">
-              <p className=" max-w-[165px] desktop:text-[15px] font-bold overflow-hidden whitespace-nowrap overflow-ellipsis">
+            <div className="flex gap-2 mb-4 desktop:min-w-[240px] laptop:min-w-[210px] items-center">
+              <p className=" max-w-[165px] desktop:text-[15px] laptop:text-[13px] font-bold overflow-hidden whitespace-nowrap overflow-ellipsis">
                 {title}
               </p>
               {is_recruiting ? (
                 <Chip
                   size="sm"
-                  className="text-white w-[41px] h-[16px] bg-[#B3C8A1] rounded-[5px] text-center text-[9pt]"
+                  className="text-white w-[41px] h-[16px] bg-[#B3C8A1] rounded-[5px] text-center desktop:text-[9pt] laptop:text-[8pt]"
                 >
                   모집중
                 </Chip>
               ) : (
                 <Chip
                   size="sm"
-                  className="text-white w-[50px] h-[16px] bg-[#5F5F5F] rounded-[5px] text-center text-[9pt]"
+                  className="text-white w-[50px] h-[16px] bg-[#5F5F5F] rounded-[5px] text-center desktop:text-[9pt] laptop:text-[8pt]"
                 >
                   모집마감
                 </Chip>
               )}
             </div>
-            <div className="flex justify-end items-start pt-0 gap-[15px] text-sm w-full">
+            <div className="flex justify-end items-start pt-0 gap-[15px] text-sm laptop:text-[12px] w-full">
               <div className="flex">
                 <Image
                   src={person}
                   alt="person-icon"
-                  className="w-[22px] h-[20px]"
+                  className="desktop:w-[22px] desktop:h-[20px] laptop:w-[20px] laptop:h-[18px]"
                 />
                 <p>{recruit_number}</p>
               </div>
@@ -122,7 +129,7 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
               <Bookmark action_id={id} mode={mode} />
             </div>
           </div>
-          <div className="flex gap-1 text-sm">
+          <div className="flex gap-1 text-sm laptop:text-[12px]">
             <IoIosCalendar size="15" />
             <p>
               {start_date} - {end_date}
@@ -132,7 +139,7 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
           <div className="flex justify-between">
             <div className="flex gap-1">
               <GrLocation size="15" />
-              <p className="text-sm overflow-hidden whitespace-nowrap overflow-ellipsis">
+              <p className="text-sm overflow-hidden whitespace-nowrap overflow-ellipsis laptop:text-[12px]">
                 {location}
               </p>
             </div>

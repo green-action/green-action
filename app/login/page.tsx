@@ -1,4 +1,6 @@
 "use client";
+
+import React, { useState } from "react";
 import {
   Button,
   Card,
@@ -13,7 +15,7 @@ import {
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+
 import { PiEyeLight, PiEyeSlash } from "react-icons/pi";
 import kakaoimg from "../_assets/image/logo_icon/icon/login/kakao.png";
 import googleimg from "../_assets/image/logo_icon/icon/login/google.png";
@@ -22,6 +24,7 @@ import logoImg from "../_assets/image/logo_icon/logo/white.png";
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const router = useRouter();
+
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [modalPlacement, setModalPlacement] = React.useState("auto");
 
@@ -55,10 +58,7 @@ const Login = () => {
       alert("로그인을 실패했습니다. 양식을 확인해주세요");
     }
   };
-  // @유저정보가 안가져와짐 수정해야함@
-  // supabase 에서 소셜로그인 하면 auth테이블엔 저장됨 근데 토큰이 브라우저에서보임 그리고 토큰? 이 nextAuth랑 연결이 안되는지 로그인이안됨
-  // nextAuth 로그인은 세션정보는 들어오고 기존 로컬로그인이랑 호환이되어서 로그인은됨(nextAuth로그인) 근데 supabase에 연결이안되어있어서(유저정보저장이 안되어있음)
-  // 마이페이지나 댓글 이런거 이용못함 (내정보도 안뜸)
+
   const handleKaKakSingIn = async () => {
     signIn("kakao", {
       redirect: false,
@@ -89,9 +89,9 @@ const Login = () => {
           onClick={() => router.push("/")}
         />
       </div>
-      <Card className="w-[578px] h-[655px] flex flex-col items-center justify-center bg-white rounded-3xl">
+      <Card className=" desktop:w-[578px] h-[655px] flex flex-col items-center justify-center bg-white rounded-3xl laptop:w-[450px]">
         <CardBody className="flex flex-col items-center px-8 py-8 h-full gap-5 mt-[70px]">
-          <h2 className="text-2xl font-bold mb-2 text-[24px]">Login</h2>
+          <h2 className="text-2xl font-bold mb-2 ">Login</h2>
 
           <form
             onSubmit={handleSingIn}
@@ -102,14 +102,14 @@ const Login = () => {
               name="email"
               label="Email"
               variant="bordered"
-              className="mb-5  w-[427px] h-[60px]"
+              className="mb-5   desktop:w-[427px] h-[60px]  laptop:w-[332px]"
             />
             <Input
               type={passwordVisible ? "text" : "password"}
               variant="bordered"
               name="password"
               label="Password"
-              className="mb-5 w-[427px] h-[60px]"
+              className="mb-5 desktop:w-[427px] h-[60px] laptop:w-[332px]"
               endContent={
                 <>
                   <div className="flex items-center">
@@ -133,22 +133,22 @@ const Login = () => {
               type="submit"
               variant="solid"
               radius="sm"
-              className="bg-black text-white text-[15px]  w-[427px] h-[40px] mt-8"
+              className="bg-black text-white text-[15px]  desktop:w-[427px] h-[40px] mt-8 laptop:w-[332px]"
             >
               Login
             </Button>
           </form>
           <p className="text-gray-300">or</p>
-          <div className="flex justify-between gap-10">
-            <div className="w-[191px] h-[40px]  border-2 border-gray-200 rounded-lg flex items-center justify-center">
+          <div className="flex justify-between gap-10 laptop:gap-9">
+            <div className=" desktop:w-[191px] h-[40px]  border-2 border-gray-200 rounded-lg flex items-center justify-center laptop:w-[149px]">
               <Image
                 src={kakaoimg}
                 alt="카카오로그인"
                 onClick={handleKaKakSingIn}
-                className="cursor-pointer w-[27px] h-[27px] "
+                className="cursor-pointer w-[27px] h-[27px]"
               />
             </div>
-            <div className="w-[191px] h-[40px]  border-2 border-gray-200 rounded-lg flex items-center justify-center">
+            <div className="desktop:w-[191px] h-[40px]  border-2 border-gray-200 rounded-lg flex items-center justify-center laptop:w-[149px]">
               <Image
                 src={googleimg}
                 alt="구글로그인"
@@ -174,7 +174,9 @@ const Login = () => {
         <ModalContent>
           {() => (
             <>
-              <ModalBody>로그인 성공!</ModalBody>
+              <ModalBody className="flex ">
+                <p>로그인 성공!</p>
+              </ModalBody>
               <ModalFooter>
                 <Button
                   className="bg-black text-white"
