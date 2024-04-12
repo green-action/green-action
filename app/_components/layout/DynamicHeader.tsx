@@ -209,8 +209,10 @@ const DynamicHeader = () => {
                   >
                     <div className="flex desktop:gap-[15px] items-center justify-between desktop:text-[13pt] text-[#404040]">
                       <p>
-                        {display_name} Greener님 !{" "}
-                        <span className="laptop:display-none">환영합니다</span>
+                        {display_name} Greener님{` `}
+                        <span className="desktop:contents laptop:hidden">
+                          ! 환영합니다
+                        </span>
                       </p>
                       <Avatar
                         as="button"
