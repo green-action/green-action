@@ -1,3 +1,4 @@
+import React from "react";
 import { useSession } from "next-auth/react";
 
 import type { CommunityDetailProps } from "@/app/_types/community/community";
@@ -34,6 +35,8 @@ const CommunityDetailModal = ({
   post_id,
   mode,
 }: CommunityDetailProps) => {
+  const [modalPlacement, setModalPlacement] = React.useState("auto");
+
   // 현재 로그인한 유저 uid
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
@@ -82,7 +85,12 @@ const CommunityDetailModal = ({
 
   return (
     <>
-      <Modal size="lg" isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal
+        size="lg"
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        placement="center"
+      >
         <ModalContent className="relative h-[740px] overflow-y-auto scrollbar-hide">
           {() => (
             <>
