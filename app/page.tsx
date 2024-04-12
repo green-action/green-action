@@ -18,7 +18,7 @@ const MainPage = () => {
         <Image
           src={mainImg}
           alt="main-image"
-          className="absolute min-w-[1020px] desktop:h-[2550px] brightness-[90%]"
+          className="absolute min-w-[1020px] desktop:h-[2600px] brightness-[90%]"
         />
         <section className="z-0 flex flex-col w-full desktop:h-[500px] justify-center items-center desktop:mt-[200px] text-white">
           <p className="text-center desktop:text-[80pt] laptop:text-[70pt] w-full font-['Italiana']">
@@ -31,7 +31,7 @@ const MainPage = () => {
             SOOM과 함께 일상의 그린 라이프를 경험하세요
           </p>
         </section>
-        <section className="z-0 flex flex-col items-center justify-center desktop:mt-[480px] desktop:mb-[197px]">
+        <section className="z-0 flex flex-col items-center justify-center desktop:mt-[480px] desktop:pb-[130px]">
           <Image
             src={downArrow}
             alt="down-arrow"
@@ -71,7 +71,7 @@ const MainPage = () => {
           >
             Green-Action Hot Posts
           </Chip>
-          <div className="desktop:mx-[205px] desktop:mt-[115px] ">
+          <div className="desktop:mx-[205px] desktop:mt-[115px]">
             <MainSlider mode="action" />
           </div>
           <Chip

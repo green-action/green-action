@@ -9,7 +9,6 @@ import {
 import CommunityListPost from "../community/CommunityListPost";
 import { CircularProgress } from "@nextui-org/react";
 import MyActionCard from "../mypage/MyActionCard";
-import { IoIosArrowDropleft, IoIosArrowDropright } from "react-icons/io";
 
 // export const revalidate = 0;
 
@@ -27,8 +26,6 @@ const MainSlider = ({ mode }: { mode: string }) => {
     slidesToShow: 4,
     slidesToScroll: 4,
     adaptiveHeight: true,
-    // nextArrow: <IoIosArrowDropright color="#A1BA9D" />,
-    // prevArrow: <IoIosArrowDropleft color="#A1BA9D" />,
   };
 
   const { data: communityPostsLikes, isLoading: isPostsLoading } =
@@ -76,7 +73,7 @@ const MainSlider = ({ mode }: { mode: string }) => {
             (
               action, // 북마크 수 최다 상위 8개 action
             ) => (
-              <div key={action.id} className="flex items-center">
+              <div key={action.id} className="flex items-center h-[480px]">
                 <MyActionCard action={action} mode="main" />
               </div>
             ),
