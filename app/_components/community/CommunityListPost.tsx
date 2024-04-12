@@ -51,7 +51,10 @@ const CommunityListPost = ({
   return (
     <>
       <div
-        className={` ${mode === "main" && "w-[330px] h-[600px]"}
+        className={` ${
+          mode === "main" &&
+          "desktop:w-[330px] desktop:h-[600px] laptop:w-[287px] laptop:h-[207px]"
+        }
             ${mode === "myPosts" && "desktop:w-[356px]"}
           ${mode !== "main" && mode !== "myPosts" && "w-[31%] mb-2"}
         `}
@@ -61,7 +64,9 @@ const CommunityListPost = ({
           radius="lg"
           className={`shadow-none border-none w-[410px] h-[295px] mb-3 rounded-2xl ${
             mode === "myPosts" && "desktop:w-full desktop:h-[250px]"
-          }`}
+          }
+            ${mode === "main" && "laptop:w-full laptop:h-full"}
+            `}
         >
           <div className="relative w-full h-[295px] overflow-hidden">
             <img
@@ -82,7 +87,8 @@ const CommunityListPost = ({
               <p
                 className={`text-white text-[16px] font-extrabold mr-3 ${
                   mode === "myPosts" && "desktop:text-[13px]"
-                }`}
+                }
+                ${mode === "main" && "laptop:text-[12px]"}`}
               >
                 {display_name || my_display_name}
               </p>
@@ -115,13 +121,19 @@ const CommunityListPost = ({
         <div className="flex justify-center items-center mt-4">
           <div
             className={`flex items-center justify-center ml-[24px] rounded-full border-2 border-black text-[13px] font-extrabold p-0.5 px-4 w-[150px] h-[31px]
-          ${mode === "myPosts" && "w-[160px]"}  ${
-              mode === "main" && "w-[180px]"
-            }`}
+          ${mode === "myPosts" && "w-[160px]"}  
+          ${
+            mode === "main" &&
+            "w-[180px] laptop:text-[11px] laptop:px-0 laptop:w-[130px] h-[28px]"
+          }`}
           >
             {communityPost?.action_type}와 함께해요
           </div>
-          <p className="text-[15px] font-extrabold w-3/4 ml-[27px] mr-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
+          <p
+            className={`text-[15px] font-extrabold w-3/4 ml-[27px] mr-1 overflow-hidden whitespace-nowrap overflow-ellipsis ${
+              mode === "main" && "laptop:text-[11px]"
+            }`}
+          >
             {communityPost?.title}
           </p>
         </div>

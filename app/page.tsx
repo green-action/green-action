@@ -18,24 +18,25 @@ const MainPage = () => {
         <Image
           src={mainImg}
           alt="main-image"
-          className="absolute min-w-[1020px] desktop:h-[2600px] brightness-[90%]"
+          className="absolute min-w-[1020px] desktop:h-[2600px] laptop:h-[1600px] brightness-[90%]"
         />
-        <section className="z-0 flex flex-col w-full desktop:h-[500px] justify-center items-center desktop:mt-[200px] text-white">
-          <p className="text-center desktop:text-[80pt] laptop:text-[70pt] w-full font-['Italiana']">
+        <section className="z-0 flex flex-col w-full desktop:h-[500px] laptop:h-[400px] justify-center items-center desktop:mt-[200px] text-white">
+          <p className="text-center desktop:text-[80pt] laptop:text-[50pt] w-full font-['Italiana']">
+            {/* l 폰트크기자체수정 */}
             EXPERIENCE A NEW WAY OF
             <span className="desktop:mt-[-40px] block">GREEN LIFE</span>
           </p>
-          <p className="text-center desktop:text-[15pt] font-['Pretendard-ExtraLight'] desktop:mt-[20px]">
+          <p className="text-center desktop:text-[15pt] laptop:text-[11pt] font-['Pretendard-ExtraLight'] desktop:mt-[20px]">
             지구와 함께 숨쉬다
             <br />
             SOOM과 함께 일상의 그린 라이프를 경험하세요
           </p>
         </section>
-        <section className="z-0 flex flex-col items-center justify-center desktop:mt-[480px] desktop:pb-[130px]">
+        <section className="z-0 flex flex-col items-center justify-center desktop:mt-[480px] laptop:mt-[330px] desktop:pb-[130px] laptop:pb-[130px]">
           <Image
             src={downArrow}
             alt="down-arrow"
-            className="desktop:w-[135px] desktop:ml-[1400px] desktop:mb-[145px]"
+            className="desktop:w-[135px] laptop:w-[87px] desktop:ml-[1400px] laptop:ml-[800px] desktop:mb-[145px]"
           />
           <Chip
             classNames={{

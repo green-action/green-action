@@ -15,7 +15,7 @@ import MyActionCard from "../mypage/MyActionCard";
 const MainSlider = ({ mode }: { mode: string }) => {
   // FIXME 메인페이지 mode action 인 경우 모집중인 것만 뜨게할지?
 
-  var settings = {
+  var desktopSettings = {
     autoplay: true,
     autoplaySpeed: 3000,
     // fade: true,
@@ -25,6 +25,18 @@ const MainSlider = ({ mode }: { mode: string }) => {
     speed: 2000,
     slidesToShow: 4,
     slidesToScroll: 4,
+    adaptiveHeight: true,
+  };
+
+  var laptopSettings = {
+    autoplay: true,
+    autoplaySpeed: 3000,
+    dots: true,
+    infinite: true,
+    arrows: false,
+    speed: 2000,
+    slidesToShow: 3,
+    slidesToScroll: 3,
     adaptiveHeight: true,
   };
 
@@ -54,17 +66,20 @@ const MainSlider = ({ mode }: { mode: string }) => {
     //  높이 설정해도 아래만 늘어나고 카드 위가 잘리는 문제 (그림자 등)
     // <div className="h-[300px]">
     <Slider
-      {...settings}
+      {...desktopSettings}
       className={`${
         mode === "community" ? "h-[400px]" : "h-[550px]"
-      }  w-[1750px] flex items-center  justify-center`}
+      }  desktop:w-[1750px] laptop:w-[904px] flex items-center justify-center`}
     >
       {/* <div className="w-300"> */}
       {mode === "community"
         ? communityPostsByLikes?.slice(0, 8).map(
             // 좋아요 수 최다 상위 8개 포스트만 가져오기
             (communityPost) => (
-              <div key={communityPost.id} className="flex items-center gap-3">
+              <div
+                key={communityPost.id}
+                className="flex items-center gap-3 h-[480px]"
+              >
                 <CommunityListPost communityPost={communityPost} mode="main" />
               </div>
             ),
