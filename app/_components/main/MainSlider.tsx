@@ -59,7 +59,7 @@ const MainSlider = ({ mode }: { mode: string }) => {
     <Slider
       {...settings}
       className={`${
-        mode === "community" ? "h-[350px]" : "h-[450px]"
+        mode === "community" ? "h-[400px]" : "h-[550px]"
       }  w-[1750px] flex items-center  justify-center`}
     >
       {/* <div className="w-300"> */}
@@ -67,7 +67,7 @@ const MainSlider = ({ mode }: { mode: string }) => {
         ? communityPostsByLikes?.slice(0, 8).map(
             // 좋아요 수 최다 상위 8개 포스트만 가져오기
             (communityPost) => (
-              <div key={communityPost.id} className="flex items-center gap-3 ">
+              <div key={communityPost.id} className="flex items-center gap-3">
                 <CommunityListPost communityPost={communityPost} mode="main" />
               </div>
             ),
