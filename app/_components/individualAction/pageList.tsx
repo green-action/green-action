@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Bookmark from "../bookmark/Bookmark";
 
 import arrow from "../../_assets/image/individualAction/Group89.png";
-import person from "../../_assets/image/individualAction/image166.png";
+import person from "../../_assets/image/individualAction/image24.png";
 import date from "../../_assets/image/individualAction/image170.png";
 import location from "../../_assets/image/individualAction/image35.png";
 
