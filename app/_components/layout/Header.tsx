@@ -102,29 +102,30 @@ function Header() {
         pathname !== "/login" &&
         pathname !== "/about" && (
           <Navbar
-            // NavBar 바깥에 div 두면 스크롤고정 안됨
             isBlurred={true} // TODO 스크롤내리면 isBlurred 처리
-            className="desktop:min-w-[1920px] flex desktop:h-[10rem] items-center justify-center desktop:pt-[90px] desktop:mb-[200px] desktop:text-[13pt] laptop:text-[10pt] bg-transparent"
+            className="laptop:min-w-[1020px] flex bg-transparent desktop:h-[10rem] laptop:h-[104px] items-center justify-center desktop:pt-[90px] laptop:pt-[60px] desktop:mb-[88px] laptop:mb-[60px] desktop:text-[13pt] laptop:text-[11pt]"
             // gap 등으로 조정 안돼서 margin 하드코딩으로 위치 조정
           >
             <Image
               src={logoImg}
               alt="logo-image"
-              className="desktop:w-[94px] desktop:h-[21.63px] desktop:ml-[-400px] desktop:mr-[430px] cursor-pointer"
+              className="desktop:w-[94px] laptop:w-[94px] desktop:h-[21.63px] laptop:h-[21.63px] desktop:ml-[-400px] laptop:ml-[10px] desktop:mr-[460px] laptop:mr-[135px] cursor-pointer"
               onClick={handleLogoLinkClick}
             />
             <NavbarContent>
               <div className="flex flex-col items-center">
                 <Tabs
-                  selectedKey={parentSelected}
+                  selectedKey={parentSelected} // 선택된 부모 탭의 키
                   size="lg"
                   radius="full"
                   aria-label="NavBar-Tab-Options"
                   variant="light"
-                  className="flex rounded-full bg-white/30 font-bold"
+                  className="flex rounded-full bg-white/30 font-bold" // + 볼드체
                   classNames={{
-                    tabList: "flex desktop:gap-[10px] desktop:h-[42px]", // w-[511px] h-[39px]인데 자체변경?
-                    tabContent: "text-[#454545] desktop:text-[13pt]",
+                    tabList:
+                      "flex items-center desktop:gap-[10px] laptop:gap-[30px] desktop:h-[42px] laptop:h-[35px] desktop:w-[600px] laptop:w-[446px]", // d:w-[511px] h-[39px]인데 자체변경? / laptop gap 자체
+                    tabContent:
+                      "flex items-center text-[#454545] desktop:text-[13pt] laptop:text-[11pt]", // ㅣ:text 11 자체
                   }}
                 >
                   <Tab
@@ -132,14 +133,14 @@ function Header() {
                     title="About"
                     as={Link}
                     href="/about"
-                    className="desktop:w-[10rem]"
+                    className="desktop:w-[10rem] laptop:w-[96px]"
                   />
                   <Tab
                     as={Link}
                     href="/individualAction"
                     key="/individualAction"
                     title="Green Action"
-                    className="desktop:w-[10rem] cursor-pointer"
+                    className="desktop:w-[10rem] laptop:w-[96px]"
                     onMouseEnter={() => {
                       setIsOpen(true);
                     }}
@@ -152,14 +153,14 @@ function Header() {
                     key="/community"
                     title="Community"
                     href="/community"
-                    className="desktop:w-[10rem]"
+                    className="desktop:w-[10rem] laptop:w-[96px]"
                   />
                   <Tab
                     as={Link}
                     key="/goods"
                     title="Goods"
                     href="/goods"
-                    className="desktop:w-[10rem]"
+                    className="desktop:w-[10rem] laptop:w-[96px]"
                   />
                 </Tabs>
                 {isOpen && (
@@ -170,18 +171,17 @@ function Header() {
                     onMouseLeave={() => {
                       setIsOpen(false);
                     }}
-                    className="flex justify-center absolute desktop:mt-[3.2%] desktop:mr-[17%] desktop:pt-[23px] desktop:text-[13pt]  text-[#454545]"
+                    className="flex justify-center absolute desktop:mt-[3.2%] laptop:mt-[4.0%] desktop:mr-[15%] laptop:mr-[12%] desktop:pt-[23px] desktop:text-[13pt] laptop:text-[10pt] font-bold text-[#454545]"
                   >
-                    {/* 폰트크기 넓이 안맞음 / font-bold? */}
+                    {/* 폰트크기 넓이 안맞음 */}
                     <Navbar
                       isBlurred={false}
-                      className="flex desktop:gap-[23px] desktop:mt-3 items-center justify-center desktop:w-[345px] desktop:h-[45px] rounded-full bg-[#E8E8E8]/90  "
-                      // 원래 bg-[#E8E8E8]/30
+                      className="flex desktop:gap-[23px] laptop:gap-[19px] desktop:mt-3 items-center justify-center desktop:w-[345px] laptop:w-[255px] desktop:h-[42px] laptop:h-[35px] rounded-full bg-[#E8E8E8]/30  "
                     >
                       <Link
                         href={"/individualAction"}
                         // 안 맞아서 폰트크기 13pt에 각각 넓이 130px으로 자체적 맞춤
-                        className={`rounded-full desktop:px-2 desktop:py-1 hover:bg-[#FFFFFF]/50 hover:border-medium hover:border-[#DDDDDD] desktop:w-[130px] text-center  ${
+                        className={`rounded-full desktop:px-2 desktop:py-1 laptop:px-1 laptop:py-1 hover:bg-[#FFFFFF]/50 hover:border-medium hover:border-[#DDDDDD] desktop:w-[130px] laptop:w-[140px] text-center  ${
                           childSelected === "/individualAction" &&
                           "bg-[#FFFFFF]/50"
                         }`}
@@ -190,7 +190,7 @@ function Header() {
                       </Link>
                       <Link
                         href={"/groupAction"}
-                        className={`rounded-full desktop:px-2 desktop:py-1 hover:bg-[#FFFFFF]/50 hover:border-medium hover:border-[#DDDDDD] desktop:w-[130px] text-center ${
+                        className={`rounded-full desktop:px-2 desktop:py-1 laptop:px-1 laptop:py-1 hover:bg-[#FFFFFF]/50 hover:border-medium hover:border-[#DDDDDD] desktop:w-[130px] laptop:w-[140px] text-center ${
                           childSelected === "/groupAction" && "bg-[#FFFFFF]/50"
                         }`}
                       >
@@ -201,27 +201,33 @@ function Header() {
                 )}
               </div>
 
-              {user_uid && isLoggedIn ? (
+              {isLoggedIn ? (
                 <>
                   <Dropdown
                     placement="bottom-end"
                     isOpen={isProfileHover}
-                    className="flex desktop:m-0 rounded-3xl bg-[#F1F1F1]/50" //max-w-[5rem]
+                    className="flex rounded-3xl bg-[#F1F1F1]/50"
                   >
                     <DropdownTrigger>
                       <div className="flex">
-                        {/* ml 360px / border-[#DDDDDD] - 자체변경 */}
+                        {/* ml 360px  ml-[280px] mr-[0px] / border-[#DDDDDD] - 자체변경 */}
                         <Chip
-                          className={`desktop:h-[42px] desktop:w-[249px] bg-[#F1F1F1]/50 desktop:border-[2px] border-[#DDDDDD]/50 ${
+                          className={`desktop:w-[249px] laptop:w-[162px] desktop:h-[42px] laptop:h-[35px] bg-[#F1F1F1]/50 border-small border-[#404040]/40 ${
                             display_name?.length >= 5
                               ? `desktop:ml-[210px]`
-                              : `desktop:ml-[280px] `
+                              : `desktop:ml-[290px] `
                           } `}
                         >
                           <div className="flex desktop:gap-[15px] items-center justify-between desktop:text-[13pt] text-[#404040]">
-                            {display_name} Greener님 ! 환영합니다
+                            <p>
+                              {display_name} Greener님{` `}
+                              <span className="desktop:contents laptop:hidden">
+                                ! 환영합니다
+                              </span>
+                            </p>
                             <Avatar
                               as="button"
+                              className="transition-transform"
                               name={display_name}
                               size="sm"
                               showFallback
@@ -240,11 +246,11 @@ function Header() {
                     <DropdownMenu
                       aria-label="Profile Actions"
                       variant="flat"
-                      className="desktop:w-[10rem] flex justify-center desktop:p-0 desktop:m-0 rounded-3xl text-[#454545]"
+                      className="w-[10rem] flex justify-center p-0 m-0 rounded-3xl text-[#454545]"
                     >
                       <DropdownItem
                         key="mypage"
-                        className="desktop:w-[8rem] desktop:h-8 rounded-3xl"
+                        className="w-[8rem] h-8 rounded-3xl"
                         onMouseEnter={() => {
                           setIsProfileHover(true);
                         }}
@@ -254,7 +260,7 @@ function Header() {
                       >
                         <div
                           onClick={handleMypageLinkClick}
-                          className="font-bold desktop:p-1"
+                          className="font-bold p-1"
                         >
                           마이페이지
                         </div>
@@ -262,7 +268,7 @@ function Header() {
                       <DropdownItem
                         key="logout"
                         color="danger"
-                        className="desktop:w-[8rem] desktop:h-8 rounded-3xl  "
+                        className="w-[8rem] h-8 rounded-3xl  "
                         onMouseEnter={() => {
                           setIsProfileHover(true);
                         }}
@@ -270,10 +276,7 @@ function Header() {
                           setIsProfileHover(false);
                         }}
                       >
-                        <div
-                          onClick={handleLogout}
-                          className="font-bold desktop:p-1"
-                        >
+                        <div onClick={handleLogout} className="font-bold p-1">
                           Logout
                         </div>
                       </DropdownItem>
@@ -281,8 +284,7 @@ function Header() {
                   </Dropdown>
                 </>
               ) : (
-                // text-[#454545] 로 자체설정(통일)
-                <div className="flex desktop:gap-14 desktop:w-[170px] text-[#454545] font-['Pretendard-Light']  desktop:ml-[380px]">
+                <div className="flex desktop:gap-14 laptop:gap-[35px] desktop:w-[170px] desktop:ml-[380px] laptop:ml-[102px] text-white font-['Pretendard-ExtraLight'] ">
                   <Link href={"/signup"}>Sign up</Link>
                   <Link href={"/login"}>Log in</Link>
                 </div>

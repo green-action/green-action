@@ -103,6 +103,13 @@ const Bookmark = ({
                   className="desktop:w-[15px] desktop:h-[14px] desktop:mt-[2px] desktop:mr-[11px] desktop:mb-[2px]"
                 />
               )}
+              {mode === "main" && (
+                <Image
+                  src={bookmarkFill}
+                  alt="북마크"
+                  className="desktop:w-[15px] laptop:w-[13px] desktop:h-[14px] laptop:h-[12px] desktop:mt-[2px] desktop:mr-[11px] desktop:mb-[2px]"
+                />
+              )}
             </button>
             <span className="desktop:text-sm laptop:text-[11px]">
               {filterBookmark?.filterBookmark?.length ?? 0}
@@ -129,9 +136,16 @@ const Bookmark = ({
             )}
             {mode === "myPosts" && (
               <Image
-                src={bookmarkFill}
+                src={bookmarkEmpty}
                 alt="북마크"
-                className="desktop:w-[15px] desktop:h-[14px] desktop:mt-[2px] desktop:mr-[11px] desktop:mb-[2px]"
+                className="desktop:w-[15px] desktop:h-[14px] desktop:mt-[2px] desktop:mr-[10px] desktop:mb-[2px]"
+              />
+            )}
+            {mode === "main" && (
+              <Image
+                src={bookmarkEmpty}
+                alt="북마크"
+                className="desktop:w-[15px] laptop:w-[12px] desktop:h-[14px] desktop:mt-[2px] desktop:mr-[11px] desktop:mb-[2px]"
               />
             )}
             {/* <CiStar className="text-[19px]" /> */}
