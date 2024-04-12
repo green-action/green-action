@@ -31,6 +31,8 @@ const EditPostModal = ({
   post_id,
   mode,
 }: EditPostProps) => {
+  const [modalPlacement, setModalPlacement] = React.useState("auto");
+
   // 드랍다운 선택된 key 상태관리
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set(["Green-action 선택하기"]),
@@ -92,7 +94,12 @@ const EditPostModal = ({
   return (
     <>
       {/* 게시글 수정하기 모달창 */}
-      <Modal size="lg" isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal
+        size="lg"
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        placement="center"
+      >
         <ModalContent className="h-[740px]">
           {(onClose) => (
             <>
