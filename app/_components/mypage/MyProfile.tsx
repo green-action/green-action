@@ -56,7 +56,7 @@ const MyProfile = ({ userInfo }: { userInfo: User }) => {
   };
 
   return (
-    <div className="flex flex-col gap-5 desktop:w-[347px] min-h-[43rem] ">
+    <div className="flex flex-col gap-5 desktop:w-[347px] laptop:w-[206px] desktop:min-h-[43rem] laptop:ml-[55px]">
       <Card>
         <div className="flex pl-5">
           <div className="flex gap-4 items-center h-[102px]">
