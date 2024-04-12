@@ -20,9 +20,9 @@ const AboutPage = () => {
       <div className="desktop:min-w-[1920px] laptop:min-w-[1020px] mx-auto">
         <div className="flex flex-col items-center">
           {/* 헤더 */}
-          <div className="fixed z-20 mx-auto">
+          {/* <div className="fixed z-20 mx-auto">
             <DynamicHeader />
-          </div>
+          </div> */}
           {/* first part - title 이미지 및 문구 */}
           <Image
             src={titleImg}
