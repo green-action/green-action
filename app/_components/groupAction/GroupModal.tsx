@@ -26,8 +26,9 @@ const GroupModal = ({
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   return (
     <>
+      {/* laptop:bottom-[-20px] laptop:right-[20px] */}
       <Button
-        className=" rounded-[100%] bg-transparent laptop:bottom-[-20px] laptop:right-[20px]"
+        className=" rounded-[100%] bg-transparent bottom-[-15px] desktop:right-0"
         onPress={onOpen}
       >
         <Image className="w-full h-full" src={search} alt="search" />
