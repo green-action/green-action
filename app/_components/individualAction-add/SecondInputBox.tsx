@@ -3,7 +3,7 @@ import React from "react";
 const SecondInputBox = () => {
   return (
     <>
-      <div className="flex w-[724px] h-[53px] h-auto items-center pl-8 border-1.5 border-gray-300 rounded-3xl mb-4">
+      <div className="flex w-[724px] h-[53px] items-center pl-8 border-1.5 border-gray-300 rounded-3xl mb-4">
         <label
           htmlFor="activityTitle"
           className="text-[13px] font-extrabold mr-3 w-[73px]"
