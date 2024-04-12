@@ -1,54 +1,122 @@
-import DeployButton from "../components/DeployButton";
-import AuthButton from "../components/AuthButton";
-import { createClient } from "@/utils/supabase/server";
-import ConnectSupabaseSteps from "@/components/tutorial/ConnectSupabaseSteps";
-import SignUpUserSteps from "@/components/tutorial/SignUpUserSteps";
-import Header from "@/components/Header";
+"use client";
 
-export default async function Index() {
-  const canInitSupabaseClient = () => {
-    // This function is just for the interactive tutorial.
-    // Feel free to remove it once you have Supabase connected.
-    try {
-      createClient();
-      return true;
-    } catch (e) {
-      return false;
-    }
-  };
+import { Chip } from "@nextui-org/react";
+import Image from "next/image";
+import Link from "next/link";
 
-  const isSupabaseConnected = canInitSupabaseClient();
+import DynamicHeader from "./_components/layout/DynamicHeader";
+import MainSlider from "./_components/main/MainSlider";
+
+import mainImg from "/app/_assets/image/mainpage/main.png";
+import downArrow from "/app/_assets/image/logo_icon/icon/mainpage/Group_124.png";
+import { useResponsive } from "./_hooks/responsive";
+import LaptopMainSlidder from "./_components/main/LaptopMainSlidder";
+
+const MainPage = () => {
+  const { isDesktop, isLaptop, isMobile } = useResponsive();
 
   return (
-    <div className="flex-1 w-full flex flex-col gap-20 items-center">
-      <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-        <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
-          <DeployButton />
-          {isSupabaseConnected && <AuthButton />}
-        </div>
-      </nav>
-
-      <div className="animate-in flex-1 flex flex-col gap-20 opacity-0 max-w-4xl px-3">
-        <Header />
-        <main className="flex-1 flex flex-col gap-6">
-          <h2 className="font-bold text-4xl mb-4">Next steps</h2>
-          {isSupabaseConnected ? <SignUpUserSteps /> : <ConnectSupabaseSteps />}
-        </main>
-      </div>
-
-      <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
-        <p>
-          Powered by{" "}
-          <a
-            href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-            target="_blank"
-            className="font-bold hover:underline"
-            rel="noreferrer"
+    <div className="laptop:min-w-[1020px]">
+      <div className="flex flex-col">
+        {/* <DynamicHeader /> */}
+        <Image
+          src={mainImg}
+          alt="main-image"
+          className="absolute top-0 min-w-[1020px] desktop:h-[2600px] laptop:h-[1850px] brightness-[90%]"
+        />
+        <section className="z-0 flex flex-col w-full desktop:h-[500px] laptop:h-[400px] justify-center items-center desktop:mt-[200px] text-white">
+          <p className="text-center desktop:text-[80pt] laptop:text-[50pt] w-full font-['Italiana']">
+            {/* l 폰트크기자체수정 */}
+            EXPERIENCE A NEW WAY OF
+            <span className="desktop:mt-[-40px] block">GREEN LIFE</span>
+          </p>
+          <p className="text-center desktop:text-[15pt] laptop:text-[11pt] font-['Pretendard-ExtraLight'] desktop:mt-[20px]">
+            지구와 함께 숨쉬다
+            <br />
+            SOOM과 함께 일상의 그린 라이프를 경험하세요
+          </p>
+        </section>
+        <section className="z-0 flex flex-col items-center justify-center desktop:mt-[480px] laptop:mt-[330px] desktop:pb-[130px] laptop:pb-[80px]">
+          <Image
+            src={downArrow}
+            alt="down-arrow"
+            className="desktop:w-[135px] laptop:w-[87px] desktop:ml-[1400px] laptop:ml-[800px] desktop:mb-[145px] laptop:mb-[200px]"
+          />
+          <Chip
+            classNames={{
+              base: "desktop:h-[50px] desktop:px-5 desktop:py-8 bg-transparent border-small border-white",
+              content:
+                "desktop:w-[209px] desktop:text-[14pt] text-white text-center font-['Inter'] drop-shadow ",
+            }}
           >
-            Supabase
-          </a>
-        </p>
-      </footer>
+            Community Hot Posts
+          </Chip>
+          <div className="desktop:mx-[76px] desktop:mt-[140px] laptop:mt-[130px]">
+            {isLaptop && <LaptopMainSlidder mode="community" />}
+            {isDesktop && <MainSlider mode="community" />}
+          </div>
+          <Chip
+            classNames={{
+              // 전체보기 칩 세로길이, 폰트크기 자체 수정
+              base: "desktop:h-[50px] bg-[#E1E1E1]/60 border-small border-[#A8A8A8] desktop:mt-[97px] laptop:mt-[100px]",
+              content:
+                "desktop:w-[110px] desktop:text-[13pt] text-center text-[#646464] font-semibold drop-shadow ",
+            }}
+          >
+            <Link href={`/community`}>전체 보기</Link>
+          </Chip>
+        </section>
+        {/* 배경 이미지 div 끝 */}
+        <section className="z-0 flex flex-col items-center justify-center desktop:pt-[200px] laptop:pt-[0px] desktop:pb-[385px] laptop:h-[1338px] bg-white brightness-90">
+          <Chip
+            classNames={{
+              base: "desktop:h-[45px] desktop:px-5 desktop:py-8 bg-transparent border-small border-[#ADADAD]",
+              content:
+                "desktop:w-[209px] desktop:text-[14pt] text-center text-[#5A5A5A] font-['Inter'] drop-shadow flex justify-center",
+            }}
+          >
+            Green-Action Hot Posts
+          </Chip>
+          <div className="desktop:mx-[205px] desktop:mt-[115px] laptop:mt-[115px]">
+            {isLaptop && <LaptopMainSlidder mode="action" />}
+            {isDesktop && <MainSlider mode="action" />}
+          </div>
+          <Chip
+            classNames={{
+              base: "desktop:h-[50px] bg-[#E1E1E1]/60 border-small border-[#A8A8A8] desktop:mt-[97px] laptop:mt-[100px]",
+              content:
+                "desktop:w-[110px] desktop:text-[13pt] text-center text-[#646464] font-semibold drop-shadow",
+            }}
+          >
+            <Link href={`/individualAction`}>전체 보기</Link>
+          </Chip>
+        </section>
+        <section className="desktop:h-[760px]  laptop:h-[500px] desktop:pt-[250px] laptop:pt-[210px] bg-blend-darken bg-black bg-opacity-50">
+          {/*  pt-[311px] 인데 자체수정 */}
+          <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center font-['Italiana'] desktop:text-[48pt] laptop:text-[35pt] text-white">
+              <p>Experience the earth breathing together </p>
+              <p> in your daily life</p>
+            </div>
+            <Chip
+              classNames={{
+                base: "desktop:h-[58px] laptop:h-[50px] bg-transparent border-small border-white desktop:mt-[97px] laptop:mt-[60px]",
+                content:
+                  "desktop:w-[223px] desktop:text-[14pt] text-center text-white font-semibold",
+              }}
+            >
+              <Link
+                href={`/about`}
+                className="text-white font-['Inter'] font-light desktop:text-[16pt] laptop:text-[16pt]"
+              >
+                VIEW MORE
+              </Link>
+            </Chip>
+          </div>
+        </section>
+      </div>
     </div>
   );
-}
+};
+
+export default MainPage;

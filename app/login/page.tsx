@@ -1,119 +1,196 @@
-import Link from "next/link";
-import { headers } from "next/headers";
-import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
-import { SubmitButton } from "./submit-button";
+"use client";
 
-export default function Login({
-  searchParams,
-}: {
-  searchParams: { message: string };
-}) {
-  const signIn = async (formData: FormData) => {
-    "use server";
+import React, { useState } from "react";
+import {
+  Button,
+  Card,
+  CardBody,
+  Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  useDisclosure,
+} from "@nextui-org/react";
+import { signIn } from "next-auth/react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-    const supabase = createClient();
+import { PiEyeLight, PiEyeSlash } from "react-icons/pi";
+import kakaoimg from "../_assets/image/logo_icon/icon/login/kakao.png";
+import googleimg from "../_assets/image/logo_icon/icon/login/google.png";
+import logoImg from "../_assets/image/logo_icon/logo/white.png";
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+const Login = () => {
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const router = useRouter();
 
-    if (error) {
-      return redirect("/login?message=Could not authenticate user");
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [modalPlacement, setModalPlacement] = React.useState("auto");
+
+  const handleSingIn = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      const formData = new FormData(e.currentTarget);
+      const email = formData.get("email") as string;
+      const password = formData.get("password") as string;
+
+      if (!email || !password) {
+        alert("이메일과 비밀번호를 입력해주세요.");
+        return;
+      }
+
+      const result = await signIn("id-password-credential", {
+        id: email,
+        password,
+        redirect: false,
+      });
+      if (result?.error) {
+        console.error(result.error);
+        alert("로그인을 실패했습니다. 이메일과 비밀번호를 확인해주세요!");
+        return;
+      }
+
+      onOpen();
+    } catch (error) {
+      console.error(error);
+      alert("로그인을 실패했습니다. 양식을 확인해주세요");
     }
-
-    return redirect("/protected");
   };
 
-  const signUp = async (formData: FormData) => {
-    "use server";
-
-    const origin = headers().get("origin");
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-    const supabase = createClient();
-
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: `${origin}/auth/callback`,
-      },
+  const handleKaKakSingIn = async () => {
+    signIn("kakao", {
+      redirect: false,
+      callbackUrl: "/",
     });
-
-    if (error) {
-      return redirect("/login?message=Could not authenticate user");
-    }
-
-    return redirect("/login?message=Check email to continue sign in process");
   };
+
+  const handleGoogleSingIn = async () => {
+    signIn("google", {
+      redirect: false,
+      callbackUrl: "/",
+    });
+  };
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+
+  // 비밀번호찾기 해보기 @@
 
   return (
-    <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
-      <Link
-        href="/"
-        className="absolute left-8 top-8 py-2 px-4 rounded-md no-underline text-foreground bg-btn-background hover:bg-btn-background-hover flex items-center group text-sm"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1"
-        >
-          <polyline points="15 18 9 12 15 6" />
-        </svg>{" "}
-        Back
-      </Link>
+    <div className=" w-screen h-screen flex justify-around items-center bg-cover bg-main-img  bg-blend-darken bg-black bg-opacity-10">
+      <div className="flex flex-col items-center justify-center">
+        <Image
+          className="w-[126px] h-[29px] cursor-pointer"
+          src={logoImg}
+          alt="logo"
+          onClick={() => router.push("/")}
+        />
+      </div>
+      <Card className=" desktop:w-[578px] h-[655px] flex flex-col items-center justify-center bg-white rounded-3xl laptop:w-[450px]">
+        <CardBody className="flex flex-col items-center px-8 py-8 h-full gap-5 mt-[70px]">
+          <h2 className="text-2xl font-bold mb-2 ">Login</h2>
 
-      <form className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground">
-        <label className="text-md" htmlFor="email">
-          Email
-        </label>
-        <input
-          className="rounded-md px-4 py-2 bg-inherit border mb-6"
-          name="email"
-          placeholder="you@example.com"
-          required
-        />
-        <label className="text-md" htmlFor="password">
-          Password
-        </label>
-        <input
-          className="rounded-md px-4 py-2 bg-inherit border mb-6"
-          type="password"
-          name="password"
-          placeholder="••••••••"
-          required
-        />
-        <SubmitButton
-          formAction={signIn}
-          className="bg-green-700 rounded-md px-4 py-2 text-foreground mb-2"
-          pendingText="Signing In..."
-        >
-          Sign In
-        </SubmitButton>
-        <SubmitButton
-          formAction={signUp}
-          className="border border-foreground/20 rounded-md px-4 py-2 text-foreground mb-2"
-          pendingText="Signing Up..."
-        >
-          Sign Up
-        </SubmitButton>
-        {searchParams?.message && (
-          <p className="mt-4 p-4 bg-foreground/10 text-foreground text-center">
-            {searchParams.message}
-          </p>
-        )}
-      </form>
+          <form
+            onSubmit={handleSingIn}
+            className="w-full flex flex-col items-center "
+          >
+            <Input
+              type="email"
+              name="email"
+              label="Email"
+              variant="bordered"
+              className="mb-5   desktop:w-[427px] h-[60px]  laptop:w-[332px]"
+            />
+            <Input
+              type={passwordVisible ? "text" : "password"}
+              variant="bordered"
+              name="password"
+              label="Password"
+              className="mb-5 desktop:w-[427px] h-[60px] laptop:w-[332px]"
+              endContent={
+                <>
+                  <div className="flex items-center">
+                    <button
+                      type="button"
+                      id="togglePasswordVisibility"
+                      onClick={togglePasswordVisibility}
+                    />
+                  </div>
+                  <label
+                    htmlFor="togglePasswordVisibility"
+                    className="flex items-center mb-2"
+                  >
+                    {passwordVisible ? <PiEyeSlash /> : <PiEyeLight />}
+                  </label>
+                </>
+              }
+            />
+
+            <Button
+              type="submit"
+              variant="solid"
+              radius="sm"
+              className="bg-black text-white text-[15px]  desktop:w-[427px] h-[40px] mt-8 laptop:w-[332px]"
+            >
+              Login
+            </Button>
+          </form>
+          <p className="text-gray-300">or</p>
+          <div className="flex justify-between gap-10 laptop:gap-9">
+            <div className=" desktop:w-[191px] h-[40px]  border-2 border-gray-200 rounded-lg flex items-center justify-center laptop:w-[149px]">
+              <Image
+                src={kakaoimg}
+                alt="카카오로그인"
+                onClick={handleKaKakSingIn}
+                className="cursor-pointer w-[27px] h-[27px]"
+              />
+            </div>
+            <div className="desktop:w-[191px] h-[40px]  border-2 border-gray-200 rounded-lg flex items-center justify-center laptop:w-[149px]">
+              <Image
+                src={googleimg}
+                alt="구글로그인"
+                onClick={handleGoogleSingIn}
+                className="cursor-pointer w-[20px] h-[20px] "
+              />
+            </div>
+          </div>
+          <div className="flex gap-4">
+            <p className="text-gray-500">아직 회원이 아니신가요?</p>
+            <button onClick={() => router.push("/signup")}>회원가입</button>
+          </div>
+        </CardBody>
+      </Card>
+      <Modal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        isDismissable={false}
+        isKeyboardDismissDisabled={true}
+        hideCloseButton={true}
+        placement="center"
+      >
+        <ModalContent>
+          {() => (
+            <>
+              <ModalBody className="flex ">
+                <p>로그인 성공!</p>
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  className="bg-black text-white"
+                  onPress={() => router.push("/")}
+                >
+                  확인
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </div>
   );
-}
+};
+
+export default Login;

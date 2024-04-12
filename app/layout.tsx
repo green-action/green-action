@@ -1,6 +1,9 @@
 import { GeistSans } from "geist/font/sans";
-import "./globals.css";
+import Script from "next/script";
 import QueryProvider from "./Provider";
+import Footer from "./_components/layout/Footer";
+import Header from "./_components/layout/Header";
+import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -12,18 +15,36 @@ export const metadata = {
   description: "The fastest way to build apps with Next.js and Supabase",
 };
 
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
+
 export default function RootLayout({
   children,
+  modal,
 }: {
   children: React.ReactNode;
+  modal: React.ReactNode;
 }) {
+  //bg-background
   return (
-    <html lang="en" className={GeistSans.className}>
-      <body className="bg-background text-foreground">
-        <main className="min-h-screen flex flex-col items-center">
-          <QueryProvider>{children}</QueryProvider>
-        </main>
+    <html lang="ko" className={GeistSans.className}>
+      <body className="text-foreground">
+        <QueryProvider>
+          <Header />
+          <main>
+            {children}
+            {modal}
+          </main>
+          <Footer />
+        </QueryProvider>
       </body>
+      <Script
+        src="https://developers.kakao.com/sdk/js/kakao.js"
+        strategy="afterInteractive"
+      />
     </html>
   );
 }
