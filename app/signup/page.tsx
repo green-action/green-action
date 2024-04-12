@@ -17,6 +17,7 @@ import { signUpNewUser } from "../_api/auth";
 import logoImg from "../_assets/image/logo_icon/logo/white.png";
 import Image from "next/image";
 import mainImg from "../_assets/image/login/main.png";
+import AlertModal from "../_components/community/AlertModal";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -27,6 +28,10 @@ const SignUp = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [modalPlacement, setModalPlacement] = React.useState("auto");
+
+  // alert 대체 모달창을 위한 상태관리
+  const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
+  const [message, setMessage] = useState("");
 
   const validatePasswords = () => password !== confirmPassword;
 
@@ -42,7 +47,9 @@ const SignUp = () => {
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email || !password || !confirmPassword || !nickname) {
-      alert("입력란을 입력해주세요.");
+      // alert("입력란을 입력해주세요.");
+      setMessage("입력란을 입력해주세요.");
+      setIsOpenAlertModal(true);
       return;
     }
 
@@ -53,7 +60,9 @@ const SignUp = () => {
       nickname.length < 2 ||
       nickname.length > 10
     ) {
-      alert("회원가입 양식을 확인해주세요!");
+      // alert("회원가입 양식을 확인해주세요.");
+      setMessage("회원가입 양식을 확인해주세요.");
+      setIsOpenAlertModal(true);
       return;
     }
 
@@ -63,11 +72,15 @@ const SignUp = () => {
     } catch (error) {
       if (error === "User already registered") {
         console.error("회원가입 오류:", error);
-        alert("이미 등록된 사용자입니다. 다른 이메일을 시도해주세요.");
+        // alert("이미 등록된 사용자입니다. 다른 이메일을 시도해주세요.");
+        setMessage("이미 등록된 사용자입니다. 다른 이메일을 시도해주세요.");
+        setIsOpenAlertModal(true);
         return;
       }
       console.error("회원가입 오류:", error);
-      alert("회원가입중 오류가 발생하였습니다!");
+      // alert("회원가입중 오류가 발생하였습니다.");
+      setMessage("회원가입중 오류가 발생하였습니다.");
+      setIsOpenAlertModal(true);
     }
   };
 
@@ -239,6 +252,13 @@ const SignUp = () => {
           )}
         </ModalContent>
       </Modal>
+      {isOpenAlertModal && (
+        <AlertModal
+          isOpen={isOpenAlertModal}
+          onClose={() => setIsOpenAlertModal(false)}
+          message={message}
+        />
+      )}
     </div>
   );
 };
