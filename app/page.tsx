@@ -18,11 +18,11 @@ const MainPage = () => {
   return (
     <div className="laptop:min-w-[1020px]">
       <div className="flex flex-col">
-        <DynamicHeader />
+        {/* <DynamicHeader /> */}
         <Image
           src={mainImg}
           alt="main-image"
-          className="absolute min-w-[1020px] desktop:h-[2600px] laptop:h-[1850px] brightness-[90%]"
+          className="absolute top-0 min-w-[1020px] desktop:h-[2600px] laptop:h-[1850px] brightness-[90%]"
         />
         <section className="z-0 flex flex-col w-full desktop:h-[500px] laptop:h-[400px] justify-center items-center desktop:mt-[200px] text-white">
           <p className="text-center desktop:text-[80pt] laptop:text-[50pt] w-full font-['Italiana']">
