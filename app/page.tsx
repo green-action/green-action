@@ -85,7 +85,7 @@ const MainPage = () => {
             classNames={{
               base: "desktop:h-[50px] bg-[#E1E1E1]/60 border-small border-[#A8A8A8] desktop:mt-[97px] laptop:mt-[100px]",
               content:
-                "desktop:w-[110px] desktop:text-[13pt] text-center text-[#646464] font-semibold drop-shadow",
+                "desktop:w-[110px] desktop:text-[13pt] laptop:text-[13pt] text-center text-[#646464] font-semibold drop-shadow",
             }}
           >
             <Link href={`/individualAction`}>전체 보기</Link>
