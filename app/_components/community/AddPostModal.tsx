@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 
 import { uploadFileAndGetUrl } from "@/app/_api/community/community-api";
 import { useInsertCommunityPostFormData } from "@/app/_hooks/useMutations/community";
@@ -26,11 +26,13 @@ import {
 
 import { LuPencilLine } from "react-icons/lu";
 import CustomConfirm from "../customConfirm/CustomConfirm";
+import PointModal from "./PointModal";
 
 const AddPostModal = () => {
   const [modalPlacement, setModalPlacement] = React.useState("auto");
   const [uploadedFileUrl, setUploadedFileUrl] = useState<string>("");
   const [file, setFile] = useState<File | undefined | null>(null);
+  const [showPointModal, setShowPointModal] = useState(false);
 
   const router = useRouter();
 
@@ -97,6 +99,8 @@ const AddPostModal = () => {
         if (imgUrl) {
           formData.append("image_url", imgUrl);
         }
+
+        setShowPointModal(true);
 
         // formData(텍스트, 이미지url) insert
         insertFormDataMutation({
@@ -244,6 +248,12 @@ const AddPostModal = () => {
           )}
         </ModalContent>
       </Modal>
+      {showPointModal && (
+        <PointModal
+          isOpen={showPointModal}
+          onClose={() => setShowPointModal(false)}
+        />
+      )}
     </>
   );
 };
