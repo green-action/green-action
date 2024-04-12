@@ -56,19 +56,16 @@ const handler = NextAuth({
   ],
   callbacks: {
     async session({ session, token }) {
-      console.log("session >>>", session);
-      console.log("토큰 >>>", token);
-      session.user.user_uid = token.sub ?? "";
-      // console.log("세션유저-->>", session);
+      session.user.user_uid = token.sub || "";
 
       const isSocialLogin = token.name ? true : false;
-      // console.log("세션uid=>>", session.user.user_uid);
-      // 소셜 로그인일 때만 사용자 정보 업데이트
+
+      // 최초 소셜 로그인 시 데이터베이스에서 사용자 정보 가져오기
       if (isSocialLogin) {
         const { data: existingUser, error: existingUserError } = await supabase
           .from("users")
           .select("id")
-          .eq("id", session.user.user_uid);
+          .eq("email", session.user.email);
 
         // 사용자 정보가 없는 경우에만 업데이트 (빈배열일때)
         if (!existingUser || existingUser.length === 0) {
@@ -79,23 +76,31 @@ const handler = NextAuth({
               display_name: session.user.name,
               profile_img: session.user.image,
             })
-            .select("id");
-          // 생성된 data uuid를 session.user.user_uid에 넣어주기 배열이니깐 [0]넣어주기
-          session.user.user_uid = data![0].id;
+            .select("*");
+
           console.log("소셜로그인정보 인서트 후 로직");
           console.log("data==>>", data);
           console.log("error", error);
           console.log("세션유저정보-->>", session.user);
-        }
 
-        return session;
+          // 생성된 data uuid를 session.user.user_uid에 넣어주기
+          session.user.user_uid = data![0].id;
+        } else {
+          session.user.user_uid = existingUser[0].id;
+        }
+      } else {
+        // 소셜 로그인이 최초가 아닌 경우 세션에서 사용자 식별자 가져오기
+        const userUid = session.user.user_uid;
+        const { data: existingUser, error: existingUserError } = await supabase
+          .from("users")
+          .select("id")
+          .eq("id", userUid);
+
+        if (!existingUser || existingUser.length === 0) {
+          throw new Error("User not found in database.");
+        }
       }
 
-      // 데이터에있는 uid를 세션유저 user_uid
-      session.user.user_uid = token.sub ?? "";
-      session.user.email = token.email ?? "";
-
-      // 토큰의 sub가아니라 users테이블의 생성된 id(uuid)를 넣어야됨
       return session;
     },
   },
