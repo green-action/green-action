@@ -1,7 +1,4 @@
 "use client";
-// 반응형 'window.innerWidth' 사용 위해 use client 적용
-
-import React from "react";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -12,10 +9,11 @@ import cardBg2 from "../../app/_assets/image/about/3.png";
 import mainImg from "../../app/_assets/image/about/main.png";
 
 import DynamicHeader from "../_components/layout/DynamicHeader";
+import { useResponsive } from "../_hooks/responsive";
 
 const AboutPage = () => {
-  const isDesktop = window.innerWidth >= 1920;
-  const isLaptop = window.innerWidth >= 1020;
+  // custom hook - 현재 브라우저 화면의 사이즈 상태 가져오기
+  const { isDesktop, isLaptop, isMobile } = useResponsive();
 
   return (
     <>
@@ -134,7 +132,7 @@ const AboutPage = () => {
           {/* third part - 카드 4장 */}
           <div className="flex flex-col w-[80%] h-[1344px] mx-auto items-center desktop:mb-[730px] laptop:mb-[500px]">
             <div>
-              <div className="flex laptop:justify-end">
+              <div className={`flex ${isLaptop && "justify-end"}`}>
                 {/* 카드 1 */}
                 <div className="flex flex-col justify-between bg-white w-[450px] h-[590px] rounded-[40px] border-1.5 mb-[170px] desktop:mr-[40px] laptop:mr-[20px] py-[53px] px-[60px]">
                   <span className="font-[Italiana] text-[40px] text-[#3A3A3A]">
