@@ -28,9 +28,10 @@ export default function RootLayout({
   children: React.ReactNode;
   modal: React.ReactNode;
 }) {
+  //bg-background
   return (
     <html lang="ko" className={GeistSans.className}>
-      <body className="bg-background text-foreground">
+      <body className="text-foreground">
         <QueryProvider>
           {/* <Header /> */}
           <main>
