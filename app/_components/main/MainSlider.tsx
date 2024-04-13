@@ -59,8 +59,10 @@ const MainSlider = ({ mode }: { mode: string }) => {
       // {{ isDesktop && (' ...desktopSettings ')}}
       {...desktopSettings}
       className={`${
-        mode === "community" ? "h-[400px]" : "h-[550px]"
-      }  desktop:w-[1750px] laptop:w-[904px] flex items-center justify-center`}
+        mode === "community"
+          ? "h-[400px] desktop:w-[1750px] laptop:w-[904px]"
+          : "h-[550px] desktop:w-[1500px] laptop:w-[904px]"
+      }   flex items-center justify-center`}
     >
       {mode === "community"
         ? communityPostsByLikes?.slice(0, 8).map(
