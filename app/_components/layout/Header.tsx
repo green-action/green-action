@@ -94,14 +94,32 @@ function Header() {
   //   );
   // }
 
+  ////////////////////////////////////////////////////
+  // 헤더 투명이었다가 스크롤하면 블러처리
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <>
       {/* NOTE 메인페이지, 회원가입/로그인, about 페이지가 아닌 나머지 페이지인 경우에만 layout Header 적용 */}
       {pathname !== "/signup" && pathname !== "/login" && (
         <Navbar
-          isBlurred={true} // TODO 스크롤내리면 isBlurred 처리
+          isBlurred={isScrolled} // TODO 스크롤내리면 isBlurred 처리
           className="laptop:min-w-[1020px] flex bg-transparent desktop:h-[10rem] laptop:h-[104px] items-center justify-center desktop:pt-[90px] laptop:pt-[60px] desktop:mb-[88px] laptop:mb-[60px] desktop:text-[13pt] laptop:text-[11pt]"
-          // gap 등으로 조정 안돼서 margin 하드코딩으로 위치 조정
         >
           <Image
             src={logoImg}
