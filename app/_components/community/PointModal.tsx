@@ -1,18 +1,28 @@
 "use client";
 
-import { Modal, ModalBody, ModalContent } from "@nextui-org/react";
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  useDisclosure,
+} from "@nextui-org/react";
 import Image from "next/image";
 import clap from "/app/_assets/image/logo_icon/icon/community/image 50.png";
 
 interface PointModalProps {
-  isOpen: boolean;
-  onClose: () => void;
+  isOpen?: boolean | null;
+  onClose?: () => void;
 }
 
-const PointModal: React.FC<PointModalProps> = ({ isOpen, onClose }) => {
+const PointModal: React.FC<PointModalProps> = ({ isOpen: open, onClose }) => {
+  const { isOpen, onOpenChange } = useDisclosure();
   return (
     <>
-      <Modal placement="center" isOpen={isOpen} onOpenChange={onClose}>
+      <Modal
+        placement="center"
+        isOpen={open ?? isOpen}
+        onOpenChange={onClose ?? onOpenChange}
+      >
         <ModalContent>
           {(onClose) => (
             <>

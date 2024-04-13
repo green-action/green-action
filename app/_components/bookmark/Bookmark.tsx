@@ -12,8 +12,8 @@ import CustomConfirm from "../customConfirm/CustomConfirm";
 
 import { useSession } from "next-auth/react";
 
-import { CircularProgress } from "@nextui-org/react";
 import Image from "next/image";
+import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 import bookmarkEmpty from "/app/_assets/image/logo_icon/icon/mypage/Star 31.png";
 import bookmarkFill from "/app/_assets/image/logo_icon/icon/mypage/Star 32.png";
 
@@ -56,7 +56,11 @@ const Bookmark = ({
   );
 
   if (isLoading) {
-    return <CircularProgress color="warning" aria-label="Loading..." />;
+    return (
+      <div className="flex justify-center items-center w-[60px] h-auto">
+        <Image src={SoomLoaing} alt="SoomLoading" />
+      </div>
+    );
   }
 
   return (

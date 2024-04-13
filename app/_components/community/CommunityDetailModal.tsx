@@ -1,5 +1,5 @@
-import React from "react";
 import { useSession } from "next-auth/react";
+import React from "react";
 
 import type { CommunityDetailProps } from "@/app/_types/community/community";
 
@@ -8,9 +8,9 @@ import { useGetCommunityCommentsList } from "@/app/_hooks/useQueries/comments";
 import { useGetPostContents } from "@/app/_hooks/useQueries/community";
 
 import Likes from "../likes/Likes";
+import AddComment from "./AddComment";
 import CommunityPostComment from "./Comment";
 import EditPostModal from "./EditPostModal";
-import AddComment from "./AddComment";
 
 import {
   Avatar,
@@ -108,7 +108,7 @@ const CommunityDetailModal = ({
                 <img
                   src={communityPost?.img_url ?? "기본 이미지 URL"}
                   alt="Community Post"
-                  className="mx-auto mb-2 mb-1 w-[95%] h-[300px] rounded-2xl bg-slate-300 object-cover"
+                  className="mx-auto mb-2 w-[95%] h-[300px] rounded-2xl bg-slate-300 object-cover"
                 />
                 {/* 이미지 아래 전체 wrapper */}
                 <div className="flex flex-col gap-2 w-[90%] mx-auto">

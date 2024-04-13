@@ -1,11 +1,12 @@
 import { updatePoint } from "@/app/_api/goods/goods_api";
-import { useState } from "react";
 import { QUERY_KEY_USER_POINT } from "@/app/_api/queryKeys";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUserPoint } from "@/app/_hooks/useQueries/goods";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
-import search from "/app/_assets/image/logo_icon/icon/goods/Group 128.png";
 import Image from "next/image";
+import { useState } from "react";
+import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
+import search from "/app/_assets/image/logo_icon/icon/goods/Group 128.png";
 
 const ProductInfoModal = ({
   item,
@@ -75,7 +76,11 @@ const ProductInfoModal = ({
   };
 
   if (isLoading) {
-    return <div>로딩중</div>;
+    return (
+      <div className="flex justify-center items-center h-auto">
+        <Image src={SoomLoaing} alt="SoomLoading" />
+      </div>
+    );
   }
 
   return (

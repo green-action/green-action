@@ -3,11 +3,13 @@ import type { CommunityPostObj } from "@/app/_types/community/community";
 import Likes from "../likes/Likes";
 import CommunityDetailModal from "./CommunityDetailModal";
 
-import { Avatar, Card, Spinner, useDisclosure } from "@nextui-org/react";
+import { Avatar, Card, useDisclosure } from "@nextui-org/react";
+import Image from "next/image";
 import { longStyle } from "./style";
+import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
-import { useGetPostContents } from "@/app/_hooks/useQueries/community";
 import { useGetCommunityCommentsList } from "@/app/_hooks/useQueries/comments";
+import { useGetPostContents } from "@/app/_hooks/useQueries/community";
 
 const CommunityListPost = ({
   communityPost,
@@ -42,7 +44,11 @@ const CommunityListPost = ({
   const imgSrc = profile_img || "";
 
   if (isPostLoading || isCommentsLoading) {
-    return <Spinner color="danger" />;
+    return (
+      <div className="w-[300px] h-auto mx-auto">
+        <Image className="" src={SoomLoaing} alt="SoomLoading" />
+      </div>
+    );
   }
   if (isPostError || isCommentsError) {
     return <div>Error</div>;

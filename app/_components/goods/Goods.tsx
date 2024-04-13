@@ -1,16 +1,16 @@
 "use client";
-import React from "react";
 import { useGoods } from "@/app/_hooks/useQueries/goods";
-import { CircularProgress } from "@nextui-org/react";
+import Image from "next/image";
 import ProductInfoModal from "./ProductInfoModal";
+import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
 const Goods = () => {
   const { data: goods, isLoading, isError } = useGoods();
 
   if (isLoading)
     return (
-      <div className="flex justify-center items-center h-screen">
-        <CircularProgress color="success" aria-label="Loading..." />
+      <div className="w-[300px] h-auto mx-auto">
+        <Image src={SoomLoaing} alt="SoomLoading" />
       </div>
     );
   if (isError) return <div>Error fetching goods...</div>;

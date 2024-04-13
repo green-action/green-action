@@ -1,15 +1,15 @@
-import React from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import { useResponsive } from "@/app/_hooks/responsive";
 import {
   useFetchCommunityPostsLikes,
   useFetchIndivActionsBookmarks,
 } from "@/app/_hooks/useQueries/main";
+import Image from "next/image";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 import CommunityListPost from "../community/CommunityListPost";
-import { CircularProgress } from "@nextui-org/react";
 import MyActionCard from "../mypage/MyActionCard";
-import { useResponsive } from "@/app/_hooks/responsive";
+import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
 // export const revalidate = 0;
 
@@ -46,8 +46,8 @@ const MainSlider = ({ mode }: { mode: string }) => {
 
   if (isPostsLoading || isActionsLoading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <CircularProgress color="success" label="Loading..." />
+      <div className="w-[200px] h-auto mx-auto">
+        <Image className="" src={SoomLoaing} alt="SoomLoading" />
       </div>
     );
   }

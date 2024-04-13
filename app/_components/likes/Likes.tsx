@@ -1,17 +1,17 @@
 "use client";
 
-import React, { useCallback } from "react";
 import { useSession } from "next-auth/react";
+import React, { useCallback } from "react";
 
 import { useAddLike, useRemoveLike } from "@/app/_hooks/useMutations/bookmarks";
 import { useFilterLikes } from "@/app/_hooks/useQueries/bookmarks";
 
 import { debounce } from "@/utils/debounce/debounce";
 
-import { CircularProgress } from "@nextui-org/react";
+import { GoHeart, GoHeartFill } from "react-icons/go";
 
-import { GoHeart } from "react-icons/go";
-import { GoHeartFill } from "react-icons/go";
+import Image from "next/image";
+import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
 // import Image from "next/image";
 // import heart from "../../../app/_assets/image/logo_icon/icon/community/Group 130.png";
@@ -49,7 +49,11 @@ const Likes = ({ post_id, isOpen }: { post_id: string; isOpen: boolean }) => {
   const handleDebounce = useCallback(debounce(handleToggle(), 1000), [isLiked]);
 
   if (isLoading) {
-    return <CircularProgress color="danger" aria-label="Loading..." />;
+    return (
+      <div className="flex justify-center items-center w-[60px] h-auto">
+        <Image src={SoomLoaing} alt="SoomLoading" />
+      </div>
+    );
   }
 
   return (
