@@ -1,5 +1,9 @@
 "use client";
 
+<<<<<<< HEAD
+=======
+import React, { useCallback, useState } from "react";
+>>>>>>> 2de41fad6014045a7ebae9e6edaca06c4963bead
 import { useSession } from "next-auth/react";
 import React, { useCallback } from "react";
 
@@ -10,8 +14,14 @@ import { debounce } from "@/utils/debounce/debounce";
 
 import { GoHeart, GoHeartFill } from "react-icons/go";
 
+<<<<<<< HEAD
 import Image from "next/image";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
+=======
+import { GoHeart } from "react-icons/go";
+import { GoHeartFill } from "react-icons/go";
+import AlertModal from "../community/AlertModal";
+>>>>>>> 2de41fad6014045a7ebae9e6edaca06c4963bead
 
 // import Image from "next/image";
 // import heart from "../../../app/_assets/image/logo_icon/icon/community/Group 130.png";
@@ -21,6 +31,10 @@ const Likes = ({ post_id, isOpen }: { post_id: string; isOpen: boolean }) => {
   const { data, isLoading } = useFilterLikes(post_id);
   const addLikeMutation = useAddLike();
   const removeLikeMutation = useRemoveLike();
+
+  // alert 대체 모달창을 위한 상태관리
+  const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
+  const [message, setMessage] = useState("");
 
   const session = useSession();
   const user_uid = session.data?.user.user_uid as string;
@@ -34,7 +48,9 @@ const Likes = ({ post_id, isOpen }: { post_id: string; isOpen: boolean }) => {
     } else {
       return () => {
         if (user_uid === null || user_uid === undefined) {
-          alert("로그인하고 이용해주세요");
+          // alert("로그인하고 이용해주세요");
+          setMessage("로그인이 필요한 서비스입니다.");
+          setIsOpenAlertModal(true);
           return;
         }
         if (user_uid !== null) {
@@ -80,6 +96,13 @@ const Likes = ({ post_id, isOpen }: { post_id: string; isOpen: boolean }) => {
       <span className={`text-[16px] ${isOpen ? `text-black` : `text-white`} `}>
         {data?.likes?.length ?? 0}
       </span>
+      {isOpenAlertModal && (
+        <AlertModal
+          isOpen={isOpenAlertModal}
+          onClose={() => setIsOpenAlertModal(false)}
+          message={message}
+        />
+      )}
     </>
   );
 };

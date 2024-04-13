@@ -8,6 +8,7 @@ import { useGetCurrentUerProfileImg } from "@/app/_hooks/useQueries/comments";
 
 import { Avatar } from "@nextui-org/react";
 
+import { updateUserPoint } from "@/app/_api/individualAction-add/add-api";
 import Image from "next/image";
 import PointModal from "./PointModal";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
@@ -46,6 +47,11 @@ const AddComment = ({ loggedInUserUid, post_id }: AddCommentProps) => {
         const content = formData.get("comment") as string;
         setShowPointModal(true);
         insertCommentMutation({ content, loggedInUserUid, post_id });
+
+        // 200포인트 업데이트
+        await updateUserPoint(loggedInUserUid, { mode: "comment" });
+
+        // 입력값 초기화
         (e.target as HTMLFormElement).reset();
       }
     } catch (error) {

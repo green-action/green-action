@@ -45,6 +45,7 @@ const CommunityDetailModal = ({
   const {
     isOpen: isEditOpen,
     onOpen: onEditOpen,
+    onClose: onEditClose,
     onOpenChange: onEditOpenChange,
   } = useDisclosure();
 
@@ -195,6 +196,7 @@ const CommunityDetailModal = ({
       </Modal>
       <EditPostModal
         isOpen={isEditOpen}
+        onClose={onEditClose}
         onOpenChange={onEditOpenChange}
         post_id={post_id}
         mode={mode || ""}

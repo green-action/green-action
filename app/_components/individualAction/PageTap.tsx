@@ -5,10 +5,15 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { LuPencilLine } from "react-icons/lu";
 import PageList from "./PageList";
+import AlertModal from "../community/AlertModal";
 
 const PageTap = () => {
   const [activeTab, setActiveTab] = useState("모든 캠페인");
   const [selectedOrder, setSelectedOrder] = useState("최신등록글");
+
+  // alert 대체 모달창을 위한 상태관리
+  const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
+  const [message, setMessage] = useState("");
 
   const { data: actions, isLoading: isActionsLoading } =
     useFetchIndivActionsBookmarks();
@@ -90,8 +95,10 @@ const PageTap = () => {
       router.push("/individualAction/add");
       return;
     }
-    alert("로그인이 필요합니다.");
-    router.push("/login");
+    // alert("로그인이 필요합니다.");
+    setMessage("로그인이 필요한 서비스입니다.");
+    setIsOpenAlertModal(true);
+    // router.push("/login");
     return;
   };
 
@@ -170,6 +177,13 @@ const PageTap = () => {
       </Button>
 
       <PageList filteredActions={filteredActions} />
+      {isOpenAlertModal && (
+        <AlertModal
+          isOpen={isOpenAlertModal}
+          onClose={() => setIsOpenAlertModal(false)}
+          message={message}
+        />
+      )}
     </>
   );
 };

@@ -7,7 +7,7 @@ export const useResponsive = () => {
   useEffect(() => {
     // (화살표함수는 this 바인딩을 생략하기 때문에 function기본형 함수 써야함)
     function handleResize() {
-      console.log("리사이즈가 동작하고 있습니다.");
+      // console.log("리사이즈가 동작하고 있습니다.");
 
       // 여기에 set~~ 코드 삽입
       setWindowSize(window.innerWidth);

@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 
 import {
   useAddBookmark,
@@ -16,6 +16,7 @@ import Image from "next/image";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 import bookmarkEmpty from "/app/_assets/image/logo_icon/icon/mypage/Star 31.png";
 import bookmarkFill from "/app/_assets/image/logo_icon/icon/mypage/Star 32.png";
+import AlertModal from "../community/AlertModal";
 
 const Bookmark = ({
   action_id,
@@ -32,10 +33,16 @@ const Bookmark = ({
   const session = useSession();
   const user_uid = session.data?.user.user_uid as string;
 
+  // alert 대체 모달창을 위한 상태관리
+  const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
+  const [message, setMessage] = useState("");
+
   const handleAddBookmarkClick = useCallback(
     debounce(() => {
       if (user_uid === null || user_uid === undefined) {
-        alert("로그인하고 이용해주세요");
+        // alert("로그인하고 이용해주세요");
+        setMessage("로그인이 필요한 서비스입니다.");
+        setIsOpenAlertModal(true);
         return;
       }
       if (user_uid !== null) {
@@ -158,6 +165,13 @@ const Bookmark = ({
             {filterBookmark?.filterBookmark?.length ?? 0}
           </span>
         </div>
+      )}
+      {isOpenAlertModal && (
+        <AlertModal
+          isOpen={isOpenAlertModal}
+          onClose={() => setIsOpenAlertModal(false)}
+          message={message}
+        />
       )}
     </>
   );
