@@ -83,7 +83,7 @@ const ProductInfoModal = ({
       <Image
         src={search}
         alt="제품상세정보"
-        className="desktop:size-[33px] cursor-pointer"
+        className="desktop:size-[33px] laptop:size-[29px] cursor-pointer"
         onClick={handleToggleProductInfo}
       />
       {showProductInfo && (
