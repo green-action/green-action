@@ -128,7 +128,7 @@ const CommunityListPost = ({
         <div
           className={`flex justify-center items-center mt-4 desktop:w-[410px] laptop:w-[433px]           
           ${mode === "myPosts" && "desktop:w-[350px] laptop:w-[310px]"} 
-           ${mode === "main" && "desktop:w-[400px] laptop:w-[268px]"} 
+           ${mode === "main" && "desktop:w-[400px] laptop:w-[265px]"} 
           `}
         >
           <div

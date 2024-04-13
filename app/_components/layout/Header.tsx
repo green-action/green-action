@@ -125,10 +125,9 @@ function Header() {
 
   return (
     <>
-      {/* NOTE 로그인/회원가입 제외 모든페이지에서 적용하도록 변경 - main, about 페이지는 pathsMainAbout 변수를 설정해 경우를 처리 (로고이미지, 블러처리) */}
+      {/* NOTE 로그인/회원가입 제외 모든페이지에서 적용하도록 변경 - main, about 페이지는 pathsMainAbout 변수를 설정해 경우를 처리 (로고이미지, signUp 글자 색깔) */}
       {pathname !== "/signup" && pathname !== "/login" && (
         <Navbar
-          // isBlurred={pathsMainAbout ? false : true}
           isBlurred={isScrolled} // TODO 스크롤내리면 isBlurred 처리
           className="laptop:min-w-[1020px] flex bg-transparent desktop:h-[10rem] laptop:h-[104px] items-center justify-center desktop:pt-[90px] laptop:pt-[60px] desktop:mb-[88px] laptop:mb-[60px] desktop:text-[13pt] laptop:text-[11pt]"
         >
