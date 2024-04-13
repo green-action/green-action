@@ -22,6 +22,7 @@ import { useEffect, useState } from "react";
 
 import logoImg from "/app/_assets/image/logo_icon/logo/gray.png";
 import Image from "next/image";
+import AlertModal from "../community/AlertModal";
 
 function Header() {
   const router = useRouter();
@@ -35,6 +36,9 @@ function Header() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileHover, setIsProfileHover] = useState(false);
+  // alert 대체 모달창을 위한 상태관리
+  const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
+  const [message, setMessage] = useState("");
 
   const handleLogoLinkClick = () => {
     router.push("/");
@@ -51,7 +55,9 @@ function Header() {
         await signOut({
           callbackUrl: "/",
         });
-        alert("로그아웃 되었습니다.");
+        // alert("로그아웃 되었습니다.");
+        setMessage("로그아웃 되었습니다.");
+        setIsOpenAlertModal(true);
       } catch (error) {
         console.error("Logout error:", error);
       }
@@ -306,6 +312,13 @@ function Header() {
             )}
           </NavbarContent>
         </Navbar>
+      )}
+      {isOpenAlertModal && (
+        <AlertModal
+          isOpen={isOpenAlertModal}
+          onClose={() => setIsOpenAlertModal(false)}
+          message={message}
+        />
       )}
     </>
   );
