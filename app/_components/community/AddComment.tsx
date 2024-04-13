@@ -22,6 +22,7 @@ const AddComment = ({ loggedInUserUid, post_id }: AddCommentProps) => {
   // 댓글 등록 mutation
   const { insertCommentMutation } = useInsertCommunityCommentMutation();
 
+  // PointModal을 위한 상태관리
   const [showPointModal, setShowPointModal] = useState(false);
 
   if (isLoading) {
