@@ -72,7 +72,7 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
     <div>
       <div
         ref={freezeLayerRef}
-        className="w-full h-full top-0 left-0 bg-black/30 z-[1] hidden absolute"
+        className="w-full h-full top-0 left-0 bg-black/30 z-[1] hidden absolute rounded-2xl"
       ></div>
 
       {/* mode가 myBookmarks(마이페이지 찜한 action) 인 경우에 버튼 대신 북마크아이콘 */}
@@ -81,7 +81,9 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
           <Image
             src={bookmarkFill}
             alt="북마크"
-            className="w-[15px] h-[14px] mt-[3px] mr-[11px] "
+            className="desktop:w-[15px] laptop:w-[14px] desktop:h-[14px] laptop:h-[12px] desktop:mt-[2.6px] laptop:mt-[2.4px] mr-[4.5px] mb-[10px]"
+            // laptop:h-[13px] mt-[2px] mr-[4px] mb-[2px]
+            // desktop:w-[15px] laptop:w-[14px] desktop:h-[14px] laptop:h-[13px] mt-[2px] mr-[4px] mb-[2px]
           />
         </button>
       ) : (
@@ -127,7 +129,7 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
         ref={dialogContRef}
         className="absolute top-[-50%] left-1/2 translate-x-[-50%] translate-y-[-50%] p-[10px] w-full transition-all z-[50] opacity-0"
       >
-        <div className="p-[10px] py-[50px] leading-7 bg-[#f5f5f2] text-center rounded-xl mb-[-20px]">
+        <div className="p-[10px] py-[50px] leading-7 bg-[#f5f5f2] text-center rounded-xl mb-[-20px] text-[10.5pt]">
           {text}
         </div>
         <div className="text-center bg-[#f5f5f2] flex flex-row gap-3 justify-center py-5 rounded-xl">

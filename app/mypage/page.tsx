@@ -16,7 +16,6 @@ import { useRouter } from "next/navigation";
 import RecruitSelectTab from "../_components/mypage/RecruitSelectTab";
 import CommunityListPost from "../_components/community/CommunityListPost";
 import { User } from "../_types";
-import DynamicHeader from "../_components/layout/DynamicHeader";
 
 // 로그인 안 한 상태에서 접근 차단할 것 -
 const MyPage = () => {
@@ -183,12 +182,12 @@ const MyPage = () => {
           <MyProfile userInfo={userInfo as User} />
           <div className="flex flex-col desktop:gap-10 desktop:pl-[82px] laptop:pl-[30px] desktop:pt-1 laptop:pt-[30px] w-full">
             <div className="flex justify-between laptop:mb-[30px]">
-              <div className="flex desktop:gap-[45px] desktop:ml-5 desktop:text-[12pt]">
+              <div className="flex desktop:gap-[45px] laptop:gap-[30px] desktop:ml-5 desktop:text-[12pt]">
                 <Button
                   radius="full"
                   size="md"
                   onClick={handleActiveTabClick}
-                  className={` bg-transparent  desktop:text-[12pt]
+                  className={` bg-transparent  desktop:text-[12pt] laptop:text-[11pt]
                      ${activeTab === "My Green-Action" && "bg-[#F1F1F1]"}`}
                 >
                   My Green-Action
@@ -197,7 +196,7 @@ const MyPage = () => {
                   radius="full"
                   size="md"
                   onClick={handleActiveTabClick}
-                  className={`bg-transparent  desktop:text-[12pt]
+                  className={`bg-transparent  desktop:text-[12pt] laptop:text-[11pt]
                     ${activeTab === "작성 게시물" && "bg-[#F1F1F1]"}`}
                 >
                   작성 게시물
@@ -206,7 +205,7 @@ const MyPage = () => {
                   radius="full"
                   size="md"
                   onClick={handleActiveTabClick}
-                  className={`bg-transparent  desktop:text-[12pt]
+                  className={`bg-transparent  desktop:text-[12pt] laptop:text-[11pt]
                      ${activeTab === "찜한 Green-Action" && "bg-[#F1F1F1]"}`}
                 >
                   찜한 Green-Action
@@ -227,7 +226,7 @@ const MyPage = () => {
                 )}
               </div>
             </div>
-            <div className="flex flex-wrap desktop:gap-[20px]">
+            <div className="flex flex-wrap gap-[20px]">
               {/* LINK My Green Action */}
               {activeTab === "My Green-Action" &&
                 filteredActions?.map((action) => {
@@ -239,7 +238,9 @@ const MyPage = () => {
                     />
                   );
                 })}
-              {/* LINK 내가 쓴 커뮤니티 글 */}
+            </div>
+            {/* LINK 내가 쓴 커뮤니티 글 */}
+            <div className="flex flex-wrap gap-[20px]">
               {activeTab === "작성 게시물" &&
                 myPosts?.map((post) => {
                   return (
@@ -252,6 +253,8 @@ const MyPage = () => {
                     />
                   );
                 })}
+            </div>
+            <div className="flex flex-wrap gap-[20px]">
               {/* LINK 찜한 Green Action */}
               {activeTab === "찜한 Green-Action" &&
                 filteredBookmarkedActions?.map((bookmark) => {

@@ -6,11 +6,12 @@ import Link from "next/link";
 
 import DynamicHeader from "./_components/layout/DynamicHeader";
 import MainSlider from "./_components/main/MainSlider";
+import LaptopMainSlidder from "./_components/main/LaptopMainSlidder";
+import { useResponsive } from "./_hooks/responsive";
 
 import mainImg from "/app/_assets/image/mainpage/main.png";
 import downArrow from "/app/_assets/image/logo_icon/icon/mainpage/Group_124.png";
-import { useResponsive } from "./_hooks/responsive";
-import LaptopMainSlidder from "./_components/main/LaptopMainSlidder";
+import rightArrow from "/app/_assets/image/mainpage/Group 172.png";
 
 const MainPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
@@ -22,7 +23,7 @@ const MainPage = () => {
         <Image
           src={mainImg}
           alt="main-image"
-          className="absolute top-0 min-w-[1020px] desktop:h-[2600px] laptop:h-[1850px] brightness-[90%]"
+          className="absolute top-0 min-w-[1020px] desktop:h-[2700px] laptop:h-[2100px] brightness-[90%]"
         />
         <section className="z-0 flex flex-col w-full desktop:h-[500px] laptop:h-[400px] justify-center items-center desktop:mt-[200px] text-white">
           <p className="text-center desktop:text-[80pt] laptop:text-[50pt] w-full font-['Italiana']">
@@ -36,7 +37,7 @@ const MainPage = () => {
             SOOM과 함께 일상의 그린 라이프를 경험하세요
           </p>
         </section>
-        <section className="z-0 flex flex-col items-center justify-center desktop:mt-[480px] laptop:mt-[330px] desktop:pb-[130px] laptop:pb-[80px]">
+        <section className="z-0 flex flex-col items-center justify-center desktop:mt-[480px] laptop:mt-[450px] desktop:pb-[210px] laptop:pb-[190px]">
           <Image
             src={downArrow}
             alt="down-arrow"
@@ -44,9 +45,9 @@ const MainPage = () => {
           />
           <Chip
             classNames={{
-              base: "desktop:h-[50px] desktop:px-5 desktop:py-8 bg-transparent border-small border-white",
+              base: "desktop:h-[50px] laptop:h-[47px] desktop:px-5 laptop:px-3 desktop:py-8 bg-transparent border-small border-white",
               content:
-                "desktop:w-[209px] desktop:text-[14pt] text-white text-center font-['Inter'] drop-shadow ",
+                "desktop:w-[209px] desktop:text-[14pt] laptop:text-[13pt] text-white text-center font-['Inter'] drop-shadow ",
             }}
           >
             Community Hot Posts
@@ -58,21 +59,21 @@ const MainPage = () => {
           <Chip
             classNames={{
               // 전체보기 칩 세로길이, 폰트크기 자체 수정
-              base: "desktop:h-[50px] bg-[#E1E1E1]/60 border-small border-[#A8A8A8] desktop:mt-[97px] laptop:mt-[100px]",
+              base: "desktop:h-[50px] laptop:h-[41px] bg-[#F7F7F7]/60 border-small border-[#A8A8A8] desktop:mt-[97px] laptop:mt-[90px]",
               content:
-                "desktop:w-[110px] desktop:text-[13pt] text-center text-[#646464] font-semibold drop-shadow ",
+                "desktop:w-[110px] laptop:w-[95px] desktop:text-[13pt] laptop:text-[11pt] text-center text-[#646464] font-semibold drop-shadow",
             }}
           >
             <Link href={`/community`}>전체 보기</Link>
           </Chip>
         </section>
         {/* 배경 이미지 div 끝 */}
-        <section className="z-0 flex flex-col items-center justify-center desktop:pt-[200px] laptop:pt-[0px] desktop:pb-[385px] laptop:h-[1338px] bg-white brightness-90">
+        <section className="z-0 flex flex-col items-center justify-center desktop:pt-[200px] laptop:pt-[0px] desktop:h-[1438px] laptop:h-[1338px] desktop:pb-[200px] laptop:pb-[0px] bg-white brightness-90">
           <Chip
             classNames={{
-              base: "desktop:h-[45px] desktop:px-5 desktop:py-8 bg-transparent border-small border-[#ADADAD]",
+              base: "desktop:h-[50px] laptop:h-[47px] desktop:px-5 laptop:px-3 desktop:py-8 bg-transparent border-small border-[#ADADAD]",
               content:
-                "desktop:w-[209px] desktop:text-[14pt] text-center text-[#5A5A5A] font-['Inter'] drop-shadow flex justify-center",
+                "desktop:w-[209px] desktop:text-[14pt] laptop:text-[13pt] text-center text-[#5A5A5A] font-['Inter'] drop-shadow flex justify-center",
             }}
           >
             Green-Action Hot Posts
@@ -83,15 +84,15 @@ const MainPage = () => {
           </div>
           <Chip
             classNames={{
-              base: "desktop:h-[50px] bg-[#E1E1E1]/60 border-small border-[#A8A8A8] desktop:mt-[97px] laptop:mt-[100px]",
+              base: "desktop:h-[50px] laptop:h-[41px] bg-[#F7F7F7]/60 border-small border-[#A8A8A8] desktop:mt-[97px] laptop:mt-[90px]",
               content:
-                "desktop:w-[110px] desktop:text-[13pt] text-center text-[#646464] font-semibold drop-shadow",
+                "desktop:w-[110px] laptop:w-[95px] desktop:text-[13pt] laptop:text-[11pt] text-center text-[#646464] font-semibold drop-shadow",
             }}
           >
             <Link href={`/individualAction`}>전체 보기</Link>
           </Chip>
         </section>
-        <section className="desktop:h-[760px]  laptop:h-[500px] desktop:pt-[250px] laptop:pt-[210px] bg-blend-darken bg-black bg-opacity-50">
+        <section className="desktop:h-[760px]  laptop:h-[600px] desktop:pt-[250px] laptop:pt-[210px] bg-blend-darken bg-black bg-opacity-50">
           {/*  pt-[311px] 인데 자체수정 */}
           <div className="flex flex-col items-center">
             <div className="flex flex-col items-center font-['Italiana'] desktop:text-[48pt] laptop:text-[35pt] text-white">
@@ -100,16 +101,21 @@ const MainPage = () => {
             </div>
             <Chip
               classNames={{
-                base: "desktop:h-[58px] laptop:h-[50px] bg-transparent border-small border-white desktop:mt-[97px] laptop:mt-[60px]",
+                base: "desktop:h-[58px] laptop:h-[40px] bg-transparent border-small border-white desktop:mt-[97px] laptop:mt-[60px]",
                 content:
-                  "desktop:w-[223px] desktop:text-[14pt] text-center text-white font-semibold",
+                  "flex justify-center desktop:w-[223px] laptop:w-[150px] font-semibold",
               }}
             >
               <Link
                 href={`/about`}
-                className="text-white font-['Inter'] font-light desktop:text-[16pt] laptop:text-[16pt]"
+                className="flex gap-4 items-center text-white font-['Inter'] font-light desktop:text-[16pt] laptop:text-[12pt]"
               >
-                VIEW MORE
+                <p>VIEW MORE</p>
+                <Image
+                  src={rightArrow}
+                  alt="right-arrow"
+                  className="w-[20px] h-[16px] "
+                />
               </Link>
             </Chip>
           </div>
