@@ -24,6 +24,7 @@ import whitelogoImg from "/app/_assets/image/logo_icon/logo/white.png";
 import graylogoImg from "/app/_assets/image/logo_icon/logo/gray.png";
 
 import Image from "next/image";
+import AlertModal from "../community/AlertModal";
 
 function Header() {
   const router = useRouter();
@@ -39,6 +40,9 @@ function Header() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileHover, setIsProfileHover] = useState(false);
+  // alert 대체 모달창을 위한 상태관리
+  const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
+  const [message, setMessage] = useState("");
 
   const handleLogoLinkClick = () => {
     router.push("/");
@@ -55,7 +59,9 @@ function Header() {
         await signOut({
           callbackUrl: "/",
         });
-        alert("로그아웃 되었습니다.");
+        // alert("로그아웃 되었습니다.");
+        setMessage("로그아웃 되었습니다.");
+        setIsOpenAlertModal(true);
       } catch (error) {
         console.error("Logout error:", error);
       }
@@ -98,15 +104,33 @@ function Header() {
   //   );
   // }
 
+  ////////////////////////////////////////////////////
+  // 헤더 투명이었다가 스크롤하면 블러처리
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <>
       {/* NOTE 로그인/회원가입 제외 모든페이지에서 적용하도록 변경 - main, about 페이지는 pathsMainAbout 변수를 설정해 경우를 처리 (로고이미지, 블러처리) */}
       {pathname !== "/signup" && pathname !== "/login" && (
         <Navbar
-          isBlurred={pathsMainAbout ? false : true}
-          // isBlurred={true} // TODO 스크롤내리면 isBlurred 처리
+          // isBlurred={pathsMainAbout ? false : true}
+          isBlurred={isScrolled} // TODO 스크롤내리면 isBlurred 처리
           className="laptop:min-w-[1020px] flex bg-transparent desktop:h-[10rem] laptop:h-[104px] items-center justify-center desktop:pt-[90px] laptop:pt-[60px] desktop:mb-[88px] laptop:mb-[60px] desktop:text-[13pt] laptop:text-[11pt]"
-          // gap 등으로 조정 안돼서 margin 하드코딩으로 위치 조정
         >
           <Image
             src={pathsMainAbout ? whitelogoImg : graylogoImg}
@@ -297,6 +321,13 @@ function Header() {
             )}
           </NavbarContent>
         </Navbar>
+      )}
+      {isOpenAlertModal && (
+        <AlertModal
+          isOpen={isOpenAlertModal}
+          onClose={() => setIsOpenAlertModal(false)}
+          message={message}
+        />
       )}
     </>
   );

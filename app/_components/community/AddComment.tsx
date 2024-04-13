@@ -6,6 +6,7 @@ import { useInsertCommunityCommentMutation } from "@/app/_hooks/useMutations/com
 import { useGetCurrentUerProfileImg } from "@/app/_hooks/useQueries/comments";
 
 import { Avatar, Spinner } from "@nextui-org/react";
+import { updateUserPoint } from "@/app/_api/individualAction-add/add-api";
 
 const AddComment = ({ loggedInUserUid, post_id }: AddCommentProps) => {
   // 로그인한 유저 프로필이미지
@@ -35,6 +36,10 @@ const AddComment = ({ loggedInUserUid, post_id }: AddCommentProps) => {
         const content = formData.get("comment") as string;
         insertCommentMutation({ content, loggedInUserUid, post_id });
 
+        // 200포인트 업데이트
+        await updateUserPoint(loggedInUserUid, { mode: "comment" });
+
+        // 입력값 초기화
         (e.target as HTMLFormElement).reset();
       }
     } catch (error) {
