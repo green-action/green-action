@@ -92,7 +92,7 @@ const MyProfileEditModal = ({
       <TfiPencil
         color="gray"
         onClick={handleEditProfileClick}
-        className="cursor-pointer"
+        className="cursor-pointer laptop:w-[11px]"
       />
 
       <Modal
@@ -106,14 +106,14 @@ const MyProfileEditModal = ({
             //   NOTE 모달
             <div className="p-5 flex flex-col items-center">
               <form
-                className="flex flex-col gap-5 items-center justify-center"
+                className="flex flex-col gap-0 items-center justify-center"
                 onSubmit={handleEditProfileSubmit}
               >
                 <ModalHeader>
                   <p className="text-lg">Profile</p>
                 </ModalHeader>
                 <div className="flex flex-col items-center gap-5">
-                  <p className="text-[0.8rem] text-gray-600">
+                  <p className="desktop:text-[0.8rem] laptop:text-[10pt] desktop:mb-[40px] laptop:mb-[40px] text-gray-600">
                     나중에 언제든지 변경할 수 있습니다.
                   </p>
                   <ProfileImgUpload
@@ -121,29 +121,46 @@ const MyProfileEditModal = ({
                     setUploadedFileUrl={setUploadedFileUrl}
                     setFile={setFile}
                   />
-                  <label htmlFor="user-display-name">사용자 이름</label>
-                  <Input
-                    type="text"
-                    label="사용자 이름"
-                    value={editedName}
-                    defaultValue={display_name}
-                    onChange={(e) => {
-                      handleDisplayNameChange(e);
-                    }}
-                    id="User Display Name"
-                    className="rounded"
-                    placeholder="2 ~ 10자 이내"
-                    maxLength={10}
-                    minLength={2}
-                    isRequired
-                    variant="flat"
-                  />
+                  <div className="pt-[30px] pb-[30px]">
+                    <label
+                      htmlFor="user-display-name"
+                      className="mb-[0px] pl-[10px] text-[#6E6E6E] desktop:text-[11pt] laptop:text-[10pt]"
+                    >
+                      사용자 이름
+                    </label>
+                    <Input
+                      type="text"
+                      // label="사용자 이름"
+                      value={editedName}
+                      defaultValue={display_name}
+                      onChange={(e) => {
+                        handleDisplayNameChange(e);
+                      }}
+                      id="User Display Name"
+                      className="rounded"
+                      placeholder="2 ~ 10자 이내"
+                      maxLength={10}
+                      minLength={2}
+                      isRequired
+                      variant="flat"
+                    />
+                  </div>
                 </div>
                 <ModalFooter>
-                  <Button color="danger" variant="light" onPress={onClose}>
+                  <Button
+                    color="danger"
+                    variant="faded"
+                    onPress={onClose}
+                    className="rounded-3xl"
+                  >
                     취소
                   </Button>
-                  <Button type="submit" variant="light" color="primary">
+                  <Button
+                    type="submit"
+                    variant="faded"
+                    color="primary"
+                    className="rounded-3xl"
+                  >
                     작성완료
                   </Button>
                 </ModalFooter>

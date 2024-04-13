@@ -58,20 +58,26 @@ const MyProfile = ({ userInfo }: { userInfo: User }) => {
   return (
     <div className="flex flex-col gap-5 desktop:w-[347px] laptop:w-[206px] desktop:min-h-[43rem] laptop:ml-[55px]">
       <Card>
-        <div className="flex pl-5">
-          <div className="flex gap-4 items-center h-[102px]">
+        <div className="flex desktop:pl-5 laptop:pl-3">
+          <div className="flex desktop:gap-4 laptop:gap-3 items-center desktop:h-[102px] laptop:h-[83px]">
             <Avatar
               showFallback
               src={profile_img || ""}
-              className="w-[58px] h-[58px]"
+              className="desktop:w-[58px] desktop:h-[58px] laptop:w-[35px] laptop:h-[35px]"
             />
-            <div className="flex flex-col gap-[0.1rem] w-[9rem] overflow-hidden whitespace-nowrap overflow-ellipsis">
-              <p className="font-bold text-sm">{display_name}</p>
-              <p className="text-[0.7rem]">{email}</p>
-              <p className="text-sm font-bold">Greener</p>
+            <div className="flex flex-col desktop:gap-[0.1rem] laptop:gap-[0rem] desktop:w-[9rem] laptop:w-[115px] overflow-hidden whitespace-nowrap overflow-ellipsis">
+              <p className="font-bold desktop:text-[15px] laptop:text-[13px]">
+                {display_name}
+              </p>
+              <p className="desktop:text-[0.7rem] laptop:text-[10px]">
+                {email}
+              </p>
+              <p className="desktop:text-sm font-bold laptop:text-[11px]">
+                Greener
+              </p>
             </div>
           </div>
-          <div className="flex items-end pb-5">
+          <div className="flex items-end desktop:pb-5 laptop:pb-4">
             <MyProfileEditModal
               user_uid={user_uid}
               display_name={display_name}
@@ -81,10 +87,10 @@ const MyProfile = ({ userInfo }: { userInfo: User }) => {
         </div>
       </Card>
       <Card className="w-full min-h-[276px] p-[0.5rem]">
-        <CardHeader className="font-bold">
+        <CardHeader className="font-bold desktop:text-[13pt] laptop:text-[10pt] ">
           <p>My Profile</p>
         </CardHeader>
-        <CardBody>
+        <CardBody className="desktop:text-[15px] laptop:text-[12.5px]">
           {/* SECTION - 자기소개 등록 */}
           {isIntroEditing ? (
             <form onSubmit={handleEditIntroSubmit}>
@@ -93,25 +99,28 @@ const MyProfile = ({ userInfo }: { userInfo: User }) => {
                 onChange={(e) => {
                   handleEditedIntroChange(e);
                 }}
-                className="resize-none rounded-xl w-full min-h-[150px] p-2 text-sm bg-gray-200/50"
+                className="resize-none rounded-xl w-full min-h-[150px] p-2 bg-gray-200/50"
                 placeholder="100자 이내로 작성해주세요."
                 maxLength={100}
               />
-              <div className="flex justify-end gap-[10px] text-sm">
+              <div className="flex justify-end gap-[10px] ">
                 <Button
                   onClick={handleCancelEditIntroClick}
-                  className="h-[30px]"
+                  className="desktop:h-[30px] laptop:h-[25px] desktop:text-sm laptop:text-[12px]"
                 >
                   작성취소
                 </Button>
-                <Button type="submit" className="h-[30px]">
+                <Button
+                  type="submit"
+                  className="desktop:h-[30px] laptop:h-[25px] desktop:text-sm laptop:text-[12px]"
+                >
                   작성완료
                 </Button>
               </div>
             </form>
           ) : (
             <>
-              <p className="text-sm min-h-[170px]">{introduction}</p>
+              <p className="min-h-[170px]">{introduction}</p>
               <div className="flex justify-end">
                 <button onClick={handleEditIntroClick}>
                   <HiOutlinePlus className="cursor-pointer" />
@@ -125,20 +134,20 @@ const MyProfile = ({ userInfo }: { userInfo: User }) => {
       <Card>
         <CardHeader className="mb-[-1.5rem]">
           {/* text-[15pt] */}
-          <p>Points</p>
+          <p className="font-bold desktop:text-[13pt] laptop:text-[10pt]">
+            Points
+          </p>
         </CardHeader>
         <CardBody className="flex flex-row">
-          <div className="font-bold w-[235px]">{point} P</div>
-
-          {/* <CardFooter className="flex justify-end"> */}
-          {/* mt-[-2.7rem] - hover 안됨*/}
+          <div className="font-bold w-[235px] desktop:text-[13pt] laptop:text-[11pt]">
+            {point} P
+          </div>
           <Tooltip
             showArrow={true}
             key="bottom"
             placement="bottom"
             content={
               <div className="text-gray-500 p-2 text-center  text-[0.8rem]">
-                {/* text-[0.8rem] */}
                 <p>Q. 포인트는 어디에 사용하나요?</p>
                 <p>
                   A. 'Goods'에 있는 친환경 굿즈들을 <br /> 구매하실 수 있어요!
