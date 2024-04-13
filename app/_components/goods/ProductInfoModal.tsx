@@ -97,17 +97,17 @@ const ProductInfoModal = ({
       <Image
         src={search}
         alt="제품상세정보"
-        className="desktop:size-[33px] cursor-pointer"
+        className="desktop:size-[33px] laptop:size-[29px] cursor-pointer"
         onClick={handleToggleProductInfo}
       />
       {showProductInfo && (
         <div
-          className="absolute w-[250px] h-[270px] rounded-[20px] top-[130px] left-[40px] 
-        bg-[#ffffff]"
+          className="absolute desktop:w-[250px] desktop:h-[270px] rounded-[20px] desktop:top-[130px] desktop:left-[40px] 
+        bg-[#ffffff] laptop:w-[220px] laptop:h-[240px] laptop:top-[114px] laptop:left-[37px]"
         >
           <div className="flex flex-col gap-1 text-center m-[22px]">
-            <p className="mb-[20px]">제품 상세 정보</p>
-            <p>{item.product_info}</p>
+            <p className="mb-[20px] text-[12px]">제품 상세 정보</p>
+            <p className="text-[12px]">{item.product_info}</p>
             {loggedInUserUid && (
               <div className="flex justify-center gap-2 mt-5">
                 <button
@@ -116,25 +116,21 @@ const ProductInfoModal = ({
                 >
                   구매하기
                 </button>
-                {/* <button
-                  className="rounded-3xl bg-warning text-white px-4 py-2"
-                   onClick={() => {
-                  setConfirmPurchase(false);
-                  setShowProductInfo(false);
-                }}
-                >
-                  취소
-                </button> */}
               </div>
             )}
           </div>
         </div>
       )}
       {confirmPurchase && (
-        <div className="absolute w-[250px] h-[270px] rounded-[20px] top-[130px] left-[40px] bg-[#ffffff]">
+        <div
+          className="absolute desktop:w-[250px] desktop:h-[270px] rounded-[20px] desktop:top-[130px] desktop:left-[40px] 
+        bg-[#ffffff] laptop:w-[220px] laptop:h-[240px] laptop:top-[114px] laptop:left-[37px]"
+        >
           <div className="flex flex-col gap-1 text-center m-[22px]">
-            <p className="mb-[20px]">구매 확인</p>
-            <p>{item.point}P를 차감하고 구매하시겠습니까?</p>
+            <p className="mb-[20px] text-[12px]">구매 확인</p>
+            <p className="text-[12px]">
+              {item.point.toLocaleString()}P를 차감하고 구매하시겠습니까?
+            </p>
             <div className="flex justify-center gap-2 mt-5">
               <button
                 className="rounded-[20px] text-[13px] bg-[#EDF1E8] border-2 border-[#656565] w-[91px] h-[28px]"
