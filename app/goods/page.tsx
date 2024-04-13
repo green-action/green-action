@@ -7,14 +7,21 @@ const GoodsPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
   return (
     <div className="desktop:mx-auto desktop:mt-[55px] laptop:mt-[90px]">
-      <div className="desktop:w-[1752px] laptop:w-[910px] mx-auto">
-        <p className="font-['Italiana'] text-[96px] desktop:mb-[11px]">
+      <div className="desktop:w-[1752px] laptop:w-[1020px] laptop:px-[56px] mx-auto">
+        <p className="font-['Italiana'] desktop:text-[96px] desktop:mb-[11px] laptop:text-[75px]">
           ECO GOODS PRODUCT
         </p>
-        <div className="text-[13px] text-[#929292]">
-          <p>포인트를 쌓고 친환경소재로 제작된</p>
-          <p>굿즈 상품을 구매해 보세요!</p>
-        </div>
+        {isDesktop && (
+          <div className="text-[13px] text-[#929292]">
+            <p>포인트를 쌓고 친환경소재로 제작된</p>
+            <p>굿즈 상품을 구매해 보세요!</p>
+          </div>
+        )}
+        {isLaptop && (
+          <div className="text-[13px] text-[#929292]">
+            <p>포인트를 쌓고 친환경소재로 제작된 굿즈 상품을 구매해 보세요!</p>
+          </div>
+        )}
         <Goods />
       </div>
       {isDesktop && (
@@ -42,9 +49,9 @@ const GoodsPage = () => {
         </div>
       )}
       {isLaptop && (
-        <div className="border-2 mt-[567px] h-[1026px]">
-          <div className="mt-[353px] ml-[99px]">
-            <div className="font-['Italiana'] text-[48px] mb-[70px]">ABOUT</div>
+        <div className="mt-[567px] h-[1026px]">
+          <div className="ml-[85px] mb-[185px]">
+            <div className="font-['Italiana'] text-[48px] h-[82px]">ABOUT</div>
             <div className="w-[465px] text-[13px] font-medium">
               <p>
                 ECO GOODS는 SOOM에서 자체 개발한 상품으로 친환경 소재 업체와
@@ -56,7 +63,7 @@ const GoodsPage = () => {
               </p>
             </div>
           </div>
-          <div className="border-blue-100 border-2 w-[1195px]">오</div>
+          <div className="border-blue-100 border-2 h-[706px]">오</div>
         </div>
       )}
     </div>
