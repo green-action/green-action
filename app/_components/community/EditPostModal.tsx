@@ -24,14 +24,18 @@ import {
   Selection,
 } from "@nextui-org/react";
 import CustomConfirm from "../customConfirm/CustomConfirm";
+import AlertModal from "./AlertModal";
 
 const EditPostModal = ({
   isOpen,
+  onClose,
   onOpenChange,
   post_id,
   mode,
 }: EditPostProps) => {
-  const [modalPlacement, setModalPlacement] = React.useState("auto");
+  // alert 대체 모달창을 위한 상태관리
+  const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
+  const [message, setMessage] = useState("");
 
   // 드랍다운 선택된 key 상태관리
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
@@ -73,19 +77,22 @@ const EditPostModal = ({
     formData.append("action_type", Array.from(selectedKeys).join(", "));
 
     try {
+      if (!uploadedFileUrl) {
+        // alert("사진은 필수값입니다.");
+        setMessage("사진은 필수값입니다.");
+        setIsOpenAlertModal(true);
+        return;
+      }
+
       const isConfirmed = window.confirm("수정하시겠습니까?");
       if (isConfirmed) {
-        if (!uploadedFileUrl) {
-          alert("사진은 필수값입니다.");
-          return;
-        }
-
         // 새로운 file 업로드한 경우 url 반환
         const imgUrl = await uploadFileAndGetUrl(file);
 
         // post_id, imgUrl, formData 전달해서 수정내용 update
         updatePostMutation({ post_id, imgUrl, formData });
       }
+      onClose();
     } catch (error) {
       console.error("Error updating data:", error);
     }
@@ -203,7 +210,7 @@ const EditPostModal = ({
                 </Button> */}
                   <Button
                     type="submit"
-                    onPress={onClose}
+                    // onPress={onClose}
                     className="text-gray-500 rounded-full !w-[140px] h-[33px] border border-gray-400 bg-[#EFEFEF]"
                   >
                     수정완료
@@ -214,6 +221,13 @@ const EditPostModal = ({
           )}
         </ModalContent>
       </Modal>
+      {isOpenAlertModal && (
+        <AlertModal
+          isOpen={isOpenAlertModal}
+          onClose={() => setIsOpenAlertModal(false)}
+          message={message}
+        />
+      )}
     </>
   );
 };

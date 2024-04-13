@@ -6,6 +6,7 @@ import { useUserPoint } from "@/app/_hooks/useQueries/goods";
 import { useSession } from "next-auth/react";
 import search from "/app/_assets/image/logo_icon/icon/goods/Group 128.png";
 import Image from "next/image";
+import AlertModal from "../community/AlertModal";
 
 const ProductInfoModal = ({
   item,
@@ -25,6 +26,10 @@ const ProductInfoModal = ({
   const [showProductInfo, setShowProductInfo] = useState(false);
   const [confirmPurchase, setConfirmPurchase] = useState(false);
 
+  // alert 대체 모달창을 위한 상태관리
+  const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
+  const [message, setMessage] = useState("");
+
   const handleToggleProductInfo = () => {
     setShowProductInfo(!showProductInfo);
   };
@@ -41,7 +46,9 @@ const ProductInfoModal = ({
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_USER_POINT] });
     },
     onError: () => {
-      alert("처리에 오류가 발생했습니다. 다시 시도해주세요.");
+      // alert("처리에 오류가 발생했습니다. 다시 시도해주세요.");
+      setMessage("처리에 오류가 발생했습니다. 다시 시도해주세요.");
+      setIsOpenAlertModal(true);
     },
   });
 
@@ -53,7 +60,10 @@ const ProductInfoModal = ({
 
   const handleConfirmPurchase = async () => {
     if (loggedInUserUid && user_point < item.point) {
-      alert(`구매 불가 상품입니다 : 보유한 포인트 ${user_point}P`);
+      // alert(`구매 불가 상품입니다 : 보유한 포인트 ${user_point}P`);
+      setMessage(`구매 불가 상품입니다 : 보유한 포인트 ${user_point}P`);
+      setIsOpenAlertModal(true);
+
       setConfirmPurchase(false);
       setShowProductInfo(false);
       return;
@@ -64,13 +74,17 @@ const ProductInfoModal = ({
         const updatedPoint = user_point - item.point;
         pointMutation({ loggedInUserUid, updatedPoint });
 
-        alert(`구매 성공! : 남은 포인트 ${updatedPoint}P`);
+        // alert(`구매 성공! : 남은 포인트 ${updatedPoint}P`);
+        setMessage(`구매 성공! : 남은 포인트 ${updatedPoint}P`);
+        setIsOpenAlertModal(true);
       }
       setConfirmPurchase(false);
       setShowProductInfo(false);
     } catch (error) {
       console.error("Error updating user point:", error);
-      alert("구매 실패했습니다. 다시 시도해주세요.");
+      // alert("구매 실패했습니다. 다시 시도해주세요.");
+      setMessage("구매 실패했습니다. 다시 시도해주세요.");
+      setIsOpenAlertModal(true);
     }
   };
 
@@ -140,6 +154,13 @@ const ProductInfoModal = ({
             </div>
           </div>
         </div>
+      )}
+      {isOpenAlertModal && (
+        <AlertModal
+          isOpen={isOpenAlertModal}
+          onClose={() => setIsOpenAlertModal(false)}
+          message={message}
+        />
       )}
     </div>
   );

@@ -15,6 +15,7 @@ import {
 import React, { useState } from "react";
 import { TfiPencil } from "react-icons/tfi";
 import ProfileImgUpload from "./ProfileImgUpload";
+import AlertModal from "../community/AlertModal";
 
 const MyProfileEditModal = ({
   user_uid,
@@ -30,6 +31,10 @@ const MyProfileEditModal = ({
   const [editedName, setEditedName] = useState<string>(display_name); // 초기값 닉네임 떴다가 안떴다가 함
   const [uploadedFileUrl, setUploadedFileUrl] = useState<string>(profile_img); // 초기값 기존 프로필이미지
   const [file, setFile] = useState<File | undefined>();
+
+  // alert 대체 모달창을 위한 상태관리
+  const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
+  const [message, setMessage] = useState("");
 
   const { updateName } = useUpdateUserName(user_uid, editedName);
 
@@ -55,7 +60,10 @@ const MyProfileEditModal = ({
     e.preventDefault();
 
     if (!editedName.trim()) {
-      return alert("닉네임을 입력해주세요.");
+      // alert("닉네임을 입력해주세요.");
+      setMessage("닉네임을 입력해주세요.");
+      setIsOpenAlertModal(true);
+      return;
     }
     // if (editedName.trim().length >= 11) { 처리하면 이상해짐
     //   return alert("닉네임을 10자 이내로 써주세요");
@@ -144,6 +152,13 @@ const MyProfileEditModal = ({
           )}
         </ModalContent>
       </Modal>
+      {isOpenAlertModal && (
+        <AlertModal
+          isOpen={isOpenAlertModal}
+          onClose={() => setIsOpenAlertModal(false)}
+          message={message}
+        />
+      )}
     </>
   );
 };
