@@ -127,15 +127,15 @@ const CommunityListPost = ({
         </Card>
         <div
           className={`flex justify-center items-center mt-4 desktop:w-[410px] laptop:w-[433px]           
-          ${mode === "myPosts" && "desktop:w-[350px] laptop:w-[315px]"} 
-           ${mode === "main" && "desktop:w-[400px] laptop:w-[270px]"} 
+          ${mode === "myPosts" && "desktop:w-[350px] laptop:w-[310px]"} 
+           ${mode === "main" && "desktop:w-[400px] laptop:w-[268px]"} 
           `}
         >
           <div
             className={`flex items-center justify-center ml-[24px] rounded-full border-2 border-black text-[13px] font-extrabold p-0.5 px-4 w-[150px] h-[31px]
           ${
             mode === "myPosts" &&
-            "ml-[24px] desktop:text-[13px] laptop:text-[8pt] desktop:w-[160px] laptop:w-[130px]"
+            "ml-[15px] desktop:text-[13px] laptop:text-[8pt] desktop:w-[160px] laptop:w-[130px]"
           }  
           ${
             mode === "main" &&

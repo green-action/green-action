@@ -144,45 +144,56 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
               </div>
             </div>
           </div>
-          <div className="flex gap-2 desktop:text-sm laptop:text-[12px] ml-[1px]">
-            <Image
-              src={dateImg}
-              alt="날짜 아이콘"
-              className="w-[13px] h-[13px] mt-[2px]"
-            />
-            <p>
-              {start_date} - {end_date}
-            </p>
+          <div className="flex gap-12 items-center desktop:text-sm laptop:text-[12px] ml-[1px]">
+            <div className="flex gap-2">
+              <Image
+                src={dateImg}
+                alt="날짜 아이콘"
+                className="w-[13px] h-[13px] mt-[2px]"
+              />
+              <p>
+                {start_date} - {end_date}
+              </p>
+            </div>
           </div>
           <hr className="text-gray-700 desktop:w-[190px] laptop:w-[170px] my-1" />
-          <div className="flex justify-between">
+          <div
+            className={`flex gap-1 ${mode !== "myPosts" && "justify-between"}`}
+          >
             <div className="flex gap-1">
               <Image
                 src={locationImg}
                 alt="장소 아이콘"
                 className="w-[16px] h-[16px] mt-[2px]"
               />
-              <p className="desktop:text-sm overflow-hidden whitespace-nowrap overflow-ellipsis laptop:text-[12px]">
+              <p className="desktop:min-w-[170px] laptop:min-w-[150px] desktop:text-sm overflow-hidden whitespace-nowrap overflow-ellipsis laptop:text-[12px]">
                 {location}
               </p>
             </div>
-            <div>
-              <Image
-                src={rightArrowImg}
-                alt="우향 화살표 아이콘"
-                className="desktop:w-[22px] laptop:w-[19px] desktop:h-[15px] laptop:h-[12px] mr-2 desktop:mb-4 laptop:mt-0 cursor-pointer"
-                onClick={handleActionClick}
-              />
-            </div>
+            {mode !== "myPosts" && (
+              <div>
+                <Image
+                  src={rightArrowImg}
+                  alt="우향 화살표 아이콘"
+                  className={`
+                 desktop:w-[22px] laptop:w-[19px] desktop:h-[15px] laptop:h-[12px] mr-2 desktop:mb-4 laptop:mt-0 cursor-pointer`}
+                  onClick={handleActionClick}
+                />
+              </div>
+            )}
 
             {mode === "myPosts" && (
-              <>
+              <div className="flex items-center desktop:ml-10 laptop:ml-[50px]">
                 <Dropdown
                   placement="bottom"
                   className="flex w-[10px] p-0 m-0 rounded-3xl justify-end" //max-w-[5rem]
+                  // classNames={{
+                  //   base: "w-[10px] before:bg-default-200", // change arrow background
+                  //   content: "w-[10px] py-1 px-1 border border-default-200",
+                  // }}
                 >
                   <DropdownTrigger>
-                    <Button className="bg-transparent ml-[20px] justify-end">
+                    <Button className="bg-transparent w-[5px]  justify-end">
                       <Image
                         src={optionDots}
                         alt="option-three-dots-icon"
@@ -191,7 +202,7 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" className="p-3">
-                    {is_recruiting && ( // !!
+                    {is_recruiting && (
                       <DropdownItem key="모집마감" onClick={handleModalOpen}>
                         모집마감
                       </DropdownItem>
@@ -216,7 +227,7 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
                   onClose={onClose}
                   onOpenChange={onOpenChange}
                 />
-              </>
+              </div>
             )}
           </div>
         </div>
