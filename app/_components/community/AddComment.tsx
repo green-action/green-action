@@ -91,6 +91,7 @@ const AddComment = ({ loggedInUserUid, post_id }: AddCommentProps) => {
         <PointModal
           isOpen={showPointModal}
           onClose={() => setShowPointModal(false)}
+          point={100}
         />
       )}
     </>
