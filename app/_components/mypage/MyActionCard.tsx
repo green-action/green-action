@@ -17,10 +17,11 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 
-import { GrLocation } from "react-icons/gr";
-import { IoIosCalendar } from "react-icons/io";
+import dateImg from "../../_assets/image/individualAction/image170.png";
+import locationImg from "../../_assets/image/individualAction/image35.png";
+import rightArrowImg from "../../_assets/image/individualAction/Group89.png";
 
-import person from "/app/_assets/image/logo_icon/icon/mypage/image 166.png";
+import person from "/app/_assets/image/logo_icon/icon/mypage/image24.png";
 import optionDots from "/app/_assets/image/logo_icon/icon/mypage/Group 100.png";
 
 // TODO MyAction 타입 사용 후 에러 해결하기
@@ -64,17 +65,21 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
   return (
     <div key={id}>
       <div
-        className={`none desktop:w-[356px] desktop:h-[25rem] ${
+        className={`none desktop:w-[356px] desktop:h-[455px] ${
           (mode === "myBookmarks" || mode === "myPosts") &&
-          "laptop:w-[330px] laptop:h-[415px]"
-        } ${
-          mode === "main" && "laptop:w-[287px] laptop:h-[251px]"
-        }flex flex-wrap desktop:p-1 relative desktop:gap-[13.2px]`}
+          "laptop:w-[327px] laptop:h-[420px] laptop:mb-[149px]"
+        } ${mode === "main" && "laptop:w-[287px] laptop:h-[251px]"} relative`}
+        // desktop:h-[25rem]
+        // relative 때문에 별 클릭안되는? -z, z-..했으나 안됨
       >
         <Card
+          // 이 카드의 classsname지워도 가능
           isFooterBlurred
           radius="lg"
-          className="border-none w-full desktop:h-[311px] laptop:h-[251px] laptop:mb-[10px] cursor-pointer"
+          className={`border-none w-full desktop:h-[311px] laptop:h-[251px]  ${
+            (mode === "myPosts" || mode === "myBookmarks") &&
+            "desktop:h-[311px] laptop:h-[280px] laptop:mb-[10px]"
+          } laptop:mb-[10px] cursor-pointer`}
         >
           {actionImgUrl ? (
             <img
@@ -91,67 +96,104 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
           )}
         </Card>
         <div
-          className={`pl-2 ${
-            (mode === "main" || mode === "myPosts") && "pt-5"
+          className={`pl-3 ${
+            (mode === "main" || mode === "myPosts") && "pt-5 pl-5"
           } bg-[#F9F9F9]  p-5 rounded-2xl w-full mt-3`}
         >
           <div className="flex w-full gap-0">
-            <div className="flex gap-2 mb-4 desktop:min-w-[240px] laptop:min-w-[210px] items-center">
+            <div className="flex desktop:gap-2 laptop:gap-[6px] mb-4 desktop:min-w-[240px] laptop:min-w-[190px] items-center">
               <p className=" max-w-[165px] desktop:text-[15px] laptop:text-[13px] font-bold overflow-hidden whitespace-nowrap overflow-ellipsis">
                 {title}
               </p>
               {is_recruiting ? (
                 <Chip
-                  size="sm"
-                  className="text-white w-[41px] h-[16px] bg-[#B3C8A1] rounded-[5px] text-center desktop:text-[9pt] laptop:text-[8pt]"
+                  classNames={{
+                    base: "desktop:h-[18px] laptop:h-[16px]",
+                    content:
+                      "desktop:w-[41px] laptop:w-[34px] flex justify-center items-center",
+                  }}
+                  className="text-white laptop:w-[20px] bg-[#B3C8A1] rounded-[5px] text-center desktop:text-[10pt] laptop:text-[8pt]"
                 >
                   모집중
                 </Chip>
               ) : (
                 <Chip
-                  size="sm"
-                  className="text-white w-[50px] h-[16px] bg-[#5F5F5F] rounded-[5px] text-center desktop:text-[9pt] laptop:text-[8pt]"
+                  classNames={{
+                    base: "desktop:h-[18px] laptop:h-[16px]",
+                    content:
+                      "desktop:w-[50px] laptop:w-[42px] flex justify-center items-center",
+                  }}
+                  className="text-white bg-[#5F5F5F] rounded-[5px] text-center desktop:text-[10pt] laptop:text-[8pt]"
                 >
                   모집마감
                 </Chip>
               )}
             </div>
-            <div className="flex justify-end items-start pt-0 gap-[15px] text-sm laptop:text-[12px] w-full">
-              <div className="flex">
+            <div className="flex justify-end items-start pt-0 desktop:gap-[15px] laptop:gap-[10px]  desktop:text-[14px] laptop:text-[11px] w-full">
+              <div className="flex items-center desktop:gap-[1px]">
                 <Image
                   src={person}
                   alt="person-icon"
-                  className="desktop:w-[22px] desktop:h-[20px] laptop:w-[20px] laptop:h-[18px]"
+                  className="desktop:w-[23px] desktop:h-[21px] laptop:w-[20px] laptop:h-[18px]"
                 />
                 <p>{recruit_number}</p>
               </div>
               {/* LINK 북마크 컴포넌트 */}
-              <Bookmark action_id={id} mode={mode} />
+              <div className="flex laptop:mt-[1px]">
+                <Bookmark action_id={id} mode={mode} />
+              </div>
             </div>
           </div>
-          <div className="flex gap-1 text-sm laptop:text-[12px]">
-            <IoIosCalendar size="15" />
-            <p>
-              {start_date} - {end_date}
-            </p>
+          <div className="flex gap-12 items-center desktop:text-sm laptop:text-[12px] ml-[1px]">
+            <div className="flex gap-2">
+              <Image
+                src={dateImg}
+                alt="날짜 아이콘"
+                className="w-[13px] h-[13px] mt-[2px]"
+              />
+              <p>
+                {start_date} - {end_date}
+              </p>
+            </div>
           </div>
-          <hr className="text-gray-700 w-[13rem] my-1" />
-          <div className="flex justify-between">
+          <hr className="text-gray-700 desktop:w-[190px] laptop:w-[170px] my-1" />
+          <div
+            className={`flex gap-1 ${mode !== "myPosts" && "justify-between"}`}
+          >
             <div className="flex gap-1">
-              <GrLocation size="15" />
-              <p className="text-sm overflow-hidden whitespace-nowrap overflow-ellipsis laptop:text-[12px]">
+              <Image
+                src={locationImg}
+                alt="장소 아이콘"
+                className="w-[16px] h-[16px] mt-[2px]"
+              />
+              <p className="desktop:min-w-[170px] laptop:min-w-[150px] desktop:text-sm overflow-hidden whitespace-nowrap overflow-ellipsis laptop:text-[12px]">
                 {location}
               </p>
             </div>
+            {mode !== "myPosts" && (
+              <div>
+                <Image
+                  src={rightArrowImg}
+                  alt="우향 화살표 아이콘"
+                  className={`
+                 desktop:w-[22px] laptop:w-[19px] desktop:h-[15px] laptop:h-[12px] mr-2 desktop:mb-4 laptop:mt-0 cursor-pointer`}
+                  onClick={handleActionClick}
+                />
+              </div>
+            )}
 
             {mode === "myPosts" && (
-              <>
+              <div className="flex items-center desktop:ml-10 laptop:ml-[50px]">
                 <Dropdown
                   placement="bottom"
                   className="flex w-[10px] p-0 m-0 rounded-3xl justify-end" //max-w-[5rem]
+                  // classNames={{
+                  //   base: "w-[10px] before:bg-default-200", // change arrow background
+                  //   content: "w-[10px] py-1 px-1 border border-default-200",
+                  // }}
                 >
                   <DropdownTrigger>
-                    <Button className="bg-transparent ml-[20px] justify-end">
+                    <Button className="bg-transparent w-[5px]  justify-end">
                       <Image
                         src={optionDots}
                         alt="option-three-dots-icon"
@@ -160,7 +202,7 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Static Actions" className="p-3">
-                    {is_recruiting && ( // !!
+                    {is_recruiting && (
                       <DropdownItem key="모집마감" onClick={handleModalOpen}>
                         모집마감
                       </DropdownItem>
@@ -185,7 +227,7 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
                   onClose={onClose}
                   onOpenChange={onOpenChange}
                 />
-              </>
+              </div>
             )}
           </div>
         </div>

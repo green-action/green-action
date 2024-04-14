@@ -56,8 +56,8 @@ const LaptopMainSlidder = ({ mode }: { mode: string }) => {
     <Slider
       {...settings}
       className={`${
-        mode === "community" ? "h-[300px]" : "h-[400px]"
-      }  desktop:w-[1750px] laptop:w-[904px] flex items-center justify-center`}
+        mode === "community" ? "h-[300px]" : "h-[430px]"
+      }  laptop:w-[904px] flex items-center justify-center`}
     >
       {mode === "community"
         ? communityPostsByLikes?.slice(0, 8).map(

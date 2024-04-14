@@ -111,18 +111,22 @@ const Bookmark = ({
                 <Image
                   src={bookmarkFill}
                   alt="북마크"
-                  className="desktop:w-[15px] desktop:h-[14px] desktop:mt-[2px] desktop:mr-[11px] desktop:mb-[2px]"
+                  className="desktop:w-[15px] laptop:w-[14px] desktop:h-[14px] laptop:h-[13px] mt-[2px] mr-[4px] mb-[2px]"
                 />
               )}
               {mode === "main" && (
                 <Image
                   src={bookmarkFill}
                   alt="북마크"
-                  className="desktop:w-[15px] laptop:w-[13px] desktop:h-[14px] laptop:h-[12px] desktop:mt-[2px] desktop:mr-[11px] desktop:mb-[2px]"
+                  className="desktop:w-[15px] laptop:w-[13px] desktop:h-[14px] laptop:h-[12px] desktop:mt-[2px] desktop:mr-[6px] laptop:mr-[8px] desktop:mb-[2px]"
                 />
               )}
             </button>
-            <span className="desktop:text-sm laptop:text-[11px]">
+            <span
+              className={`desktop:text-sm laptop:text-[11px] ${
+                mode === "myPosts" && "desktop:text-[12px] laptop:text-[11px]"
+              }`}
+            >
               {filterBookmark?.filterBookmark?.length ?? 0}
             </span>
           </div>
@@ -149,19 +153,23 @@ const Bookmark = ({
               <Image
                 src={bookmarkEmpty}
                 alt="북마크"
-                className="desktop:w-[15px] desktop:h-[14px] desktop:mt-[2px] desktop:mr-[10px] desktop:mb-[2px]"
+                className="desktop:w-[15px] laptop:w-[15px] desktop:h-[14px] laptop:h-[13px] desktop:mt-[2px] desktop:mr-[5px] laptop:mr-[3px] mb-[2px]"
               />
             )}
             {mode === "main" && (
               <Image
                 src={bookmarkEmpty}
                 alt="북마크"
-                className="desktop:w-[15px] laptop:w-[12px] desktop:h-[14px] desktop:mt-[2px] desktop:mr-[11px] desktop:mb-[2px]"
+                className="desktop:w-[15px] laptop:w-[13px] desktop:h-[14px] laptop:h-[12px] desktop:mt-[2px] laptop:mt-[2px] desktop:mr-[6px] laptop:mr-[8px] desktop:mb-[2px]  laptop:mb-[2px]"
               />
             )}
             {/* <CiStar className="text-[19px]" /> */}
           </button>
-          <span className="desktop:text-sm laptop:text-[11px]">
+          <span
+            className={`desktop:text-sm laptop:text-[11px] ${
+              mode === "myPosts" && "desktop:text-[12px] laptop:text-[11px]"
+            }`}
+          >
             {filterBookmark?.filterBookmark?.length ?? 0}
           </span>
         </div>
