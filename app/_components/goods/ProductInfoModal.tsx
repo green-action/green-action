@@ -65,8 +65,9 @@ const ProductInfoModal = ({
       setMessage(`구매 불가 상품입니다 : 보유한 포인트 ${user_point}P`);
       setIsOpenAlertModal(true);
 
-      setConfirmPurchase(false);
-      setShowProductInfo(false);
+      // Error: Rendered more hooks than during the previous render.
+      //setConfirmPurchase(false);
+      //setShowProductInfo(false);
       return;
     }
 
@@ -79,13 +80,14 @@ const ProductInfoModal = ({
         setMessage(`구매 성공! : 남은 포인트 ${updatedPoint}P`);
         setIsOpenAlertModal(true);
       }
-      setConfirmPurchase(false);
-      setShowProductInfo(false);
     } catch (error) {
       console.error("Error updating user point:", error);
       // alert("구매 실패했습니다. 다시 시도해주세요.");
       setMessage("구매 실패했습니다. 다시 시도해주세요.");
       setIsOpenAlertModal(true);
+    } finally {
+      setConfirmPurchase(false);
+      setShowProductInfo(false);
     }
   };
 
