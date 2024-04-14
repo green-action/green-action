@@ -55,7 +55,7 @@ SOOM - "SOOM" 웹 서비스는 친환경 및 지속가능성을 추구하는 플
 
 ### Installation
 
-```
+```bash
 $ git clone https://github.com/green-action/green-action.git
 $ cd green-action
 ```
@@ -66,7 +66,7 @@ $ cd green-action
 
 root 디렉토리에 .env 파일을 생성하고 환경변수를 입력 후 저장해주세요.
 
-```
+```env
 NEXT_PUBLIC_SUPABASE_URL=supabase URL
 NEXT_PUBLIC_SUPABASE_ANON_KEY=supabase API Key
 NEXT_PUBLIC_KAKAO_API_KEY=kakao API Key
@@ -80,7 +80,7 @@ NEXT_GOOGLE_CLIENT_SECRET=google client Key
 
 #### Frontend
 
-```
+```bash
 $ cd green-action
 $ yarn
 $ yarn dev
