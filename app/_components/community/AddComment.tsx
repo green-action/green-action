@@ -12,6 +12,7 @@ import { updateUserPoint } from "@/app/_api/individualAction-add/add-api";
 import Image from "next/image";
 import PointModal from "./PointModal";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
+import CustomConfirm from "../customConfirm/CustomConfirm";
 
 const AddComment = ({ loggedInUserUid, post_id }: AddCommentProps) => {
   // 로그인한 유저 프로필이미지
@@ -25,6 +26,9 @@ const AddComment = ({ loggedInUserUid, post_id }: AddCommentProps) => {
   // PointModal을 위한 상태관리
   const [showPointModal, setShowPointModal] = useState(false);
 
+  // custom confirm창을 위한 상태관리
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -37,7 +41,7 @@ const AddComment = ({ loggedInUserUid, post_id }: AddCommentProps) => {
     return <div>Error</div>;
   }
 
-  // 댓글 등록 핸들러
+  // 댓글 등록 핸들러 (기존)
   const handleInsertComment = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -59,6 +63,35 @@ const AddComment = ({ loggedInUserUid, post_id }: AddCommentProps) => {
       console.error("Error adding comment:", error);
     }
   };
+
+  // custom confirm 시도
+  // 댓글 등록 핸들러
+  // const handleInsertComment = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setIsConfirmOpen(true);
+  // };
+
+  // // 확인 버튼 클릭 시 댓글을 등록하고 커스텀 확인 창 닫기
+  // const handleConfirm = async (e: React.FormEvent) => {
+  //   try {
+  //     const formData = new FormData(e.target as HTMLFormElement);
+  //     const content = formData.get("comment") as string;
+
+  //     setShowPointModal(true);
+  //     insertCommentMutation({ content, loggedInUserUid, post_id });
+
+  //     // 200포인트 업데이트
+  //     await updateUserPoint(loggedInUserUid, { mode: "comment" });
+
+  //     // 입력값 초기화
+  //     (e.target as HTMLFormElement).reset();
+
+  //     // 커스텀 확인 창 닫기
+  //     setIsConfirmOpen(false);
+  //   } catch (error) {
+  //     console.error("Error adding comment:", error);
+  //   }
+  // };
 
   return (
     <>
@@ -101,6 +134,14 @@ const AddComment = ({ loggedInUserUid, post_id }: AddCommentProps) => {
           point={100}
         />
       )}
+      {/* {isConfirmOpen && (
+        <CustomConfirm
+          text="등록하시겠습니까?"
+          mode="addComment"
+          // okFunction={() => handleInsertComment}
+          okFunction={() => handleConfirm}
+        />
+      )} */}
     </>
   );
 };
