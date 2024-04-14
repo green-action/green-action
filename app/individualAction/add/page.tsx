@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 
 import {
   insertActionTextForm,
@@ -11,21 +11,27 @@ import {
   uploadFilesAndGetUrls,
 } from "@/app/_api/individualAction-add/add-api";
 
+import AlertModal from "@/app/_components/community/AlertModal";
+import PointModal from "@/app/_components/community/PointModal";
 import FirstInputBox from "@/app/_components/individualAction-add/FirstInputBox";
 import ImgUpload from "@/app/_components/individualAction-add/ImgUpload";
 import SecondInputBox from "@/app/_components/individualAction-add/SecondInputBox";
 import ThirdInputBox from "@/app/_components/individualAction-add/ThirdInputBox";
-import AlertModal from "@/app/_components/community/AlertModal";
+import { useDisclosure } from "@nextui-org/react";
 
 const AddActionPage = () => {
   const [uploadedFileUrls, setUploadedFileUrls] = useState<string[]>([]);
   const [files, setFiles] = useState<(File | undefined)[]>([]);
+
+  // PointModal을 위한 상태관리
+  const [showPointModal, setShowPointModal] = useState(false);
 
   // alert 대체 모달창을 위한 상태관리
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const [message, setMessage] = useState("");
 
   const router = useRouter();
+  const { onClose } = useDisclosure();
 
   // 현재 로그인한 유저 uid
   const session = useSession();
@@ -79,8 +85,12 @@ const AddActionPage = () => {
         const target = event.target as HTMLFormElement;
         target.reset();
 
+        setShowPointModal(true);
+
         // 확인을 클릭하면 action_id의 상세페이지로 이동
+
         router.push(`detail/${action_id}`);
+        onClose();
       }
     } catch (error) {
       console.error("Error inserting data:", error);
@@ -90,7 +100,7 @@ const AddActionPage = () => {
   return (
     <div className="desktop:w-[1920px] laptop:w-[1020px] mx-auto">
       {/* 전체 Wrapper */}
-      <form onSubmit={handleSubmit}>
+      <form>
         {/* <div className="flex flex-col w-[809px] h-[826px] border-1.5 border-gray-300 rounded-3xl mx-auto mb-12 mt-8"> */}
         <div className="flex flex-col w-[809px] h-[826px] border-1.5 border-gray-300 rounded-3xl mx-auto mb-12 mt-0">
           {/* new green-action 타이틀 */}
@@ -126,6 +136,15 @@ const AddActionPage = () => {
             </div>
           </div>
         </div>
+        {showPointModal && (
+          <PointModal
+            isOpen={showPointModal}
+            onClose={() => setShowPointModal(false)}
+            point={300}
+            mod={"add"}
+            handleClick={() => handleSubmit}
+          />
+        )}
       </form>
       {isOpenAlertModal && (
         <AlertModal

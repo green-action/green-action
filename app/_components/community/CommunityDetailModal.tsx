@@ -1,5 +1,5 @@
-import React from "react";
 import { useSession } from "next-auth/react";
+import React from "react";
 
 import type { CommunityDetailProps } from "@/app/_types/community/community";
 
@@ -8,9 +8,9 @@ import { useGetCommunityCommentsList } from "@/app/_hooks/useQueries/comments";
 import { useGetPostContents } from "@/app/_hooks/useQueries/community";
 
 import Likes from "../likes/Likes";
+import AddComment from "./AddComment";
 import CommunityPostComment from "./Comment";
 import EditPostModal from "./EditPostModal";
-import AddComment from "./AddComment";
 
 import {
   Avatar,

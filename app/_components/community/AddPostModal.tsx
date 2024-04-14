@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 
 import { uploadFileAndGetUrl } from "@/app/_api/community/community-api";
 import { useInsertCommunityPostFormData } from "@/app/_hooks/useMutations/community";
@@ -26,14 +26,16 @@ import {
 
 import CustomConfirm from "../customConfirm/CustomConfirm";
 import PointModal from "./PointModal";
-import AlertModal from "./AlertModal";
 
-import { LuPencilLine } from "react-icons/lu";
 import { updateUserPoint } from "@/app/_api/individualAction-add/add-api";
+import { LuPencilLine } from "react-icons/lu";
+import AlertModal from "./AlertModal";
 
 const AddPostModal = () => {
   const [uploadedFileUrl, setUploadedFileUrl] = useState<string>("");
   const [file, setFile] = useState<File | undefined | null>(null);
+
+  // PointModal을 위한 상태관리
   const [showPointModal, setShowPointModal] = useState(false);
 
   // alert 대체 모달창을 위한 상태관리
@@ -256,6 +258,7 @@ const AddPostModal = () => {
         <PointModal
           isOpen={showPointModal}
           onClose={() => setShowPointModal(false)}
+          point={300}
         />
       )}
       {isOpenAlertModal && (
