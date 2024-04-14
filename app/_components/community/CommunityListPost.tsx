@@ -127,8 +127,8 @@ const CommunityListPost = ({
         </Card>
         <div
           className={`flex justify-center items-center mt-4 desktop:w-[410px] laptop:w-[433px]           
-          ${mode === "myPosts" && "desktop:w-[350px] laptop:w-[310px]"} 
-           ${mode === "main" && "desktop:w-[400px] laptop:w-[265px]"} 
+          ${mode === "myPosts" && "desktop:w-[340px] laptop:w-[305px]"} 
+           ${mode === "main" && "desktop:w-[400px] laptop:w-[260px]"} 
           `}
         >
           <div
@@ -150,7 +150,7 @@ const CommunityListPost = ({
               "desktop:ml-[15px] laptop:ml-[10px] desktop:text-[16px] laptop:text-[13px]"
             } ${
               mode === "myPosts" &&
-              "desktop:text-[15px] laptop:text-[13px] desktop:ml-[20px] laptop:ml-[15px]"
+              " desktop:ml-[15px] laptop:ml-[10px] desktop:text-[15px] laptop:text-[13px]"
             }
             `}
           >
