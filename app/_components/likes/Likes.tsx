@@ -1,11 +1,7 @@
 "use client";
 
-<<<<<<< HEAD
-=======
-import React, { useCallback, useState } from "react";
->>>>>>> 2de41fad6014045a7ebae9e6edaca06c4963bead
 import { useSession } from "next-auth/react";
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 
 import { useAddLike, useRemoveLike } from "@/app/_hooks/useMutations/bookmarks";
 import { useFilterLikes } from "@/app/_hooks/useQueries/bookmarks";
@@ -14,14 +10,9 @@ import { debounce } from "@/utils/debounce/debounce";
 
 import { GoHeart, GoHeartFill } from "react-icons/go";
 
-<<<<<<< HEAD
 import Image from "next/image";
-import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
-=======
-import { GoHeart } from "react-icons/go";
-import { GoHeartFill } from "react-icons/go";
 import AlertModal from "../community/AlertModal";
->>>>>>> 2de41fad6014045a7ebae9e6edaca06c4963bead
+import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
 // import Image from "next/image";
 // import heart from "../../../app/_assets/image/logo_icon/icon/community/Group 130.png";

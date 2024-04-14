@@ -4,13 +4,10 @@ import { useUserPoint } from "@/app/_hooks/useQueries/goods";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-<<<<<<< HEAD
 import { useState } from "react";
+import AlertModal from "../community/AlertModal";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 import search from "/app/_assets/image/logo_icon/icon/goods/Group 128.png";
-=======
-import AlertModal from "../community/AlertModal";
->>>>>>> 2de41fad6014045a7ebae9e6edaca06c4963bead
 
 const ProductInfoModal = ({
   item,
