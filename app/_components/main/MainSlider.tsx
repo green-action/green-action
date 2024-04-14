@@ -70,7 +70,7 @@ const MainSlider = ({ mode }: { mode: string }) => {
             (communityPost) => (
               <div
                 key={communityPost.id}
-                className="flex items-center gap-3 h-[480px]"
+                className="flex items-center gap-3 h-[480px] "
               >
                 <CommunityListPost communityPost={communityPost} mode="main" />
               </div>
