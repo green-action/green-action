@@ -31,7 +31,7 @@ const AboutPage = () => {
           />
           {isDesktop && (
             <>
-              <div className="z-0 desktop:mt-[500px] laptop:mt-[450px] flex flex-col laptop:w-[100%] items-center text-white text-[64px] font-thin">
+              <div className="z-0 desktop:mt-[300px] laptop:mt-[450px] flex flex-col laptop:w-[100%] items-center text-white text-[64px] font-thin">
                 <p className="font-['Italiana']">
                   Experience the earth breathing
                 </p>
