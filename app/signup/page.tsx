@@ -10,13 +10,12 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@nextui-org/react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { PiEyeLight, PiEyeSlash } from "react-icons/pi";
 import { signUpNewUser } from "../_api/auth";
 import logoImg from "../_assets/image/logo_icon/logo/white.png";
-import Image from "next/image";
-import mainImg from "../_assets/image/login/main.png";
 import AlertModal from "../_components/community/AlertModal";
 
 const SignUp = () => {
@@ -233,12 +232,20 @@ const SignUp = () => {
         <ModalContent>
           {() => (
             <>
-              <ModalBody>
-                <div className="flex items-center">
+              <ModalBody className="flex flex-col gap-5 justify-center items-center py-[70px]">
+                <p className="font-bold text-center">
                   회원가입완료
                   <br />
                   🎉SOOM에 오신 것을 환영합니다🎉
-                </div>
+                </p>
+                <p className="font-bold text-center text-[16px]">
+                  축하합니다!
+                  <span className="block">1000 Point를 획득하셨습니다!</span>
+                </p>
+                <p className="text-[#8f8f8f] text-[12px] text-center">
+                  내용과 관련 없는 이미지일 경우
+                  <br /> 포인트가 환수될 수 있습니다.
+                </p>
               </ModalBody>
               <ModalFooter>
                 <Button
