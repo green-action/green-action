@@ -15,6 +15,7 @@ import {
 import React, { useState } from "react";
 import { TfiPencil } from "react-icons/tfi";
 import ProfileImgUpload from "./ProfileImgUpload";
+import AlertModal from "../community/AlertModal";
 
 const MyProfileEditModal = ({
   user_uid,
@@ -30,6 +31,10 @@ const MyProfileEditModal = ({
   const [editedName, setEditedName] = useState<string>(display_name); // 초기값 닉네임 떴다가 안떴다가 함
   const [uploadedFileUrl, setUploadedFileUrl] = useState<string>(profile_img); // 초기값 기존 프로필이미지
   const [file, setFile] = useState<File | undefined>();
+
+  // alert 대체 모달창을 위한 상태관리
+  const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
+  const [message, setMessage] = useState("");
 
   const { updateName } = useUpdateUserName(user_uid, editedName);
 
@@ -55,7 +60,10 @@ const MyProfileEditModal = ({
     e.preventDefault();
 
     if (!editedName.trim()) {
-      return alert("닉네임을 입력해주세요.");
+      // alert("닉네임을 입력해주세요.");
+      setMessage("닉네임을 입력해주세요.");
+      setIsOpenAlertModal(true);
+      return;
     }
     // if (editedName.trim().length >= 11) { 처리하면 이상해짐
     //   return alert("닉네임을 10자 이내로 써주세요");
@@ -84,7 +92,7 @@ const MyProfileEditModal = ({
       <TfiPencil
         color="gray"
         onClick={handleEditProfileClick}
-        className="cursor-pointer"
+        className="cursor-pointer laptop:w-[11px]"
       />
 
       <Modal
@@ -98,14 +106,14 @@ const MyProfileEditModal = ({
             //   NOTE 모달
             <div className="p-5 flex flex-col items-center">
               <form
-                className="flex flex-col gap-5 items-center justify-center"
+                className="flex flex-col gap-0 items-center justify-center"
                 onSubmit={handleEditProfileSubmit}
               >
                 <ModalHeader>
                   <p className="text-lg">Profile</p>
                 </ModalHeader>
                 <div className="flex flex-col items-center gap-5">
-                  <p className="text-[0.8rem] text-gray-600">
+                  <p className="desktop:text-[0.8rem] laptop:text-[10pt] desktop:mb-[40px] laptop:mb-[40px] text-gray-600">
                     나중에 언제든지 변경할 수 있습니다.
                   </p>
                   <ProfileImgUpload
@@ -113,29 +121,46 @@ const MyProfileEditModal = ({
                     setUploadedFileUrl={setUploadedFileUrl}
                     setFile={setFile}
                   />
-                  <label htmlFor="user-display-name">사용자 이름</label>
-                  <Input
-                    type="text"
-                    label="사용자 이름"
-                    value={editedName}
-                    defaultValue={display_name}
-                    onChange={(e) => {
-                      handleDisplayNameChange(e);
-                    }}
-                    id="User Display Name"
-                    className="rounded"
-                    placeholder="2 ~ 10자 이내"
-                    maxLength={10}
-                    minLength={2}
-                    isRequired
-                    variant="flat"
-                  />
+                  <div className="pt-[30px] pb-[30px]">
+                    <label
+                      htmlFor="user-display-name"
+                      className="mb-[0px] pl-[10px] text-[#6E6E6E] desktop:text-[11pt] laptop:text-[10pt]"
+                    >
+                      사용자 이름
+                    </label>
+                    <Input
+                      type="text"
+                      // label="사용자 이름"
+                      value={editedName}
+                      defaultValue={display_name}
+                      onChange={(e) => {
+                        handleDisplayNameChange(e);
+                      }}
+                      id="User Display Name"
+                      className="rounded"
+                      placeholder="2 ~ 10자 이내"
+                      maxLength={10}
+                      minLength={2}
+                      isRequired
+                      variant="flat"
+                    />
+                  </div>
                 </div>
                 <ModalFooter>
-                  <Button color="danger" variant="light" onPress={onClose}>
+                  <Button
+                    color="danger"
+                    variant="faded"
+                    onPress={onClose}
+                    className="rounded-3xl"
+                  >
                     취소
                   </Button>
-                  <Button type="submit" variant="light" color="primary">
+                  <Button
+                    type="submit"
+                    variant="faded"
+                    color="primary"
+                    className="rounded-3xl"
+                  >
                     작성완료
                   </Button>
                 </ModalFooter>
@@ -144,6 +169,13 @@ const MyProfileEditModal = ({
           )}
         </ModalContent>
       </Modal>
+      {isOpenAlertModal && (
+        <AlertModal
+          isOpen={isOpenAlertModal}
+          onClose={() => setIsOpenAlertModal(false)}
+          message={message}
+        />
+      )}
     </>
   );
 };

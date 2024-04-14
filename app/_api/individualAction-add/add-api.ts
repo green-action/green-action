@@ -37,6 +37,7 @@ export const insertActionTextForm = async ({
       throw error;
     }
     const action_id = data[0].id;
+
     return action_id;
   } catch (error) {
     console.error("Error inserting data:", error);
@@ -44,7 +45,50 @@ export const insertActionTextForm = async ({
   }
 };
 
-// 2. 스토리지에 이미지 저장하기 + url 반환하기
+// 2. point 업데이트 - mode에 따라 업데이트되는 포인트가 달라짐
+// (다른 컴포넌트에서도 사용하기 때문에 로직 분리)
+export const updateUserPoint = async (
+  loggedInUserUid: string,
+  option: { mode: string },
+) => {
+  try {
+    const { mode } = option;
+
+    // 포인트 가져오기
+    const { data, error } = await supabase
+      .from("users")
+      .select("point")
+      .eq("id", loggedInUserUid);
+
+    if (error) {
+      throw error;
+    }
+
+    const point = data[0].point;
+    let updatedPoint;
+
+    // 댓글은 100포인트, 개인액션 및 게시글 등록은 300포인트 업데이트
+    if (point && mode === "comment") {
+      updatedPoint = point + 100;
+    } else if (point && (mode === "addAction" || mode === "addPost")) {
+      updatedPoint = point + 300;
+    }
+
+    const { error: updatePointError } = await supabase
+      .from("users")
+      .update({ point: updatedPoint })
+      .eq("id", loggedInUserUid);
+
+    if (updatePointError) {
+      throw error;
+    }
+  } catch (error) {
+    console.error("Error inserting data:", error);
+    throw error;
+  }
+};
+
+// 3. 스토리지에 이미지 저장하기 + url 반환하기
 // (저장한 이미지의 파일명을 알아야 url을 가져올수 있어서 둘을 함께 작성)
 export const uploadFilesAndGetUrls = async ({
   files,
@@ -97,7 +141,7 @@ export const uploadFilesAndGetUrls = async ({
   }
 };
 
-// 3. 이미지url들 table에 넣기 - action_id도 함께 넣어야 함
+// 4. 이미지url들 table에 넣기 - action_id도 함께 넣어야 함
 export const insertImgUrls = async ({
   action_id,
   imgUrlsArray,

@@ -3,11 +3,13 @@ import type { CommunityPostObj } from "@/app/_types/community/community";
 import Likes from "../likes/Likes";
 import CommunityDetailModal from "./CommunityDetailModal";
 
-import { Avatar, Card, Spinner, useDisclosure } from "@nextui-org/react";
+import { Avatar, Card, useDisclosure } from "@nextui-org/react";
+import Image from "next/image";
 import { longStyle } from "./style";
+import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
-import { useGetPostContents } from "@/app/_hooks/useQueries/community";
 import { useGetCommunityCommentsList } from "@/app/_hooks/useQueries/comments";
+import { useGetPostContents } from "@/app/_hooks/useQueries/community";
 
 const CommunityListPost = ({
   communityPost,
@@ -42,7 +44,11 @@ const CommunityListPost = ({
   const imgSrc = profile_img || "";
 
   if (isPostLoading || isCommentsLoading) {
-    return <Spinner color="danger" />;
+    return (
+      <div className="w-[300px] h-auto mx-auto">
+        <Image className="" src={SoomLoaing} alt="SoomLoading" />
+      </div>
+    );
   }
   if (isPostError || isCommentsError) {
     return <div>Error</div>;
@@ -55,7 +61,10 @@ const CommunityListPost = ({
           mode === "main" &&
           "desktop:w-[410px] desktop:h-[295px] laptop:w-[287px] laptop:h-[207px]"
         }
-            ${mode === "myPosts" && "desktop:w-[356px]"}
+            ${
+              mode === "myPosts" &&
+              "desktop:w-[356px] laptop:w-[327px] laptop:h-[400px]"
+            }
           ${mode !== "main" && mode !== "myPosts" && "w-[31%] mb-2"}
         `}
       >
@@ -63,7 +72,8 @@ const CommunityListPost = ({
           isFooterBlurred
           radius="lg"
           className={`shadow-none border-none desktop:w-[410px] desktop:h-[295px] laptop:w-[433px] laptop:h-[311px] mb-3 rounded-2xl ${
-            mode === "myPosts" && "desktop:w-full desktop:h-[250px]"
+            mode === "myPosts" &&
+            "desktop:w-[356px] laptop:w-[327px] desktop:h-[250px] laptop:h-[230px]"
           }
             ${
               mode === "main" &&
@@ -78,7 +88,10 @@ const CommunityListPost = ({
               className="object-cover w-full h-full cursor-pointer brightness-90"
               src={communityPost?.img_url}
             />
-            <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t"></div>
+            {mode === "community" && (
+              <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t"></div>
+            )}
+            {/* <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t"></div> */}
           </div>
           <div className="flex items-center justify-between pl-[24px] pr-[16px] absolute bottom-0 text-white w-full h-[66px]">
             <div className="flex items-center">
@@ -91,7 +104,7 @@ const CommunityListPost = ({
                 className={`text-white text-[16px] font-extrabold mr-3 ${
                   mode === "myPosts" && "desktop:text-[13px]"
                 }
-                ${mode === "main" && "desktop:text-[16px] laptop:text-[12px]"}`}
+                ${mode === "main" && "desktop:text-[16px] laptop:text-[13px]"}`}
               >
                 {display_name || my_display_name}
               </p>
@@ -121,21 +134,34 @@ const CommunityListPost = ({
             </div>
           </CardFooter> */}
         </Card>
-        <div className="flex justify-center items-center mt-4 desktop:w-[410px] laptop:w-[433px]">
+        <div
+          className={`flex justify-center items-center mt-4 desktop:w-[410px] laptop:w-[433px]           
+          ${mode === "myPosts" && "desktop:w-[350px] laptop:w-[310px]"} 
+           ${mode === "main" && "desktop:w-[400px] laptop:w-[265px]"} 
+          `}
+        >
           <div
             className={`flex items-center justify-center ml-[24px] rounded-full border-2 border-black text-[13px] font-extrabold p-0.5 px-4 w-[150px] h-[31px]
-          ${mode === "myPosts" && "w-[160px]"}  
+          ${
+            mode === "myPosts" &&
+            "ml-[15px] desktop:text-[13px] laptop:text-[8pt] desktop:w-[160px] laptop:w-[130px]"
+          }  
           ${
             mode === "main" &&
-            "w-[180px] laptop:text-[11px] desktop:text-[13px] laptop:px-0 laptop:w-[130px] h-[28px]"
+            "desktop:ml-[20px] laptop:ml-[15px] desktop:w-[180px] desktop:text-[14px] laptop:text-[11px] desktop:px-0 laptop:px-0 laptop:w-[130px] desktop:h-[28px] laptop:h-[24px]"
           }`}
           >
             {communityPost?.action_type}와 함께해요
           </div>
           <p
             className={`text-[15px] font-extrabold w-3/4 ml-[27px] mr-1 overflow-hidden whitespace-nowrap overflow-ellipsis ${
-              mode === "main" && "desktop:text-[15px] laptop:text-[11px]"
-            }`}
+              mode === "main" &&
+              "desktop:ml-[15px] laptop:ml-[10px] desktop:text-[16px] laptop:text-[13px]"
+            } ${
+              mode === "myPosts" &&
+              "desktop:text-[15px] laptop:text-[13px] desktop:ml-[20px] laptop:ml-[15px]"
+            }
+            `}
           >
             {communityPost?.title}
           </p>

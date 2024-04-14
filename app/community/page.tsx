@@ -7,14 +7,21 @@ import { useGetCommunityList } from "../_hooks/useQueries/community";
 import AddPostModal from "../_components/community/AddPostModal";
 import CommunityListPost from "../_components/community/CommunityListPost";
 
-import { Select, SelectItem, Spinner } from "@nextui-org/react";
+import { Select, SelectItem } from "@nextui-org/react";
+
+import Image from "next/image";
+import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
 const CommunityListPage = () => {
   const [selectedValue, setSelectedValue] = useState("정렬");
   const { communityList, isLoading, isError } = useGetCommunityList();
 
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <div className="w-[300px] h-auto mx-auto">
+        <Image className="" src={SoomLoaing} alt="SoomLoading" />
+      </div>
+    );
   }
   if (isError) {
     return <div>Error</div>;

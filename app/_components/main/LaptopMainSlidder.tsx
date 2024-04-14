@@ -1,15 +1,14 @@
-import React from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import {
   useFetchCommunityPostsLikes,
   useFetchIndivActionsBookmarks,
 } from "@/app/_hooks/useQueries/main";
+import Image from "next/image";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 import CommunityListPost from "../community/CommunityListPost";
-import { CircularProgress } from "@nextui-org/react";
 import MyActionCard from "../mypage/MyActionCard";
-import { useResponsive } from "@/app/_hooks/responsive";
+import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
 // export const revalidate = 0;
 
@@ -45,8 +44,8 @@ const LaptopMainSlidder = ({ mode }: { mode: string }) => {
 
   if (isPostsLoading || isActionsLoading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <CircularProgress color="success" label="Loading..." />
+      <div className="w-[200px] h-auto mx-auto">
+        <Image className="" src={SoomLoaing} alt="SoomLoading" />
       </div>
     );
   }
@@ -57,8 +56,8 @@ const LaptopMainSlidder = ({ mode }: { mode: string }) => {
     <Slider
       {...settings}
       className={`${
-        mode === "community" ? "h-[300px]" : "h-[400px]"
-      }  desktop:w-[1750px] laptop:w-[904px] flex items-center justify-center`}
+        mode === "community" ? "h-[300px]" : "h-[430px]"
+      }  laptop:w-[904px] flex items-center justify-center`}
     >
       {mode === "community"
         ? communityPostsByLikes?.slice(0, 8).map(

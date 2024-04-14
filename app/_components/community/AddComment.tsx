@@ -1,11 +1,17 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 
 import type { AddCommentProps } from "@/app/_types/comments/comments";
 
 import { useInsertCommunityCommentMutation } from "@/app/_hooks/useMutations/comments";
 import { useGetCurrentUerProfileImg } from "@/app/_hooks/useQueries/comments";
 
-import { Avatar, Spinner } from "@nextui-org/react";
+import { Avatar } from "@nextui-org/react";
+
+import { updateUserPoint } from "@/app/_api/individualAction-add/add-api";
+import Image from "next/image";
+import PointModal from "./PointModal";
+import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
 const AddComment = ({ loggedInUserUid, post_id }: AddCommentProps) => {
   // 로그인한 유저 프로필이미지
@@ -16,8 +22,15 @@ const AddComment = ({ loggedInUserUid, post_id }: AddCommentProps) => {
   // 댓글 등록 mutation
   const { insertCommentMutation } = useInsertCommunityCommentMutation();
 
+  // PointModal을 위한 상태관리
+  const [showPointModal, setShowPointModal] = useState(false);
+
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Image src={SoomLoaing} alt="SoomLoading" />
+      </div>
+    );
   }
 
   if (isError) {
@@ -33,8 +46,13 @@ const AddComment = ({ loggedInUserUid, post_id }: AddCommentProps) => {
       if (isConfirm) {
         const formData = new FormData(e.target as HTMLFormElement);
         const content = formData.get("comment") as string;
+        setShowPointModal(true);
         insertCommentMutation({ content, loggedInUserUid, post_id });
 
+        // 200포인트 업데이트
+        await updateUserPoint(loggedInUserUid, { mode: "comment" });
+
+        // 입력값 초기화
         (e.target as HTMLFormElement).reset();
       }
     } catch (error) {
@@ -76,6 +94,13 @@ const AddComment = ({ loggedInUserUid, post_id }: AddCommentProps) => {
           | 등록
         </button>
       </form>
+      {showPointModal && (
+        <PointModal
+          isOpen={showPointModal}
+          onClose={() => setShowPointModal(false)}
+          point={100}
+        />
+      )}
     </>
   );
 };
