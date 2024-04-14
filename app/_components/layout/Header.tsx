@@ -5,7 +5,6 @@ import { User } from "@/app/_types";
 import {
   Avatar,
   Chip,
-  CircularProgress,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -20,8 +19,8 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import logoImg from "/app/_assets/image/logo_icon/logo/gray.png";
 import Image from "next/image";
+import logoImg from "/app/_assets/image/logo_icon/logo/gray.png";
 
 function Header() {
   const router = useRouter();
@@ -51,6 +50,7 @@ function Header() {
         await signOut({
           callbackUrl: "/",
         });
+
         alert("로그아웃 되었습니다.");
       } catch (error) {
         console.error("Logout error:", error);

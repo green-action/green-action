@@ -1,6 +1,5 @@
 "use client";
 
-import React, { useState } from "react";
 import {
   Button,
   Card,
@@ -15,12 +14,12 @@ import {
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 
 import { PiEyeLight, PiEyeSlash } from "react-icons/pi";
-import kakaoimg from "../_assets/image/logo_icon/icon/login/kakao.png";
 import googleimg from "../_assets/image/logo_icon/icon/login/google.png";
+import kakaoimg from "../_assets/image/logo_icon/icon/login/kakao.png";
 import logoImg from "../_assets/image/logo_icon/logo/white.png";
-import { useAuthStore } from "../_store/authStore";
 
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -28,7 +27,6 @@ const Login = () => {
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [modalPlacement, setModalPlacement] = React.useState("auto");
-  const { isLoggedIn, login } = useAuthStore();
 
   const handleSingIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -54,6 +52,7 @@ const Login = () => {
         alert("로그인을 실패했습니다. 이메일과 비밀번호를 확인해주세요!");
         return;
       }
+
       onOpen();
     } catch (error) {
       console.error(error);
