@@ -435,4 +435,102 @@ $ yarn dev
 
 ## 🚦 트러블 슈팅
 
+<details>
+<summary>FormData - '이 호출과 일치하는 오버로드가 없습니다'</summary>
+
+- **📝 문제** : formData를 인자로 받아 supabase 테이블에 insert하는 과정에서 계속 '이 호출과 일치하는 오버로드가 없습니다' 타입 에러 발생
+
+![](https://velog.velcdn.com/images/innes_kwak/post/f9e41089-a034-4404-a204-6720b0080ef3/image.png)
+
+- **🔨 시도**
+
+  - `FormDataType`을 따로 만들기
+
+  ```ts
+  export interface FormDataType {
+    user_uid: string;
+    title: string;
+    content: string;
+    start_date: string;
+    end_date: string;
+    location: string;
+    recruit_number: string;
+    kakao_link: string;
+  }
+  ```
+
+  - `inputData`타입을 `String()`으로 지정해주기
+
+  ```ts
+  const inputData: FormDataType = {
+    user_uid: currentUserUId,
+    title: String(formData.get("activityTitle")),
+    content: String(formData.get("activityDescription")),
+    start_date: String(formData.get("startDate")),
+    end_date: String(formData.get("endDate")),
+    location: String(formData.get("activityLocation")),
+    // ⭐️ recruit_number는 'number'타입인데 계속 string으로 지정하고 있었던게 최종 원인!
+    recruit_number: String(formData.get("maxParticipants")),
+    kakao_link: String(formData.get("openKakaoLink")),
+  };
+  ```
+
+- **💙 원인** : supabase 테이블의 타입과 코드상에서 입력한 타입이 일치하지 않아서 발생한 문제!
+
+  (전형적인 휴먼 에러 였다. )
+
+  ![](https://velog.velcdn.com/images/innes_kwak/post/c600c66b-dc38-49bf-904d-ff221a4fceb5/image.png)
+
+- **🧡 해결**
+
+  - `FormDataType`에서 `recruit_number`타입을 `number`로 수정
+  - `inputData`에서도 강제로 `String()`해준 `recruit_number`를 `Number()`로 수정
+
+</details>
+
+<br/>
+
+<details>
+
+<summary>화면에서 요소가 화면너비를 넘어가는 이슈</summary>
+
+- **📝 문제** : 디자인 가이드를 `1920px`짜리 하나만 받아놨는데, 막상 구현해보니 브라우저 상 100%에서 이렇게 잘리는 이슈가 발생했다.
+
+  ![](https://velog.velcdn.com/images/innes_kwak/post/8eb91eab-32f5-497d-84dc-01f32431e100/image.png)
+
+- **💙 원인**
+
+  - 디자인 가이드가 `화면 너비에 따라(브레이크 포인트에 따라) 3가지`가 있어야 하는데, 팀원들도 디자이너도 반응형 웹 구현이 처음이라 이 사실을 몰랐던 것이다.
+
+    (`참고` : 브레이크 포인트에 따라 디자인 가이드가 2가지가 될 수도, 4가지 이상이 될 수도 있다.)
+
+  - ex) `1920px`, `1020(or 1080)px`, `360px`
+
+    -> `4px`, `8px` 단위로 제작하는게 일반적
+
+- **🧡 해결**
+
+  - `1020px`, `360px`에 따른 디자인 가이드를 추가로 받기로 디자이너와 협의
+
+  - 반응형 구현 예시 코드
+
+  ```tsx
+  // 컴포넌트에서 작성 예시
+
+   <div className="desktop:mt-[700px] laptop:mt-[550px] flex flex-col items-center">
+  ```
+
+  ```ts
+  // tailwind.config 파일에서 화면 너비 지정
+
+    theme: {
+    screens: {
+      phone: "360px",
+      laptop: "1020px",
+      desktop: "1920px",
+    },
+  ```
+
+</details>
+
 <br/>
