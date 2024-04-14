@@ -26,10 +26,10 @@ import {
 
 import CustomConfirm from "../customConfirm/CustomConfirm";
 import PointModal from "./PointModal";
+import AlertModal from "./AlertModal";
 
 import { LuPencilLine } from "react-icons/lu";
 import { updateUserPoint } from "@/app/_api/individualAction-add/add-api";
-import AlertModal from "./AlertModal";
 
 const AddPostModal = () => {
   const [uploadedFileUrl, setUploadedFileUrl] = useState<string>("");
