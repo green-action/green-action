@@ -1,21 +1,28 @@
 "use client";
-// 되면 ssr로 두고 client 컴포는 따로 빼보기 ?
 
-import { Button, CircularProgress } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
-import MyProfile from "../_components/mypage/MyProfile";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+
+import { User } from "../_types";
+
 import {
   useFetchMyGreenActions,
   useFetchUserInfo,
   usefetchBookmarkedActions,
   usefetchMyCommunityPosts,
 } from "../_hooks/useQueries/mypage";
-import MyActionCard from "../_components/mypage/MyActionCard";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+
+import MyProfile from "../_components/mypage/MyProfile";
 import RecruitSelectTab from "../_components/mypage/RecruitSelectTab";
+import MyActionCard from "../_components/mypage/MyActionCard";
 import CommunityListPost from "../_components/community/CommunityListPost";
-import { User } from "../_types";
+
+import { Button } from "@nextui-org/react";
+
+import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
+import TopButton from "../_components/TopButton";
 
 // 로그인 안 한 상태에서 접근 차단할 것 -
 const MyPage = () => {
@@ -167,8 +174,8 @@ const MyPage = () => {
     isUserInfoLoading
   ) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <CircularProgress color="success" label="Loading..." />
+      <div className="flex justify-center items-center w-screen h-[500px]">
+        <Image src={SoomLoading} alt="SoomLoading" className="w-[100px]" />
       </div>
     );
   }
@@ -178,6 +185,7 @@ const MyPage = () => {
       {/* 닉넴수정 후 메인페이지 -> 마이페이지 이동시 : 임포트한 헤더 컴포넌트에서만 닉넴 수정 반영됨 */}
       {/* <DynamicHeader /> */}
       <div className="flex justify-center desktop:mb-[100px] laptop:mb-[50px]">
+        <TopButton />
         <div className="flex desktop:w-[1540px] laptop:w-[1020px]">
           <MyProfile userInfo={userInfo as User} />
           <div className="flex flex-col desktop:gap-10 desktop:pl-[82px] laptop:pl-[30px] desktop:pt-1 laptop:pt-[30px] w-full">

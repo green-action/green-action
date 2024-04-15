@@ -29,6 +29,7 @@ const MyProfile = ({ userInfo }: { userInfo: User }) => {
 
   const [isIntroEditing, setIsIntroEditing] = useState<boolean>(false);
   const [editedIntro, setEditedIntro] = useState<string>(introduction); // 초기값 기존 intro
+  const [profileImg, setProfileImg] = useState<string>(profile_img || ""); // 프로필 이미지 업로드 시 mutation 활용해도 바로 렌더링 안되는 문제로  useState 사용해보기
 
   const { updateIntro } = useUpdateUserIntro(user_uid, editedIntro);
 
@@ -62,7 +63,7 @@ const MyProfile = ({ userInfo }: { userInfo: User }) => {
           <div className="flex desktop:gap-4 laptop:gap-3 items-center desktop:h-[102px] laptop:h-[83px]">
             <Avatar
               showFallback
-              src={profile_img || ""}
+              src={profileImg || ""}
               className="desktop:w-[58px] desktop:h-[58px] laptop:w-[35px] laptop:h-[35px]"
             />
             <div className="flex flex-col desktop:gap-[0.1rem] laptop:gap-[0rem] desktop:w-[9rem] laptop:w-[115px] overflow-hidden whitespace-nowrap overflow-ellipsis">
@@ -82,6 +83,7 @@ const MyProfile = ({ userInfo }: { userInfo: User }) => {
               user_uid={user_uid}
               display_name={display_name}
               profile_img={profile_img || ""}
+              setProfileImg={setProfileImg}
             />
           </div>
         </div>

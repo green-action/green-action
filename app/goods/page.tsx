@@ -2,6 +2,7 @@
 import React from "react";
 import Goods from "../_components/goods/Goods";
 import { useResponsive } from "../_hooks/responsive";
+import TopButton from "../_components/TopButton";
 import setbox from "@/app/_assets/image/goods/setbox.png";
 import Image from "next/image";
 
@@ -9,6 +10,7 @@ const GoodsPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
   return (
     <div className="desktop:mx-auto desktop:mt-[55px] laptop:mt-[90px]">
+      <TopButton />
       <div className="desktop:w-[1752px] laptop:w-[1020px] laptop:px-[56px] mx-auto">
         <p className="font-['Italiana'] desktop:text-[96px] desktop:mb-[11px] laptop:text-[75px]">
           ECO GOODS PRODUCT
