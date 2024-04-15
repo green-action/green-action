@@ -320,7 +320,14 @@ function Header() {
             ) : (
               <div
                 className={`flex desktop:gap-14 laptop:gap-[35px] desktop:w-[170px] desktop:ml-[380px] laptop:ml-[102px] ${
-                  pathsMainAbout ? "text-white " : "text-[#666666]"
+                  // pathsMainAbout ? "text-white " : "text-[#666666]"
+                  pathname === "/about"
+                    ? isScrolled
+                      ? "text-[#666666]" // about 페이지에서 isScrolled 상태에 따라 글자색 변경
+                      : "text-white"
+                    : pathname === "/" // 메인페이지에서는 항상 글자색 white
+                    ? "text-white"
+                    : "text-[#666666]" // 나머지 페이지에서는 항상 글자색 gray
                 } font-['Pretendard-Light']`}
               >
                 <Link href={"/signup"}>Sign up</Link>
