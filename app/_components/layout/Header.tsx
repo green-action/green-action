@@ -22,6 +22,7 @@ import { useEffect, useState } from "react";
 
 import whitelogoImg from "/app/_assets/image/logo_icon/logo/white.png";
 import graylogoImg from "/app/_assets/image/logo_icon/logo/gray.png";
+import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
 
 import Image from "next/image";
 import AlertModal from "../community/AlertModal";
@@ -35,7 +36,7 @@ function Header() {
 
   const pathsMainAbout = pathname === "/" || pathname === "/about";
 
-  const { data, isLoading } = useFetchUserInfo(user_uid);
+  const { data, isLoading: isUserDataLoading } = useFetchUserInfo(user_uid);
   const { display_name, profile_img } = (data as User) || "";
 
   const [isOpen, setIsOpen] = useState(false);
@@ -59,7 +60,6 @@ function Header() {
         await signOut({
           redirect: false,
         });
-        // alert("로그아웃 되었습니다.");
         setMessage("로그아웃 되었습니다.");
         setIsOpenAlertModal(true);
       } catch (error) {
@@ -83,7 +83,9 @@ function Header() {
       setParentSelected("/individualAction");
       setChildSelected("/groupAction");
     }
-    if (pathname === "/individualAction") {
+    if (pathname.startsWith("/individualAction")) {
+      // individualAction 의 detail 페이지까지 처리
+      setParentSelected("/individualAction");
       setChildSelected("/individualAction");
     }
   };
@@ -92,15 +94,13 @@ function Header() {
     handleSelectedTab();
   }, [pathname]);
 
-  // if (isLoading) {
+  // FIXME 마이페이지에서 유저닉네임,이미지 변경 시 헤더에서 종종 바로 반영안되는 문제 (mutation으로 쿼리키 무효화해도) -> isLoading 처리했더니 에러
+  // if (isUserDataLoading) {
   //   return (
   //     // 임시로 처리
-  //     <div className="flex justify-center items-center h-40">
-  //       <CircularProgress
-  //         color="success"
-  //         label="세션 정보를 가져오는 중입니다...!"
-  //       />
-  //     </div>
+  // <div className="flex justify-center items-center w-[60px] h-auto">
+  //   <Image src={SoomLoading} alt="SoomLoading" />
+  // </div>;
   //   );
   // }
 
@@ -109,6 +109,7 @@ function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
+    // useFetchUserInfo(user_uid);
     const handleScroll = () => {
       if (window.scrollY > 0) {
         setIsScrolled(true);
@@ -121,7 +122,7 @@ function Header() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [data]);
 
   return (
     <>

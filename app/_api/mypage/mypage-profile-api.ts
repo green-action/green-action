@@ -46,9 +46,9 @@ export const updateUserIntro = async (
 };
 
 // 프로필 이미지 (아바타) 수정(등록)
-export const uploadProfileFileAndGetUrl = async ({
-  file,
+export const uploadProfileImgFileAndInsertIntoTable = async ({
   user_uid,
+  file,
 }: ProfileFileUpload) => {
   try {
     if (file) {
@@ -69,17 +69,18 @@ export const uploadProfileFileAndGetUrl = async ({
       // url 가져오기
       const imgUrl = await supabase.storage
         .from("user_profile")
-        .getPublicUrl(`${user_uid}/${fileName}`);
+        .getPublicUrl(filePath);
 
       if (!imgUrl || !imgUrl.data) {
         console.error("Error getting public URL for file:", imgUrl);
         throw new Error("Error getting public URL for file");
       }
+      // 가져온 url 테이블에 insert 하기 (아래 함수 사용)
+      insertProfileImgUrl({ user_uid, imgUrl: imgUrl.data.publicUrl });
       return imgUrl.data.publicUrl;
     }
   } catch (error) {
     console.error("Error uploading files and getting URLs:", error);
-    return "";
   }
 };
 

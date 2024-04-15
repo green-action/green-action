@@ -1,8 +1,12 @@
 import {
   insertProfileImgUrl,
-  uploadProfileFileAndGetUrl,
+  uploadProfileImgFileAndInsertIntoTable,
 } from "@/app/_api/mypage/mypage-profile-api";
-import { useUpdateUserName } from "@/app/_hooks/useMutations/mypage";
+import {
+  useRemoveUserProfileImg,
+  useUpdateUserName,
+  useUpdateUserProfileImg,
+} from "@/app/_hooks/useMutations/mypage";
 import {
   Button,
   Input,
@@ -21,10 +25,12 @@ const MyProfileEditModal = ({
   user_uid,
   display_name,
   profile_img,
+  setProfileImg,
 }: {
   user_uid: string;
   display_name: string;
   profile_img: string;
+  setProfileImg: any;
 }) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
 
@@ -37,6 +43,8 @@ const MyProfileEditModal = ({
   const [message, setMessage] = useState("");
 
   const { updateName } = useUpdateUserName(user_uid, editedName);
+  const { updateProfileImg } = useUpdateUserProfileImg(user_uid, file);
+  const { removeProfileImg } = useRemoveUserProfileImg(user_uid);
 
   // 모달창 '작성완료'없이 닫을 시 초기화
   const handleModalClose = () => {
@@ -71,14 +79,20 @@ const MyProfileEditModal = ({
 
     if (file) {
       // 업로드한 이미지 파일이 있을 시에만 'users'의 profile_img 칼럼 업데이트
-      const imgUrl = await uploadProfileFileAndGetUrl({ file, user_uid }); // 이미지 stroage url 받아오기
-      await insertProfileImgUrl({ user_uid, imgUrl }); // 받아온 img url 을 users table에 업데이트
+      await updateProfileImg();
+      const url = await uploadProfileImgFileAndInsertIntoTable({
+        file,
+        user_uid,
+      });
+      // mutation적용해도 바로 렌더링안되는 경우 생겨 useState 사용
+      await setUploadedFileUrl(url || "");
+      await setProfileImg(url);
     } else if (!file && uploadedFileUrl) {
-      // 이미지 업로드는 안했지만 기존 프로필 이미지가 존재하는 경우
-      await insertProfileImgUrl({ user_uid, imgUrl: uploadedFileUrl });
+      // 이미지 업로드는 안했지만 기존 프로필 이미지가 존재하는 경우 - 따로 업로드 및 mutation 할 필요 없음
     } else {
       // 기존 프로필 이미지까지 모두 없는 경우 (업로드이미지 삭제 등), 파일업로드 안한 경우 (이미지 x버튼 등) imgUrl : 빈 문자열 넣기
-      await insertProfileImgUrl({ user_uid, imgUrl: "" });
+      await removeProfileImg();
+      await setProfileImg("");
     }
 
     // 닉네임 업데이트

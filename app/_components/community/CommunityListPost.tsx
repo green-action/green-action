@@ -135,9 +135,13 @@ const CommunityListPost = ({
           </CardFooter> */}
         </Card>
         <div
-          className={`flex justify-center items-center mt-4 desktop:w-[410px] laptop:w-[433px]           
+          className={`flex justify-center items-center mt-4 ${
+            mode !== "myPosts" &&
+            mode !== "main" &&
+            "desktop:w-[410px] laptop:w-[433px]"
+          }           
           ${mode === "myPosts" && "desktop:w-[335px] laptop:w-[300px]"} 
-           ${mode === "main" && "desktop:w-[400px] laptop:w-[252px]"} 
+           ${mode === "main" && "desktop:w-[400px] laptop:w-[275px]"} 
           `}
         >
           <div
