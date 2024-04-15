@@ -1,9 +1,8 @@
 import { supabase } from "@/utils/supabase/client";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import KakaoProvider from "next-auth/providers/kakao";
 import GoogleProvider from "next-auth/providers/google";
-import { useAuthStore } from "@/app/_store/authStore";
+import KakaoProvider from "next-auth/providers/kakao";
 
 const handler = NextAuth({
   providers: [
@@ -55,19 +54,21 @@ const handler = NextAuth({
       clientSecret: process.env.NEXT_GOOGLE_CLIENT_SECRET!,
     }),
   ],
+
   callbacks: {
     async session({ session, token }) {
       session.user.user_uid = token.sub || "";
-
+      console.log("==========================");
+      console.log("세션==>", session);
+      console.log("세션유저정보==>", session.user);
+      console.log("토큰==>", token);
       const isSocialLogin = token.name ? true : false;
-
       // 최초 소셜 로그인 시 데이터베이스에서 사용자 정보 가져오기
       if (isSocialLogin) {
         const { data: existingUser, error: existingUserError } = await supabase
           .from("users")
           .select("id")
           .eq("email", session.user.email);
-
         // 사용자 정보가 없는 경우에만 업데이트 (빈배열일때)
         if (!existingUser || existingUser.length === 0) {
           const { data, error } = await supabase
@@ -77,13 +78,11 @@ const handler = NextAuth({
               display_name: session.user.name,
               profile_img: session.user.image,
             })
-            .select("*");
-
+            .select("id");
           console.log("소셜로그인정보 인서트 후 로직");
           console.log("data==>>", data);
           console.log("error", error);
           console.log("세션유저정보-->>", session.user);
-
           // 생성된 data uuid를 session.user.user_uid에 넣어주기
           session.user.user_uid = data![0].id;
         } else {
@@ -96,7 +95,6 @@ const handler = NextAuth({
           .from("users")
           .select("id")
           .eq("id", userUid);
-
         if (!existingUser || existingUser.length === 0) {
           throw new Error("User not found in database.");
         }

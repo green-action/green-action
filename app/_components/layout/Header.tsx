@@ -57,9 +57,8 @@ function Header() {
     if (confirmed) {
       try {
         await signOut({
-          callbackUrl: "/",
+          redirect: false,
         });
-        // alert("로그아웃 되었습니다.");
         setMessage("로그아웃 되었습니다.");
         setIsOpenAlertModal(true);
       } catch (error) {

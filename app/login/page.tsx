@@ -43,7 +43,6 @@ const Login = () => {
       const password = formData.get("password") as string;
 
       if (!email || !password) {
-        // alert("이메일과 비밀번호를 입력해주세요.");
         setMessage("이메일과 비밀번호를 입력해주세요.");
         setIsOpenAlertModal(true);
         return;
@@ -57,7 +56,6 @@ const Login = () => {
 
       if (result?.error) {
         console.error(result.error);
-        // alert("로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.");
         setMessage("로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.");
         setIsOpenAlertModal(true);
         return;
@@ -66,7 +64,6 @@ const Login = () => {
       onOpen();
     } catch (error) {
       console.error(error);
-      // alert("로그인에 실패했습니다. 양식을 확인해주세요.");
       setMessage("로그인에 실패했습니다. 양식을 확인해주세요.");
       setIsOpenAlertModal(true);
     }
@@ -187,15 +184,15 @@ const Login = () => {
         <ModalContent>
           {() => (
             <>
-              <ModalBody className="flex ">
-                <p>로그인 성공!</p>
+              <ModalBody className="flex justify-center items-center">
+                <p className="font-bold text-center mt-[50px]">로그인 성공!</p>
               </ModalBody>
               <ModalFooter>
                 <Button
                   className="bg-black text-white"
                   onPress={() => router.push("/")}
                 >
-                  확인
+                  OK
                 </Button>
               </ModalFooter>
             </>
