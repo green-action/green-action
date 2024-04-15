@@ -4,7 +4,6 @@ import { Chip } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
 
-import DynamicHeader from "./_components/layout/DynamicHeader";
 import MainSlider from "./_components/main/MainSlider";
 import LaptopMainSlidder from "./_components/main/LaptopMainSlidder";
 import { useResponsive } from "./_hooks/responsive";
@@ -12,12 +11,14 @@ import { useResponsive } from "./_hooks/responsive";
 import mainImg from "/app/_assets/image/mainpage/main.png";
 import downArrow from "/app/_assets/image/logo_icon/icon/mainpage/Group_124.png";
 import rightArrow from "/app/_assets/image/mainpage/Group 172.png";
+import TopButton from "./_components/TopButton";
 
 const MainPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 
   return (
     <div className="laptop:min-w-[1020px]">
+      <TopButton />
       <div className="flex flex-col">
         {/* <DynamicHeader /> */}
         <Image
