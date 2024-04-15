@@ -3,8 +3,10 @@ import {
   updateActionRecruiting,
 } from "@/app/_api/mypage/mypage-list-api";
 import {
+  insertProfileImgUrl,
   updateUserIntro,
   updateUserName,
+  uploadProfileImgFileAndInsertIntoTable,
 } from "@/app/_api/mypage/mypage-profile-api";
 import {
   QUERY_KEY_MY_BOOKMARK,
@@ -55,6 +57,54 @@ export const useUpdateUserIntro = (user_uid: string, editedIntro: string) => {
   };
 
   return { updateIntro };
+};
+
+// 마이페이지 프로필 이미지 수정 - 이미지 업로드 시
+export const useUpdateUserProfileImg = (
+  user_uid: string,
+  file: File | undefined,
+) => {
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: () =>
+      uploadProfileImgFileAndInsertIntoTable({ user_uid, file }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_USER_INFO] });
+    },
+    onError: () => {
+      alert("처리에 오류가 발생했습니다. 다시 시도해주세요.");
+      console.error(Error);
+    },
+  });
+
+  const updateProfileImg = async () => {
+    mutate();
+  };
+
+  return { updateProfileImg };
+};
+
+// 마이페이지 프로필 이미지 수정(삭제) - 이미지 업로드 없이 미리보기 사진 삭제 시 (프로필 이미지 초기화)
+export const useRemoveUserProfileImg = (user_uid: string) => {
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: () => insertProfileImgUrl({ user_uid, imgUrl: "" }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_USER_INFO] });
+    },
+    onError: () => {
+      alert("처리에 오류가 발생했습니다. 다시 시도해주세요.");
+      console.error(Error);
+    },
+  });
+
+  const removeProfileImg = async () => {
+    mutate();
+  };
+
+  return { removeProfileImg };
 };
 
 // 마이페이지 My Green Action의 모집상태 (중 -> 마감) 변경
