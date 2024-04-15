@@ -264,7 +264,10 @@ const AddPostModal = () => {
       {isOpenAlertModal && (
         <AlertModal
           isOpen={isOpenAlertModal}
-          onClose={() => setIsOpenAlertModal(false)}
+          onClose={() => {
+            setIsOpenAlertModal(false);
+            router.push(`/login`);
+          }}
           message={message}
         />
       )}

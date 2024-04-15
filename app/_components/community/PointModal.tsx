@@ -9,6 +9,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import Image from "next/image";
+import React from "react";
 import clap from "/app/_assets/image/logo_icon/icon/community/image 50.png";
 
 import type { PointModalProps } from "@/app/_types/point/point";
@@ -48,7 +49,11 @@ const PointModal: React.FC<PointModalProps> = ({
               </ModalBody>
               {mod === "add" && (
                 <ModalFooter>
-                  <Button color="danger" variant="light" onClick={handleClick}>
+                  <Button
+                    color="danger"
+                    variant="light"
+                    onClick={() => handleClick}
+                  >
                     Close
                   </Button>
                 </ModalFooter>
@@ -61,4 +66,4 @@ const PointModal: React.FC<PointModalProps> = ({
   );
 };
 
-export default PointModal;
+export default React.memo(PointModal);
