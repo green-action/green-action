@@ -1,3 +1,5 @@
+import { Session } from "next-auth";
+
 export type User = {
   id: string;
   email?: string | undefined;

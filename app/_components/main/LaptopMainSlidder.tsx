@@ -17,12 +17,12 @@ const LaptopMainSlidder = ({ mode }: { mode: string }) => {
 
   var settings = {
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 15000,
     // fade: true,
     dots: true,
     infinite: true,
     arrows: false,
-    speed: 2000,
+    speed: 10000,
     slidesToShow: 3,
     slidesToScroll: 3,
     adaptiveHeight: true,

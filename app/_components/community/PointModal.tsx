@@ -22,6 +22,7 @@ const PointModal: React.FC<PointModalProps> = ({
   handleClick,
 }) => {
   const { isOpen, onOpenChange } = useDisclosure();
+
   return (
     <>
       <Modal

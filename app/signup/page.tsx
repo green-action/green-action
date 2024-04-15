@@ -40,7 +40,7 @@ const SignUp = () => {
   const validateEmail = (value: string) =>
     /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value);
 
-  // 이메일 중복확인해보기@@
+  // 이메일 중복확인해보기@@ 닉네임중복확인
 
   // 회원가입 버튼
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -71,13 +71,11 @@ const SignUp = () => {
     } catch (error) {
       if (error === "User already registered") {
         console.error("회원가입 오류:", error);
-        // alert("이미 등록된 사용자입니다. 다른 이메일을 시도해주세요.");
-        setMessage("이미 등록된 사용자입니다. 다른 이메일을 시도해주세요.");
+        setMessage("이미 등록된 사용자입니다. 다른 이메일을 등록해주세요.");
         setIsOpenAlertModal(true);
         return;
       }
-      console.error("회원가입 오류:", error);
-      // alert("회원가입중 오류가 발생하였습니다.");
+      console.error("회원가입 오류:", new Error());
       setMessage("회원가입중 오류가 발생하였습니다.");
       setIsOpenAlertModal(true);
     }

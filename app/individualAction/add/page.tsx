@@ -1,7 +1,6 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 import {
@@ -18,31 +17,35 @@ import ImgUpload from "@/app/_components/individualAction-add/ImgUpload";
 import SecondInputBox from "@/app/_components/individualAction-add/SecondInputBox";
 import ThirdInputBox from "@/app/_components/individualAction-add/ThirdInputBox";
 import { useDisclosure } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 
 const AddActionPage = () => {
   const [uploadedFileUrls, setUploadedFileUrls] = useState<string[]>([]);
   const [files, setFiles] = useState<(File | undefined)[]>([]);
 
-  // PointModal을 위한 상태관리
-  const [showPointModal, setShowPointModal] = useState(false);
+  // PointModal을 위한 상태관리 / alert 대체 모달창을 위한 상태관리
+  const [Modal, setModal] = useState({
+    showPoint: false,
+    isOpenAlert: false,
+  });
 
-  // alert 대체 모달창을 위한 상태관리
-  const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
+  const [actionId, setActionId] = useState("");
+
   const [message, setMessage] = useState("");
 
-  const router = useRouter();
   const { onClose } = useDisclosure();
 
   // 현재 로그인한 유저 uid
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
+  const router = useRouter();
 
   // '등록완료' 클릭시
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-    setShowPointModal(true);
+    setModal((state) => ({ ...state, showPoint: true }));
     // 오픈카톡방 링크 유효성검사
     // 올바른 링크 양식 : https://open.kakao.com/o/{채팅방 ID}
     const openKakaoLink = formData.get("openKakaoLink") as string;
@@ -51,14 +54,14 @@ const AddActionPage = () => {
     if (!kakaoLinkPattern.test(openKakaoLink)) {
       // alert("카카오톡 오픈채팅방 링크가 올바르지 않습니다.");
       setMessage("카카오톡 오픈채팅방 링크가 올바르지 않습니다.");
-      setIsOpenAlertModal(true);
+      setModal((state) => ({ ...state, isOpenAlert: true }));
       return;
     }
 
     if (!files.length) {
       // alert("사진은 필수값입니다.");
       setMessage("사진은 필수값입니다.");
-      setIsOpenAlertModal(true);
+      setModal((state) => ({ ...state, isOpenAlert: true }));
       return;
     }
 
@@ -71,7 +74,7 @@ const AddActionPage = () => {
           formData,
           loggedInUserUid,
         });
-
+        setActionId(action_id);
         // 2. 500point 업데이트
         await updateUserPoint(loggedInUserUid, { mode: "addAction" });
 
@@ -84,13 +87,6 @@ const AddActionPage = () => {
         // 입력값 초기화
         const target = event.target as HTMLFormElement;
         target.reset();
-
-        // 확인을 클릭하면 action_id의 상세페이지로 이동
-
-        if (showPointModal === false) {
-          router.push(`detail/${action_id}`);
-          onClose();
-        }
       }
     } catch (error) {
       console.error("Error inserting data:", error);
@@ -136,19 +132,22 @@ const AddActionPage = () => {
             </div>
           </div>
         </div>
-        {showPointModal && (
+        {Modal.showPoint && (
           <PointModal
-            isOpen={showPointModal}
+            isOpen={Modal.showPoint}
             point={300}
             mod={"add"}
-            handleClick={() => setShowPointModal(false)}
+            handleClick={() => {
+              router.push(`/detail/${actionId}`);
+              setModal((state) => ({ ...state, showPoint: false }));
+            }}
           />
         )}
       </form>
-      {isOpenAlertModal && (
+      {Modal.isOpenAlert && (
         <AlertModal
-          isOpen={isOpenAlertModal}
-          onClose={() => setIsOpenAlertModal(false)}
+          isOpen={Modal.isOpenAlert}
+          onClose={() => setModal((state) => ({ ...state, isOpenAlert: true }))}
           message={message}
         />
       )}
