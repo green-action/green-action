@@ -12,7 +12,6 @@ import Image from "next/image";
 import clap from "/app/_assets/image/logo_icon/icon/community/image 50.png";
 
 import type { PointModalProps } from "@/app/_types/point/point";
-import { useRouter } from "next/navigation";
 
 const PointModal: React.FC<PointModalProps> = ({
   isOpen: open,
@@ -22,7 +21,6 @@ const PointModal: React.FC<PointModalProps> = ({
   handleClick,
 }) => {
   const { isOpen, onOpenChange } = useDisclosure();
-  const router = useRouter();
   return (
     <>
       <Modal
@@ -50,12 +48,7 @@ const PointModal: React.FC<PointModalProps> = ({
               </ModalBody>
               {mod === "add" && (
                 <ModalFooter>
-                  <Button
-                    type="submit"
-                    color="danger"
-                    variant="light"
-                    onClick={handleClick}
-                  >
+                  <Button color="danger" variant="light" onClick={handleClick}>
                     Close
                   </Button>
                 </ModalFooter>
