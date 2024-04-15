@@ -2,6 +2,7 @@
 import { Card, CircularProgress, Image } from "@nextui-org/react";
 import GroupModal from "../_components/groupAction/GroupModal";
 import { useGroupAction } from "../_hooks/useQueries/groupAction";
+import TopButton from "../_components/TopButton";
 
 const groupActionPage = () => {
   const { data: groupAction, isLoading } = useGroupAction();
@@ -20,6 +21,7 @@ const groupActionPage = () => {
 
   return (
     <div className="grid desktop:grid-cols-4 desktop:w-[1500px] laptop:w-[910px] gap-[50px] laptop:grid-cols-3 m-auto mt-14 mx-auto">
+      <TopButton />
       {groupGreenActions.map((action) => {
         return (
           <div

@@ -6,6 +6,7 @@ import { useGetCommunityList } from "../_hooks/useQueries/community";
 
 import AddPostModal from "../_components/community/AddPostModal";
 import CommunityListPost from "../_components/community/CommunityListPost";
+import TopButton from "../_components/TopButton";
 
 import { Select, SelectItem } from "@nextui-org/react";
 
@@ -58,6 +59,7 @@ const CommunityListPage = () => {
 
   return (
     <div className="desktop:w-[1920px] laptop:w-[1020px] mx-auto">
+      <TopButton />
       {/* 전체 Wrapper */}
       <div className="desktop:w-[1306px] laptop:w-[910px] mx-auto desktop:mb-12">
         {/* 정렬 select */}

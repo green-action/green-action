@@ -33,6 +33,7 @@ import nextBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 133.png";
 import prevBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 132.png";
 import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
 import { useResponsive } from "@/app/_hooks/responsive";
+import TopButton from "@/app/_components/TopButton";
 
 const DetailPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
@@ -115,6 +116,7 @@ const DetailPage = () => {
   if (isError) return <div>Error fetching details...</div>;
   return (
     <div className="mx-auto desktop:mt-[62px] laptop:mt-[113px] mb-[30px]">
+      <TopButton />
       <div className="">
         <div className="desktop:w-[1576.3px] mb-[25px] laptop:w-[912px] mx-auto">
           <Breadcrumbs>
