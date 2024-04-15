@@ -3,5 +3,5 @@ export interface PointModalProps {
   onClose?: () => void;
   point: number;
   mod?: string;
-  handleClick?: () => {};
+  handleClick?: () => void;
 }
