@@ -111,7 +111,7 @@ const Bookmark = ({
                 <Image
                   src={bookmarkFill}
                   alt="북마크"
-                  className="desktop:w-[15px] laptop:w-[14px] desktop:h-[14px] laptop:h-[13px] mt-[2px] mr-[4px] mb-[2px]"
+                  className="desktop:w-[15px] laptop:w-[14px] desktop:h-[14px] laptop:h-[13px] desktop:mt-[3px] laptop:mt-[2px] desktop:mr-[8px] laptop:mr-[4px] mb-[2px]"
                 />
               )}
               {mode === "main" && (
@@ -153,7 +153,7 @@ const Bookmark = ({
               <Image
                 src={bookmarkEmpty}
                 alt="북마크"
-                className="desktop:w-[15px] laptop:w-[15px] desktop:h-[14px] laptop:h-[13px] desktop:mt-[2px] desktop:mr-[5px] laptop:mr-[3px] mb-[2px]"
+                className="desktop:w-[15px] laptop:w-[15px] desktop:h-[14px] laptop:h-[13px] desktop:mt-[4px] laptop:mt-[2px] desktop:mr-[5px] laptop:mr-[3px] mb-[2px]"
               />
             )}
             {mode === "main" && (
