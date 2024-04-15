@@ -1,5 +1,8 @@
 import { supabase } from "@/utils/supabase/client";
 import { User } from "../_types";
+// import { useSession } from "next-auth/react";
+
+// const session = useSession();
 
 //회원가입
 export const signUpNewUser = async (
@@ -17,10 +20,16 @@ export const signUpNewUser = async (
       throw error;
     }
 
-    // 사용자 정보 데이터베이스에 추가
+    //사용자 정보 데이터베이스에 추가
+    const user = data?.user;
+    console.log(data.user);
+    if (!user) {
+      throw new Error("사용자 정보를 가져올 수 없습니다.");
+    }
+    const { id: authUserID } = user;
     const { data: userData, error: userDataError } = await supabase
       .from("users")
-      .insert({ email, display_name });
+      .insert({ id: authUserID, email, display_name });
 
     if (userDataError) {
       throw userDataError;

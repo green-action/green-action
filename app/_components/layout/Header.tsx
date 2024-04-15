@@ -5,7 +5,6 @@ import { User } from "@/app/_types";
 import {
   Avatar,
   Chip,
-  CircularProgress,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -20,6 +19,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import logoImg from "/app/_assets/image/logo_icon/logo/gray.png";
 import whitelogoImg from "/app/_assets/image/logo_icon/logo/white.png";
 import graylogoImg from "/app/_assets/image/logo_icon/logo/gray.png";
 import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
