@@ -59,7 +59,6 @@ function Header() {
         await signOut({
           callbackUrl: "/",
         });
-        // alert("로그아웃 되었습니다.");
         setMessage("로그아웃 되었습니다.");
         setIsOpenAlertModal(true);
       } catch (error) {
@@ -83,7 +82,9 @@ function Header() {
       setParentSelected("/individualAction");
       setChildSelected("/groupAction");
     }
-    if (pathname === "/individualAction") {
+    if (pathname.startsWith("/individualAction")) {
+      // individualAction 의 detail 페이지까지 처리
+      setParentSelected("/individualAction");
       setChildSelected("/individualAction");
     }
   };
