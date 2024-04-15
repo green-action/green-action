@@ -1,5 +1,5 @@
 "use client";
-import { Card, CircularProgress, Image } from "@nextui-org/react";
+import { Card, Image } from "@nextui-org/react";
 import GroupModal from "../_components/groupAction/GroupModal";
 import { useGroupAction } from "../_hooks/useQueries/groupAction";
 
@@ -8,14 +8,17 @@ const groupActionPage = () => {
 
   if (isLoading || !groupAction) {
     return (
-      <div>
-        <CircularProgress color="success" aria-label="Loading..." />
+      <div className="w-[300px] h-auto mx-auto">
+        <Image
+          src="/app/_assets/image/loading/SOOM_gif.gif"
+          alt="SoomLoading"
+        />
       </div>
     );
   }
   const { groupGreenActions, error } = groupAction;
   if (error) {
-    return <div>{error}</div>;
+    return <div className="w-[300px] h-auto mx-auto">{error}</div>;
   }
 
   return (
