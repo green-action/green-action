@@ -97,7 +97,8 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
         </Card>
         <div
           className={`pl-3 ${
-            (mode === "main" || mode === "myPosts") && "pt-5 pl-5"
+            (mode === "main" || mode === "myPosts" || mode === "myBookmarks") &&
+            "pt-5 pl-5"
           } bg-[#F9F9F9]  p-5 rounded-2xl w-full mt-3`}
         >
           <div className="flex w-full gap-0">
@@ -139,7 +140,7 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
                 <p>{recruit_number}</p>
               </div>
               {/* LINK 북마크 컴포넌트 */}
-              <div className="flex laptop:mt-[1px]">
+              <div className="flex desktop:mt-[0px] laptop:mt-[0.5px]">
                 <Bookmark action_id={id} mode={mode} />
               </div>
             </div>
@@ -193,7 +194,7 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
                   // }}
                 >
                   <DropdownTrigger>
-                    <Button className="bg-transparent w-[5px]  justify-end">
+                    <Button className="bg-transparent w-[5px] justify-end">
                       <Image
                         src={optionDots}
                         alt="option-three-dots-icon"
@@ -201,7 +202,17 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
                       />
                     </Button>
                   </DropdownTrigger>
-                  <DropdownMenu aria-label="Static Actions" className="p-3">
+                  <DropdownMenu
+                    aria-label="Static Actions"
+                    className="p-3"
+                    // itemClasses={{
+                    //   base: [
+                    //     // "w-[30px]",
+                    //     // "text-[8pt]",
+                    //     "rounded-md",
+                    //   ],
+                    // }}
+                  >
                     {is_recruiting && (
                       <DropdownItem key="모집마감" onClick={handleModalOpen}>
                         모집마감

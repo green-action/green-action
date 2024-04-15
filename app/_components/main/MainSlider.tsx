@@ -19,12 +19,12 @@ const MainSlider = ({ mode }: { mode: string }) => {
 
   var desktopSettings = {
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 8000,
     // fade: true,
     dots: true,
     infinite: true,
     arrows: false,
-    speed: 2000,
+    speed: 7000,
     slidesToShow: 4,
     slidesToScroll: 4,
     adaptiveHeight: true,
@@ -56,7 +56,6 @@ const MainSlider = ({ mode }: { mode: string }) => {
     //  높이 설정해도 아래만 늘어나고 카드 위가 잘리는 문제 (그림자 등)
     // <div className="h-[300px]">
     <Slider
-      // {{ isDesktop && (' ...desktopSettings ')}}
       {...desktopSettings}
       className={`${
         mode === "community"
@@ -70,7 +69,7 @@ const MainSlider = ({ mode }: { mode: string }) => {
             (communityPost) => (
               <div
                 key={communityPost.id}
-                className="flex items-center gap-3 h-[480px]"
+                className="flex items-center gap-3 h-[480px] "
               >
                 <CommunityListPost communityPost={communityPost} mode="main" />
               </div>

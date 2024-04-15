@@ -135,16 +135,20 @@ const CommunityListPost = ({
           </CardFooter> */}
         </Card>
         <div
-          className={`flex justify-center items-center mt-4 desktop:w-[410px] laptop:w-[433px]           
-          ${mode === "myPosts" && "desktop:w-[350px] laptop:w-[310px]"} 
-           ${mode === "main" && "desktop:w-[400px] laptop:w-[265px]"} 
+          className={`flex justify-center items-center mt-4 ${
+            mode !== "myPosts" &&
+            mode !== "main" &&
+            "desktop:w-[410px] laptop:w-[433px]"
+          }           
+          ${mode === "myPosts" && "desktop:w-[335px] laptop:w-[300px]"} 
+           ${mode === "main" && "desktop:w-[400px] laptop:w-[275px]"} 
           `}
         >
           <div
             className={`flex items-center justify-center ml-[24px] rounded-full border-2 border-black text-[13px] font-extrabold p-0.5 px-4 w-[150px] h-[31px]
           ${
             mode === "myPosts" &&
-            "ml-[15px] desktop:text-[13px] laptop:text-[8pt] desktop:w-[160px] laptop:w-[130px]"
+            "ml-[15px] desktop:text-[13px] laptop:text-[8pt] desktop:w-[160px] laptop:w-[140px]"
           }  
           ${
             mode === "main" &&
@@ -159,7 +163,7 @@ const CommunityListPost = ({
               "desktop:ml-[15px] laptop:ml-[10px] desktop:text-[16px] laptop:text-[13px]"
             } ${
               mode === "myPosts" &&
-              "desktop:text-[15px] laptop:text-[13px] desktop:ml-[20px] laptop:ml-[15px]"
+              " desktop:ml-[15px] laptop:ml-[10px] desktop:text-[15px] laptop:text-[13px]"
             }
             `}
           >

@@ -42,7 +42,7 @@ const AddActionPage = () => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-
+    setShowPointModal(true);
     // 오픈카톡방 링크 유효성검사
     // 올바른 링크 양식 : https://open.kakao.com/o/{채팅방 ID}
     const openKakaoLink = formData.get("openKakaoLink") as string;
@@ -85,12 +85,12 @@ const AddActionPage = () => {
         const target = event.target as HTMLFormElement;
         target.reset();
 
-        setShowPointModal(true);
-
         // 확인을 클릭하면 action_id의 상세페이지로 이동
 
-        router.push(`detail/${action_id}`);
-        onClose();
+        if (showPointModal === false) {
+          router.push(`detail/${action_id}`);
+          onClose();
+        }
       }
     } catch (error) {
       console.error("Error inserting data:", error);
@@ -100,7 +100,7 @@ const AddActionPage = () => {
   return (
     <div className="desktop:w-[1920px] laptop:w-[1020px] mx-auto">
       {/* 전체 Wrapper */}
-      <form>
+      <form onSubmit={handleSubmit}>
         {/* <div className="flex flex-col w-[809px] h-[826px] border-1.5 border-gray-300 rounded-3xl mx-auto mb-12 mt-8"> */}
         <div className="flex flex-col w-[809px] h-[826px] border-1.5 border-gray-300 rounded-3xl mx-auto mb-12 mt-0">
           {/* new green-action 타이틀 */}
@@ -139,10 +139,9 @@ const AddActionPage = () => {
         {showPointModal && (
           <PointModal
             isOpen={showPointModal}
-            onClose={() => setShowPointModal(false)}
             point={300}
             mod={"add"}
-            handleClick={() => handleSubmit}
+            handleClick={() => setShowPointModal(false)}
           />
         )}
       </form>
