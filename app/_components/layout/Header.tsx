@@ -57,7 +57,7 @@ function Header() {
     if (confirmed) {
       try {
         await signOut({
-          callbackUrl: "/",
+          redirect: false,
         });
         // alert("로그아웃 되었습니다.");
         setMessage("로그아웃 되었습니다.");
@@ -132,7 +132,16 @@ function Header() {
           className="laptop:min-w-[1020px] flex bg-transparent desktop:h-[10rem] laptop:h-[104px] items-center justify-center desktop:pt-[90px] laptop:pt-[60px] desktop:mb-[88px] laptop:mb-[60px] desktop:text-[13pt] laptop:text-[11pt]"
         >
           <Image
-            src={pathsMainAbout ? whitelogoImg : graylogoImg}
+            // src={pathsMainAbout ? whitelogoImg : graylogoImg}
+            src={
+              pathname === "/about"
+                ? isScrolled
+                  ? graylogoImg // about 페이지에서 isScrolled 상태에 따라 로고 변경
+                  : whitelogoImg
+                : pathname === "/" // 메인페이지에서는 항상 white로고 사용
+                ? whitelogoImg
+                : graylogoImg // 나머지 페이지에서는 항상 gray로고 사용
+            }
             alt="logo-image"
             className="desktop:w-[94px] laptop:w-[94px] desktop:h-[21.63px] laptop:h-[21.63px] desktop:ml-[-400px] laptop:ml-[30px] desktop:mr-[460px] laptop:mr-[110px] cursor-pointer"
             onClick={handleLogoLinkClick}
@@ -311,7 +320,14 @@ function Header() {
             ) : (
               <div
                 className={`flex desktop:gap-14 laptop:gap-[35px] desktop:w-[170px] desktop:ml-[380px] laptop:ml-[102px] ${
-                  pathsMainAbout ? "text-white " : "text-[#666666]"
+                  // pathsMainAbout ? "text-white " : "text-[#666666]"
+                  pathname === "/about"
+                    ? isScrolled
+                      ? "text-[#666666]" // about 페이지에서 isScrolled 상태에 따라 글자색 변경
+                      : "text-white"
+                    : pathname === "/" // 메인페이지에서는 항상 글자색 white
+                    ? "text-white"
+                    : "text-[#666666]" // 나머지 페이지에서는 항상 글자색 gray
                 } font-['Pretendard-Light']`}
               >
                 <Link href={"/signup"}>Sign up</Link>
@@ -324,7 +340,9 @@ function Header() {
       {isOpenAlertModal && (
         <AlertModal
           isOpen={isOpenAlertModal}
-          onClose={() => setIsOpenAlertModal(false)}
+          onClose={() => {
+            setIsOpenAlertModal(false);
+          }}
           message={message}
         />
       )}
