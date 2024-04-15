@@ -50,11 +50,7 @@ const PointModal: React.FC<PointModalProps> = ({
               </ModalBody>
               {mod === "add" && (
                 <ModalFooter>
-                  <Button
-                    color="danger"
-                    variant="light"
-                    onClick={() => handleClick}
-                  >
+                  <Button color="danger" variant="light" onClick={handleClick}>
                     Close
                   </Button>
                 </ModalFooter>
