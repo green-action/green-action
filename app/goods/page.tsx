@@ -48,7 +48,7 @@ const GoodsPage = () => {
               <Image
                 src={setbox}
                 alt="제품전체사진"
-                className="w-[1325px] h-[708px]"
+                className="w-[1325px] h-[708px] object-cover"
               />
             </div>
           </div>
@@ -77,7 +77,7 @@ const GoodsPage = () => {
             <Image
               src={setbox}
               alt="제품전체사진"
-              className="w-[1020px] h-[706px] mx-auto"
+              className="w-[1020px] h-[706px] mx-auto object-cover"
             />
           </div>
         </div>

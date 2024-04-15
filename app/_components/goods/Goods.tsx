@@ -24,7 +24,7 @@ const Goods = () => {
               <div className="relative">
                 <img
                   alt="Card background"
-                  className="rounded-2xl desktop:h-[494px] laptop:h-[431px]"
+                  className="rounded-2xl desktop:h-[494px] laptop:h-[431px] object-cover"
                   src={item.img_url}
                 />
                 {/* 제품 이미지 하단 전체 */}
