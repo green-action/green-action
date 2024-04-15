@@ -20,8 +20,12 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import logoImg from "/app/_assets/image/logo_icon/logo/gray.png";
+import whitelogoImg from "/app/_assets/image/logo_icon/logo/white.png";
+import graylogoImg from "/app/_assets/image/logo_icon/logo/gray.png";
+import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
+
 import Image from "next/image";
+import AlertModal from "../community/AlertModal";
 
 function Header() {
   const router = useRouter();
@@ -30,11 +34,16 @@ function Header() {
   const isLoggedIn = !!session.data;
   const user_uid = session?.data?.user.user_uid as string;
 
-  const { data, isLoading } = useFetchUserInfo(user_uid);
+  const pathsMainAbout = pathname === "/" || pathname === "/about";
+
+  const { data, isLoading: isUserDataLoading } = useFetchUserInfo(user_uid);
   const { display_name, profile_img } = (data as User) || "";
 
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileHover, setIsProfileHover] = useState(false);
+  // alert 대체 모달창을 위한 상태관리
+  const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
+  const [message, setMessage] = useState("");
 
   const handleLogoLinkClick = () => {
     router.push("/");
@@ -49,9 +58,10 @@ function Header() {
     if (confirmed) {
       try {
         await signOut({
-          callbackUrl: "/",
+          redirect: false,
         });
-        alert("로그아웃 되었습니다.");
+        setMessage("로그아웃 되었습니다.");
+        setIsOpenAlertModal(true);
       } catch (error) {
         console.error("Logout error:", error);
       }
@@ -73,7 +83,9 @@ function Header() {
       setParentSelected("/individualAction");
       setChildSelected("/groupAction");
     }
-    if (pathname === "/individualAction") {
+    if (pathname.startsWith("/individualAction")) {
+      // individualAction 의 detail 페이지까지 처리
+      setParentSelected("/individualAction");
       setChildSelected("/individualAction");
     }
   };
@@ -82,47 +94,73 @@ function Header() {
     handleSelectedTab();
   }, [pathname]);
 
-  // if (isLoading) {
+  // FIXME 마이페이지에서 유저닉네임,이미지 변경 시 헤더에서 종종 바로 반영안되는 문제 (mutation으로 쿼리키 무효화해도) -> isLoading 처리했더니 에러
+  // if (isUserDataLoading) {
   //   return (
   //     // 임시로 처리
-  //     <div className="flex justify-center items-center h-40">
-  //       <CircularProgress
-  //         color="success"
-  //         label="세션 정보를 가져오는 중입니다...!"
-  //       />
-  //     </div>
+  // <div className="flex justify-center items-center w-[60px] h-auto">
+  //   <Image src={SoomLoading} alt="SoomLoading" />
+  // </div>;
   //   );
   // }
 
+  ////////////////////////////////////////////////////
+  // 헤더 투명이었다가 스크롤하면 블러처리
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    // useFetchUserInfo(user_uid);
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [data]);
+
   return (
     <>
-      {/* NOTE 메인페이지, 회원가입/로그인, about 페이지가 아닌 나머지 페이지인 경우에만 layout Header 적용 */}
+      {/* NOTE 로그인/회원가입 제외 모든페이지에서 적용하도록 변경 - main, about 페이지는 pathsMainAbout 변수를 설정해 경우를 처리 (로고이미지, signUp 글자 색깔) */}
       {pathname !== "/signup" && pathname !== "/login" && (
         <Navbar
-          isBlurred={true} // TODO 스크롤내리면 isBlurred 처리
+          isBlurred={isScrolled} // TODO 스크롤내리면 isBlurred 처리
           className="laptop:min-w-[1020px] flex bg-transparent desktop:h-[10rem] laptop:h-[104px] items-center justify-center desktop:pt-[90px] laptop:pt-[60px] desktop:mb-[88px] laptop:mb-[60px] desktop:text-[13pt] laptop:text-[11pt]"
-          // gap 등으로 조정 안돼서 margin 하드코딩으로 위치 조정
         >
           <Image
-            src={logoImg}
+            // src={pathsMainAbout ? whitelogoImg : graylogoImg}
+            src={
+              pathname === "/about"
+                ? isScrolled
+                  ? graylogoImg // about 페이지에서 isScrolled 상태에 따라 로고 변경
+                  : whitelogoImg
+                : pathname === "/" // 메인페이지에서는 항상 white로고 사용
+                ? whitelogoImg
+                : graylogoImg // 나머지 페이지에서는 항상 gray로고 사용
+            }
             alt="logo-image"
-            className="desktop:w-[94px] laptop:w-[94px] desktop:h-[21.63px] laptop:h-[21.63px] desktop:ml-[-400px] laptop:ml-[10px] desktop:mr-[460px] laptop:mr-[135px] cursor-pointer"
+            className="desktop:w-[94px] laptop:w-[94px] desktop:h-[21.63px] laptop:h-[21.63px] desktop:ml-[-400px] laptop:ml-[30px] desktop:mr-[460px] laptop:mr-[110px] cursor-pointer"
             onClick={handleLogoLinkClick}
           />
           <NavbarContent>
             <div className="flex flex-col items-center">
               <Tabs
                 selectedKey={parentSelected} // 선택된 부모 탭의 키
-                size="lg"
                 radius="full"
                 aria-label="NavBar-Tab-Options"
                 variant="light"
                 className="flex rounded-full bg-white/30 font-bold" // + 볼드체
                 classNames={{
+                  tab: "px-4 desktop:h-[35px] laptop:h-[27px]",
                   tabList:
-                    "flex items-center desktop:gap-[10px] laptop:gap-[30px] desktop:h-[42px] laptop:h-[35px] desktop:w-[600px] laptop:w-[446px]", // d:w-[511px] h-[39px]인데 자체변경? / laptop gap 자체
+                    "flex items-center desktop:gap-[10px] laptop:gap-[30px] desktop:h-[45px] laptop:h-[35px] desktop:w-[600px] laptop:w-[446px]", // d:w-[511px] h-[39px]인데 자체변경? / laptop gap 자체
                   tabContent:
-                    "flex items-center text-[#454545] desktop:text-[13pt] laptop:text-[11pt]", // ㅣ:text 11 자체
+                    "flex items-center text-[#454545] desktop:text-[13pt] laptop:text-[10pt] laptop:h-[35px]", // ㅣ:text 11 자체
                 }}
               >
                 <Tab
@@ -168,7 +206,7 @@ function Header() {
                   onMouseLeave={() => {
                     setIsOpen(false);
                   }}
-                  className="flex justify-center absolute desktop:mt-[3.2%] laptop:mt-[4.0%] desktop:mr-[15%] laptop:mr-[12%] desktop:pt-[23px] desktop:text-[13pt] laptop:text-[10pt] font-bold text-[#454545]"
+                  className="flex justify-center absolute desktop:h-[45px] laptop:h-[35px]  desktop:mt-[2.8%] laptop:mt-[4.2%] desktop:mr-[15%] laptop:mr-[12%] desktop:pt-[23px] desktop:text-[13pt] laptop:text-[10pt] font-bold text-[#454545]"
                 >
                   {/* 폰트크기 넓이 안맞음 */}
                   <Navbar
@@ -178,7 +216,7 @@ function Header() {
                     <Link
                       href={"/individualAction"}
                       // 안 맞아서 폰트크기 13pt에 각각 넓이 130px으로 자체적 맞춤
-                      className={`rounded-full desktop:px-2 desktop:py-1 laptop:px-1 laptop:py-1 hover:bg-[#FFFFFF]/50 hover:border-medium hover:border-[#DDDDDD] desktop:w-[130px] laptop:w-[140px] text-center  ${
+                      className={`desktop:text-[13pt] laptop:text-[10pt] rounded-full desktop:px-2 desktop:py-1 laptop:px-1 laptop:py-1 hover:bg-[#FFFFFF]/50 hover:border-medium hover:border-[#DDDDDD] desktop:w-[130px] laptop:w-[140px] text-center  ${
                         childSelected === "/individualAction" &&
                         "bg-[#FFFFFF]/50"
                       }`}
@@ -187,7 +225,7 @@ function Header() {
                     </Link>
                     <Link
                       href={"/groupAction"}
-                      className={`rounded-full desktop:px-2 desktop:py-1 laptop:px-1 laptop:py-1 hover:bg-[#FFFFFF]/50 hover:border-medium hover:border-[#DDDDDD] desktop:w-[130px] laptop:w-[140px] text-center ${
+                      className={`desktop:text-[13pt] laptop:text-[10pt] rounded-full desktop:px-2 desktop:py-1 laptop:px-1 laptop:py-1 hover:bg-[#FFFFFF]/50 hover:border-medium hover:border-[#DDDDDD] desktop:w-[130px] laptop:w-[140px] text-center ${
                         childSelected === "/groupAction" && "bg-[#FFFFFF]/50"
                       }`}
                     >
@@ -209,24 +247,24 @@ function Header() {
                     <div className="flex">
                       {/* ml 360px  ml-[280px] mr-[0px] / border-[#DDDDDD] - 자체변경 */}
                       <Chip
-                        className={`desktop:w-[249px] laptop:w-[162px] desktop:h-[42px] laptop:h-[35px] bg-[#F1F1F1]/50 border-small border-[#404040]/40 ${
+                        className={`desktop:w-[249px] laptop:w-[162px] desktop:h-[42px] laptop:h-[34px] bg-[#F1F1F1]/50 border-small border-[#404040]/40 ${
                           display_name?.length >= 5
-                            ? `desktop:ml-[210px]`
-                            : `desktop:ml-[290px] `
+                            ? `desktop:ml-[210px] laptop:ml-[10px]`
+                            : `desktop:ml-[290px] laptop:ml-[60px]`
                         } `}
                       >
-                        <div className="flex desktop:gap-[15px] items-center justify-between desktop:text-[13pt] text-[#404040]">
+                        <div className="flex desktop:gap-[15px] items-center justify-between desktop:text-[13pt] laptop:text-[10pt] text-[#404040]">
                           <p>
-                            {display_name} Greener님{` `}
+                            {display_name} Greener님
                             <span className="desktop:contents laptop:hidden">
                               ! 환영합니다
                             </span>
                           </p>
                           <Avatar
                             as="button"
-                            className="transition-transform"
+                            className="transition-transform laptop:w-[30px] desktop:w-[38px] laptop:h-[30px] desktop:h-[38px] desktop:ml-[0px] laptop:ml-[8px]"
                             name={display_name}
-                            size="sm"
+                            // size="sm"
                             showFallback
                             src={profile_img || ""}
                             onMouseEnter={() => {
@@ -281,13 +319,33 @@ function Header() {
                 </Dropdown>
               </>
             ) : (
-              <div className="flex desktop:gap-14 laptop:gap-[35px] desktop:w-[170px] desktop:ml-[380px] laptop:ml-[102px] text-white font-['Pretendard-ExtraLight'] ">
+              <div
+                className={`flex desktop:gap-14 laptop:gap-[35px] desktop:w-[170px] desktop:ml-[380px] laptop:ml-[102px] ${
+                  // pathsMainAbout ? "text-white " : "text-[#666666]"
+                  pathname === "/about"
+                    ? isScrolled
+                      ? "text-[#666666]" // about 페이지에서 isScrolled 상태에 따라 글자색 변경
+                      : "text-white"
+                    : pathname === "/" // 메인페이지에서는 항상 글자색 white
+                    ? "text-white"
+                    : "text-[#666666]" // 나머지 페이지에서는 항상 글자색 gray
+                } font-['Pretendard-Light']`}
+              >
                 <Link href={"/signup"}>Sign up</Link>
                 <Link href={"/login"}>Log in</Link>
               </div>
             )}
           </NavbarContent>
         </Navbar>
+      )}
+      {isOpenAlertModal && (
+        <AlertModal
+          isOpen={isOpenAlertModal}
+          onClose={() => {
+            setIsOpenAlertModal(false);
+          }}
+          message={message}
+        />
       )}
     </>
   );

@@ -1,22 +1,28 @@
 "use client";
-// 되면 ssr로 두고 client 컴포는 따로 빼보기 ?
 
-import { Button, CircularProgress } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
-import MyProfile from "../_components/mypage/MyProfile";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+
+import { User } from "../_types";
+
 import {
   useFetchMyGreenActions,
   useFetchUserInfo,
   usefetchBookmarkedActions,
   usefetchMyCommunityPosts,
 } from "../_hooks/useQueries/mypage";
-import MyActionCard from "../_components/mypage/MyActionCard";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+
+import MyProfile from "../_components/mypage/MyProfile";
 import RecruitSelectTab from "../_components/mypage/RecruitSelectTab";
+import MyActionCard from "../_components/mypage/MyActionCard";
 import CommunityListPost from "../_components/community/CommunityListPost";
-import { User } from "../_types";
-import DynamicHeader from "../_components/layout/DynamicHeader";
+
+import { Button } from "@nextui-org/react";
+
+import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
+import TopButton from "../_components/TopButton";
 
 // 로그인 안 한 상태에서 접근 차단할 것 -
 const MyPage = () => {
@@ -168,8 +174,8 @@ const MyPage = () => {
     isUserInfoLoading
   ) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <CircularProgress color="success" label="Loading..." />
+      <div className="flex justify-center items-center w-screen h-[500px]">
+        <Image src={SoomLoading} alt="SoomLoading" className="w-[100px]" />
       </div>
     );
   }
@@ -179,16 +185,17 @@ const MyPage = () => {
       {/* 닉넴수정 후 메인페이지 -> 마이페이지 이동시 : 임포트한 헤더 컴포넌트에서만 닉넴 수정 반영됨 */}
       {/* <DynamicHeader /> */}
       <div className="flex justify-center desktop:mb-[100px] laptop:mb-[50px]">
+        <TopButton />
         <div className="flex desktop:w-[1540px] laptop:w-[1020px]">
           <MyProfile userInfo={userInfo as User} />
           <div className="flex flex-col desktop:gap-10 desktop:pl-[82px] laptop:pl-[30px] desktop:pt-1 laptop:pt-[30px] w-full">
             <div className="flex justify-between laptop:mb-[30px]">
-              <div className="flex desktop:gap-[45px] desktop:ml-5 desktop:text-[12pt]">
+              <div className="flex desktop:gap-[45px] laptop:gap-[30px] desktop:ml-5 desktop:text-[12pt]">
                 <Button
                   radius="full"
                   size="md"
                   onClick={handleActiveTabClick}
-                  className={` bg-transparent  desktop:text-[12pt]
+                  className={` bg-transparent  desktop:text-[12pt] laptop:text-[11pt]
                      ${activeTab === "My Green-Action" && "bg-[#F1F1F1]"}`}
                 >
                   My Green-Action
@@ -197,7 +204,7 @@ const MyPage = () => {
                   radius="full"
                   size="md"
                   onClick={handleActiveTabClick}
-                  className={`bg-transparent  desktop:text-[12pt]
+                  className={`bg-transparent  desktop:text-[12pt] laptop:text-[11pt]
                     ${activeTab === "작성 게시물" && "bg-[#F1F1F1]"}`}
                 >
                   작성 게시물
@@ -206,7 +213,7 @@ const MyPage = () => {
                   radius="full"
                   size="md"
                   onClick={handleActiveTabClick}
-                  className={`bg-transparent  desktop:text-[12pt]
+                  className={`bg-transparent  desktop:text-[12pt] laptop:text-[11pt]
                      ${activeTab === "찜한 Green-Action" && "bg-[#F1F1F1]"}`}
                 >
                   찜한 Green-Action
@@ -227,7 +234,7 @@ const MyPage = () => {
                 )}
               </div>
             </div>
-            <div className="flex flex-wrap desktop:gap-[20px]">
+            <div className="flex flex-wrap gap-[20px]">
               {/* LINK My Green Action */}
               {activeTab === "My Green-Action" &&
                 filteredActions?.map((action) => {
@@ -239,7 +246,9 @@ const MyPage = () => {
                     />
                   );
                 })}
-              {/* LINK 내가 쓴 커뮤니티 글 */}
+            </div>
+            {/* LINK 내가 쓴 커뮤니티 글 */}
+            <div className="flex flex-wrap gap-[20px]">
               {activeTab === "작성 게시물" &&
                 myPosts?.map((post) => {
                   return (
@@ -252,6 +261,8 @@ const MyPage = () => {
                     />
                   );
                 })}
+            </div>
+            <div className="flex flex-wrap gap-[20px]">
               {/* LINK 찜한 Green Action */}
               {activeTab === "찜한 Green-Action" &&
                 filteredBookmarkedActions?.map((bookmark) => {

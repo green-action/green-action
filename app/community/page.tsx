@@ -6,15 +6,23 @@ import { useGetCommunityList } from "../_hooks/useQueries/community";
 
 import AddPostModal from "../_components/community/AddPostModal";
 import CommunityListPost from "../_components/community/CommunityListPost";
+import TopButton from "../_components/TopButton";
 
-import { Select, SelectItem, Spinner } from "@nextui-org/react";
+import { Select, SelectItem } from "@nextui-org/react";
+
+import Image from "next/image";
+import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
 const CommunityListPage = () => {
   const [selectedValue, setSelectedValue] = useState("정렬");
   const { communityList, isLoading, isError } = useGetCommunityList();
 
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <div className="w-[300px] h-auto mx-auto">
+        <Image className="" src={SoomLoaing} alt="SoomLoading" />
+      </div>
+    );
   }
   if (isError) {
     return <div>Error</div>;
@@ -51,6 +59,7 @@ const CommunityListPage = () => {
 
   return (
     <div className="desktop:w-[1920px] laptop:w-[1020px] mx-auto">
+      <TopButton />
       {/* 전체 Wrapper */}
       <div className="desktop:w-[1306px] laptop:w-[910px] mx-auto desktop:mb-12">
         {/* 정렬 select */}

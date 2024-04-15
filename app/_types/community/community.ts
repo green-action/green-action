@@ -52,6 +52,7 @@ export interface PostImgUploadProps {
 
 export interface EditPostProps {
   isOpen: boolean;
+  onClose: () => void;
   onOpenChange: () => void;
   post_id: string;
   mode: string;

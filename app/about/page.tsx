@@ -10,6 +10,7 @@ import mainImg from "../../app/_assets/image/about/main.png";
 
 import DynamicHeader from "../_components/layout/DynamicHeader";
 import { useResponsive } from "../_hooks/responsive";
+import TopButton from "../_components/TopButton";
 
 const AboutPage = () => {
   // custom hook - 현재 브라우저 화면의 사이즈 상태 가져오기
@@ -18,6 +19,7 @@ const AboutPage = () => {
   return (
     <>
       <div className="desktop:min-w-[1920px] laptop:min-w-[1020px] mx-auto">
+        <TopButton />
         <div className="flex flex-col items-center">
           {/* 헤더 */}
           {/* <div className="fixed z-20 mx-auto">
@@ -31,7 +33,7 @@ const AboutPage = () => {
           />
           {isDesktop && (
             <>
-              <div className="z-0 desktop:mt-[500px] laptop:mt-[450px] flex flex-col laptop:w-[100%] items-center text-white text-[64px] font-thin">
+              <div className="z-0 desktop:mt-[300px] laptop:mt-[450px] flex flex-col laptop:w-[100%] items-center text-white text-[64px] font-thin">
                 <p className="font-['Italiana']">
                   Experience the earth breathing
                 </p>
