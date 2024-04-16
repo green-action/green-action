@@ -35,6 +35,7 @@ import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
 import { useResponsive } from "@/app/_hooks/responsive";
 import TopButton from "@/app/_components/TopButton";
 import PrivateChat from "@/app/_components/individualAction/PrivateChat";
+import { checkChatRoomExist } from "@/app/_api/messages/messages-api";
 
 const DetailPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
@@ -123,19 +124,26 @@ const DetailPage = () => {
 
   if (isError) return <div>Error fetching details...</div>;
 
-  // 1:1 채팅방 열기 -> 모달창으로 리팩토링 예정
-  const handleOpenPrivateChatRoom = () => {
-    // 클릭시 로직
-    // chat_rooms에 새로운 채팅방 insert, 혹은 이미 있는 방이면 room_id만 반환
-    // 1. 새 채팅방인 경우 : 로그인유저 uid와 action_id가 이미 chat_room테이블에 있는지 먼저 확인, 없으면 insert
-    // 2. 기존에 있던 채팅방인 경우 : 있으면 해당 행의 id를 room_id로 모달에 전달 -> channel이름으로 설정
+  // 1:1 채팅방 모달 열기
+  const handleOpenPrivateChatRoom = async () => {
+    // 이미 1:1 채팅방이 존재하는지 먼저 확인 - 이미 있으면 string값, 없으면 null값 반환
+    const room_id = await checkChatRoomExist({
+      user_uid,
+      action_id: params.id,
+    });
 
-    // 새로운 채팅방이라서 insert하는 경우
-    // -> action_id의 user_uid를 owner_uid로 insert, 로그인 유저uid는 participant_uid로 insert
-    // chat_room에 insert한 행의 id를 반환
-    // 해당 room의 id를 모달에 전달 -> channel이름으로 설정
-    onPrivateChatOpen();
-    // router.push("/test");
+    // ****** 내가 action장 인 경우도 체크해야되네 ㅠㅠ
+    // 내가 action장 인 경우에도 room_id를 받아서 채널명으로 넣어줘야 채팅하지
+
+    // 1) room_id가 있으면(1:1채팅방 이미 열려있는 경우) -> 모달에 전달
+    // 2) room_id가 없으면(1:1채팅방 아직 안열린 경우)
+    // -> chat_rooms_info 테이블, chat_participants 테이블에 insert하기 -> room_id 반환
+
+    // 반환받은 room_id를 1:1채팅 모달에 넘겨주기
+    // -> channel명을 room_id로 설정하기
+
+    // 채팅방 모달창 open
+    // onPrivateChatOpen();
   };
 
   return (

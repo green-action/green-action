@@ -10,20 +10,57 @@ export const getMessages = async () => {
 
   if (error) {
     console.log("error", error.message);
+    throw error;
   }
   return data;
 };
 
-// 1. 이미 있는 방인지 먼저 확인하기
-// 참가자 테이블 접근 -> 로그인 유저 uid로 내가 참여중인 방의 room_id 리스트 뽑기
+// 1. 이미 1:1방 존재하는지 먼저 확인하기
+export const checkChatRoomExist = async ({
+  user_uid,
+  action_id,
+}: {
+  user_uid: string;
+  action_id: string;
+}) => {
+  try {
+    // 참가자 테이블 접근 -> 로그인 유저 uid로 내가 참여중인 방의 room_id 리스트 뽑기
+    const { data: roomsList, error: roomsListError } = await supabase
+      .from("chat_participants")
+      .select("room_id")
+      .eq("participant_uid", user_uid);
 
-// 채팅방 테이블 접근 -> room_id리스트 중 room_id 일치 + room_type이 '개인'인 것 뽑기
+    if (roomsListError) {
+      console.log("error", roomsListError.message);
+      throw roomsListError;
+    }
 
-// 1) 이미 방이 있으면 -> room_id 반환
-// 2) 방 없으면 -> chat_rooms_info테이블, chat_participants 테이블에 insert하기 -> room_id 반환
+    // roomsList에서 room_id 리스트 추출
+    const roomIds = roomsList?.map((room) => room.room_id) || [];
 
-// 2. 반환받은 room_id를 1:1채팅 모달에 넘겨주기
-// -> channel명을 room_id로 설정하기
+    // 채팅방 테이블 접근 -> room_id리스트 중 room_id 일치 + room_type이 '개인'인 것 + action_id 일치하는것 뽑기
+    const { data: room_id, error: roomIdError } = await supabase
+      .from("chat_rooms_info")
+      .select("id")
+      .in("id", roomIds) // roomsList에서 가져온 room_id 리스트 중에 포함되는 것만 선택
+      .eq("room_type", "개인")
+      .eq("action_id", action_id);
+
+    if (roomIdError) {
+      console.log("error", roomIdError.message);
+      throw roomIdError;
+    }
+
+    if (room_id && room_id.length > 0) {
+      return room_id[0].id; // room_id 값이 있으면 해당 값 반환 - 이미 1:1 방이 있는 경우
+    } else {
+      return null; // 값이 없으면 null 반환 - 아직 1:1방이 열리지 않은 경우
+    }
+  } catch (error) {
+    console.error("error >>", error);
+    throw error;
+  }
+};
 
 // 메시지 보내기
 export const sendMessage = async ({
