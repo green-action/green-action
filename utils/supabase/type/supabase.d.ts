@@ -44,7 +44,6 @@ export type Database = {
       };
       chat_messages: {
         Row: {
-          action_id: string;
           content: string;
           created_at: string;
           id: string;
@@ -52,7 +51,6 @@ export type Database = {
           sender_uid: string;
         };
         Insert: {
-          action_id?: string;
           content?: string;
           created_at?: string;
           id?: string;
@@ -60,7 +58,6 @@ export type Database = {
           sender_uid?: string;
         };
         Update: {
-          action_id?: string;
           content?: string;
           created_at?: string;
           id?: string;
@@ -72,7 +69,7 @@ export type Database = {
             foreignKeyName: "public_chat_messages_room_id_fkey";
             columns: ["room_id"];
             isOneToOne: false;
-            referencedRelation: "chat_rooms";
+            referencedRelation: "chat_rooms_info";
             referencedColumns: ["id"];
           },
           {
@@ -82,36 +79,65 @@ export type Database = {
             referencedRelation: "users";
             referencedColumns: ["id"];
           },
+        ];
+      };
+      chat_participants: {
+        Row: {
+          created_at: string;
+          id: string;
+          participant_uid: string;
+          room_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          participant_uid?: string;
+          room_id?: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          participant_uid?: string;
+          room_id?: string;
+        };
+        Relationships: [
           {
-            foreignKeyName: "public_messages_action_id_fkey";
-            columns: ["action_id"];
+            foreignKeyName: "public_chat_participants_participant_uid_fkey";
+            columns: ["participant_uid"];
             isOneToOne: false;
-            referencedRelation: "individual_green_actions";
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "public_chat_participants_room_id_fkey";
+            columns: ["room_id"];
+            isOneToOne: false;
+            referencedRelation: "chat_rooms_info";
             referencedColumns: ["id"];
           },
         ];
       };
-      chat_rooms: {
+      chat_rooms_info: {
         Row: {
           action_id: string;
           created_at: string;
           id: string;
           owner_uid: string;
-          participant_uid: string;
+          room_type: string;
         };
         Insert: {
           action_id?: string;
           created_at?: string;
           id?: string;
           owner_uid?: string;
-          participant_uid?: string;
+          room_type?: string;
         };
         Update: {
           action_id?: string;
           created_at?: string;
           id?: string;
           owner_uid?: string;
-          participant_uid?: string;
+          room_type?: string;
         };
         Relationships: [
           {
@@ -124,13 +150,6 @@ export type Database = {
           {
             foreignKeyName: "public_chat_rooms_owner_uid_fkey";
             columns: ["owner_uid"];
-            isOneToOne: false;
-            referencedRelation: "users";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "public_chat_rooms_participant_uid_fkey";
-            columns: ["participant_uid"];
             isOneToOne: false;
             referencedRelation: "users";
             referencedColumns: ["id"];

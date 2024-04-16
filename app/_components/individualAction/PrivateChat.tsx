@@ -47,7 +47,7 @@ const PrivateChat = ({ isOpen, onOpenChange }: PrivateChatProps) => {
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "chat_messages" },
 
-        // 채팅 리스트 무효화 성공 - 리스트 전체를 무효화
+        // 채팅 리스트 무효화 성공 - 리스트 전체를 무효화 (수정 필요)
         (payload) => {
           queryClient.invalidateQueries({
             queryKey: ["messagesList"],
