@@ -12,11 +12,12 @@ import {
 } from "@nextui-org/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PiEyeLight, PiEyeSlash } from "react-icons/pi";
-import { signUpNewUser } from "../_api/auth";
+import { logoutUser, signUpNewUser } from "../_api/auth";
 import logoImg from "../_assets/image/logo_icon/logo/white.png";
 import AlertModal from "../_components/community/AlertModal";
+import { supabase } from "@/utils/supabase/client";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -59,7 +60,6 @@ const SignUp = () => {
       nickname.length < 2 ||
       nickname.length > 10
     ) {
-      // alert("회원가입 양식을 확인해주세요.");
       setMessage("회원가입 양식을 확인해주세요.");
       setIsOpenAlertModal(true);
       return;
@@ -88,7 +88,6 @@ const SignUp = () => {
 
   return (
     <div className="w-screen h-screen flex justify-around items-center bg-cover bg-main-img  bg-blend-darken bg-black bg-opacity-10">
-      {/* <Image src={mainImg} alt=""/> */}
       <div className="flex flex-col items-center justify-center">
         <Image
           className="w-[126px] h-[29px] cursor-pointer"

@@ -19,7 +19,7 @@ export const signUpNewUser = async (
     if (error) {
       throw error;
     }
-
+    // 유저의 id로 이메일 중복확인가능!!!!!!!!!!!
     //사용자 정보 데이터베이스에 추가
     const user = data?.user;
     console.log(data.user);
@@ -34,7 +34,8 @@ export const signUpNewUser = async (
     if (userDataError) {
       throw userDataError;
     }
-
+    // 회원가입시 토큰 삭제
+    logoutUser();
     return data;
   } catch (error) {
     console.error("회원가입 오류:", error);
@@ -42,34 +43,36 @@ export const signUpNewUser = async (
   }
 };
 
+// "use client";
+
 //supabase 로그인
-export const signInUser = async (
-  email: string,
-  password: string,
-): Promise<User> => {
-  try {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+// export const signInUser = async (
+//   email: string,
+//   password: string,
+// ): Promise<User> => {
+//   try {
+//     const { data, error } = await supabase.auth.signInWithPassword({
+//       email,
+//       password,
+//     });
 
-    if (!data || !data.user) {
-      throw new Error("유저의 데이터정보가져오기 실패");
-    }
+//     if (!data || !data.user) {
+//       throw new Error("유저의 데이터정보가져오기 실패");
+//     }
 
-    const user = data.user;
-    const { data: userData, error: fetchError } = await supabase
-      .from("users")
-      .select("*")
-      .eq("id", user.id)
-      .single();
+//     const user = data.user;
+//     const { data: userData, error: fetchError } = await supabase
+//       .from("users")
+//       .select("*")
+//       .eq("id", user.id)
+//       .single();
 
-    if (fetchError) throw fetchError;
-    return userData as User;
-  } catch (error) {
-    throw error;
-  }
-};
+//     if (fetchError) throw fetchError;
+//     return userData as User;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
 //supabase 로그아웃
 export const logoutUser = async () => {
@@ -92,38 +95,3 @@ export const getUser = async () => {
   } = await supabase.auth.getUser();
   return { user };
 };
-
-//카카오
-export const logInWithKakao = async () => {
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: "kakao",
-    options: {
-      queryParams: {
-        access_type: "offline",
-        prompt: "consent",
-      },
-    },
-  });
-
-  if (error) throw error.message;
-
-  // const user = session.data?.user;
-  // const { data: kakaoUserData, error: kakaoUserDataError } = await supabase
-  //   .from("users")
-  //   .insert({
-  //     id: user?.user_uid,
-  //     email: user?.email,
-  //     display_name: user?.name,
-  //     profile_img: user?.image,
-  //   });
-
-  // console.log(kakaoUserData);
-
-  // if (kakaoUserDataError) {
-  //   throw kakaoUserDataError.message;
-  // }
-
-  return data;
-};
-
-//구글 소셜 로그인

@@ -8,7 +8,7 @@ import PageList from "./PageList";
 import AlertModal from "../community/AlertModal";
 
 const PageTap = () => {
-  const [activeTab, setActiveTab] = useState("모든 캠페인");
+  const [activeTab, setActiveTab] = useState("모든 GreenAction");
   const [selectedOrder, setSelectedOrder] = useState("최신등록글");
 
   // alert 대체 모달창을 위한 상태관리
@@ -36,7 +36,7 @@ const PageTap = () => {
   const [filteredActions, setFilteredActions] = useState(sortedActions);
 
   const filterAndSortActions = () => {
-    if (activeTab === "모든 캠페인") {
+    if (activeTab === "모든 GreenAction") {
       if (selectedOrder === "최신등록글") {
         setFilteredActions(sortedActions);
       } else if (selectedOrder === "찜한순") {
@@ -44,7 +44,7 @@ const PageTap = () => {
       }
     }
 
-    if (activeTab === "모집중인 캠페인") {
+    if (activeTab === "모집중 GreenAction") {
       if (selectedOrder === "최신등록글") {
         setFilteredActions(
           sortedActions?.filter((action) => action.is_recruiting),
@@ -55,7 +55,7 @@ const PageTap = () => {
         );
       }
     }
-    if (activeTab === "마감된 캠페인") {
+    if (activeTab === "마감된 GreenAction") {
       if (selectedOrder === "최신등록글") {
         setFilteredActions(
           sortedActions?.filter((action) => !action.is_recruiting),
@@ -95,46 +95,44 @@ const PageTap = () => {
       router.push("/individualAction/add");
       return;
     }
-    // alert("로그인이 필요합니다.");
     setMessage("로그인이 필요한 서비스입니다.");
     setIsOpenAlertModal(true);
-    // router.push("/login");
     return;
   };
 
   return (
     <>
       <div className="flex justify-between items-center desktop:w-[1510px] laptop:w-[920px]  mx-auto">
-        <ul className="flex gap-4 ml-6 font-bold">
+        <ul className="flex gap-7 ml-6 font-bold">
           <li
             onClick={handleActiveTabClick}
-            className={`flex justify-center items-center cursor-pointer rounded-2xl  desktop:w-[130px] h-[34px] text-[12px]  laptop:w-[108px] ${
-              activeTab === "모든 캠페인"
-                ? "bg-[#F1F1F1] transition duration-300 ease-in-out text-[12px]"
+            className={`flex justify-center items-center cursor-pointer  desktop:w-[130px] h-[34px] text-[12px]  laptop:w-[108px] ${
+              activeTab === "모든 GreenAction"
+                ? "border-b-2 border-black transition duration-300 ease-in-out text-[12px]"
                 : ""
             }`}
           >
-            모든 캠페인
+            모든 GreenAction
           </li>
           <li
             onClick={handleActiveTabClick}
-            className={`flex justify-center items-center cursor-pointer rounded-2xl desktop:w-[130px] h-[34px]  text-[12px]  laptop:w-[108px] ${
-              activeTab === "모집중인 캠페인"
-                ? "bg-[#F1F1F1] transition duration-300 ease-in-out text-[12px]"
+            className={`flex justify-center items-center cursor-pointer desktop:w-[130px] h-[34px]  text-[12px]  laptop:w-[108px] ${
+              activeTab === "모집중 GreenAction"
+                ? "border-b-2 border-black transition duration-300 ease-in-out text-[12px]"
                 : ""
             }`}
           >
-            모집중인 캠페인
+            모집중 GreenAction
           </li>
           <li
             onClick={handleActiveTabClick}
-            className={`flex justify-center items-center cursor-pointer rounded-2xl desktop:w-[130px] h-[34px]  text-[12px]  laptop:w-[108px] ${
-              activeTab === "마감된 캠페인"
-                ? "bg-[#F1F1F1] transition duration-300 ease-in-out text-[12px] "
+            className={`flex justify-center items-center cursor-pointer desktop:w-[130px] h-[34px]  text-[12px]  laptop:w-[108px] ${
+              activeTab === "마감된 GreenAction"
+                ? "border-b-2 border-black transition duration-300 ease-in-out text-[12px] "
                 : ""
             }`}
           >
-            마감된 캠페인
+            마감된 GreenAction
           </li>
         </ul>
 

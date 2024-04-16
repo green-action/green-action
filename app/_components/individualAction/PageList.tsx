@@ -50,23 +50,22 @@ const PageList: React.FC<ChildProps> = ({ filteredActions }) => {
                 />
               )}
             </Card>
-            {/* bg-gray-200 rounded-lg */}
+
             <div className=" desktop:w-[356px] laptop:w-[291px] relative p-2 rounded-2xl bg-[#F9F9F9]">
+              <Chip
+                radius="sm"
+                className={`${
+                  post.is_recruiting ? "bg-[#B3C8A1]" : "bg-[#5F5F5F]"
+                } text-white w-[41px] h-[15px] laptop:w-[36px] text-[10px] ml-3`}
+              >
+                {post.is_recruiting ? "모집중" : "모집마감"}
+              </Chip>
               <div className="flex gap-4 mt-4  desktop:max-w-[70%] laptop:w-[70%] ml-6 laptop:ml-3">
                 <h4 className="font-bold text-[15px] text-black mt-[-4px]">
-                  {(post.title?.length as any) > 10
-                    ? `${post.title?.substring(0, 10)}...`
+                  {(post.title?.length as any) > 17
+                    ? `${post.title?.substring(0, 17)}...`
                     : post.title}
-                  {/* {post.title} */}
                 </h4>
-                <Chip
-                  radius="sm"
-                  className={`${
-                    post.is_recruiting ? "bg-[#B3C8A1]" : "bg-[#5F5F5F]"
-                  } text-white w-[41px] h-[15px] laptop:w-[36px] text-[10px]`}
-                >
-                  {post.is_recruiting ? "모집중" : "마감됨"}
-                </Chip>
               </div>
               <div className="flex items-center gap-3 mt-4 border-b border-gray-300 max-w-[60%] ml-6 laptop:ml-3 laptop:max-w-[67%]">
                 <Image

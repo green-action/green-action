@@ -1,4 +1,5 @@
 import { supabase } from "@/utils/supabase/client";
+import { User } from "@supabase/supabase-js";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
@@ -32,8 +33,11 @@ const handler = NextAuth({
             email: credentials.id,
             password: credentials.password,
           });
+          if (response.error) {
+            throw new Error("sign in drror");
+          }
 
-          // console.log("로그인 토큰:", response.data.session);
+          console.log("로그인 토큰:", response.data.session);
           if (response) {
             return response.data.user;
           }
@@ -57,11 +61,12 @@ const handler = NextAuth({
 
   callbacks: {
     async session({ session, token }) {
-      session.user.user_uid = token.sub || "";
-      console.log("==========================");
-      console.log("세션==>", session);
-      console.log("세션유저정보==>", session.user);
-      console.log("토큰==>", token);
+      // console.log("==========================");
+      // console.log("세션==>", session);
+      // console.log("세션유저정보==>", session.user);
+      // console.log("토큰==>", token);
+      session.user.user_uid = token.sub as string;
+      // 메타데이터에 유저타입을 추가해주는거 생각해보기 0email 1구글 2카카오
       const isSocialLogin = token.name ? true : false;
       // 최초 소셜 로그인 시 데이터베이스에서 사용자 정보 가져오기
       if (isSocialLogin) {
