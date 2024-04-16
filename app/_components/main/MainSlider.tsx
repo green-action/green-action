@@ -19,12 +19,12 @@ const MainSlider = ({ mode }: { mode: string }) => {
 
   var desktopSettings = {
     autoplay: true,
-    autoplaySpeed: 8000,
+    autoplaySpeed: 15000,
     // fade: true,
     dots: true,
     infinite: true,
     arrows: false,
-    speed: 7000,
+    speed: 10000,
     slidesToShow: 4,
     slidesToScroll: 4,
     adaptiveHeight: true,
