@@ -16,7 +16,7 @@ const Goods = () => {
   if (isError) return <div>Error fetching goods...</div>;
 
   return (
-    <div className="desktop:mt-[160px]">
+    <div className="desktop:mt-[160px] desktop:mx-0 laptop:mx-[56px]">
       <div>
         <div className="desktop:gap-[23px] laptop:gap-[20px] grid desktop:grid-cols-5 laptop:grid-cols-3 laptop:mt-[120px]">
           {goods?.map((item) => {

@@ -11,8 +11,8 @@ const GoodsPage = () => {
   return (
     <div className="desktop:mx-auto desktop:mt-[55px] laptop:mt-[90px]">
       <TopButton />
-      <div className="desktop:w-[1752px] laptop:w-[1020px] laptop:px-[56px] mx-auto">
-        <p className="font-['Italiana'] desktop:text-[96px] desktop:mb-[11px] laptop:text-[75px]">
+      <div className="desktop:w-[1752px] laptop:w-[1020px] mx-auto">
+        <p className="font-['Italiana'] desktop:text-[96px] desktop:mb-[11px] laptop:text-[75px] desktop:ml-0 laptop:mx-[56px]">
           ECO GOODS PRODUCT
         </p>
         {isDesktop && (
@@ -22,7 +22,7 @@ const GoodsPage = () => {
           </div>
         )}
         {isLaptop && (
-          <div className="text-[13px] text-[#929292]">
+          <div className="text-[13px] text-[#929292] mx-[56px]">
             <p>포인트를 쌓고 친환경소재로 제작된 굿즈 상품을 구매해 보세요!</p>
           </div>
         )}

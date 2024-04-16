@@ -22,8 +22,8 @@ const ProductInfoModal = ({
 }) => {
   const queryClient = useQueryClient();
   const session = useSession();
-  const loggedInUserUid = session.data?.user.user_uid;
-  // const loggedInUserUid = "40056464-b704-4c3e-8821-584424005432";
+  // const loggedInUserUid = session.data?.user.user_uid;
+  const loggedInUserUid = "40056464-b704-4c3e-8821-584424005432";
 
   const [showProductInfo, setShowProductInfo] = useState(false);
   const [confirmPurchase, setConfirmPurchase] = useState(false);
@@ -111,15 +111,17 @@ const ProductInfoModal = ({
       {showProductInfo && (
         <div
           className="absolute desktop:w-[250px] desktop:h-[270px] rounded-[20px] desktop:top-[130px] desktop:left-[40px] 
-        bg-[#ffffff] laptop:w-[220px] laptop:h-[240px] laptop:top-[114px] laptop:left-[37px]"
+        bg-[#ffffff] laptop:w-[218px] laptop:h-[240px] laptop:top-[114px] laptop:left-[37px]"
         >
-          <div className="flex flex-col gap-1 text-center m-[22px]">
-            <p className="mb-[20px] text-[12px]">제품 상세 정보</p>
-            <p className="text-[12px]">{item.product_info}</p>
+          <div className="flex flex-col gap-1 text-center desktop:m-[22px] laptop:m-[13px]">
+            <p className="mb-[20px] text-[11px] font-bold">제품 상세 정보</p>
+            <p className="text-[11px] leading-[160%] desktop:w-[212px] laptop:w-[195px] border-1">
+              {item.product_info}
+            </p>
             {loggedInUserUid && (
               <div className="flex justify-center gap-2 mt-5">
                 <button
-                  className="rounded-[20px] text-[13px] bg-[#EDF1E8] border-2 border-[#8A8A8A] w-[132px] h-[35px] mb-[25px]"
+                  className="rounded-[20px] text-[11px] bg-[#EDF1E8] border-2 border-[#8A8A8A] w-[132px] h-[35px] mb-[25px]"
                   onClick={() => setConfirmPurchase(true)}
                 >
                   구매하기
@@ -134,14 +136,14 @@ const ProductInfoModal = ({
           className="absolute desktop:w-[250px] desktop:h-[270px] rounded-[20px] desktop:top-[130px] desktop:left-[40px] 
         bg-[#ffffff] laptop:w-[220px] laptop:h-[240px] laptop:top-[114px] laptop:left-[37px]"
         >
-          <div className="flex flex-col gap-1 text-center m-[22px]">
-            <p className="mb-[20px] text-[12px]">구매 확인</p>
-            <p className="text-[12px]">
+          <div className="flex flex-col gap-1 text-center m-[22px] mt-[103px]">
+            {/* <p className="mb-[20px] text-[11px]">구매 확인</p> */}
+            <p className="desktop:w-[212px] laptop:w-[184px] text-[11px] mb-[60px]">
               {item.point.toLocaleString()}P를 차감하고 구매하시겠습니까?
             </p>
-            <div className="flex justify-center gap-2 mt-5">
+            <div className="flex justify-center gap-2">
               <button
-                className="rounded-[20px] text-[13px] bg-[#EDF1E8] border-2 border-[#656565] w-[91px] h-[28px]"
+                className="rounded-[20px] font-semibold text-[11px] text-[#fff] bg-[#000] w-[91px] h-[28px]"
                 onClick={handleConfirmPurchase}
               >
                 구매
