@@ -1,9 +1,9 @@
-import RealTime from "../_components/individualAction/RealTime";
+import PrivateChat from "../_components/individualAction/PrivateChat";
 
 const TestPage = () => {
   return (
     <>
-      <RealTime />
+      <PrivateChat />
     </>
   );
 };

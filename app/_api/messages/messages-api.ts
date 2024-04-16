@@ -27,7 +27,6 @@ export const getMessages = async () => {
   const { data, error } = await supabase
     .from("chat_messages")
     .select("*, users(display_name, profile_img)")
-    // .select("*")
     .order("created_at", { ascending: true });
 
   if (error) {

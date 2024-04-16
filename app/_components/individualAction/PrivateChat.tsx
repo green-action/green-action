@@ -1,11 +1,23 @@
 "use client";
 
-import { getMessages, sendMessage } from "@/app/_api/messages/messages-api";
-import { supabase } from "@/utils/supabase/client";
-import { Input } from "@nextui-org/react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+
+import { supabase } from "@/utils/supabase/client";
+
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getMessages, sendMessage } from "@/app/_api/messages/messages-api";
+
+import { Input } from "@nextui-org/react";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  useDisclosure,
+} from "@nextui-org/react";
 
 interface MessageType {
   action_id: string;
@@ -23,13 +35,15 @@ interface MessageType {
   } | null;
 }
 
-const RealtimeChat = () => {
+const PrivateChat = () => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<
     (MessageType | { [key: string]: any })[]
   >([]);
 
   const queryClient = useQueryClient();
+
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   // 현재 로그인한 유저 uid
   const session = useSession();
@@ -128,35 +142,67 @@ const RealtimeChat = () => {
   };
 
   return (
-    <div className="flex justify-center">
-      <div className="flex flex-col">
-        <div className="mb-10 font-bold text-3xl">채팅</div>
-        {messagesList?.map((message) => (
-          <div className="m-3" key={message.id}>
-            <div className="">{message.users?.display_name}</div>
-            <div>{message.content}</div>
-          </div>
-        ))}
-        {/* <div className="m-3">
-          <div className="">작성자</div>
-          <div>내용</div>
-        </div> */}
-        <div>
-          <Input
-            className="w-80 mb-5 mt-10"
-            value={message} // 입력 필드의 값을 상태로 설정
-            onChange={(e) => setMessage(e.target.value)} // 입력 필드의 값이 변경될 때마다 상태를 업데이트
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.nativeEvent.isComposing) {
-                e.preventDefault();
-                handleSendMessage();
-              }
-            }}
-          />
-        </div>
-      </div>
-    </div>
+    <>
+      <Button onPress={onOpen}>Open Modal</Button>
+      <Modal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        placement="center"
+        size="3xl"
+      >
+        <ModalContent className="max-w-[30%] h-[80%] overflow-y-auto scrollbar-hide">
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                1:1 문의하기
+              </ModalHeader>
+              <ModalBody>
+                <div className="flex justify-center">
+                  <div className="flex flex-col">
+                    <div className="mb-10 font-bold text-3xl">채팅</div>
+                    {messagesList?.map((message) => (
+                      <div className="m-3" key={message.id}>
+                        <div
+                          className={`${
+                            message.sender_uid === loggedInUserUid &&
+                            "bg-gray-300"
+                          }`}
+                        >
+                          {message.users?.display_name}
+                        </div>
+                        <div>{message.content}</div>
+                      </div>
+                    ))}
+                    <div>
+                      <Input
+                        className="w-80 mb-5 mt-10"
+                        value={message} // 입력 필드의 값을 상태로 설정
+                        onChange={(e) => setMessage(e.target.value)} // 입력 필드의 값이 변경될 때마다 상태를 업데이트
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" && !e.nativeEvent.isComposing) {
+                            e.preventDefault();
+                            handleSendMessage();
+                          }
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button color="primary" onPress={onClose}>
+                  Action
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+    </>
   );
 };
 
-export default RealtimeChat;
+export default PrivateChat;
