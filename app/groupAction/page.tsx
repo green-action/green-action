@@ -1,8 +1,11 @@
 "use client";
+
 import { Card, Image } from "@nextui-org/react";
+import NextImage from "next/image";
+import SoomLoaing from "../_assets/image/loading/SOOM_gif.gif";
+import TopButton from "../_components/TopButton";
 import GroupModal from "../_components/groupAction/GroupModal";
 import { useGroupAction } from "../_hooks/useQueries/groupAction";
-import TopButton from "../_components/TopButton";
 
 const groupActionPage = () => {
   const { data: groupAction, isLoading } = useGroupAction();
@@ -10,10 +13,7 @@ const groupActionPage = () => {
   if (isLoading || !groupAction) {
     return (
       <div className="w-[300px] h-auto mx-auto">
-        <Image
-          src="/app/_assets/image/loading/SOOM_gif.gif"
-          alt="SoomLoading"
-        />
+        <NextImage src={SoomLoaing} alt="SoomLoading" />
       </div>
     );
   }
@@ -28,7 +28,7 @@ const groupActionPage = () => {
       {groupGreenActions.map((action) => {
         return (
           <div
-            className="flex flex-col desktop:mb-[100px] laptop:mb-[180px] relative"
+            className="flex flex-col desktop:mb-[100px] laptop:mb-[180px]"
             key={action.id}
           >
             <Card className="desktop:w-[365px] desktop:h-[550px] laptop:w-[289px] laptop:h-[433px] m-auto brightness-90">
@@ -41,8 +41,8 @@ const groupActionPage = () => {
                 alt="campaign Img"
               />
             </Card>
-            <section className="flex flex-row justify-between items-center">
-              <h2 className="font-bold mt-[30px] text-[14px]  whitespace-nowrap">
+            <section className="flex flex-row justify-between items-center pl-[4%]">
+              <h2 className="font-bold mt-[30px] text-[14px]  whitespace-nowrap w-[48%]">
                 {action.title}
               </h2>
               <GroupModal action={action} />
