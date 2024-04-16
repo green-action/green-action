@@ -28,6 +28,7 @@ export const getMessages = async () => {
     .from("chat_messages")
     .select("*, users(display_name, profile_img)")
     .order("created_at", { ascending: true });
+  // 개수 100개쯤 제한? -> 무한스크롤 10개씩 증가할수있음
 
   if (error) {
     console.log("error", error.message);

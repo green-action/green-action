@@ -18,16 +18,14 @@ import {
   ModalBody,
   ModalFooter,
   Button,
-  useDisclosure,
 } from "@nextui-org/react";
 
 interface PrivateChatProps {
   isOpen: boolean;
-  onOpen: () => void;
   onOpenChange: () => void;
 }
 
-const PrivateChat = ({ isOpen, onOpen, onOpenChange }: PrivateChatProps) => {
+const PrivateChat = ({ isOpen, onOpenChange }: PrivateChatProps) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<
     (MessageType | { [key: string]: any })[]
@@ -49,6 +47,7 @@ const PrivateChat = ({ isOpen, onOpen, onOpenChange }: PrivateChatProps) => {
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "chat_messages" },
 
+        // 채팅 리스트 무효화 성공 - 리스트 전체를 무효화
         (payload) => {
           queryClient.invalidateQueries({
             queryKey: ["messagesList"],
@@ -104,7 +103,7 @@ const PrivateChat = ({ isOpen, onOpen, onOpenChange }: PrivateChatProps) => {
   } = useQuery({
     queryKey: ["messagesList", loggedInUserUid],
     queryFn: getMessages,
-    // messageList를 message 상태에 넣어서 리스트 관리 시도
+    // // messageList를 message 상태에 넣어서 리스트 관리 시도
     // queryFn: async () => {
     //   const response = await getMessages();
     //   if (response) {

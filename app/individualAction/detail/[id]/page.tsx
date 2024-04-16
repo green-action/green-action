@@ -125,7 +125,14 @@ const DetailPage = () => {
 
   // 1:1 채팅방 열기 -> 모달창으로 리팩토링 예정
   const handleOpenPrivateChatRoom = () => {
-    // 클릭시 chat_rooms에 새로운 채팅방 insert -> action_id의 user_uid를 owner_uid로 insert
+    // 클릭시 로직
+    // chat_rooms에 새로운 채팅방 insert, 혹은 이미 있는 방이면 room_id만 반환
+    // 1. 새 채팅방인 경우 : 로그인유저 uid와 action_id가 이미 chat_room테이블에 있는지 먼저 확인, 없으면 insert
+    // 2. 기존에 있던 채팅방인 경우 : 있으면 해당 행의 id를 room_id로 모달에 전달 -> channel이름으로 설정
+
+    // 새로운 채팅방이라서 insert하는 경우
+    // -> action_id의 user_uid를 owner_uid로 insert, 로그인 유저uid는 participant_uid로 insert
+    // chat_room에 insert한 행의 id를 반환
     // 해당 room의 id를 모달에 전달 -> channel이름으로 설정
     onPrivateChatOpen();
     // router.push("/test");
@@ -246,7 +253,6 @@ const DetailPage = () => {
             </Modal>
             <PrivateChat
               isOpen={isPrivateChatOpen}
-              onOpen={onPrivateChatOpen}
               onOpenChange={onPrivateChatOpenChange}
             />
 
