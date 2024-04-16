@@ -1,8 +1,8 @@
 "use client";
 import { useGoods } from "@/app/_hooks/useQueries/goods";
 import Image from "next/image";
-import ProductInfoModal from "./ProductInfoModal";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
+import GoodsImg from "./GoodsImg";
 
 const Goods = () => {
   const { data: goods, isLoading, isError } = useGoods();
@@ -20,28 +20,7 @@ const Goods = () => {
       <div>
         <div className="desktop:gap-[23px] laptop:gap-[20px] grid desktop:grid-cols-5 laptop:grid-cols-3 laptop:mt-[120px]">
           {goods?.map((item) => {
-            return (
-              <div className="relative" key={item.id}>
-                <img
-                  alt="Card background"
-                  className="rounded-2xl desktop:h-[494px] laptop:h-[431px] object-cover"
-                  src={item.img_url}
-                />
-                <div className="absolute inset-0 bg-black opacity-20 rounded-2xl desktop:h-[494px] laptop:h-[431px]"></div>
-                {/* 제품 이미지 하단 전체 */}
-                <div className="flex justify-between desktop:mt-[28px] desktop:mx-[33px] laptop:mt-[23px] laptop:mx-[22px]">
-                  <div className="text-[15px] ">
-                    <p>{item.product_name}</p>
-                    <p className="text-[#929292]">
-                      {item.point.toLocaleString()}P
-                    </p>
-                  </div>
-                  <div>
-                    <ProductInfoModal item={item} />
-                  </div>
-                </div>
-              </div>
-            );
+            return <GoodsImg item={item} />;
           })}
         </div>
       </div>

@@ -4,13 +4,16 @@ import { useUserPoint } from "@/app/_hooks/useQueries/goods";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import AlertModal from "../community/AlertModal";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 import search from "/app/_assets/image/logo_icon/icon/goods/Group 128.png";
 
 const ProductInfoModal = ({
   item,
+  showProductInfo,
+  setShowProductInfo,
+  handleToggleProductInfo,
 }: {
   item: {
     id: string;
@@ -19,22 +22,25 @@ const ProductInfoModal = ({
     product_info: string;
     product_name: string;
   };
+  showProductInfo: boolean;
+  setShowProductInfo: Dispatch<SetStateAction<boolean>>;
+  handleToggleProductInfo: () => void;
 }) => {
   const queryClient = useQueryClient();
   const session = useSession();
   // const loggedInUserUid = session.data?.user.user_uid;
   const loggedInUserUid = "40056464-b704-4c3e-8821-584424005432";
 
-  const [showProductInfo, setShowProductInfo] = useState(false);
+  // const [showProductInfo, setShowProductInfo] = useState(false);
   const [confirmPurchase, setConfirmPurchase] = useState(false);
 
   // alert 대체 모달창을 위한 상태관리
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const [message, setMessage] = useState("");
 
-  const handleToggleProductInfo = () => {
-    setShowProductInfo(!showProductInfo);
-  };
+  // const handleToggleProductInfo = () => {
+  //   setShowProductInfo(!showProductInfo);
+  // };
 
   const { mutate: pointMutation } = useMutation({
     mutationFn: ({
