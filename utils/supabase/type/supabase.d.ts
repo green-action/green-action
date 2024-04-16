@@ -42,6 +42,101 @@ export type Database = {
           },
         ];
       };
+      chat_messages: {
+        Row: {
+          action_id: string;
+          content: string;
+          created_at: string;
+          id: string;
+          room_id: string;
+          sender_uid: string;
+        };
+        Insert: {
+          action_id?: string;
+          content?: string;
+          created_at?: string;
+          id?: string;
+          room_id: string;
+          sender_uid?: string;
+        };
+        Update: {
+          action_id?: string;
+          content?: string;
+          created_at?: string;
+          id?: string;
+          room_id?: string;
+          sender_uid?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "public_chat_messages_room_id_fkey";
+            columns: ["room_id"];
+            isOneToOne: false;
+            referencedRelation: "chat_rooms";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "public_chat_messages_sender_uid_fkey";
+            columns: ["sender_uid"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "public_messages_action_id_fkey";
+            columns: ["action_id"];
+            isOneToOne: false;
+            referencedRelation: "individual_green_actions";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      chat_rooms: {
+        Row: {
+          action_id: string;
+          created_at: string;
+          id: string;
+          owner_uid: string;
+          participant_uid: string;
+        };
+        Insert: {
+          action_id?: string;
+          created_at?: string;
+          id?: string;
+          owner_uid?: string;
+          participant_uid?: string;
+        };
+        Update: {
+          action_id?: string;
+          created_at?: string;
+          id?: string;
+          owner_uid?: string;
+          participant_uid?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "public_chat_rooms_action_id_fkey";
+            columns: ["action_id"];
+            isOneToOne: false;
+            referencedRelation: "individual_green_actions";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "public_chat_rooms_owner_uid_fkey";
+            columns: ["owner_uid"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "public_chat_rooms_participant_uid_fkey";
+            columns: ["participant_uid"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       community_comments: {
         Row: {
           content: string | null;
@@ -282,45 +377,6 @@ export type Database = {
           },
           {
             foreignKeyName: "public_likes_user_uid_fkey";
-            columns: ["user_uid"];
-            isOneToOne: false;
-            referencedRelation: "users";
-            referencedColumns: ["id"];
-          },
-        ];
-      };
-      messages: {
-        Row: {
-          action_id: string;
-          content: string;
-          created_at: string;
-          id: number;
-          user_uid: string;
-        };
-        Insert: {
-          action_id?: string;
-          content?: string;
-          created_at?: string;
-          id?: number;
-          user_uid?: string;
-        };
-        Update: {
-          action_id?: string;
-          content?: string;
-          created_at?: string;
-          id?: number;
-          user_uid?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "public_messages_action_id_fkey";
-            columns: ["action_id"];
-            isOneToOne: false;
-            referencedRelation: "individual_green_actions";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "public_messages_user_uid_fkey";
             columns: ["user_uid"];
             isOneToOne: false;
             referencedRelation: "users";

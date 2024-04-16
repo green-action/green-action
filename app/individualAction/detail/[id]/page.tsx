@@ -114,6 +114,14 @@ const DetailPage = () => {
   const mode = "detailPage";
 
   if (isError) return <div>Error fetching details...</div>;
+
+  // 1:1 채팅방 열기 -> 모달창으로 리팩토링 예정
+  const handleOpenPrivateChatRoom = () => {
+    // 클릭시 chat_rooms에 새로운 채팅방 insert -> action_id의 user_uid를 owner_uid로 insert
+    // 해당 room의 id를 모달에 전달 -> channel이름으로 설정
+    router.push("/test");
+  };
+
   return (
     <div className="mx-auto desktop:mt-[62px] laptop:mt-[113px] mb-[30px]">
       <TopButton />
@@ -186,7 +194,10 @@ const DetailPage = () => {
                 </div>
               )}
             </div>
-            <div className="border-1 border-[#bfbfbf] bg-[#fafafa] h-[74.7px] rounded-[20px] mb-[22px] text-center content-center font-semibold cursor-pointer">
+            <div
+              className="border-1 border-[#bfbfbf] bg-[#fafafa] h-[74.7px] rounded-[20px] mb-[22px] text-center content-center font-semibold cursor-pointer"
+              onClick={handleOpenPrivateChatRoom}
+            >
               1:1 채팅하기
             </div>
             <div

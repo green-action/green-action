@@ -25,7 +25,9 @@ interface MessageType {
 
 const RealtimeChat = () => {
   const [message, setMessage] = useState("");
-  // const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<
+    (MessageType | { [key: string]: any })[]
+  >([]);
 
   const queryClient = useQueryClient();
 
@@ -39,15 +41,34 @@ const RealtimeChat = () => {
       .channel("messages")
       .on(
         "postgres_changes",
-        { event: "INSERT", schema: "public", table: "messages" },
+        { event: "INSERT", schema: "public", table: "chat_messages" },
+
         (payload) => {
           queryClient.invalidateQueries({
             queryKey: ["messagesList"],
           });
-          //   // queryClient.setQueryData({
-          //   //   queryKey: ["messagesList"]
-          //   // }, update);
         },
+
+        // 시도 1. messages를 상태로 관리하기
+        // (payload) => {
+        //   // Update the specific part of the query data
+        //   const newMessage = payload.new;
+        //   setMessages((prevMessages) => [...prevMessages, newMessage]); // messages 업데이트
+        // },
+
+        // 시도 2. setQueryData 리팩토링 시도1
+        // (payload) => {
+        //   // Update the specific part of the query data
+        //   const newMessage = payload.new;
+        //   queryClient.setQueryData(
+        //     ["messagesList", loggedInUserUid],
+        //     (prevData) => {
+        //       [...prevData, newMessage];
+        //     },
+        //   );
+        // },
+
+        // 시도 3. setQueryData 리팩토링 시도2
         // (payload) => {
         //   // Update the specific part of the query data
         //   const newMessage = payload.new;
@@ -77,6 +98,14 @@ const RealtimeChat = () => {
   } = useQuery({
     queryKey: ["messagesList", loggedInUserUid],
     queryFn: getMessages,
+    // messageList를 message 상태에 넣어서 리스트 관리 시도
+    // queryFn: async () => {
+    //   const response = await getMessages();
+    //   if (response) {
+    //     setMessages(response); // 초기 데이터 설정
+    //   }
+    //   return response; // 데이터 반환
+    // },
   });
 
   if (isLoading) {
@@ -86,34 +115,15 @@ const RealtimeChat = () => {
     <div>Error</div>;
   }
 
-  // console.log("messagesList", messagesList);
-
-  // const messages = supabase
-  //   .from("messages")
-  //   .on("INSERT", (payload) => {
-  //     console.log("New message:", payload.new);
-  //   })
-  //   .subscribe();
-
-  // const channel = supabase.channel("room1").subscribe((status) => {
-  //   if (status === "SUBSCRIBED") {
-  //     channel.send({
-  //       type: "broadcast",
-  //       event: "cursor-pos",
-  //       payload: { x: Math.random(), y: Math.random() },
-  //     });
-  //   }
-  // });
-
   // 메시지 보내기 핸들러
   const handleSendMessage = async () => {
     if (message === "") return;
     setMessage(""); // 메시지를 전송한 후에 입력 필드의 값을 비움
 
     await sendMessage({
-      user_uid: loggedInUserUid,
-      action_id,
+      sender_uid: loggedInUserUid,
       content: message,
+      action_id,
     });
   };
 
