@@ -62,7 +62,6 @@ const ProductInfoModal = ({
 
   const handleConfirmPurchase = async () => {
     if (loggedInUserUid && user_point < item.point) {
-      // alert(`구매 불가 상품입니다 : 보유한 포인트 ${user_point}P`);
       setMessage(`구매 불가 상품입니다 : 보유한 포인트 ${user_point}P`);
       setIsOpenAlertModal(true);
 
@@ -77,13 +76,12 @@ const ProductInfoModal = ({
         const updatedPoint = user_point - item.point;
         pointMutation({ loggedInUserUid, updatedPoint });
 
-        // alert(`구매 성공! : 남은 포인트 ${updatedPoint}P`);
         setMessage(`구매 성공! : 남은 포인트 ${updatedPoint}P`);
         setIsOpenAlertModal(true);
       }
     } catch (error) {
       console.error("Error updating user point:", error);
-      // alert("구매 실패했습니다. 다시 시도해주세요.");
+
       setMessage("구매 실패했습니다. 다시 시도해주세요.");
       setIsOpenAlertModal(true);
     } finally {
@@ -110,18 +108,22 @@ const ProductInfoModal = ({
       />
       {showProductInfo && (
         <div
-          className="absolute desktop:w-[250px] desktop:h-[270px] rounded-[20px] desktop:top-[130px] desktop:left-[40px] 
+          className="absolute grid content-between desktop:w-[250px] desktop:h-[270px] rounded-[20px] desktop:top-[130px] desktop:left-[40px] 
         bg-[#ffffff] laptop:w-[218px] laptop:h-[240px] laptop:top-[114px] laptop:left-[37px]"
         >
           <div className="flex flex-col gap-1 text-center desktop:m-[22px] laptop:m-[13px]">
-            <p className="mb-[20px] text-[11px] font-bold">제품 상세 정보</p>
-            <p className="text-[11px] leading-[160%] desktop:w-[212px] laptop:w-[195px] border-1">
+            <p className="desktop:mb-[45px] laptop:mb-[37px] text-[11px] font-bold">
+              제품 상세 정보
+            </p>
+            <p className="text-[11px] leading-[160%] desktop:w-[212px] laptop:w-[195px]">
               {item.product_info}
             </p>
+          </div>
+          <div className="desktop:mx-[22px] desktop:mb-[22px] laptop:mx-[13px] laptop:mb-[13px]">
             {loggedInUserUid && (
-              <div className="flex justify-center gap-2 mt-5">
+              <div className="flex justify-center">
                 <button
-                  className="rounded-[20px] text-[11px] bg-[#EDF1E8] border-2 border-[#8A8A8A] w-[132px] h-[35px] mb-[25px]"
+                  className="rounded-[20px] font-semibold text-[11px] text-[#fff] bg-[#000] desktop:w-[132px] desktop:h-[35px] laptop:w-[115px] laptop:h-[31px] bottom-[22px]"
                   onClick={() => setConfirmPurchase(true)}
                 >
                   구매하기
