@@ -5,6 +5,8 @@ import { useSession } from "next-auth/react";
 
 import { supabase } from "@/utils/supabase/client";
 
+import type { MessageType } from "@/app/_types/realtime-chats";
+
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getMessages, sendMessage } from "@/app/_api/messages/messages-api";
 
@@ -19,23 +21,13 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 
-interface MessageType {
-  action_id: string;
-  content: string;
-  created_at: string;
-  id: number;
-  user_uid: string;
-  users: {
-    display_name: string | null;
-    email: string | null;
-    id: string;
-    introduction: string | null;
-    point: number | null;
-    profile_img: string | null;
-  } | null;
+interface PrivateChatProps {
+  isOpen: boolean;
+  onOpen: () => void;
+  onOpenChange: () => void;
 }
 
-const PrivateChat = () => {
+const PrivateChat = ({ isOpen, onOpen, onOpenChange }: PrivateChatProps) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<
     (MessageType | { [key: string]: any })[]
@@ -43,7 +35,7 @@ const PrivateChat = () => {
 
   const queryClient = useQueryClient();
 
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  // const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   // 현재 로그인한 유저 uid
   const session = useSession();
@@ -143,7 +135,7 @@ const PrivateChat = () => {
 
   return (
     <>
-      <Button onPress={onOpen}>Open Modal</Button>
+      {/* <Button onPress={onOpen}>Open Modal</Button> */}
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}

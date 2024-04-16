@@ -34,6 +34,7 @@ import prevBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 132.png";
 import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
 import { useResponsive } from "@/app/_hooks/responsive";
 import TopButton from "@/app/_components/TopButton";
+import PrivateChat from "@/app/_components/individualAction/PrivateChat";
 
 const DetailPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
@@ -65,6 +66,13 @@ const DetailPage = () => {
   const handleOpen = () => {
     onOpen();
   };
+
+  // 1:1 채팅방 모달창
+  const {
+    isOpen: isPrivateChatOpen,
+    onOpen: onPrivateChatOpen,
+    onOpenChange: onPrivateChatOpenChange,
+  } = useDisclosure();
 
   const { id: postId } = useParams<Params>();
   const params = { id: postId };
@@ -119,7 +127,8 @@ const DetailPage = () => {
   const handleOpenPrivateChatRoom = () => {
     // 클릭시 chat_rooms에 새로운 채팅방 insert -> action_id의 user_uid를 owner_uid로 insert
     // 해당 room의 id를 모달에 전달 -> channel이름으로 설정
-    router.push("/test");
+    onPrivateChatOpen();
+    // router.push("/test");
   };
 
   return (
@@ -235,6 +244,11 @@ const DetailPage = () => {
                 )}
               </ModalContent>
             </Modal>
+            <PrivateChat
+              isOpen={isPrivateChatOpen}
+              onOpen={onPrivateChatOpen}
+              onOpenChange={onPrivateChatOpenChange}
+            />
 
             <div className="flex justify-center mt-[67px]">
               <KakaoShareButton description={detail.content!} />
