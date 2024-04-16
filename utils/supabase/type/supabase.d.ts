@@ -132,26 +132,22 @@ export type Database = {
       goods: {
         Row: {
           id: string;
-          img_url: string;
-          point: number;
-          product_info: string;
-          product_name: string;
           img_url: string | null;
-          point: number;
+          point: number | null;
           product_info: string | null;
           product_name: string | null;
         };
         Insert: {
           id?: string;
           img_url?: string | null;
-          point?: number;
+          point?: number | null;
           product_info?: string | null;
           product_name?: string | null;
         };
         Update: {
           id?: string;
           img_url?: string | null;
-          point?: number;
+          point?: number | null;
           product_info?: string | null;
           product_name?: string | null;
         };
@@ -185,15 +181,15 @@ export type Database = {
       };
       group_green_actions: {
         Row: {
-          action_url: string;
+          action_url: string | null;
           content: string | null;
           hosted_by: string | null;
           id: string;
-          img_url: string;
+          img_url: string | null;
           title: string | null;
         };
         Insert: {
-          action_url?: string;
+          action_url?: string | null;
           content?: string | null;
           hosted_by?: string | null;
           id?: string;
@@ -201,7 +197,7 @@ export type Database = {
           title?: string | null;
         };
         Update: {
-          action_url?: string;
+          action_url?: string | null;
           content?: string | null;
           hosted_by?: string | null;
           id?: string;
@@ -293,6 +289,45 @@ export type Database = {
           },
         ];
       };
+      messages: {
+        Row: {
+          action_id: string;
+          content: string;
+          created_at: string;
+          id: number;
+          user_uid: string;
+        };
+        Insert: {
+          action_id?: string;
+          content?: string;
+          created_at?: string;
+          id?: number;
+          user_uid?: string;
+        };
+        Update: {
+          action_id?: string;
+          content?: string;
+          created_at?: string;
+          id?: number;
+          user_uid?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "public_messages_action_id_fkey";
+            columns: ["action_id"];
+            isOneToOne: false;
+            referencedRelation: "individual_green_actions";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "public_messages_user_uid_fkey";
+            columns: ["user_uid"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       users: {
         Row: {
           display_name: string | null;
@@ -307,7 +342,7 @@ export type Database = {
           email?: string | null;
           id?: string;
           introduction?: string | null;
-          point?: number;
+          point?: number | null;
           profile_img?: string | null;
         };
         Update: {
@@ -315,18 +350,10 @@ export type Database = {
           email?: string | null;
           id?: string;
           introduction?: string | null;
-          point?: number;
+          point?: number | null;
           profile_img?: string | null;
         };
-        Relationships: [
-          {
-            foreignKeyName: "public_users_id_fkey";
-            columns: ["id"];
-            isOneToOne: true;
-            referencedRelation: "users";
-            referencedColumns: ["id"];
-          },
-        ];
+        Relationships: [];
       };
     };
     Views: {
