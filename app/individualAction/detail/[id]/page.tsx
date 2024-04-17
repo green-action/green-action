@@ -217,7 +217,10 @@ const DetailPage = () => {
 
     // 채팅 인원 파악, 해당 action의 모집인원
     // 채팅인원 === 모집인원 된 경우 -> 모집상태 '모집마감'으로 변경
-    const participantsNumber = await countParticipants({ room_id, action_id });
+    await countParticipants({
+      room_id,
+      action_id,
+    });
 
     // 채팅방 모달창 open
     onGroupChatOpen();
