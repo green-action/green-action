@@ -13,26 +13,44 @@ import downArrow from "/app/_assets/image/logo_icon/icon/mainpage/Group_124.png"
 import rightArrow from "/app/_assets/image/mainpage/Group 172.png";
 import TopButton from "./_components/TopButton";
 
+import { useEffect, useRef, useState } from "react";
+
 const MainPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
+
+  // parallax scroll
+  const [position, setPosition] = useState(0);
+
+  const onScroll = () => {
+    setPosition(window.scrollY);
+    // window.requestAnimationFrame(onScroll);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
 
   return (
     <div className="laptop:min-w-[1020px]">
       <TopButton />
       <div className="flex flex-col">
-        {/* <DynamicHeader /> */}
         <Image
           src={mainImg}
           alt="main-image"
-          className="absolute top-0 min-w-[1020px] desktop:h-[2700px] laptop:h-[2100px] brightness-[90%]"
+          className="absolute top-0 min-w-[1020px] desktop:h-[2700px] laptop:h-[2100px] brightness-[60%]"
         />
-        <section className="z-0 flex flex-col w-full desktop:h-[500px] laptop:h-[400px] justify-center items-center desktop:mt-[200px] text-white">
-          <p className="text-center desktop:text-[80pt] laptop:text-[50pt] w-full font-['Italiana']">
-            {/* l 폰트크기자체수정 */}
+        <section
+          style={{ transform: `translateY(-${position / 30}vh` }}
+          className="z-0 flex flex-col w-full desktop:h-[500px] laptop:h-[100px] justify-center items-center desktop:mt-[200px] laptop:mt-[250px] text-white"
+        >
+          <p className="text-center h-[500px] desktop:text-[80pt] laptop:text-[50pt] w-full font-['Italiana']">
             EXPERIENCE A NEW WAY OF
             <span className="desktop:mt-[-40px] block">GREEN LIFE</span>
           </p>
-          <p className="text-center desktop:text-[15pt] laptop:text-[11pt] font-['Pretendard-ExtraLight'] desktop:mt-[20px]">
+          <p className="text-center desktop:text-[15pt] laptop:text-[11pt] font-['Pretendard-ExtraLight'] desktop:mt-[20px] laptop:mt-[70px]">
             지구와 함께 숨쉬다
             <br />
             SOOM과 함께 일상의 그린 라이프를 경험하세요
@@ -69,7 +87,7 @@ const MainPage = () => {
           </Chip>
         </section>
         {/* 배경 이미지 div 끝 */}
-        <section className="z-0 flex flex-col items-center justify-center desktop:pt-[200px] laptop:pt-[0px] desktop:h-[1438px] laptop:h-[1338px] desktop:pb-[200px] laptop:pb-[0px] bg-white brightness-90">
+        <section className="z-0 flex flex-col items-center justify-center desktop:pt-[200px] laptop:pt-[0px] desktop:h-[1438px] laptop:h-[1338px] desktop:pb-[200px] laptop:pb-[0px] bg-[#F3F3F3] brightness-10 ">
           <Chip
             classNames={{
               base: "desktop:h-[50px] laptop:h-[47px] desktop:px-5 laptop:px-3 desktop:py-8 bg-transparent border-small border-[#ADADAD]",
@@ -95,7 +113,10 @@ const MainPage = () => {
         </section>
         <section className="desktop:h-[760px]  laptop:h-[600px] desktop:pt-[250px] laptop:pt-[210px] bg-blend-darken bg-black bg-opacity-50">
           {/*  pt-[311px] 인데 자체수정 */}
-          <div className="flex flex-col items-center">
+          <div
+            style={{ transform: `translateY(-${position / 800}vh` }}
+            className="flex flex-col items-center"
+          >
             <div className="flex flex-col items-center font-['Italiana'] desktop:text-[48pt] laptop:text-[35pt] text-white">
               <p>Experience the earth breathing together </p>
               <p> in your daily life</p>
