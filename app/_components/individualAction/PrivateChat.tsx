@@ -32,6 +32,8 @@ const PrivateChat = ({ isOpen, onOpenChange, roomId }: PrivateChatProps) => {
     (MessageType | { [key: string]: any })[]
   >([]);
 
+  console.log("roomId", roomId);
+
   const queryClient = useQueryClient();
 
   // 현재 로그인한 유저 uid

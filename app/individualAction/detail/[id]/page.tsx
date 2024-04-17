@@ -133,6 +133,8 @@ const DetailPage = () => {
   // 1:1 채팅방 모달 열기
   const handleOpenPrivateChatRoom = async () => {
     // 로그인한 유저가 액션장이면 1:1채팅하기 버튼 안보이게?!!?
+    // 본인이 방장인 경우, 1:1채팅 목록확인 이런식으로 버튼이름 바꿔야겠어
+    // 누르면 목록 보여주는 모달창 여는 로직
 
     // 1. 이미 1:1 채팅방이 존재하는지 먼저 확인 - 이미 있으면 string값, 없으면 null값 반환
     const exited_room_id = await checkPrivateChatRoomExist({
@@ -143,7 +145,12 @@ const DetailPage = () => {
     // 1) exited_room_id가 있으면 (1:1채팅방 이미 열려있는 경우) -> 모달에 전달
     // roomIdRef에 room_id 설정 -> 1:1채팅 모달 props로 넘겨주기
     if (exited_room_id) {
+      // roomIdRef에 room_id 설정
       roomIdRef.current = exited_room_id;
+
+      // 채팅방 모달창 open
+      onPrivateChatOpen();
+      return; // 함수 종료
     }
 
     // 2) exited_room_id가 없으면 (1:1채팅방 아직 안열린 경우)
