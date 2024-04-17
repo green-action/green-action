@@ -298,28 +298,28 @@ export type Database = {
       };
       group_green_actions: {
         Row: {
-          action_url: string | null;
-          content: string | null;
-          hosted_by: string | null;
+          action_url: string;
+          content: string;
+          hosted_by: string;
           id: string;
-          img_url: string | null;
-          title: string | null;
+          img_url: string;
+          title: string;
         };
         Insert: {
-          action_url?: string | null;
-          content?: string | null;
-          hosted_by?: string | null;
+          action_url?: string;
+          content: string;
+          hosted_by: string;
           id?: string;
-          img_url?: string | null;
-          title?: string | null;
+          img_url: string;
+          title: string;
         };
         Update: {
-          action_url?: string | null;
-          content?: string | null;
-          hosted_by?: string | null;
+          action_url?: string;
+          content?: string;
+          hosted_by?: string;
           id?: string;
-          img_url?: string | null;
-          title?: string | null;
+          img_url?: string;
+          title?: string;
         };
         Relationships: [];
       };
