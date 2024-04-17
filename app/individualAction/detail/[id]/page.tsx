@@ -21,6 +21,7 @@ import KakaoShareButton from "@/app/_components/kakaoShare/KakaoShare";
 import Bookmark from "@/app/_components/bookmark/Bookmark";
 import TopButton from "@/app/_components/TopButton";
 import PrivateChat from "@/app/_components/individualAction/PrivateChat";
+import GroupChat from "@/app/_components/individualAction/GroupChat";
 import Image from "next/image";
 
 import Slider from "react-slick";
@@ -46,6 +47,12 @@ import editAction from "/app/_assets/image/logo_icon/icon/mypage/image 55.png";
 import delAction from "/app/_assets/image/logo_icon/icon/mypage/Group 131.png";
 import nextBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 133.png";
 import prevBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 132.png";
+import {
+  checkUserExist,
+  countParticipants,
+  getChatRoomId,
+  insertNewParticipant,
+} from "@/app/_api/messages/groupChat-api";
 
 const DetailPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
@@ -86,7 +93,17 @@ const DetailPage = () => {
   } = useDisclosure();
 
   // 1:1 채팅방 room_id 담는 Ref
-  const roomIdRef = useRef("");
+  const privateRoomIdRef = useRef("");
+
+  // 단체 채팅방 모달창
+  const {
+    isOpen: isGroupChatOpen,
+    onOpen: onGroupChatOpen,
+    onOpenChange: onGroupChatOpenChange,
+  } = useDisclosure();
+
+  // 단체 채팅방 room_id 담는 Ref
+  const groupRoomIdRef = useRef("");
 
   const { id: postId } = useParams<Params>();
   const params = { id: postId };
@@ -150,10 +167,10 @@ const DetailPage = () => {
     });
 
     // 1) exited_room_id가 있으면 (1:1채팅방 이미 열려있는 경우) -> 모달에 전달
-    // roomIdRef에 room_id 설정 -> 1:1채팅 모달 props로 넘겨주기
+    // privateRoomIdRef에 room_id 설정 -> 1:1채팅 모달 props로 넘겨주기
     if (exited_room_id) {
-      // roomIdRef에 room_id 설정
-      roomIdRef.current = exited_room_id;
+      // privateRoomIdRef에 room_id 설정
+      privateRoomIdRef.current = exited_room_id;
 
       // 채팅방 모달창 open
       onPrivateChatOpen();
@@ -167,13 +184,46 @@ const DetailPage = () => {
       loggedInUserUid: user_uid,
     });
 
-    // roomIdRef에 room_id 설정
+    // privateRoomIdRef에 room_id 설정
     if (new_room_id) {
-      roomIdRef.current = new_room_id;
+      privateRoomIdRef.current = new_room_id;
     }
 
     // 채팅방 모달창 open
     onPrivateChatOpen();
+  };
+
+  // 단체 채팅방 클릭 핸들러
+  const handleOpenGroupChatRoom = async () => {
+    const action_id = params.id;
+
+    // 단체 채팅방 room_id 가져오기
+    const room_id = await getChatRoomId(action_id);
+    groupRoomIdRef.current = room_id;
+
+    // 채팅에 참여중인지 여부 확인(참여중이면 id값 있음, 아직 참여중이 아니면 null)
+    const participant_id = await checkUserExist({
+      room_id,
+      loggedInUserUid: user_uid,
+    });
+
+    // 새로운 참여인 경우 참가자 테이블에 insert
+    if (!participant_id) {
+      await insertNewParticipant({
+        room_id,
+        loggedInUserUid: user_uid,
+      });
+    }
+
+    // 채팅 인원 파악, 해당 action의 모집인원
+    // 채팅인원 === 모집인원 된 경우 -> 모집상태 '모집마감'으로 변경
+    await countParticipants({
+      room_id,
+      action_id,
+    });
+
+    // 채팅방 모달창 open
+    onGroupChatOpen();
   };
 
   return (
@@ -258,7 +308,8 @@ const DetailPage = () => {
               className="border-1 border-[#bfbfbf] bg-[#fafafa] h-[74.7px] rounded-[20px] text-center content-center font-semibold cursor-pointer"
               key={"opaque"}
               color="warning"
-              onClick={() => handleOpen()}
+              // onClick={() => handleOpen()}
+              onClick={handleOpenGroupChatRoom}
             >
               참여하기
             </div>
@@ -293,7 +344,14 @@ const DetailPage = () => {
               <PrivateChat
                 isOpen={isPrivateChatOpen}
                 onOpenChange={onPrivateChatOpenChange}
-                roomId={roomIdRef.current}
+                roomId={privateRoomIdRef.current}
+              />
+            )}
+            {isGroupChatOpen && (
+              <GroupChat
+                isOpen={isGroupChatOpen}
+                onOpenChange={onGroupChatOpenChange}
+                roomId={groupRoomIdRef.current}
               />
             )}
             <div className="flex justify-center mt-[67px]">
