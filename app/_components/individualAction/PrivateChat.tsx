@@ -8,7 +8,7 @@ import { supabase } from "@/utils/supabase/client";
 import type { MessageType } from "@/app/_types/realtime-chats";
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getMessages, sendMessage } from "@/app/_api/messages/messages-api";
+import { getMessages, sendMessage } from "@/app/_api/messages/privateChat-api";
 
 import { Input } from "@nextui-org/react";
 import {
@@ -23,17 +23,18 @@ import {
 interface PrivateChatProps {
   isOpen: boolean;
   onOpenChange: () => void;
+  roomId: string;
+  // roomId: React.MutableRefObject<string>;
 }
 
-const PrivateChat = ({ isOpen, onOpenChange }: PrivateChatProps) => {
+const PrivateChat = ({ isOpen, onOpenChange, roomId }: PrivateChatProps) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<
     (MessageType | { [key: string]: any })[]
   >([]);
 
+  console.log("roomId", roomId);
   const queryClient = useQueryClient();
-
-  // const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   // 현재 로그인한 유저 uid
   const session = useSession();
@@ -42,7 +43,7 @@ const PrivateChat = ({ isOpen, onOpenChange }: PrivateChatProps) => {
 
   useEffect(() => {
     const subscription = supabase
-      .channel("messages")
+      .channel(`${roomId}`)
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "chat_messages" },

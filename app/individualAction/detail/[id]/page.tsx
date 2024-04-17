@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import { useSession } from "next-auth/react";
 import KakaoShareButton from "@/app/_components/kakaoShare/KakaoShare";
 import Bookmark from "@/app/_components/bookmark/Bookmark";
@@ -35,7 +35,7 @@ import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
 import { useResponsive } from "@/app/_hooks/responsive";
 import TopButton from "@/app/_components/TopButton";
 import PrivateChat from "@/app/_components/individualAction/PrivateChat";
-import { checkChatRoomExist } from "@/app/_api/messages/messages-api";
+import { checkChatRoomExist } from "@/app/_api/messages/privateChat-api";
 
 const DetailPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
@@ -74,6 +74,9 @@ const DetailPage = () => {
     onOpen: onPrivateChatOpen,
     onOpenChange: onPrivateChatOpenChange,
   } = useDisclosure();
+
+  // 1:1 채팅방 room_id 담는 Ref
+  const roomIdRef = useRef("");
 
   const { id: postId } = useParams<Params>();
   const params = { id: postId };
@@ -132,12 +135,14 @@ const DetailPage = () => {
       action_id: params.id,
     });
 
-    // ****** 내가 action장 인 경우도 체크해야되네 ㅠㅠ
-    // 내가 action장 인 경우에도 room_id를 받아서 채널명으로 넣어줘야 채팅하지
-
     // 1) room_id가 있으면(1:1채팅방 이미 열려있는 경우) -> 모달에 전달
     // 2) room_id가 없으면(1:1채팅방 아직 안열린 경우)
     // -> chat_rooms_info 테이블, chat_participants 테이블에 insert하기 -> room_id 반환
+
+    // roomIdRef에 room_id 설정 -> 1:1채팅 모달 props로 넘겨주기
+    if (room_id) {
+      roomIdRef.current = room_id;
+    }
 
     // 반환받은 room_id를 1:1채팅 모달에 넘겨주기
     // -> channel명을 room_id로 설정하기
@@ -259,11 +264,13 @@ const DetailPage = () => {
                 )}
               </ModalContent>
             </Modal>
-            <PrivateChat
-              isOpen={isPrivateChatOpen}
-              onOpenChange={onPrivateChatOpenChange}
-            />
-
+            {isPrivateChatOpen && (
+              <PrivateChat
+                isOpen={isPrivateChatOpen}
+                onOpenChange={onPrivateChatOpenChange}
+                roomId={roomIdRef.current}
+              />
+            )}
             <div className="flex justify-center mt-[67px]">
               <KakaoShareButton description={detail.content!} />
             </div>

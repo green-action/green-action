@@ -24,7 +24,7 @@ export const checkChatRoomExist = async ({
   action_id: string;
 }) => {
   try {
-    // 참가자 테이블 접근 -> 로그인 유저 uid로 내가 참여중인 방의 room_id 리스트 뽑기
+    // 1) 참가자 테이블 접근 -> 로그인 유저 uid로 내가 참여중인 방의 room_id 리스트 뽑기
     const { data: roomsList, error: roomsListError } = await supabase
       .from("chat_participants")
       .select("room_id")
@@ -35,10 +35,10 @@ export const checkChatRoomExist = async ({
       throw roomsListError;
     }
 
-    // roomsList에서 room_id 리스트 추출
+    // 2) roomsList에서 room_id 리스트 추출
     const roomIds = roomsList?.map((room) => room.room_id) || [];
 
-    // 채팅방 테이블 접근 -> room_id리스트 중 room_id 일치 + room_type이 '개인'인 것 + action_id 일치하는것 뽑기
+    // 3) 채팅방 테이블 접근 -> room_id리스트 중 room_id 일치 + room_type이 '개인'인 것 + action_id 일치하는것 뽑기
     const { data: room_id, error: roomIdError } = await supabase
       .from("chat_rooms_info")
       .select("id")

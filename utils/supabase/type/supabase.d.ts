@@ -85,18 +85,21 @@ export type Database = {
         Row: {
           created_at: string;
           id: string;
+          participant_type: string;
           participant_uid: string;
           room_id: string;
         };
         Insert: {
           created_at?: string;
           id?: string;
+          participant_type?: string;
           participant_uid?: string;
           room_id?: string;
         };
         Update: {
           created_at?: string;
           id?: string;
+          participant_type?: string;
           participant_uid?: string;
           room_id?: string;
         };
