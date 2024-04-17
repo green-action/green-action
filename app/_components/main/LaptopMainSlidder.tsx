@@ -2,13 +2,12 @@ import {
   useFetchCommunityPostsLikes,
   useFetchIndivActionsBookmarks,
 } from "@/app/_hooks/useQueries/main";
-import Image from "next/image";
+import { Card, Skeleton } from "@nextui-org/react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import CommunityListPost from "../community/CommunityListPost";
 import MyActionCard from "../mypage/MyActionCard";
-import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
 // export const revalidate = 0;
 
@@ -44,9 +43,22 @@ const LaptopMainSlidder = ({ mode }: { mode: string }) => {
 
   if (isPostsLoading || isActionsLoading) {
     return (
-      <div className="w-[200px] h-auto mx-auto">
-        <Image className="" src={SoomLoaing} alt="SoomLoading" />
-      </div>
+      <Card className="w-[200px]" radius="lg">
+        <Skeleton className="rounded-lg">
+          <div className="h-24 rounded-lg bg-default-300"></div>
+        </Skeleton>
+        <div className="space-y-3">
+          <Skeleton className="w-3/5 rounded-lg">
+            <div className="h-3 w-3/5 rounded-lg bg-default-200"></div>
+          </Skeleton>
+          <Skeleton className="w-4/5 rounded-lg">
+            <div className="h-3 w-4/5 rounded-lg bg-default-200"></div>
+          </Skeleton>
+          <Skeleton className="w-2/5 rounded-lg">
+            <div className="h-3 w-2/5 rounded-lg bg-default-300"></div>
+          </Skeleton>
+        </div>
+      </Card>
     );
   }
 

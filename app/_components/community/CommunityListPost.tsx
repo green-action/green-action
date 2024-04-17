@@ -4,12 +4,11 @@ import Likes from "../likes/Likes";
 import CommunityDetailModal from "./CommunityDetailModal";
 
 import { Avatar, Card, useDisclosure } from "@nextui-org/react";
-import Image from "next/image";
 import { longStyle } from "./style";
-import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
 import { useGetCommunityCommentsList } from "@/app/_hooks/useQueries/comments";
 import { useGetPostContents } from "@/app/_hooks/useQueries/community";
+import CommunitySkeleton from "./CommunitySkeleton";
 
 const CommunityListPost = ({
   communityPost,
@@ -45,8 +44,19 @@ const CommunityListPost = ({
 
   if (isPostLoading || isCommentsLoading) {
     return (
-      <div className="w-[300px] h-auto mx-auto">
-        <Image className="" src={SoomLoaing} alt="SoomLoading" />
+      <div
+        className={` ${
+          mode === "main" &&
+          "desktop:w-[410px] desktop:h-[295px] laptop:w-[287px] laptop:h-[207px]"
+        }
+            ${
+              mode === "myPosts" &&
+              "desktop:w-[356px] laptop:w-[327px] laptop:h-[400px]"
+            }
+          ${mode !== "main" && mode !== "myPosts" && "w-[31%] mb-2"}
+        `}
+      >
+        <CommunitySkeleton mode="myPosts" />
       </div>
     );
   }
