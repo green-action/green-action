@@ -207,6 +207,7 @@ const DetailPage = () => {
       loggedInUserUid: user_uid,
     });
 
+    // 참여중이지 않고, 채팅인원 < 모집인원 인 경우에만 insert
     // 새로운 참여인 경우 참가자 테이블에 insert
     if (!participant_id) {
       await insertNewParticipant({
