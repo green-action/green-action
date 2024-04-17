@@ -20,6 +20,7 @@ export const signUpNewUser = async (
       throw error;
     }
     // 유저의 id로 이메일 중복확인가능!!!!!!!!!!!
+    // 가입하면 바로 id를 생성해줌 그걸로판단가능
     //사용자 정보 데이터베이스에 추가
     const user = data?.user;
     console.log(data.user);

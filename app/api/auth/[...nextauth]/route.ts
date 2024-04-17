@@ -37,7 +37,7 @@ const handler = NextAuth({
             throw new Error("sign in drror");
           }
 
-          console.log("로그인 토큰:", response.data.session);
+          // console.log("로그인 토큰:", response.data.session);
           if (response) {
             return response.data.user;
           }

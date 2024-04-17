@@ -1,13 +1,5 @@
 "use client";
 
-// 헤더도 서버컴포넌트로 변경해야될수도?.. 데이터를 불러오도록변경해야함
-// 마이페이지 api 쿼리 유저정보가져오는걸 다없애야함
-// 2안 한번만 깜빡이게 ㅎㅎ
-// 사용자 정보가 다들어오기전까지 전체화면이 흰화면!
-// 렌더링된다음에요청 ㅋ하니깐 그런거야~
-// 유저프로필 버튼만 다른 컴포넌트로 뺀다(서버클라이언트) => 헤더에 props로 넘겨주기
-// useSeeion = > status 사용하기
-
 import { useFetchUserInfo } from "@/app/_hooks/useQueries/mypage";
 import { User } from "@/app/_types";
 import {
@@ -34,22 +26,32 @@ import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
 
 import Image from "next/image";
 import AlertModal from "@/app/_components/community/AlertModal";
+import HeaderProfile from "./HeaderProfile";
+
+import type { Session } from "next-auth";
 // import AlertModal from "../community/AlertModal";
 
-const HeaderPage = () => {
+interface Props {
+  session: Session | null;
+  isLoggedIn: boolean;
+}
+
+const HeaderPage = ({ isLoggedIn, session }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
-  const session = useSession();
-  const isLoggedIn = !!session.data;
+  // console.log("isLoggedIn 값==>", !isLoggedIn);
+  // console.log("session값==>", session?.user);
+  //   const session = useSession();
+  //   const isLoggedIn = !!session.data;
   // console.log("isLoggedIn==>", isLoggedIn);
-  console.log("session정보==>", session);
+  //   console.log("session정보==>", session);
   // console.log("session데이터==>", session.data);
-  const user_uid = session?.data?.user.user_uid as string;
+  //   const user_uid = session?.data?.user.user_uid as string;
 
   const pathsMainAbout = pathname === "/" || pathname === "/about";
 
-  const { data, isLoading: isUserDataLoading } = useFetchUserInfo(user_uid);
-  const { display_name, profile_img } = (data as User) || "";
+  //   const { data, isLoading: isUserDataLoading } = useFetchUserInfo(user_uid);
+  //   const { display_name, profile_img } = (data as User) || "";
 
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileHover, setIsProfileHover] = useState(false);
@@ -120,21 +122,21 @@ const HeaderPage = () => {
   // 헤더 투명이었다가 스크롤하면 블러처리
   const [isScrolled, setIsScrolled] = useState(false);
 
-  useEffect(() => {
-    // useFetchUserInfo(user_uid);
-    const handleScroll = () => {
-      if (window.scrollY > 0) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
+  //   useEffect(() => {
+  //     // useFetchUserInfo(user_uid);
+  //     const handleScroll = () => {
+  //       if (window.scrollY > 0) {
+  //         setIsScrolled(true);
+  //       } else {
+  //         setIsScrolled(false);
+  //       }
+  //     };
+  //     window.addEventListener("scroll", handleScroll);
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [data]);
+  //     return () => {
+  //       window.removeEventListener("scroll", handleScroll);
+  //     };
+  //   }, [data]);
 
   return (
     <>
@@ -247,7 +249,6 @@ const HeaderPage = () => {
                 </div>
               )}
             </div>
-            {/* 컴포넌트를 따로 빼는게 좋을거같음 칩이랑 아바타만 빼서(트리거하위영역)*/}
             {isLoggedIn ? (
               <>
                 <Dropdown
@@ -257,8 +258,9 @@ const HeaderPage = () => {
                 >
                   <DropdownTrigger>
                     <div className="flex">
+                      <HeaderProfile session={session} />
                       {/* ml 360px  ml-[280px] mr-[0px] / border-[#DDDDDD] - 자체변경 */}
-                      <Chip
+                      {/* <Chip
                         className={`desktop:w-[249px] laptop:w-[162px] desktop:h-[42px] laptop:h-[34px] bg-[#F1F1F1]/50 border-small border-[#404040]/40 ${
                           display_name?.length >= 5
                             ? `desktop:ml-[210px] laptop:ml-[10px]`
@@ -287,7 +289,7 @@ const HeaderPage = () => {
                             }}
                           />
                         </div>
-                      </Chip>
+                      </Chip> */}
                     </div>
                   </DropdownTrigger>
                   <DropdownMenu
@@ -329,6 +331,9 @@ const HeaderPage = () => {
                     </DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
+                <div onClick={handleLogout} className="font-bold p-1">
+                  Logout
+                </div>
               </>
             ) : (
               <div
@@ -364,9 +369,3 @@ const HeaderPage = () => {
 };
 
 export default HeaderPage;
-
-// components app폴더 useclient csr 컴포넌트 전체다 밖으로 빼는게좋다 왜냐하면
-// 나중에 렌더링후에 html을 보여주기 때문에 느리다 <= 현재사용하는방법
-//  js와 html 렌더링하는동시에 데이터를 불러올수있어 빨라져서 좋다 ssr (렌더링을 위해~)      () < 감싸면 없는처리됨
-// app 폴더는 라우트만있게하기 !!!!!!!
-// 컴포넌트화 시키는것=> 코드스슬플리팅
