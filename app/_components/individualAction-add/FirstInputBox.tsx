@@ -1,6 +1,15 @@
 import React from "react";
+import SearchAddressModal from "../daumPostCode/SearchAddressModal";
 
-const FirstInputBox = () => {
+const FirstInputBox = ({
+  activityLocation,
+  setActivityLocation,
+  handleActivityLocationChange,
+}: {
+  activityLocation: string;
+  setActivityLocation: React.Dispatch<React.SetStateAction<string>>;
+  handleActivityLocationChange: any;
+}) => {
   return (
     <>
       <div className="flex justify-between gap-[88px] w-[724px] h-[209px] border-1.5 border-gray-300 rounded-3xl pt-[21px] px-[28px] pb-[28px] mb-4 ">
@@ -59,17 +68,25 @@ const FirstInputBox = () => {
         <div className="flex flex-col justify-center w-1/2  gap-2 ">
           <div className="mb-7">
             <div>
-              <label
-                htmlFor="activityLocation"
-                className="text-[13px] font-extrabold"
-              >
-                활동 장소
-              </label>
+              <div className="flex items-center gap-5">
+                <label
+                  htmlFor="activityLocation"
+                  className="text-[13px] font-extrabold"
+                >
+                  활동 장소
+                </label>
+                <SearchAddressModal
+                  activityLocation={activityLocation}
+                  setActivityLocation={setActivityLocation}
+                />
+              </div>
               <div className="w-[294px] h-[33px] mt-2 border-1.5 border-gray-300 rounded-full text-sm text-gray-400 pl-4">
                 <input
                   type="text"
                   id="activityLocation"
                   name="activityLocation"
+                  value={activityLocation}
+                  onChange={handleActivityLocationChange}
                   required
                   className="w-10/12 h-[30px] mx-4 pr-2 bg-inherit focus:outline-none"
                 />

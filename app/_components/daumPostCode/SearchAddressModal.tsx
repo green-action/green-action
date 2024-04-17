@@ -7,24 +7,28 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import DaumPostcode from "react-daum-postcode";
+// address,
+// setAddress,
 
-const SearchAddressModal = () => {
+const SearchAddressModal = ({
+  activityLocation,
+  setActivityLocation,
+}: {
+  activityLocation: any;
+  setActivityLocation: any;
+}) => {
+  // formData로 set하는 방법은 모르는 상태 + formData는 submit 시에 가져올 수 있는듯?
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
-  const [address, setAddress] = useState({
-    roadAddress: "",
-    jibunAddress: "",
-    extraAddress: "",
-  });
 
   const onCompletePost = (data: any) => {
     console.log("🐰 ~ SearchAddressModal ~ data : ", data);
 
     // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
     // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-    const roadAddr = data.roadAddress; // 도로명 주소 변수
-    const jibunAddr = data.autoJibunAddress || data.jibunAddress;
+    const roadAddr = data.roadAddress as string; // 도로명 주소 변수
+    // const jibunAddr = data.autoJibunAddress || data.jibunAddress; // NOTE 지번주소는 일단 보류
     let extraRoadAddr = ""; // 참고 항목 변수 (동,건물이름 등을 확인 가능. 얘도 넣기로?)
 
     // (bname 은 동이름)
@@ -45,23 +49,21 @@ const SearchAddressModal = () => {
     // }
 
     // 지번 주소 선택안함 시
-    if (data.noSelected === "Y") {
-      setAddress({
-        roadAddress: roadAddr,
-        jibunAddress: "",
-        extraAddress: "",
-      });
-    } else {
-      setAddress({
-        roadAddress: roadAddr,
-        jibunAddress: jibunAddr,
-        extraAddress: "",
-      }); // 많으니까 괄호로 묶어서 하나로 합칠지?
-    }
+    // if (data.noSelected === "Y") {
+    //   setAddress({
+    //     roadAddress: roadAddr,
+    //     jibunAddress: "",
+    //     extraAddress: "",
+    //   });
+    // } else {
+    //   setAddress({
+    //     roadAddress: roadAddr,
+    //     // jibunAddress: jibunAddr,
+    //     // extraAddress: "",
+    //   }); // 많으니까 괄호로 묶어서 하나로 합칠지?
+    // }
 
-    console.log("🐰 ~ onCompletePost ~ roadAddr : ", roadAddr);
-    // console.log("🐰 ~ onCompletePost ~ extraRoadAddr : ", extraRoadAddr);
-
+    setActivityLocation(roadAddr);
     onClose();
   };
 
@@ -69,7 +71,7 @@ const SearchAddressModal = () => {
     <>
       {/* <form> 폼태그는 등록완료까지 전체
           필수값으로 할지?*/}
-      <input
+      {/* <input
         type="text"
         id="road-address"
         name="road-address"
@@ -92,9 +94,10 @@ const SearchAddressModal = () => {
         value={address.extraAddress}
         placeholder="상세 주소"
         className="w-[300px]"
-      />
+      /> */}
       {/* </form> */}
-      <Button onPress={onOpen}>Open Modal</Button>
+
+      <Button onPress={onOpen}>도로명 주소 검색</Button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center">
         <ModalContent>
           {(onClose) => (

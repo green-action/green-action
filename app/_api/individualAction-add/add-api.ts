@@ -9,9 +9,11 @@ import type {
 // 1. 텍스트 formData 삽입 함수
 export const insertActionTextForm = async ({
   formData,
+  activityLocation, // 추가
   loggedInUserUid,
 }: {
   formData: FormData;
+  activityLocation: string;
   loggedInUserUid: string;
 }) => {
   try {
@@ -22,7 +24,8 @@ export const insertActionTextForm = async ({
       content: String(formData.get("activityDescription")),
       start_date: String(formData.get("startDate")),
       end_date: String(formData.get("endDate")),
-      location: String(formData.get("activityLocation")),
+      // location: String(formData.get("activityLocation")),
+      location: activityLocation,
       recruit_number: Number(formData.get("maxParticipants")),
       kakao_link: String(formData.get("openKakaoLink")),
     };

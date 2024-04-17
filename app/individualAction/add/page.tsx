@@ -1,7 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import {
   insertActionTextForm,
@@ -23,6 +23,40 @@ import SearchAddressModal from "@/app/_components/daumPostCode/SearchAddressModa
 const AddActionPage = () => {
   const [uploadedFileUrls, setUploadedFileUrls] = useState<string[]>([]);
   const [files, setFiles] = useState<(File | undefined)[]>([]);
+
+  // 상세 주소 등으로 나누기 - 보류
+  // const [address, setAddress] = useState({
+  //   roadAddress: "",
+  //   jibunAddress: "",
+  //   extraAddress: "",
+  // });
+
+  const [activityLocation, setActivityLocation] = useState<string>(""); // 주소검색통해 set하기 위해 추가
+
+  const handleActivityLocationChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setActivityLocation(e.target.value);
+  };
+
+  // 카카오맵 지도
+  // const mapRef = useRef<HTMLDivElement>(null);
+  // window.kakao.maps.load(() => {
+  //   const mapOption = {
+  //     center: new window.kakao.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
+  //     level: 5, // 지도의 확대 레벨
+  //   };
+
+  //   //지도를 미리 생성
+  //   var map = new window.kakao.maps.Map(mapRef.current, mapOption);
+  //   //주소-좌표 변환 객체를 생성
+  //   var geocoder = new window.kakao.maps.services.Geocoder();
+  //   //마커를 미리 생성
+  //   var marker = new window.kakao.maps.Marker({
+  //     position: new window.kakao.maps.LatLng(37.537187, 127.005476),
+  //     map: map,
+  //   });
+  // });
 
   // PointModal을 위한 상태관리 / alert 대체 모달창을 위한 상태관리
   const [Modal, setModal] = useState({
@@ -73,6 +107,7 @@ const AddActionPage = () => {
         // 1. user_uid와 텍스트 formData insert -> action_id 반환받기
         const action_id = await insertActionTextForm({
           formData,
+          activityLocation,
           loggedInUserUid,
         });
         setActionId(action_id);
@@ -114,9 +149,21 @@ const AddActionPage = () => {
               setFiles={setFiles}
             />
             {/* 이미지아래 첫번째 박스(날짜, 장소, 인원, 링크) */}
-            <FirstInputBox />
+            <FirstInputBox
+              activityLocation={activityLocation}
+              setActivityLocation={setActivityLocation}
+              handleActivityLocationChange={handleActivityLocationChange}
+            />
             {/* -- 주소검색 test 추가 */}
-            <SearchAddressModal />
+            {/* <SearchAddressModal
+              activityLocation={activityLocation}
+              setActivityLocation={setActivityLocation}
+            /> */}
+            {/* <div
+              id="map"
+              // ref={mapRef}
+              className="w-[300px] h-[200px] border-2"
+            ></div> */}
             {/* -- 주소검색 test 추가 */}
             {/* 이미지아래 두번째 박스(활동 제목) */}
             <SecondInputBox />
