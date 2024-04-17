@@ -11,10 +11,11 @@ import {
   DropdownTrigger,
   Navbar,
   NavbarContent,
+  Skeleton,
   Tab,
   Tabs,
 } from "@nextui-org/react";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -39,19 +40,28 @@ interface Props {
 const HeaderPage = ({ isLoggedIn, session }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
-  // console.log("isLoggedIn 값==>", !isLoggedIn);
-  // console.log("session값==>", session?.user);
-  //   const session = useSession();
-  //   const isLoggedIn = !!session.data;
+  // console.log("isLoggedIn 값==>", isLoggedIn);
+  // console.log("session값==>", session);
+  // const session = useSession();
+  // const isLoggedIn = !!session.data;
   // console.log("isLoggedIn==>", isLoggedIn);
   //   console.log("session정보==>", session);
   // console.log("session데이터==>", session.data);
-  //   const user_uid = session?.data?.user.user_uid as string;
+  // const user_uid = session?.data?.user.user_uid as string;
+  // const { data, status } = useSession();
 
+  // console.log("유저ID==>", user_uid);
+  // console.log("유즈세션 데이터값==>", data);
+  // console.log("status==>", status);
   const pathsMainAbout = pathname === "/" || pathname === "/about";
 
-  //   const { data, isLoading: isUserDataLoading } = useFetchUserInfo(user_uid);
-  //   const { display_name, profile_img } = (data as User) || "";
+  // const { data, status } = useSession();
+
+  const user_uid = session?.user.user_uid as string;
+  const { data: userData, isLoading: isUserDataLoading } =
+    useFetchUserInfo(user_uid);
+  console.log("유저데이터==>", userData);
+  const { display_name, profile_img } = (userData as User) || "";
 
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileHover, setIsProfileHover] = useState(false);
@@ -73,6 +83,7 @@ const HeaderPage = ({ isLoggedIn, session }: Props) => {
       try {
         await signOut({
           redirect: false,
+          callbackUrl: "/",
         });
         setMessage("로그아웃 되었습니다.");
         setIsOpenAlertModal(true);
@@ -122,21 +133,21 @@ const HeaderPage = ({ isLoggedIn, session }: Props) => {
   // 헤더 투명이었다가 스크롤하면 블러처리
   const [isScrolled, setIsScrolled] = useState(false);
 
-  //   useEffect(() => {
-  //     // useFetchUserInfo(user_uid);
-  //     const handleScroll = () => {
-  //       if (window.scrollY > 0) {
-  //         setIsScrolled(true);
-  //       } else {
-  //         setIsScrolled(false);
-  //       }
-  //     };
-  //     window.addEventListener("scroll", handleScroll);
+  useEffect(() => {
+    // useFetchUserInfo(user_uid);
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
 
-  //     return () => {
-  //       window.removeEventListener("scroll", handleScroll);
-  //     };
-  //   }, [data]);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [userData]);
 
   return (
     <>
@@ -249,92 +260,119 @@ const HeaderPage = ({ isLoggedIn, session }: Props) => {
                 </div>
               )}
             </div>
+
             {isLoggedIn ? (
-              <>
-                <Dropdown
-                  placement="bottom-end"
-                  isOpen={isProfileHover}
-                  className="flex rounded-3xl bg-[#F1F1F1]/50"
-                >
-                  <DropdownTrigger>
-                    <div className="flex">
-                      <HeaderProfile session={session} />
-                      {/* ml 360px  ml-[280px] mr-[0px] / border-[#DDDDDD] - 자체변경 */}
-                      {/* <Chip
-                        className={`desktop:w-[249px] laptop:w-[162px] desktop:h-[42px] laptop:h-[34px] bg-[#F1F1F1]/50 border-small border-[#404040]/40 ${
-                          display_name?.length >= 5
-                            ? `desktop:ml-[210px] laptop:ml-[10px]`
-                            : `desktop:ml-[290px] laptop:ml-[60px]`
-                        } `}
-                      >
-                        <div className="flex desktop:gap-[15px] items-center justify-between desktop:text-[13pt] laptop:text-[10pt] text-[#404040]">
-                          <p>
-                            {display_name} Greener님
-                            <span className="desktop:contents laptop:hidden">
-                              ! 환영합니다
-                            </span>
-                          </p>
-                          <Avatar
-                            as="button"
-                            className="transition-transform laptop:w-[30px] desktop:w-[38px] laptop:h-[30px] desktop:h-[38px] desktop:ml-[0px] laptop:ml-[8px]"
-                            name={display_name}
-                            // size="sm"
-                            showFallback
-                            src={profile_img || ""}
-                            onMouseEnter={() => {
-                              setIsProfileHover(true);
-                            }}
-                            onMouseLeave={() => {
-                              setIsProfileHover(false);
-                            }}
-                          />
-                        </div>
-                      </Chip> */}
-                    </div>
-                  </DropdownTrigger>
-                  <DropdownMenu
-                    aria-label="Profile Actions"
-                    variant="flat"
-                    className="w-[10rem] flex justify-center p-0 m-0 rounded-3xl text-[#454545]"
+              isUserDataLoading ? (
+                // 로딩 중 메시지를 표시하는 부분
+                <div className="flex">
+                  <Skeleton
+                    isLoaded={false}
+                    className="desktop:w-[249px] laptop:w-[162px] desktop:h-[42px] laptop:h-[34px] desktop:ml-[290px] laptop:ml-[60px] bg-[#F1F1F1]/50 border-small  rounded-3xl"
                   >
-                    <DropdownItem
-                      key="mypage"
-                      className="w-[8rem] h-8 rounded-3xl"
-                      onMouseEnter={() => {
-                        setIsProfileHover(true);
-                      }}
-                      onMouseLeave={() => {
-                        setIsProfileHover(false);
-                      }}
-                    >
-                      <div
-                        onClick={handleMypageLinkClick}
-                        className="font-bold p-1"
-                      >
-                        마이페이지
-                      </div>
-                    </DropdownItem>
-                    <DropdownItem
-                      key="logout"
-                      color="danger"
-                      className="w-[8rem] h-8 rounded-3xl  "
-                      onMouseEnter={() => {
-                        setIsProfileHover(true);
-                      }}
-                      onMouseLeave={() => {
-                        setIsProfileHover(false);
-                      }}
-                    >
-                      <div onClick={handleLogout} className="font-bold p-1">
-                        Logout
-                      </div>
-                    </DropdownItem>
-                  </DropdownMenu>
-                </Dropdown>
-                <div onClick={handleLogout} className="font-bold p-1">
-                  Logout
+                    <div className="flex desktop:gap-[15px] items-center justify-between">
+                      <Skeleton className="transition-transform laptop:w-[30px] desktop:w-[38px] laptop:h-[30px] desktop:h-[38px] desktop:ml-[0px] laptop:ml-[8px] rounded-full" />
+                    </div>
+                  </Skeleton>
                 </div>
-              </>
+              ) : (
+                <>
+                  <Dropdown
+                    placement="bottom-end"
+                    isOpen={isProfileHover}
+                    className="flex rounded-3xl bg-[#F1F1F1]/50"
+                  >
+                    <DropdownTrigger>
+                      <div className="flex">
+                        {/* <HeaderProfile
+                        session={session}
+                        isLoggedIn={isLoggedIn}
+                        data={data}
+                      /> */}
+                        {/* ml 360px  ml-[280px] mr-[0px] / border-[#DDDDDD] - 자체변경 */}
+                        <Chip
+                          className={`desktop:w-[249px] laptop:w-[162px] desktop:h-[42px] laptop:h-[34px] bg-[#F1F1F1]/50 border-small border-[#404040]/40 ${
+                            display_name?.length >= 5
+                              ? `desktop:ml-[210px] laptop:ml-[10px]`
+                              : `desktop:ml-[290px] laptop:ml-[60px]`
+                          } `}
+                        >
+                          <div className="flex desktop:gap-[15px] items-center justify-between desktop:text-[13pt] laptop:text-[10pt] text-[#404040]">
+                            <p>
+                              {display_name} Greener님
+                              <span className="desktop:contents laptop:hidden">
+                                ! 환영합니다
+                              </span>
+                            </p>
+
+                            {/* <HeaderProfile
+                              session={session}
+                              isLoggedIn={isLoggedIn}
+                              onMouseEnter={() => {
+                                setIsProfileHover(true);
+                              }}
+                              onMouseLeave={() => {
+                                setIsProfileHover(false);
+                              }}
+                            /> */}
+
+                            <Avatar
+                              as="button"
+                              className="transition-transform laptop:w-[30px] desktop:w-[38px] laptop:h-[30px] desktop:h-[38px] desktop:ml-[0px] laptop:ml-[8px]"
+                              name={display_name}
+                              showFallback
+                              src={profile_img || ""}
+                              onMouseEnter={() => {
+                                setIsProfileHover(true);
+                              }}
+                              onMouseLeave={() => {
+                                setIsProfileHover(false);
+                              }}
+                            />
+                          </div>
+                        </Chip>
+                      </div>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                      aria-label="Profile Actions"
+                      variant="flat"
+                      className="w-[10rem] flex justify-center p-0 m-0 rounded-3xl text-[#454545]"
+                    >
+                      <DropdownItem
+                        key="mypage"
+                        className="w-[8rem] h-8 rounded-3xl"
+                        onMouseEnter={() => {
+                          setIsProfileHover(true);
+                        }}
+                        onMouseLeave={() => {
+                          setIsProfileHover(false);
+                        }}
+                      >
+                        <div
+                          onClick={handleMypageLinkClick}
+                          className="font-bold p-1"
+                        >
+                          마이페이지
+                        </div>
+                      </DropdownItem>
+                      <DropdownItem
+                        key="logout"
+                        color="danger"
+                        className="w-[8rem] h-8 rounded-3xl  "
+                        onMouseEnter={() => {
+                          setIsProfileHover(true);
+                        }}
+                        onMouseLeave={() => {
+                          setIsProfileHover(false);
+                        }}
+                      >
+                        <div onClick={handleLogout} className="font-bold p-1">
+                          Logout
+                        </div>
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </>
+              )
             ) : (
               <div
                 className={`flex desktop:gap-14 laptop:gap-[35px] desktop:w-[170px] desktop:ml-[380px] laptop:ml-[102px] ${

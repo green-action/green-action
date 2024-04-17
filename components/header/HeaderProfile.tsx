@@ -1,45 +1,32 @@
+import { useFetchUserInfo } from "@/app/_hooks/useQueries/mypage";
+import { User } from "@/app/_types";
 import { Avatar, Chip } from "@nextui-org/react";
 import { Session } from "next-auth";
+import { useSession } from "next-auth/react";
 import React from "react";
 
 interface Props {
   session: Session | null;
+  isLoggedIn: boolean;
 }
 
-const HeaderProfile = ({ session }: Props) => {
+const HeaderProfile = ({ isLoggedIn, session }: Props) => {
+  const user_uid = session?.user.user_uid as string;
+  const { data: userData, isLoading: isUserDataLoading } =
+    useFetchUserInfo(user_uid);
+  // console.log("유저데이터==>", userData);
+  const { display_name, profile_img } = (userData as User) || "";
   return (
     <>
-      {session && (
-        <Chip
-          className={`desktop:w-[249px] laptop:w-[162px] desktop:h-[42px] laptop:h-[34px] bg-[#F1F1F1]/50 border-small border-[#404040]/40 ${
-            session.user.name?.length >= 5
-              ? `desktop:ml-[210px] laptop:ml-[10px]`
-              : `desktop:ml-[290px] laptop:ml-[60px]`
-          } `}
-        >
-          <div className="flex desktop:gap-[15px] items-center justify-between desktop:text-[13pt] laptop:text-[10pt] text-[#404040]">
-            <p>
-              {session.user.name} Greener님
-              <span className="desktop:contents laptop:hidden">
-                ! 환영합니다
-              </span>
-            </p>
-            <Avatar
-              as="button"
-              className="transition-transform laptop:w-[30px] desktop:w-[38px] laptop:h-[30px] desktop:h-[38px] desktop:ml-[0px] laptop:ml-[8px]"
-              name={session.user.name}
-              // size="sm"
-              showFallback
-              src={session.user.image || ""}
-              //   onMouseEnter={() => {
-              //     setIsProfileHover(true);
-              //   }}
-              //   onMouseLeave={() => {
-              //     setIsProfileHover(false);
-              //   }}
-            />
-          </div>
-        </Chip>
+      {isLoggedIn && (
+        <Avatar
+          as="button"
+          className="transition-transform laptop:w-[30px] desktop:w-[38px] laptop:h-[30px] desktop:h-[38px] desktop:ml-[0px] laptop:ml-[8px]"
+          name={display_name}
+          // size="sm"
+          showFallback
+          src={profile_img || ""}
+        />
       )}
     </>
   );
