@@ -42,6 +42,123 @@ export type Database = {
           },
         ];
       };
+      chat_messages: {
+        Row: {
+          content: string;
+          created_at: string;
+          id: string;
+          room_id: string;
+          sender_uid: string;
+        };
+        Insert: {
+          content?: string;
+          created_at?: string;
+          id?: string;
+          room_id: string;
+          sender_uid?: string;
+        };
+        Update: {
+          content?: string;
+          created_at?: string;
+          id?: string;
+          room_id?: string;
+          sender_uid?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "public_chat_messages_room_id_fkey";
+            columns: ["room_id"];
+            isOneToOne: false;
+            referencedRelation: "chat_rooms_info";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "public_chat_messages_sender_uid_fkey";
+            columns: ["sender_uid"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      chat_participants: {
+        Row: {
+          created_at: string;
+          id: string;
+          participant_type: string;
+          participant_uid: string;
+          room_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          participant_type?: string;
+          participant_uid?: string;
+          room_id?: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          participant_type?: string;
+          participant_uid?: string;
+          room_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "public_chat_participants_participant_uid_fkey";
+            columns: ["participant_uid"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "public_chat_participants_room_id_fkey";
+            columns: ["room_id"];
+            isOneToOne: false;
+            referencedRelation: "chat_rooms_info";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      chat_rooms_info: {
+        Row: {
+          action_id: string;
+          created_at: string;
+          id: string;
+          owner_uid: string;
+          room_type: string;
+        };
+        Insert: {
+          action_id?: string;
+          created_at?: string;
+          id?: string;
+          owner_uid?: string;
+          room_type?: string;
+        };
+        Update: {
+          action_id?: string;
+          created_at?: string;
+          id?: string;
+          owner_uid?: string;
+          room_type?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "public_chat_rooms_action_id_fkey";
+            columns: ["action_id"];
+            isOneToOne: false;
+            referencedRelation: "individual_green_actions";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "public_chat_rooms_owner_uid_fkey";
+            columns: ["owner_uid"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       community_comments: {
         Row: {
           content: string | null;
@@ -136,24 +253,20 @@ export type Database = {
           point: number;
           product_info: string;
           product_name: string;
-          img_url: string | null;
-          point: number;
-          product_info: string | null;
-          product_name: string | null;
         };
         Insert: {
           id?: string;
-          img_url?: string | null;
+          img_url?: string;
           point?: number;
-          product_info?: string | null;
-          product_name?: string | null;
+          product_info?: string;
+          product_name?: string;
         };
         Update: {
           id?: string;
-          img_url?: string | null;
+          img_url?: string;
           point?: number;
-          product_info?: string | null;
-          product_name?: string | null;
+          product_info?: string;
+          product_name?: string;
         };
         Relationships: [];
       };
@@ -186,27 +299,27 @@ export type Database = {
       group_green_actions: {
         Row: {
           action_url: string;
-          content: string | null;
-          hosted_by: string | null;
+          content: string;
+          hosted_by: string;
           id: string;
           img_url: string;
-          title: string | null;
+          title: string;
         };
         Insert: {
           action_url?: string;
-          content?: string | null;
-          hosted_by?: string | null;
+          content: string;
+          hosted_by: string;
           id?: string;
-          img_url?: string | null;
-          title?: string | null;
+          img_url: string;
+          title: string;
         };
         Update: {
           action_url?: string;
-          content?: string | null;
-          hosted_by?: string | null;
+          content?: string;
+          hosted_by?: string;
           id?: string;
-          img_url?: string | null;
-          title?: string | null;
+          img_url?: string;
+          title?: string;
         };
         Relationships: [];
       };
@@ -307,7 +420,7 @@ export type Database = {
           email?: string | null;
           id?: string;
           introduction?: string | null;
-          point?: number;
+          point?: number | null;
           profile_img?: string | null;
         };
         Update: {
@@ -315,18 +428,10 @@ export type Database = {
           email?: string | null;
           id?: string;
           introduction?: string | null;
-          point?: number;
+          point?: number | null;
           profile_img?: string | null;
         };
-        Relationships: [
-          {
-            foreignKeyName: "public_users_id_fkey";
-            columns: ["id"];
-            isOneToOne: true;
-            referencedRelation: "users";
-            referencedColumns: ["id"];
-          },
-        ];
+        Relationships: [];
       };
     };
     Views: {
