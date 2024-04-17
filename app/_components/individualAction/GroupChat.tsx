@@ -88,7 +88,7 @@ const GroupChat = ({ isOpen, onOpenChange, roomId }: ChatProps) => {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                1:1 문의하기
+                action 참여자 단체 채팅방
               </ModalHeader>
               <ModalBody>
                 <div className="flex justify-center">
