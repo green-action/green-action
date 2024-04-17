@@ -144,7 +144,7 @@ function Header() {
                 : graylogoImg // 나머지 페이지에서는 항상 gray로고 사용
             }
             alt="logo-image"
-            className="desktop:w-[94px] laptop:w-[94px] desktop:h-[21.63px] laptop:h-[21.63px] desktop:ml-[-400px] laptop:ml-[30px] desktop:mr-[460px] laptop:mr-[110px] cursor-pointer"
+            className="w-[94px] desktop:h-[21.63px] laptop:h-[21.63px] desktop:ml-[-400px] laptop:ml-[30px] desktop:mr-[460px] laptop:mr-[110px] cursor-pointer"
             onClick={handleLogoLinkClick}
           />
           <NavbarContent>
@@ -158,7 +158,7 @@ function Header() {
                 classNames={{
                   tab: "px-4 desktop:h-[35px] laptop:h-[27px]",
                   tabList:
-                    "flex items-center desktop:gap-[10px] laptop:gap-[30px] desktop:h-[45px] laptop:h-[35px] desktop:w-[600px] laptop:w-[446px]", // d:w-[511px] h-[39px]인데 자체변경? / laptop gap 자체
+                    "flex items-center desktop:gap-[10px] laptop:gap-[30px] desktop:h-[45px] laptop:h-[35px] desktop:min-w-[600px] laptop:min-w-[446px]", // d:w-[511px] h-[39px]인데 자체변경? / laptop gap 자체
                   tabContent:
                     "flex items-center text-[#454545] desktop:text-[13pt] laptop:text-[10pt] laptop:h-[35px]", // ㅣ:text 11 자체
                 }}

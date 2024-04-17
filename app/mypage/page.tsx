@@ -19,7 +19,7 @@ import RecruitSelectTab from "../_components/mypage/RecruitSelectTab";
 import MyActionCard from "../_components/mypage/MyActionCard";
 import CommunityListPost from "../_components/community/CommunityListPost";
 
-import { Button } from "@nextui-org/react";
+import { Button, Tab, Tabs } from "@nextui-org/react";
 
 import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
 import TopButton from "../_components/TopButton";
@@ -191,14 +191,34 @@ const MyPage = () => {
           <div className="flex flex-col desktop:gap-10 desktop:pl-[82px] laptop:pl-[30px] desktop:pt-1 laptop:pt-[30px] w-full">
             <div className="flex justify-between laptop:mb-[30px]">
               <div className="flex desktop:gap-[45px] laptop:gap-[30px] desktop:ml-5 desktop:text-[12pt]">
+                {/* <Tabs 탭은 보류
+                  aria-label="Options"
+                  color="primary"
+                  variant="underlined"
+                  classNames={{
+                    tabList:
+                      "gap-6 w-full relative rounded-none p-0 border-b border-divider",
+                    cursor: "w-full bg-[#22d3ee]",
+                    tab: "max-w-fit px-0 h-12",
+                    tabContent: "group-data-[selected=true]:text-[#6f979e]",
+                  }}
+                >
+                  <Tab key="photos" onClick={handleActiveTabClick}>
+                    My Green-Action
+                  </Tab>
+                  <Tab key="photos" onClick={handleActiveTabClick}>
+                    작성 게시물
+                  </Tab>
+                </Tabs> */}
                 <Button
                   radius="full"
                   size="md"
+                  // variant="ghost"
                   onClick={handleActiveTabClick}
                   className={` bg-transparent  desktop:text-[12pt] laptop:text-[11pt]
                      ${activeTab === "My Green-Action" && "bg-[#F1F1F1]"}`}
                 >
-                  My Green-Action
+                  나의 Green-Action
                 </Button>
                 <Button
                   radius="full"
@@ -206,9 +226,7 @@ const MyPage = () => {
                   onClick={handleActiveTabClick}
                   className={`bg-transparent  desktop:text-[12pt] laptop:text-[11pt]
                     ${activeTab === "작성 게시물" && "bg-[#F1F1F1]"}`}
-                >
-                  작성 게시물
-                </Button>
+                ></Button>
                 <Button
                   radius="full"
                   size="md"
