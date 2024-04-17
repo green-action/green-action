@@ -16,8 +16,9 @@ import FirstInputBox from "@/app/_components/individualAction-add/FirstInputBox"
 import ImgUpload from "@/app/_components/individualAction-add/ImgUpload";
 import SecondInputBox from "@/app/_components/individualAction-add/SecondInputBox";
 import ThirdInputBox from "@/app/_components/individualAction-add/ThirdInputBox";
-import { useDisclosure } from "@nextui-org/react";
+import { Button, useDisclosure } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
+import SearchAddressModal from "@/app/_components/daumPostCode/SearchAddressModal";
 
 const AddActionPage = () => {
   const [uploadedFileUrls, setUploadedFileUrls] = useState<string[]>([]);
@@ -114,6 +115,9 @@ const AddActionPage = () => {
             />
             {/* 이미지아래 첫번째 박스(날짜, 장소, 인원, 링크) */}
             <FirstInputBox />
+            {/* -- 주소검색 test 추가 */}
+            <SearchAddressModal />
+            {/* -- 주소검색 test 추가 */}
             {/* 이미지아래 두번째 박스(활동 제목) */}
             <SecondInputBox />
             {/* 이미지 아래 세번째 박스(활동 소개) */}

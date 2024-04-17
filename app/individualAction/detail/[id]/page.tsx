@@ -34,6 +34,7 @@ import prevBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 132.png";
 import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
 import { useResponsive } from "@/app/_hooks/responsive";
 import TopButton from "@/app/_components/TopButton";
+import KakakoMap from "@/app/_components/kakaoMap/KakakoMap";
 
 const DetailPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
@@ -400,6 +401,11 @@ const DetailPage = () => {
                 </div>
               </div>
             )}
+            {/* 카카오맵 추가 */}
+            <div className="mt-10">
+              <KakakoMap />
+            </div>
+            {/* 카카오맵 추가 */}
           </div>
         </div>
       </div>
