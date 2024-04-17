@@ -22,6 +22,7 @@ import {
 import {
   changeRecruitingState,
   countParticipants,
+  deleteParticipant,
   getRecruitingNumber,
 } from "@/app/_api/messages/groupChat-api";
 
@@ -98,6 +99,7 @@ const GroupChat = ({ isOpen, onOpenChange, roomId, actionId }: ChatProps) => {
       }
 
       // 2. 참가자 테이블에서 삭제
+      await deleteParticipant(loggedInUserUid);
     }
     onClose();
   };

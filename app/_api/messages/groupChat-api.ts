@@ -204,3 +204,21 @@ export const changeRecruitingState = async ({
     throw error;
   }
 };
+
+// 참가 취소시 - 참가자 테이블에서 삭제
+export const deleteParticipant = async (loggedInUserUid: string) => {
+  try {
+    const { error } = await supabase
+      .from("chat_participants")
+      .delete()
+      .eq("participant_uid", loggedInUserUid);
+
+    if (error) {
+      console.log("error", error.message);
+      throw error;
+    }
+  } catch (error) {
+    console.error("error >>", error);
+    throw error;
+  }
+};
