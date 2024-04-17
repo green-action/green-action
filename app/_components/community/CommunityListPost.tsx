@@ -145,7 +145,8 @@ const CommunityListPost = ({
           `}
         >
           <div
-            className={`flex items-center justify-center ml-[24px] rounded-full border-2 border-black text-[13px] font-extrabold p-0.5 px-4 w-[150px] h-[31px]
+            className={`flex items-center justify-center ml-[24px] rounded-[24px] 
+            border-2 border-[#3E3E3E] text-[13px] font-extrabold p-0.5 w-[150px] h-[31px]
           ${
             mode === "myPosts" &&
             "ml-[15px] desktop:text-[13px] laptop:text-[8pt] desktop:w-[160px] laptop:w-[140px]"
@@ -158,12 +159,12 @@ const CommunityListPost = ({
             {communityPost?.action_type}와 함께해요
           </div>
           <p
-            className={`text-[15px] font-extrabold w-3/4 ml-[27px] mr-1 overflow-hidden whitespace-nowrap overflow-ellipsis ${
+            className={`text-[15px] font-extrabold w-3/4 mx-[24px] overflow-hidden whitespace-nowrap overflow-ellipsis ${
               mode === "main" &&
-              "desktop:ml-[15px] laptop:ml-[10px] desktop:text-[16px] laptop:text-[13px]"
+              "desktop:mx-[24px] laptop:mx-[15px] desktop:text-[16px] laptop:text-[13px]"
             } ${
               mode === "myPosts" &&
-              " desktop:ml-[15px] laptop:ml-[10px] desktop:text-[15px] laptop:text-[13px]"
+              " desktop:ml-[24px] laptop:ml-[15px] mr-0 desktop:text-[15px] laptop:text-[13px]"
             }
             `}
           >
