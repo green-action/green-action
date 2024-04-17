@@ -33,3 +33,6 @@ export const QUERY_KEY_COMMUNITYLIST = `communityList`;
 export const QUERY_KEY_COMMUNITY_POST = `communityPost`;
 export const QUERY_KEY_COMMUNITY_POST_FOR_EDIT = `community_post_for_edit`;
 export const QEURY_KEY_COMMUNITY_COMMENTS_LIST = `communityCommentsList`;
+
+// realtime - chat
+export const QUERY_KEY_MESSAGES_LIST = `messages_list`;

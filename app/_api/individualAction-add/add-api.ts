@@ -5,6 +5,7 @@ import type {
   FormDataType,
   InsertImgUrls,
 } from "@/app/_types/individualAction-add/individualAction-add";
+import { error } from "console";
 
 // 1. 텍스트 formData 삽입 함수
 export const insertActionTextForm = async ({
@@ -163,6 +164,49 @@ export const insertImgUrls = async ({
       }),
     );
     return response;
+  } catch (error) {
+    console.log("error", error);
+    throw error;
+  }
+};
+
+// 5. 단체방 만들기 - 방 만들고, 참가자 테이블에 본인 추가
+export const insertGroupChatRoom = async ({
+  loggedInUserUid,
+  action_id,
+}: {
+  loggedInUserUid: string;
+  action_id: string;
+}) => {
+  try {
+    // 채팅방 테이블에 insert
+    const { data: room_id, error: insertRoomError } = await supabase
+      .from("chat_rooms_info")
+      .insert({
+        owner_uid: loggedInUserUid,
+        action_id,
+        room_type: "단체",
+      })
+      .select("id");
+
+    if (insertRoomError) {
+      console.error("error", insertRoomError.message);
+      throw insertRoomError;
+    }
+
+    const roomId = room_id[0].id;
+
+    // 채팅방 참가자 테이블
+    const { error } = await supabase.from("chat_participants").insert({
+      room_id: roomId,
+      participant_uid: loggedInUserUid,
+      participant_type: "방장",
+    });
+
+    if (error) {
+      console.error("error", error.message);
+      throw error;
+    }
   } catch (error) {
     console.log("error", error);
     throw error;
