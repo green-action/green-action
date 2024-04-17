@@ -24,7 +24,6 @@ interface PrivateChatProps {
   isOpen: boolean;
   onOpenChange: () => void;
   roomId: string;
-  // roomId: React.MutableRefObject<string>;
 }
 
 const PrivateChat = ({ isOpen, onOpenChange, roomId }: PrivateChatProps) => {

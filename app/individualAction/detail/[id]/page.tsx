@@ -35,7 +35,10 @@ import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
 import { useResponsive } from "@/app/_hooks/responsive";
 import TopButton from "@/app/_components/TopButton";
 import PrivateChat from "@/app/_components/individualAction/PrivateChat";
-import { checkChatRoomExist } from "@/app/_api/messages/privateChat-api";
+import {
+  checkPrivateChatRoomExist,
+  insertNewPrivateChatRoom,
+} from "@/app/_api/messages/privateChat-api";
 
 const DetailPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
@@ -129,26 +132,30 @@ const DetailPage = () => {
 
   // 1:1 채팅방 모달 열기
   const handleOpenPrivateChatRoom = async () => {
-    // 이미 1:1 채팅방이 존재하는지 먼저 확인 - 이미 있으면 string값, 없으면 null값 반환
-    const room_id = await checkChatRoomExist({
+    // 1. 이미 1:1 채팅방이 존재하는지 먼저 확인 - 이미 있으면 string값, 없으면 null값 반환
+    const exited_room_id = await checkPrivateChatRoomExist({
       user_uid,
       action_id: params.id,
     });
 
-    // 1) room_id가 있으면(1:1채팅방 이미 열려있는 경우) -> 모달에 전달
-    // 2) room_id가 없으면(1:1채팅방 아직 안열린 경우)
-    // -> chat_rooms_info 테이블, chat_participants 테이블에 insert하기 -> room_id 반환
-
+    // 1) exited_room_id가 있으면 (1:1채팅방 이미 열려있는 경우) -> 모달에 전달
     // roomIdRef에 room_id 설정 -> 1:1채팅 모달 props로 넘겨주기
-    if (room_id) {
-      roomIdRef.current = room_id;
-    }
+    // if (exited_room_id) {
+    //   roomIdRef.current = exited_room_id;
+    // }
+
+    // 2) exited_room_id가 없으면 (1:1채팅방 아직 안열린 경우)
+    // -> chat_rooms_info 테이블, chat_participants 테이블에 insert하기 -> room_id 반환
+    await insertNewPrivateChatRoom({
+      action_id: params.id,
+      loggedInUserUid: user_uid,
+    });
 
     // 반환받은 room_id를 1:1채팅 모달에 넘겨주기
     // -> channel명을 room_id로 설정하기
 
     // 채팅방 모달창 open
-    // onPrivateChatOpen();
+    onPrivateChatOpen();
   };
 
   return (

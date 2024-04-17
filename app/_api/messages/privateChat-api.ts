@@ -16,7 +16,7 @@ export const getMessages = async () => {
 };
 
 // 1. 이미 1:1방 존재하는지 먼저 확인하기
-export const checkChatRoomExist = async ({
+export const checkPrivateChatRoomExist = async ({
   user_uid,
   action_id,
 }: {
@@ -56,6 +56,39 @@ export const checkChatRoomExist = async ({
     } else {
       return null; // 값이 없으면 null 반환 - 아직 1:1방이 열리지 않은 경우
     }
+  } catch (error) {
+    console.error("error >>", error);
+    throw error;
+  }
+};
+
+// 2. 열려있는 채팅방이 없는 경우 - 채팅방 테이블, 참가자 테이블에 insert
+export const insertNewPrivateChatRoom = async ({
+  action_id,
+  loggedInUserUid,
+}: {
+  action_id: string;
+  loggedInUserUid: string;
+}) => {
+  try {
+    // 채팅방 테이블에 insert
+    // -> action_id로 owner_id 파악하여 함께 insert
+    // -> room_id 반환
+    const { data: ownerId, error: ownerIdError } = await supabase
+      .from("individual_green_actions")
+      .select("user_uid")
+      .eq("id", action_id);
+
+    if (ownerIdError) {
+      console.log("error", ownerIdError.message);
+      throw ownerIdError;
+    }
+
+    const actionOwnerId = ownerId[0].user_uid;
+
+    // 참가자 테이블에 insert
+    // const { data, error } = supabase.from("chat_participants").insert({
+    // });
   } catch (error) {
     console.error("error >>", error);
     throw error;
