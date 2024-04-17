@@ -1,17 +1,32 @@
 "use client";
+
 import React, { useRef } from "react";
 import { useSession } from "next-auth/react";
-import KakaoShareButton from "@/app/_components/kakaoShare/KakaoShare";
-import Bookmark from "@/app/_components/bookmark/Bookmark";
+import { useParams, useRouter } from "next/navigation";
+import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
+
+import {
+  checkPrivateChatRoomExist,
+  insertNewPrivateChatRoom,
+} from "@/app/_api/messages/privateChat-api";
+
 import {
   useActionImages,
   useIndividualAction,
 } from "@/app/_hooks/useQueries/individualActions";
-import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
-import { useParams, useRouter } from "next/navigation";
+import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
+import { useResponsive } from "@/app/_hooks/responsive";
+
+import KakaoShareButton from "@/app/_components/kakaoShare/KakaoShare";
+import Bookmark from "@/app/_components/bookmark/Bookmark";
+import TopButton from "@/app/_components/TopButton";
+import PrivateChat from "@/app/_components/individualAction/PrivateChat";
+import Image from "next/image";
+
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+
 import { Avatar, CircularProgress } from "@nextui-org/react";
 import { Breadcrumbs, BreadcrumbItem } from "@nextui-org/react";
 import {
@@ -23,7 +38,7 @@ import {
   Button,
   useDisclosure,
 } from "@nextui-org/react";
-import Image from "next/image";
+
 import calendar from "/app/_assets/image/logo_icon/icon/mypage/image 127.png";
 import mapPin from "/app/_assets/image/logo_icon/icon/mypage/image 169.png";
 import person from "/app/_assets/image/logo_icon/icon/mypage/image 166.png";
@@ -31,14 +46,7 @@ import editAction from "/app/_assets/image/logo_icon/icon/mypage/image 55.png";
 import delAction from "/app/_assets/image/logo_icon/icon/mypage/Group 131.png";
 import nextBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 133.png";
 import prevBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 132.png";
-import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
-import { useResponsive } from "@/app/_hooks/responsive";
-import TopButton from "@/app/_components/TopButton";
-import PrivateChat from "@/app/_components/individualAction/PrivateChat";
-import {
-  checkPrivateChatRoomExist,
-  insertNewPrivateChatRoom,
-} from "@/app/_api/messages/privateChat-api";
+import ChatRooms from "@/app/_components/individualAction/ChatRooms";
 
 const DetailPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
@@ -132,9 +140,9 @@ const DetailPage = () => {
 
   // 1:1 채팅방 모달 열기
   const handleOpenPrivateChatRoom = async () => {
-    // 로그인한 유저가 액션장이면 1:1채팅하기 버튼 안보이게?!!?
-    // 본인이 방장인 경우, 1:1채팅 목록확인 이런식으로 버튼이름 바꿔야겠어
-    // 누르면 목록 보여주는 모달창 여는 로직
+    // TODO 로그인한 유저가 액션장이면 1:1채팅하기 버튼 안보이게 or 문구 수정
+    // 본인이 방장인 경우, '1:1채팅 목록 확인' 이런식으로 버튼 이름 바꿔야겠어
+    // 누르면 목록 보여주는 모달창 여는 로직 -> 채팅방 클릭시 채팅방 모달창 open
 
     // 1. 이미 1:1 채팅방이 존재하는지 먼저 확인 - 이미 있으면 string값, 없으면 null값 반환
     const exited_room_id = await checkPrivateChatRoomExist({
