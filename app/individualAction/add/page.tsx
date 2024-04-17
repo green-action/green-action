@@ -141,9 +141,11 @@ const AddActionPage = () => {
             isOpen={Modal.showPoint}
             point={300}
             mod={"add"}
+            onClose={() =>
+              setModal((state) => ({ ...state, showPoint: false }))
+            }
             handleClick={() => {
-              router.push(`/detail/${actionId}`);
-              setModal((state) => ({ ...state, showPoint: false }));
+              router.push(`/individualAction/detail/${actionId}`);
             }}
           />
         )}

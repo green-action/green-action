@@ -4,14 +4,14 @@ import { Chip } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
 
-import MainSlider from "./_components/main/MainSlider";
 import LaptopMainSlidder from "./_components/main/LaptopMainSlidder";
+import MainSlider from "./_components/main/MainSlider";
 import { useResponsive } from "./_hooks/responsive";
 
-import mainImg from "/app/_assets/image/mainpage/main.png";
+import TopButton from "./_components/TopButton";
 import downArrow from "/app/_assets/image/logo_icon/icon/mainpage/Group_124.png";
 import rightArrow from "/app/_assets/image/mainpage/Group 172.png";
-import TopButton from "./_components/TopButton";
+import mainImg from "/app/_assets/image/mainpage/main.png";
 
 import { useEffect, useRef, useState } from "react";
 
