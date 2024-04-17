@@ -46,7 +46,6 @@ import editAction from "/app/_assets/image/logo_icon/icon/mypage/image 55.png";
 import delAction from "/app/_assets/image/logo_icon/icon/mypage/Group 131.png";
 import nextBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 133.png";
 import prevBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 132.png";
-import ChatRooms from "@/app/_components/individualAction/ChatRooms";
 
 const DetailPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
