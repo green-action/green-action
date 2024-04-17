@@ -75,6 +75,16 @@ const GroupChat = ({ isOpen, onOpenChange, roomId }: ChatProps) => {
     });
   };
 
+  // action 참여 취소 핸들러
+  const handleCancelParticipate = () => {
+    const isConfirm = window.confirm("참여를 취소하시겠습니까?");
+    if (isConfirm) {
+      // 채팅방 인원 === 모집인원 인지 확인하기
+      // (맞으면 내가 나갔을때 '모집중'으로 바꿔야 함)
+      // 참가자 테이블에서 삭제
+    }
+  };
+
   return (
     <>
       {/* <Button onPress={onOpen}>Open Modal</Button> */}
@@ -87,8 +97,14 @@ const GroupChat = ({ isOpen, onOpenChange, roomId }: ChatProps) => {
         <ModalContent className="max-w-[30%] h-[80%] overflow-y-auto scrollbar-hide">
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
-                action 참여자 단체 채팅방
+              <ModalHeader className="flex gap-1">
+                <span className="mr-5">action 참여자 단체 채팅방</span>
+                <button
+                  className="bg-black text-white px-2"
+                  onClick={handleCancelParticipate}
+                >
+                  참여 취소하기
+                </button>
               </ModalHeader>
               <ModalBody>
                 <div className="flex justify-center">

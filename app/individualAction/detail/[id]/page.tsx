@@ -51,6 +51,7 @@ import {
   checkUserExist,
   countParticipants,
   getChatRoomId,
+  getRecruitingNumber,
   insertNewParticipant,
 } from "@/app/_api/messages/groupChat-api";
 
@@ -207,21 +208,34 @@ const DetailPage = () => {
       loggedInUserUid: user_uid,
     });
 
+    // 현재 채팅방 인원 가져오기
+    const participantsNumber = await countParticipants(room_id);
+
+    // action 모집인원 가져오기
+    const recruitingNumber = await getRecruitingNumber(room_id);
+
     // 참여중이지 않고, 채팅인원 < 모집인원 인 경우에만 insert
     // 새로운 참여인 경우 참가자 테이블에 insert
-    if (!participant_id) {
+    if (!participant_id && participantsNumber < recruitingNumber) {
       await insertNewParticipant({
         room_id,
         loggedInUserUid: user_uid,
       });
+    } else if (!participant_id && participantsNumber === recruitingNumber) {
+      alert("모집마감 되었습니다.");
+      return;
     }
 
+    // 채팅방 인원 +1 (내가 들어갔으니까) === 모집인원 이면 모집상태를 false로 변경
+    // (mode : "in" 인자로 넘겨주기)
+
+    // <기존 성공했던 코드 - api 분리 전>
     // 채팅 인원 파악, 해당 action의 모집인원
     // 채팅인원 === 모집인원 된 경우 -> 모집상태 '모집마감'으로 변경
-    await countParticipants({
-      room_id,
-      action_id,
-    });
+    // await countParticipants({
+    //   room_id,
+    //   action_id,
+    // });
 
     // 채팅방 모달창 open
     onGroupChatOpen();
