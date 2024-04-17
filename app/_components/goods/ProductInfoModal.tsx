@@ -4,13 +4,16 @@ import { useUserPoint } from "@/app/_hooks/useQueries/goods";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import AlertModal from "../community/AlertModal";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 import search from "/app/_assets/image/logo_icon/icon/goods/Group 128.png";
 
 const ProductInfoModal = ({
   item,
+  showProductInfo,
+  setShowProductInfo,
+  handleToggleProductInfo,
 }: {
   item: {
     id: string;
@@ -19,22 +22,25 @@ const ProductInfoModal = ({
     product_info: string;
     product_name: string;
   };
+  showProductInfo: boolean;
+  setShowProductInfo: Dispatch<SetStateAction<boolean>>;
+  handleToggleProductInfo: () => void;
 }) => {
   const queryClient = useQueryClient();
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid;
   // const loggedInUserUid = "40056464-b704-4c3e-8821-584424005432";
 
-  const [showProductInfo, setShowProductInfo] = useState(false);
+  // const [showProductInfo, setShowProductInfo] = useState(false);
   const [confirmPurchase, setConfirmPurchase] = useState(false);
 
   // alert 대체 모달창을 위한 상태관리
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const [message, setMessage] = useState("");
 
-  const handleToggleProductInfo = () => {
-    setShowProductInfo(!showProductInfo);
-  };
+  // const handleToggleProductInfo = () => {
+  //   setShowProductInfo(!showProductInfo);
+  // };
 
   const { mutate: pointMutation } = useMutation({
     mutationFn: ({
@@ -62,7 +68,6 @@ const ProductInfoModal = ({
 
   const handleConfirmPurchase = async () => {
     if (loggedInUserUid && user_point < item.point) {
-      // alert(`구매 불가 상품입니다 : 보유한 포인트 ${user_point}P`);
       setMessage(`구매 불가 상품입니다 : 보유한 포인트 ${user_point}P`);
       setIsOpenAlertModal(true);
 
@@ -77,13 +82,12 @@ const ProductInfoModal = ({
         const updatedPoint = user_point - item.point;
         pointMutation({ loggedInUserUid, updatedPoint });
 
-        // alert(`구매 성공! : 남은 포인트 ${updatedPoint}P`);
         setMessage(`구매 성공! : 남은 포인트 ${updatedPoint}P`);
         setIsOpenAlertModal(true);
       }
     } catch (error) {
       console.error("Error updating user point:", error);
-      // alert("구매 실패했습니다. 다시 시도해주세요.");
+
       setMessage("구매 실패했습니다. 다시 시도해주세요.");
       setIsOpenAlertModal(true);
     } finally {
@@ -110,16 +114,22 @@ const ProductInfoModal = ({
       />
       {showProductInfo && (
         <div
-          className="absolute desktop:w-[250px] desktop:h-[270px] rounded-[20px] desktop:top-[130px] desktop:left-[40px] 
-        bg-[#ffffff] laptop:w-[220px] laptop:h-[240px] laptop:top-[114px] laptop:left-[37px]"
+          className="absolute grid content-between desktop:w-[250px] desktop:h-[270px] rounded-[20px] desktop:top-[130px] desktop:left-[40px] 
+        bg-[#ffffff] laptop:w-[218px] laptop:h-[240px] laptop:top-[114px] laptop:left-[37px]"
         >
-          <div className="flex flex-col gap-1 text-center m-[22px]">
-            <p className="mb-[20px] text-[12px]">제품 상세 정보</p>
-            <p className="text-[12px]">{item.product_info}</p>
+          <div className="flex flex-col gap-1 text-center desktop:m-[22px] laptop:m-[13px]">
+            <p className="desktop:mb-[45px] laptop:mb-[37px] text-[11px] font-bold">
+              제품 상세 정보
+            </p>
+            <p className="text-[11px] leading-[160%] desktop:w-[212px] laptop:w-[195px]">
+              {item.product_info}
+            </p>
+          </div>
+          <div className="desktop:mx-[22px] desktop:mb-[22px] laptop:mx-[13px] laptop:mb-[13px]">
             {loggedInUserUid && (
-              <div className="flex justify-center gap-2 mt-5">
+              <div className="flex justify-center">
                 <button
-                  className="rounded-[20px] text-[13px] bg-[#EDF1E8] border-2 border-[#8A8A8A] w-[132px] h-[35px] mb-[25px]"
+                  className="rounded-[20px] font-semibold text-[11px] text-[#fff] bg-[#000] desktop:w-[132px] desktop:h-[35px] laptop:w-[115px] laptop:h-[31px] bottom-[22px]"
                   onClick={() => setConfirmPurchase(true)}
                 >
                   구매하기
@@ -134,14 +144,14 @@ const ProductInfoModal = ({
           className="absolute desktop:w-[250px] desktop:h-[270px] rounded-[20px] desktop:top-[130px] desktop:left-[40px] 
         bg-[#ffffff] laptop:w-[220px] laptop:h-[240px] laptop:top-[114px] laptop:left-[37px]"
         >
-          <div className="flex flex-col gap-1 text-center m-[22px]">
-            <p className="mb-[20px] text-[12px]">구매 확인</p>
-            <p className="text-[12px]">
+          <div className="flex flex-col gap-1 text-center m-[22px] mt-[103px]">
+            {/* <p className="mb-[20px] text-[11px]">구매 확인</p> */}
+            <p className="desktop:w-[212px] laptop:w-[184px] text-[11px] mb-[60px]">
               {item.point.toLocaleString()}P를 차감하고 구매하시겠습니까?
             </p>
-            <div className="flex justify-center gap-2 mt-5">
+            <div className="flex justify-center gap-2">
               <button
-                className="rounded-[20px] text-[13px] bg-[#EDF1E8] border-2 border-[#656565] w-[91px] h-[28px]"
+                className="rounded-[20px] font-semibold text-[11px] text-[#fff] bg-[#000] w-[91px] h-[28px]"
                 onClick={handleConfirmPurchase}
               >
                 구매
