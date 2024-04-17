@@ -71,9 +71,11 @@ export const insertNewPrivateChatRoom = async ({
   loggedInUserUid: string;
 }) => {
   try {
-    // 채팅방 테이블에 insert
-    // -> action_id로 owner_id 파악하여 함께 insert
-    // -> room_id 반환
+    // 1) 채팅방 테이블에 insert
+    // 2) action_id로 owner_id 파악하여 함께 insert
+    // 3) room_id 반환
+
+    // owner_id 가져오기
     const { data: ownerId, error: ownerIdError } = await supabase
       .from("individual_green_actions")
       .select("user_uid")
@@ -86,9 +88,46 @@ export const insertNewPrivateChatRoom = async ({
 
     const actionOwnerId = ownerId[0].user_uid;
 
-    // 참가자 테이블에 insert
-    // const { data, error } = supabase.from("chat_participants").insert({
-    // });
+    // 채팅방 insert, room_id 반환
+    if (actionOwnerId !== null) {
+      const { data: roomId, error: insertRoomError } = await supabase
+        .from("chat_rooms_info")
+        .insert({
+          owner_uid: actionOwnerId,
+          action_id,
+          room_type: "개인",
+        })
+        .select("id");
+
+      if (insertRoomError) {
+        console.log("error", insertRoomError.message);
+        throw insertRoomError;
+      }
+      const privateChatRoom_id = roomId[0]?.id;
+
+      // 4) 참가자 테이블에 insert - 참가자 본인과, 방장도 함께
+      const { error: insertParticipantError } = await supabase
+        .from("chat_participants")
+        .insert([
+          {
+            room_id: privateChatRoom_id,
+            participant_uid: loggedInUserUid,
+            participant_type: "참가자",
+          },
+          {
+            room_id: privateChatRoom_id,
+            participant_uid: actionOwnerId,
+            participant_type: "방장",
+          },
+        ]);
+
+      if (insertParticipantError) {
+        console.log("error", insertParticipantError.message);
+        throw insertParticipantError;
+      }
+
+      return privateChatRoom_id;
+    }
   } catch (error) {
     console.error("error >>", error);
     throw error;

@@ -132,6 +132,8 @@ const DetailPage = () => {
 
   // 1:1 채팅방 모달 열기
   const handleOpenPrivateChatRoom = async () => {
+    // 로그인한 유저가 액션장이면 1:1채팅하기 버튼 안보이게?!!?
+
     // 1. 이미 1:1 채팅방이 존재하는지 먼저 확인 - 이미 있으면 string값, 없으면 null값 반환
     const exited_room_id = await checkPrivateChatRoomExist({
       user_uid,
@@ -140,16 +142,21 @@ const DetailPage = () => {
 
     // 1) exited_room_id가 있으면 (1:1채팅방 이미 열려있는 경우) -> 모달에 전달
     // roomIdRef에 room_id 설정 -> 1:1채팅 모달 props로 넘겨주기
-    // if (exited_room_id) {
-    //   roomIdRef.current = exited_room_id;
-    // }
+    if (exited_room_id) {
+      roomIdRef.current = exited_room_id;
+    }
 
     // 2) exited_room_id가 없으면 (1:1채팅방 아직 안열린 경우)
     // -> chat_rooms_info 테이블, chat_participants 테이블에 insert하기 -> room_id 반환
-    await insertNewPrivateChatRoom({
+    const new_room_id = await insertNewPrivateChatRoom({
       action_id: params.id,
       loggedInUserUid: user_uid,
     });
+
+    // roomIdRef에 room_id 설정
+    if (new_room_id) {
+      roomIdRef.current = new_room_id;
+    }
 
     // 반환받은 room_id를 1:1채팅 모달에 넘겨주기
     // -> channel명을 room_id로 설정하기
