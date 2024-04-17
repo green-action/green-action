@@ -141,7 +141,7 @@ const DetailPage = () => {
   const isLoading = individualActionLoading || actionImagesLoading;
   const isError = individualActionError || actionImagesError;
 
-  console.log("이미지url : ", imgUrl);
+  // console.log("이미지url : ", imgUrl);
 
   if (isLoading || !individualAction)
     return (
@@ -150,7 +150,7 @@ const DetailPage = () => {
       </div>
     );
   const detail = individualAction![0];
-  console.log(detail);
+  // console.log(detail);
 
   const mode = "detailPage";
 
