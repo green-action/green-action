@@ -48,6 +48,7 @@ import delAction from "/app/_assets/image/logo_icon/icon/mypage/Group 131.png";
 import nextBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 133.png";
 import prevBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 132.png";
 import {
+  changeRecruitingState,
   checkUserExist,
   countParticipants,
   getChatRoomId,
@@ -202,11 +203,17 @@ const DetailPage = () => {
     const room_id = await getChatRoomId(action_id);
     groupRoomIdRef.current = room_id;
 
-    // 채팅에 참여중인지 여부 확인(참여중이면 id값 있음, 아직 참여중이 아니면 null)
+    // 채팅에 참여중인지 여부 확인(참여중이면 id값 있음 / 미참여 상태이면 null)
     const participant_id = await checkUserExist({
       room_id,
       loggedInUserUid: user_uid,
     });
+
+    // 이미 참여중인 경우 처리
+    if (participant_id) {
+      onGroupChatOpen();
+      return;
+    }
 
     // 현재 채팅방 인원 가져오기
     const participantsNumber = await countParticipants(room_id);
@@ -214,20 +221,24 @@ const DetailPage = () => {
     // action 모집인원 가져오기
     const recruitingNumber = await getRecruitingNumber(room_id);
 
-    // 참여중이지 않고, 채팅인원 < 모집인원 인 경우에만 insert
-    // 새로운 참여인 경우 참가자 테이블에 insert
-    if (!participant_id && participantsNumber < recruitingNumber) {
-      await insertNewParticipant({
-        room_id,
-        loggedInUserUid: user_uid,
-      });
-    } else if (!participant_id && participantsNumber === recruitingNumber) {
+    // 채팅인원 === 모집인원 -> alert띄우기
+    if (participantsNumber === recruitingNumber) {
       alert("모집마감 되었습니다.");
       return;
     }
 
-    // 채팅방 인원 +1 (내가 들어갔으니까) === 모집인원 이면 모집상태를 false로 변경
-    // (mode : "in" 인자로 넘겨주기)
+    // 채팅인원 < 모집인원 -> 참가자 테이블에 insert
+    if (participantsNumber < recruitingNumber) {
+      await insertNewParticipant({
+        room_id,
+        loggedInUserUid: user_uid,
+      });
+    }
+
+    // 채팅인원 +1(내가 참여했으니까) === 모집인원 -> '모집마감' 처리
+    if (participantsNumber + 1 === recruitingNumber) {
+      await changeRecruitingState({ action_id, mode: "in" });
+    }
 
     // <기존 성공했던 코드 - api 분리 전>
     // 채팅 인원 파악, 해당 action의 모집인원
