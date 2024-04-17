@@ -122,7 +122,6 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
           </svg>
         </button>
       )}
-
       <div
         ref={dialogContRef}
         className="absolute top-[-50%] left-1/2 translate-x-[-50%] translate-y-[-50%] p-[10px] w-full transition-all z-[50] opacity-0"
@@ -132,14 +131,15 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
         </div>
         <div className="text-center bg-[#f5f5f2] flex flex-row gap-3 justify-center py-5 rounded-xl">
           <Button
+            type="submit"
             onClick={customConfirm.okay}
-            className="inline-block w-[100px] py-[5px]  cursor-pointer border border-[#999] bg-white hover:bg-[#f1f1f1]"
+            className="inline-block w-[100px] py-[5px]  cursor-pointer border border-[#999] bg-white hover:bg-black hover:text-white"
           >
             네
           </Button>
           <Button
             onClick={customConfirm.close}
-            className="inline-block w-[100px] py-[5px]  cursor-pointer border border-[#999] bg-white hover:bg-[#f1f1f1]"
+            className="inline-block w-[100px] py-[5px]  cursor-pointer border border-[#999] bg-white hover:bg-black hover:text-white"
           >
             아니오
           </Button>

@@ -28,19 +28,14 @@ const ProductInfoModal = ({
 }) => {
   const queryClient = useQueryClient();
   const session = useSession();
-  const loggedInUserUid = session.data?.user.user_uid;
-  // const loggedInUserUid = "40056464-b704-4c3e-8821-584424005432";
+  // const loggedInUserUid = session.data?.user.user_uid;
+  const loggedInUserUid = "40056464-b704-4c3e-8821-584424005432";
 
-  // const [showProductInfo, setShowProductInfo] = useState(false);
   const [confirmPurchase, setConfirmPurchase] = useState(false);
 
   // alert 대체 모달창을 위한 상태관리
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const [message, setMessage] = useState("");
-
-  // const handleToggleProductInfo = () => {
-  //   setShowProductInfo(!showProductInfo);
-  // };
 
   const { mutate: pointMutation } = useMutation({
     mutationFn: ({
@@ -54,7 +49,6 @@ const ProductInfoModal = ({
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_USER_POINT] });
     },
     onError: () => {
-      // alert("처리에 오류가 발생했습니다. 다시 시도해주세요.");
       setMessage("처리에 오류가 발생했습니다. 다시 시도해주세요.");
       setIsOpenAlertModal(true);
     },
@@ -109,27 +103,28 @@ const ProductInfoModal = ({
       <Image
         src={search}
         alt="제품상세정보"
-        className="desktop:size-[33px] laptop:size-[29px] cursor-pointer"
+        className="desktop:size-[33px] laptop:size-[29px] size-[33px] cursor-pointer"
         onClick={handleToggleProductInfo}
       />
       {showProductInfo && (
         <div
           className="absolute grid content-between desktop:w-[250px] desktop:h-[270px] rounded-[20px] desktop:top-[130px] desktop:left-[40px] 
-        bg-[#ffffff] laptop:w-[218px] laptop:h-[240px] laptop:top-[114px] laptop:left-[37px]"
+        bg-[#ffffff] laptop:w-[218px] laptop:h-[240px] laptop:top-[114px] laptop:left-[37px]
+        w-[218px] h-[255px] top-[112px] left-[39px]"
         >
-          <div className="flex flex-col gap-1 text-center desktop:m-[22px] laptop:m-[13px]">
-            <p className="desktop:mb-[45px] laptop:mb-[37px] text-[11px] font-bold">
+          <div className="flex flex-col gap-1 text-center desktop:m-[22px] laptop:m-[13px] mx-[13px] mt-[24px]">
+            <p className="desktop:mb-[45px] laptop:mb-[37px] mb-[37px] text-[11px] font-bold">
               제품 상세 정보
             </p>
             <p className="text-[11px] leading-[160%] desktop:w-[212px] laptop:w-[195px]">
               {item.product_info}
             </p>
           </div>
-          <div className="desktop:mx-[22px] desktop:mb-[22px] laptop:mx-[13px] laptop:mb-[13px]">
+          <div className="desktop:mx-[22px] desktop:mb-[22px] laptop:mx-[13px] laptop:mb-[13px] mx-[13px] mb-[13px]">
             {loggedInUserUid && (
               <div className="flex justify-center">
                 <button
-                  className="rounded-[20px] font-semibold text-[11px] text-[#fff] bg-[#000] desktop:w-[132px] desktop:h-[35px] laptop:w-[115px] laptop:h-[31px] bottom-[22px]"
+                  className="rounded-[20px] font-semibold text-[11px] text-[#fff] bg-[#000] desktop:w-[132px] desktop:h-[35px] laptop:w-[115px] laptop:h-[31px] w-[115px] h-[31px] bottom-[22px]"
                   onClick={() => setConfirmPurchase(true)}
                 >
                   구매하기
@@ -142,11 +137,10 @@ const ProductInfoModal = ({
       {confirmPurchase && (
         <div
           className="absolute desktop:w-[250px] desktop:h-[270px] rounded-[20px] desktop:top-[130px] desktop:left-[40px] 
-        bg-[#ffffff] laptop:w-[220px] laptop:h-[240px] laptop:top-[114px] laptop:left-[37px]"
+        bg-[#ffffff] laptop:w-[220px] laptop:h-[240px] laptop:top-[114px] laptop:left-[37px] w-[218px] h-[255px] top-[112px] left-[39px]"
         >
           <div className="flex flex-col gap-1 text-center m-[22px] mt-[103px]">
-            {/* <p className="mb-[20px] text-[11px]">구매 확인</p> */}
-            <p className="desktop:w-[212px] laptop:w-[184px] text-[11px] mb-[60px]">
+            <p className="desktop:w-[212px] laptop:w-[184px] w-[184px] text-[11px] mb-[60px]">
               {item.point.toLocaleString()}P를 차감하고 구매하시겠습니까?
             </p>
             <div className="flex justify-center gap-2">
