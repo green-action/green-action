@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ProductInfoModal from "./ProductInfoModal";
 
 const GoodsImg = ({
