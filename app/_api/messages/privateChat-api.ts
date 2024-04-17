@@ -137,18 +137,17 @@ export const insertNewPrivateChatRoom = async ({
 // 메시지 보내기
 export const sendMessage = async ({
   sender_uid,
-  action_id,
+  room_id,
   content,
 }: {
   sender_uid: string;
-  action_id: string;
+  room_id: string;
   content: string;
 }) => {
   const { error } = await supabase.from("chat_messages").insert({
     sender_uid,
-    action_id,
+    room_id,
     content,
-    room_id: "0f6c67c5-6ce3-4972-9839-c0ffa8e6fae4",
   });
 
   if (error) {

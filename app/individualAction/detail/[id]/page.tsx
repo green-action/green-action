@@ -165,9 +165,6 @@ const DetailPage = () => {
       roomIdRef.current = new_room_id;
     }
 
-    // 반환받은 room_id를 1:1채팅 모달에 넘겨주기
-    // -> channel명을 room_id로 설정하기
-
     // 채팅방 모달창 open
     onPrivateChatOpen();
   };

@@ -128,8 +128,8 @@ const PrivateChat = ({ isOpen, onOpenChange, roomId }: PrivateChatProps) => {
 
     await sendMessage({
       sender_uid: loggedInUserUid,
+      room_id: roomId,
       content: message,
-      action_id,
     });
   };
 
