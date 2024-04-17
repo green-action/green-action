@@ -47,6 +47,7 @@ import editAction from "/app/_assets/image/logo_icon/icon/mypage/image 55.png";
 import delAction from "/app/_assets/image/logo_icon/icon/mypage/Group 131.png";
 import nextBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 133.png";
 import prevBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 132.png";
+import { getChatRoomId } from "@/app/_api/messages/groupChat-api";
 
 const DetailPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
@@ -188,7 +189,11 @@ const DetailPage = () => {
   };
 
   // 단체 채팅방 클릭 핸들러
-  const handleOpenGroupChatRoom = () => {
+  const handleOpenGroupChatRoom = async () => {
+    const action_id = params.id;
+    // 단체 채팅방 room_id 가져오기
+    const room_id = await getChatRoomId(action_id);
+
     // 채팅방 모달창 open
     onGroupChatOpen();
   };
