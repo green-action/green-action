@@ -47,7 +47,11 @@ import editAction from "/app/_assets/image/logo_icon/icon/mypage/image 55.png";
 import delAction from "/app/_assets/image/logo_icon/icon/mypage/Group 131.png";
 import nextBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 133.png";
 import prevBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 132.png";
-import { getChatRoomId } from "@/app/_api/messages/groupChat-api";
+import {
+  checkUserExist,
+  getChatRoomId,
+  insertNewParticipant,
+} from "@/app/_api/messages/groupChat-api";
 
 const DetailPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
@@ -191,8 +195,27 @@ const DetailPage = () => {
   // 단체 채팅방 클릭 핸들러
   const handleOpenGroupChatRoom = async () => {
     const action_id = params.id;
+
     // 단체 채팅방 room_id 가져오기
     const room_id = await getChatRoomId(action_id);
+    groupRoomIdRef.current = room_id;
+
+    // 채팅에 참여중인지 여부 확인(참여중이면 id값 있음, 아직 참여중이 아니면 null)
+    const participant_id = await checkUserExist({
+      room_id,
+      loggedInUserUid: user_uid,
+    });
+
+    // 새로운 참여인 경우 참가자 테이블에 insert
+    if (!participant_id) {
+      await insertNewParticipant({
+        room_id,
+        loggedInUserUid: user_uid,
+      });
+    }
+
+    // 채팅 인원 파악, 모집인원과 비교
+    // 채팅인원 === 모집인원 된 경우 -> 모집상태 '모집마감'으로 변경
 
     // 채팅방 모달창 open
     onGroupChatOpen();
