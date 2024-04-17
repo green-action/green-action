@@ -1,19 +1,35 @@
 "use client";
 
 import { Card, Image } from "@nextui-org/react";
-import NextImage from "next/image";
-import SoomLoaing from "../_assets/image/loading/SOOM_gif.gif";
 import TopButton from "../_components/TopButton";
 import GroupModal from "../_components/groupAction/GroupModal";
+import GroupSkeleton from "../_components/groupAction/GroupSkeleton";
+import { useResponsive } from "../_hooks/responsive";
 import { useGroupAction } from "../_hooks/useQueries/groupAction";
 
 const groupActionPage = () => {
   const { data: groupAction, isLoading } = useGroupAction();
+  const groupLength = groupAction?.groupGreenActions.length;
+  const { isDesktop, isLaptop, isMobile } = useResponsive();
 
   if (isLoading || !groupAction) {
     return (
-      <div className="w-[300px] h-auto mx-auto">
-        <NextImage src={SoomLoaing} alt="SoomLoading" />
+      <div
+        className={`grid gap-[50px] m-auto mt-14 mx-auto ${
+          isDesktop
+            ? "grid-cols-4 w-[1500px]"
+            : isLaptop
+            ? "grid-cols-3 w-[910px]"
+            : ""
+        }`}
+      >
+        <GroupSkeleton />
+        <GroupSkeleton />
+        <GroupSkeleton />
+        <GroupSkeleton />
+        {/* {[...Array(groupLength)].map((_, index) => (
+          <GroupSkeleton key={index} />
+        ))} */}
       </div>
     );
   }
@@ -23,15 +39,33 @@ const groupActionPage = () => {
   }
 
   return (
-    <div className="grid desktop:grid-cols-4 desktop:w-[1500px] laptop:w-[910px] gap-[50px] laptop:grid-cols-3 m-auto mt-14 mx-auto">
+    <div
+      className={`grid gap-[50px] m-auto mt-14 mx-auto ${
+        isDesktop
+          ? "grid-cols-4 w-[1500px]"
+          : isLaptop
+          ? "grid-cols-3 w-[910px]"
+          : ""
+      }`}
+    >
       <TopButton />
       {groupGreenActions.map((action) => {
         return (
           <div
-            className="flex flex-col desktop:mb-[100px] laptop:mb-[180px]"
+            className={`flex flex-col ${
+              isDesktop ? "mb-[100px]" : isLaptop ? "mb-[180px]" : "mb-[100px]"
+            }`}
             key={action.id}
           >
-            <Card className="desktop:w-[365px] desktop:h-[550px] laptop:w-[289px] laptop:h-[433px] m-auto brightness-90">
+            <Card
+              className={`m-auto brightness-90 ${
+                isDesktop
+                  ? "w-[365px] h-[550px]"
+                  : isLaptop
+                  ? "w-[289px] h-[433px]"
+                  : ""
+              } `}
+            >
               <Image
                 shadow="sm"
                 radius="lg"
