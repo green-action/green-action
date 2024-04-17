@@ -22,7 +22,13 @@ import {
 } from "@nextui-org/react";
 import { useGetMessagesList } from "@/app/_hooks/useQueries/chats";
 
-const PrivateChat = ({ isOpen, onOpenChange, roomId }: ChatProps) => {
+type ChatPropsExceptActionId = Omit<ChatProps, "actionId">;
+
+const PrivateChat = ({
+  isOpen,
+  onOpenChange,
+  roomId,
+}: ChatPropsExceptActionId) => {
   const [message, setMessage] = useState("");
 
   // console.log("roomId", roomId);

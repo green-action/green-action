@@ -378,6 +378,7 @@ const DetailPage = () => {
                 isOpen={isGroupChatOpen}
                 onOpenChange={onGroupChatOpenChange}
                 roomId={groupRoomIdRef.current}
+                actionId={params.id}
               />
             )}
             <div className="flex justify-center mt-[67px]">

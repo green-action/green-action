@@ -19,8 +19,13 @@ import {
   ModalFooter,
   Button,
 } from "@nextui-org/react";
+import {
+  changeRecruitingState,
+  countParticipants,
+  getRecruitingNumber,
+} from "@/app/_api/messages/groupChat-api";
 
-const GroupChat = ({ isOpen, onOpenChange, roomId }: ChatProps) => {
+const GroupChat = ({ isOpen, onOpenChange, roomId, actionId }: ChatProps) => {
   const [message, setMessage] = useState("");
   const queryClient = useQueryClient();
 
@@ -76,13 +81,25 @@ const GroupChat = ({ isOpen, onOpenChange, roomId }: ChatProps) => {
   };
 
   // action 참여 취소 핸들러
-  const handleCancelParticipate = () => {
+  const handleCancelParticipate = async (onClose: () => void) => {
     const isConfirm = window.confirm("참여를 취소하시겠습니까?");
     if (isConfirm) {
-      // 채팅방 인원 === 모집인원 인지 확인하기
+      // 1. 채팅방 인원 === 모집인원 인지 확인하기
       // (맞으면 내가 나갔을때 '모집중'으로 바꿔야 함)
-      // 참가자 테이블에서 삭제
+
+      // 현재 채팅방 인원 가져오기
+      const participantsNumber = await countParticipants(roomId);
+
+      // action 모집인원 가져오기
+      const recruitingNumber = await getRecruitingNumber(roomId);
+
+      if (participantsNumber === recruitingNumber) {
+        await changeRecruitingState({ action_id: actionId, mode: "out" });
+      }
+
+      // 2. 참가자 테이블에서 삭제
     }
+    onClose();
   };
 
   return (
@@ -101,7 +118,7 @@ const GroupChat = ({ isOpen, onOpenChange, roomId }: ChatProps) => {
                 <span className="mr-5">action 참여자 단체 채팅방</span>
                 <button
                   className="bg-black text-white px-2"
-                  onClick={handleCancelParticipate}
+                  onClick={() => handleCancelParticipate(onClose)}
                 >
                   참여 취소하기
                 </button>

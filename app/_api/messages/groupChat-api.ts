@@ -204,5 +204,3 @@ export const changeRecruitingState = async ({
     throw error;
   }
 };
-
-// 참가할때 : 채팅인원 < 모집인원 일때만 insert하는 로직으로 수정하기
