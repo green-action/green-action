@@ -131,7 +131,7 @@ const PrivateChatsList = ({
                 <div>
                   <Avatar
                     showFallback
-                    src={privateChat?.users?.profile_img}
+                    src={privateChat?.users?.profile_img || ""}
                     alt=""
                     className="mx-3"
                   />

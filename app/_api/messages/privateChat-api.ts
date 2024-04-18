@@ -193,13 +193,18 @@ export const getPrivateRoomIds = async (action_id: string) => {
   return roomIds;
 };
 
+// TODO 이중 외래키로 채팅방의 참가자 닉네임, 프로필 가져오기 (chat_participants - participant_type이 '개인' 인 participant_uid -> users 접근)
 // 1:1 채팅방 리스트 가져오기
 export const getPrivateChatsList = async (roomIds: string[]) => {
   const chatPromises = roomIds.map(async (roomId) => {
     const { data, error } = await supabase
       .from("chat_messages")
       .select("created_at, content, room_id, users(display_name, profile_img)")
+      // .select(
+      //   "created_at, content, room_id,chat_participants(participant_type===참가자, users(display_name, profile_img))",
+      // )
       .eq("room_id", roomId)
+      // .eq(chat_participants("participant_type", "참가자"))
       .order("created_at", { ascending: false })
       .limit(1);
 
