@@ -12,7 +12,8 @@ import {
 } from "@nextui-org/react";
 import { getPrivateRoomIds } from "@/app/_api/messages/privateChat-api";
 import { supabase } from "@/utils/supabase/client";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEY_PRIVATE_ROOM_IDS } from "@/app/_api/queryKeys";
 
 const PrivateChatsList = ({
   onClose,
@@ -26,36 +27,15 @@ const PrivateChatsList = ({
 
   const queryClient = useQueryClient();
 
-  // 채팅방 목록 가져오기 -> useQuery? realtime구독? (마지막 메시지 바뀔때마다 업데이트 되어야하는데...)
-  // realtime 구독을 한다면, map으로 모든 room을 구독해야하는지? useEffect안에서 구독을 map으로 돌리는게 가능한건지?
-  // 방이 삭제, 추가 되거나 원래 있던방에서 새로운 메시지가 오는 경우 바로바로 update가 되어야 해.
-
-  // 아마도?!
-  // action_id에 해당하는 room id들 전부 가져와서 배열에 넣기
-  // useEffect로 room id들 map해서 전부 다 구독하기 + 채팅방 rooms_info 테이블도 같이 구독하기(새로운 채팅방 추가될때 바로 업데이트 되도록)
-  // useQuery로 room id에 해당하는 닉네임, 아바타, 마지막 메시지, 마지막 메시지 시간 가져오기
-  // -> 구독하고 insert했을때 실행되는 함수 부분에 '가져온 정보 무효화'하는 로직 넣어주기
-  // 가져온 정보들은 채팅방 jsx map으로 뿌려주기
-
-  useEffect(() => {
-    // 채팅방 room_id 배열 가져오기
-    const fetchData = async () => {
-      const response = await getPrivateRoomIds(action_id);
-      setRoomIds(response);
-    };
-    fetchData();
-  }, [action_id]);
-
   useEffect(() => {
     // 채팅내용 구독 - room_id 별로 채팅내용 변경사항 구독
-    // subscriptions 배열 선언
     const subscriptions = roomIds.map((roomId) => {
       const subscription = supabase
         .channel(`${roomId}`)
         .on(
           "postgres_changes",
           { event: "INSERT", schema: "public", table: "chat_messages" },
-          // 채팅방 리스트 무효화
+          // 해당 채팅방 최신화 - 채팅 내용들 가져온 쿼리키 무효화
           (payload) => {
             queryClient.invalidateQueries({
               // queryKey: [QUERY_KEY_PRIVATE_ROOMS_LIST],
@@ -64,12 +44,10 @@ const PrivateChatsList = ({
         )
         .subscribe();
 
-      return subscription; // subscription을 반환하여 배열에 추가
+      return subscription;
     });
 
-    // console.log("subscriptions", subscriptions);
-
-    // 채팅방 테이블 변경사항 구독
+    // 채팅방 테이블 변경사항 구독 (새 채팅방 insert될때 채팅방 리스트 실시간 업데이트)
     const chatRoomsSubscription = supabase.channel(`{${action_id}}`).on(
       "postgres_changes",
       { event: "INSERT", schema: "public", table: "chat_rooms_info" },
@@ -77,7 +55,7 @@ const PrivateChatsList = ({
       // 채팅방 리스트 무효화
       (payload) => {
         queryClient.invalidateQueries({
-          // queryKey: [QUERY_KEY_PRIVATE_ROOMS_LIST],
+          queryKey: [QUERY_KEY_PRIVATE_ROOM_IDS],
         });
       },
     );
@@ -88,8 +66,21 @@ const PrivateChatsList = ({
       });
       chatRoomsSubscription.unsubscribe();
     };
-    // 새로운 채팅방이 insert됐을때, 이 방도 구독해야되는데 이부분은 어떻게 처리하지?
-  }, [roomIds]);
+    // 새로운 채팅방이 insert됐을때 useEffect 다시 실행 -> 다시 map이 돌면서 새 채팅방도 구독해준다.
+  }, [action_id, roomIds]);
+
+  // 채팅방 room_id 배열 가져오기
+  const { error } = useQuery({
+    queryKey: [QUERY_KEY_PRIVATE_ROOM_IDS],
+    queryFn: async () => {
+      const response = await getPrivateRoomIds(action_id);
+      setRoomIds(response);
+    },
+  });
+
+  if (error) {
+    return <div>Error</div>;
+  }
 
   // 해당 읽었는지 안읽었는지는 chat_messages에 column을 하나 더 추가해야할듯 (isRead)
   // 읽었는지 안읽었는지를 어떻게 파악하는건지??
