@@ -69,9 +69,10 @@ const ChatButtons = ({
 
   // 1:1 채팅방 모달 열기
   const handleOpenPrivateChatRoom = async () => {
-    // TODO 로그인한 유저가 액션장이면 1:1채팅하기 버튼 안보이게 or 문구 수정
-    // 본인이 방장인 경우, '1:1채팅 목록 확인' 이런식으로 버튼 이름 바꿔야겠어
-    // 누르면 목록 보여주는 모달창 여는 로직 -> 채팅방 클릭시 채팅방 모달창 open
+    if (!loggedInUserUid) {
+      alert("로그인이 필요합니다");
+      return;
+    }
 
     // 1. 이미 1:1 채팅방이 존재하는지 먼저 확인 - 이미 있으면 string값, 없으면 null값 반환
     const exited_room_id = await checkPrivateChatRoomExist({
@@ -112,6 +113,11 @@ const ChatButtons = ({
 
   // 단체 채팅방 클릭 핸들러
   const handleOpenGroupChatRoom = async () => {
+    if (!loggedInUserUid) {
+      alert("로그인이 필요합니다");
+      return;
+    }
+
     // 단체 채팅방 room_id 가져오기
     const room_id = await getChatRoomId(action_id);
     groupRoomIdRef.current = room_id;
