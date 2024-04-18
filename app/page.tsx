@@ -112,20 +112,16 @@ const MainPage = () => {
             <Link href={`/individualAction`}>전체 보기</Link>
           </Chip>
         </section>
-        <section className="bg-pink-200">
+        <section className="flex justify-between w-full h-[760px] bg-blend-darken bg-black bg-opacity-[57%]">
           {/*  className="desktop:h-[760px] laptop:h-[600px] desktop:pt-[250px] laptop:pt-[210px] bg-blend-darken bg-black bg-opacity-50" */}
           {/*  pt-[311px] 인데 자체수정 */}
-          <Image
-            src={setboxImg}
-            alt="굿즈제품전체사진"
-            className="w-full h-[760px] "
-            // object-cover
-          />
+          <div className="bg-[#d6d6d6] w-[50%] brightness-[57.5%]" />
+          <div className="bg-[#d6d6d6] w-[50%] brightness-[57.5%]" />
           <div
-            style={{ transform: `translateY(-${position / 500}vh` }}
-            className="z-0 flex flex-col items-center"
+            style={{ transform: `translateY(-${position / 100}vh` }}
+            className="absolute z-10 flex flex-col justify-center items-center w-full h-[500px] mt-[580px]"
           >
-            <div className="z-0 flex flex-col items-center font-['Italiana'] desktop:text-[48pt] laptop:text-[35pt] text-white">
+            <div className="flex flex-col items-center font-['Italiana'] desktop:text-[48pt] laptop:text-[35pt] text-white">
               <p>Experience the earth breathing together </p>
               <p> in your daily life</p>
             </div>
@@ -139,16 +135,23 @@ const MainPage = () => {
               {/* setboxImg */}
               <Link
                 href={`/about`}
-                className="flex gap-4 items-center text-white font-['Inter'] font-light desktop:text-[16pt] laptop:text-[12pt]"
+                className="flex gap-4 items-center text-white font-['Inter'] font-light desktop:text-[20pt] laptop:text-[12pt]"
               >
                 <p>VIEW MORE</p>
                 <Image
                   src={rightArrow}
                   alt="right-arrow"
-                  className="w-[20px] h-[16px] "
+                  className="w-[20px] h-[16px]"
                 />
               </Link>
             </Chip>
+          </div>
+          <div className="">
+            <Image
+              src={setboxImg}
+              alt="굿즈제품전체사진"
+              className="-z-30 w-[1325px] h-[760px] object-cover brightness-[57%]"
+            />
           </div>
         </section>
       </div>
