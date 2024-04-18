@@ -88,6 +88,14 @@ const ChatButtons = ({
 
       // 채팅방 모달창 open
       onPrivateChatOpen();
+      // 새 창으로 여는 경우
+      // window.open(
+      //   `/privateChat/${privateRoomIdRef.current}`,
+      //   "newWindow",
+      //   `width=400, height=600, left=${(window.screen.width - 400) / 2} top=${
+      //     (window.screen.height - 700) / 2
+      //   }`,
+      // );
       return; // 함수 종료
     }
 
@@ -105,6 +113,15 @@ const ChatButtons = ({
 
     // 채팅방 모달창 open
     onPrivateChatOpen();
+
+    // 새 창으로 여는 경우
+    // window.open(
+    //   `/privateChat/${privateRoomIdRef.current}`,
+    //   "newWindow",
+    //   `width=400, height=600, left=${(window.screen.width - 400) / 2} top=${
+    //     (window.screen.height - 700) / 2
+    //   }`,
+    // );
   };
 
   const handleOpenPrivateChatsList = () => {
