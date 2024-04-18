@@ -55,6 +55,7 @@ import {
   getRecruitingNumber,
   insertNewParticipant,
 } from "@/app/_api/messages/groupChat-api";
+import ChatsListModal from "@/app/_components/chats/ChatsListModal";
 
 const DetailPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
@@ -86,6 +87,13 @@ const DetailPage = () => {
   const handleOpen = () => {
     onOpen();
   };
+
+  // 채팅방 리스트 모달창
+  const {
+    isOpen: isChatsListModalOpen,
+    onOpen: onChatsListModalOpen,
+    onClose: onChatsListModalClose,
+  } = useDisclosure();
 
   // 1:1 채팅방 모달창
   const {
@@ -193,6 +201,10 @@ const DetailPage = () => {
 
     // 채팅방 모달창 open
     onPrivateChatOpen();
+  };
+
+  const handleOpenPrivateChatsList = () => {
+    onChatsListModalOpen();
   };
 
   // 단체 채팅방 클릭 핸들러
@@ -326,8 +338,14 @@ const DetailPage = () => {
             </div>
             <div
               className="border-1 border-[#bfbfbf] bg-[#fafafa] h-[74.7px] rounded-[20px] mb-[22px] text-center content-center font-semibold cursor-pointer"
-              onClick={handleOpenPrivateChatRoom}
+              onClick={
+                // TODO 로그인유저 !== 액션장 인 경우의 onClick
+                handleOpenPrivateChatRoom
+                // TODO 로그인유저 === 액션장 인 경우의 onClick
+                // handleOpenPrivateChatsList
+              }
             >
+              {/* TODO 로그인유저가 액션장인 경우 '1:1문의 목록 보기'로 문구 수정 */}
               1:1 채팅하기
             </div>
             <div
@@ -337,6 +355,7 @@ const DetailPage = () => {
               // onClick={() => handleOpen()}
               onClick={handleOpenGroupChatRoom}
             >
+              {/* TODO 로그인유저가 액션장인 경우 '그룹채팅방 보기'로 문구 수정 */}
               참여하기
             </div>
             <Modal
@@ -366,11 +385,21 @@ const DetailPage = () => {
                 )}
               </ModalContent>
             </Modal>
+            {/* 로그인 유저가 일반 참여자인 경우 */}
             {isPrivateChatOpen && (
               <PrivateChat
                 isOpen={isPrivateChatOpen}
                 onOpenChange={onPrivateChatOpenChange}
                 roomId={privateRoomIdRef.current}
+              />
+            )}
+            {/* TODO 로그인 유저가 액션장인 경우 -> 채팅방 리스트 한번 열고, 그 다음에 방 클릭시 해당 방 모달을 보여주기 */}
+            {isChatsListModalOpen && (
+              <ChatsListModal
+                isOpen={isChatsListModalOpen}
+                onOpen={onChatsListModalOpen}
+                onClose={onChatsListModalClose}
+                mode="actionPage"
               />
             )}
             {isGroupChatOpen && (

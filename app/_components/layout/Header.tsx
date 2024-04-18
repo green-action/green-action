@@ -52,6 +52,13 @@ function Header() {
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const [message, setMessage] = useState("");
 
+  // 채팅방 리스트 모달창
+  const {
+    isOpen: isChatsListModalOpen,
+    onOpen: onChatsListModalOpen,
+    onClose: onChatsListModalClose,
+  } = useDisclosure();
+
   const handleLogoLinkClick = () => {
     router.push("/");
   };
@@ -114,13 +121,6 @@ function Header() {
   ////////////////////////////////////////////////////
   // 헤더 투명이었다가 스크롤하면 블러처리
   const [isScrolled, setIsScrolled] = useState(false);
-
-  // 채팅방 리스트 모달창
-  const {
-    isOpen: isChatsListModalOpen,
-    onOpen: onChatsListModalOpen,
-    onClose: onChatsListModalClose,
-  } = useDisclosure();
 
   useEffect(() => {
     // useFetchUserInfo(user_uid);
