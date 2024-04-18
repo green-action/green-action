@@ -373,13 +373,13 @@ const DetailPage = () => {
                       <Image
                         src={editAction}
                         alt="수정"
-                        className="desktop:size-[19px] desktop:mr-[30px] cursor-pointer"
+                        className="desktop:size-[19px] desktop:mr-[30px] laptop:size-[19px] laptop:mr-[30px] cursor-pointer"
                         onClick={handleEditClick}
                       />
                       <Image
                         src={delAction}
                         alt="삭제"
-                        className="desktop:size-[17px] cursor-pointer"
+                        className="desktop:size-[17px] laptop:size-[17px] cursor-pointer"
                         onClick={handleDeleteClick}
                       />
                     </div>
@@ -389,7 +389,9 @@ const DetailPage = () => {
                   className="flex justify-between mt-[51px] border-b-2 border-[#bfbfbf]
              "
                 >
-                  <p className="font-bold text-xl pb-[27px]">{detail.title}</p>
+                  <p className="font-bold text-xl pb-[27px] laptop:pl-[10px]">
+                    {detail.title}
+                  </p>
                   <div className="flex flex-row text-sm items-center desktop:mr-[20px] desktop:pb-[20px]">
                     <div
                       className={`w-[57px] h-[18px] rounded-[5px] content-center text-center text-white mr-[35px] ${
