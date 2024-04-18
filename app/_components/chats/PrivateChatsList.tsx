@@ -29,16 +29,16 @@ const PrivateChatsList = ({
   action_id: string;
 }) => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
-  const [roomIds, setRoomIds] = useState<string[]>([]);
+  // const [roomIds, setRoomIds] = useState<string[]>([]);
 
   const queryClient = useQueryClient();
 
   // 채팅방 room_id 배열 가져오기
-  const { data: test, error } = useQuery({
+  const { data: roomIds, error } = useQuery({
     queryKey: [QUERY_KEY_PRIVATE_ROOM_IDS],
     queryFn: async () => {
       const response = await getPrivateRoomIds(action_id);
-      setRoomIds(response);
+      // setRoomIds(response);
       return response;
     },
   });
@@ -102,7 +102,7 @@ const PrivateChatsList = ({
 
   useEffect(() => {
     // 채팅내용 구독 - room_id 별로 채팅내용 변경사항 구독
-    const subscriptions = roomIds.map((roomId) => {
+    const subscriptions = roomIds?.map((roomId) => {
       const subscription = supabase
         .channel(`${roomId}`)
         .on(
@@ -121,7 +121,7 @@ const PrivateChatsList = ({
     });
 
     return () => {
-      subscriptions.map((subscription) => {
+      subscriptions?.map((subscription) => {
         return subscription.unsubscribe();
       });
     };
@@ -138,18 +138,19 @@ const PrivateChatsList = ({
   //   },
   // });
 
+  // 채팅방 리스트 가져오기
   const { data: privateChatsList, error: privateChatListError } = useQuery({
     queryKey: [QUERY_KEY_PRIVATE_CHATS_LIST],
     queryFn: async () => {
-      if (test) {
-        return await getPrivateChatsList(test);
+      if (roomIds) {
+        return await getPrivateChatsList(roomIds);
       }
       return [];
     },
-    enabled: !!test,
+    enabled: !!roomIds,
   });
 
-  if (privateChatListError) {
+  if (error || privateChatListError) {
     return <div>Error</div>;
   }
 
