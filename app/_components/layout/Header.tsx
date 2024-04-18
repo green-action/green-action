@@ -13,7 +13,10 @@ import {
   NavbarContent,
   Tab,
   Tabs,
+  Badge,
+  Button,
 } from "@nextui-org/react";
+// import { NotificationIcon } from "./NotificationIcon";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -26,6 +29,8 @@ import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
 
 import Image from "next/image";
 import AlertModal from "../community/AlertModal";
+import { NotificationIcon } from "../chats/NotificationIcon";
+import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 
 function Header() {
   const router = useRouter();
@@ -235,7 +240,28 @@ function Header() {
                 </div>
               )}
             </div>
-
+            {/* 채팅방 badge */}
+            <Badge content="99+" shape="circle" color="default">
+              <Button
+                radius="full"
+                isIconOnly
+                aria-label="more than 99 notifications"
+                variant="light"
+              >
+                <IoChatbubbleEllipsesOutline className="text-2xl" />
+              </Button>
+            </Badge>
+            {/* push알림 badge */}
+            <Badge content="99+" shape="circle" color="default">
+              <Button
+                radius="full"
+                isIconOnly
+                aria-label="more than 99 notifications"
+                variant="light"
+              >
+                <NotificationIcon size={24} height={24} width={24} />
+              </Button>
+            </Badge>
             {isLoggedIn ? (
               <>
                 <Dropdown
