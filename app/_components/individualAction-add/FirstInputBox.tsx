@@ -29,6 +29,7 @@ const FirstInputBox = ({
                   name="startDate"
                   required
                   type="date"
+                  form="mainForm"
                   className="h-[40px] p-4 border-1.5 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
                 />
               </div>
@@ -44,6 +45,7 @@ const FirstInputBox = ({
                   name="endDate"
                   required
                   type="date"
+                  form="mainForm"
                   className="h-[40px] p-4 border-1.5 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
                 />
               </div>
@@ -59,6 +61,7 @@ const FirstInputBox = ({
                 id="maxParticipants"
                 name="maxParticipants"
                 required
+                form="mainForm"
                 className=" w-1/6 h-[30px] text-right mx-2 pr-4 bg-inherit focus:outline-none"
               />
               명
@@ -87,6 +90,7 @@ const FirstInputBox = ({
                   name="activityLocation"
                   value={activityLocation}
                   onChange={handleActivityLocationChange}
+                  form="mainForm"
                   required
                   className="w-10/12 h-[30px] mx-4 pr-2 bg-inherit focus:outline-none"
                 />
@@ -105,6 +109,7 @@ const FirstInputBox = ({
                 type="url"
                 id="openKakaoLink"
                 name="openKakaoLink"
+                form="mainForm"
                 required
                 className="w-10/12 h-[30px] mx-4 pr-2 bg-inherit focus:outline-none"
               />
