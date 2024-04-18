@@ -174,7 +174,7 @@ export const sendMessage = async ({
   }
 };
 
-// 액션별 1:1 채팅방 리스트 가져오기
+// 액션별 1:1 채팅방 room_id들 배열로 가져오기
 export const getPrivateRoomIds = async (action_id: string) => {
   const { data, error } = await supabase
     .from("chat_rooms_info")
@@ -193,19 +193,35 @@ export const getPrivateRoomIds = async (action_id: string) => {
   return roomIds;
 };
 
+// 1:1 채팅방 리스트 가져오기
 export const getPrivateChatsList = async (roomIds: string[]) => {
-  // console.log("roomIds", roomIds);
-  const { data, error } = await supabase
-    .from("chat_messages")
-    .select("created_at, content, users(display_name, profile_img)")
-    .in("room_id", roomIds)
-    .order("created_at", { ascending: false }) // 최신순으로 정렬
-    .limit(1); // 각 채팅방에서 최신 메시지 하나만 가져옴
+  const chatPromises = roomIds.map(async (roomId) => {
+    const { data, error } = await supabase
+      .from("chat_messages")
+      .select("created_at, content, room_id, users(display_name, profile_img)")
+      .eq("room_id", roomId)
+      .order("created_at", { ascending: false })
+      .limit(1);
 
-  if (error) {
-    console.log("error", error.message);
-    throw error;
-  }
+    if (error) {
+      console.log(
+        `Error fetching chat messages for room ${roomId}: ${error.message}`,
+      );
+      throw error;
+    }
 
-  return data;
+    if (data && data.length > 0) {
+      return data[0]; // 가장 최신 메시지 반환
+    } else {
+      return {
+        room_id: roomId,
+        created_at: "",
+        content: "",
+        users: { display_name: "", profile_img: "" },
+      };
+    }
+  });
+
+  const chatList = await Promise.all(chatPromises);
+  return chatList;
 };

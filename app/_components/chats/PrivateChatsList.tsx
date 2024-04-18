@@ -73,7 +73,11 @@ const PrivateChatsList = ({
           (payload) => {
             queryClient.invalidateQueries({
               queryKey: [QUERY_KEY_PRIVATE_CHATS_LIST],
-            });
+            }),
+              // 채팅방 개설은 되어있지만, 메시지가 하나도 없었던 경우 대비
+              queryClient.invalidateQueries({
+                queryKey: [QUERY_KEY_PRIVATE_ROOM_IDS],
+              });
           },
         )
         .subscribe();
