@@ -4,8 +4,8 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { LuPencilLine } from "react-icons/lu";
-import PageList from "./PageList";
 import AlertModal from "../community/AlertModal";
+import PageList from "./PageList";
 
 const PageTap = () => {
   const [activeTab, setActiveTab] = useState("모든 캠페인");
@@ -176,7 +176,10 @@ const PageTap = () => {
         <LuPencilLine className="w-8 h-8" />
       </Button>
 
-      <PageList filteredActions={filteredActions} />
+      <PageList
+        filteredActions={filteredActions}
+        isActionsLoading={isActionsLoading}
+      />
       {isOpenAlertModal && (
         <AlertModal
           isOpen={isOpenAlertModal}
