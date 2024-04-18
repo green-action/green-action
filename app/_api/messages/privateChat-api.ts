@@ -172,3 +172,5 @@ export const sendMessage = async ({
     console.log("error", error.message);
   }
 };
+
+// 액션별 1:1 채팅방 리스트 가져오기

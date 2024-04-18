@@ -391,6 +391,7 @@ function Header() {
           onOpen={onChatsListModalOpen}
           onClose={onChatsListModalClose}
           mode="header"
+          action_id=""
         />
       )}
     </>

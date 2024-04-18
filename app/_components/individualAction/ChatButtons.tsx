@@ -189,12 +189,14 @@ const ChatButtons = ({
       >
         {actionOwnerUid === loggedInUserUid ? "그룹채팅방 보기" : "참여하기"}
       </div>
+      {/* 1:1문의 목록보기 */}
       {isChatsListModalOpen && (
         <ChatsListModal
           isOpen={isChatsListModalOpen}
           onOpen={onChatsListModalOpen}
           onClose={onChatsListModalClose}
           mode="actionPage"
+          action_id={action_id}
         />
       )}
       {/* 1:1문의 채팅방 */}
