@@ -15,6 +15,7 @@ import {
   Tabs,
   Badge,
   Button,
+  useDisclosure,
 } from "@nextui-org/react";
 // import { NotificationIcon } from "./NotificationIcon";
 import { signOut, useSession } from "next-auth/react";
@@ -31,6 +32,7 @@ import Image from "next/image";
 import AlertModal from "../community/AlertModal";
 import { NotificationIcon } from "../chats/NotificationIcon";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
+import ChatsListModal from "../chats/ChatsListModal";
 
 function Header() {
   const router = useRouter();
@@ -112,6 +114,13 @@ function Header() {
   ////////////////////////////////////////////////////
   // 헤더 투명이었다가 스크롤하면 블러처리
   const [isScrolled, setIsScrolled] = useState(false);
+
+  // 채팅방 리스트 모달창
+  const {
+    isOpen: isChatsListModalOpen,
+    onOpen: onChatsListModalOpen,
+    onClose: onChatsListModalClose,
+  } = useDisclosure();
 
   useEffect(() => {
     // useFetchUserInfo(user_uid);
@@ -247,6 +256,9 @@ function Header() {
                 isIconOnly
                 aria-label="more than 99 notifications"
                 variant="light"
+                onClick={() => {
+                  onChatsListModalOpen();
+                }}
               >
                 <IoChatbubbleEllipsesOutline className="text-2xl" />
               </Button>
@@ -371,6 +383,14 @@ function Header() {
             setIsOpenAlertModal(false);
           }}
           message={message}
+        />
+      )}
+      {isChatsListModalOpen && (
+        <ChatsListModal
+          isOpen={isChatsListModalOpen}
+          onOpen={onChatsListModalOpen}
+          onClose={onChatsListModalClose}
+          mode="header"
         />
       )}
     </>
