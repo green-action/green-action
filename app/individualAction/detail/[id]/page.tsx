@@ -20,8 +20,8 @@ import { useResponsive } from "@/app/_hooks/responsive";
 import KakaoShareButton from "@/app/_components/kakaoShare/KakaoShare";
 import Bookmark from "@/app/_components/bookmark/Bookmark";
 import TopButton from "@/app/_components/TopButton";
-import PrivateChat from "@/app/_components/individualAction/PrivateChat";
-import GroupChat from "@/app/_components/individualAction/GroupChat";
+import PrivateChat from "@/app/_components/chats/PrivateChat";
+import GroupChat from "@/app/_components/chats/GroupChat";
 import Image from "next/image";
 
 import Slider from "react-slick";
