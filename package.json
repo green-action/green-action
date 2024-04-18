@@ -7,7 +7,6 @@
   },
   "dependencies": {
     "@nextui-org/react": "^2.2.10",
-    "@nextui-org/skeleton": "^2.0.25",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
     "@tanstack/react-query": "^5.28.9",

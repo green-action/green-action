@@ -1,15 +1,14 @@
-"use client";
-
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/utils/supabase/client";
 
 import type { ChatProps } from "@/app/_types/realtime-chats";
 
-import { useQueryClient } from "@tanstack/react-query";
-import { sendMessage } from "@/app/_api/messages/privateChat-api";
-
 import { QUERY_KEY_MESSAGES_LIST } from "@/app/_api/queryKeys";
+
+import { useGetMessagesList } from "@/app/_hooks/useQueries/chats";
+import { sendMessage } from "@/app/_api/messages/privateChat-api";
 
 import { Input } from "@nextui-org/react";
 import {
@@ -20,18 +19,16 @@ import {
   ModalFooter,
   Button,
 } from "@nextui-org/react";
-import { useGetMessagesList } from "@/app/_hooks/useQueries/chats";
 
-const PrivateChat = ({ isOpen, onOpenChange, roomId }: ChatProps) => {
+const GroupChat = ({ isOpen, onOpenChange, roomId }: ChatProps) => {
   const [message, setMessage] = useState("");
-
-  // console.log("roomId", roomId);
-
   const queryClient = useQueryClient();
 
   // 현재 로그인한 유저 uid
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
+
+  // console.log("roomId", roomId);
 
   useEffect(() => {
     const subscription = supabase
@@ -46,41 +43,6 @@ const PrivateChat = ({ isOpen, onOpenChange, roomId }: ChatProps) => {
             queryKey: [QUERY_KEY_MESSAGES_LIST],
           });
         },
-
-        // 시도 1. messages를 상태로 관리하기
-        // (payload) => {
-        //   // Update the specific part of the query data
-        //   const newMessage = payload.new;
-        //   setMessages((prevMessages) => [...prevMessages, newMessage]); // messages 업데이트
-        // },
-
-        // 시도 2. setQueryData 리팩토링 시도1
-        // (payload) => {
-        //   // Update the specific part of the query data
-        //   const newMessage = payload.new;
-        //   queryClient.setQueryData(
-        //     ["messagesList", loggedInUserUid],
-        //     (prevData) => {
-        //       [...prevData, newMessage];
-        //     },
-        //   );
-        // },
-
-        // 시도 3. setQueryData 리팩토링 시도2
-        // (payload) => {
-        //   // Update the specific part of the query data
-        //   const newMessage = payload.new;
-        //   queryClient.setQueryData(
-        //     ["messagesList"],
-        //     (prevData: MessageType[]) => {
-        //       // Check if prevData is an array, if not, initialize it as an empty array
-        //       const newData = Array.isArray(prevData)
-        //         ? [...prevData, newMessage]
-        //         : [newMessage];
-        //       return newData;
-        //     },
-        //   );
-        // },
       )
       .subscribe();
 
@@ -126,7 +88,7 @@ const PrivateChat = ({ isOpen, onOpenChange, roomId }: ChatProps) => {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                1:1 문의하기
+                action 참여자 단체 채팅방
               </ModalHeader>
               <ModalBody>
                 <div className="flex justify-center">
@@ -178,4 +140,4 @@ const PrivateChat = ({ isOpen, onOpenChange, roomId }: ChatProps) => {
   );
 };
 
-export default PrivateChat;
+export default GroupChat;

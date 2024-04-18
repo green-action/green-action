@@ -5,6 +5,7 @@ import React, { useRef, useState } from "react";
 
 import {
   insertActionTextForm,
+  insertGroupChatRoom,
   insertImgUrls,
   updateUserPoint,
   uploadFilesAndGetUrls,
@@ -121,6 +122,9 @@ const AddActionPage = () => {
 
         // 4. 이미지url들 table에 넣기 - action_id에 id사용
         await insertImgUrls({ action_id, imgUrlsArray });
+
+        // 5. 단체 채팅방 생성
+        await insertGroupChatRoom({ loggedInUserUid, action_id });
 
         // 입력값 초기화
         const target = event.target as HTMLFormElement;

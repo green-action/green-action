@@ -15,11 +15,11 @@ const GroupModal = ({
   action,
 }: {
   action: {
-    content: string | null;
-    hosted_by: string | null;
+    content: string;
+    hosted_by: string;
     id: string;
     img_url: string;
-    title: string | null;
+    title: string;
     action_url: string;
   };
 }) => {

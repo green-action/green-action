@@ -13,3 +13,9 @@ export interface MessageType {
     profile_img: string | null;
   } | null;
 }
+
+export interface ChatProps {
+  isOpen: boolean;
+  onOpenChange: () => void;
+  roomId: string;
+}
