@@ -18,7 +18,15 @@ import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 // import heart from "../../../app/_assets/image/logo_icon/icon/community/Group 130.png";
 // import emptyHeart from "../../../app/_assets/image/logo_icon/icon/community/Group 83.png";
 
-const Likes = ({ post_id, isOpen }: { post_id: string; isOpen: boolean }) => {
+const Likes = ({
+  post_id,
+  isOpen,
+  mode,
+}: {
+  post_id: string;
+  isOpen: boolean;
+  mode: string;
+}) => {
   const { data, isLoading } = useFilterLikes(post_id);
   const addLikeMutation = useAddLike();
   const removeLikeMutation = useRemoveLike();
@@ -84,9 +92,14 @@ const Likes = ({ post_id, isOpen }: { post_id: string; isOpen: boolean }) => {
           <GoHeart className="size-[18px]" />
         )}
       </button>
-      <span className={`text-[16px] ${isOpen ? `text-black` : `text-white`} `}>
-        {data?.likes?.length ?? 0}
-      </span>
+      {mode !== "mobile" && (
+        <span
+          className={`text-[16px] ${isOpen ? `text-black` : `text-white`} `}
+        >
+          {data?.likes?.length ?? 0}
+        </span>
+      )}
+
       {isOpenAlertModal && (
         <AlertModal
           isOpen={isOpenAlertModal}
