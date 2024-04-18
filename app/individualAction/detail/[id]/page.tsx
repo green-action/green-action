@@ -474,7 +474,7 @@ const DetailPage = () => {
             )}
             {/* 카카오맵 추가 */}
             <div className="mt-10">
-              <KakakoMap />
+              <KakakoMap placeName={detail.location || ""} />
             </div>
             {/* 카카오맵 추가 */}
           </div>
