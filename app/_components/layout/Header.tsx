@@ -156,11 +156,11 @@ function Header() {
                 variant="light"
                 className="flex rounded-full bg-white/30 font-bold" // + 볼드체
                 classNames={{
-                  tab: "px-4 desktop:h-[35px] laptop:h-[27px]",
+                  tab: "px-4 desktop:h-[40px] laptop:h-[27px]",
                   tabList:
-                    "flex items-center desktop:gap-[10px] laptop:gap-[30px] desktop:h-[45px] laptop:h-[35px] desktop:min-w-[600px] laptop:min-w-[446px]", // d:w-[511px] h-[39px]인데 자체변경? / laptop gap 자체
+                    "flex items-center desktop:gap-[10px] laptop:gap-[30px] desktop:h-[50px] laptop:h-[35px] desktop:min-w-[650px] laptop:min-w-[446px]", // d:w-[511px] h-[39px]인데 자체변경? / laptop gap 자체
                   tabContent:
-                    "flex items-center text-[#454545] desktop:text-[13pt] laptop:text-[10pt] laptop:h-[35px]", // ㅣ:text 11 자체
+                    "flex items-center text-[#2b2b2b] desktop:text-[13pt] laptop:text-[10pt] laptop:h-[35px]", // ㅣ:text 11 자체
                 }}
               >
                 <Tab
@@ -211,7 +211,7 @@ function Header() {
                   {/* 폰트크기 넓이 안맞음 */}
                   <Navbar
                     isBlurred={false}
-                    className="flex desktop:gap-[23px] laptop:gap-[19px] desktop:mt-3 items-center justify-center desktop:w-[345px] laptop:w-[255px] desktop:h-[42px] laptop:h-[35px] rounded-full bg-[#E8E8E8]/30  "
+                    className="flex desktop:gap-[23px] laptop:gap-[19px] desktop:mt-3 items-center justify-center desktop:w-[345px] laptop:w-[255px] desktop:h-[50px] laptop:h-[35px] rounded-full bg-[#E8E8E8]/30  "
                   >
                     <Link
                       href={"/individualAction"}

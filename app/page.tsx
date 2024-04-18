@@ -40,7 +40,7 @@ const MainPage = () => {
         <Image
           src={mainImg}
           alt="main-image"
-          className="absolute top-0 min-w-[1020px] desktop:h-[2700px] laptop:h-[2100px] brightness-[60%]"
+          className="absolute top-0 min-w-[1020px] desktop:h-[2700px] laptop:h-[2100px] brightness-[70%]" // 밝기: 60% 너무 어두워 70%로 변경
         />
         <section
           style={{ transform: `translateY(-${position / 30}vh` }}
