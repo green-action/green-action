@@ -124,7 +124,7 @@ const CommunityDetailModal = ({
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Likes post_id={post_id} isOpen={isOpen} />
+                      <Likes post_id={post_id} isOpen={isOpen} mode="" />
                     </div>
                   </div>
                   {/* 두번째 줄 : 활동 내용 */}
