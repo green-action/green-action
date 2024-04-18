@@ -56,7 +56,9 @@ const CommunityListPost = ({
           ${mode !== "main" && mode !== "myPosts" && "w-[31%] mb-2"}
         `}
       >
-        <CommunitySkeleton mode="myPosts" />
+        {mode === "myPosts" && <CommunitySkeleton mode="myPosts" />}
+        {mode === "main" && <CommunitySkeleton mode="main" />}
+        {mode !== "myPosts" && mode !== "main" && <CommunitySkeleton />}
       </div>
     );
   }
