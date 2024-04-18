@@ -213,12 +213,8 @@ export const getPrivateChatsList = async (roomIds: string[]) => {
     if (data && data.length > 0) {
       return data[0]; // 가장 최신 메시지 반환
     } else {
-      return {
-        room_id: roomId,
-        created_at: "",
-        content: "",
-        users: { display_name: "", profile_img: "" },
-      };
+      // 메시지 없이 빈 채팅방인 경우
+      return;
     }
   });
 
