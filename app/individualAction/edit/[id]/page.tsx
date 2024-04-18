@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 import {
   insertImgUrls,
@@ -12,6 +12,7 @@ import {
   updateActionTextForm,
 } from "@/app/_api/individualAction-edit/edit-api";
 
+import CustomConfirm from "@/app/_components/customConfirm/CustomConfirm";
 import ImgEdit from "@/app/_components/individualAction-edit/ImgEdit";
 import { useGetActionForEdit } from "@/app/_hooks/useQueries/individualAction-edit";
 
@@ -52,33 +53,29 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
     const formData = new FormData(event.currentTarget);
 
     try {
-      // 확인창 표시
-      const isConfirmed = window.confirm("수정하시겠습니까?");
-      if (isConfirmed) {
-        // 1. action_id와 텍스트 formData 보내서 update
-        await updateActionTextForm({
-          action_id,
-          formData,
-        });
+      // 1. action_id와 텍스트 formData 보내서 update
+      await updateActionTextForm({
+        action_id,
+        formData,
+      });
 
-        // 2. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
-        // 기존에 있던 이미지 외에, 새롭게 업로드한 이미지들이 file저장 + url반환됨
-        const imgUrlsArray = await uploadFilesAndGetUrls({ files, action_id });
+      // 2. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
+      // 기존에 있던 이미지 외에, 새롭게 업로드한 이미지들이 file저장 + url반환됨
+      const imgUrlsArray = await uploadFilesAndGetUrls({ files, action_id });
 
-        // 3. 반환받은 url배열을 테이블에 insert
-        await insertImgUrls({ action_id, imgUrlsArray });
+      // 3. 반환받은 url배열을 테이블에 insert
+      await insertImgUrls({ action_id, imgUrlsArray });
 
-        // 4. deleteFileIds 참고, 테이블에 해당 id 있으면 행 삭제
-        // 기존에 스토리지에 있던 이미지를 삭제 요청한 경우 테이블에서 삭제해주는 로직
-        await deleteImagesByIds(deleteFileIds);
+      // 4. deleteFileIds 참고, 테이블에 해당 id 있으면 행 삭제
+      // 기존에 스토리지에 있던 이미지를 삭제 요청한 경우 테이블에서 삭제해주는 로직
+      await deleteImagesByIds(deleteFileIds);
 
-        // 입력값 초기화
-        const target = event.target as HTMLFormElement;
-        target.reset();
+      // 입력값 초기화
+      const target = event.target as HTMLFormElement;
+      target.reset();
 
-        // 확인을 클릭하면 action_id의 상세페이지로 이동
-        router.push(`/individualAction/detail/${action_id}`);
-      }
+      // 확인을 클릭하면 action_id의 상세페이지로 이동
+      router.push(`/individualAction/detail/${action_id}`);
     } catch (error) {
       console.error("Error updating data:", error);
     }
@@ -240,12 +237,18 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
             </div>
             {/* 수정, 취소 버튼 */}
             <div className="w-[724px] flex justify-center gap-4">
-              <button
+              {/* <button
                 type="submit"
                 className="bg-gray-200 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500"
               >
                 <span className="font-extrabold">수정완료</span>
-              </button>
+              </button> */}
+              <CustomConfirm
+                text="수정하시겠습니까?"
+                buttonName="수정완료"
+                okFunction={() => handleSubmit}
+                mode="individualAdd"
+              />
               <button className="bg-gray-100 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500">
                 <span className="font-extrabold">취소하기</span>
               </button>

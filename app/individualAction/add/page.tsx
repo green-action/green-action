@@ -13,6 +13,7 @@ import {
 
 import AlertModal from "@/app/_components/community/AlertModal";
 import PointModal from "@/app/_components/community/PointModal";
+import CustomConfirm from "@/app/_components/customConfirm/CustomConfirm";
 import FirstInputBox from "@/app/_components/individualAction-add/FirstInputBox";
 import ImgUpload from "@/app/_components/individualAction-add/ImgUpload";
 import SecondInputBox from "@/app/_components/individualAction-add/SecondInputBox";
@@ -67,31 +68,27 @@ const AddActionPage = () => {
     }
 
     try {
-      // 확인창 표시
-      const isConfirmed = window.confirm("등록하시겠습니까?");
-      if (isConfirmed) {
-        // 1. user_uid와 텍스트 formData insert -> action_id 반환받기
-        const action_id = await insertActionTextForm({
-          formData,
-          loggedInUserUid,
-        });
-        setActionId(action_id);
-        // 2. 500point 업데이트
-        await updateUserPoint(loggedInUserUid, { mode: "addAction" });
+      // 1. user_uid와 텍스트 formData insert -> action_id 반환받기
+      const action_id = await insertActionTextForm({
+        formData,
+        loggedInUserUid,
+      });
+      setActionId(action_id);
+      // 2. 500point 업데이트
+      await updateUserPoint(loggedInUserUid, { mode: "addAction" });
 
-        // 3. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
-        const imgUrlsArray = await uploadFilesAndGetUrls({ files, action_id });
+      // 3. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
+      const imgUrlsArray = await uploadFilesAndGetUrls({ files, action_id });
 
-        // 4. 이미지url들 table에 넣기 - action_id에 id사용
-        await insertImgUrls({ action_id, imgUrlsArray });
+      // 4. 이미지url들 table에 넣기 - action_id에 id사용
+      await insertImgUrls({ action_id, imgUrlsArray });
 
-        // 5. 단체 채팅방 생성
-        await insertGroupChatRoom({ loggedInUserUid, action_id });
+      // 5. 단체 채팅방 생성
+      await insertGroupChatRoom({ loggedInUserUid, action_id });
 
-        // 입력값 초기화
-        const target = event.target as HTMLFormElement;
-        target.reset();
-      }
+      // 입력값 초기화
+      const target = event.target as HTMLFormElement;
+      target.reset();
     } catch (error) {
       console.error("Error inserting data:", error);
     }
@@ -123,13 +120,19 @@ const AddActionPage = () => {
             {/* 이미지 아래 세번째 박스(활동 소개) */}
             <ThirdInputBox />
             {/* 등록, 취소 버튼 */}
-            <div className="w-[724px] flex justify-center gap-4">
-              <button
+            <div className="w-[724px] flex justify-center gap-4 ">
+              {/* <button
                 type="submit"
                 className="bg-gray-200 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500"
               >
                 <span className="font-extrabold">등록완료</span>
-              </button>
+              </button> */}
+              <CustomConfirm
+                text="등록하시겠습니까?"
+                okFunction={() => handleSubmit}
+                buttonName="등록완료"
+                mode="individualAdd"
+              />
               <button className="bg-gray-100 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500">
                 <span className="font-extrabold">취소하기</span>
               </button>
