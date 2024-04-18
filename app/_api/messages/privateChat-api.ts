@@ -192,3 +192,20 @@ export const getPrivateRoomIds = async (action_id: string) => {
   });
   return roomIds;
 };
+
+export const getPrivateChatsList = async (roomIds: string[]) => {
+  // console.log("roomIds", roomIds);
+  const { data, error } = await supabase
+    .from("chat_messages")
+    .select("created_at, content, users(display_name, profile_img)")
+    .in("room_id", roomIds)
+    .order("created_at", { ascending: false }) // 최신순으로 정렬
+    .limit(1); // 각 채팅방에서 최신 메시지 하나만 가져옴
+
+  if (error) {
+    console.log("error", error.message);
+    throw error;
+  }
+
+  return data;
+};
