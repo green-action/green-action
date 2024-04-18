@@ -89,46 +89,43 @@ const AddPostModal = () => {
 
     try {
       // 확인창 표시
-      const isConfirmed = window.confirm("작성하시겠습니까?");
-      if (isConfirmed) {
-        if (!file) {
-          alert("사진은 필수값입니다.");
-          return;
-        } else if (
-          !formData.get("activityTitle") ||
-          !formData.get("activityDescription") ||
-          !formData.get("action_type")
-        ) {
-          alert("입력하신 내용이 없습니다.");
-          return;
-        }
-        // 이미지 스토리지 업로드 후 url 반환받기
-        const imgUrl = await uploadFileAndGetUrl(file);
-
-        // url이 존재하면 formData에 append
-        if (imgUrl) {
-          formData.append("image_url", imgUrl);
-        }
-
-        // 500포인트 업데이트
-        await updateUserPoint(loggedInUserUid, { mode: "addPost" });
-
-        setShowPointModal(true);
-
-        // formData(텍스트, 이미지url) insert
-        insertFormDataMutation({
-          formData,
-          loggedInUserUid,
-        });
-
-        // 입력값 초기화
-        setFile(null);
-        setUploadedFileUrl("");
-        setSelectedKeys(new Set(["Green-action 선택하기"]));
-        const target = event.target as HTMLFormElement;
-        target.reset();
-        onClose();
+      if (!file) {
+        alert("사진은 필수값입니다.");
+        return;
+      } else if (
+        !formData.get("activityTitle") ||
+        !formData.get("activityDescription") ||
+        !formData.get("action_type")
+      ) {
+        alert("입력하신 내용이 없습니다.");
+        return;
       }
+      // 이미지 스토리지 업로드 후 url 반환받기
+      const imgUrl = await uploadFileAndGetUrl(file);
+
+      // url이 존재하면 formData에 append
+      if (imgUrl) {
+        formData.append("image_url", imgUrl);
+      }
+
+      // 500포인트 업데이트
+      await updateUserPoint(loggedInUserUid, { mode: "addPost" });
+
+      setShowPointModal(true);
+
+      // formData(텍스트, 이미지url) insert
+      insertFormDataMutation({
+        formData,
+        loggedInUserUid,
+      });
+
+      // 입력값 초기화
+      setFile(null);
+      setUploadedFileUrl("");
+      setSelectedKeys(new Set(["Green-action 선택하기"]));
+      const target = event.target as HTMLFormElement;
+      target.reset();
+      onClose();
     } catch (error) {
       console.error("Error inserting data:", error);
     }
@@ -242,12 +239,17 @@ const AddPostModal = () => {
                 </ModalBody>
                 {/* 작성완료 버튼 */}
                 <ModalFooter className="flex justify-center mb-12 !p-0">
-                  <Button
+                  {/* <Button
                     type="submit"
                     className="text-gray-500 rounded-full !w-[140px] h-[33px] border border-gray-400 bg-[#EFEFEF]"
                   >
                     작성완료
-                  </Button>
+                  </Button> */}
+                  <CustomConfirm
+                    text="작성하시겠습니까?"
+                    buttonName="작성완료"
+                    okFunction={() => handleSubmit}
+                  />
                 </ModalFooter>
               </form>
             </>

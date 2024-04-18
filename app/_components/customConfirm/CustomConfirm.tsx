@@ -35,6 +35,9 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
         dialogContRef.current.style.top = "50%";
         // opacity: 0 -> 1
         dialogContRef.current.style.opacity = "1";
+        if (mode === "individualAdd") {
+          dialogContRef.current.style.top = "80%";
+        }
         // handleClick 할당
         this.callback = callback;
         // confirm 뒤에 배경 display:none -> display:black
@@ -72,7 +75,9 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
     <div>
       <div
         ref={freezeLayerRef}
-        className="w-full h-full top-0 left-0 bg-black/30 z-[1] hidden absolute rounded-2xl"
+        className={`w-full h-full top-0 left-0 bg-black/30 z-[1] hidden absolute rounded-2xl ${
+          mode === "individualAdd" ? "h-[1544px]" : "h-full"
+        }`}
       ></div>
 
       {/* mode가 myBookmarks(마이페이지 찜한 action) 인 경우에 버튼 대신 북마크아이콘 */}
@@ -122,9 +127,12 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
           </svg>
         </button>
       )}
+
       <div
         ref={dialogContRef}
-        className="absolute top-[-50%] left-1/2 translate-x-[-50%] translate-y-[-50%] p-[10px] w-full transition-all z-[50] opacity-0"
+        className={`absolute top-[-50%] left-1/2 translate-x-[-50%] translate-y-[-50%] p-[10px] w-full transition-all z-[50] opacity-0 ${
+          mode === "individualAdd" ? "w-[30%]" : "w-full"
+        }`}
       >
         <div className="p-[10px] py-[50px] leading-7 bg-[#f5f5f2] text-center rounded-xl mb-[-20px] text-[10.5pt]">
           {text}
