@@ -1,10 +1,8 @@
-import React from "react";
-
 const FirstInputBox = () => {
   return (
     <>
       <div className="flex justify-between gap-[88px] w-[724px] h-[209px] border-1.5 border-gray-300 rounded-3xl pt-[21px] px-[28px] pb-[28px] mb-4 ">
-        <div className="flex flex-col justify-center w-1/2 gap-6">
+        <div className="flex flex-col justify-center w-1/2 gap-6 ">
           <div className="">
             <p className="text-[13px] font-extrabold mb-1">활동 날짜</p>
             <div className="flex w-full gap-4 justify-between mb-[18px]">

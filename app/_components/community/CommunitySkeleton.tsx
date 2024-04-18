@@ -1,6 +1,6 @@
 import { Card, Skeleton } from "@nextui-org/react";
 
-const CommunitySkeleton = ({ mode }: { mode: string }) => {
+const CommunitySkeleton = ({ mode }: { mode?: string }) => {
   return (
     <div
       className={` ${
@@ -9,7 +9,7 @@ const CommunitySkeleton = ({ mode }: { mode: string }) => {
       }
             ${
               mode === "myPosts" &&
-              "desktop:w-[356px] laptop:w-[327px] laptop:h-[400px]"
+              "desktop:w-[356px] laptop:w-[433px] laptop:h-[311px]"
             }
           ${mode !== "main" && mode !== "myPosts" && "w-[31%] mb-2"}
         `}
@@ -30,10 +30,10 @@ const CommunitySkeleton = ({ mode }: { mode: string }) => {
           <div className="h-24 rounded-lg bg-default-300"></div>
         </Skeleton>
       </Card>
-      <div className="flex mt-4">
+      <div className="flex mt-4 w-[433px]">
         <Skeleton
-          className={`flex items-center justify-center ml-[24px] rounded-[24px] 
-             p-0.5 w-[150px] h-[31px]
+          className={`w-2/5 flex items-center justify-center ml-[24px] rounded-[24px] 
+             p-0.5  h-[31px]
           ${
             mode === "myPosts" &&
             "ml-[15px]  desktop:w-[160px] laptop:w-[140px]"
@@ -46,7 +46,7 @@ const CommunitySkeleton = ({ mode }: { mode: string }) => {
           <div className="h-3 w-3/5 rounded-lg bg-default-200"></div>
         </Skeleton>
         <Skeleton
-          className={` w-1/4 mx-[24px]  ${
+          className={` w-1/5 mx-[24px]  ${
             mode === "main" && "desktop:mx-[24px] laptop:mx-[15px] "
           } ${mode === "myPosts" && " desktop:ml-[24px] laptop:ml-[15px] mr-0 "}
             `}

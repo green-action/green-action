@@ -10,8 +10,7 @@ import TopButton from "../_components/TopButton";
 
 import { Select, SelectItem } from "@nextui-org/react";
 
-import Image from "next/image";
-import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
+import CommunitySkeleton from "../_components/community/CommunitySkeleton";
 
 const CommunityListPage = () => {
   const [selectedValue, setSelectedValue] = useState("정렬");
@@ -19,8 +18,12 @@ const CommunityListPage = () => {
 
   if (isLoading) {
     return (
-      <div className="w-[300px] h-auto mx-auto">
-        <Image className="" src={SoomLoaing} alt="SoomLoading" />
+      <div className="desktop:w-[1306px] laptop:w-[910px] mx-auto desktop:mb-12">
+        <div className="grid desktop:grid-cols-3 laptop:grid-cols-2 desktop:gap-10 desktop:gap-y-[92px] laptop:w-[100%] laptop:gap-x-[40px] laptop:gap-y-[89px]">
+          {[...Array(12)].map((_, index) => (
+            <CommunitySkeleton key={index} />
+          ))}
+        </div>
       </div>
     );
   }
