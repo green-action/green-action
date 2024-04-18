@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import { LuPencilLine } from "react-icons/lu";
 import PageList from "./PageList";
 import AlertModal from "../community/AlertModal";
+import { useResponsive } from "@/app/_hooks/responsive";
 
 const PageTap = () => {
   const [activeTab, setActiveTab] = useState("모든 GreenAction");
@@ -14,6 +15,7 @@ const PageTap = () => {
   // alert 대체 모달창을 위한 상태관리
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const [message, setMessage] = useState("");
+  const { isDesktop, isLaptop, isMobile } = useResponsive();
 
   const { data: actions, isLoading: isActionsLoading } =
     useFetchIndivActionsBookmarks();
@@ -102,39 +104,115 @@ const PageTap = () => {
 
   return (
     <>
-      <div className="flex justify-between items-center desktop:w-[1510px] laptop:w-[920px]  mx-auto">
-        <ul className="flex gap-7 ml-6 font-bold">
-          <li
-            onClick={handleActiveTabClick}
-            className={`flex justify-center items-center cursor-pointer  desktop:w-[130px] h-[34px] text-[12px]  laptop:w-[108px] ${
-              activeTab === "모든 GreenAction"
-                ? "border-b-2 border-black transition duration-300 ease-in-out text-[12px]"
-                : ""
-            }`}
-          >
-            모든 GreenAction
-          </li>
-          <li
-            onClick={handleActiveTabClick}
-            className={`flex justify-center items-center cursor-pointer desktop:w-[130px] h-[34px]  text-[12px]  laptop:w-[108px] ${
-              activeTab === "모집중 GreenAction"
-                ? "border-b-2 border-black transition duration-300 ease-in-out text-[12px]"
-                : ""
-            }`}
-          >
-            모집중 GreenAction
-          </li>
-          <li
-            onClick={handleActiveTabClick}
-            className={`flex justify-center items-center cursor-pointer desktop:w-[130px] h-[34px]  text-[12px]  laptop:w-[108px] ${
-              activeTab === "마감된 GreenAction"
-                ? "border-b-2 border-black transition duration-300 ease-in-out text-[12px] "
-                : ""
-            }`}
-          >
-            마감된 GreenAction
-          </li>
-        </ul>
+      <div className="flex justify-between items-center desktop:w-[1510px] laptop:w-[920px] phone:w-[360px] mx-auto">
+        {isDesktop && (
+          <ul className="flex gap-7 ml-6 font-bold">
+            <li
+              onClick={handleActiveTabClick}
+              className={`flex justify-center items-center cursor-pointer  desktop:w-[130px] h-[34px] text-[12px]  laptop:w-[108px] ${
+                activeTab === "모든 GreenAction"
+                  ? "border-b-2 border-black transition duration-300 ease-in-out text-[12px]"
+                  : ""
+              }`}
+            >
+              모든 GreenAction
+            </li>
+            <li
+              onClick={handleActiveTabClick}
+              className={`flex justify-center items-center cursor-pointer desktop:w-[130px] h-[34px]  text-[12px]  laptop:w-[108px] ${
+                activeTab === "모집중 GreenAction"
+                  ? "border-b-2 border-black transition duration-300 ease-in-out text-[12px]"
+                  : ""
+              }`}
+            >
+              모집중 GreenAction
+            </li>
+            <li
+              onClick={handleActiveTabClick}
+              className={`flex justify-center items-center cursor-pointer desktop:w-[130px] h-[34px]  text-[12px]  laptop:w-[108px] ${
+                activeTab === "마감된 GreenAction"
+                  ? "border-b-2 border-black transition duration-300 ease-in-out text-[12px] "
+                  : ""
+              }`}
+            >
+              마감된 GreenAction
+            </li>
+          </ul>
+        )}
+        {isLaptop && (
+          <ul className="flex gap-7 ml-6 font-bold">
+            <li
+              onClick={handleActiveTabClick}
+              className={`flex justify-center items-center cursor-pointer  desktop:w-[130px] h-[34px] text-[12px]  laptop:w-[108px] ${
+                activeTab === "모든 GreenAction"
+                  ? "border-b-2 border-black transition duration-300 ease-in-out text-[12px]"
+                  : ""
+              }`}
+            >
+              모든 GreenAction
+            </li>
+            <li
+              onClick={handleActiveTabClick}
+              className={`flex justify-center items-center cursor-pointer desktop:w-[130px] h-[34px]  text-[12px]  laptop:w-[108px] ${
+                activeTab === "모집중 GreenAction"
+                  ? "border-b-2 border-black transition duration-300 ease-in-out text-[12px]"
+                  : ""
+              }`}
+            >
+              모집중 GreenAction
+            </li>
+            <li
+              onClick={handleActiveTabClick}
+              className={`flex justify-center items-center cursor-pointer desktop:w-[130px] h-[34px]  text-[12px]  laptop:w-[108px] ${
+                activeTab === "마감된 GreenAction"
+                  ? "border-b-2 border-black transition duration-300 ease-in-out text-[12px] "
+                  : ""
+              }`}
+            >
+              마감된 GreenAction
+            </li>
+          </ul>
+        )}
+        {isMobile && (
+          <div>
+            <div className="flex items-center desktop:w-[1510px] laptop:w-[920px] phone:w-[360px] mx-auto gap-10 border-b-1 bord-[#EDEDED] text-[13px]">
+              <p className="cursor-pointer">개인과 함께해요</p>
+              <p className="cursor-pointer">단체와 함께해요</p>
+            </div>
+            <ul className="flex gap-7 ml-6 font-bold mt-5 border-b-1 bord-[#EDEDED]">
+              <li
+                onClick={handleActiveTabClick}
+                className={`flex justify-center items-center cursor-pointer desktop:w-[130px] h-[34px]  text-[12px]  laptop:w-[108px] text-[#959595]${
+                  activeTab === "모든 GreenAction"
+                    ? "text-black transition duration-300 ease-in-out text-[12px] "
+                    : ""
+                }`}
+              >
+                모든 GreenAction
+              </li>
+              <li
+                onClick={handleActiveTabClick}
+                className={`flex justify-center items-center cursor-pointer desktop:w-[130px] h-[34px]  text-[12px]  laptop:w-[108px] text-[#959595]${
+                  activeTab === "모집중 GreenAction"
+                    ? "text-black transition duration-300 ease-in-out text-[12px] "
+                    : ""
+                }`}
+              >
+                모집중 GreenAction
+              </li>
+              <li
+                onClick={handleActiveTabClick}
+                className={`flex justify-center items-center cursor-pointer desktop:w-[130px] h-[34px]  text-[12px]  laptop:w-[108px] text-[#959595]${
+                  activeTab === "마감된 GreenAction"
+                    ? "text-black transition duration-300 ease-in-out text-[12px] "
+                    : ""
+                }`}
+              >
+                마감된 GreenAction
+              </li>
+            </ul>
+          </div>
+        )}
 
         <div className="flex items-center gap-4 mr-4">
           <Select

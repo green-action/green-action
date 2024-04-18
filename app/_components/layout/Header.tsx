@@ -15,10 +15,13 @@ const Header = async () => {
       session.user.user_uid = existingUser[0].id;
     }
   }
-
+  // 가져올때...
+  console.log("=================================");
   console.log("session 정보==>", session);
   console.log("isLoggedIn 정보==>", isLoggedIn);
   return <HeaderPage isLoggedIn={isLoggedIn} session={session} />;
 };
 
 export default Header;
+
+// 세션의정보가

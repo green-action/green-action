@@ -15,7 +15,7 @@ import {
   Tab,
   Tabs,
 } from "@nextui-org/react";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -30,6 +30,7 @@ import AlertModal from "@/app/_components/community/AlertModal";
 import HeaderProfile from "./HeaderProfile";
 
 import type { Session } from "next-auth";
+import { stat } from "fs";
 // import AlertModal from "../community/AlertModal";
 
 interface Props {
@@ -54,14 +55,30 @@ const HeaderPage = ({ isLoggedIn, session }: Props) => {
   // console.log("유즈세션 데이터값==>", data);
   // console.log("status==>", status);
   const pathsMainAbout = pathname === "/" || pathname === "/about";
-
-  // const { data, status } = useSession();
-
+  const { status } = useSession();
   const user_uid = session?.user.user_uid as string;
+  // const isLoggedIned = status === "authenticated";
+
+  // console.log("status==>", status);
+  // console.log("data==>", data);
+
+  // 데이터 분기처리
   const { data: userData, isLoading: isUserDataLoading } =
     useFetchUserInfo(user_uid);
-  console.log("유저데이터==>", userData);
+  // console.log("유저데이터==>", userData);
   const { display_name, profile_img } = (userData as User) || "";
+  const [isLoggedIns, setIsLoggedIns] = useState(false);
+
+  // useEffect(() => {
+  //   if (session) {
+  //     setIsLoggedIns(true);
+  //   } else {
+  //     setIsLoggedIns(false);
+  //   }
+  // }, [session]);
+
+  // console.log("isLoggedIn=>", isLoggedIn);
+  // console.log("session=>", session);
 
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileHover, setIsProfileHover] = useState(false);
@@ -83,7 +100,6 @@ const HeaderPage = ({ isLoggedIn, session }: Props) => {
       try {
         await signOut({
           redirect: false,
-          callbackUrl: "/",
         });
         setMessage("로그아웃 되었습니다.");
         setIsOpenAlertModal(true);
@@ -147,7 +163,7 @@ const HeaderPage = ({ isLoggedIn, session }: Props) => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [userData]);
+  }, []);
 
   return (
     <>
@@ -261,13 +277,14 @@ const HeaderPage = ({ isLoggedIn, session }: Props) => {
               )}
             </div>
 
-            {isLoggedIn ? (
-              isUserDataLoading ? (
+            {/* {isLoggedIned ? ( */}
+            {status === "authenticated" || status === "loading" ? (
+              !!isUserDataLoading || status === "loading" ? (
                 // 로딩 중 메시지를 표시하는 부분
                 <div className="flex">
                   <Skeleton
                     isLoaded={false}
-                    className="desktop:w-[249px] laptop:w-[162px] desktop:h-[42px] laptop:h-[34px] desktop:ml-[290px] laptop:ml-[60px] bg-[#F1F1F1]/50 border-small  rounded-3xl"
+                    className="desktop:w-[249px] laptop:w-[162px] desktop:h-[42px] laptop:h-[34px] desktop:ml-[290px] laptop:ml-[60px] bg-[#F1F1F1]/50 border-small border-[#404040]/40 rounded-3xl"
                   >
                     <div className="flex desktop:gap-[15px] items-center justify-between">
                       <Skeleton className="transition-transform laptop:w-[30px] desktop:w-[38px] laptop:h-[30px] desktop:h-[38px] desktop:ml-[0px] laptop:ml-[8px] rounded-full" />
@@ -374,6 +391,7 @@ const HeaderPage = ({ isLoggedIn, session }: Props) => {
                 </>
               )
             ) : (
+              // status === "unauthenticated" 인 경우
               <div
                 className={`flex desktop:gap-14 laptop:gap-[35px] desktop:w-[170px] desktop:ml-[380px] laptop:ml-[102px] ${
                   // pathsMainAbout ? "text-white " : "text-[#666666]"
