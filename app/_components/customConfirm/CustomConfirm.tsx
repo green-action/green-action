@@ -75,7 +75,7 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
     <div>
       <div
         ref={freezeLayerRef}
-        className={`w-full h-full top-0 left-0 bg-black/30 z-[1] hidden absolute rounded-2xl ${
+        className={`w-full top-0 left-0 bg-black/30 z-[1] hidden absolute rounded-2xl ${
           mode === "individualAdd" ? "h-[1544px]" : "h-full"
         }`}
       ></div>
@@ -130,7 +130,7 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
 
       <div
         ref={dialogContRef}
-        className={`absolute top-[-50%] left-1/2 translate-x-[-50%] translate-y-[-50%] p-[10px] w-full transition-all z-[50] opacity-0 ${
+        className={`absolute top-[-50%] left-1/2 translate-x-[-50%] translate-y-[-50%] p-[10px] transition-all z-[50] opacity-0 ${
           mode === "individualAdd" ? "w-[30%]" : "w-full"
         }`}
       >
