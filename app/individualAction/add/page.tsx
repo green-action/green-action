@@ -19,6 +19,8 @@ import ThirdInputBox from "@/app/_components/individualAction-add/ThirdInputBox"
 import { Button, useDisclosure } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import SearchAddressModal from "@/app/_components/daumPostCode/SearchAddressModal";
+import KakakoMap from "@/app/_components/kakaoMap/KakakoMap";
+import SearchMapModal from "@/app/_components/kakaoMap/SearchMapModal";
 
 const AddActionPage = () => {
   const [uploadedFileUrls, setUploadedFileUrls] = useState<string[]>([]);
@@ -132,71 +134,78 @@ const AddActionPage = () => {
   return (
     <div className="desktop:w-[1920px] laptop:w-[1020px] mx-auto">
       {/* 전체 Wrapper */}
-      <form onSubmit={handleSubmit}>
-        {/* <div className="flex flex-col w-[809px] h-[826px] border-1.5 border-gray-300 rounded-3xl mx-auto mb-12 mt-8"> */}
-        <div className="flex flex-col w-[809px] h-[826px] border-1.5 border-gray-300 rounded-3xl mx-auto mb-12 mt-0">
-          {/* new green-action 타이틀 */}
-          <div className="ml-8 my-[16px] ">
-            <span className="font-black text-[15px]">New Green-Action</span>
-          </div>
-          <hr className="border-t-1.5 border-gray-300" />
-          {/* 타이틀 아래 Wrapper */}
-          <div className="w-full h-full mt-[31px] mb-[26px] mx-[44px]">
-            {/* 이미지 4장 자리*/}
-            <ImgUpload
-              uploadedFileUrls={uploadedFileUrls}
-              setUploadedFileUrls={setUploadedFileUrls}
-              setFiles={setFiles}
-            />
-            {/* 이미지아래 첫번째 박스(날짜, 장소, 인원, 링크) */}
-            <FirstInputBox
-              activityLocation={activityLocation}
-              setActivityLocation={setActivityLocation}
-              handleActivityLocationChange={handleActivityLocationChange}
-            />
-            {/* -- 주소검색 test 추가 */}
-            {/* <SearchAddressModal
+      <form
+        onSubmit={handleSubmit}
+        id="mainForm"
+        // action="Action1.php"
+        method="post"
+      />
+      {/* 이중 form태그라 id/form 속성으로 연결시키기 _글 등록 잘됨 */}
+
+      {/* <div className="flex flex-col w-[809px] h-[826px] border-1.5 border-gray-300 rounded-3xl mx-auto mb-12 mt-8"> */}
+      <div className="flex flex-col w-[809px] h-[826px] border-1.5 border-gray-300 rounded-3xl mx-auto mb-12 mt-0">
+        {/* new green-action 타이틀 */}
+        <div className="ml-8 my-[16px] ">
+          <span className="font-black text-[15px]">New Green-Action</span>
+        </div>
+        <hr className="border-t-1.5 border-gray-300" />
+        {/* 타이틀 아래 Wrapper */}
+        <div className="w-full h-full mt-[31px] mb-[26px] mx-[44px]">
+          {/* 이미지 4장 자리*/}
+          <ImgUpload
+            uploadedFileUrls={uploadedFileUrls}
+            setUploadedFileUrls={setUploadedFileUrls}
+            setFiles={setFiles}
+          />
+          {/* 이미지아래 첫번째 박스(날짜, 장소, 인원, 링크) */}
+          <FirstInputBox
+            activityLocation={activityLocation}
+            setActivityLocation={setActivityLocation}
+            handleActivityLocationChange={handleActivityLocationChange}
+          />
+          {/* -- 주소검색 test 추가 */}
+          {/* <SearchAddressModal
               activityLocation={activityLocation}
               setActivityLocation={setActivityLocation}
             /> */}
-            {/* <div
+          {/* <div
               id="map"
               // ref={mapRef}
               className="w-[300px] h-[200px] border-2"
             ></div> */}
-            {/* -- 주소검색 test 추가 */}
-            {/* 이미지아래 두번째 박스(활동 제목) */}
-            <SecondInputBox />
-            {/* 이미지 아래 세번째 박스(활동 소개) */}
-            <ThirdInputBox />
-            {/* 등록, 취소 버튼 */}
-            <div className="w-[724px] flex justify-center gap-4">
-              <button
-                type="submit"
-                className="bg-gray-200 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500"
-              >
-                <span className="font-extrabold">등록완료</span>
-              </button>
-              <button className="bg-gray-100 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500">
-                <span className="font-extrabold">취소하기</span>
-              </button>
-            </div>
+          {/* -- 주소검색 test 추가 */}
+          {/* 이미지아래 두번째 박스(활동 제목) */}
+          <SearchMapModal setActivityLocation={setActivityLocation} />
+          <SecondInputBox />
+          {/* 이미지 아래 세번째 박스(활동 소개) */}
+          <ThirdInputBox />
+          {/* 등록, 취소 버튼 */}
+          <div className="w-[724px] flex justify-center gap-4">
+            <button
+              type="submit"
+              form="mainForm"
+              className="bg-gray-200 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500"
+            >
+              <span className="font-extrabold">등록완료</span>
+            </button>
+            <button className="bg-gray-100 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500">
+              <span className="font-extrabold">취소하기</span>
+            </button>
           </div>
         </div>
-        {Modal.showPoint && (
-          <PointModal
-            isOpen={Modal.showPoint}
-            point={300}
-            mod={"add"}
-            onClose={() =>
-              setModal((state) => ({ ...state, showPoint: false }))
-            }
-            handleClick={() => {
-              router.push(`/individualAction/detail/${actionId}`);
-            }}
-          />
-        )}
-      </form>
+      </div>
+      {Modal.showPoint && (
+        <PointModal
+          isOpen={Modal.showPoint}
+          point={300}
+          mod={"add"}
+          onClose={() => setModal((state) => ({ ...state, showPoint: false }))}
+          handleClick={() => {
+            router.push(`/individualAction/detail/${actionId}`);
+          }}
+        />
+      )}
+      {/* </form> */}
       {Modal.isOpenAlert && (
         <AlertModal
           isOpen={Modal.isOpenAlert}

@@ -23,8 +23,6 @@ const SearchAddressModal = ({
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
 
   const onCompletePost = (data: any) => {
-    console.log("🐰 ~ SearchAddressModal ~ data : ", data);
-
     // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
     // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
     const roadAddr = data.roadAddress as string; // 도로명 주소 변수
