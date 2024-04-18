@@ -1,14 +1,9 @@
 "use client";
 
-import React, { useRef } from "react";
+import React from "react";
 import { useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
-
-import {
-  checkPrivateChatRoomExist,
-  insertNewPrivateChatRoom,
-} from "@/app/_api/messages/privateChat-api";
 
 import {
   useActionImages,
@@ -20,8 +15,7 @@ import { useResponsive } from "@/app/_hooks/responsive";
 import KakaoShareButton from "@/app/_components/kakaoShare/KakaoShare";
 import Bookmark from "@/app/_components/bookmark/Bookmark";
 import TopButton from "@/app/_components/TopButton";
-import PrivateChat from "@/app/_components/chats/PrivateChat";
-import GroupChat from "@/app/_components/chats/GroupChat";
+import ChatButtons from "@/app/_components/individualAction/ChatButtons";
 import Image from "next/image";
 
 import Slider from "react-slick";
@@ -47,15 +41,6 @@ import editAction from "/app/_assets/image/logo_icon/icon/mypage/image 55.png";
 import delAction from "/app/_assets/image/logo_icon/icon/mypage/Group 131.png";
 import nextBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 133.png";
 import prevBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 132.png";
-import {
-  changeRecruitingState,
-  checkUserExist,
-  countParticipants,
-  getChatRoomId,
-  getRecruitingNumber,
-  insertNewParticipant,
-} from "@/app/_api/messages/groupChat-api";
-import ChatsListModal from "@/app/_components/chats/ChatsListModal";
 
 const DetailPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
@@ -87,33 +72,6 @@ const DetailPage = () => {
   const handleOpen = () => {
     onOpen();
   };
-
-  // 채팅방 리스트 모달창
-  const {
-    isOpen: isChatsListModalOpen,
-    onOpen: onChatsListModalOpen,
-    onClose: onChatsListModalClose,
-  } = useDisclosure();
-
-  // 1:1 채팅방 모달창
-  const {
-    isOpen: isPrivateChatOpen,
-    onOpen: onPrivateChatOpen,
-    onOpenChange: onPrivateChatOpenChange,
-  } = useDisclosure();
-
-  // 1:1 채팅방 room_id 담는 Ref
-  const privateRoomIdRef = useRef("");
-
-  // 단체 채팅방 모달창
-  const {
-    isOpen: isGroupChatOpen,
-    onOpen: onGroupChatOpen,
-    onOpenChange: onGroupChatOpenChange,
-  } = useDisclosure();
-
-  // 단체 채팅방 room_id 담는 Ref
-  const groupRoomIdRef = useRef("");
 
   const { id: postId } = useParams<Params>();
   const params = { id: postId };
@@ -163,106 +121,6 @@ const DetailPage = () => {
   const mode = "detailPage";
 
   if (isError) return <div>Error fetching details...</div>;
-
-  // 1:1 채팅방 모달 열기
-  const handleOpenPrivateChatRoom = async () => {
-    // TODO 로그인한 유저가 액션장이면 1:1채팅하기 버튼 안보이게 or 문구 수정
-    // 본인이 방장인 경우, '1:1채팅 목록 확인' 이런식으로 버튼 이름 바꿔야겠어
-    // 누르면 목록 보여주는 모달창 여는 로직 -> 채팅방 클릭시 채팅방 모달창 open
-
-    // 1. 이미 1:1 채팅방이 존재하는지 먼저 확인 - 이미 있으면 string값, 없으면 null값 반환
-    const exited_room_id = await checkPrivateChatRoomExist({
-      user_uid,
-      action_id: params.id,
-    });
-
-    // 1) exited_room_id가 있으면 (1:1채팅방 이미 열려있는 경우) -> 모달에 전달
-    // privateRoomIdRef에 room_id 설정 -> 1:1채팅 모달 props로 넘겨주기
-    if (exited_room_id) {
-      // privateRoomIdRef에 room_id 설정
-      privateRoomIdRef.current = exited_room_id;
-
-      // 채팅방 모달창 open
-      onPrivateChatOpen();
-      return; // 함수 종료
-    }
-
-    // 2) exited_room_id가 없으면 (1:1채팅방 아직 안열린 경우)
-    // -> chat_rooms_info 테이블, chat_participants 테이블에 insert하기 -> room_id 반환
-    const new_room_id = await insertNewPrivateChatRoom({
-      action_id: params.id,
-      loggedInUserUid: user_uid,
-    });
-
-    // privateRoomIdRef에 room_id 설정
-    if (new_room_id) {
-      privateRoomIdRef.current = new_room_id;
-    }
-
-    // 채팅방 모달창 open
-    onPrivateChatOpen();
-  };
-
-  const handleOpenPrivateChatsList = () => {
-    onChatsListModalOpen();
-  };
-
-  // 단체 채팅방 클릭 핸들러
-  const handleOpenGroupChatRoom = async () => {
-    const action_id = params.id;
-
-    // 단체 채팅방 room_id 가져오기
-    const room_id = await getChatRoomId(action_id);
-    groupRoomIdRef.current = room_id;
-
-    // 채팅에 참여중인지 여부 확인(참여중이면 id값 있음 / 미참여 상태이면 null)
-    const participant_id = await checkUserExist({
-      room_id,
-      loggedInUserUid: user_uid,
-    });
-
-    // 이미 참여중인 경우 처리
-    if (participant_id) {
-      onGroupChatOpen();
-      return;
-    }
-
-    // 현재 채팅방 인원 가져오기
-    const participantsNumber = await countParticipants(room_id);
-
-    // action 모집인원 가져오기
-    const recruitingNumber = await getRecruitingNumber(room_id);
-
-    // 채팅인원 === 모집인원 -> alert띄우기
-    if (participantsNumber === recruitingNumber) {
-      alert("모집마감 되었습니다.");
-      return;
-    }
-
-    // 채팅인원 < 모집인원 -> 참가자 테이블에 insert
-    if (participantsNumber < recruitingNumber) {
-      await insertNewParticipant({
-        room_id,
-        loggedInUserUid: user_uid,
-      });
-    }
-
-    // 채팅인원 +1(내가 참여했으니까) === 모집인원 -> '모집마감' 처리
-    if (participantsNumber + 1 === recruitingNumber) {
-      await changeRecruitingState({ action_id, mode: "in" });
-    }
-
-    // <기존 성공했던 코드 - api 분리 전>
-    // 채팅 인원 파악, 해당 action의 모집인원
-    // 채팅인원 === 모집인원 된 경우 -> 모집상태 '모집마감'으로 변경
-    // await countParticipants({
-    //   room_id,
-    //   action_id,
-    // });
-
-    // 채팅방 모달창 open
-    onGroupChatOpen();
-  };
 
   return (
     <div className="mx-auto desktop:mt-[62px] laptop:mt-[113px] mb-[30px]">
@@ -336,28 +194,8 @@ const DetailPage = () => {
                 </div>
               )}
             </div>
-            <div
-              className="border-1 border-[#bfbfbf] bg-[#fafafa] h-[74.7px] rounded-[20px] mb-[22px] text-center content-center font-semibold cursor-pointer"
-              onClick={
-                // TODO 로그인유저 !== 액션장 인 경우의 onClick
-                handleOpenPrivateChatRoom
-                // TODO 로그인유저 === 액션장 인 경우의 onClick
-                // handleOpenPrivateChatsList
-              }
-            >
-              {/* TODO 로그인유저가 액션장인 경우 '1:1문의 목록 보기'로 문구 수정 */}
-              1:1 채팅하기
-            </div>
-            <div
-              className="border-1 border-[#bfbfbf] bg-[#fafafa] h-[74.7px] rounded-[20px] text-center content-center font-semibold cursor-pointer"
-              key={"opaque"}
-              color="warning"
-              // onClick={() => handleOpen()}
-              onClick={handleOpenGroupChatRoom}
-            >
-              {/* TODO 로그인유저가 액션장인 경우 '그룹채팅방 보기'로 문구 수정 */}
-              참여하기
-            </div>
+            {/* 1:1 채팅하기, 참여하기 버튼  */}
+            <ChatButtons loggedInUserUid={user_uid} action_id={params.id} />
             <Modal
               backdrop={"opaque"}
               isOpen={isOpen}
@@ -385,31 +223,6 @@ const DetailPage = () => {
                 )}
               </ModalContent>
             </Modal>
-            {/* 로그인 유저가 일반 참여자인 경우 */}
-            {isPrivateChatOpen && (
-              <PrivateChat
-                isOpen={isPrivateChatOpen}
-                onOpenChange={onPrivateChatOpenChange}
-                roomId={privateRoomIdRef.current}
-              />
-            )}
-            {/* TODO 로그인 유저가 액션장인 경우 -> 채팅방 리스트 한번 열고, 그 다음에 방 클릭시 해당 방 모달을 보여주기 */}
-            {isChatsListModalOpen && (
-              <ChatsListModal
-                isOpen={isChatsListModalOpen}
-                onOpen={onChatsListModalOpen}
-                onClose={onChatsListModalClose}
-                mode="actionPage"
-              />
-            )}
-            {isGroupChatOpen && (
-              <GroupChat
-                isOpen={isGroupChatOpen}
-                onOpenChange={onGroupChatOpenChange}
-                roomId={groupRoomIdRef.current}
-                actionId={params.id}
-              />
-            )}
             <div className="flex justify-center mt-[67px]">
               <KakaoShareButton description={detail.content!} />
             </div>
