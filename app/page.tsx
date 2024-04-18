@@ -12,6 +12,7 @@ import TopButton from "./_components/TopButton";
 import downArrow from "/app/_assets/image/logo_icon/icon/mainpage/Group_124.png";
 import rightArrow from "/app/_assets/image/mainpage/Group 172.png";
 import mainImg from "/app/_assets/image/mainpage/main.png";
+import setboxImg from "@/app/_assets/image/goods/setbox.png";
 
 import { useEffect, useRef, useState } from "react";
 
@@ -39,7 +40,7 @@ const MainPage = () => {
       <div className="flex flex-col">
         <Image
           src={mainImg}
-          alt="main-image"
+          alt="메인사진"
           className="absolute top-0 min-w-[1020px] desktop:h-[2700px] laptop:h-[2100px] brightness-[70%]" // 밝기: 60% 너무 어두워 70%로 변경
         />
         <section
@@ -111,13 +112,20 @@ const MainPage = () => {
             <Link href={`/individualAction`}>전체 보기</Link>
           </Chip>
         </section>
-        <section className="desktop:h-[760px]  laptop:h-[600px] desktop:pt-[250px] laptop:pt-[210px] bg-blend-darken bg-black bg-opacity-50">
+        <section className="bg-pink-200">
+          {/*  className="desktop:h-[760px] laptop:h-[600px] desktop:pt-[250px] laptop:pt-[210px] bg-blend-darken bg-black bg-opacity-50" */}
           {/*  pt-[311px] 인데 자체수정 */}
+          <Image
+            src={setboxImg}
+            alt="굿즈제품전체사진"
+            className="w-full h-[760px] "
+            // object-cover
+          />
           <div
-            style={{ transform: `translateY(-${position / 800}vh` }}
-            className="flex flex-col items-center"
+            style={{ transform: `translateY(-${position / 500}vh` }}
+            className="z-0 flex flex-col items-center"
           >
-            <div className="flex flex-col items-center font-['Italiana'] desktop:text-[48pt] laptop:text-[35pt] text-white">
+            <div className="z-0 flex flex-col items-center font-['Italiana'] desktop:text-[48pt] laptop:text-[35pt] text-white">
               <p>Experience the earth breathing together </p>
               <p> in your daily life</p>
             </div>
@@ -128,6 +136,7 @@ const MainPage = () => {
                   "flex justify-center desktop:w-[223px] laptop:w-[150px] font-semibold",
               }}
             >
+              {/* setboxImg */}
               <Link
                 href={`/about`}
                 className="flex gap-4 items-center text-white font-['Inter'] font-light desktop:text-[16pt] laptop:text-[12pt]"
