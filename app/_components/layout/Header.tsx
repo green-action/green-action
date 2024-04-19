@@ -143,7 +143,7 @@ function Header() {
                 : graylogoImg // 나머지 페이지에서는 항상 gray로고 사용
             }
             alt="logo-image"
-            className="w-[94px] desktop:h-[21.63px] laptop:h-[21.63px] desktop:ml-[-400px] laptop:ml-[30px] desktop:mr-[460px] laptop:mr-[110px] cursor-pointer"
+            className="w-[94px] desktop:h-[21.63px] laptop:h-[21.63px] desktop:ml-[-400px] laptop:ml-[30px] desktop:mr-[430px] laptop:mr-[100px] cursor-pointer"
             onClick={handleLogoLinkClick}
           />
           <NavbarContent>
@@ -159,7 +159,7 @@ function Header() {
                   tabList:
                     "flex items-center justify-center desktop:gap-[20px] laptop:gap-[30px] desktop:h-[50px] laptop:h-[35px] desktop:min-w-[720px] laptop:min-w-[446px]", //  desktop:min-w-[750px]  d:w-[511px] h-[39px]인데 자체변경? / laptop gap 자체
                   tabContent:
-                    "flex items-center justify-center text-[#2b2b2b] desktop:text-[13pt] laptop:text-[10pt] laptop:h-[35px] desktop:min-w-[160px]  ", // ㅣ:text 11 자체
+                    "flex items-center justify-center text-[#2b2b2b] desktop:text-[13pt] laptop:text-[10pt] laptop:h-[35px] desktop:min-w-[160px]", // ㅣ:text 11 자체
                 }}
               >
                 <Tab
@@ -280,11 +280,11 @@ function Header() {
                   <DropdownMenu
                     aria-label="Profile Actions"
                     variant="flat"
-                    className="w-[10rem] flex justify-center p-0 m-0 rounded-3xl text-[#454545]"
+                    className="w-full flex justify-center p-0 m-0 rounded-3xl text-[#454545]"
                   >
                     <DropdownItem
                       key="mypage"
-                      className="w-[8rem] h-8 rounded-3xl"
+                      className="w-full h-8 rounded-3xl"
                       onMouseEnter={() => {
                         setIsProfileHover(true);
                       }}
@@ -302,7 +302,7 @@ function Header() {
                     <DropdownItem
                       key="logout"
                       color="danger"
-                      className="w-[8rem] h-8 rounded-3xl  "
+                      className="w-full h-8 rounded-3xl  "
                       onMouseEnter={() => {
                         setIsProfileHover(true);
                       }}

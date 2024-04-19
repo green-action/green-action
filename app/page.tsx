@@ -119,7 +119,8 @@ const MainPage = () => {
           <div className="bg-[#d6d6d6] w-[50%] brightness-[57.5%]" />
           <div
             style={{ transform: `translateY(-${position / 100}vh` }}
-            className="absolute z-10 flex flex-col justify-center items-center w-full h-[500px] mt-[580px]"
+            className="absolute z-10 flex flex-col justify-center items-center w-full h-[40%] desktop:mt-[580px] laptop:mt-[500px]"
+            // h-[400px]
           >
             <div className="flex flex-col items-center font-['Italiana'] desktop:text-[48pt] laptop:text-[35pt] text-white">
               <p>Experience the earth breathing together </p>
@@ -132,7 +133,6 @@ const MainPage = () => {
                   "flex justify-center desktop:w-[223px] laptop:w-[150px] font-semibold",
               }}
             >
-              {/* setboxImg */}
               <Link
                 href={`/about`}
                 className="flex gap-4 items-center text-white font-['Inter'] font-light desktop:text-[20pt] laptop:text-[12pt]"
@@ -150,7 +150,7 @@ const MainPage = () => {
             <Image
               src={setboxImg}
               alt="굿즈제품전체사진"
-              className="-z-30 w-[1325px] h-[760px] object-cover brightness-[57%]"
+              className="w-[1325px] h-[760px] object-cover brightness-[57%]"
             />
           </div>
         </section>
