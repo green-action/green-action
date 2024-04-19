@@ -80,7 +80,7 @@ const AddActionPage = () => {
     }
 
     try {
-      // 확인창 표시
+      // 확인창 표시 - 커스텀컨펌 사용 시 X
       // 1. user_uid와 텍스트 formData insert -> action_id 반환받기
       const locationCoor = locationCoorRef.current || null; // location 좌표
       const allActivityLocation = activityLocationMap
@@ -151,7 +151,6 @@ const AddActionPage = () => {
             <input
               id="activityLocationMap"
               name="activityLocationMap"
-              required
               value={activityLocationMap}
               type="text"
               form="mainForm"
@@ -164,19 +163,19 @@ const AddActionPage = () => {
           <ThirdInputBox />
           {/* 등록, 취소 버튼 */}
           <div className="w-[724px] flex justify-center gap-4">
-            {/* <button
+            <button
               type="submit"
               form="mainForm"
               className="bg-gray-200 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500"
             >
               <span className="font-extrabold">등록완료</span>
-            </button> */}
-            <CustomConfirm
+            </button>
+            {/* <CustomConfirm
               text="등록하시겠습니까?"
               okFunction={() => handleSubmit}
               buttonName="등록완료"
               mode="individualAdd"
-            />
+            /> */}
             <button className="bg-gray-100 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500">
               <span className="font-extrabold">취소하기</span>
             </button>
