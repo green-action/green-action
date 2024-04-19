@@ -19,6 +19,7 @@ import { useDisclosure } from "@nextui-org/react";
 import PrivateChat from "@/app/_components/chats/PrivateChat";
 import GroupChat from "@/app/_components/chats/GroupChat";
 import ChatsListModal from "@/app/_components/chats/ChatsListModal";
+import { useResponsive } from "@/app/_hooks/responsive";
 
 const ChatButtons = ({
   loggedInUserUid,
@@ -27,6 +28,7 @@ const ChatButtons = ({
   loggedInUserUid: string;
   action_id: string;
 }) => {
+  const { isDesktop, isLaptop, isMobile } = useResponsive();
   const [actionOwnerUid, setActionOwnerUid] = useState("");
 
   // 채팅방 리스트 모달창
@@ -191,7 +193,13 @@ const ChatButtons = ({
   return (
     <>
       <div
-        className="border-1 border-[#bfbfbf] bg-[#fafafa] h-[74.7px] rounded-[20px] mb-[22px] text-center content-center font-semibold cursor-pointer"
+        className={`${
+          isDesktop
+            ? "border-1 border-[#bfbfbf] bg-[#fafafa] h-[74.7px] rounded-[20px] mb-[22px] text-center content-center font-semibold cursor-pointer"
+            : isLaptop
+            ? "border-1 border-[#bfbfbf] bg-[#fafafa] h-[74.7px] rounded-[20px] mb-[22px] text-center content-center font-semibold cursor-pointer"
+            : "border-1 border-[#bfbfbf] bg-[#fafafa] ml-[28px] w-[305px] h-[47px] rounded-[20px] mb-[22px] text-center content-center font-semibold cursor-pointer"
+        }`}
         onClick={
           // 로그인유저 = 액션장인 경우 - 1:1 채팅방 목록 열기
           // 로그인유저 = 일반 유저인 경우 - 1:1 문의 채팅방 열기
@@ -205,7 +213,13 @@ const ChatButtons = ({
           : "1:1 문의하기"}
       </div>
       <div
-        className="border-1 border-[#bfbfbf] bg-[#fafafa] h-[74.7px] rounded-[20px] text-center content-center font-semibold cursor-pointer"
+        className={`${
+          isDesktop
+            ? "border-1 border-[#bfbfbf] bg-[#fafafa] h-[74.7px] rounded-[20px] text-center content-center font-semibold cursor-pointer"
+            : isLaptop
+            ? "border-1 border-[#bfbfbf] bg-[#fafafa] h-[74.7px] rounded-[20px] text-center content-center font-semibold cursor-pointer"
+            : "border-1 border-[#bfbfbf] bg-[#fafafa] ml-[28px] w-[305px] h-[47px] rounded-[20px] text-center content-center font-semibold cursor-pointer"
+        }`}
         key={"opaque"}
         color="warning"
         onClick={handleOpenGroupChatRoom}
