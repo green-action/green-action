@@ -8,6 +8,7 @@ import { QUERY_KEY_UNREAD_MESSAGES_COUNT } from "@/app/_api/queryKeys";
 import Image from "next/image";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 import { useGetUnreadCount } from "@/app/_hooks/useQueries/chats";
+import { formatToLocaleDateTimeString } from "@/utils/date/date";
 
 // TODO any 타입 해결 필요
 const HeaderPrivateItem = ({ eachRoomInfo }: any) => {
@@ -19,6 +20,10 @@ const HeaderPrivateItem = ({ eachRoomInfo }: any) => {
   } = useDisclosure();
 
   const room_id = eachRoomInfo?.chat_rooms_info.room_id;
+  // 날짜 형식 변경
+  const formattedDate = eachRoomInfo
+    ? formatToLocaleDateTimeString(eachRoomInfo.message.created_at)
+    : "";
 
   const { unreadCount, isLoading, isError } = useGetUnreadCount(room_id);
 
@@ -67,7 +72,7 @@ const HeaderPrivateItem = ({ eachRoomInfo }: any) => {
             </div>
             <div className="flex justify-between">
               <span>{eachRoomInfo.message.content}</span>
-              <span>{eachRoomInfo.message.created_at}</span>
+              <span>{formattedDate}</span>
             </div>
           </div>
         </div>
