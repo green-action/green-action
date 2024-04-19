@@ -2,16 +2,15 @@
 
 import Image from "next/image";
 import Link from "next/link";
-
 import titleImg from "../../app/_assets/image/about/1.png";
 import cardBg1 from "../../app/_assets/image/about/2.png";
 import cardBg2 from "../../app/_assets/image/about/3.png";
 import mainImg from "../../app/_assets/image/about/main.png";
-
-import DynamicHeader from "../_components/layout/DynamicHeader";
 import { useResponsive } from "../_hooks/responsive";
 import TopButton from "../_components/TopButton";
 import { useEffect, useState } from "react";
+import Aos from "aos";
+import "aos/dist/aos.css";
 
 const AboutPage = () => {
   // custom hook - 현재 브라우저 화면의 사이즈 상태 가져오기
@@ -29,6 +28,10 @@ const AboutPage = () => {
     return () => {
       window.removeEventListener("scroll", onScroll);
     };
+  }, []);
+
+  useEffect(() => {
+    Aos.init();
   }, []);
 
   return (
@@ -450,7 +453,11 @@ const AboutPage = () => {
               </span>
             </div>
             {/* 360 카드 2 */}
-            <div className="relative h-[346px] mb-[17px]">
+            <div
+              className="relative h-[346px] mb-[17px]"
+              data-aos="fade-up"
+              data-aos-anchor-placement="top-bottom"
+            >
               <Image
                 src={cardBg1}
                 alt="card1"
@@ -469,7 +476,11 @@ const AboutPage = () => {
               </div>
             </div>
             {/* 360 카드 3 */}
-            <div className="relative h-[346px] mb-[17px]">
+            <div
+              className="relative h-[346px] mb-[17px]"
+              data-aos="fade-up"
+              data-aos-anchor-placement="top-bottom"
+            >
               <Image
                 src={cardBg2}
                 alt="card2"
