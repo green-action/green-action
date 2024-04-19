@@ -84,14 +84,12 @@ const EditPostModal = ({
         return;
       }
 
-      const isConfirmed = window.confirm("수정하시겠습니까?");
-      if (isConfirmed) {
-        // 새로운 file 업로드한 경우 url 반환
-        const imgUrl = await uploadFileAndGetUrl(file);
+      // 새로운 file 업로드한 경우 url 반환
+      const imgUrl = await uploadFileAndGetUrl(file);
 
-        // post_id, imgUrl, formData 전달해서 수정내용 update
-        updatePostMutation({ post_id, imgUrl, formData });
-      }
+      // post_id, imgUrl, formData 전달해서 수정내용 update
+      updatePostMutation({ post_id, imgUrl, formData });
+
       onClose();
     } catch (error) {
       console.error("Error updating data:", error);
@@ -208,13 +206,17 @@ const EditPostModal = ({
                 >
                   취소하기
                 </Button> */}
-                  <Button
+                  {/* <Button
                     type="submit"
-                    // onPress={onClose}
                     className="text-gray-500 rounded-full !w-[140px] h-[33px] border border-gray-400 bg-[#EFEFEF]"
                   >
                     수정완료
-                  </Button>
+                  </Button> */}
+                  <CustomConfirm
+                    text="수정하시겠습니까?"
+                    buttonName="수정완료"
+                    okFunction={() => handleSubmit}
+                  />
                 </ModalFooter>
               </form>
             </>
