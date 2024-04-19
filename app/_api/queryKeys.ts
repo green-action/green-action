@@ -36,3 +36,5 @@ export const QEURY_KEY_COMMUNITY_COMMENTS_LIST = `communityCommentsList`;
 
 // realtime - chat
 export const QUERY_KEY_MESSAGES_LIST = `messages_list`;
+export const QUERY_KEY_PRIVATE_ROOM_IDS = `private_room_ids`;
+export const QUERY_KEY_PRIVATE_CHATS_LIST = `private_chats_list`;

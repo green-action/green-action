@@ -13,7 +13,11 @@ import {
   NavbarContent,
   Tab,
   Tabs,
+  Badge,
+  Button,
+  useDisclosure,
 } from "@nextui-org/react";
+// import { NotificationIcon } from "./NotificationIcon";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -26,6 +30,9 @@ import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
 
 import Image from "next/image";
 import AlertModal from "../community/AlertModal";
+import { NotificationIcon } from "../chats/NotificationIcon";
+import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
+import ChatsListModal from "../chats/ChatsListModal";
 
 function Header() {
   const router = useRouter();
@@ -44,6 +51,13 @@ function Header() {
   // alert 대체 모달창을 위한 상태관리
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const [message, setMessage] = useState("");
+
+  // 채팅방 리스트 모달창
+  const {
+    isOpen: isChatsListModalOpen,
+    onOpen: onChatsListModalOpen,
+    onClose: onChatsListModalClose,
+  } = useDisclosure();
 
   const handleLogoLinkClick = () => {
     router.push("/");
@@ -234,9 +248,33 @@ function Header() {
                 </div>
               )}
             </div>
-
             {isLoggedIn ? (
               <>
+                {/* 채팅방 badge */}
+                <Badge content="99+" shape="circle" color="default">
+                  <Button
+                    radius="full"
+                    isIconOnly
+                    aria-label="more than 99 notifications"
+                    variant="light"
+                    onClick={() => {
+                      onChatsListModalOpen();
+                    }}
+                  >
+                    <IoChatbubbleEllipsesOutline className="text-2xl" />
+                  </Button>
+                </Badge>
+                {/* push알림 badge */}
+                <Badge content="99+" shape="circle" color="default">
+                  <Button
+                    radius="full"
+                    isIconOnly
+                    aria-label="more than 99 notifications"
+                    variant="light"
+                  >
+                    <NotificationIcon size={24} height={24} width={24} />
+                  </Button>
+                </Badge>
                 <Dropdown
                   placement="bottom-end"
                   isOpen={isProfileHover}
@@ -344,6 +382,15 @@ function Header() {
             setIsOpenAlertModal(false);
           }}
           message={message}
+        />
+      )}
+      {isChatsListModalOpen && (
+        <ChatsListModal
+          isOpen={isChatsListModalOpen}
+          onOpen={onChatsListModalOpen}
+          onClose={onChatsListModalClose}
+          mode="header"
+          action_id=""
         />
       )}
     </>
