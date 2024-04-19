@@ -5,13 +5,15 @@ import PrivateChat from "./PrivateChat";
 
 interface PrivateChatProps {
   privateChat: {
-    created_at: string;
-    content: string;
-    room_id: string;
     user: {
-      display_name: string | null | undefined;
-      profile_img: string | null | undefined;
+      id: string;
+      display_name: string;
+      profile_img: string;
     };
+    created_at?: string;
+    content?: string;
+    room_id?: string | undefined;
+    sender_uid?: string;
   };
 }
 

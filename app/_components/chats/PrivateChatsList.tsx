@@ -9,10 +9,7 @@ import {
   QUERY_KEY_PRIVATE_ROOM_IDS,
 } from "@/app/_api/queryKeys";
 
-import {
-  getPrivateChatsList,
-  getPrivateRoomIds,
-} from "@/app/_api/messages/pagePrivateList-api";
+import { getPrivateRoomIds } from "@/app/_api/messages/pagePrivateList-api";
 
 import { useResponsive } from "@/app/_hooks/responsive";
 
@@ -24,6 +21,8 @@ import {
   Avatar,
 } from "@nextui-org/react";
 import PrivateChatsListItem from "./PrivateChatsListItem";
+import { getPrivateChatsList } from "@/app/_api/messages/headerPrivateList-api";
+import { useSession } from "next-auth/react";
 
 const PrivateChatsList = ({
   onClose,
@@ -32,6 +31,8 @@ const PrivateChatsList = ({
   onClose: () => void;
   action_id: string;
 }) => {
+  const session = useSession();
+  const loggedInUserUid = session.data?.user.user_uid || "";
   const queryClient = useQueryClient();
 
   // 채팅방 room_id 배열 가져오기
@@ -97,7 +98,7 @@ const PrivateChatsList = ({
     queryKey: [QUERY_KEY_PRIVATE_CHATS_LIST],
     queryFn: async () => {
       if (roomIds) {
-        return await getPrivateChatsList(roomIds);
+        return await getPrivateChatsList({ loggedInUserUid, roomIds });
       }
       return [];
     },
@@ -107,8 +108,6 @@ const PrivateChatsList = ({
   if (error || privateChatListError) {
     return <div>Error</div>;
   }
-
-  console.log("privateChatsList", privateChatsList);
 
   // TODO 해당 읽었는지 안읽었는지는 chat_messages에 column을 하나 더 추가해야할듯 (isRead)
   // 읽었는지 안읽었는지를 어떻게 파악하는건지??
