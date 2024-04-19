@@ -150,8 +150,6 @@ const DetailPage = () => {
   const detail = individualAction![0];
   console.log(detail);
 
-  const mode = "detailPage";
-
   if (isError) return <div>Error fetching details...</div>;
 
   // 1:1 채팅방 모달 열기
@@ -382,7 +380,7 @@ const DetailPage = () => {
                         <p className="float-end mr-[20px] font-[13px]">
                           {detail.recruit_number}
                         </p>
-                        <Bookmark action_id={params.id} mode={mode} />
+                        <Bookmark action_id={params.id} mode="detailPage" />
                       </div>
                     </div>
                   </div>
@@ -620,7 +618,7 @@ const DetailPage = () => {
                         <p className="float-end mr-[20px] font-[13px]">
                           {detail.recruit_number}
                         </p>
-                        <Bookmark action_id={params.id} mode={mode} />
+                        <Bookmark action_id={params.id} mode="detailPage" />
                       </div>
                     </div>
                   </div>
@@ -704,7 +702,221 @@ const DetailPage = () => {
           </div>
         </div>
       )}
-      {/* {isMobile && ()} */}
+      {isMobile && (
+        <div className="mx-auto mt-[64px] mb-[30px]">
+          <TopButton />
+          <div className="w-[360px]">
+            {/* 전체 contents */}
+            <div className="flex flex-col h-auto mb-96 content-center w-[350px] mx-auto">
+              {/* 위 */}
+              <div>
+                {/* 2-1 */}
+                <div>
+                  {/* 그린액션, title, bookmark */}
+                  <div className="p-[20px] border-b-3 border-[#EDEDED]">
+                    <div className="flex justify-between items-center">
+                      <div
+                        className={`w-[57px] h-[18px] rounded-[9px] content-center text-center text-[12px] text-white ${
+                          detail.is_recruiting ? "bg-[#B3C8A1]" : "bg-[#5F5F5F]"
+                        }`}
+                      >
+                        {detail.is_recruiting ? "모집중" : "모집마감"}
+                      </div>
+                      {user_uid === detail.user_uid ? (
+                        <div className="flex">
+                          <Image
+                            src={editAction}
+                            alt="수정"
+                            className="size-[15px] mr-[10px] cursor-pointer"
+                            onClick={handleEditClick}
+                          />
+                          <Image
+                            src={delAction}
+                            alt="삭제"
+                            className="size-[15px] cursor-pointer"
+                            onClick={handleDeleteClick}
+                          />
+                        </div>
+                      ) : null}
+                    </div>
+                    <div className="flex flex-col mt-[51px]">
+                      <p className="font-bold text-xl pb-[27px]">
+                        {detail.title}
+                      </p>
+                      <div className="flex flex-row text-sm items-center">
+                        <Image
+                          src={person}
+                          alt="사람 아이콘"
+                          className="size-[25px] float-left mr-1"
+                        />
+                        <p className="mr-[20px] font-[13px]">
+                          {detail.recruit_number}
+                        </p>
+                        <Bookmark action_id={params.id} mode="detailPage" />
+                      </div>
+                      {/* 날짜 장소 */}
+                      <div className="w-[284px] mx-auto mt-[35px]">
+                        <div className="border-b-1 border-[#bfbfbf] w-[284px] text-xs">
+                          <div className="mb-[9px]">
+                            <Image
+                              src={calendar}
+                              alt="달력 아이콘"
+                              className="w-[15.19px] h-[16.46px] float-left mr-[16px] ml-[2.74px]"
+                            />
+                            <p className="float-left mr-8 font-semibold text-[11px] text-[#848484]">
+                              날짜
+                            </p>
+                            <p className="font-medium text-[13px] text-[#1e1e1e]">
+                              {detail.start_date} ~ {detail.end_date}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex mt-[7px] items-center">
+                          <Image
+                            src={mapPin}
+                            alt="위치 아이콘"
+                            className="float-left mr-[15px] size-[20.26px]"
+                          />
+                          <p className="float-left mr-8 font-semibold text-[11px] text-[#848484]">
+                            장소
+                          </p>
+                          <p className="font-semibold text-[13px] text-[#1e1e1e]">
+                            {detail.location}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/* 2-2 */}
+
+                <div>
+                  <div className="mx-auto mt-[55px] justify-center w-[272px]">
+                    <div className="rounded-[20px]">
+                      {" "}
+                      {imgUrl!.length === 1 ? (
+                        <img
+                          src={imgUrl![0].img_url}
+                          alt="green_action_image"
+                          className="w-[272px] h-[275px] rounded-[20px]"
+                        />
+                      ) : (
+                        <Slider
+                          {...settings}
+                          className="w-[272px] h-[275px] rounded-[20px]"
+                        >
+                          {imgUrl?.map((item) => {
+                            return (
+                              <div>
+                                <img
+                                  src={item.img_url}
+                                  alt="green_action_image"
+                                  className="w-[272px] h-[275px] rounded-[20px]"
+                                />
+                              </div>
+                            );
+                          })}
+                        </Slider>
+                      )}
+                    </div>
+                    <div>
+                      <div className="mt-[62px] mb-[37px] font-semibold text-[11px] text-[#848484]">
+                        상세내용
+                      </div>
+                      <div className="w-[259px]">
+                        <p className="font-medium text-[11px] text-[#848484] leading-[170%] mb-[70px]">
+                          {detail.content}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* 아래 */}
+              <div className="border-t-3 border-[#EDEDED] py-[40px]">
+                <div className="flex items-center ml-[35px]">
+                  <Avatar
+                    showFallback
+                    src={detail.users?.profile_img || ""}
+                    className="size-[43px] mr-[18px]"
+                  />
+
+                  <div>
+                    <div className="font-semibold text-[15px]">
+                      {detail.users?.display_name}{" "}
+                      <span className="text-[13px] text-[#8B8B8B]">
+                        Greener
+                      </span>
+                    </div>
+                    <div className="w-[185px] text-[10px] text-[#848484]">
+                      {detail.users?.introduction}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="border-1 border-[#bfbfbf] bg-[#fafafa] ml-[28px] w-[305px] h-[47px] rounded-[20px] mb-[22px] text-center content-center font-semibold cursor-pointer"
+                onClick={handleOpenPrivateChatRoom}
+              >
+                1:1 채팅하기
+              </div>
+              <div
+                className="border-1 border-[#bfbfbf] bg-[#fafafa] ml-[28px] w-[305px] h-[47px] rounded-[20px] text-center content-center font-semibold cursor-pointer"
+                key={"opaque"}
+                color="warning"
+                // onClick={() => handleOpen()}
+                onClick={handleOpenGroupChatRoom}
+              >
+                참여하기
+              </div>
+              <Modal
+                backdrop={"opaque"}
+                isOpen={isOpen}
+                onClose={onClose}
+                placement="center"
+              >
+                <ModalContent>
+                  {(onClose) => (
+                    <>
+                      <ModalHeader className="flex flex-col gap-1">
+                        Green-action 참여 오픈채팅방
+                      </ModalHeader>
+                      <ModalBody>
+                        <a href={detail.kakao_link!}>{detail.kakao_link}</a>
+                      </ModalBody>
+                      <ModalFooter>
+                        <Button
+                          className="bg-[#929292] opacity-50 text-white"
+                          onPress={onClose}
+                        >
+                          닫기
+                        </Button>
+                      </ModalFooter>
+                    </>
+                  )}
+                </ModalContent>
+              </Modal>
+              {isPrivateChatOpen && (
+                <PrivateChat
+                  isOpen={isPrivateChatOpen}
+                  onOpenChange={onPrivateChatOpenChange}
+                  roomId={privateRoomIdRef.current}
+                />
+              )}
+              {isGroupChatOpen && (
+                <GroupChat
+                  isOpen={isGroupChatOpen}
+                  onOpenChange={onGroupChatOpenChange}
+                  roomId={groupRoomIdRef.current}
+                />
+              )}
+              <div className="flex justify-center mt-[64px]">
+                <KakaoShareButton description={detail.content!} />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
