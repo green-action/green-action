@@ -138,16 +138,22 @@ export const getUnreadMessageCount = async (room_id: string) => {
 };
 
 // 안읽은 메시지 읽음 처리
-export const updateUnreadMessageCount = async (room_id: string) => {
+export const updateUnreadMessageCount = async ({
+  loggedInUserUid,
+  roomId,
+}: {
+  loggedInUserUid: string;
+  roomId: string;
+}) => {
   const { data, error } = await supabase
     .from("chat_messages")
     .update({ is_read: true })
-    .eq("room_id", room_id);
+    .neq("sender_uid", loggedInUserUid)
+    .eq("room_id", roomId);
 
   if (error) {
     console.log("error", error.message);
     throw error;
   }
-
   return data;
 };

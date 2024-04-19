@@ -115,7 +115,7 @@ const PrivateChatRoom = ({
     isError: isUpdateUnreadError,
   } = useQuery({
     queryKey: [QUERY_KEY_UPDATE_UNREAD],
-    queryFn: () => updateUnreadMessageCount(roomId),
+    queryFn: () => updateUnreadMessageCount({ loggedInUserUid, roomId }),
   });
   // 쿼리키 구독 useEffect에서 무효화 같이 하기
   // TODO 스크롤이 위에 있을때 new message 개수 표시하는건 어떻게 처리해야할까?
