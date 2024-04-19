@@ -1,69 +1,31 @@
 import React from "react";
 import { useSession } from "next-auth/react";
-import { useQuery } from "@tanstack/react-query";
-import {
-  QUERY_KEY_ACTION_IDS_TITLES_URLS,
-  QUERY_KEY_MESSAGES_PARTICIPANT_INFO_HEADER,
-  QUERY_KEY_MY_PRIVATE_ROOMS_IDS,
-} from "@/app/_api/queryKeys";
-import {
-  getActionTitleAndUrl,
-  getMyPrivateRoomInfos,
-  getPrivateChatsList,
-} from "@/app/_api/messages/headerPrivateList-api";
 import { useResponsive } from "@/app/_hooks/responsive";
+import {
+  useGetActionTitleAndUrl,
+  useGetMessageAndParticipantInfo,
+  useGetMyPrivateRoomsInfo,
+} from "@/app/_hooks/useQueries/chats";
 
 const HeaderPrivateChats = () => {
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 
-  // data - 채팅방 id, 나의 참가자 type, action id, 채팅방 type
-  const { data, isLoading, isError } = useQuery({
-    queryKey: [QUERY_KEY_MY_PRIVATE_ROOMS_IDS],
-    queryFn: () => getMyPrivateRoomInfos(loggedInUserUid),
-  });
+  // data - 채팅방 id, 나의 채팅참가자 type(방장 or 참가자), 채팅방 type(개인), action id
+  const { data, isLoading, isError } =
+    useGetMyPrivateRoomsInfo(loggedInUserUid);
 
   // 채팅방 별 action의 title, url
-  const {
-    data: actionIdsTitlesUrls,
-    isLoading: isActionLoading,
-    isError: isActionError,
-  } = useQuery({
-    queryKey: [QUERY_KEY_ACTION_IDS_TITLES_URLS],
-    queryFn: () => {
-      if (!data) return;
-
-      const actionIds = data
-        .filter((item) => item.chat_rooms_info !== null)
-        .map((item) => item.chat_rooms_info?.action_id)
-        .filter((id): id is string => typeof id === "string");
-
-      if (actionIds.length === 0) return;
-
-      return getActionTitleAndUrl(actionIds);
-    },
-    enabled: !!data,
-  });
+  const { actionIdsTitlesUrls, isActionLoading, isActionError } =
+    useGetActionTitleAndUrl(data);
 
   // 마지막 메시지(내용, 시간), 채팅 상대방 정보(id, 닉네임, 프로필)
-  const {
-    data: messageAndParticipantInfo,
-    isLoading: isMessageInfoLoading,
-    isError: isMessageError,
-  } = useQuery({
-    queryKey: [QUERY_KEY_MESSAGES_PARTICIPANT_INFO_HEADER],
-    queryFn: () => {
-      const roomIds = data?.map((item) => {
-        return item.room_id;
-      });
-
-      if (!roomIds) return;
-
-      return getPrivateChatsList({ loggedInUserUid, roomIds });
-    },
-    enabled: !!data,
-  });
+  const { messageAndParticipantInfo, isMessageInfoLoading, isMessageError } =
+    useGetMessageAndParticipantInfo({
+      loggedInUserUid,
+      data,
+    });
 
   if (isLoading || isActionLoading || isMessageInfoLoading) {
     <div>Loading</div>;
@@ -111,20 +73,13 @@ const HeaderPrivateChats = () => {
         },
       };
     });
-  // console.log("mergedData", mergedData);
 
   // null 값을 필터링하여 최종 결과를 반환합니다.
   const filteredMergedData = mergedData.filter((item) => item !== null);
 
   // messageAndParticipantInfo와 mergedData.chat_rooms_info.room_id가 같은 요소들을 묶어서 객체 배열로 만듭니다.
   const combinedObjects = messageAndParticipantInfo
-    ?.filter((message) => {
-      return filteredMergedData.some(
-        (mergedItem) =>
-          mergedItem?.chat_rooms_info?.room_id === message?.room_id,
-      );
-    })
-    .map((message) => {
+    ?.map((message) => {
       const matchingMergedItem = filteredMergedData.find(
         (mergedItem) =>
           mergedItem?.chat_rooms_info?.room_id === message?.room_id,
@@ -146,7 +101,6 @@ const HeaderPrivateChats = () => {
     })
     .filter((combined) => combined !== null);
 
-  // return combinedObjects;
   console.log("combinedObjects", combinedObjects);
 
   return (
