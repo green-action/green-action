@@ -6,7 +6,7 @@ const HeaderPrivateItem = ({ eachRoomInfo }: any) => {
   return (
     <div
       key={eachRoomInfo?.chat_rooms_info.room_id}
-      className="flex flex-col bg-gray-200 p-4 mr-3 mb-3"
+      className="flex flex-col bg-gray-200 p-4 mr-3 mb-3 cursor-pointer"
     >
       <div className="flex mb-3">
         <span>green-action :</span>

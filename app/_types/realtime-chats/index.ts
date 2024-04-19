@@ -34,3 +34,17 @@ export interface PrivateChatsListItem {
   loggedInUserUid: string;
   data: PrivateRoomsInfoType[] | undefined;
 }
+
+export interface PrivateChatProps {
+  privateChat: {
+    user: {
+      id: string;
+      display_name: string;
+      profile_img: string;
+    };
+    created_at?: string;
+    content?: string;
+    room_id?: string | undefined;
+    sender_uid?: string;
+  } | null;
+}

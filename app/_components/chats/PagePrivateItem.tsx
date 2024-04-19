@@ -2,22 +2,9 @@ import React from "react";
 import { Avatar, useDisclosure } from "@nextui-org/react";
 import { useResponsive } from "@/app/_hooks/responsive";
 import PrivateChat from "./PrivateChat";
+import { PrivateChatProps } from "@/app/_types/realtime-chats";
 
-interface PrivateChatProps {
-  privateChat: {
-    user: {
-      id: string;
-      display_name: string;
-      profile_img: string;
-    };
-    created_at?: string;
-    content?: string;
-    room_id?: string | undefined;
-    sender_uid?: string;
-  } | null;
-}
-
-const PrivateChatsListItem = ({ privateChat }: PrivateChatProps) => {
+const PagePrivateItem = ({ privateChat }: PrivateChatProps) => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 
   // 1:1 채팅방 모달창
@@ -72,4 +59,4 @@ const PrivateChatsListItem = ({ privateChat }: PrivateChatProps) => {
   );
 };
 
-export default PrivateChatsListItem;
+export default PagePrivateItem;

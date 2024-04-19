@@ -14,16 +14,10 @@ import { getPrivateRoomIds } from "@/app/_api/messages/pagePrivateList-api";
 
 import { useResponsive } from "@/app/_hooks/responsive";
 
-import {
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-  Avatar,
-} from "@nextui-org/react";
-import PrivateChatsListItem from "./PrivateChatsListItem";
+import { ModalHeader, ModalBody, ModalFooter, Button } from "@nextui-org/react";
 import { getPrivateChatsList } from "@/app/_api/messages/headerPrivateList-api";
 import { useSession } from "next-auth/react";
+import PagePrivateItem from "./PagePrivateItem";
 
 const PrivateChatsList = ({
   onClose,
@@ -121,7 +115,7 @@ const PrivateChatsList = ({
       <ModalBody>
         {privateChatsList?.map((privateChat) => (
           // TODO privateChat 타입에러 해결필요
-          <PrivateChatsListItem privateChat={privateChat} />
+          <PagePrivateItem privateChat={privateChat} />
         ))}
       </ModalBody>
       <ModalFooter>
