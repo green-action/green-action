@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useQueryClient } from "@tanstack/react-query";
@@ -5,10 +7,17 @@ import { supabase } from "@/utils/supabase/client";
 
 import type { ChatProps } from "@/app/_types/realtime-chats";
 
-import { QUERY_KEY_MESSAGES_LIST } from "@/app/_api/queryKeys";
-
 import { useGetMessagesList } from "@/app/_hooks/useQueries/chats";
 import { sendMessage } from "@/app/_api/messages/privateChat-api";
+
+import { QUERY_KEY_MESSAGES_LIST } from "@/app/_api/queryKeys";
+
+import {
+  changeRecruitingState,
+  countParticipants,
+  deleteParticipant,
+  getRecruitingNumber,
+} from "@/app/_api/messages/groupChat-api";
 
 import { Input } from "@nextui-org/react";
 import {
@@ -20,7 +29,7 @@ import {
   Button,
 } from "@nextui-org/react";
 
-const GroupChat = ({ isOpen, onOpenChange, roomId }: ChatProps) => {
+const GroupChat = ({ isOpen, onOpenChange, roomId, actionId }: ChatProps) => {
   const [message, setMessage] = useState("");
   const queryClient = useQueryClient();
 
@@ -31,7 +40,7 @@ const GroupChat = ({ isOpen, onOpenChange, roomId }: ChatProps) => {
   // console.log("roomId", roomId);
 
   useEffect(() => {
-    const subscription = supabase
+    const messageSubscription = supabase
       .channel(`${roomId}`)
       .on(
         "postgres_changes",
@@ -46,8 +55,28 @@ const GroupChat = ({ isOpen, onOpenChange, roomId }: ChatProps) => {
       )
       .subscribe();
 
+    // postgres_changes 를 써서 참가자 테이블에 내 uid가 insert되면 'in'
+    // 내 uid가 delete되면 'out' 표시 할 수 있지 않을까??
+
+    // Presence 채널 구독
+    // const chatRoom = supabase.channel(`${roomId}`);
+
+    // const presenceSubscription = chatRoom
+    //   .on("presence", { event: "sync" }, () => {
+    //     const newState = supabase.channel(`${roomId}`).presenceState();
+    //     console.log("sync", newState);
+    //   })
+    //   .on("presence", { event: "join" }, ({ key, newPresences }) => {
+    //     console.log("join", key, newPresences);
+    //   })
+    //   .on("presence", { event: "leave" }, ({ key, leftPresences }) => {
+    //     console.log("leave", key, leftPresences);
+    //   })
+    //   .subscribe();
+
     return () => {
-      subscription.unsubscribe();
+      messageSubscription.unsubscribe();
+      // presenceSubscription.unsubscribe();
     };
   }, []);
 
@@ -75,6 +104,29 @@ const GroupChat = ({ isOpen, onOpenChange, roomId }: ChatProps) => {
     });
   };
 
+  // action 참여 취소 핸들러
+  const handleCancelParticipate = async (onClose: () => void) => {
+    const isConfirm = window.confirm("참여를 취소하시겠습니까?");
+    if (isConfirm) {
+      // 1. 채팅방 인원 === 모집인원 인지 확인하기
+      // (맞으면 내가 나갔을때 '모집중'으로 바꿔야 함)
+
+      // 현재 채팅방 인원 가져오기
+      const participantsNumber = await countParticipants(roomId);
+
+      // action 모집인원 가져오기
+      const recruitingNumber = await getRecruitingNumber(roomId);
+
+      if (participantsNumber === recruitingNumber) {
+        await changeRecruitingState({ action_id: actionId, mode: "out" });
+      }
+
+      // 2. 참가자 테이블에서 삭제
+      await deleteParticipant(loggedInUserUid);
+    }
+    onClose();
+  };
+
   return (
     <>
       {/* <Button onPress={onOpen}>Open Modal</Button> */}
@@ -87,8 +139,14 @@ const GroupChat = ({ isOpen, onOpenChange, roomId }: ChatProps) => {
         <ModalContent className="max-w-[30%] h-[80%] overflow-y-auto scrollbar-hide">
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
-                action 참여자 단체 채팅방
+              <ModalHeader className="flex gap-1">
+                <span className="mr-5">action 참여자 단체 채팅방</span>
+                <button
+                  className="bg-black text-white px-2"
+                  onClick={() => handleCancelParticipate(onClose)}
+                >
+                  참여 취소하기
+                </button>
               </ModalHeader>
               <ModalBody>
                 <div className="flex justify-center">

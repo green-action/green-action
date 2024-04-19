@@ -79,7 +79,7 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
           className={`border-none w-full desktop:h-[311px] laptop:h-[251px]  ${
             (mode === "myPosts" || mode === "myBookmarks") &&
             "desktop:h-[311px] laptop:h-[280px] laptop:mb-[10px]"
-          } laptop:mb-[10px] cursor-pointer`}
+          } laptop:mb-[10px] cursor-pointer shadow-none border-none `}
         >
           {actionImgUrl ? (
             <img

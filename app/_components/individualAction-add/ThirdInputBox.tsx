@@ -11,6 +11,7 @@ const ThirdInputBox = () => {
         <textarea
           id="activityDescription"
           name="activityDescription"
+          form="mainForm"
           required
           className="resize-none w-10/12 h-[100px] mx-4 mt-4 pr-4 bg-inherit focus:outline-none text-sm text-gray-400"
         />

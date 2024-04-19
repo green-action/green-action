@@ -1,7 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import {
   insertActionTextForm,
@@ -18,12 +18,24 @@ import FirstInputBox from "@/app/_components/individualAction-add/FirstInputBox"
 import ImgUpload from "@/app/_components/individualAction-add/ImgUpload";
 import SecondInputBox from "@/app/_components/individualAction-add/SecondInputBox";
 import ThirdInputBox from "@/app/_components/individualAction-add/ThirdInputBox";
-import { useDisclosure } from "@nextui-org/react";
+import { useDisclosure, user } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
+import SearchMapModal from "@/app/_components/kakaoMap/SearchMapModal";
+import { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
 
 const AddActionPage = () => {
   const [uploadedFileUrls, setUploadedFileUrls] = useState<string[]>([]);
   const [files, setFiles] = useState<(File | undefined)[]>([]);
+
+  const [activityLocation, setActivityLocation] = useState<string>(""); // 주소검색통해 set하기 위해 추가
+  const [activityLocationMap, setActivityLocationMap] = useState<string>(""); // 지도 검색
+  const locationCoorRef = useRef<placeCoordinateType | null>(null); // 지도 검색으로 장소 선택 시 해당 장소의 좌표 담을 useRef
+
+  const handleActivityLocationChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setActivityLocation(e.target.value);
+  };
 
   // PointModal을 위한 상태관리 / alert 대체 모달창을 위한 상태관리
   const [Modal, setModal] = useState({
@@ -68,9 +80,17 @@ const AddActionPage = () => {
     }
 
     try {
+      // 확인창 표시 - 커스텀컨펌 사용 시 X
       // 1. user_uid와 텍스트 formData insert -> action_id 반환받기
+      const locationCoor = locationCoorRef.current || null; // location 좌표
+      const allActivityLocation = activityLocationMap
+        ? `${activityLocationMap} (${activityLocation})`
+        : activityLocation;
+
       const action_id = await insertActionTextForm({
         formData,
+        allActivityLocation,
+        locationCoor,
         loggedInUserUid,
       });
       setActionId(action_id);
@@ -97,62 +117,83 @@ const AddActionPage = () => {
   return (
     <div className="desktop:w-[1920px] laptop:w-[1020px] mx-auto">
       {/* 전체 Wrapper */}
-      <form onSubmit={handleSubmit}>
-        {/* <div className="flex flex-col w-[809px] h-[826px] border-1.5 border-gray-300 rounded-3xl mx-auto mb-12 mt-8"> */}
-        <div className="flex flex-col w-[809px] h-[826px] border-1.5 border-gray-300 rounded-3xl mx-auto mb-12 mt-0">
-          {/* new green-action 타이틀 */}
-          <div className="ml-8 my-[16px] ">
-            <span className="font-black text-[15px]">New Green-Action</span>
-          </div>
-          <hr className="border-t-1.5 border-gray-300" />
-          {/* 타이틀 아래 Wrapper */}
-          <div className="w-full h-full mt-[31px] mb-[26px] mx-[44px]">
-            {/* 이미지 4장 자리*/}
-            <ImgUpload
-              uploadedFileUrls={uploadedFileUrls}
-              setUploadedFileUrls={setUploadedFileUrls}
-              setFiles={setFiles}
+      {/* 이중 form태그라 id/form 속성으로 연결시키기 (mainForm, subForm)*/}
+      <form onSubmit={handleSubmit} id="mainForm" method="post" />
+      {/* <div className="flex flex-col w-[809px] h-[826px] border-1.5 border-gray-300 rounded-3xl mx-auto mb-12 mt-8"> */}
+      <div className="flex flex-col w-[809px] h-[920px] border-1.5 border-gray-300 rounded-3xl mx-auto mb-12 mt-0">
+        {/* new green-action 타이틀 */}
+        <div className="ml-8 my-[16px] ">
+          <span className="font-black text-[15px]">New Green-Action</span>
+        </div>
+        <hr className="border-t-1.5 border-gray-300" />
+        {/* 타이틀 아래 Wrapper */}
+        <div className="w-full h-full mt-[31px] mb-[26px] mx-[44px]">
+          {/* 이미지 4장 자리*/}
+          <ImgUpload
+            uploadedFileUrls={uploadedFileUrls}
+            setUploadedFileUrls={setUploadedFileUrls}
+            setFiles={setFiles}
+          />
+          {/* 이미지아래 첫번째 박스(날짜, 장소, 인원, 링크) */}
+          {/* 도로명주소 검색 추가 - 보류 */}
+          <FirstInputBox
+            activityLocation={activityLocation}
+            setActivityLocation={setActivityLocation}
+            handleActivityLocationChange={handleActivityLocationChange}
+          />
+          {/* 이미지아래 두번째 박스(활동 제목) */}
+          {/* 지도에서 검색 - 추후 '활동장소'와 함께 UI 따로 뺄 예정  */}
+          <div className="flex gap-5  w-[724px] h-[100px] border-1.5 border-gray-300 rounded-3xl pt-[21px] px-[28px] pb-[28px] mb-4 ">
+            <SearchMapModal
+              setActivityLocationMap={setActivityLocationMap}
+              locationCoorRef={locationCoorRef}
             />
-            {/* 이미지아래 첫번째 박스(날짜, 장소, 인원, 링크) */}
-            <FirstInputBox />
-            {/* 이미지아래 두번째 박스(활동 제목) */}
-            <SecondInputBox />
-            {/* 이미지 아래 세번째 박스(활동 소개) */}
-            <ThirdInputBox />
-            {/* 등록, 취소 버튼 */}
-            <div className="w-[724px] flex justify-center gap-4 ">
-              {/* <button
-                type="submit"
-                className="bg-gray-200 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500"
-              >
-                <span className="font-extrabold">등록완료</span>
-              </button> */}
-              <CustomConfirm
-                text="등록하시겠습니까?"
-                okFunction={() => handleSubmit}
-                buttonName="등록완료"
-                mode="individualAdd"
-              />
-              <button className="bg-gray-100 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500">
-                <span className="font-extrabold">취소하기</span>
-              </button>
-            </div>
+            <input
+              id="activityLocationMap"
+              name="activityLocationMap"
+              value={activityLocationMap}
+              type="text"
+              form="mainForm"
+              placeholder="지도에서 검색해주세요"
+              className="h-[40px] p-4 border-1.5 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
+            />
+          </div>
+          <SecondInputBox />
+          {/* 이미지 아래 세번째 박스(활동 소개) */}
+          <ThirdInputBox />
+          {/* 등록, 취소 버튼 */}
+          <div className="w-[724px] flex justify-center gap-4">
+            <button
+              type="submit"
+              form="mainForm"
+              className="bg-gray-200 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500"
+            >
+              <span className="font-extrabold">등록완료</span>
+            </button>
+            {/* <CustomConfirm
+              text="등록하시겠습니까?"
+              okFunction={() => handleSubmit}
+              buttonName="등록완료"
+              mode="individualAdd"
+            /> */}
+            <button className="bg-gray-100 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500">
+              <span className="font-extrabold">취소하기</span>
+            </button>
           </div>
         </div>
-        {Modal.showPoint && (
-          <PointModal
-            isOpen={Modal.showPoint}
-            point={300}
-            mod={"add"}
-            onClose={() =>
-              setModal((state) => ({ ...state, showPoint: false }))
-            }
-            handleClick={() => {
-              router.push(`/individualAction/detail/${actionId}`);
-            }}
-          />
-        )}
-      </form>
+      </div>
+      {Modal.showPoint && (
+        <PointModal
+          isOpen={Modal.showPoint}
+          point={300}
+          mod={"add"}
+          onClose={() => setModal((state) => ({ ...state, showPoint: false }))}
+          handleClick={() => {
+            router.push(`/individualAction/detail/${actionId}`);
+          }}
+        />
+      )}
+      {/* </form> */}
       {Modal.isOpenAlert && (
         <AlertModal
           isOpen={Modal.isOpenAlert}

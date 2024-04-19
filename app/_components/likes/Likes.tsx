@@ -10,9 +10,8 @@ import { debounce } from "@/utils/debounce/debounce";
 
 import { GoHeart, GoHeartFill } from "react-icons/go";
 
-import Image from "next/image";
+import { Skeleton } from "@nextui-org/react";
 import AlertModal from "../community/AlertModal";
-import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
 // import Image from "next/image";
 // import heart from "../../../app/_assets/image/logo_icon/icon/community/Group 130.png";
@@ -66,7 +65,7 @@ const Likes = ({
   if (isLoading) {
     return (
       <div className="flex justify-center items-center w-[60px] h-auto">
-        <Image src={SoomLoaing} alt="SoomLoading" />
+        <Skeleton className="flex rounded-full w-12 h-12" />
       </div>
     );
   }

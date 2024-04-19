@@ -11,10 +11,25 @@ import mainImg from "../../app/_assets/image/about/main.png";
 import DynamicHeader from "../_components/layout/DynamicHeader";
 import { useResponsive } from "../_hooks/responsive";
 import TopButton from "../_components/TopButton";
+import { useEffect, useState } from "react";
 
 const AboutPage = () => {
   // custom hook - 현재 브라우저 화면의 사이즈 상태 가져오기
   const { isDesktop, isLaptop, isMobile } = useResponsive();
+
+  // parallax scroll
+  const [position, setPosition] = useState(0);
+
+  const onScroll = () => {
+    setPosition(window.scrollY);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
 
   return (
     <div>

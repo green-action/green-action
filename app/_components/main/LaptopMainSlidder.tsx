@@ -22,7 +22,7 @@ const LaptopMainSlidder = ({ mode }: { mode: string }) => {
     dots: true,
     infinite: true,
     arrows: false,
-    speed: 10000,
+    speed: 9000,
     slidesToShow: 3,
     slidesToScroll: 3,
     adaptiveHeight: true,

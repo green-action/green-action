@@ -18,4 +18,5 @@ export interface ChatProps {
   isOpen: boolean;
   onOpenChange: () => void;
   roomId: string;
+  actionId: string;
 }
