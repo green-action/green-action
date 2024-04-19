@@ -109,7 +109,10 @@ const PageChatsList = ({
       </ModalHeader>
       <ModalBody>
         {privateChatsList?.map((privateChat) => (
-          <PagePrivateItem privateChat={privateChat} />
+          <PagePrivateItem
+            key={privateChat?.room_id}
+            privateChat={privateChat}
+          />
         ))}
       </ModalBody>
       <ModalFooter>

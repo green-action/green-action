@@ -40,7 +40,7 @@ const PagePrivateItem = ({ privateChat }: PrivateChatProps) => {
   }
 
   return (
-    <div key={privateChat?.room_id}>
+    <div>
       {privateChat && (
         <div
           onClick={() => {

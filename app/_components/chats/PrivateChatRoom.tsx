@@ -7,6 +7,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { sendMessage } from "@/app/_api/messages/privateChat-api";
 import {
   QUERY_KEY_MESSAGES_LIST,
+  QUERY_KEY_UNREAD_MESSAGES_COUNT,
   QUERY_KEY_UPDATE_UNREAD,
 } from "@/app/_api/queryKeys";
 import { Input } from "@nextui-org/react";
@@ -43,6 +44,10 @@ const PrivateChatRoom = ({
   const loggedInUserUid = session.data?.user.user_uid || "";
 
   useEffect(() => {
+    queryClient.invalidateQueries({
+      queryKey: [QUERY_KEY_UNREAD_MESSAGES_COUNT],
+    });
+
     const subscription = supabase
       .channel(`${roomId}`)
       .on(
