@@ -20,7 +20,7 @@ const HeaderChatsList = ({ onClose }: { onClose: () => void }) => {
     setSelected(mode);
   };
 
-  console.log("selected", selected);
+  // console.log("selected", selected);
 
   return (
     <>
