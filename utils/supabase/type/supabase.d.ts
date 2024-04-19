@@ -332,7 +332,11 @@ export type Database = {
           is_recruiting: boolean | null;
           kakao_link: string | null;
           location: string | null;
-          recruit_number: number;
+          location_coordinates: {
+            x: number | string;
+            y: number | string;
+          } | null;
+          recruit_number: number | null;
           start_date: string | null;
           title: string | null;
           user_uid: string | null;
@@ -345,7 +349,8 @@ export type Database = {
           is_recruiting?: boolean | null;
           kakao_link?: string | null;
           location?: string | null;
-          recruit_number?: number;
+          location_coordinates?: Json | null;
+          recruit_number?: number | null;
           start_date?: string | null;
           title?: string | null;
           user_uid?: string | null;
@@ -358,7 +363,8 @@ export type Database = {
           is_recruiting?: boolean | null;
           kakao_link?: string | null;
           location?: string | null;
-          recruit_number?: number;
+          location_coordinates?: Json | null;
+          recruit_number?: number | null;
           start_date?: string | null;
           title?: string | null;
           user_uid?: string | null;

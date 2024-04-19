@@ -7,7 +7,6 @@
   },
   "dependencies": {
     "@nextui-org/react": "^2.2.10",
-    "@nextui-org/skeleton": "^2.0.25",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
     "@tanstack/react-query": "^5.28.9",
@@ -23,6 +22,7 @@
     "next-auth": "^4.24.7",
     "postcss": "8.4.33",
     "react": "18.2.0",
+    "react-daum-postcode": "^3.1.3",
     "react-dom": "18.2.0",
     "react-icons": "^5.0.1",
     "react-modal": "^3.16.1",

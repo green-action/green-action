@@ -56,7 +56,9 @@ const CommunityListPost = ({
           ${mode !== "main" && mode !== "myPosts" && "w-[31%] mb-2"}
         `}
       >
-        <CommunitySkeleton mode="myPosts" />
+        {mode === "myPosts" && <CommunitySkeleton mode="myPosts" />}
+        {mode === "main" && <CommunitySkeleton mode="main" />}
+        {mode !== "myPosts" && mode !== "main" && <CommunitySkeleton />}
       </div>
     );
   }
@@ -101,7 +103,10 @@ const CommunityListPost = ({
             {mode === "community" && (
               <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t"></div>
             )}
-            {/* <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t"></div> */}
+            {mode === "main" && (
+              <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t-main"></div>
+            )}
+            {/*  bg-linear-gradient(to top, #4b4a4a, transparent)*/}
           </div>
           <div className="flex items-center justify-between pl-[24px] pr-[16px] absolute bottom-0 text-white w-full h-[66px]">
             <div className="flex items-center">
@@ -151,7 +156,10 @@ const CommunityListPost = ({
             "desktop:w-[410px] laptop:w-[433px]"
           }           
           ${mode === "myPosts" && "desktop:w-[335px] laptop:w-[300px]"} 
-           ${mode === "main" && "desktop:w-[400px] laptop:w-[275px]"} 
+           ${
+             mode === "main" &&
+             "desktop:w-[400px] laptop:w-[275px] bg-white/35 rounded-3xl mx-[10px] py-[5px]"
+           } 
           `}
         >
           <div
@@ -163,7 +171,7 @@ const CommunityListPost = ({
           }  
           ${
             mode === "main" &&
-            "desktop:ml-[20px] laptop:ml-[15px] desktop:w-[180px] desktop:text-[14px] laptop:text-[11px] desktop:px-0 laptop:px-0 laptop:w-[130px] desktop:h-[28px] laptop:h-[24px]"
+            "desktop:ml-[10px] laptop:ml-[5px] desktop:w-[180px] desktop:text-[14px] laptop:text-[11px] desktop:px-0 laptop:px-0 laptop:w-[130px] desktop:h-[28px] laptop:h-[24px]"
           }`}
           >
             {communityPost?.action_type}와 함께해요

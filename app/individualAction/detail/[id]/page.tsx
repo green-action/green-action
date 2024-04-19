@@ -16,6 +16,7 @@ import KakaoShareButton from "@/app/_components/kakaoShare/KakaoShare";
 import Bookmark from "@/app/_components/bookmark/Bookmark";
 import TopButton from "@/app/_components/TopButton";
 import ChatButtons from "@/app/_components/individualAction/ChatButtons";
+import KakakoMap from "@/app/_components/kakaoMap/KakakoMap";
 import Image from "next/image";
 
 import Slider from "react-slick";
@@ -230,7 +231,8 @@ const DetailPage = () => {
           {/* 오른쪽 */}
           <div className="desktop:w-[1093.92px] laptop:w-[631px]">
             {/* 2-1 */}
-            <div className="border-1 border-[#bfbfbf] mb-[15px] h-[343.11px] rounded-[20px]">
+            <div className="border-1 border-[#bfbfbf] mb-[15px] h-[527px] rounded-[20px]">
+              {/* h-[343.11px] */}
               {/* 그린액션, title, bookmark */}
               <div className="desktop:h-[139px] mt-[33px] desktop:mb-[54px] desktop:mx-[63px]  laptop:mx-[33px]">
                 <div className="flex justify-between items-center">
@@ -280,35 +282,43 @@ const DetailPage = () => {
                 </div>
               </div>
               {/* 날짜 장소 */}
-              <div className="desktop:ml-[77px] w-[284px]  laptop:ml-[58px]  laptop:mt-[60px]">
-                <div className="border-b-1 border-[#bfbfbf] w-[284px] text-xs">
-                  <div className="mb-[9px]">
+              <div className="flex  gap-[250px] h-[500px] desktop:ml-[77px] w-[284px]  laptop:ml-[58px]  laptop:mt-[60px]">
+                <div>
+                  <div className="border-b-1 border-[#bfbfbf] w-[284px] text-xs">
+                    <div className="mb-[9px]">
+                      <Image
+                        src={calendar}
+                        alt="달력 아이콘"
+                        className="w-[15.19px] h-[16.46px] float-left mr-[16px] ml-[2.74px]"
+                      />
+                      <p className="float-left mr-8 font-semibold text-[11px] text-[#848484]">
+                        날짜
+                      </p>
+                      <p className="font-medium text-[13px] text-[#1e1e1e]">
+                        {detail.start_date} ~ {detail.end_date}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex mt-[7px] items-center">
                     <Image
-                      src={calendar}
-                      alt="달력 아이콘"
-                      className="w-[15.19px] h-[16.46px] float-left mr-[16px] ml-[2.74px]"
+                      src={mapPin}
+                      alt="위치 아이콘"
+                      className="float-left mr-[15px] size-[20.26px]"
                     />
                     <p className="float-left mr-8 font-semibold text-[11px] text-[#848484]">
-                      날짜
+                      장소
                     </p>
-                    <p className="font-medium text-[13px] text-[#1e1e1e]">
-                      {detail.start_date} ~ {detail.end_date}
+                    <p className="font-semibold text-[13px] text-[#1e1e1e]">
+                      {detail.location}
                     </p>
                   </div>
                 </div>
-                <div className="flex mt-[7px] items-center">
-                  <Image
-                    src={mapPin}
-                    alt="위치 아이콘"
-                    className="float-left mr-[15px] size-[20.26px]"
-                  />
-                  <p className="float-left mr-8 font-semibold text-[11px] text-[#848484]">
-                    장소
-                  </p>
-                  <p className="font-semibold text-[13px] text-[#1e1e1e]">
-                    {detail.location}
-                  </p>
-                </div>
+                {/* 카카오맵 추가  + laptop 반응형 수정해야*/}
+                {detail?.location_coordinates && (
+                  <div className="">
+                    <KakakoMap placeCoordinate={detail.location_coordinates} />
+                  </div>
+                )}
               </div>
             </div>
             {/* 2-2 */}

@@ -1,10 +1,19 @@
 import React from "react";
+import SearchAddressModal from "../daumPostCode/SearchAddressModal";
 
-const FirstInputBox = () => {
+const FirstInputBox = ({
+  activityLocation,
+  setActivityLocation,
+  handleActivityLocationChange,
+}: {
+  activityLocation: string;
+  setActivityLocation: React.Dispatch<React.SetStateAction<string>>;
+  handleActivityLocationChange: any;
+}) => {
   return (
     <>
       <div className="flex justify-between gap-[88px] w-[724px] h-[209px] border-1.5 border-gray-300 rounded-3xl pt-[21px] px-[28px] pb-[28px] mb-4 ">
-        <div className="flex flex-col justify-center w-1/2 gap-6">
+        <div className="flex flex-col justify-center w-1/2 gap-6 ">
           <div className="">
             <p className="text-[13px] font-extrabold mb-1">활동 날짜</p>
             <div className="flex w-full gap-4 justify-between mb-[18px]">
@@ -20,6 +29,7 @@ const FirstInputBox = () => {
                   name="startDate"
                   required
                   type="date"
+                  form="mainForm"
                   className="h-[40px] p-4 border-1.5 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
                 />
               </div>
@@ -35,6 +45,7 @@ const FirstInputBox = () => {
                   name="endDate"
                   required
                   type="date"
+                  form="mainForm"
                   className="h-[40px] p-4 border-1.5 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
                 />
               </div>
@@ -50,6 +61,7 @@ const FirstInputBox = () => {
                 id="maxParticipants"
                 name="maxParticipants"
                 required
+                form="mainForm"
                 className=" w-1/6 h-[30px] text-right mx-2 pr-4 bg-inherit focus:outline-none"
               />
               명
@@ -59,17 +71,27 @@ const FirstInputBox = () => {
         <div className="flex flex-col justify-center w-1/2  gap-2 ">
           <div className="mb-7">
             <div>
-              <label
-                htmlFor="activityLocation"
-                className="text-[13px] font-extrabold"
-              >
-                활동 장소
-              </label>
+              <div className="flex items-center gap-5">
+                <label
+                  htmlFor="activityLocation"
+                  className="text-[13px] font-extrabold"
+                >
+                  활동 장소
+                </label>
+                {/* 도로명주소 검색 - 보류 */}
+                <SearchAddressModal
+                  activityLocation={activityLocation}
+                  setActivityLocation={setActivityLocation}
+                />
+              </div>
               <div className="w-[294px] h-[33px] mt-2 border-1.5 border-gray-300 rounded-full text-sm text-gray-400 pl-4">
                 <input
                   type="text"
                   id="activityLocation"
                   name="activityLocation"
+                  value={activityLocation}
+                  onChange={handleActivityLocationChange}
+                  form="mainForm"
                   required
                   className="w-10/12 h-[30px] mx-4 pr-2 bg-inherit focus:outline-none"
                 />
@@ -88,6 +110,7 @@ const FirstInputBox = () => {
                 type="url"
                 id="openKakaoLink"
                 name="openKakaoLink"
+                form="mainForm"
                 required
                 className="w-10/12 h-[30px] mx-4 pr-2 bg-inherit focus:outline-none"
               />
