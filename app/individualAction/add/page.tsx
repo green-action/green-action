@@ -114,7 +114,7 @@ const AddActionPage = () => {
             <div className="flex flex-col mb-3">
               <FaChevronLeft
                 className="relative bottom-8 left-4 cursor-pointer"
-                onClick={() => router.push("/")}
+                onClick={() => router.push("/individualAction")}
               />
             </div>
           )}
