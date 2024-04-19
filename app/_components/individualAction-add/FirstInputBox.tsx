@@ -93,7 +93,6 @@ const FirstInputBox = ({
                     activityLocation={activityLocation}
                     setActivityLocation={setActivityLocation}
                   />
-
                   <div className="w-[294px] h-[33px] mt-2 border-1.5 border-gray-300 rounded-full text-sm text-gray-400 pl-4">
                     <input
                       type="text"
