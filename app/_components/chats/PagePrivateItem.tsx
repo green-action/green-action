@@ -35,7 +35,7 @@ const PagePrivateItem = ({ privateChat }: PrivateChatProps) => {
     );
   }
 
-  if (isError) {
+  if (isError || unreadCount === undefined) {
     return <div>Error</div>;
   }
 
@@ -63,9 +63,11 @@ const PagePrivateItem = ({ privateChat }: PrivateChatProps) => {
             </div>
             <div className="flex justify-between">
               <p>{privateChat?.content}</p>
-              <div className="bg-[#B3C8A1] w-7 h-7 rounded-full text-white font-extrabold flex justify-center items-center">
-                {unreadCount}
-              </div>
+              {unreadCount > 0 && (
+                <div className="bg-[#B3C8A1] w-7 h-7 rounded-full text-white font-extrabold flex justify-center items-center">
+                  {unreadCount}
+                </div>
+              )}
             </div>
           </div>
         </div>

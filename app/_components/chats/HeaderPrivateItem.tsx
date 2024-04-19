@@ -32,7 +32,7 @@ const HeaderPrivateItem = ({ eachRoomInfo }: any) => {
     );
   }
 
-  if (isError) {
+  if (isError || unreadCount === undefined) {
     return <div>Error</div>;
   }
 
@@ -72,9 +72,11 @@ const HeaderPrivateItem = ({ eachRoomInfo }: any) => {
             </div>
             <div className="flex justify-between">
               <span>{eachRoomInfo.message.content}</span>
-              <div className="bg-[#B3C8A1] w-7 h-7 rounded-full text-white font-extrabold flex justify-center items-center">
-                {unreadCount}
-              </div>
+              {unreadCount > 0 && (
+                <div className="bg-[#B3C8A1] w-7 h-7 rounded-full text-white font-extrabold flex justify-center items-center">
+                  {unreadCount}
+                </div>
+              )}
             </div>
           </div>
         </div>
