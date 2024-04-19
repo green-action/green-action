@@ -12,9 +12,9 @@ import CustomConfirm from "../customConfirm/CustomConfirm";
 
 import { useSession } from "next-auth/react";
 
+import { Skeleton } from "@nextui-org/react";
 import Image from "next/image";
 import AlertModal from "../community/AlertModal";
-import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 import bookmarkEmpty from "/app/_assets/image/logo_icon/icon/mypage/Star 31.png";
 import bookmarkFill from "/app/_assets/image/logo_icon/icon/mypage/Star 32.png";
 
@@ -65,7 +65,7 @@ const Bookmark = ({
   if (isLoading) {
     return (
       <div className="flex justify-center items-center w-[60px] h-auto">
-        <Image src={SoomLoaing} alt="SoomLoading" />
+        <Skeleton className="flex rounded-full w-12 h-12" />
       </div>
     );
   }
