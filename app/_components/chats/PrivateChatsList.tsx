@@ -23,6 +23,7 @@ import {
   Button,
   Avatar,
 } from "@nextui-org/react";
+import PrivateChatsListItem from "./PrivateChatsListItem";
 
 const PrivateChatsList = ({
   onClose,
@@ -31,7 +32,6 @@ const PrivateChatsList = ({
   onClose: () => void;
   action_id: string;
 }) => {
-  const { isDesktop, isLaptop, isMobile } = useResponsive();
   const queryClient = useQueryClient();
 
   // 채팅방 room_id 배열 가져오기
@@ -120,34 +120,7 @@ const PrivateChatsList = ({
       </ModalHeader>
       <ModalBody>
         {privateChatsList?.map((privateChat) => (
-          <div key={privateChat?.room_id}>
-            {privateChat && (
-              <div
-                className={`${
-                  isDesktop &&
-                  "flex bg-gray-300 w-[90%] h-[10%] justify-center items-center mx-auto"
-                }`}
-              >
-                <div>
-                  <Avatar
-                    showFallback
-                    src={privateChat?.user?.profile_img || ""}
-                    alt=""
-                    className="mx-3"
-                  />
-                </div>
-                <div className="w-[90%]">
-                  <div className="flex justify-between mr-7 mb-2">
-                    <p>{privateChat?.user?.display_name}</p>
-                    <p>{privateChat?.created_at}</p>
-                  </div>
-                  <div>
-                    <p>{privateChat?.content}</p>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
+          <PrivateChatsListItem privateChat={privateChat} />
         ))}
       </ModalBody>
       <ModalFooter>

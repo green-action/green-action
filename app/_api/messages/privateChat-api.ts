@@ -234,7 +234,7 @@ export const getPrivateRoomIds = async (action_id: string) => {
 //   return filteredChatList;
 // };
 
-// 이중외래키 말고 두번 가져오기로 도전
+// 채팅방 리스트 가져오기 (채팅방 참가자 정보 포함)
 export const getPrivateChatsList = async (roomIds: string[]) => {
   const chatPromises = roomIds.map(async (roomId) => {
     const { data, error } = await supabase

@@ -93,7 +93,7 @@ const PrivateChat = ({
     return () => {
       subscription.unsubscribe();
     };
-  }, []);
+  }, [roomId]);
 
   const { messagesList, isLoading, isError } = useGetMessagesList({
     roomId,
