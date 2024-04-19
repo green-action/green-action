@@ -5,7 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { supabase } from "@/utils/supabase/client";
 import {
-  QUERY_KEY_PRIVATE_CHATS_LIST,
+  QUERY_KEY_MESSAGES_PARTICIPANT_INFO_PAGE,
   QUERY_KEY_PRIVATE_ROOM_IDS,
   QUERY_KEY_UNREAD_MESSAGES_COUNT,
 } from "@/app/_api/queryKeys";
@@ -61,7 +61,7 @@ const PageChatsList = ({
 
           () => {
             queryClient.invalidateQueries({
-              queryKey: [QUERY_KEY_PRIVATE_CHATS_LIST],
+              queryKey: [QUERY_KEY_MESSAGES_PARTICIPANT_INFO_PAGE],
             }),
               // 채팅방 개설은 되어있지만, 메시지가 하나도 없었던 경우 대비
               queryClient.invalidateQueries({
@@ -102,6 +102,8 @@ const PageChatsList = ({
   if (isError || privateChatListError) {
     return <div>Error</div>;
   }
+
+  console.log("privateChatsList", privateChatsList);
 
   // TODO 해당 읽었는지 안읽었는지는 chat_messages에 column을 하나 더 추가해야할듯 (isRead)
   // 읽었는지 안읽었는지를 어떻게 파악하는건지??
