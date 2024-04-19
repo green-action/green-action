@@ -133,7 +133,6 @@ function Header() {
           className="laptop:min-w-[1020px] flex bg-transparent desktop:h-[10rem] laptop:h-[104px] items-center justify-center desktop:pt-[90px] laptop:pt-[60px] desktop:mb-[88px] laptop:mb-[60px] desktop:text-[13pt] laptop:text-[11pt]"
         >
           <Image
-            // src={pathsMainAbout ? whitelogoImg : graylogoImg}
             src={
               pathname === "/about"
                 ? isScrolled
@@ -144,7 +143,7 @@ function Header() {
                 : graylogoImg // 나머지 페이지에서는 항상 gray로고 사용
             }
             alt="logo-image"
-            className="desktop:w-[94px] laptop:w-[94px] desktop:h-[21.63px] laptop:h-[21.63px] desktop:ml-[-400px] laptop:ml-[30px] desktop:mr-[460px] laptop:mr-[110px] cursor-pointer"
+            className="w-[94px] desktop:h-[21.63px] laptop:h-[21.63px] desktop:ml-[-400px] laptop:ml-[30px] desktop:mr-[460px] laptop:mr-[110px] cursor-pointer"
             onClick={handleLogoLinkClick}
           />
           <NavbarContent>
@@ -154,13 +153,13 @@ function Header() {
                 radius="full"
                 aria-label="NavBar-Tab-Options"
                 variant="light"
-                className="flex rounded-full bg-white/30 font-bold" // + 볼드체
+                className="flex rounded-full bg-white/30 font-bold px-0" // + 볼드체
                 classNames={{
-                  tab: "px-4 desktop:h-[35px] laptop:h-[27px]",
+                  tab: "px-0 desktop:h-[40px] laptop:h-[27px] ",
                   tabList:
-                    "flex items-center desktop:gap-[10px] laptop:gap-[30px] desktop:h-[45px] laptop:h-[35px] desktop:w-[600px] laptop:w-[446px]", // d:w-[511px] h-[39px]인데 자체변경? / laptop gap 자체
+                    "flex items-center justify-center desktop:gap-[20px] laptop:gap-[30px] desktop:h-[50px] laptop:h-[35px] desktop:min-w-[720px] laptop:min-w-[446px]", //  desktop:min-w-[750px]  d:w-[511px] h-[39px]인데 자체변경? / laptop gap 자체
                   tabContent:
-                    "flex items-center text-[#454545] desktop:text-[13pt] laptop:text-[10pt] laptop:h-[35px]", // ㅣ:text 11 자체
+                    "flex items-center justify-center text-[#2b2b2b] desktop:text-[13pt] laptop:text-[10pt] laptop:h-[35px] desktop:min-w-[160px]  ", // ㅣ:text 11 자체
                 }}
               >
                 <Tab
@@ -206,12 +205,12 @@ function Header() {
                   onMouseLeave={() => {
                     setIsOpen(false);
                   }}
-                  className="flex justify-center absolute desktop:h-[45px] laptop:h-[35px]  desktop:mt-[2.8%] laptop:mt-[4.2%] desktop:mr-[15%] laptop:mr-[12%] desktop:pt-[23px] desktop:text-[13pt] laptop:text-[10pt] font-bold text-[#454545]"
+                  className="flex justify-center absolute desktop:h-[45px] laptop:h-[35px]  desktop:mt-[2.8%] laptop:mt-[4.2%] desktop:mr-[18%] laptop:mr-[12%] desktop:pt-[23px] desktop:text-[13pt] laptop:text-[10pt] font-bold text-[#2b2b2b]"
                 >
                   {/* 폰트크기 넓이 안맞음 */}
                   <Navbar
                     isBlurred={false}
-                    className="flex desktop:gap-[23px] laptop:gap-[19px] desktop:mt-3 items-center justify-center desktop:w-[345px] laptop:w-[255px] desktop:h-[42px] laptop:h-[35px] rounded-full bg-[#E8E8E8]/30  "
+                    className="flex desktop:gap-[23px] laptop:gap-[19px] desktop:mt-3 items-center justify-center desktop:w-[345px] laptop:w-[255px] desktop:h-[50px] laptop:h-[35px] rounded-full bg-[#E8E8E8]/30  "
                   >
                     <Link
                       href={"/individualAction"}
@@ -247,10 +246,10 @@ function Header() {
                     <div className="flex">
                       {/* ml 360px  ml-[280px] mr-[0px] / border-[#DDDDDD] - 자체변경 */}
                       <Chip
-                        className={`desktop:w-[249px] laptop:w-[162px] desktop:h-[42px] laptop:h-[34px] bg-[#F1F1F1]/50 border-small border-[#404040]/40 ${
+                        className={`desktop:w-[249px] laptop:w-[162px] desktop:h-[50px] laptop:h-[34px] bg-[#F1F1F1]/50 border-small border-[#404040]/40 ${
                           display_name?.length >= 5
-                            ? `desktop:ml-[210px] laptop:ml-[10px]`
-                            : `desktop:ml-[290px] laptop:ml-[60px]`
+                            ? `desktop:ml-[120px] laptop:ml-[10px]`
+                            : `desktop:ml-[200px] laptop:ml-[60px]`
                         } `}
                       >
                         <div className="flex desktop:gap-[15px] items-center justify-between desktop:text-[13pt] laptop:text-[10pt] text-[#404040]">
@@ -262,7 +261,7 @@ function Header() {
                           </p>
                           <Avatar
                             as="button"
-                            className="transition-transform laptop:w-[30px] desktop:w-[38px] laptop:h-[30px] desktop:h-[38px] desktop:ml-[0px] laptop:ml-[8px]"
+                            className="transition-transform desktop:w-[39px] laptop:w-[28px] desktop:h-[39px] laptop:h-[28px]  desktop:ml-[0px] laptop:ml-[8px]"
                             name={display_name}
                             // size="sm"
                             showFallback
@@ -320,7 +319,7 @@ function Header() {
               </>
             ) : (
               <div
-                className={`flex desktop:gap-14 laptop:gap-[35px] desktop:w-[170px] desktop:ml-[380px] laptop:ml-[102px] ${
+                className={`flex desktop:gap-14 laptop:gap-[35px] desktop:w-[170px] desktop:ml-[320px] laptop:ml-[102px] ${
                   // pathsMainAbout ? "text-white " : "text-[#666666]"
                   pathname === "/about"
                     ? isScrolled

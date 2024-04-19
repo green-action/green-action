@@ -44,6 +44,7 @@ export const updateActionTextForm = async ({
       start_date: String(formData.get("startDate")),
       end_date: String(formData.get("endDate")),
       location: String(formData.get("activityLocation")),
+      location_coordinates: null, // 추후 수정 예정
       recruit_number: Number(formData.get("maxParticipants")),
       kakao_link: String(formData.get("openKakaoLink")),
     };

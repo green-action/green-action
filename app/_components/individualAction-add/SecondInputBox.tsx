@@ -12,6 +12,7 @@ const SecondInputBox = () => {
           type="text"
           id="activityTitle"
           name="activityTitle"
+          form="mainForm"
           required
           className="w-10/12 h-[50px] mx-4 pr-4 bg-inherit focus:outline-none text-sm text-gray-400"
         />
