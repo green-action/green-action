@@ -5,6 +5,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/utils/supabase/client";
 
 import {
+  QUERY_KEY_MESSAGES_PARTICIPANT_INFO_PAGE,
   QUERY_KEY_PRIVATE_CHATS_LIST,
   QUERY_KEY_PRIVATE_ROOM_IDS,
 } from "@/app/_api/queryKeys";
@@ -95,7 +96,7 @@ const PrivateChatsList = ({
 
   // 채팅방 리스트 가져오기
   const { data: privateChatsList, error: privateChatListError } = useQuery({
-    queryKey: [QUERY_KEY_PRIVATE_CHATS_LIST],
+    queryKey: [QUERY_KEY_MESSAGES_PARTICIPANT_INFO_PAGE],
     queryFn: async () => {
       if (roomIds) {
         return await getPrivateChatsList({ loggedInUserUid, roomIds });

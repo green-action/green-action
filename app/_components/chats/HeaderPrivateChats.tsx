@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import {
   QUERY_KEY_ACTION_IDS_TITLES_URLS,
-  QUERY_KEY_MESSAGES_PARTICIPANT_INFO,
+  QUERY_KEY_MESSAGES_PARTICIPANT_INFO_HEADER,
   QUERY_KEY_MY_PRIVATE_ROOMS_IDS,
 } from "@/app/_api/queryKeys";
 import {
@@ -50,7 +50,7 @@ const HeaderPrivateChats = () => {
     isLoading: isMessageInfoLoading,
     isError: isMessageError,
   } = useQuery({
-    queryKey: [QUERY_KEY_MESSAGES_PARTICIPANT_INFO],
+    queryKey: [QUERY_KEY_MESSAGES_PARTICIPANT_INFO_HEADER],
     queryFn: () => {
       const roomIds = data?.map((item) => {
         return item.room_id;

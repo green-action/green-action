@@ -14,7 +14,7 @@ interface PrivateChatProps {
     content?: string;
     room_id?: string | undefined;
     sender_uid?: string;
-  };
+  } | null;
 }
 
 const PrivateChatsListItem = ({ privateChat }: PrivateChatProps) => {
@@ -65,7 +65,7 @@ const PrivateChatsListItem = ({ privateChat }: PrivateChatProps) => {
         <PrivateChat
           isOpen={isPrivateChatOpen}
           onOpenChange={onPrivateChatOpenChange}
-          roomId={privateChat.room_id}
+          roomId={privateChat?.room_id ?? ""}
         />
       )}
     </div>
