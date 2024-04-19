@@ -15,8 +15,6 @@ import { useResponsive } from "@/app/_hooks/responsive";
 import KakaoShareButton from "@/app/_components/kakaoShare/KakaoShare";
 import Bookmark from "@/app/_components/bookmark/Bookmark";
 import TopButton from "@/app/_components/TopButton";
-import ChatButtons from "@/app/_components/individualAction/ChatButtons";
-import KakakoMap from "@/app/_components/kakaoMap/KakakoMap";
 import Image from "next/image";
 
 import Slider from "react-slick";
@@ -42,6 +40,9 @@ import editAction from "/app/_assets/image/logo_icon/icon/mypage/image 55.png";
 import delAction from "/app/_assets/image/logo_icon/icon/mypage/Group 131.png";
 import nextBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 133.png";
 import prevBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 132.png";
+import PrivateChat from "@/app/_components/chats/PrivateChat";
+import GroupChat from "@/app/_components/chats/GroupChat";
+import ChatButtons from "@/app/_components/individualAction/ChatButtons";
 
 const DetailPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
@@ -165,21 +166,7 @@ const DetailPage = () => {
                     {detail.users?.introduction}
                   </div>
                 </div>
-                <div
-                  className="border-1 border-[#bfbfbf] bg-[#fafafa] h-[74.7px] rounded-[20px] mb-[22px] text-center content-center font-semibold cursor-pointer"
-                  onClick={handleOpenPrivateChatRoom}
-                >
-                  1:1 채팅하기
-                </div>
-                <div
-                  className="border-1 border-[#bfbfbf] bg-[#fafafa] h-[74.7px] rounded-[20px] text-center content-center font-semibold cursor-pointer"
-                  key={"opaque"}
-                  color="warning"
-                  // onClick={() => handleOpen()}
-                  onClick={handleOpenGroupChatRoom}
-                >
-                  참여하기
-                </div>
+                <ChatButtons loggedInUserUid={user_uid} action_id={params.id} />
                 <Modal
                   backdrop={"opaque"}
                   isOpen={isOpen}
@@ -207,20 +194,6 @@ const DetailPage = () => {
                     )}
                   </ModalContent>
                 </Modal>
-                {isPrivateChatOpen && (
-                  <PrivateChat
-                    isOpen={isPrivateChatOpen}
-                    onOpenChange={onPrivateChatOpenChange}
-                    roomId={privateRoomIdRef.current}
-                  />
-                )}
-                {isGroupChatOpen && (
-                  <GroupChat
-                    isOpen={isGroupChatOpen}
-                    onOpenChange={onGroupChatOpenChange}
-                    roomId={groupRoomIdRef.current}
-                  />
-                )}
                 <div className="flex justify-center mt-[67px]">
                   <KakaoShareButton description={detail.content!} />
                 </div>
@@ -403,21 +376,7 @@ const DetailPage = () => {
                     {detail.users?.introduction}
                   </div>
                 </div>
-                <div
-                  className="border-1 border-[#bfbfbf] bg-[#fafafa] h-[74.7px] rounded-[20px] mb-[22px] text-center content-center font-semibold cursor-pointer"
-                  onClick={handleOpenPrivateChatRoom}
-                >
-                  1:1 채팅하기
-                </div>
-                <div
-                  className="border-1 border-[#bfbfbf] bg-[#fafafa] h-[74.7px] rounded-[20px] text-center content-center font-semibold cursor-pointer"
-                  key={"opaque"}
-                  color="warning"
-                  // onClick={() => handleOpen()}
-                  onClick={handleOpenGroupChatRoom}
-                >
-                  참여하기
-                </div>
+                <ChatButtons loggedInUserUid={user_uid} action_id={params.id} />
                 <Modal
                   backdrop={"opaque"}
                   isOpen={isOpen}
@@ -445,20 +404,6 @@ const DetailPage = () => {
                     )}
                   </ModalContent>
                 </Modal>
-                {isPrivateChatOpen && (
-                  <PrivateChat
-                    isOpen={isPrivateChatOpen}
-                    onOpenChange={onPrivateChatOpenChange}
-                    roomId={privateRoomIdRef.current}
-                  />
-                )}
-                {isGroupChatOpen && (
-                  <GroupChat
-                    isOpen={isGroupChatOpen}
-                    onOpenChange={onGroupChatOpenChange}
-                    roomId={groupRoomIdRef.current}
-                  />
-                )}
                 <div className="flex justify-center mt-[67px]">
                   <KakaoShareButton description={detail.content!} />
                 </div>
@@ -751,21 +696,7 @@ const DetailPage = () => {
                   </div>
                 </div>
               </div>
-              <div
-                className="border-1 border-[#bfbfbf] bg-[#fafafa] ml-[28px] w-[305px] h-[47px] rounded-[20px] mb-[22px] text-center content-center font-semibold cursor-pointer"
-                onClick={handleOpenPrivateChatRoom}
-              >
-                1:1 채팅하기
-              </div>
-              <div
-                className="border-1 border-[#bfbfbf] bg-[#fafafa] ml-[28px] w-[305px] h-[47px] rounded-[20px] text-center content-center font-semibold cursor-pointer"
-                key={"opaque"}
-                color="warning"
-                // onClick={() => handleOpen()}
-                onClick={handleOpenGroupChatRoom}
-              >
-                참여하기
-              </div>
+              <ChatButtons loggedInUserUid={user_uid} action_id={params.id} />
               <Modal
                 backdrop={"opaque"}
                 isOpen={isOpen}
@@ -793,20 +724,6 @@ const DetailPage = () => {
                   )}
                 </ModalContent>
               </Modal>
-              {isPrivateChatOpen && (
-                <PrivateChat
-                  isOpen={isPrivateChatOpen}
-                  onOpenChange={onPrivateChatOpenChange}
-                  roomId={privateRoomIdRef.current}
-                />
-              )}
-              {isGroupChatOpen && (
-                <GroupChat
-                  isOpen={isGroupChatOpen}
-                  onOpenChange={onGroupChatOpenChange}
-                  roomId={groupRoomIdRef.current}
-                />
-              )}
               <div className="flex justify-center mt-[64px]">
                 <KakaoShareButton description={detail.content!} />
               </div>
