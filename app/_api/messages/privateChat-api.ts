@@ -7,13 +7,29 @@ export const getMessages = async (room_id: string) => {
     .select("*, users(display_name, profile_img)")
     .eq("room_id", room_id)
     .order("created_at", { ascending: true });
-  // 개수 100개쯤 제한? -> 무한스크롤 10개씩 증가할수있음
+  // TODO 개수 100개쯤 제한? -> 무한스크롤 10개씩 증가할수있음
 
   if (error) {
     console.log("error", error.message);
     throw error;
   }
   return data;
+};
+
+// 액션장 uid 가져오기
+export const getActionOwnerUid = async (action_id: string) => {
+  const { data: ownerId, error: ownerIdError } = await supabase
+    .from("individual_green_actions")
+    .select("user_uid")
+    .eq("id", action_id);
+
+  if (ownerIdError) {
+    console.log("error", ownerIdError.message);
+    throw ownerIdError;
+  }
+
+  const actionOwnerId = ownerId[0].user_uid;
+  return actionOwnerId;
 };
 
 // 1. 이미 1:1방 존재하는지 먼저 확인하기
@@ -77,17 +93,18 @@ export const insertNewPrivateChatRoom = async ({
     // 3) room_id 반환
 
     // owner_id 가져오기
-    const { data: ownerId, error: ownerIdError } = await supabase
-      .from("individual_green_actions")
-      .select("user_uid")
-      .eq("id", action_id);
+    // const { data: ownerId, error: ownerIdError } = await supabase
+    //   .from("individual_green_actions")
+    //   .select("user_uid")
+    //   .eq("id", action_id);
 
-    if (ownerIdError) {
-      console.log("error", ownerIdError.message);
-      throw ownerIdError;
-    }
+    // if (ownerIdError) {
+    //   console.log("error", ownerIdError.message);
+    //   throw ownerIdError;
+    // }
 
-    const actionOwnerId = ownerId[0].user_uid;
+    // const actionOwnerId = ownerId[0].user_uid;
+    const actionOwnerId = await getActionOwnerUid(action_id);
 
     // 채팅방 insert, room_id 반환
     if (actionOwnerId !== null) {
@@ -153,5 +170,6 @@ export const sendMessage = async ({
 
   if (error) {
     console.log("error", error.message);
+    throw error;
   }
 };

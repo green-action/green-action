@@ -1,9 +1,4 @@
-"use client";
-import { useResponsive } from "@/app/_hooks/responsive";
-import { useGroupAction } from "@/app/_hooks/useQueries/groupAction";
-import TopButton from "../_components/TopButton";
 import GroupContent from "../_components/groupAction/GroupContent";
-import GroupSkeleton from "../_components/groupAction/GroupSkeleton";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -76,6 +71,7 @@ const groupActionPage = () => {
       })}
     </div>
   );
+  return <GroupContent />;
 };
 
 export default groupActionPage;

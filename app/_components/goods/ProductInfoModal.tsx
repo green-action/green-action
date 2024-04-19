@@ -6,7 +6,6 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useState } from "react";
 import AlertModal from "../community/AlertModal";
-import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 import search from "/app/_assets/image/logo_icon/icon/goods/Group 128.png";
 
 const ProductInfoModal = ({
@@ -28,8 +27,7 @@ const ProductInfoModal = ({
 }) => {
   const queryClient = useQueryClient();
   const session = useSession();
-  // const loggedInUserUid = session.data?.user.user_uid;
-  const loggedInUserUid = "40056464-b704-4c3e-8821-584424005432";
+  const loggedInUserUid = session.data?.user.user_uid;
 
   const [confirmPurchase, setConfirmPurchase] = useState(false);
 
@@ -93,7 +91,7 @@ const ProductInfoModal = ({
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-auto">
-        <Image src={SoomLoaing} alt="SoomLoading" />
+        {/* <Image src={SoomLoaing} alt="SoomLoading" /> */}
       </div>
     );
   }
