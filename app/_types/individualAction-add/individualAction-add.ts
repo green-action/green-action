@@ -23,6 +23,7 @@ export interface FormDataType {
   start_date: string;
   end_date: string;
   location: string;
+  location_coordinates: { x: number | string; y: number | string } | null;
   recruit_number: number;
   kakao_link: string;
 }

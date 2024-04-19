@@ -24,7 +24,7 @@ const MainSlider = ({ mode }: { mode: string }) => {
     dots: true,
     infinite: true,
     arrows: false,
-    speed: 10000,
+    speed: 9000,
     slidesToShow: 4,
     slidesToScroll: 4,
     adaptiveHeight: true,
