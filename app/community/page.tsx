@@ -61,7 +61,7 @@ const CommunityListPage = () => {
   };
 
   return (
-    <div className="desktop:w-[1920px] laptop:w-[1020px] mx-auto">
+    <div className="desktop:w-[1920px] laptop:w-[1020px] w-[360px] px-[36px] mx-auto mb-[370px]">
       <TopButton />
       {/* 전체 Wrapper */}
       <div className="desktop:w-[1306px] laptop:w-[910px] mx-auto desktop:mb-12">
@@ -95,7 +95,10 @@ const CommunityListPage = () => {
         </div>
         {/* 커뮤니티 리스트 wrapper */}
         {/* <div className="flex flex-wrap desktop:gap-x-[42px] desktop:gap-y-[92px] laptop:w-[100%] laptop:gap-x-[40px] laptop:gap-y-[89px] laptop:justify-center"> */}
-        <div className="grid desktop:grid-cols-3 laptop:grid-cols-2 desktop:gap-10 desktop:gap-y-[92px] laptop:w-[100%] laptop:gap-x-[40px] laptop:gap-y-[89px]">
+        <div
+          className="grid desktop:grid-cols-3 laptop:grid-cols-2 desktop:gap-10 desktop:gap-y-[92px] laptop:w-[100%] laptop:gap-x-[40px] laptop:gap-y-[89px]
+        grid-cols-2 gap-x-[9px] gap-y-[80px]"
+        >
           {/* 커뮤니티 게시글 카드 map */}
           {selectedValue === "정렬" || selectedValue === "최신순(기본)"
             ? sortedLatestCommunityList?.map((communityPost) => (

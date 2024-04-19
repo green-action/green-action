@@ -27,8 +27,7 @@ const ProductInfoModal = ({
 }) => {
   const queryClient = useQueryClient();
   const session = useSession();
-  // const loggedInUserUid = session.data?.user.user_uid;
-  const loggedInUserUid = "40056464-b704-4c3e-8821-584424005432";
+  const loggedInUserUid = session.data?.user.user_uid;
 
   const [confirmPurchase, setConfirmPurchase] = useState(false);
 
