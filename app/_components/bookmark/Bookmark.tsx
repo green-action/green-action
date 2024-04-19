@@ -104,7 +104,7 @@ const Bookmark = ({
                 <Image
                   src={bookmarkFill}
                   alt="북마크"
-                  className="size-[16px] desktop:size-[16px] mr-[6px] laptop:size-[13px]"
+                  className="desktop:size-[16px] mr-[6px] laptop:size-[13px] phone:size-[13px]"
                 />
               )}
               {mode === "myPosts" && (
@@ -125,6 +125,9 @@ const Bookmark = ({
             <span
               className={`desktop:text-sm laptop:text-[11px] ${
                 mode === "myPosts" && "desktop:text-[12px] laptop:text-[11px]"
+              } ${
+                mode === "individualAction" &&
+                "phone:text-[11px] phone:text-[#848484] desktop:text-black laptop:text-black"
               }`}
             >
               {filterBookmark?.filterBookmark?.length ?? 0}
@@ -146,7 +149,7 @@ const Bookmark = ({
               <Image
                 src={bookmarkEmpty}
                 alt="북마크"
-                className="size-[16px] desktop:size-[16px] mr-[6px] laptop:size-[13px] "
+                className=" desktop:size-[16px] mr-[6px] laptop:size-[13px] phone:size-[13px] "
               />
             )}
             {mode === "myPosts" && (
@@ -168,6 +171,9 @@ const Bookmark = ({
           <span
             className={`desktop:text-sm laptop:text-[11px] ${
               mode === "myPosts" && "desktop:text-[12px] laptop:text-[11px]"
+            } ${
+              mode === "individualAction" &&
+              "phone:text-[11px] phone:text-[#848484] desktop:text-black laptop:text-black"
             }`}
           >
             {filterBookmark?.filterBookmark?.length ?? 0}

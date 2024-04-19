@@ -1,9 +1,10 @@
 "use client";
 import { useResponsive } from "@/app/_hooks/responsive";
 import { Card, Image } from "@nextui-org/react";
-import React from "react";
+import React, { useState } from "react";
 import GroupModal from "./GroupModal";
 import GroupSkeleton from "./GroupSkeleton";
+import Link from "next/link";
 
 const GroupContent = ({
   action,
@@ -50,6 +51,8 @@ const GroupContent = ({
             ? "w-[365px] h-[550px]"
             : isLaptop
             ? "w-[289px] h-[433px]"
+            : isMobile
+            ? "w-[278px] h-[415px]"
             : ""
         } `}
       >
@@ -57,12 +60,16 @@ const GroupContent = ({
           shadow="sm"
           radius="lg"
           width="100%"
-          className="w-full object-cover desktop:h-[550px] laptop:h-[433px]"
+          className="w-full object-cover desktop:h-[550px] laptop:h-[433px] phone:h-[415px]"
           src={action.img_url as string}
           alt="campaign Img"
         />
       </Card>
-      <section className="flex flex-row justify-between items-center pl-[4%]">
+      <section
+        className={`flex flex-row justify-between items-center pl-[5%] ${
+          isMobile ? "pl-[12%]" : ""
+        } `}
+      >
         <h2 className="font-bold mt-[30px] text-[14px]  whitespace-nowrap w-[48%]">
           {action.title}
         </h2>
