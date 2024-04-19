@@ -9,6 +9,7 @@ import { longStyle } from "./style";
 import { useGetCommunityCommentsList } from "@/app/_hooks/useQueries/comments";
 import { useGetPostContents } from "@/app/_hooks/useQueries/community";
 import CommunitySkeleton from "./CommunitySkeleton";
+import { useResponsive } from "@/app/_hooks/responsive";
 
 const CommunityListPost = ({
   communityPost,
@@ -23,6 +24,7 @@ const CommunityListPost = ({
 }) => {
   // 게시글 상세 모달창 open여부 props
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isDesktop, isLaptop, isMobile } = useResponsive();
 
   const post_id = communityPost?.id as string;
 
@@ -71,7 +73,7 @@ const CommunityListPost = ({
       <div
         className={` ${
           mode === "main" &&
-          "desktop:w-[410px] desktop:h-[295px] laptop:w-[287px] laptop:h-[207px]"
+          "desktop:w-[410px] desktop:h-[295px] laptop:w-[287px] laptop:h-[207px] phone:w-[140px] phone:h-[98px]"
         }
             ${
               mode === "myPosts" &&
@@ -83,13 +85,13 @@ const CommunityListPost = ({
         <Card
           isFooterBlurred
           radius="lg"
-          className={`shadow-none border-none desktop:w-[410px] desktop:h-[295px] laptop:w-[433px] laptop:h-[311px] mb-3 rounded-2xl ${
+          className={`shadow-none border-none desktop:w-[410px] desktop:h-[295px] laptop:w-[433px] laptop:h-[311px] phone:w-[140px] phone:h-[98px] mb-3 rounded-2xl ${
             mode === "myPosts" &&
             "desktop:w-[356px] laptop:w-[327px] desktop:h-[250px] laptop:h-[230px]"
           }
             ${
               mode === "main" &&
-              "desktop:w-full desktop:h-full laptop:w-full laptop:h-full "
+              "desktop:w-full desktop:h-full laptop:w-full laptop:h-full phone:w-full phone:h-full "
             }
             `}
         >
@@ -115,14 +117,16 @@ const CommunityListPost = ({
                 src={imgSrc || my_profile_img || ""}
                 className="rounded-full mr-4 w-[28px] h-[28px]"
               />
-              <p
-                className={`text-white text-[16px] font-extrabold mr-3 ${
-                  mode === "myPosts" && "desktop:text-[13px]"
-                }
+              {isDesktop && isLaptop && (
+                <p
+                  className={`text-white text-[16px] font-extrabold mr-3 ${
+                    mode === "myPosts" && "desktop:text-[13px]"
+                  }
                 ${mode === "main" && "desktop:text-[16px] laptop:text-[13px]"}`}
-              >
-                {display_name || my_display_name}
-              </p>
+                >
+                  {display_name || my_display_name}
+                </p>
+              )}
               <span className="text-[14px]">Greener</span>
             </div>
             <div className="flex items-center">
@@ -153,12 +157,12 @@ const CommunityListPost = ({
           className={`flex justify-center items-center mt-4 ${
             mode !== "myPosts" &&
             mode !== "main" &&
-            "desktop:w-[410px] laptop:w-[433px]"
+            "desktop:w-[410px] laptop:w-[433px] phone:w-[140px]"
           }           
           ${mode === "myPosts" && "desktop:w-[335px] laptop:w-[300px]"} 
            ${
              mode === "main" &&
-             "desktop:w-[400px] laptop:w-[275px] bg-white/35 rounded-3xl mx-[10px] py-[5px]"
+             "desktop:w-[400px] laptop:w-[275px] phone:w-[140px] bg-white/35 rounded-3xl mx-[10px] py-[5px]"
            } 
           `}
         >
@@ -171,7 +175,7 @@ const CommunityListPost = ({
           }  
           ${
             mode === "main" &&
-            "desktop:ml-[10px] laptop:ml-[5px] desktop:w-[180px] desktop:text-[14px] laptop:text-[11px] desktop:px-0 laptop:px-0 laptop:w-[130px] desktop:h-[28px] laptop:h-[24px]"
+            "desktop:ml-[10px] laptop:ml-[5px] desktop:w-[180px] desktop:text-[14px] laptop:text-[11px] desktop:px-0 laptop:px-0 laptop:w-[130px] desktop:h-[28px] laptop:h-[24px] phone:text-[8px] phone:w-[54px] phone:h-[10px]"
           }`}
           >
             {communityPost?.action_type}와 함께해요
