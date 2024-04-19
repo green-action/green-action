@@ -111,7 +111,43 @@ const HeaderPrivateChats = () => {
         },
       };
     });
-  console.log("mergedData", mergedData);
+  // console.log("mergedData", mergedData);
+
+  // null 값을 필터링하여 최종 결과를 반환합니다.
+  const filteredMergedData = mergedData.filter((item) => item !== null);
+
+  // messageAndParticipantInfo와 mergedData.chat_rooms_info.room_id가 같은 요소들을 묶어서 객체 배열로 만듭니다.
+  const combinedObjects = messageAndParticipantInfo
+    ?.filter((message) => {
+      return filteredMergedData.some(
+        (mergedItem) =>
+          mergedItem?.chat_rooms_info?.room_id === message?.room_id,
+      );
+    })
+    .map((message) => {
+      const matchingMergedItem = filteredMergedData.find(
+        (mergedItem) =>
+          mergedItem?.chat_rooms_info?.room_id === message?.room_id,
+      );
+
+      if (!matchingMergedItem) {
+        // 메시지와 매칭되는 mergedData가 없으면 처리합니다.
+        console.warn(
+          `No matching mergedData found for message with room id ${message?.room_id}`,
+        );
+        return null; // 또는 다른 처리 방법을 선택할 수 있습니다.
+      }
+
+      // 메시지와 매칭되는 mergedData를 포함한 객체를 반환합니다.
+      return {
+        message,
+        ...matchingMergedItem,
+      };
+    })
+    .filter((combined) => combined !== null);
+
+  // return combinedObjects;
+  console.log("combinedObjects", combinedObjects);
 
   return (
     <>
