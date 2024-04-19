@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useResponsive } from "@/app/_hooks/responsive";
 import {
@@ -7,15 +7,82 @@ import {
   useGetMyPrivateRoomsInfo,
 } from "@/app/_hooks/useQueries/chats";
 import HeaderPrivateItem from "./HeaderPrivateItem";
+import { useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/utils/supabase/client";
+import {
+  QUERY_KEY_ACTION_IDS_TITLES_URLS,
+  QUERY_KEY_MESSAGES_PARTICIPANT_INFO_HEADER,
+} from "@/app/_api/queryKeys";
+import Image from "next/image";
+import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
 const HeaderPrivateList = () => {
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
   const { isDesktop, isLaptop, isMobile } = useResponsive();
+  const queryClient = useQueryClient();
 
   // data - 채팅방 id, 나의 채팅참가자 type(방장 or 참가자), 채팅방 type(개인), action id
   const { data, isLoading, isError } =
     useGetMyPrivateRoomsInfo(loggedInUserUid);
+
+  useEffect(() => {
+    const roomIds = data?.map((item) => {
+      return item.room_id;
+    });
+
+    // 채팅내용 구독 - room_id 별로 채팅내용 변경사항 구독
+    const subscriptions = roomIds?.map((roomId) => {
+      const subscription = supabase
+        .channel(`${roomId}`)
+        .on(
+          "postgres_changes",
+          { event: "INSERT", schema: "public", table: "chat_messages" },
+
+          () => {
+            queryClient.invalidateQueries({
+              queryKey: [QUERY_KEY_MESSAGES_PARTICIPANT_INFO_HEADER],
+            }),
+              // 채팅방 개설은 되어있지만, 메시지가 하나도 없었던 경우 대비
+              queryClient.invalidateQueries({
+                queryKey: [QUERY_KEY_ACTION_IDS_TITLES_URLS],
+              });
+            queryClient.invalidateQueries({
+              queryKey: [QUERY_KEY_MESSAGES_PARTICIPANT_INFO_HEADER],
+            });
+          },
+        )
+        .subscribe();
+
+      return subscription;
+    });
+
+    return () => {
+      subscriptions?.map((subscription) => {
+        return subscription.unsubscribe();
+      });
+    };
+  }, [data]);
+
+  // 채팅방 테이블 변경사항 구독 - 새 채팅방 insert될때 채팅방 리스트 실시간 업데이트
+  useEffect(() => {
+    const chatRoomsSubscription = supabase.channel(`{${loggedInUserUid}}`).on(
+      "postgres_changes",
+      { event: "INSERT", schema: "public", table: "chat_rooms_info" },
+
+      () => {
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY_ACTION_IDS_TITLES_URLS],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY_MESSAGES_PARTICIPANT_INFO_HEADER],
+        });
+      },
+    );
+    return () => {
+      chatRoomsSubscription.unsubscribe();
+    };
+  }, []);
 
   // 채팅방 별 action의 title, url
   const { actionIdsTitlesUrls, isActionLoading, isActionError } =
@@ -29,10 +96,14 @@ const HeaderPrivateList = () => {
     });
 
   if (isLoading || isActionLoading || isMessageInfoLoading) {
-    <div>Loading</div>;
+    return (
+      <div className="w-[200px] h-auto mx-auto">
+        <Image className="" src={SoomLoaing} alt="SoomLoading" />
+      </div>
+    );
   }
   if (isError || isActionError || isMessageError) {
-    <div>Error</div>;
+    return <div>Error</div>;
   }
 
   // data, actionIdsTitlesUrls 안 들어온 경우
@@ -100,7 +171,7 @@ const HeaderPrivateList = () => {
     })
     .filter((combined) => combined !== null);
 
-  console.log("combinedObjects", combinedObjects);
+  // console.log("combinedObjects", combinedObjects);
 
   return (
     <>

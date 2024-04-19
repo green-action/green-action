@@ -38,13 +38,12 @@ const PageChatsList = ({
       "postgres_changes",
       { event: "INSERT", schema: "public", table: "chat_rooms_info" },
 
-      (payload) => {
+      () => {
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEY_PRIVATE_ROOM_IDS],
         });
       },
     );
-
     return () => {
       chatRoomsSubscription.unsubscribe();
     };
@@ -59,7 +58,7 @@ const PageChatsList = ({
           "postgres_changes",
           { event: "INSERT", schema: "public", table: "chat_messages" },
 
-          (payload) => {
+          () => {
             queryClient.invalidateQueries({
               queryKey: [QUERY_KEY_PRIVATE_CHATS_LIST],
             }),
