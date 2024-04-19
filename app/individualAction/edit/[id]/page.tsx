@@ -16,6 +16,7 @@ import CustomConfirm from "@/app/_components/customConfirm/CustomConfirm";
 import ImgEdit from "@/app/_components/individualAction-edit/ImgEdit";
 import { useGetActionForEdit } from "@/app/_hooks/useQueries/individualAction-edit";
 
+// TODO 장소 지도 좌표 등 수정하도록 해야
 const EditActionPage = ({ params }: { params: { id: string } }) => {
   const [uploadedFileUrls, setUploadedFileUrls] = useState<
     { id: string; img_url: string }[]
