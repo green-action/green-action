@@ -34,32 +34,33 @@ const HeaderPrivateChats = () => {
     <div>Error</div>;
   }
 
-  // 먼저 data와 actionIdsTitlesUrls가 모두 로드되었는지 확인합니다.
+  // data, actionIdsTitlesUrls 안 들어온 경우
   if (!data || !actionIdsTitlesUrls) return [];
 
-  // data에서 chat_rooms_info가 null이 아닌 것들만 필터링하여 해당 action_id를 추출합니다.
+  // action_id 같은 것들끼리 객체 하나로 병합
   const mergedData = data
     .filter((item) => item.chat_rooms_info !== null)
     .map((item) => {
+      // 각 채팅방의 action_id 추출
       const actionId = item.chat_rooms_info?.action_id;
 
+      // action_id 형식이 올바르지 않은 경우
       if (!actionId || typeof actionId !== "string") {
         console.warn(`Invalid action id found in data: ${actionId}`);
-        return null; // 올바르지 않은 action_id는 건너뜁니다.
+        return null;
       }
 
-      // actionIdsTitlesUrls에서 해당 action_id에 해당하는 데이터를 찾습니다.
+      // actionIdsTitlesUrls에서 해당 action_id 추출
       const matchingAction = actionIdsTitlesUrls.find(
         (action) => action.id === actionId,
       );
 
       if (!matchingAction) {
-        // 만약 해당 action_id에 대한 title과 url이 없으면 처리합니다. (예: 데이터 일치하지 않음)
         console.warn(`No matching action found for action id ${actionId}`);
-        return null; // 또는 다른 처리 방법을 선택할 수 있습니다.
+        return null;
       }
 
-      // 해당 action_id에 대한 title과 url을 포함한 객체를 반환합니다.
+      // chat_rooms_info, action_info 를 하나의 객체로 반환
       return {
         chat_rooms_info: {
           room_type: item?.chat_rooms_info?.room_type,
@@ -74,10 +75,9 @@ const HeaderPrivateChats = () => {
       };
     });
 
-  // null 값을 필터링하여 최종 결과를 반환합니다.
   const filteredMergedData = mergedData.filter((item) => item !== null);
 
-  // messageAndParticipantInfo와 mergedData.chat_rooms_info.room_id가 같은 요소들을 묶어서 객체 배열로 만듭니다.
+  // room_id 같은 것들끼리 객체 하나로 병합
   const combinedObjects = messageAndParticipantInfo
     ?.map((message) => {
       const matchingMergedItem = filteredMergedData.find(
@@ -86,14 +86,12 @@ const HeaderPrivateChats = () => {
       );
 
       if (!matchingMergedItem) {
-        // 메시지와 매칭되는 mergedData가 없으면 처리합니다.
         console.warn(
           `No matching mergedData found for message with room id ${message?.room_id}`,
         );
-        return null; // 또는 다른 처리 방법을 선택할 수 있습니다.
+        return null;
       }
 
-      // 메시지와 매칭되는 mergedData를 포함한 객체를 반환합니다.
       return {
         message,
         ...matchingMergedItem,
@@ -108,7 +106,7 @@ const HeaderPrivateChats = () => {
       <div className={`${isDesktop} && "flex flex-col"`}>
         <div className={`${isDesktop} && "flex"`}>
           <p>green-action :</p>
-          <p>{}</p>
+          <p>액션 이름</p>
         </div>
       </div>
     </>
