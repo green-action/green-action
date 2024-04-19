@@ -6,9 +6,14 @@ import Image from "next/image";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 import { useGetUnreadCount } from "@/app/_hooks/useQueries/chats";
 import { formatToLocaleDateTimeString } from "@/utils/date/date";
+import { useSession } from "next-auth/react";
 
 // TODO any 타입 해결 필요
 const HeaderPrivateItem = ({ eachRoomInfo }: any) => {
+  // 현재 로그인한 유저 uid
+  const session = useSession();
+  const loggedInUserUid = session.data?.user.user_uid || "";
+
   // 1:1 채팅방 모달창
   const {
     isOpen: isPrivateChatOpen,
@@ -22,7 +27,10 @@ const HeaderPrivateItem = ({ eachRoomInfo }: any) => {
     ? formatToLocaleDateTimeString(eachRoomInfo.message.created_at)
     : "";
 
-  const { unreadCount, isLoading, isError } = useGetUnreadCount(room_id);
+  const { unreadCount, isLoading, isError } = useGetUnreadCount({
+    loggedInUserUid,
+    room_id,
+  });
 
   if (isLoading) {
     return (

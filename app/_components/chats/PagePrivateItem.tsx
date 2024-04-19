@@ -7,9 +7,14 @@ import { formatToLocaleDateTimeString } from "@/utils/date/date";
 import { useGetUnreadCount } from "@/app/_hooks/useQueries/chats";
 import Image from "next/image";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
+import { useSession } from "next-auth/react";
 
 const PagePrivateItem = ({ privateChat }: PrivateChatProps) => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
+
+  // 현재 로그인한 유저 uid
+  const session = useSession();
+  const loggedInUserUid = session.data?.user.user_uid || "";
 
   // 날짜 형식 변경
   const formattedDate = privateChat
@@ -23,9 +28,10 @@ const PagePrivateItem = ({ privateChat }: PrivateChatProps) => {
     onOpenChange: onPrivateChatOpenChange,
   } = useDisclosure();
 
-  const { unreadCount, isLoading, isError } = useGetUnreadCount(
-    privateChat?.room_id ?? "",
-  );
+  const { unreadCount, isLoading, isError } = useGetUnreadCount({
+    loggedInUserUid,
+    room_id: privateChat?.room_id ?? "",
+  });
 
   if (isLoading) {
     return (

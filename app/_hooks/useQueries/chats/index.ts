@@ -143,14 +143,20 @@ export const useGetPrivateList = ({
   return { privateChatsList, privateChatListLoading, privateChatListError };
 };
 
-export const useGetUnreadCount = (room_id: string) => {
+export const useGetUnreadCount = ({
+  loggedInUserUid,
+  room_id,
+}: {
+  loggedInUserUid: string;
+  room_id: string;
+}) => {
   const {
     data: unreadCount,
     isLoading,
     isError,
   } = useQuery({
     queryKey: [QUERY_KEY_UNREAD_MESSAGES_COUNT, room_id],
-    queryFn: () => getUnreadMessageCount(room_id),
+    queryFn: () => getUnreadMessageCount({ loggedInUserUid, room_id }),
   });
 
   return { unreadCount, isLoading, isError };

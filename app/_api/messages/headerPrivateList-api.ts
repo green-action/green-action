@@ -122,10 +122,17 @@ export const getPrivateChatsList = async ({
 };
 
 // 안읽은 메시지 수 가져오기
-export const getUnreadMessageCount = async (room_id: string) => {
+export const getUnreadMessageCount = async ({
+  loggedInUserUid,
+  room_id,
+}: {
+  loggedInUserUid: string;
+  room_id: string;
+}) => {
   const { data, error } = await supabase
     .from("chat_messages")
     .select("id")
+    .neq("sender_uid", loggedInUserUid)
     .eq("is_read", false)
     .eq("room_id", room_id);
 
