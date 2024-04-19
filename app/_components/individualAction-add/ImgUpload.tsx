@@ -114,6 +114,7 @@ const ImgUpload = ({
                   type="file"
                   accept=".png, .jpg, .jpeg"
                   hidden
+                  form="mainForm"
                   onChange={handleShowPreview}
                 />
                 <p className="text-sm font-medium text-gray-500">
