@@ -195,51 +195,16 @@ export const getPrivateRoomIds = async (action_id: string) => {
 
 // TODO 이중 외래키로 채팅방의 참가자 닉네임, 프로필 가져오기 (chat_participants - participant_type이 '개인' 인 participant_uid -> users 접근)
 // 1:1 채팅방 리스트 가져오기
-export const getPrivateChatsList = async (roomIds: string[]) => {
-  const chatPromises = roomIds.map(async (roomId) => {
-    const { data, error } = await supabase
-      .from("chat_messages")
-      .select("created_at, content, room_id, users(display_name, profile_img)")
-      // .select(
-      //   "created_at, content, room_id, chat_participants(filter(participant_type='참가자'), users(display_name, profile_img)))",
-      // )
-      .eq("room_id", roomId)
-      // .eq(chat_participants("participant_type", "참가자"))
-      .order("created_at", { ascending: false })
-      .limit(1);
-
-    if (error) {
-      console.log(
-        `Error fetching chat messages for room ${roomId}: ${error.message}`,
-      );
-      throw error;
-    }
-
-    if (data && data.length > 0) {
-      return data[0]; // 가장 최신 메시지 반환
-    } else {
-      // 메시지 없이 빈 채팅방인 경우
-      return;
-    }
-  });
-
-  // const chatList = await Promise.all(chatPromises);
-  // return chatList;
-
-  const chatList = await Promise.all(chatPromises);
-
-  // chatList에서 undefined 값 제거하고 값 있는 채팅만 필터링하여 새로운 배열 반환
-  const filteredChatList = chatList.filter((chat) => chat !== undefined);
-
-  return filteredChatList;
-};
-
 // export const getPrivateChatsList = async (roomIds: string[]) => {
 //   const chatPromises = roomIds.map(async (roomId) => {
 //     const { data, error } = await supabase
 //       .from("chat_messages")
-//       .select("created_at, content, room_id, sender_uid")
+//       .select("created_at, content, room_id, users(display_name, profile_img)")
+//       // .select(
+//       //   "created_at, content, room_id, chat_participants(filter(participant_type='참가자'), users(display_name, profile_img)))",
+//       // )
 //       .eq("room_id", roomId)
+//       // .eq(chat_participants("participant_type", "참가자"))
 //       .order("created_at", { ascending: false })
 //       .limit(1);
 
@@ -258,44 +223,82 @@ export const getPrivateChatsList = async (roomIds: string[]) => {
 //     }
 //   });
 
-//   const chatList = await Promise.all(chatPromises);
-//   console.log("chatList", chatList);
+//   // const chatList = await Promise.all(chatPromises);
+//   // return chatList;
 
-//   // 각 채팅 메시지의 sender_uid 배열 추출
-//   const senderUids = chatList.map((chat) => chat?.sender_uid);
+// const chatList = await Promise.all(chatPromises);
 
-//   // sender_uid로 users 테이블에서 display_name, profile_img 가져오기
-//   const usersDataPromises = senderUids.map(async (senderUid) => {
-//     const { data, error } = await supabase
-//       .from("users")
-//       .select("id, display_name, profile_img")
-//       .in("id", senderUids);
+// // chatList에서 undefined 값 제거하고 값 있는 채팅만 필터링하여 새로운 배열 반환
+// const filteredChatList = chatList.filter((chat) => chat !== undefined);
 
-//     if (error) {
-//       console.log(
-//         `Error fetching user data for user ${senderUid}: ${error.message}`,
-//       );
-//       throw error;
-//     }
-
-//     return data;
-//   });
-
-//   const usersData = await Promise.all(usersDataPromises);
-
-//   // chatList와 usersData를 결합하여 새로운 배열 생성
-//   const combinedData = chatList.map((chat, index) => {
-//     const userData = usersData[index]?.[0]; // usersData는 각각의 Promise로부터 반환된 배열이므로 [0]으로 접근
-//     return {
-//       ...chat,
-//       user: userData
-//         ? {
-//             display_name: userData.display_name,
-//             profile_img: userData.profile_img,
-//           }
-//         : null,
-//     };
-//   });
-
-//   return combinedData;
+//   return filteredChatList;
 // };
+
+// 이중외래키 말고 두번 가져오기로 도전
+export const getPrivateChatsList = async (roomIds: string[]) => {
+  const chatPromises = roomIds.map(async (roomId) => {
+    const { data, error } = await supabase
+      .from("chat_messages")
+      .select("created_at, content, room_id, sender_uid")
+      .eq("room_id", roomId)
+      .order("created_at", { ascending: false })
+      .limit(1);
+
+    if (error) {
+      console.log(
+        `Error fetching chat messages for room ${roomId}: ${error.message}`,
+      );
+      throw error;
+    }
+
+    if (data && data.length > 0) {
+      return data[0]; // 가장 최신 메시지 반환
+    } else {
+      // 메시지 없이 빈 채팅방인 경우
+      return;
+    }
+  });
+
+  const chatList = await Promise.all(chatPromises);
+
+  // chatList에서 undefined 값 제거하고 값 있는 채팅만 필터링하여 새로운 배열 반환
+  const filteredChatList = chatList.filter((chat) => chat !== undefined);
+
+  // 각 채팅 메시지의 room_id 배열 추출
+  const filteredRoomIds = filteredChatList.map((chat) => chat?.room_id);
+
+  // 채팅방 '참가자'의 display_name, profile_img 가져오기
+  const { data: participantData, error } = await supabase
+    .from("chat_participants")
+    .select("users(id, display_name, profile_img)")
+    .in("room_id", filteredRoomIds)
+    .eq("participant_type", "참가자");
+
+  if (error) {
+    console.log("error", error.message);
+    throw error;
+  }
+
+  // 채팅방에 참가한 사용자 데이터와 채팅 메시지를 결합하여 반환
+  const combinedData = filteredChatList.map((chat) => {
+    const participant = participantData.find(
+      (participant) => participant.users?.id === chat?.sender_uid,
+    );
+
+    if (participant) {
+      return {
+        ...chat,
+        user: {
+          display_name: participant.users?.display_name,
+          profile_img: participant.users?.profile_img,
+        },
+      };
+    } else {
+      // 참가자 데이터를 찾을 수 없는 경우에 대한 처리
+      console.log(`Participant data not found for room ${chat?.room_id}`);
+      return chat;
+    }
+  });
+
+  return combinedData;
+};

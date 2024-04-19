@@ -131,14 +131,14 @@ const PrivateChatsList = ({
                 <div>
                   <Avatar
                     showFallback
-                    src={privateChat?.users?.profile_img || ""}
+                    src={privateChat?.user?.profile_img || ""}
                     alt=""
                     className="mx-3"
                   />
                 </div>
                 <div className="w-[90%]">
                   <div className="flex justify-between mr-7 mb-2">
-                    <p>{privateChat?.users?.display_name}</p>
+                    <p>{privateChat?.user?.display_name}</p>
                     <p>{privateChat?.created_at}</p>
                   </div>
                   <div>
