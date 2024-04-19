@@ -2,9 +2,6 @@ import React from "react";
 import { Avatar, useDisclosure } from "@nextui-org/react";
 import { LiaCrownSolid } from "react-icons/lia";
 import PrivateChatRoom from "./PrivateChatRoom";
-import { useQuery } from "@tanstack/react-query";
-import { getUnreadMessageCount } from "@/app/_api/messages/headerPrivateList-api";
-import { QUERY_KEY_UNREAD_MESSAGES_COUNT } from "@/app/_api/queryKeys";
 import Image from "next/image";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 import { useGetUnreadCount } from "@/app/_hooks/useQueries/chats";
@@ -47,9 +44,17 @@ const HeaderPrivateItem = ({ eachRoomInfo }: any) => {
         onPrivateChatOpen();
       }}
     >
-      <div className="flex mb-3">
-        <span>green-action :</span>
-        <span>{eachRoomInfo.action_info.action_title}</span>
+      <div className="flex mb-3 justify-between">
+        <div className="flex gap-3">
+          <span>green-action :</span>
+          <span>{eachRoomInfo.action_info.action_title}</span>
+          <span>
+            {eachRoomInfo.chat_rooms_info.participant_type === "방장" && (
+              <LiaCrownSolid size={20} />
+            )}
+          </span>
+        </div>
+        <div>{formattedDate}</div>
       </div>
       <div className="flex">
         <div>
@@ -64,15 +69,12 @@ const HeaderPrivateItem = ({ eachRoomInfo }: any) => {
           <div className="flex flex-col gap-2">
             <div className="flex justify-between">
               <span>닉네임 : {eachRoomInfo.message.user.display_name}</span>
-              <span>
-                {eachRoomInfo.chat_rooms_info.participant_type === "방장" && (
-                  <LiaCrownSolid size={20} />
-                )}
-              </span>
             </div>
             <div className="flex justify-between">
               <span>{eachRoomInfo.message.content}</span>
-              <span>{formattedDate}</span>
+              <div className="bg-[#B3C8A1] w-7 h-7 rounded-full text-white font-extrabold flex justify-center items-center">
+                {unreadCount}
+              </div>
             </div>
           </div>
         </div>
