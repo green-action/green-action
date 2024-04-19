@@ -7,6 +7,7 @@ import { getUnreadMessageCount } from "@/app/_api/messages/headerPrivateList-api
 import { QUERY_KEY_UNREAD_MESSAGES_COUNT } from "@/app/_api/queryKeys";
 import Image from "next/image";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
+import { useGetUnreadCount } from "@/app/_hooks/useQueries/chats";
 
 // TODO any 타입 해결 필요
 const HeaderPrivateItem = ({ eachRoomInfo }: any) => {
@@ -19,14 +20,7 @@ const HeaderPrivateItem = ({ eachRoomInfo }: any) => {
 
   const room_id = eachRoomInfo?.chat_rooms_info.room_id;
 
-  const {
-    data: unreadCount,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: [QUERY_KEY_UNREAD_MESSAGES_COUNT, room_id],
-    queryFn: () => getUnreadMessageCount(room_id),
-  });
+  const { unreadCount, isLoading, isError } = useGetUnreadCount(room_id);
 
   if (isLoading) {
     return (

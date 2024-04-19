@@ -7,11 +7,13 @@ import {
   QUERY_KEY_MESSAGES_PARTICIPANT_INFO_PAGE,
   QUERY_KEY_MY_PRIVATE_ROOMS_IDS,
   QUERY_KEY_PRIVATE_ROOM_IDS,
+  QUERY_KEY_UNREAD_MESSAGES_COUNT,
 } from "@/app/_api/queryKeys";
 import {
   getActionTitleAndUrl,
   getMyPrivateRoomInfos,
   getPrivateChatsList,
+  getUnreadMessageCount,
 } from "@/app/_api/messages/headerPrivateList-api";
 
 import type {
@@ -139,4 +141,17 @@ export const useGetPrivateList = ({
   });
 
   return { privateChatsList, privateChatListLoading, privateChatListError };
+};
+
+export const useGetUnreadCount = (room_id: string) => {
+  const {
+    data: unreadCount,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: [QUERY_KEY_UNREAD_MESSAGES_COUNT, room_id],
+    queryFn: () => getUnreadMessageCount(room_id),
+  });
+
+  return { unreadCount, isLoading, isError };
 };
