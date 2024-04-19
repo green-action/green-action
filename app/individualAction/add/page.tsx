@@ -19,10 +19,13 @@ import SecondInputBox from "@/app/_components/individualAction-add/SecondInputBo
 import ThirdInputBox from "@/app/_components/individualAction-add/ThirdInputBox";
 import { useDisclosure } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
+import { useResponsive } from "@/app/_hooks/responsive";
+import { FaChevronLeft } from "react-icons/fa6";
 
 const AddActionPage = () => {
   const [uploadedFileUrls, setUploadedFileUrls] = useState<string[]>([]);
   const [files, setFiles] = useState<(File | undefined)[]>([]);
+  const { isDesktop, isLaptop, isMobile } = useResponsive();
 
   // PointModal을 위한 상태관리 / alert 대체 모달창을 위한 상태관리
   const [Modal, setModal] = useState({
@@ -98,18 +101,26 @@ const AddActionPage = () => {
   };
 
   return (
-    <div className="desktop:w-[1920px] laptop:w-[1020px] mx-auto">
+    <div className="desktop:w-[1920px] laptop:w-[1020px] phone:w-[360px] mx-auto">
       {/* 전체 Wrapper */}
       <form onSubmit={handleSubmit}>
         {/* <div className="flex flex-col w-[809px] h-[826px] border-1.5 border-gray-300 rounded-3xl mx-auto mb-12 mt-8"> */}
-        <div className="flex flex-col w-[809px] h-[826px] border-1.5 border-gray-300 rounded-3xl mx-auto mb-12 mt-0">
+        <div className="flex flex-col desktop:w-[809px] laptop:w-[809px] h-[826px] phone:w-[291px] desktop:border-1.5 laptop:border-1.5 desktop:border-gray-300 laptop:border-gray-300 phone:border-0 rounded-3xl mx-auto mb-12 mt-0 ">
           {/* new green-action 타이틀 */}
-          <div className="ml-8 my-[16px] ">
+          <div className="ml-8 my-[16px] phone:text-center">
             <span className="font-black text-[15px]">New Green-Action</span>
           </div>
-          <hr className="border-t-1.5 border-gray-300" />
+          {isMobile && (
+            <div className="flex flex-col mb-3">
+              <FaChevronLeft
+                className="relative bottom-8 left-4 cursor-pointer"
+                onClick={() => router.push("/")}
+              />
+            </div>
+          )}
+          <hr className="border-t-1.5  desktop:border-gray-300 laptop:border-gray-300 phone:border-[#EDEDED]" />
           {/* 타이틀 아래 Wrapper */}
-          <div className="w-full h-full mt-[31px] mb-[26px] mx-[44px]">
+          <div className="w-full h-full mt-[31px] mb-[26px] desktop:mx-[44px] laptop:mx-[44px] phone:ml-auto">
             {/* 이미지 4장 자리*/}
             <ImgUpload
               uploadedFileUrls={uploadedFileUrls}
@@ -123,19 +134,47 @@ const AddActionPage = () => {
             {/* 이미지 아래 세번째 박스(활동 소개) */}
             <ThirdInputBox />
             {/* 등록, 취소 버튼 */}
-            <div className="w-[724px] flex justify-center gap-4">
-              <button
-                type="submit"
-                className="bg-gray-200 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500"
-              >
-                <span className="font-extrabold">등록완료</span>
-              </button>
-              <button className="bg-gray-100 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500">
-                <span className="font-extrabold">취소하기</span>
-              </button>
-            </div>
+            {isDesktop && (
+              <div className="w-[724px] flex justify-center gap-4">
+                <button
+                  type="submit"
+                  className="bg-gray-200 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500"
+                >
+                  <span className="font-extrabold">등록완료</span>
+                </button>
+                <button className="bg-gray-100 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500">
+                  <span className="font-extrabold">취소하기</span>
+                </button>
+              </div>
+            )}
+            {isLaptop && (
+              <div className="w-[724px] flex justify-center gap-4">
+                <button
+                  type="submit"
+                  className="bg-gray-200 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500"
+                >
+                  <span className="font-extrabold">등록완료</span>
+                </button>
+                <button className="bg-gray-100 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500">
+                  <span className="font-extrabold">취소하기</span>
+                </button>
+              </div>
+            )}
+            {isMobile && (
+              <div className="w-[291px] flex justify-center gap-4 mt-3">
+                <button
+                  type="submit"
+                  className="bg-black w-[170px] h-[40px] rounded-full border-1.5  text-sm font-medium text-white"
+                >
+                  <span className="font-extrabold">등록완료</span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
+
+        {/* {isMobile && <div></div>} */}
+
         {Modal.showPoint && (
           <PointModal
             isOpen={Modal.showPoint}

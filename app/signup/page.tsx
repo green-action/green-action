@@ -12,13 +12,12 @@ import {
 } from "@nextui-org/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { FaChevronLeft } from "react-icons/fa6";
 import { PiEyeLight, PiEyeSlash } from "react-icons/pi";
-import { logoutUser, signUpNewUser } from "../_api/auth";
+import { signUpNewUser } from "../_api/auth";
 import logoImg from "../_assets/image/logo_icon/logo/white.png";
 import AlertModal from "../_components/community/AlertModal";
-import { supabase } from "@/utils/supabase/client";
-import { FaChevronLeft } from "react-icons/fa6";
 import { useResponsive } from "../_hooks/responsive";
 
 const SignUp = () => {
@@ -93,11 +92,12 @@ const SignUp = () => {
     <div
       className="desktop:w-screen laptop:w-screen  phone:w-[360px] h-screen flex justify-around 
   items-center desktop:bg-main-img  laptop:bg-main-img bg-cover  
-  desktop:bg-blend-darken desktop:bg-black desktop:bg-opacity-10  laptop:bg-blend-darken laptop:bg-black laptop:bg-opacity-10  phone:bg-none "
+  desktop:bg-blend-darken desktop:bg-black desktop:bg-opacity-10 
+  laptop:bg-blend-darken laptop:bg-black laptop:bg-opacity-10  phone:bg-none"
     >
       <div className="flex flex-col items-center justify-center">
         <Image
-          className=" desktop:w-[126px] laptop:w-[126px] phone:w-0 h-[29px] cursor-pointer"
+          className=" desktop:w-[126px] laptop:w-[126px] phone:w-[50px] h-[29px] cursor-pointer"
           src={logoImg}
           alt="logo"
           onClick={() => router.push("/")}
