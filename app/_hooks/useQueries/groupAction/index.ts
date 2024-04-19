@@ -3,9 +3,9 @@ import { QUERY_KEY_GROUPACTION } from "@/app/_api/queryKeys";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGroupAction = () => {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: [QUERY_KEY_GROUPACTION],
     queryFn: getGroupAction,
   });
-  return { data, isLoading };
+  return { data, isLoading, isError };
 };
