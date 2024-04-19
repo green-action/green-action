@@ -1,33 +1,70 @@
-import React from "react";
-import { ModalHeader, ModalBody, ModalFooter, Button } from "@nextui-org/react";
+import { useState } from "react";
+import { useResponsive } from "@/app/_hooks/responsive";
+import {
+  Button,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  Navbar,
+  NavbarContent,
+  Tab,
+  Tabs,
+} from "@nextui-org/react";
+import HeaderPrivateChats from "./HeaderPrivateChats";
 
 const HeaderChatsList = ({ onClose }: { onClose: () => void }) => {
+  const { isDesktop, isLaptop, isMobile } = useResponsive();
+  const [selected, setSelected] = useState<string>("private"); // 탭의 선택 상태
+
+  const handleSelectedTab = (mode: string) => {
+    setSelected(mode);
+  };
+
+  console.log("selected", selected);
+
   return (
     <>
-      {/* 모달 내용물 분리 - 헤더에서 클릭시 1:1채팅, 그룹채팅 / 상세페이지에서 클릭시 해당 액션의 채팅리스트 모아보기 */}
-      {/* 헤더에서 클릭시 + 상세페이지에서 클릭시 이 모달을 열어야되는데, open상태를 어디서 관리해야하나? */}
-      {/* 일단 헤더에서 모달창 열게 만들어놓고, 모달 사이즈부터 수정해보자. 페이지 오른쪽에 꽉차게 만들기 */}
-      {/* 상세페이지 : 로그인유저 === 액션장인 경우 '1:1문의 목록보기'로 문구 변경 */}
       <ModalHeader className="flex flex-col gap-1">
-        1:1채팅방 리스트 / 그룹채팅방 리스트
+        {/* 1:1채팅방 리스트 / 그룹채팅방 리스트 */}
+        <Navbar className={`${isDesktop && "flex w-full"}`}>
+          <NavbarContent>
+            <div className="flex flex-col items-center">
+              <Tabs
+                selectedKey={selected} // 선택된 부모 탭의 키
+                radius="full"
+                aria-label="NavBar-Tab-Options"
+                variant="light"
+                className="flex rounded-full bg-white/30 font-bold" // + 볼드체
+                classNames={{
+                  tab: "px-4 desktop:h-[35px] laptop:h-[27px]",
+                  tabList:
+                    "flex items-center desktop:gap-[10px] laptop:gap-[30px] desktop:h-[45px] laptop:h-[35px] desktop:w-[600px] laptop:w-[446px]", // d:w-[511px] h-[39px]인데 자체변경? / laptop gap 자체
+                  tabContent:
+                    "flex items-center text-[#454545] desktop:text-[13pt] laptop:text-[10pt] laptop:h-[35px]", // ㅣ:text 11 자체
+                }}
+              >
+                <Tab
+                  key="private"
+                  title="1:1 채팅"
+                  className="desktop:w-[10rem] laptop:w-[96px]"
+                  // onClick={() => handleSelectedTab("private")}
+                  onSelect={() => setSelected("private")}
+                />
+                <Tab
+                  key="group"
+                  title="그룹채팅"
+                  className="desktop:w-[10rem] laptop:w-[96px]"
+                  // onClick={() => handleSelectedTab("group")}
+                  onSelect={() => setSelected("group")}
+                />
+              </Tabs>
+            </div>
+          </NavbarContent>
+        </Navbar>
       </ModalHeader>
       <ModalBody>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-          pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet
-          hendrerit risus, sed porttitor quam.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-          pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet
-          hendrerit risus, sed porttitor quam.
-        </p>
-        <p>
-          Magna exercitation reprehenderit magna aute tempor cupidatat consequat
-          elit dolor adipisicing. Mollit dolor eiusmod sunt ex incididunt cillum
-          quis. Velit duis sit officia eiusmod Lorem aliqua enim laboris do
-          dolor eiusmod.
-        </p>
+        {selected === "private" && <HeaderPrivateChats />}
+        {selected === "group" && <div>그룹 채팅</div>}
       </ModalBody>
       <ModalFooter>
         <Button color="danger" variant="light" onPress={onClose}>

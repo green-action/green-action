@@ -1,6 +1,6 @@
-import { useResponsive } from "@/app/_hooks/responsive";
-import { Avatar, useDisclosure } from "@nextui-org/react";
 import React from "react";
+import { Avatar, useDisclosure } from "@nextui-org/react";
+import { useResponsive } from "@/app/_hooks/responsive";
 import PrivateChat from "./PrivateChat";
 
 interface PrivateChatProps {
@@ -40,6 +40,7 @@ const PrivateChatsListItem = ({ privateChat }: PrivateChatProps) => {
           }`}
         >
           <div>
+            {/* TODO 1:1 채팅방 프로필 - 항상 참가자 정보 보이게 하고싶은데 바뀜 */}
             <Avatar
               showFallback
               src={privateChat?.user?.profile_img || ""}

@@ -120,6 +120,7 @@ const PrivateChatsList = ({
       </ModalHeader>
       <ModalBody>
         {privateChatsList?.map((privateChat) => (
+          // TODO privateChat 타입에러 해결필요
           <PrivateChatsListItem privateChat={privateChat} />
         ))}
       </ModalBody>
