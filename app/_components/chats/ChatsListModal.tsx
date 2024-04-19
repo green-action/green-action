@@ -2,8 +2,8 @@ import React from "react";
 
 import { Modal, ModalContent } from "@nextui-org/react";
 
-import HeaderChatsList from "./HeaderChatsList";
-import PrivateChatsList from "./PrivateChatsList";
+import HeaderChatsList from "./HeaderChatsSelect";
+import PrivateChatsList from "./PageChatsList";
 
 const ChatsListModal = ({
   isOpen,

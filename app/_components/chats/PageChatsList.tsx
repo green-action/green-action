@@ -19,7 +19,7 @@ import { getPrivateChatsList } from "@/app/_api/messages/headerPrivateList-api";
 import { useSession } from "next-auth/react";
 import PagePrivateItem from "./PagePrivateItem";
 
-const PrivateChatsList = ({
+const PageChatsList = ({
   onClose,
   action_id,
 }: {
@@ -130,4 +130,4 @@ const PrivateChatsList = ({
   );
 };
 
-export default PrivateChatsList;
+export default PageChatsList;

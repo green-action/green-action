@@ -10,9 +10,9 @@ import {
   Tab,
   Tabs,
 } from "@nextui-org/react";
-import HeaderPrivateChats from "./HeaderPrivateChats";
+import HeaderPrivateChats from "./HeaderPrivateList";
 
-const HeaderChatsList = ({ onClose }: { onClose: () => void }) => {
+const HeaderChatsSelect = ({ onClose }: { onClose: () => void }) => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
   const [selected, setSelected] = useState<string>("private"); // 탭의 선택 상태
 
@@ -78,4 +78,4 @@ const HeaderChatsList = ({ onClose }: { onClose: () => void }) => {
   );
 };
 
-export default HeaderChatsList;
+export default HeaderChatsSelect;

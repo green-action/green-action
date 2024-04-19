@@ -8,7 +8,7 @@ import {
 } from "@/app/_hooks/useQueries/chats";
 import HeaderPrivateItem from "./HeaderPrivateItem";
 
-const HeaderPrivateChats = () => {
+const HeaderPrivateList = () => {
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
   const { isDesktop, isLaptop, isMobile } = useResponsive();
@@ -111,4 +111,4 @@ const HeaderPrivateChats = () => {
   );
 };
 
-export default HeaderPrivateChats;
+export default HeaderPrivateList;

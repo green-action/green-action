@@ -1,7 +1,7 @@
 import React from "react";
 import { Avatar, useDisclosure } from "@nextui-org/react";
 import { useResponsive } from "@/app/_hooks/responsive";
-import PrivateChat from "./PrivateChat";
+import PrivateChat from "./PrivateChatRoom";
 import { PrivateChatProps } from "@/app/_types/realtime-chats";
 
 const PagePrivateItem = ({ privateChat }: PrivateChatProps) => {
