@@ -140,6 +140,7 @@ const AddActionPage = () => {
             activityLocation={activityLocation}
             setActivityLocation={setActivityLocation}
             handleActivityLocationChange={handleActivityLocationChange}
+            locationCoorRef={locationCoorRef}
           />
           {/* 이미지아래 두번째 박스(활동 제목) */}
           {/* 지도에서 검색 - 추후 '활동장소'와 함께 UI 따로 뺄 예정  */}

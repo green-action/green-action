@@ -1,15 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SearchAddressModal from "../daumPostCode/SearchAddressModal";
+import KakakoMap from "../kakaoMap/KakakoMap";
+
+import type { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
 
 const FirstInputBox = ({
   activityLocation,
   setActivityLocation,
   handleActivityLocationChange,
+  locationCoorRef,
 }: {
   activityLocation: string;
   setActivityLocation: React.Dispatch<React.SetStateAction<string>>;
   handleActivityLocationChange: any;
+  locationCoorRef: React.MutableRefObject<placeCoordinateType | null>;
 }) => {
+  console.log("🐰 ~ locationCoorRef : ", locationCoorRef);
+  let currentLocationCoor = null;
+
+  useEffect(() => {
+    locationCoorRef.current;
+  }, [locationCoorRef]);
+
   return (
     <>
       <div className="flex justify-between gap-[88px] w-[724px] h-[209px] border-1.5 border-gray-300 rounded-3xl pt-[21px] px-[28px] pb-[28px] mb-4 ">
@@ -116,6 +128,11 @@ const FirstInputBox = ({
               />
             </div>
           </div>
+          {locationCoorRef.current && (
+            <div>
+              <KakakoMap placeCoordinate={locationCoorRef.current} />
+            </div>
+          )}
         </div>
       </div>
     </>

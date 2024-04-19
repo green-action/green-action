@@ -18,9 +18,7 @@ const SearchMapResult = ({
   const searchResultRef = useRef<HTMLDivElement>(null);
   const placeListRef = useRef<HTMLUListElement>(null);
   const placeItemRef = useRef<HTMLLIElement>(null);
-
-  // const markerRef = useRef(null); // 시도
-  const infoWindowRef = useRef();
+  const pageRef = useRef<HTMLDivElement>(null);
 
   const [placeData, setPlaceData] = useState<placeDataType[]>();
 
@@ -40,44 +38,6 @@ const SearchMapResult = ({
 
   // 마커를 담는 배열
   let markers: any[] = [];
-
-  // NOTE 5. 마커를 생성하고 지도 위에 마커를 표시하는 함수 - 따로 빼보기
-  // function addMarker(map: any, position: any, idx: number, title: undefined) {
-  //   var imageSrc =
-  //       "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png", // 마커 이미지 url, 스프라이트 이미지
-  //     imageSize = new window.kakao.maps.Size(36, 37), // 마커 이미지의 크기
-  //     imgOptions = {
-  //       spriteSize: new window.kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
-  //       spriteOrigin: new window.kakao.maps.Point(0, idx * 46 + 10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-  //       offset: new window.kakao.maps.Point(13, 37), // 마커 좌표에 일치시킬 이미지 내에서의 좌표
-  //     },
-  //     markerImage = new window.kakao.maps.MarkerImage(
-  //       imageSrc,
-  //       imageSize,
-  //       imgOptions,
-  //     ),
-  //     marker = new window.kakao.maps.Marker({
-  //       position: position, // 마커의 위치
-  //       image: markerImage,
-  //     });
-
-  //   marker.setMap(map); // 지도 위에 마커를 표출
-  //   markers.push(marker); // 배열에 생성된 마커를 추가
-
-  //   return marker;
-  // }
-
-  // NOTE 8. 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수 - 따로 빼보기
-  // 인포윈도우에 장소명을 표시
-  // function displayInfowindow(title: string) {
-  //   const content =
-  //     '<div style="padding:5px;z-index:1;" class="marker-title">' +
-  //     title +
-  //     "</div>";
-
-  //   infoWindowRef.current?.setContent(content);
-  //   infoWindowRef.current?.open(map, markerRef.current);
-  // }
 
   // SECTION
   // 검색어가 바뀔 때마다 재렌더링되도록 useEffect 사용
@@ -103,7 +63,6 @@ const SearchMapResult = ({
 
         // 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성
         const infowindow = new window.kakao.maps.InfoWindow({ zIndex: 1 });
-        infoWindowRef.current = infowindow;
 
         // 키워드로 장소 검색
         searchPlaces();
@@ -117,6 +76,7 @@ const SearchMapResult = ({
 
         // NOTE 2. 장소검색이 완료됐을 때 호출되는 콜백함수
         function placesSearchCB(data: any, status: any, pagination: any) {
+          console.log("🐰 ~ placesSearchCB ~ data : ", data);
           // REVIEW 이 함수에 어떻게 인자가 들어가는 것인지?
           // console.log("🐰 ~ placesSearchCB ~ pagination : ", pagination);
           // pagination = {totlaCount: 45, hasNextPage : true, .., first:1, current: 1, last: 3, perPage:15,..}
@@ -151,8 +111,8 @@ const SearchMapResult = ({
           // 검색 결과 목록에 추가된 항목들을 제거
           // listEl && removeAllChildNods(listEl); // 재검색시 에러 -> 없애면 잘 작동 (데이터 map으로 돌려서 이렇게 할 필요 x?)
 
-          // 지도에 표시되고 있는 마커를 제거
-          // removeMarker(); // 없어도 잘 작동
+          // 지도에 표시되고 있는 마커를 제거 - 필요 (페이지변경시 기존 마커 없애기)
+          removeMarker();
 
           for (var i = 0; i < places.length; i++) {
             // 마커를 생성하고 지도에 표시
@@ -163,15 +123,12 @@ const SearchMapResult = ({
               marker = addMarker(placePosition, i, undefined);
             // markerRef.current = marker;
             // itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성 // 이거 실행 안시켜야?
-            // const itemEl = placeItemRef.current;
+            const itemEl = placeItemRef.current;
 
             // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해  LatLngBounds 객체에 좌표를 추가
             bounds.extend(placePosition); // 필요!
 
-            // 마커와 검색결과 항목에 mouseover 했을때
-            // 해당 장소에 인포윈도우에 장소명을 표시
-            // mouseout 했을 때는 인포윈도우를 닫기
-            // 안되다가 됨 (why?)
+            // 마커와 검색결과 항목에 mouseover 했을때 해당 장소에 인포윈도우에 장소명을 표시
             (function (marker, title) {
               window.kakao.maps.event.addListener(
                 marker,
@@ -191,25 +148,26 @@ const SearchMapResult = ({
 
               // console.log("🐰 ~ displayPlaces ~ itemEl : ", itemEl);
 
-              // if (itemEl) { 없어도됨
-              //   itemEl.onmouseover = function () {
-              //     displayInfowindow(marker, title);
-              //   };
+              if (itemEl) {
+                // 없어도됨 하지만 기능 부실? ㅠㅠ
+                itemEl.onmouseover = function () {
+                  displayInfowindow(marker, title);
+                };
 
-              //   itemEl.onmouseout = function () {
-              //     infowindow.close();
-              //   };
-              // }
+                itemEl.onmouseout = function () {
+                  infowindow.close();
+                };
+              }
             })(marker, places[i].place_name);
 
-            // fragment.appendChild(itemEl);
+            itemEl && fragment.appendChild(itemEl); //  없어도 됨 ?
           }
 
           // 검색결과 항목들을 검색결과 목록 Element에 추가 // 없어도 됨
-          // listEl && listEl.appendChild(fragment);
-          // if (resultEl) {
-          //   resultEl.scrollTop = 0;
-          // }
+          listEl && listEl.appendChild(fragment);
+          if (resultEl) {
+            resultEl.scrollTop = 0;
+          }
 
           // 검색된 장소 위치를 기준으로 지도 범위를 재설정
           map.setBounds(bounds);
@@ -316,7 +274,7 @@ const SearchMapResult = ({
           return marker;
         }
 
-        // NOTE 6. 지도 위에 표시되고 있는 마커를 모두 제거하는 함수 - 없어도 됨 ?
+        // NOTE 6. 지도 위에 표시되고 있는 마커를 모두 제거하는 함수 (페이지변경시 기존 마커 초기화)
         function removeMarker() {
           for (var i = 0; i < markers.length; i++) {
             markers[i].setMap(null);
@@ -325,19 +283,21 @@ const SearchMapResult = ({
         }
 
         // NOTE 7. 검색결과 목록 하단에 페이지번호를 표시는 함수
+        // pagination = {totlaCount: 45, hasNextPage : true, .., first:1, current: 1, last: 3, perPage:15,..}
         function displayPagination(pagination: {
           last: number;
           current: number;
           gotoPage: (arg0: number) => void;
         }) {
-          const paginationEl = document.getElementById(
-            "pagination",
-          ) as HTMLElement;
+          // const paginationEl = document.getElementById(
+          //   "pagination",
+          // ) as HTMLElement;
+          const paginationEl = pageRef.current;
           let fragment = document.createDocumentFragment();
           let i;
 
           // 기존에 추가된 페이지번호를 삭제
-          while (paginationEl.hasChildNodes()) {
+          while (paginationEl?.hasChildNodes()) {
             paginationEl.lastChild &&
               paginationEl.removeChild(paginationEl.lastChild);
           }
@@ -349,6 +309,7 @@ const SearchMapResult = ({
 
             if (i === pagination.current) {
               el.className = "on";
+              el.style.fontWeight = "bold";
             } else {
               el.onclick = (function (i) {
                 return function () {
@@ -359,7 +320,7 @@ const SearchMapResult = ({
 
             fragment.appendChild(el);
           }
-          paginationEl.appendChild(fragment);
+          paginationEl?.appendChild(fragment);
         }
 
         // NOTE 8. 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수
@@ -394,18 +355,23 @@ const SearchMapResult = ({
   return (
     // id, className 으로 dom api 접근 x -> useRef로 변경하기
     // TODO 지도에서 장소 선택 시 지도뜨게 하기 (모달 X 페이지내)
-    <div className="map-container w-full h-full flex gap-5">
-      <div ref={mapContainerRef} className="w-[500px] h-[500px]" />
+    <div className="map-container w-full h-full flex">
+      <div
+        ref={mapContainerRef}
+        className="w-[500px] h-[500px] fixed rounded-xl"
+      />
       <div
         ref={searchResultRef}
         // id="search-result"
-        className="w-[500px]" // h-[300px]
+        className="w-[500px] ml-[540px] flex flex-col gap-10" // h-[300px]
       >
-        <div className="result-text">
-          <p className="result-keyword">{searchKeyword}</p>
-          <p>검색 결과</p>
-        </div>
-        <div className="scroll-wrapper">
+        {/* <div className="result-text"> */}
+        <p className="result-keyword fixed top-[22%] bg-gray-200 w-[420px] h-[50px]">
+          <span className="font-bold">{searchKeyword}</span> &emsp;{" "}
+          <span>검색 결과</span>
+        </p>
+        {/* </div> */}
+        <div className="scroll-wrapper mt-[10px]">
           <ul ref={placeListRef} id="places-list">
             {/* map placeData[0]?.address_name*/}
             {placeData &&
@@ -446,7 +412,7 @@ const SearchMapResult = ({
               })}
           </ul>
         </div>
-        <div id="pagination"></div>
+        <div ref={pageRef} id="pagination" className="flex gap-[10px]"></div>
       </div>
     </div>
   );
