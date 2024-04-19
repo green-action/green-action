@@ -78,6 +78,7 @@ const FirstInputBox = ({
                 >
                   활동 장소
                 </label>
+                {/* 도로명주소 검색 - 보류 */}
                 <SearchAddressModal
                   activityLocation={activityLocation}
                   setActivityLocation={setActivityLocation}

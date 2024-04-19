@@ -98,7 +98,7 @@ const MyPage = () => {
     );
   });
 
-  const [activeTab, setActiveTab] = useState("My Green-Action");
+  const [activeTab, setActiveTab] = useState("나의 Green-Action");
   const [myRecruitClicked, setMyRecruitClicked] = useState("전체");
   const [bookmarkedRecruitClicked, setBookmarkedRecruitClicked] =
     useState("전체");
@@ -123,7 +123,7 @@ const MyPage = () => {
 
   // My Action, 작성 커뮤니티 글, 찜한 Action 탭 선택시
   const handleActiveTabClick = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
     const target = e.target as HTMLButtonElement;
     const textContent = target.textContent;
@@ -133,7 +133,7 @@ const MyPage = () => {
   };
 
   const filterByRecruiting = () => {
-    if (activeTab === "My Green-Action") {
+    if (activeTab === "나의 Green-Action") {
       if (myRecruitClicked === "전체") {
         setFilteredActions(sortedMyActions);
       }
@@ -147,7 +147,7 @@ const MyPage = () => {
         );
       }
     }
-    if (activeTab === "찜한 Green-Action") {
+    if (activeTab === "즐겨찾는 Green-Action") {
       if (bookmarkedRecruitClicked === "전체") {
         setFilteredBookmarkedActions(sortedMyBookmarks);
       }
@@ -210,41 +210,45 @@ const MyPage = () => {
                     작성 게시물
                   </Tab>
                 </Tabs> */}
-                <Button
-                  radius="full"
-                  size="md"
-                  // variant="ghost"
+                <div
                   onClick={handleActiveTabClick}
-                  className={` bg-transparent  desktop:text-[12pt] laptop:text-[11pt]
-                     ${activeTab === "My Green-Action" && "bg-[#F1F1F1]"}`}
+                  className={`cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt]
+                     ${
+                       activeTab === "나의 Green-Action" &&
+                       "border-b-2 border-[#979797]"
+                     }`}
                 >
                   나의 Green-Action
-                </Button>
-                <Button
-                  radius="full"
-                  size="md"
+                </div>
+                <div
                   onClick={handleActiveTabClick}
-                  className={`bg-transparent  desktop:text-[12pt] laptop:text-[11pt]
-                    ${activeTab === "작성 게시물" && "bg-[#F1F1F1]"}`}
-                ></Button>
-                <Button
-                  radius="full"
-                  size="md"
-                  onClick={handleActiveTabClick}
-                  className={`bg-transparent  desktop:text-[12pt] laptop:text-[11pt]
-                     ${activeTab === "찜한 Green-Action" && "bg-[#F1F1F1]"}`}
+                  className={`cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt]
+                     ${
+                       activeTab === "즐겨찾는 Green-Action" &&
+                       "border-b-2 border-[#979797]"
+                     }`}
                 >
-                  찜한 Green-Action
-                </Button>
+                  즐겨찾는 Green-Action
+                </div>
+                <div
+                  onClick={handleActiveTabClick}
+                  className={`cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt]
+                    ${
+                      activeTab === "나의 Community" &&
+                      "border-b-2 border-[#979797]"
+                    }`}
+                >
+                  나의 Community
+                </div>
               </div>
               <div className="mr-[80px]">
-                {activeTab === "My Green-Action" && (
+                {activeTab === "나의 Green-Action" && (
                   <RecruitSelectTab
                     selected={myRecruitClicked}
                     setSelected={setMyRecruitClicked}
                   />
                 )}
-                {activeTab === "찜한 Green-Action" && (
+                {activeTab === "즐겨찾는 Green-Action" && (
                   <RecruitSelectTab
                     selected={bookmarkedRecruitClicked}
                     setSelected={setBookmarkedRecruitClicked}
@@ -254,7 +258,7 @@ const MyPage = () => {
             </div>
             <div className="flex flex-wrap gap-[20px]">
               {/* LINK My Green Action */}
-              {activeTab === "My Green-Action" &&
+              {activeTab === "나의 Green-Action" &&
                 filteredActions?.map((action) => {
                   return (
                     <MyActionCard
@@ -265,9 +269,22 @@ const MyPage = () => {
                   );
                 })}
             </div>
+            {/* LINK 찜한 Green Action */}
+            <div className="flex flex-wrap gap-[20px]">
+              {activeTab === "즐겨찾는 Green-Action" &&
+                filteredBookmarkedActions?.map((bookmark) => {
+                  return (
+                    <MyActionCard
+                      key={bookmark?.bookmarkedAction?.id || ""}
+                      action={bookmark}
+                      mode="myBookmarks"
+                    />
+                  );
+                })}
+            </div>
             {/* LINK 내가 쓴 커뮤니티 글 */}
             <div className="flex flex-wrap gap-[20px]">
-              {activeTab === "작성 게시물" &&
+              {activeTab === "나의 Community" &&
                 myPosts?.map((post) => {
                   return (
                     <CommunityListPost
@@ -276,19 +293,6 @@ const MyPage = () => {
                       communityPost={post}
                       my_display_name={display_name}
                       my_profile_img={profile_img || null}
-                    />
-                  );
-                })}
-            </div>
-            <div className="flex flex-wrap gap-[20px]">
-              {/* LINK 찜한 Green Action */}
-              {activeTab === "찜한 Green-Action" &&
-                filteredBookmarkedActions?.map((bookmark) => {
-                  return (
-                    <MyActionCard
-                      key={bookmark?.bookmarkedAction?.id || ""}
-                      action={bookmark}
-                      mode="myBookmarks"
                     />
                   );
                 })}

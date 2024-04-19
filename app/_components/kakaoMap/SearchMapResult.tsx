@@ -1,3 +1,4 @@
+import { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
 import { useEffect, useRef, useState } from "react";
 
 // head에 작성한 window.Kakao API 불러오기
@@ -15,6 +16,7 @@ export interface propsType {
   searchKeyword: string;
   setActivityLocation: React.Dispatch<React.SetStateAction<string>>;
   onClose: () => void;
+  locationCoorRef: React.MutableRefObject<placeCoordinateType | null>;
 }
 
 interface placeDataType {
@@ -32,25 +34,30 @@ interface placeDataType {
   y: string;
 }
 
+// FIXME 엔터로 검색 시 에러, 페이지네이션 선택시 에러 (기존에는 x)
 const SearchMapResult = ({
   searchKeyword,
   setActivityLocation,
   onClose,
+  locationCoorRef,
 }: propsType) => {
-  const mapContainer = useRef<HTMLDivElement>(null);
-  const searchResult = useRef<HTMLDivElement>(null);
-  const placeList = useRef<HTMLUListElement>(null);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const searchResultRef = useRef<HTMLDivElement>(null);
+  const placeListRef = useRef<HTMLUListElement>(null);
+  const liRef = useRef<HTMLLIElement>(null);
 
   const [placeData, setPlaceData] = useState<placeDataType[]>();
 
-  // 지도 검색결과 장소명 클릭 시 '활동장소'에 자동 입력
+  // 지도 검색결과 장소명 클릭 시 '활동장소'에 자동 입력 + 해당 장소 좌표 useRef 에 담기
   const handleActivityLocation = (
     e: React.MouseEvent<HTMLParagraphElement, MouseEvent>,
+    placeItem: any,
   ) => {
     const target = e.target as HTMLParagraphElement;
     const textContent = target.textContent;
     if (textContent) {
       setActivityLocation(textContent);
+      locationCoorRef.current = { x: placeItem.x, y: placeItem.y };
       onClose();
     }
   };
@@ -65,14 +72,16 @@ const SearchMapResult = ({
     const onLoadKakaoAPI = () => {
       window.kakao.maps.load(() => {
         // 써야 에러 X
-        // const mapContainer = document.getElementById("map");
         const mapOption = {
           center: new window.kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
           level: 3, // 지도의 확대 레벨
         };
 
         // 지도를 생성
-        const map = new window.kakao.maps.Map(mapContainer.current, mapOption);
+        const map = new window.kakao.maps.Map(
+          mapContainerRef.current,
+          mapOption,
+        );
 
         // 장소 검색 객체를 생성
         const ps = new window.kakao.maps.services.Places();
@@ -89,10 +98,6 @@ const SearchMapResult = ({
           let keyword = searchKeyword;
           // 장소검색 객체를 통해 키워드로 장소검색을 요청
           ps.keywordSearch(keyword, placesSearchCB); // 콘솔로 찍어도 undefined
-          // console.log(
-          //   "ps.keywordSearch(keyword, placesSearchCB) : ",
-          //   ps.keywordSearch(keyword, placesSearchCB),
-          // );
         }
 
         // NOTE 2. 장소검색이 완료됐을 때 호출되는 콜백함수
@@ -122,10 +127,10 @@ const SearchMapResult = ({
 
         // NOTE 3. 검색 결과 목록과 마커를 표출하는 함수
         function displayPlaces(places: string | any[]) {
-          const listEl = document.getElementById("places-list"),
-            // const listEl = placeList.current,
-            resultEl = document.getElementById("search-result"),
-            // resultEl = searchResult.current,
+          // const listEl = document.getElementById("places-list"),
+          const listEl = placeListRef.current,
+            // resultEl = document.getElementById("search-result"),
+            resultEl = searchResultRef.current,
             fragment = document.createDocumentFragment(),
             bounds = new window.kakao.maps.LatLngBounds();
 
@@ -141,8 +146,8 @@ const SearchMapResult = ({
                 places[i].y,
                 places[i].x,
               ),
-              marker = addMarker(placePosition, i, undefined),
-              itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성 // 이거 실행 안시켜야?
+              marker = addMarker(placePosition, i, undefined); //,
+            // itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성 // 이거 실행 안시켜야?
 
             // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
             // LatLngBounds 객체에 좌표를 추가
@@ -168,16 +173,16 @@ const SearchMapResult = ({
                 },
               );
 
-              itemEl.onmouseover = function () {
-                displayInfowindow(marker, title);
-              };
+              // itemEl.onmouseover = function () {
+              //   displayInfowindow(marker, title);
+              // };
 
-              itemEl.onmouseout = function () {
-                infowindow.close();
-              };
+              // itemEl.onmouseout = function () {
+              //   infowindow.close();
+              // };
             })(marker, places[i].place_name);
 
-            fragment.appendChild(itemEl);
+            // fragment.appendChild(itemEl);
           }
 
           // 검색결과 항목들을 검색결과 목록 Element에 추가
@@ -190,82 +195,80 @@ const SearchMapResult = ({
           map.setBounds(bounds);
         }
 
-        // 여기 문제 해결하기. (다시 검색시 안뜸. 아래함수 실행 x해야?)
+        // 여기 문제 해결하기. (다시 검색시 안뜸. 아래함수 실행 x , 필요 x?)
         // NOTE 4. 검색결과 항목을 Element로 반환하는 함수
-        function getListItem(index: number, places: placeType) {
-          const el = document.createElement("li");
-          // const placeName = document.getElementById("place-name");
-          const info = document.getElementsByClassName("info");
-          // const placeNames = document.querySelector("place-name");
+        // function getListItem(index: number, places: placeType) {
+        //   const el = document.createElement("li");
+        //   // const placeName = document.getElementById("place-name");
+        //   const info = document.getElementsByClassName("info");
+        //   // const placeNames = document.querySelector("place-name");
 
-          // if (placeNames) {
-          // info.onclick = (
-          //   // e: React.MouseEvent<HTMLParagraphElement, MouseEvent>,
-          //   e: any,
-          // ) => {
-          //   const placeNames = document.getElementsByClassName("place-name")[0];
-          //   console.log("🐰 ~ getListItem ~ info : ", info);
+        //   // if (placeNames) {
+        //   // info.onclick = (
+        //   //   // e: React.MouseEvent<HTMLParagraphElement, MouseEvent>,
+        //   //   e: any,
+        //   // ) => {
+        //   //   const placeNames = document.getElementsByClassName("place-name")[0];
 
-          //   const target = e.target;
-          //   //  as HTMLParagraphElement;
-          //   const textContent = target.textContent;
-          //   if (textContent) {
-          //     setActivityLocation(textContent);
-          //   }
-          // };
-          // }
-          // placeName.onclick = (
-          //   e: React.MouseEvent<HTMLParagraphElement, MouseEvent>,
-          // ) => {
-          //   const target = e.target as HTMLParagraphElement;
-          //   const textContent = target.textContent;
-          //   if (textContent) {
-          //     setActivityLocation(textContent);
-          //   }
-          // };
+        //   //   const target = e.target;
+        //   //   //  as HTMLParagraphElement;
+        //   //   const textContent = target.textContent;
+        //   //   if (textContent) {
+        //   //     setActivityLocation(textContent);
+        //   //   }
+        //   // };
+        //   // }
+        //   // placeName.onclick = (
+        //   //   e: React.MouseEvent<HTMLParagraphElement, MouseEvent>,
+        //   // ) => {
+        //   //   const target = e.target as HTMLParagraphElement;
+        //   //   const textContent = target.textContent;
+        //   //   if (textContent) {
+        //   //     setActivityLocation(textContent);
+        //   //   }
+        //   // };
 
-          // function uploader(e: any) {
-          //   var classe = e.getAttribute("class");
-          //   console.log("🐰 ~ uploader ~ classe : ", classe);
-          // }
+        //   // function uploader(e: any) {
+        //   //   var classe = e.getAttribute("class");
+        //   // }
 
-          // el.onclick = uploader(this);
+        //   // el.onclick = uploader(this);
 
-          // let itemStr = `
-          // <div class="info mt-[20px]">
-          //   <span class="marker marker_${index + 1}">
-          //     ${index + 1}
-          //   </span>
-          //     <p id="place-name" class="info-item place-name font-bold">${
-          //       places.place_name
-          //     }</p>
-          //     ${
-          //       places.road_address_name
-          //         ? `<span class="info-item road-address-name">
-          //           ${places.road_address_name}
-          //          </span>
-          //          <br/>
-          //          <span class="info-item address-name">
-          //        	 ${places.address_name}
-          //      	   </span>`
-          //         : `<span class="info-item address-name">
-          //    	     ${places.address_name}
-          //         </span>`
-          //     }
-          //     <br/>
-          //     <span class="info-item tel">
-          //       ${places.phone}
-          //     </span>
-          //     <br/>
-          //     <a href="${places.place_url}" target="_blank">링크 열기</a>
-          // </div>
-          // `;
+        //   // let itemStr = `
+        //   // <div class="info mt-[20px]">
+        //   //   <span class="marker marker_${index + 1}">
+        //   //     ${index + 1}
+        //   //   </span>
+        //   //     <p id="place-name" class="info-item place-name font-bold">${
+        //   //       places.place_name
+        //   //     }</p>
+        //   //     ${
+        //   //       places.road_address_name
+        //   //         ? `<span class="info-item road-address-name">
+        //   //           ${places.road_address_name}
+        //   //          </span>
+        //   //          <br/>
+        //   //          <span class="info-item address-name">
+        //   //        	 ${places.address_name}
+        //   //      	   </span>`
+        //   //         : `<span class="info-item address-name">
+        //   //    	     ${places.address_name}
+        //   //         </span>`
+        //   //     }
+        //   //     <br/>
+        //   //     <span class="info-item tel">
+        //   //       ${places.phone}
+        //   //     </span>
+        //   //     <br/>
+        //   //     <a href="${places.place_url}" target="_blank">링크 열기</a>
+        //   // </div>
+        //   // `;
 
-          // el.innerHTML = itemStr;
-          el.className = "item";
+        //   // el.innerHTML = itemStr;
+        //   el.className = "item";
 
-          return el;
-        }
+        //   return el;
+        // }
 
         // NOTE 5. 마커를 생성하고 지도 위에 마커를 표시하는 함수
         function addMarker(position: any, idx: number, title: undefined) {
@@ -365,33 +368,31 @@ const SearchMapResult = ({
 
   return (
     // id, className 으로 dom api 접근 x -> useRef로 변경하기
-    <div className="map-container w-[700px] flex gap-5">
+    // TODO 지도에서 장소 선택 시 지도뜨게 하기 (모달 X 페이지내)
+    <div className="map-container w-full h-full flex gap-5">
+      <div ref={mapContainerRef} className="w-[500px] h-[500px]" />
       <div
-        ref={mapContainer}
-        id="map"
-        className="map w-[300px] h-[500px]"
-      ></div>
-      <div
-        ref={searchResult}
-        id="search-result"
-        className="w-[200px] h-[100px]"
+        ref={searchResultRef}
+        // id="search-result"
+        className="w-[500px]" // h-[300px]
       >
-        <p className="result-text">
-          <span className="result-keyword">{searchKeyword}</span>
-          검색 결과
-        </p>
+        <div className="result-text">
+          <p className="result-keyword">{searchKeyword}</p>
+          <p>검색 결과</p>
+        </div>
         <div className="scroll-wrapper">
-          <ul ref={placeList} id="places-list">
+          <ul ref={placeListRef} id="places-list">
             {/* map placeData[0]?.address_name*/}
             {placeData &&
               placeData.map((placeItem, index) => {
+                // console.log("🐰 ~ placeItem : ", placeItem);
                 return (
-                  <div key={placeItem.id} className="mt-[20px]">
+                  <li key={placeItem.id} ref={liRef} className="mt-[20px]">
                     <span className="">{index + 1}</span>
                     <p
                       id="place-name"
                       className="font-bold cursor-pointer"
-                      onClick={handleActivityLocation}
+                      onClick={(e) => handleActivityLocation(e, placeItem)}
                     >
                       {placeItem.place_name}
                     </p>
@@ -410,7 +411,7 @@ const SearchMapResult = ({
                     <a href={placeItem.place_url} target="_blank">
                       링크 열기
                     </a>
-                  </div>
+                  </li>
                 );
               })}
           </ul>

@@ -17,49 +17,24 @@ import FirstInputBox from "@/app/_components/individualAction-add/FirstInputBox"
 import ImgUpload from "@/app/_components/individualAction-add/ImgUpload";
 import SecondInputBox from "@/app/_components/individualAction-add/SecondInputBox";
 import ThirdInputBox from "@/app/_components/individualAction-add/ThirdInputBox";
-import { Button, useDisclosure } from "@nextui-org/react";
+import { useDisclosure, user } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import SearchAddressModal from "@/app/_components/daumPostCode/SearchAddressModal";
-import KakakoMap from "@/app/_components/kakaoMap/KakakoMap";
 import SearchMapModal from "@/app/_components/kakaoMap/SearchMapModal";
+import { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
 
 const AddActionPage = () => {
   const [uploadedFileUrls, setUploadedFileUrls] = useState<string[]>([]);
   const [files, setFiles] = useState<(File | undefined)[]>([]);
 
-  // 상세 주소 등으로 나누기 - 보류
-  // const [address, setAddress] = useState({
-  //   roadAddress: "",
-  //   jibunAddress: "",
-  //   extraAddress: "",
-  // });
-
   const [activityLocation, setActivityLocation] = useState<string>(""); // 주소검색통해 set하기 위해 추가
+  const [activityLocationMap, setActivityLocationMap] = useState<string>(""); // 지도 검색
+  const locationCoorRef = useRef<placeCoordinateType | null>(null); // 지도 검색으로 장소 선택 시 해당 장소의 좌표 담을 useRef
 
   const handleActivityLocationChange = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setActivityLocation(e.target.value);
   };
-
-  // 카카오맵 지도
-  // const mapRef = useRef<HTMLDivElement>(null);
-  // window.kakao.maps.load(() => {
-  //   const mapOption = {
-  //     center: new window.kakao.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
-  //     level: 5, // 지도의 확대 레벨
-  //   };
-
-  //   //지도를 미리 생성
-  //   var map = new window.kakao.maps.Map(mapRef.current, mapOption);
-  //   //주소-좌표 변환 객체를 생성
-  //   var geocoder = new window.kakao.maps.services.Geocoder();
-  //   //마커를 미리 생성
-  //   var marker = new window.kakao.maps.Marker({
-  //     position: new window.kakao.maps.LatLng(37.537187, 127.005476),
-  //     map: map,
-  //   });
-  // });
 
   // PointModal을 위한 상태관리 / alert 대체 모달창을 위한 상태관리
   const [Modal, setModal] = useState({
@@ -108,9 +83,15 @@ const AddActionPage = () => {
       const isConfirmed = window.confirm("등록하시겠습니까?");
       if (isConfirmed) {
         // 1. user_uid와 텍스트 formData insert -> action_id 반환받기
+        const locationCoor = locationCoorRef.current || null; // location 좌표
+        const allActivityLocation = activityLocationMap
+          ? `${activityLocationMap} (${activityLocation})`
+          : activityLocation;
+
         const action_id = await insertActionTextForm({
           formData,
-          activityLocation,
+          allActivityLocation,
+          locationCoor,
           loggedInUserUid,
         });
         setActionId(action_id);
@@ -138,16 +119,10 @@ const AddActionPage = () => {
   return (
     <div className="desktop:w-[1920px] laptop:w-[1020px] mx-auto">
       {/* 전체 Wrapper */}
-      <form
-        onSubmit={handleSubmit}
-        id="mainForm"
-        // action="Action1.php"
-        method="post"
-      />
-      {/* 이중 form태그라 id/form 속성으로 연결시키기 _글 등록 잘됨 */}
-
+      {/* 이중 form태그라 id/form 속성으로 연결시키기 (mainForm, subForm)*/}
+      <form onSubmit={handleSubmit} id="mainForm" method="post" />
       {/* <div className="flex flex-col w-[809px] h-[826px] border-1.5 border-gray-300 rounded-3xl mx-auto mb-12 mt-8"> */}
-      <div className="flex flex-col w-[809px] h-[826px] border-1.5 border-gray-300 rounded-3xl mx-auto mb-12 mt-0">
+      <div className="flex flex-col w-[809px] h-[920px] border-1.5 border-gray-300 rounded-3xl mx-auto mb-12 mt-0">
         {/* new green-action 타이틀 */}
         <div className="ml-8 my-[16px] ">
           <span className="font-black text-[15px]">New Green-Action</span>
@@ -162,24 +137,30 @@ const AddActionPage = () => {
             setFiles={setFiles}
           />
           {/* 이미지아래 첫번째 박스(날짜, 장소, 인원, 링크) */}
+          {/* 도로명주소 검색 추가 - 보류 */}
           <FirstInputBox
             activityLocation={activityLocation}
             setActivityLocation={setActivityLocation}
             handleActivityLocationChange={handleActivityLocationChange}
           />
-          {/* -- 주소검색 test 추가 */}
-          {/* <SearchAddressModal
-              activityLocation={activityLocation}
-              setActivityLocation={setActivityLocation}
-            /> */}
-          {/* <div
-              id="map"
-              // ref={mapRef}
-              className="w-[300px] h-[200px] border-2"
-            ></div> */}
-          {/* -- 주소검색 test 추가 */}
           {/* 이미지아래 두번째 박스(활동 제목) */}
-          <SearchMapModal setActivityLocation={setActivityLocation} />
+          {/* 지도에서 검색 - 추후 '활동장소'와 함께 UI 따로 뺄 예정  */}
+          <div className="flex gap-5  w-[724px] h-[100px] border-1.5 border-gray-300 rounded-3xl pt-[21px] px-[28px] pb-[28px] mb-4 ">
+            <SearchMapModal
+              setActivityLocationMap={setActivityLocationMap}
+              locationCoorRef={locationCoorRef}
+            />
+            <input
+              id="activityLocationMap"
+              name="activityLocationMap"
+              required
+              value={activityLocationMap}
+              type="text"
+              form="mainForm"
+              placeholder="지도에서 검색해주세요"
+              className="h-[40px] p-4 border-1.5 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
+            />
+          </div>
           <SecondInputBox />
           {/* 이미지 아래 세번째 박스(활동 소개) */}
           <ThirdInputBox />

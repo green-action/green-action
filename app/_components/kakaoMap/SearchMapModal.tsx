@@ -8,13 +8,15 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import React, { useState } from "react";
-import KakakoMap from "./KakakoMap";
 import SearchMapResult from "./SearchMapResult";
+import { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
 
 const SearchMapModal = ({
-  setActivityLocation,
+  setActivityLocationMap,
+  locationCoorRef,
 }: {
-  setActivityLocation: React.Dispatch<React.SetStateAction<string>>;
+  setActivityLocationMap: React.Dispatch<React.SetStateAction<string>>;
+  locationCoorRef: React.MutableRefObject<placeCoordinateType | null>;
 }) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
 
@@ -34,7 +36,7 @@ const SearchMapModal = ({
 
   return (
     <>
-      <Button onPress={onOpen}>지도 검색</Button>
+      <Button onPress={onOpen}>지도에서 검색</Button>
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
@@ -47,10 +49,9 @@ const SearchMapModal = ({
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Modal Title
+                지도 검색
               </ModalHeader>
               <ModalBody>
-                {/* action="Action2.php" */}
                 <form id="subForm" method="post" onSubmit={handleKeywordSubmit}>
                   <input
                     type="text"
@@ -59,17 +60,17 @@ const SearchMapModal = ({
                     placeholder="검색어를 입력해주세요. (예: 잠원한강공원) "
                     required
                     form="subForm"
-                    className="w-[300px]"
+                    className="w-[300px] border-2 rounded-2xl p-2"
                   />
                   <Button type="submit" form="subForm">
-                    검색{" "}
+                    검색
                   </Button>
                 </form>
-                {/* 검색누르면 add 내용 초기화됨 */}
                 <SearchMapResult
                   searchKeyword={keyword}
-                  setActivityLocation={setActivityLocation}
+                  setActivityLocation={setActivityLocationMap}
                   onClose={onClose}
+                  locationCoorRef={locationCoorRef}
                 />
               </ModalBody>
               <ModalFooter>
