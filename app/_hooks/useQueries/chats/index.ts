@@ -4,7 +4,9 @@ import {
   QUERY_KEY_ACTION_IDS_TITLES_URLS,
   QUERY_KEY_MESSAGES_LIST,
   QUERY_KEY_MESSAGES_PARTICIPANT_INFO_HEADER,
+  QUERY_KEY_MESSAGES_PARTICIPANT_INFO_PAGE,
   QUERY_KEY_MY_PRIVATE_ROOMS_IDS,
+  QUERY_KEY_PRIVATE_ROOM_IDS,
 } from "@/app/_api/queryKeys";
 import {
   getActionTitleAndUrl,
@@ -16,6 +18,7 @@ import type {
   PrivateChatsListItem,
   PrivateRoomsInfoType,
 } from "@/app/_types/realtime-chats";
+import { getPrivateRoomIds } from "@/app/_api/messages/pagePrivateList-api";
 
 export const useGetMessagesList = ({
   roomId,
@@ -95,4 +98,37 @@ export const useGetMessageAndParticipantInfo = ({
   });
 
   return { messageAndParticipantInfo, isMessageInfoLoading, isMessageError };
+};
+
+export const useGetPrivateRoomIds = (action_id: string) => {
+  const { data: roomIds, isError } = useQuery({
+    queryKey: [QUERY_KEY_PRIVATE_ROOM_IDS],
+    queryFn: async () => {
+      const response = await getPrivateRoomIds(action_id);
+      return response;
+    },
+  });
+
+  return { roomIds, isError };
+};
+
+export const useGetPrivateList = ({
+  roomIds,
+  loggedInUserUid,
+}: {
+  roomIds: string[] | undefined;
+  loggedInUserUid: string;
+}) => {
+  const { data: privateChatsList, isError: privateChatListError } = useQuery({
+    queryKey: [QUERY_KEY_MESSAGES_PARTICIPANT_INFO_PAGE],
+    queryFn: async () => {
+      if (roomIds) {
+        return await getPrivateChatsList({ loggedInUserUid, roomIds });
+      }
+      return [];
+    },
+    enabled: !!roomIds,
+  });
+
+  return { privateChatsList, privateChatListError };
 };

@@ -10,14 +10,16 @@ import {
   QUERY_KEY_PRIVATE_ROOM_IDS,
 } from "@/app/_api/queryKeys";
 
-import { getPrivateRoomIds } from "@/app/_api/messages/pagePrivateList-api";
-
 import { useResponsive } from "@/app/_hooks/responsive";
 
 import { ModalHeader, ModalBody, ModalFooter, Button } from "@nextui-org/react";
 import { getPrivateChatsList } from "@/app/_api/messages/headerPrivateList-api";
 import { useSession } from "next-auth/react";
 import PagePrivateItem from "./PagePrivateItem";
+import {
+  useGetPrivateList,
+  useGetPrivateRoomIds,
+} from "@/app/_hooks/useQueries/chats";
 
 const PageChatsList = ({
   onClose,
@@ -31,13 +33,7 @@ const PageChatsList = ({
   const queryClient = useQueryClient();
 
   // 채팅방 room_id 배열 가져오기
-  const { data: roomIds, error } = useQuery({
-    queryKey: [QUERY_KEY_PRIVATE_ROOM_IDS],
-    queryFn: async () => {
-      const response = await getPrivateRoomIds(action_id);
-      return response;
-    },
-  });
+  const { roomIds, isError } = useGetPrivateRoomIds(action_id);
 
   useEffect(() => {
     // 채팅방 테이블 변경사항 구독 - 새 채팅방 insert될때 채팅방 리스트 실시간 업데이트
@@ -89,18 +85,12 @@ const PageChatsList = ({
   }, [roomIds]);
 
   // 채팅방 리스트 가져오기
-  const { data: privateChatsList, error: privateChatListError } = useQuery({
-    queryKey: [QUERY_KEY_MESSAGES_PARTICIPANT_INFO_PAGE],
-    queryFn: async () => {
-      if (roomIds) {
-        return await getPrivateChatsList({ loggedInUserUid, roomIds });
-      }
-      return [];
-    },
-    enabled: !!roomIds,
+  const { privateChatsList, privateChatListError } = useGetPrivateList({
+    roomIds,
+    loggedInUserUid,
   });
 
-  if (error || privateChatListError) {
+  if (isError || privateChatListError) {
     return <div>Error</div>;
   }
 
