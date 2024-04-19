@@ -12,7 +12,7 @@ import {
 import {
   getPrivateChatsList,
   getPrivateRoomIds,
-} from "@/app/_api/messages/privateChat-api";
+} from "@/app/_api/messages/pagePrivateList-api";
 
 import { useResponsive } from "@/app/_hooks/responsive";
 
