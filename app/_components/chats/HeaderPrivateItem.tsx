@@ -1,12 +1,23 @@
 import React from "react";
-import { Avatar } from "@nextui-org/react";
+import { Avatar, useDisclosure } from "@nextui-org/react";
+import PrivateChatRoom from "./PrivateChatRoom";
 
 // TODO any 타입 해결 필요
 const HeaderPrivateItem = ({ eachRoomInfo }: any) => {
+  // 1:1 채팅방 모달창
+  const {
+    isOpen: isPrivateChatOpen,
+    onOpen: onPrivateChatOpen,
+    onOpenChange: onPrivateChatOpenChange,
+  } = useDisclosure();
+
   return (
     <div
       key={eachRoomInfo?.chat_rooms_info.room_id}
       className="flex flex-col bg-gray-200 p-4 mr-3 mb-3 cursor-pointer"
+      onClick={() => {
+        onPrivateChatOpen();
+      }}
     >
       <div className="flex mb-3">
         <span>green-action :</span>
@@ -37,6 +48,13 @@ const HeaderPrivateItem = ({ eachRoomInfo }: any) => {
           </div>
         </div>
       </div>
+      {isPrivateChatOpen && (
+        <PrivateChatRoom
+          isOpen={isPrivateChatOpen}
+          onOpenChange={onPrivateChatOpenChange}
+          roomId={eachRoomInfo?.chat_rooms_info.room_id}
+        />
+      )}
     </div>
   );
 };

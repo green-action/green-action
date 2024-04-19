@@ -1,18 +1,18 @@
 import React, { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useResponsive } from "@/app/_hooks/responsive";
+import { supabase } from "@/utils/supabase/client";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   useGetActionTitleAndUrl,
   useGetMessageAndParticipantInfo,
   useGetMyPrivateRoomsInfo,
 } from "@/app/_hooks/useQueries/chats";
-import HeaderPrivateItem from "./HeaderPrivateItem";
-import { useQueryClient } from "@tanstack/react-query";
-import { supabase } from "@/utils/supabase/client";
 import {
   QUERY_KEY_ACTION_IDS_TITLES_URLS,
   QUERY_KEY_MESSAGES_PARTICIPANT_INFO_HEADER,
 } from "@/app/_api/queryKeys";
+import HeaderPrivateItem from "./HeaderPrivateItem";
 import Image from "next/image";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 

@@ -109,7 +109,6 @@ const PageChatsList = ({
       </ModalHeader>
       <ModalBody>
         {privateChatsList?.map((privateChat) => (
-          // TODO privateChat 타입에러 해결필요
           <PagePrivateItem privateChat={privateChat} />
         ))}
       </ModalBody>
