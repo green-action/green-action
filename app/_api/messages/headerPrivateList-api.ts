@@ -82,17 +82,41 @@ export const getPrivateChatsList = async ({
   // 채팅 상대방의 display_name, profile_img 가져오기
   const { data: participantData, error } = await supabase
     .from("chat_participants")
-    .select("participant_uid, users(id, display_name, profile_img)")
-    .in("room_id", filteredRoomIds);
+    .select("room_id, users(id, display_name, profile_img)")
+    .in("room_id", filteredRoomIds)
+    .neq("participant_uid", loggedInUserUid);
 
   if (error) {
     console.log("error", error.message);
     throw error;
   }
 
-  const filteredParticipantNotME = participantData.filter((person) => {
-    return person.participant_uid !== loggedInUserUid;
+  // filteredChatList와 participantData를 조합하여 원하는 형태의 데이터 생성
+  const combinedData = filteredChatList.map((chat) => {
+    // filteredChatList의 각 채팅 데이터에 대해 채팅방 id(room_id)와 동일한 참가자 데이터 찾기
+    const matchedParticipant = participantData.find(
+      (participant) => participant.room_id === chat?.room_id,
+    );
+
+    if (matchedParticipant) {
+      return {
+        ...chat,
+        user: {
+          id: matchedParticipant.users?.id || "",
+          display_name: matchedParticipant.users?.display_name || "",
+          profile_img: matchedParticipant.users?.profile_img || "",
+        },
+      };
+    } else {
+      // 일치하는 참가자 데이터를 찾을 수 없는 경우에 대한 처리
+      console.log(`Participant data not found for room ${chat?.room_id}`);
+      return null; // 혹은 다른 방법으로 처리
+    }
   });
 
-  return [{ ...filteredChatList, ...filteredParticipantNotME }];
+  // null 값 제거
+  const filteredCombinedData = combinedData.filter((data) => data !== null);
+
+  // 배열로 묶기
+  return filteredCombinedData;
 };
