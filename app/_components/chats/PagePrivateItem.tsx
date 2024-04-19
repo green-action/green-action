@@ -4,6 +4,9 @@ import { useResponsive } from "@/app/_hooks/responsive";
 import PrivateChatRoom from "./PrivateChatRoom";
 import { PrivateChatProps } from "@/app/_types/realtime-chats";
 import { formatToLocaleDateTimeString } from "@/utils/date/date";
+import { useGetUnreadCount } from "@/app/_hooks/useQueries/chats";
+import Image from "next/image";
+import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
 const PagePrivateItem = ({ privateChat }: PrivateChatProps) => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
@@ -19,6 +22,22 @@ const PagePrivateItem = ({ privateChat }: PrivateChatProps) => {
     onOpen: onPrivateChatOpen,
     onOpenChange: onPrivateChatOpenChange,
   } = useDisclosure();
+
+  const { unreadCount, isLoading, isError } = useGetUnreadCount(
+    privateChat?.room_id ?? "",
+  );
+
+  if (isLoading) {
+    return (
+      <div className="w-[200px] h-auto mx-auto">
+        <Image className="" src={SoomLoaing} alt="SoomLoading" />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
 
   return (
     <div key={privateChat?.room_id}>
@@ -45,7 +64,7 @@ const PagePrivateItem = ({ privateChat }: PrivateChatProps) => {
             <div className="flex justify-between">
               <p>{privateChat?.content}</p>
               <div className="bg-[#B3C8A1] w-7 h-7 rounded-full text-white font-extrabold flex justify-center items-center">
-                3
+                {unreadCount}
               </div>
             </div>
           </div>
