@@ -20,10 +20,8 @@ import SecondInputBox from "@/app/_components/individualAction-add/SecondInputBo
 import ThirdInputBox from "@/app/_components/individualAction-add/ThirdInputBox";
 import { useDisclosure, user } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-
 import { useResponsive } from "@/app/_hooks/responsive";
 import { FaChevronLeft } from "react-icons/fa6";
-
 import SearchMapModal from "@/app/_components/kakaoMap/SearchMapModal";
 import { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
 
@@ -122,7 +120,6 @@ const AddActionPage = () => {
       {/* 전체 Wrapper */}
       {/* 이중 form태그라 id/form 속성으로 연결시키기 (mainForm, subForm)*/}
       <form onSubmit={handleSubmit} id="mainForm" method="post" />
-      {/* <div className="flex flex-col w-[809px] h-[826px] border-1.5 border-gray-300 rounded-3xl mx-auto mb-12 mt-8"> */}
       <div
         className="flex flex-col desktop:w-[809px] 
       laptop:w-[809px] h-[920px] 
@@ -141,7 +138,7 @@ const AddActionPage = () => {
             />
           </div>
         )}
-        <hr className="border-t-1.5  desktop:border-gray-300 laptop:border-gray-300 phone:border-[#EDEDED]" />
+        <hr className="border-t-1.5 desktop:border-gray-300 laptop:border-gray-300 phone:border-[#EDEDED]" />
         {/* 타이틀 아래 Wrapper */}
         <div className="w-full h-full mt-[31px] mb-[26px] desktop:mx-[44px] laptop:mx-[44px] phone:ml-auto">
           {/* 이미지 4장 자리*/}
