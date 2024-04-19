@@ -7,6 +7,7 @@ import { supabase } from "@/utils/supabase/client";
 import {
   QUERY_KEY_PRIVATE_CHATS_LIST,
   QUERY_KEY_PRIVATE_ROOM_IDS,
+  QUERY_KEY_UNREAD_MESSAGES_COUNT,
 } from "@/app/_api/queryKeys";
 import { ModalHeader, ModalBody, ModalFooter, Button } from "@nextui-org/react";
 import PagePrivateItem from "./PagePrivateItem";
@@ -66,6 +67,9 @@ const PageChatsList = ({
               queryClient.invalidateQueries({
                 queryKey: [QUERY_KEY_PRIVATE_ROOM_IDS],
               });
+            queryClient.invalidateQueries({
+              queryKey: [QUERY_KEY_UNREAD_MESSAGES_COUNT],
+            });
           },
         )
         .subscribe();

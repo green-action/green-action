@@ -11,6 +11,7 @@ import {
 import {
   QUERY_KEY_ACTION_IDS_TITLES_URLS,
   QUERY_KEY_MESSAGES_PARTICIPANT_INFO_HEADER,
+  QUERY_KEY_UNREAD_MESSAGES_COUNT,
 } from "@/app/_api/queryKeys";
 import HeaderPrivateItem from "./HeaderPrivateItem";
 import Image from "next/image";
@@ -49,6 +50,9 @@ const HeaderPrivateList = () => {
               });
             queryClient.invalidateQueries({
               queryKey: [QUERY_KEY_MESSAGES_PARTICIPANT_INFO_HEADER],
+            });
+            queryClient.invalidateQueries({
+              queryKey: [QUERY_KEY_UNREAD_MESSAGES_COUNT],
             });
           },
         )
