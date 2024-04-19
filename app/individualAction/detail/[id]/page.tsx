@@ -118,7 +118,6 @@ const DetailPage = () => {
       </div>
     );
   const detail = individualAction![0];
-  console.log(detail);
 
   if (isError) return <div>Error fetching details...</div>;
 
