@@ -11,12 +11,14 @@ import {
   getMyPrivateRoomInfos,
   getPrivateChatsList,
 } from "@/app/_api/messages/headerPrivateList-api";
+import { useResponsive } from "@/app/_hooks/responsive";
 
 const HeaderPrivateChats = () => {
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
+  const { isDesktop, isLaptop, isMobile } = useResponsive();
 
-  // data - 채팅방 id, 참가자 type, action id, 채팅방 type
+  // data - 채팅방 id, 나의 참가자 type, action id, 채팅방 type
   const { data, isLoading, isError } = useQuery({
     queryKey: [QUERY_KEY_MY_PRIVATE_ROOMS_IDS],
     queryFn: () => getMyPrivateRoomInfos(loggedInUserUid),
@@ -70,9 +72,57 @@ const HeaderPrivateChats = () => {
     <div>Error</div>;
   }
 
-  console.log("messageAndParticipantInfo", messageAndParticipantInfo);
+  // 먼저 data와 actionIdsTitlesUrls가 모두 로드되었는지 확인합니다.
+  if (!data || !actionIdsTitlesUrls) return [];
 
-  return <div>HeaderPrivateChats</div>;
+  // data에서 chat_rooms_info가 null이 아닌 것들만 필터링하여 해당 action_id를 추출합니다.
+  const mergedData = data
+    .filter((item) => item.chat_rooms_info !== null)
+    .map((item) => {
+      const actionId = item.chat_rooms_info?.action_id;
+
+      if (!actionId || typeof actionId !== "string") {
+        console.warn(`Invalid action id found in data: ${actionId}`);
+        return null; // 올바르지 않은 action_id는 건너뜁니다.
+      }
+
+      // actionIdsTitlesUrls에서 해당 action_id에 해당하는 데이터를 찾습니다.
+      const matchingAction = actionIdsTitlesUrls.find(
+        (action) => action.id === actionId,
+      );
+
+      if (!matchingAction) {
+        // 만약 해당 action_id에 대한 title과 url이 없으면 처리합니다. (예: 데이터 일치하지 않음)
+        console.warn(`No matching action found for action id ${actionId}`);
+        return null; // 또는 다른 처리 방법을 선택할 수 있습니다.
+      }
+
+      // 해당 action_id에 대한 title과 url을 포함한 객체를 반환합니다.
+      return {
+        chat_rooms_info: {
+          room_type: item?.chat_rooms_info?.room_type,
+          room_id: item.room_id,
+          participant_type: item.participant_type,
+        },
+        action_info: {
+          action_id: actionId,
+          action_title: matchingAction.title,
+          action_imgUrl: matchingAction.firstUrl,
+        },
+      };
+    });
+  console.log("mergedData", mergedData);
+
+  return (
+    <>
+      <div className={`${isDesktop} && "flex flex-col"`}>
+        <div className={`${isDesktop} && "flex"`}>
+          <p>green-action :</p>
+          <p>{}</p>
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default HeaderPrivateChats;

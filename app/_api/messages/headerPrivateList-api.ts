@@ -1,7 +1,7 @@
 import { supabase } from "@/utils/supabase/client";
 
 export const getMyPrivateRoomInfos = async (loggedInUserUid: string) => {
-  // 참가자 테이블 - 참가중인 채팅방id들, 본인의 참가자 타입 가져오기
+  // 참가자 테이블 - 참가중인 채팅방id들, 본인의 참가자 타입, action id, 채팅방 타입(개인) 가져오기
   const { data, error } = await supabase
     .from("chat_participants")
     .select("room_id, participant_type, chat_rooms_info(action_id, room_type)")
@@ -20,6 +20,7 @@ export const getMyPrivateRoomInfos = async (loggedInUserUid: string) => {
   return filteredData;
 };
 
+// action의 id, title, 첫번째 url 가져오기
 export const getActionTitleAndUrl = async (actionIds: string[]) => {
   const { data, error } = await supabase
     .from("individual_green_actions")
@@ -39,7 +40,6 @@ export const getActionTitleAndUrl = async (actionIds: string[]) => {
   return selectOneUrlArray;
 };
 
-// TODO 성공하면 pagePrivateList-api, 사용처도 같이 업데이트하기
 // 채팅방 리스트 가져오기 (마지막 메시지, 메시지 시간, 채팅 상대의 닉네임, 프로필이미지)
 export const getPrivateChatsList = async ({
   loggedInUserUid,
