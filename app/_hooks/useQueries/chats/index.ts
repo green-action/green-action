@@ -101,7 +101,11 @@ export const useGetMessageAndParticipantInfo = ({
 };
 
 export const useGetPrivateRoomIds = (action_id: string) => {
-  const { data: roomIds, isError } = useQuery({
+  const {
+    data: roomIds,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: [QUERY_KEY_PRIVATE_ROOM_IDS],
     queryFn: async () => {
       const response = await getPrivateRoomIds(action_id);
@@ -109,7 +113,7 @@ export const useGetPrivateRoomIds = (action_id: string) => {
     },
   });
 
-  return { roomIds, isError };
+  return { roomIds, isLoading, isError };
 };
 
 export const useGetPrivateList = ({
@@ -119,7 +123,11 @@ export const useGetPrivateList = ({
   roomIds: string[] | undefined;
   loggedInUserUid: string;
 }) => {
-  const { data: privateChatsList, isError: privateChatListError } = useQuery({
+  const {
+    data: privateChatsList,
+    isLoading: privateChatListLoading,
+    isError: privateChatListError,
+  } = useQuery({
     queryKey: [QUERY_KEY_MESSAGES_PARTICIPANT_INFO_PAGE],
     queryFn: async () => {
       if (roomIds) {
@@ -130,5 +138,5 @@ export const useGetPrivateList = ({
     enabled: !!roomIds,
   });
 
-  return { privateChatsList, privateChatListError };
+  return { privateChatsList, privateChatListLoading, privateChatListError };
 };

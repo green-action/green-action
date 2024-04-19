@@ -1,25 +1,22 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 import { supabase } from "@/utils/supabase/client";
-
 import {
-  QUERY_KEY_MESSAGES_PARTICIPANT_INFO_PAGE,
   QUERY_KEY_PRIVATE_CHATS_LIST,
   QUERY_KEY_PRIVATE_ROOM_IDS,
 } from "@/app/_api/queryKeys";
-
-import { useResponsive } from "@/app/_hooks/responsive";
-
 import { ModalHeader, ModalBody, ModalFooter, Button } from "@nextui-org/react";
-import { getPrivateChatsList } from "@/app/_api/messages/headerPrivateList-api";
-import { useSession } from "next-auth/react";
 import PagePrivateItem from "./PagePrivateItem";
+import { useResponsive } from "@/app/_hooks/responsive";
 import {
   useGetPrivateList,
   useGetPrivateRoomIds,
 } from "@/app/_hooks/useQueries/chats";
+import Image from "next/image";
+import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
 const PageChatsList = ({
   onClose,
@@ -33,7 +30,7 @@ const PageChatsList = ({
   const queryClient = useQueryClient();
 
   // 채팅방 room_id 배열 가져오기
-  const { roomIds, isError } = useGetPrivateRoomIds(action_id);
+  const { roomIds, isLoading, isError } = useGetPrivateRoomIds(action_id);
 
   useEffect(() => {
     // 채팅방 테이블 변경사항 구독 - 새 채팅방 insert될때 채팅방 리스트 실시간 업데이트
@@ -85,10 +82,19 @@ const PageChatsList = ({
   }, [roomIds]);
 
   // 채팅방 리스트 가져오기
-  const { privateChatsList, privateChatListError } = useGetPrivateList({
-    roomIds,
-    loggedInUserUid,
-  });
+  const { privateChatsList, privateChatListLoading, privateChatListError } =
+    useGetPrivateList({
+      roomIds,
+      loggedInUserUid,
+    });
+
+  if (isLoading || privateChatListLoading) {
+    return (
+      <div className="w-[200px] h-auto mx-auto">
+        <Image className="" src={SoomLoaing} alt="SoomLoading" />
+      </div>
+    );
+  }
 
   if (isError || privateChatListError) {
     return <div>Error</div>;
