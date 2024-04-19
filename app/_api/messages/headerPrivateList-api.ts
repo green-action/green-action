@@ -120,3 +120,19 @@ export const getPrivateChatsList = async ({
   // 배열로 묶기
   return filteredCombinedData;
 };
+
+// 안읽은 메시지 수 가져오기
+export const getUnreadMessageCount = async (room_id: string) => {
+  const { data, error } = await supabase
+    .from("chat_messages")
+    .select("id")
+    .eq("is_read", false)
+    .eq("room_id", room_id);
+
+  if (error) {
+    console.log("error", error.message);
+    throw error;
+  }
+
+  return data.length;
+};

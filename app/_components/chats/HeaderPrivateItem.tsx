@@ -1,6 +1,12 @@
 import React from "react";
 import { Avatar, useDisclosure } from "@nextui-org/react";
+import { LiaCrownSolid } from "react-icons/lia";
 import PrivateChatRoom from "./PrivateChatRoom";
+import { useQuery } from "@tanstack/react-query";
+import { getUnreadMessageCount } from "@/app/_api/messages/headerPrivateList-api";
+import { QUERY_KEY_UNREAD_MESSAGES_COUNT } from "@/app/_api/queryKeys";
+import Image from "next/image";
+import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
 // TODO any 타입 해결 필요
 const HeaderPrivateItem = ({ eachRoomInfo }: any) => {
@@ -11,9 +17,32 @@ const HeaderPrivateItem = ({ eachRoomInfo }: any) => {
     onOpenChange: onPrivateChatOpenChange,
   } = useDisclosure();
 
+  const room_id = eachRoomInfo?.chat_rooms_info.room_id;
+
+  const {
+    data: unreadCount,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: [QUERY_KEY_UNREAD_MESSAGES_COUNT, room_id],
+    queryFn: () => getUnreadMessageCount(room_id),
+  });
+
+  if (isLoading) {
+    return (
+      <div className="w-[200px] h-auto mx-auto">
+        <Image className="" src={SoomLoaing} alt="SoomLoading" />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
+
   return (
     <div
-      key={eachRoomInfo?.chat_rooms_info.room_id}
+      key={room_id}
       className="flex flex-col bg-gray-200 p-4 mr-3 mb-3 cursor-pointer"
       onClick={() => {
         onPrivateChatOpen();
@@ -37,8 +66,9 @@ const HeaderPrivateItem = ({ eachRoomInfo }: any) => {
             <div className="flex justify-between">
               <span>닉네임 : {eachRoomInfo.message.user.display_name}</span>
               <span>
-                {eachRoomInfo.chat_rooms_info.participant_type === "방장" &&
-                  "운영중"}
+                {eachRoomInfo.chat_rooms_info.participant_type === "방장" && (
+                  <LiaCrownSolid size={20} />
+                )}
               </span>
             </div>
             <div className="flex justify-between">
@@ -52,7 +82,7 @@ const HeaderPrivateItem = ({ eachRoomInfo }: any) => {
         <PrivateChatRoom
           isOpen={isPrivateChatOpen}
           onOpenChange={onPrivateChatOpenChange}
-          roomId={eachRoomInfo?.chat_rooms_info.room_id}
+          roomId={room_id}
         />
       )}
     </div>
