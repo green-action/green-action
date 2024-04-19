@@ -120,7 +120,7 @@ const PrivateChatsList = ({
       </ModalHeader>
       <ModalBody>
         {privateChatsList?.map((privateChat) => (
-          <>
+          <div key={privateChat?.room_id}>
             {privateChat && (
               <div
                 className={`${
@@ -147,7 +147,7 @@ const PrivateChatsList = ({
                 </div>
               </div>
             )}
-          </>
+          </div>
         ))}
       </ModalBody>
       <ModalFooter>

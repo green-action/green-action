@@ -249,33 +249,33 @@ function Header() {
                 </div>
               )}
             </div>
-            {/* 채팅방 badge */}
-            <Badge content="99+" shape="circle" color="default">
-              <Button
-                radius="full"
-                isIconOnly
-                aria-label="more than 99 notifications"
-                variant="light"
-                onClick={() => {
-                  onChatsListModalOpen();
-                }}
-              >
-                <IoChatbubbleEllipsesOutline className="text-2xl" />
-              </Button>
-            </Badge>
-            {/* push알림 badge */}
-            <Badge content="99+" shape="circle" color="default">
-              <Button
-                radius="full"
-                isIconOnly
-                aria-label="more than 99 notifications"
-                variant="light"
-              >
-                <NotificationIcon size={24} height={24} width={24} />
-              </Button>
-            </Badge>
             {isLoggedIn ? (
               <>
+                {/* 채팅방 badge */}
+                <Badge content="99+" shape="circle" color="default">
+                  <Button
+                    radius="full"
+                    isIconOnly
+                    aria-label="more than 99 notifications"
+                    variant="light"
+                    onClick={() => {
+                      onChatsListModalOpen();
+                    }}
+                  >
+                    <IoChatbubbleEllipsesOutline className="text-2xl" />
+                  </Button>
+                </Badge>
+                {/* push알림 badge */}
+                <Badge content="99+" shape="circle" color="default">
+                  <Button
+                    radius="full"
+                    isIconOnly
+                    aria-label="more than 99 notifications"
+                    variant="light"
+                  >
+                    <NotificationIcon size={24} height={24} width={24} />
+                  </Button>
+                </Badge>
                 <Dropdown
                   placement="bottom-end"
                   isOpen={isProfileHover}

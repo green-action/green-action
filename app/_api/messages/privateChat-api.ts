@@ -201,7 +201,7 @@ export const getPrivateChatsList = async (roomIds: string[]) => {
       .from("chat_messages")
       .select("created_at, content, room_id, users(display_name, profile_img)")
       // .select(
-      //   "created_at, content, room_id,chat_participants(participant_type===참가자, users(display_name, profile_img))",
+      //   "created_at, content, room_id, chat_participants(filter(participant_type='참가자'), users(display_name, profile_img)))",
       // )
       .eq("room_id", roomId)
       // .eq(chat_participants("participant_type", "참가자"))
@@ -223,6 +223,79 @@ export const getPrivateChatsList = async (roomIds: string[]) => {
     }
   });
 
+  // const chatList = await Promise.all(chatPromises);
+  // return chatList;
+
   const chatList = await Promise.all(chatPromises);
-  return chatList;
+
+  // chatList에서 undefined 값 제거하고 값 있는 채팅만 필터링하여 새로운 배열 반환
+  const filteredChatList = chatList.filter((chat) => chat !== undefined);
+
+  return filteredChatList;
 };
+
+// export const getPrivateChatsList = async (roomIds: string[]) => {
+//   const chatPromises = roomIds.map(async (roomId) => {
+//     const { data, error } = await supabase
+//       .from("chat_messages")
+//       .select("created_at, content, room_id, sender_uid")
+//       .eq("room_id", roomId)
+//       .order("created_at", { ascending: false })
+//       .limit(1);
+
+//     if (error) {
+//       console.log(
+//         `Error fetching chat messages for room ${roomId}: ${error.message}`,
+//       );
+//       throw error;
+//     }
+
+//     if (data && data.length > 0) {
+//       return data[0]; // 가장 최신 메시지 반환
+//     } else {
+//       // 메시지 없이 빈 채팅방인 경우
+//       return;
+//     }
+//   });
+
+//   const chatList = await Promise.all(chatPromises);
+//   console.log("chatList", chatList);
+
+//   // 각 채팅 메시지의 sender_uid 배열 추출
+//   const senderUids = chatList.map((chat) => chat?.sender_uid);
+
+//   // sender_uid로 users 테이블에서 display_name, profile_img 가져오기
+//   const usersDataPromises = senderUids.map(async (senderUid) => {
+//     const { data, error } = await supabase
+//       .from("users")
+//       .select("id, display_name, profile_img")
+//       .in("id", senderUids);
+
+//     if (error) {
+//       console.log(
+//         `Error fetching user data for user ${senderUid}: ${error.message}`,
+//       );
+//       throw error;
+//     }
+
+//     return data;
+//   });
+
+//   const usersData = await Promise.all(usersDataPromises);
+
+//   // chatList와 usersData를 결합하여 새로운 배열 생성
+//   const combinedData = chatList.map((chat, index) => {
+//     const userData = usersData[index]?.[0]; // usersData는 각각의 Promise로부터 반환된 배열이므로 [0]으로 접근
+//     return {
+//       ...chat,
+//       user: userData
+//         ? {
+//             display_name: userData.display_name,
+//             profile_img: userData.profile_img,
+//           }
+//         : null,
+//     };
+//   });
+
+//   return combinedData;
+// };
