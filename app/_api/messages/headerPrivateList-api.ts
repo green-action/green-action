@@ -164,3 +164,19 @@ export const updateUnreadMessageCount = async ({
   }
   return data;
 };
+
+// 안읽은 메시지 총 개수 가져오기
+export const getAllUnreadCount = async (loggedInUserUid: string) => {
+  const { data, error } = await supabase
+    .from("chat_messages")
+    .select("id")
+    .eq("is_read", false)
+    .neq("sender_uid", loggedInUserUid);
+
+  if (error) {
+    console.log("error", error.message);
+    throw error;
+  }
+
+  return data.length;
+};
