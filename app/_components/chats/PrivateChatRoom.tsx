@@ -37,8 +37,6 @@ const PrivateChatRoom = ({
 }: ChatPropsExceptActionId) => {
   const [message, setMessage] = useState("");
 
-  // console.log("roomId", roomId);
-
   const queryClient = useQueryClient();
 
   // 현재 로그인한 유저 uid
@@ -62,41 +60,6 @@ const PrivateChatRoom = ({
             queryKey: [QUERY_KEY_MESSAGES_LIST],
           });
         },
-
-        // 시도 1. messages를 상태로 관리하기
-        // (payload) => {
-        //   // Update the specific part of the query data
-        //   const newMessage = payload.new;
-        //   setMessages((prevMessages) => [...prevMessages, newMessage]); // messages 업데이트
-        // },
-
-        // 시도 2. setQueryData 리팩토링 시도1
-        // (payload) => {
-        //   // Update the specific part of the query data
-        //   const newMessage = payload.new;
-        //   queryClient.setQueryData(
-        //     ["messagesList", loggedInUserUid],
-        //     (prevData) => {
-        //       [...prevData, newMessage];
-        //     },
-        //   );
-        // },
-
-        // 시도 3. setQueryData 리팩토링 시도2
-        // (payload) => {
-        //   // Update the specific part of the query data
-        //   const newMessage = payload.new;
-        //   queryClient.setQueryData(
-        //     ["messagesList"],
-        //     (prevData: MessageType[]) => {
-        //       // Check if prevData is an array, if not, initialize it as an empty array
-        //       const newData = Array.isArray(prevData)
-        //         ? [...prevData, newMessage]
-        //         : [newMessage];
-        //       return newData;
-        //     },
-        //   );
-        // },
       )
       .subscribe();
 
@@ -154,7 +117,6 @@ const PrivateChatRoom = ({
 
   return (
     <>
-      {/* <Button onPress={onOpen}>Open Modal</Button> */}
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
