@@ -40,8 +40,6 @@ import editAction from "/app/_assets/image/logo_icon/icon/mypage/image 55.png";
 import delAction from "/app/_assets/image/logo_icon/icon/mypage/Group 131.png";
 import nextBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 133.png";
 import prevBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 132.png";
-import PrivateChat from "@/app/_components/chats/PrivateChatRoom";
-import GroupChat from "@/app/_components/chats/GroupChatRoom";
 import ChatButtons from "@/app/_components/individualAction/ChatButtons";
 import KakakoMap from "@/app/_components/kakaoMap/KakakoMap";
 
@@ -70,11 +68,11 @@ const DetailPage = () => {
     ),
   };
 
-  // 참여하기 모달창
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const handleOpen = () => {
-    onOpen();
-  };
+  // // 참여하기 모달창
+  // const { isOpen, onOpen, onClose } = useDisclosure();
+  // const handleOpen = () => {
+  //   onOpen();
+  // };
 
   const { id: postId } = useParams<Params>();
   const params = { id: postId };
@@ -166,34 +164,11 @@ const DetailPage = () => {
                     {detail.users?.introduction}
                   </div>
                 </div>
-                <ChatButtons loggedInUserUid={user_uid} action_id={params.id} />
-                <Modal
-                  backdrop={"opaque"}
-                  isOpen={isOpen}
-                  onClose={onClose}
-                  placement="center"
-                >
-                  <ModalContent>
-                    {(onClose) => (
-                      <>
-                        <ModalHeader className="flex flex-col gap-1">
-                          Green-action 참여 오픈채팅방
-                        </ModalHeader>
-                        <ModalBody>
-                          <a href={detail.kakao_link!}>{detail.kakao_link}</a>
-                        </ModalBody>
-                        <ModalFooter>
-                          <Button
-                            className="bg-[#929292] opacity-50 text-white"
-                            onPress={onClose}
-                          >
-                            닫기
-                          </Button>
-                        </ModalFooter>
-                      </>
-                    )}
-                  </ModalContent>
-                </Modal>
+                <ChatButtons
+                  loggedInUserUid={user_uid}
+                  action_id={params.id}
+                  detail={detail}
+                />
                 <div className="flex justify-center mt-[67px]">
                   <KakaoShareButton description={detail.content!} />
                 </div>
@@ -383,8 +358,12 @@ const DetailPage = () => {
                     {detail.users?.introduction}
                   </div>
                 </div>
-                <ChatButtons loggedInUserUid={user_uid} action_id={params.id} />
-                <Modal
+                <ChatButtons
+                  loggedInUserUid={user_uid}
+                  action_id={params.id}
+                  detail={detail}
+                />
+                {/* <Modal
                   backdrop={"opaque"}
                   isOpen={isOpen}
                   onClose={onClose}
@@ -410,7 +389,7 @@ const DetailPage = () => {
                       </>
                     )}
                   </ModalContent>
-                </Modal>
+                </Modal> */}
                 <div className="flex justify-center mt-[67px]">
                   <KakaoShareButton description={detail.content!} />
                 </div>
