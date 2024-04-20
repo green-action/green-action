@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getMessages } from "@/app/_api/messages/privateChat-api";
 import {
   QUERY_KEY_ACTION_IDS_TITLES_URLS,
+  QUERY_KEY_ALL_UNREAD_COUNT,
   QUERY_KEY_CHAT_ACTION_INFO,
   QUERY_KEY_MESSAGES_LIST,
   QUERY_KEY_MESSAGES_PARTICIPANT_INFO_HEADER,
@@ -14,6 +15,7 @@ import {
 } from "@/app/_api/queryKeys";
 import {
   getActionTitleAndUrl,
+  getAllUnreadCount,
   getMyPrivateRoomInfos,
   getPrivateChatsList,
   getUnreadMessageCount,
@@ -219,4 +221,17 @@ export const useGetParticipantInfo = ({
   });
 
   return { participantInfo, isParticiPantLoading, isParticiPantError };
+};
+
+export const useGetAllUnreadCount = (loggedInUserUid: string) => {
+  const {
+    data: allUnreadCount,
+    isLoading: isAllUnreadCountLoading,
+    isError: isAllUnreadCountError,
+  } = useQuery({
+    queryKey: [QUERY_KEY_ALL_UNREAD_COUNT],
+    queryFn: () => getAllUnreadCount(loggedInUserUid),
+    enabled: !!loggedInUserUid,
+  });
+  return { allUnreadCount, isAllUnreadCountLoading, isAllUnreadCountError };
 };

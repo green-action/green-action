@@ -167,9 +167,24 @@ export const updateUnreadMessageCount = async ({
 
 // 안읽은 메시지 총 개수 가져오기
 export const getAllUnreadCount = async (loggedInUserUid: string) => {
+  const { data: myRooms, error: myRoomsError } = await supabase
+    .from("chat_participants")
+    .select("room_id")
+    .eq("participant_uid", loggedInUserUid);
+
+  if (myRoomsError) {
+    console.log("myRoomsError", myRoomsError.message);
+    throw myRoomsError;
+  }
+
+  const roomIds = myRooms.map((item) => {
+    return item.room_id;
+  });
+
   const { data, error } = await supabase
     .from("chat_messages")
     .select("id")
+    .in("room_id", roomIds)
     .eq("is_read", false)
     .neq("sender_uid", loggedInUserUid);
 
