@@ -9,7 +9,7 @@ import {
   QUERY_KEY_MESSAGES_LIST,
   QUERY_KEY_UNREAD_MESSAGES_COUNT,
 } from "@/app/_api/queryKeys";
-import { Input } from "@nextui-org/react";
+import { Avatar, Input } from "@nextui-org/react";
 import {
   Modal,
   ModalContent,
@@ -143,8 +143,9 @@ const PrivateChatRoom = ({
             <>
               <ModalHeader className="flex items-center w-full shadow-md h-24">
                 <div>action정보</div>
-                <Image
-                  src={participantInfo?.profile_img}
+                <Avatar
+                  showFallback
+                  src={participantInfo?.profile_img || ""}
                   alt="greener_profile"
                 />
                 <div className="flex flex-col">
