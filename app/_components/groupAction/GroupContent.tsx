@@ -3,11 +3,11 @@
 import { useResponsive } from "@/app/_hooks/responsive";
 import { useGroupAction } from "@/app/_hooks/useQueries/groupAction";
 import { Card, Image } from "@nextui-org/react";
-import React, { useState } from "react";
+import Link from "next/link";
+import { useState } from "react";
 import TopButton from "../TopButton";
 import GroupModal from "./GroupModal";
 import GroupSkeleton from "./GroupSkeleton";
-import Link from "next/link";
 
 const GroupContent = () => {
   const { data: groupAction, isLoading, isError } = useGroupAction();
@@ -120,4 +120,4 @@ const GroupContent = () => {
   );
 };
 
-export default React.memo(GroupContent);
+export default GroupContent;

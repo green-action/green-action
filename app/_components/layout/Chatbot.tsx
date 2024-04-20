@@ -6,7 +6,12 @@ const Chatbot = () => {
   return (
     <Bubble
       typebot="green-action-gvt6uux"
-      theme={{ button: { backgroundColor: "#303235" } }}
+      theme={{
+        button: {
+          backgroundColor: "#303235",
+          size: `${80}px`,
+        },
+      }}
     />
   );
 };

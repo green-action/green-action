@@ -135,7 +135,7 @@ const AddPostModal = () => {
     <>
       {/* 글쓰기 버튼 */}
       <Button
-        className="fixed z-50 bottom-16 right-16 rounded-full w-20 h-20 bg-gray-300 flex items-center justify-center"
+        className="fixed z-50 bottom-[8rem] right-[1.5rem] rounded-full w-20 h-20 bg-gray-300 flex items-center justify-center"
         onClick={handleAddPostClick}
       >
         <LuPencilLine className="w-8 h-8" />
