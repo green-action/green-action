@@ -1,9 +1,3 @@
-import React, { useEffect, useRef, useState } from "react";
-import {
-  checkPrivateChatRoomExist,
-  getActionOwnerUid,
-  insertNewPrivateChatRoom,
-} from "@/app/_api/messages/privateChat-api";
 import {
   changeRecruitingState,
   checkUserExist,
@@ -12,19 +6,25 @@ import {
   getRecruitingNumber,
   insertNewParticipant,
 } from "@/app/_api/messages/groupChat-api";
-import { useDisclosure } from "@nextui-org/react";
-import PrivateChat from "@/app/_components/chats/PrivateChatRoom";
-import GroupChat from "@/app/_components/chats/GroupChatRoom";
+import {
+  checkPrivateChatRoomExist,
+  getActionOwnerUid,
+  insertNewPrivateChatRoom,
+} from "@/app/_api/messages/privateChat-api";
 import ChatsListModal from "@/app/_components/chats/ChatsListModal";
+import GroupChat from "@/app/_components/chats/GroupChatRoom";
+import PrivateChat from "@/app/_components/chats/PrivateChatRoom";
 import { useResponsive } from "@/app/_hooks/responsive";
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  useDisclosure,
 } from "@nextui-org/react";
+import { useEffect, useRef, useState } from "react";
 
 // NOTE props에 any 있음 - 카톡링크 모달창 없애면 사라질 이슈임
 const ChatButtons = ({

@@ -1,47 +1,47 @@
 "use client";
 
-import React from "react";
 import { useSession } from "next-auth/react";
-import { useParams, useRouter } from "next/navigation";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
+import { useParams, useRouter } from "next/navigation";
 
+import { useResponsive } from "@/app/_hooks/responsive";
+import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
 import {
   useActionImages,
   useIndividualAction,
 } from "@/app/_hooks/useQueries/individualActions";
-import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
-import { useResponsive } from "@/app/_hooks/responsive";
 
-import KakaoShareButton from "@/app/_components/kakaoShare/KakaoShare";
-import Bookmark from "@/app/_components/bookmark/Bookmark";
 import TopButton from "@/app/_components/TopButton";
+import Bookmark from "@/app/_components/bookmark/Bookmark";
+import KakaoShareButton from "@/app/_components/kakaoShare/KakaoShare";
 import Image from "next/image";
 
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 
-import { Avatar, CircularProgress } from "@nextui-org/react";
-import { Breadcrumbs, BreadcrumbItem } from "@nextui-org/react";
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
+  Avatar,
+  BreadcrumbItem,
+  Breadcrumbs,
   Button,
-  useDisclosure,
+  CircularProgress,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
 } from "@nextui-org/react";
 
-import calendar from "/app/_assets/image/logo_icon/icon/mypage/image 127.png";
-import mapPin from "/app/_assets/image/logo_icon/icon/mypage/image 169.png";
-import person from "/app/_assets/image/logo_icon/icon/mypage/image 166.png";
-import editAction from "/app/_assets/image/logo_icon/icon/mypage/image 55.png";
-import delAction from "/app/_assets/image/logo_icon/icon/mypage/Group 131.png";
-import nextBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 133.png";
-import prevBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 132.png";
 import ChatButtons from "@/app/_components/individualAction/ChatButtons";
 import KakakoMap from "@/app/_components/kakaoMap/KakakoMap";
+import delAction from "/app/_assets/image/logo_icon/icon/mypage/Group 131.png";
+import prevBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 132.png";
+import nextBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 133.png";
+import calendar from "/app/_assets/image/logo_icon/icon/mypage/image 127.png";
+import person from "/app/_assets/image/logo_icon/icon/mypage/image 166.png";
+import mapPin from "/app/_assets/image/logo_icon/icon/mypage/image 169.png";
+import editAction from "/app/_assets/image/logo_icon/icon/mypage/image 55.png";
 
 const DetailPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
