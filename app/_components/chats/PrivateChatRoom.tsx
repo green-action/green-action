@@ -203,26 +203,26 @@ const PrivateChatRoom = ({
                 </div>
               </ModalBody>
               <ModalFooter className="bg-[#F3F4F3] flex justify-center">
-                <input
-                  className="w-[90%] h-16 mb-8 rounded-[50px] pl-6 relative"
-                  type="text"
-                  placeholder="send message..."
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && !e.nativeEvent.isComposing) {
-                      e.preventDefault();
-                      handleSendMessage();
-                    }
-                  }}
-                />
-                <div
-                  className="absolute right-0 cursor-pointer"
-                  onClick={() => {
-                    handleSendMessage();
-                  }}
-                >
-                  <IoPaperPlane />
+                <div className="relative w-[90%] mb-8">
+                  <input
+                    className="w-full h-16 rounded-[50px] pl-8"
+                    type="text"
+                    placeholder="send message..."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.nativeEvent.isComposing) {
+                        e.preventDefault();
+                        handleSendMessage();
+                      }
+                    }}
+                  />
+                  <div
+                    className="absolute right-8 top-4 cursor-pointer"
+                    onClick={handleSendMessage}
+                  >
+                    <IoPaperPlane size={25} />
+                  </div>
                 </div>
               </ModalFooter>
             </>
