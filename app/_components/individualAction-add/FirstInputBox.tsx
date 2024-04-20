@@ -26,7 +26,6 @@ const FirstInputBox = ({
   return (
     <div>
       <div
-        // h-[396px]
         className="flex justify-between gap-[88px]  desktop:w-[724px] laptop:w-[724px] 
         desktop:h-[396px] laptop:h-[396px] phone:w-[291px]
       desktop:border-1.5 desktop:border-gray-300  
@@ -88,7 +87,8 @@ const FirstInputBox = ({
                       name="maxParticipants"
                       required
                       form="mainForm"
-                      className=" w-1/6 h-[30px] text-right mx-2 pr-4 bg-inherit focus:outline-none"
+                      // w-1/6 h-[30px] text-right mx-2 pr-4
+                      className="w-2/6 h-[30px] text-right mx-2 pr-4 bg-inherit focus:outline-none"
                     />
                     명
                   </div>

@@ -38,7 +38,7 @@ const SearchMapModal = ({
     <>
       <Button
         onPress={onOpen}
-        className="bg-[#5B5B5B] text-white rounded-full w-[115px] h-[28px]"
+        className="bg-[#5B5B5B] text-white text-[12px] rounded-full w-[90px] h-[28px]"
       >
         지도에서 검색
       </Button>

@@ -97,7 +97,7 @@ const SearchAddressModal = ({
 
       <Button
         onPress={onOpen}
-        className="bg-[#5B5B5B] text-white rounded-full w-[115px] h-[28px]"
+        className="bg-[#5B5B5B] text-white rounded-full w-[105px] h-[28px] text-[12px]"
       >
         도로명 주소 검색
       </Button>
