@@ -213,9 +213,9 @@ const PrivateChatRoom = ({
                 </div>
               </ModalBody>
               <ModalFooter className="bg-[#F3F4F3] flex justify-center sticky">
-                <div className="relative w-[90%] mb-5">
+                <div className="flex items-center justify-between px-8 w-[90%] mb-5 bg-white h-16 rounded-[50px]">
                   <input
-                    className="w-full h-16 rounded-[50px] pl-8"
+                    className="w-[90%] h-[85%] pl-4"
                     type="text"
                     placeholder="send message..."
                     value={message}
@@ -227,10 +227,7 @@ const PrivateChatRoom = ({
                       }
                     }}
                   />
-                  <div
-                    className="absolute right-8 top-4 cursor-pointer"
-                    onClick={handleSendMessage}
-                  >
+                  <div className="cursor-pointer" onClick={handleSendMessage}>
                     <IoPaperPlane size={25} />
                   </div>
                 </div>

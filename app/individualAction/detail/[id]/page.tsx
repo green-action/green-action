@@ -1,50 +1,43 @@
 "use client";
 
-import React from "react";
 import { useSession } from "next-auth/react";
-import { useParams, useRouter } from "next/navigation";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
+import { useParams, useRouter } from "next/navigation";
 
+import { useResponsive } from "@/app/_hooks/responsive";
+import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
 import {
   useActionImages,
   useIndividualAction,
 } from "@/app/_hooks/useQueries/individualActions";
-import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
-import { useResponsive } from "@/app/_hooks/responsive";
 
-import KakaoShareButton from "@/app/_components/kakaoShare/KakaoShare";
-import Bookmark from "@/app/_components/bookmark/Bookmark";
 import TopButton from "@/app/_components/TopButton";
+import Bookmark from "@/app/_components/bookmark/Bookmark";
+import KakaoShareButton from "@/app/_components/kakaoShare/KakaoShare";
 import Image from "next/image";
 
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 
-import { Avatar, CircularProgress } from "@nextui-org/react";
-import { Breadcrumbs, BreadcrumbItem } from "@nextui-org/react";
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-  useDisclosure,
+  Avatar,
+  BreadcrumbItem,
+  Breadcrumbs,
+  CircularProgress,
 } from "@nextui-org/react";
 
-import calendar from "/app/_assets/image/logo_icon/icon/mypage/image 127.png";
-import mapPin from "/app/_assets/image/logo_icon/icon/mypage/image 169.png";
-import person from "/app/_assets/image/logo_icon/icon/mypage/image 166.png";
-import editAction from "/app/_assets/image/logo_icon/icon/mypage/image 55.png";
-import delAction from "/app/_assets/image/logo_icon/icon/mypage/Group 131.png";
-import nextBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 133.png";
-import prevBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 132.png";
-import PrivateChat from "@/app/_components/chats/PrivateChatRoom";
-import GroupChat from "@/app/_components/chats/GroupChatRoom";
 import ChatButtons from "@/app/_components/individualAction/ChatButtons";
 import KakakoMap from "@/app/_components/kakaoMap/KakakoMap";
-import { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
+import delAction from "/app/_assets/image/logo_icon/icon/mypage/Group 131.png";
+import prevBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 132.png";
+import nextBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 133.png";
+import calendar from "/app/_assets/image/logo_icon/icon/mypage/image 127.png";
+import person from "/app/_assets/image/logo_icon/icon/mypage/image 166.png";
+import mapPin from "/app/_assets/image/logo_icon/icon/mypage/image 169.png";
+import editAction from "/app/_assets/image/logo_icon/icon/mypage/image 55.png";
+
+import type { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
 
 const DetailPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
@@ -69,12 +62,6 @@ const DetailPage = () => {
     prevArrow: (
       <Image src={prevBtn} alt="왼쪽 버튼" className="size-[27px] mr-[12px]" />
     ),
-  };
-
-  // 참여하기 모달창
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const handleOpen = () => {
-    onOpen();
   };
 
   const { id: postId } = useParams<Params>();
@@ -165,34 +152,11 @@ const DetailPage = () => {
                     {detail.users?.introduction}
                   </div>
                 </div>
-                <ChatButtons loggedInUserUid={user_uid} action_id={params.id} />
-                <Modal
-                  backdrop={"opaque"}
-                  isOpen={isOpen}
-                  onClose={onClose}
-                  placement="center"
-                >
-                  <ModalContent>
-                    {(onClose) => (
-                      <>
-                        <ModalHeader className="flex flex-col gap-1">
-                          Green-action 참여 오픈채팅방
-                        </ModalHeader>
-                        <ModalBody>
-                          <a href={detail.kakao_link!}>{detail.kakao_link}</a>
-                        </ModalBody>
-                        <ModalFooter>
-                          <Button
-                            className="bg-[#929292] opacity-50 text-white"
-                            onPress={onClose}
-                          >
-                            닫기
-                          </Button>
-                        </ModalFooter>
-                      </>
-                    )}
-                  </ModalContent>
-                </Modal>
+                <ChatButtons
+                  loggedInUserUid={user_uid}
+                  action_id={params.id}
+                  detail={detail}
+                />
                 <div className="flex justify-center mt-[67px]">
                   <KakaoShareButton description={detail.content!} />
                 </div>
@@ -383,34 +347,11 @@ const DetailPage = () => {
                     {detail.users?.introduction}
                   </div>
                 </div>
-                <ChatButtons loggedInUserUid={user_uid} action_id={params.id} />
-                <Modal
-                  backdrop={"opaque"}
-                  isOpen={isOpen}
-                  onClose={onClose}
-                  placement="center"
-                >
-                  <ModalContent>
-                    {(onClose) => (
-                      <>
-                        <ModalHeader className="flex flex-col gap-1">
-                          Green-action 참여 오픈채팅방
-                        </ModalHeader>
-                        <ModalBody>
-                          <a href={detail.kakao_link!}>{detail.kakao_link}</a>
-                        </ModalBody>
-                        <ModalFooter>
-                          <Button
-                            className="bg-[#929292] opacity-50 text-white"
-                            onPress={onClose}
-                          >
-                            닫기
-                          </Button>
-                        </ModalFooter>
-                      </>
-                    )}
-                  </ModalContent>
-                </Modal>
+                <ChatButtons
+                  loggedInUserUid={user_uid}
+                  action_id={params.id}
+                  detail={detail}
+                />
                 <div className="flex justify-center mt-[67px]">
                   <KakaoShareButton description={detail.content!} />
                 </div>
@@ -726,34 +667,11 @@ const DetailPage = () => {
                   </div>
                 </div>
               </div>
-              <ChatButtons loggedInUserUid={user_uid} action_id={params.id} />
-              <Modal
-                backdrop={"opaque"}
-                isOpen={isOpen}
-                onClose={onClose}
-                placement="center"
-              >
-                <ModalContent>
-                  {(onClose) => (
-                    <>
-                      <ModalHeader className="flex flex-col gap-1">
-                        Green-action 참여 오픈채팅방
-                      </ModalHeader>
-                      <ModalBody>
-                        <a href={detail.kakao_link!}>{detail.kakao_link}</a>
-                      </ModalBody>
-                      <ModalFooter>
-                        <Button
-                          className="bg-[#929292] opacity-50 text-white"
-                          onPress={onClose}
-                        >
-                          닫기
-                        </Button>
-                      </ModalFooter>
-                    </>
-                  )}
-                </ModalContent>
-              </Modal>
+              <ChatButtons
+                loggedInUserUid={user_uid}
+                action_id={params.id}
+                detail={detail}
+              />
               <div className="flex justify-center mt-[64px]">
                 <KakaoShareButton description={detail.content!} />
               </div>
