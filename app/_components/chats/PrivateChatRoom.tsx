@@ -197,8 +197,8 @@ const PrivateChatRoom = ({
                         <div
                           className={`${
                             message.sender_uid === loggedInUserUid
-                              ? "bg-blue-500 text-white rounded-tl-xl rounded-br-xl"
-                              : "bg-gray-300 text-black rounded-tr-xl rounded-bl-xl"
+                              ? "bg-[#D4DFD2] rounded-tl-xl rounded-bl-xl rounded-br-xl"
+                              : "bg-gray-300 text-black rounded-tr-xl rounded-bl-xl rounded-br-xl"
                           } p-2`}
                         >
                           {message.content}
