@@ -122,7 +122,7 @@ const AddActionPage = () => {
       <form onSubmit={handleSubmit} id="mainForm" method="post" />
       <div
         className="flex flex-col desktop:w-[809px] 
-      laptop:w-[809px] h-[920px] 
+      laptop:w-[809px] h-[1000px] 
       phone:w-[291px] desktop:border-1.5 laptop:border-1.5
        desktop:border-gray-300 laptop:border-gray-300 phone:border-0 rounded-3xl mx-auto mb-12 mt-0 "
       >
@@ -153,10 +153,28 @@ const AddActionPage = () => {
             activityLocation={activityLocation}
             setActivityLocation={setActivityLocation}
             handleActivityLocationChange={handleActivityLocationChange}
+            locationCoorRef={locationCoorRef}
+            activityLocationMap={activityLocationMap}
+            setActivityLocationMap={setActivityLocationMap}
           />
           {/* 이미지아래 두번째 박스(활동 제목) */}
           {/* 지도에서 검색 - 추후 '활동장소'와 함께 UI 따로 뺄 예정  */}
-          {(isDesktop || isLaptop) && (
+          {/* <div className="flex gap-5  w-[724px] h-[100px] border-1.5 border-gray-300 rounded-3xl pt-[21px] px-[28px] pb-[28px] mb-4 ">
+            <SearchMapModal
+              setActivityLocationMap={setActivityLocationMap}
+              locationCoorRef={locationCoorRef}
+            />
+            <input
+              id="activityLocationMap"
+              name="activityLocationMap"
+              value={activityLocationMap}
+              type="text"
+              form="mainForm"
+              placeholder="지도에서 검색해주세요"
+              className="h-[40px] p-4 border-1.5 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
+            />
+          </div> */}
+          {/* {(isDesktop || isLaptop) && (
             <div className="flex gap-5 desktop:w-[724px] laptop:w-[724px] phone:w-[291px] h-[100px] border-1.5 border-gray-300 rounded-3xl pt-[21px] px-[28px] pb-[28px] mb-4">
               <SearchMapModal
                 setActivityLocationMap={setActivityLocationMap}
@@ -172,7 +190,7 @@ const AddActionPage = () => {
                 className="h-[40px] p-4 border-1.5 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
               />
             </div>
-          )}
+          )} */}
 
           <SecondInputBox />
           {/* 이미지 아래 세번째 박스(활동 소개) */}

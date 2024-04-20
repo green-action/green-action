@@ -36,13 +36,18 @@ const SearchMapModal = ({
 
   return (
     <>
-      <Button onPress={onOpen}>지도에서 검색</Button>
+      <Button
+        onPress={onOpen}
+        className="bg-[#5B5B5B] text-white text-[12px] rounded-full w-[90px] h-[28px]"
+      >
+        지도에서 검색
+      </Button>
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         placement="center"
         size="5xl"
-        className="h-[700px]"
+        className="h-[600px]"
         scrollBehavior="inside"
       >
         <ModalContent>
@@ -52,7 +57,12 @@ const SearchMapModal = ({
                 지도 검색
               </ModalHeader>
               <ModalBody>
-                <form id="subForm" method="post" onSubmit={handleKeywordSubmit}>
+                <form
+                  id="subForm"
+                  method="post"
+                  onSubmit={handleKeywordSubmit}
+                  className="fixed z-10 mt-[15px] ml-[10px]"
+                >
                   <input
                     type="text"
                     value={value}

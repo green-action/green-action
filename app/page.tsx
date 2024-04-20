@@ -18,6 +18,7 @@ import arrowImg from "../app/_assets/image/individualAction/Group143.svg";
 import { useEffect, useRef, useState } from "react";
 import MobileSlider from "./_components/main/MobileSlider";
 
+// TODO 메인페이지 커뮤니티글카드 디자인 수정
 const MainPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 
@@ -26,7 +27,6 @@ const MainPage = () => {
 
   const onScroll = () => {
     setPosition(window.scrollY);
-    // window.requestAnimationFrame(onScroll);
   };
 
   useEffect(() => {
@@ -76,6 +76,7 @@ const MainPage = () => {
             </>
           )}
         </section>
+
         {(isDesktop || isLaptop) && (
           <section className="z-0 flex flex-col items-center justify-center desktop:mt-[480px] laptop:mt-[450px] desktop:pb-[210px] laptop:pb-[190px]">
             <Image
@@ -108,7 +109,6 @@ const MainPage = () => {
             </Chip>
           </section>
         )}
-
         {/* 배경 이미지 div 끝 */}
         <section className="z-0 flex flex-col items-center justify-center desktop:pt-[200px] laptop:pt-[0px] desktop:h-[1438px] laptop:h-[1338px] phone:h-[935px] desktop:pb-[200px] laptop:pb-[0px] bg-[#F3F3F3] brightness-10 ">
           {isMobile && (
@@ -131,6 +131,7 @@ const MainPage = () => {
               {isMobile && <MobileSlider mode="community" />}
             </section>
           )}
+
           {(isDesktop || isLaptop) && (
             <>
               <Chip
@@ -142,7 +143,7 @@ const MainPage = () => {
               >
                 Green-Action Hot Posts
               </Chip>
-              <div className="desktop:mx-[205px] desktop:mt-[115px] laptop:mt-[115px] phone:mt-[90px]">
+              <div className="desktop:mx-[205px] desktop:mt-[115px] laptop:mt-[115px]">
                 {isLaptop && <LaptopMainSlidder mode="action" />}
                 {isDesktop && <MainSlider mode="action" />}
               </div>
@@ -179,16 +180,14 @@ const MainPage = () => {
           )}
         </section>
 
-        {/*  className="desktop:h-[760px] laptop:h-[600px] desktop:pt-[250px] laptop:pt-[210px] bg-blend-darken bg-black bg-opacity-50" */}
-        {/*  pt-[311px] 인데 자체수정 */}
-
         {(isDesktop || isLaptop) && (
           <section className="flex justify-between w-full h-[760px] bg-blend-darken bg-black bg-opacity-[57%]">
             <div className="bg-[#d6d6d6] w-[50%] brightness-[57.5%]" />
             <div className="bg-[#d6d6d6] w-[50%] brightness-[57.5%]" />
             <div
-              style={{ transform: `translateY(-${position / 100}vh` }}
-              className="absolute z-10 flex flex-col justify-center items-center w-full h-[500px] mt-[580px]"
+              style={{ transform: `translateY(-${position / 80}vh` }}
+              //  desktop:mt-[300px] laptop:mt-[500px] h-[60vh] desktop:mt-[40vh] laptop:mt-[500px]
+              className="absolute z-10 flex flex-col justify-center items-center w-full h-[60vh] desktop:mt-[600px] laptop:mt-[500px]"
             >
               <div className="flex flex-col items-center font-['Italiana'] desktop:text-[48pt] laptop:text-[35pt] text-white">
                 <p>Experience the earth breathing together </p>
@@ -201,7 +200,6 @@ const MainPage = () => {
                     "flex justify-center desktop:w-[223px] laptop:w-[150px] font-semibold",
                 }}
               >
-                {/* setboxImg */}
                 <Link
                   href={`/about`}
                   className="flex gap-4 items-center text-white font-['Inter'] font-light desktop:text-[20pt] laptop:text-[12pt]"
@@ -215,16 +213,13 @@ const MainPage = () => {
                 </Link>
               </Chip>
             </div>
-            <div className="">
-              <Image
-                src={setboxImg}
-                alt="굿즈제품전체사진"
-                className="-z-30 w-[1325px] h-[760px] object-cover brightness-[57%]"
-              />
-            </div>
+            <Image
+              src={setboxImg}
+              alt="굿즈제품전체사진"
+              className="w-[1325px] h-[760px] object-cover brightness-[57%]"
+            />
           </section>
         )}
-
         {isMobile && (
           <section className="flex justify-between w-full h-[310px] bg-blend-darken bg-black bg-opacity-[57%]">
             <div
@@ -242,7 +237,6 @@ const MainPage = () => {
                     "flex justify-center desktop:w-[223px] laptop:w-[150px] font-semibold",
                 }}
               >
-                {/* setboxImg */}
                 <Link
                   href={`/about`}
                   className="flex gap-4 items-center text-white font-['Inter'] font-light desktop:text-[20pt] laptop:text-[12pt]"
@@ -260,7 +254,7 @@ const MainPage = () => {
               <Image
                 src={setboxImg}
                 alt="굿즈제품전체사진"
-                className="-z-30 w-[1325px] h-[510px] object-cover brightness-[57%]"
+                className="w-[1325px] h-[510px] object-cover brightness-[57%]"
               />
             </div>
           </section>
