@@ -7,6 +7,7 @@ import {
   QUERY_KEY_MESSAGES_PARTICIPANT_INFO_HEADER,
   QUERY_KEY_MESSAGES_PARTICIPANT_INFO_PAGE,
   QUERY_KEY_MY_PRIVATE_ROOMS_IDS,
+  QUERY_KEY_PRIVATE_PARTICIPANT_INFO,
   QUERY_KEY_PRIVATE_ROOM_IDS,
   QUERY_KEY_UNREAD_MESSAGES_COUNT,
   QUERY_KEY_UPDATE_UNREAD,
@@ -25,6 +26,7 @@ import type {
 } from "@/app/_types/realtime-chats";
 import {
   getActionInfo,
+  getParticipantInfo,
   getPrivateRoomIds,
 } from "@/app/_api/messages/pagePrivateList-api";
 
@@ -198,4 +200,23 @@ export const useGetActionInfo = (room_id: string) => {
   });
 
   return { actionInfo, isActionInfoLoading, isActionInfoError };
+};
+
+export const useGetParticipantInfo = ({
+  loggedInUserUid,
+  room_id,
+}: {
+  loggedInUserUid: string;
+  room_id: string;
+}) => {
+  const {
+    data: participantInfo,
+    isLoading: isParticiPantLoading,
+    isError: isParticiPantError,
+  } = useQuery({
+    queryKey: [QUERY_KEY_PRIVATE_PARTICIPANT_INFO],
+    queryFn: () => getParticipantInfo({ loggedInUserUid, room_id }),
+  });
+
+  return { participantInfo, isParticiPantLoading, isParticiPantError };
 };

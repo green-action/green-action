@@ -21,6 +21,7 @@ import {
 import {
   useGetActionInfo,
   useGetMessagesList,
+  useGetParticipantInfo,
   useUpdateUnread,
 } from "@/app/_hooks/useQueries/chats";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
@@ -84,7 +85,19 @@ const PrivateChatRoom = ({
   const { actionInfo, isActionInfoLoading, isActionInfoError } =
     useGetActionInfo(roomId);
 
-  if (isLoading || isUpdateUnreadLoading || isActionInfoLoading) {
+  // 채팅방 상대방의 id, 닉네임, 이미지
+  const { participantInfo, isParticiPantLoading, isParticiPantError } =
+    useGetParticipantInfo({
+      loggedInUserUid,
+      room_id: roomId,
+    });
+
+  if (
+    isLoading ||
+    isUpdateUnreadLoading ||
+    isActionInfoLoading ||
+    isParticiPantLoading
+  ) {
     return (
       <div className="w-[200px] h-auto mx-auto">
         <Image className="" src={SoomLoaing} alt="SoomLoading" />
@@ -96,12 +109,14 @@ const PrivateChatRoom = ({
     isError ||
     isUpdateUnreadError ||
     isActionInfoError ||
+    isParticiPantError ||
     messagesList === undefined
   ) {
     return <div>Error</div>;
   }
 
   // console.log("actionInfo", actionInfo);
+  console.log("participantInfo", participantInfo);
 
   // 메시지 보내기 핸들러
   const handleSendMessage = async () => {
@@ -128,7 +143,10 @@ const PrivateChatRoom = ({
             <>
               <ModalHeader className="flex items-center w-full shadow-md h-24">
                 <div>action정보</div>
-                <Image src="" alt="greener_profile" />
+                <Image
+                  src={participantInfo?.profile_img}
+                  alt="greener_profile"
+                />
                 <div className="flex flex-col">
                   <span>닉네임</span>
                   <span>greener</span>
