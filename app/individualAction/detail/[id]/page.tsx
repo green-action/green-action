@@ -23,15 +23,6 @@ import "slick-carousel/slick/slick-theme.css";
 
 import { Avatar, CircularProgress } from "@nextui-org/react";
 import { Breadcrumbs, BreadcrumbItem } from "@nextui-org/react";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-  useDisclosure,
-} from "@nextui-org/react";
 
 import calendar from "/app/_assets/image/logo_icon/icon/mypage/image 127.png";
 import mapPin from "/app/_assets/image/logo_icon/icon/mypage/image 169.png";
@@ -67,12 +58,6 @@ const DetailPage = () => {
       <Image src={prevBtn} alt="왼쪽 버튼" className="size-[27px] mr-[12px]" />
     ),
   };
-
-  // // 참여하기 모달창
-  // const { isOpen, onOpen, onClose } = useDisclosure();
-  // const handleOpen = () => {
-  //   onOpen();
-  // };
 
   const { id: postId } = useParams<Params>();
   const params = { id: postId };
@@ -363,33 +348,6 @@ const DetailPage = () => {
                   action_id={params.id}
                   detail={detail}
                 />
-                {/* <Modal
-                  backdrop={"opaque"}
-                  isOpen={isOpen}
-                  onClose={onClose}
-                  placement="center"
-                >
-                  <ModalContent>
-                    {(onClose) => (
-                      <>
-                        <ModalHeader className="flex flex-col gap-1">
-                          Green-action 참여 오픈채팅방
-                        </ModalHeader>
-                        <ModalBody>
-                          <a href={detail.kakao_link!}>{detail.kakao_link}</a>
-                        </ModalBody>
-                        <ModalFooter>
-                          <Button
-                            className="bg-[#929292] opacity-50 text-white"
-                            onPress={onClose}
-                          >
-                            닫기
-                          </Button>
-                        </ModalFooter>
-                      </>
-                    )}
-                  </ModalContent>
-                </Modal> */}
                 <div className="flex justify-center mt-[67px]">
                   <KakaoShareButton description={detail.content!} />
                 </div>
@@ -703,34 +661,11 @@ const DetailPage = () => {
                   </div>
                 </div>
               </div>
-              <ChatButtons loggedInUserUid={user_uid} action_id={params.id} />
-              <Modal
-                backdrop={"opaque"}
-                isOpen={isOpen}
-                onClose={onClose}
-                placement="center"
-              >
-                <ModalContent>
-                  {(onClose) => (
-                    <>
-                      <ModalHeader className="flex flex-col gap-1">
-                        Green-action 참여 오픈채팅방
-                      </ModalHeader>
-                      <ModalBody>
-                        <a href={detail.kakao_link!}>{detail.kakao_link}</a>
-                      </ModalBody>
-                      <ModalFooter>
-                        <Button
-                          className="bg-[#929292] opacity-50 text-white"
-                          onPress={onClose}
-                        >
-                          닫기
-                        </Button>
-                      </ModalFooter>
-                    </>
-                  )}
-                </ModalContent>
-              </Modal>
+              <ChatButtons
+                loggedInUserUid={user_uid}
+                action_id={params.id}
+                detail={detail}
+              />
               <div className="flex justify-center mt-[64px]">
                 <KakaoShareButton description={detail.content!} />
               </div>
