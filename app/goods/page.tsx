@@ -9,10 +9,10 @@ import Image from "next/image";
 const GoodsPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
   return (
-    <div className="desktop:mx-auto desktop:mt-[55px] laptop:mt-[90px]">
+    <div className="desktop:mx-auto desktop:mt-[55px] laptop:mt-[90px] mt-[70px]">
       <TopButton />
-      <div className="desktop:w-[1752px] laptop:w-[1020px] laptop:px-[56px] mx-auto">
-        <p className="font-['Italiana'] desktop:text-[96px] desktop:mb-[11px] laptop:text-[75px]">
+      <div className="desktop:w-[1752px] laptop:w-[1020px] w-[296px] mx-auto">
+        <p className="font-['Italiana'] desktop:text-[96px] desktop:mb-[11px] desktop:ml-0 laptop:text-[75px] laptop:mx-[56px] text-[36px] mb-[13px]">
           ECO GOODS PRODUCT
         </p>
         {isDesktop && (
@@ -22,8 +22,14 @@ const GoodsPage = () => {
           </div>
         )}
         {isLaptop && (
-          <div className="text-[13px] text-[#929292]">
+          <div className="text-[13px] text-[#929292] mx-[56px]">
             <p>포인트를 쌓고 친환경소재로 제작된 굿즈 상품을 구매해 보세요!</p>
+          </div>
+        )}
+        {isMobile && (
+          <div className="text-[11px] text-[#929292] mx-[5px]">
+            <p>포인트를 쌓고 친환경소재로 제작된</p>
+            <p>굿즈 상품을 구매해 보세요!</p>
           </div>
         )}
         <Goods />
@@ -80,6 +86,30 @@ const GoodsPage = () => {
               src={setbox}
               alt="제품전체사진"
               className="w-[1020px] h-[706px] mx-auto object-cover"
+            />
+          </div>
+        </div>
+      )}
+      {isMobile && (
+        <div className="bg-[#D9D9D9] w-[360px] h-[740px] mt-[65px] mx-auto">
+          <div className="mx-auto">
+            <div className="ml-[41px] mb-[140px] pt-[80px]">
+              <div className="font-['Italiana'] text-[40px] h-[82px]">
+                ABOUT
+              </div>
+              <div className="w-[258px] text-[12px] font-medium text-[#929292]">
+                <p>ECO GOODS는 SOOM에서 자체 개발한 상품으로</p>
+                <p>친환경 소재 업체와 협력하여 제작되었습니다.</p>
+                <p>SOOM 서비스 내에서 실행하는 적립 포인트로 구매</p>
+                <p>가능한 상품입니다.</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <Image
+              src={setbox}
+              alt="제품전체사진"
+              className="w-[360px] h-[261px] mx-auto object-cover"
             />
           </div>
         </div>

@@ -19,56 +19,17 @@ import RecruitSelectTab from "../_components/mypage/RecruitSelectTab";
 import MyActionCard from "../_components/mypage/MyActionCard";
 import CommunityListPost from "../_components/community/CommunityListPost";
 
-import { Button } from "@nextui-org/react";
-
 import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
 import TopButton from "../_components/TopButton";
+import { Button } from "@nextui-org/react";
 
-// 로그인 안 한 상태에서 접근 차단할 것 -
 const MyPage = () => {
   // TODO props 타입등 재설정
-  // FIXME 유저닉네임 수정 다시 봐야
-  // const user_uid = "9da3ec56-3796-4f4f-aa99-06517955400b";
-  // 임시 유저 아이디 설정
   const router = useRouter();
   const session = useSession();
 
-  // FIXME 로그인 해도 session.data null로 뜨는 문제
   const isLoggedIn = !!session.data;
   const user_uid = session.data?.user.user_uid as string;
-  // let user_uid = "";
-  // 새로고침 시 로그인이 잠시 풀림
-  // if (!isLoggedIn) {
-  //   alert("로그인 해주세요!");
-  //   router.replace("/");
-  // }
-  // const session = useSession();
-  // console.log("🐰 ~ MyPage ~ session : ", session);
-  // const user_uid = session?.data?.user.user_uid || "";
-
-  // useEffect(() => {
-  //   const fetchSession = async () => {
-  //     // const session = useSession(); // 여기에 쓰면 invalid hook call
-  //     const isLoggedIn = await !!session.data;
-  //     user_uid = session?.data?.user.user_uid || "";
-  //     if (!isLoggedIn) {
-  //       alert("로그인 해주세요!");
-  //       router.replace("/");
-  //     }
-  //   };
-  //   fetchSession();
-  // }, [user_uid]);
-
-  // FIXME 새로고침 시 로그인 풀리는 문제
-  const checkUserLogin = () => {
-    const isLoggedIn = !!session.data;
-    const user_uid = session?.data?.user.user_uid || "";
-    // if (!isLoggedIn) {
-    //   alert("로그인 해주세요!");
-    //   router.replace("/");
-    // }
-    return user_uid; // uid를 리턴해줘야만 됨.? why? 쓰지않는데도
-  };
 
   const { data: myActions, isLoading: isActionsLoading } =
     useFetchMyGreenActions(user_uid);
@@ -98,7 +59,7 @@ const MyPage = () => {
     );
   });
 
-  const [activeTab, setActiveTab] = useState("My Green-Action");
+  const [activeTab, setActiveTab] = useState("나의 Green-Action");
   const [myRecruitClicked, setMyRecruitClicked] = useState("전체");
   const [bookmarkedRecruitClicked, setBookmarkedRecruitClicked] =
     useState("전체");
@@ -117,13 +78,10 @@ const MyPage = () => {
     bookmarkedRecruitClicked,
   ]);
 
-  useEffect(() => {
-    checkUserLogin(); // 안됨 -> 이걸해줘야 처음 렌더링시 유저확인되고 데이터가 뜬다?
-  }, [isLoggedIn]);
-
   // My Action, 작성 커뮤니티 글, 찜한 Action 탭 선택시
   const handleActiveTabClick = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    // e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     const target = e.target as HTMLButtonElement;
     const textContent = target.textContent;
@@ -133,7 +91,7 @@ const MyPage = () => {
   };
 
   const filterByRecruiting = () => {
-    if (activeTab === "My Green-Action") {
+    if (activeTab === "나의 Green-Action") {
       if (myRecruitClicked === "전체") {
         setFilteredActions(sortedMyActions);
       }
@@ -147,7 +105,7 @@ const MyPage = () => {
         );
       }
     }
-    if (activeTab === "찜한 Green-Action") {
+    if (activeTab === "즐겨찾는 Green-Action") {
       if (bookmarkedRecruitClicked === "전체") {
         setFilteredBookmarkedActions(sortedMyBookmarks);
       }
@@ -183,7 +141,6 @@ const MyPage = () => {
   return (
     <>
       {/* 닉넴수정 후 메인페이지 -> 마이페이지 이동시 : 임포트한 헤더 컴포넌트에서만 닉넴 수정 반영됨 */}
-      {/* <DynamicHeader /> */}
       <div className="flex justify-center desktop:mb-[100px] laptop:mb-[50px]">
         <TopButton />
         <div className="flex desktop:w-[1540px] laptop:w-[1020px]">
@@ -191,42 +148,68 @@ const MyPage = () => {
           <div className="flex flex-col desktop:gap-10 desktop:pl-[82px] laptop:pl-[30px] desktop:pt-1 laptop:pt-[30px] w-full">
             <div className="flex justify-between laptop:mb-[30px]">
               <div className="flex desktop:gap-[45px] laptop:gap-[30px] desktop:ml-5 desktop:text-[12pt]">
-                <Button
-                  radius="full"
-                  size="md"
-                  onClick={handleActiveTabClick}
-                  className={` bg-transparent  desktop:text-[12pt] laptop:text-[11pt]
-                     ${activeTab === "My Green-Action" && "bg-[#F1F1F1]"}`}
+                {/* <Tabs 탭은 보류
+                  aria-label="Options"
+                  color="primary"
+                  variant="underlined"
+                  classNames={{
+                    tabList:
+                      "gap-6 w-full relative rounded-none p-0 border-b border-divider",
+                    cursor: "w-full bg-[#22d3ee]",
+                    tab: "max-w-fit px-0 h-12",
+                    tabContent: "group-data-[selected=true]:text-[#6f979e]",
+                  }}
                 >
-                  My Green-Action
-                </Button>
+                  <Tab key="photos" onClick={handleActiveTabClick}>
+                    My Green-Action
+                  </Tab>
+                  <Tab key="photos" onClick={handleActiveTabClick}>
+                    작성 게시물
+                  </Tab>
+                </Tabs> 
+
                 <Button
-                  radius="full"
-                  size="md"
                   onClick={handleActiveTabClick}
-                  className={`bg-transparent  desktop:text-[12pt] laptop:text-[11pt]
-                    ${activeTab === "작성 게시물" && "bg-[#F1F1F1]"}`}
-                >
-                  작성 게시물
-                </Button>
-                <Button
-                  radius="full"
-                  size="md"
+                  className={`bg-transparent cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt] p-[20px] rounded-none 로도 클릭문제 해결 X*/}
+                <div
                   onClick={handleActiveTabClick}
-                  className={`bg-transparent  desktop:text-[12pt] laptop:text-[11pt]
-                     ${activeTab === "찜한 Green-Action" && "bg-[#F1F1F1]"}`}
+                  className={`cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt] 
+                     ${
+                       activeTab === "나의 Green-Action" &&
+                       "border-b-2 border-[#979797] transition duration-400 ease-in-out"
+                     }`}
                 >
-                  찜한 Green-Action
-                </Button>
+                  나의 Green-Action
+                </div>
+                <div
+                  onClick={handleActiveTabClick}
+                  className={`cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt]
+                     ${
+                       activeTab === "즐겨찾는 Green-Action" &&
+                       "border-b-2 border-[#979797] transition duration-400 ease-in-out"
+                     }`}
+                >
+                  즐겨찾는 Green-Action
+                </div>
+                <div
+                  onClick={handleActiveTabClick}
+                  className={`cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt]
+                    ${
+                      activeTab === "나의 Community" &&
+                      "border-b-2 border-[#979797] transition duration-400 ease-in-out"
+                    }`}
+                >
+                  나의 Community
+                </div>
               </div>
               <div className="mr-[80px]">
-                {activeTab === "My Green-Action" && (
+                {activeTab === "나의 Green-Action" && (
                   <RecruitSelectTab
                     selected={myRecruitClicked}
                     setSelected={setMyRecruitClicked}
                   />
                 )}
-                {activeTab === "찜한 Green-Action" && (
+                {activeTab === "즐겨찾는 Green-Action" && (
                   <RecruitSelectTab
                     selected={bookmarkedRecruitClicked}
                     setSelected={setBookmarkedRecruitClicked}
@@ -236,7 +219,7 @@ const MyPage = () => {
             </div>
             <div className="flex flex-wrap gap-[20px]">
               {/* LINK My Green Action */}
-              {activeTab === "My Green-Action" &&
+              {activeTab === "나의 Green-Action" &&
                 filteredActions?.map((action) => {
                   return (
                     <MyActionCard
@@ -247,9 +230,22 @@ const MyPage = () => {
                   );
                 })}
             </div>
+            {/* LINK 찜한 Green Action */}
+            <div className="flex flex-wrap gap-[20px]">
+              {activeTab === "즐겨찾는 Green-Action" &&
+                filteredBookmarkedActions?.map((bookmark) => {
+                  return (
+                    <MyActionCard
+                      key={bookmark?.bookmarkedAction?.id || ""}
+                      action={bookmark}
+                      mode="myBookmarks"
+                    />
+                  );
+                })}
+            </div>
             {/* LINK 내가 쓴 커뮤니티 글 */}
             <div className="flex flex-wrap gap-[20px]">
-              {activeTab === "작성 게시물" &&
+              {activeTab === "나의 Community" &&
                 myPosts?.map((post) => {
                   return (
                     <CommunityListPost
@@ -258,19 +254,6 @@ const MyPage = () => {
                       communityPost={post}
                       my_display_name={display_name}
                       my_profile_img={profile_img || null}
-                    />
-                  );
-                })}
-            </div>
-            <div className="flex flex-wrap gap-[20px]">
-              {/* LINK 찜한 Green Action */}
-              {activeTab === "찜한 Green-Action" &&
-                filteredBookmarkedActions?.map((bookmark) => {
-                  return (
-                    <MyActionCard
-                      key={bookmark?.bookmarkedAction?.id || ""}
-                      action={bookmark}
-                      mode="myBookmarks"
                     />
                   );
                 })}

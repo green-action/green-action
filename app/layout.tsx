@@ -1,6 +1,7 @@
 import { GeistSans } from "geist/font/sans";
 import Script from "next/script";
 import QueryProvider from "./Provider";
+import Chatbot from "./_components/layout/Chatbot";
 import Footer from "./_components/layout/Footer";
 import Header from "./_components/layout/Header";
 import "./globals.css";
@@ -14,10 +15,15 @@ export const metadata = {
   title: "soom",
   description: "The fastest way to build apps with Next.js and Supabase",
 };
-
+// 여기서 사용자정보 불러오기
 declare global {
   interface Window {
     Kakao: any;
+  }
+}
+declare global {
+  interface Window {
+    kakao: any;
   }
 }
 
@@ -28,7 +34,6 @@ export default function RootLayout({
   children: React.ReactNode;
   modal: React.ReactNode;
 }) {
-  //bg-background
   return (
     <html lang="ko" className={GeistSans.className}>
       <body className="text-foreground">
@@ -37,9 +42,18 @@ export default function RootLayout({
           <main>
             {children}
             {modal}
+            <Chatbot />
           </main>
           <Footer />
         </QueryProvider>
+        <Script
+          src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&libraries=services,clusterer,drawing&autoload=false`}
+          strategy="beforeInteractive"
+        />
+        <Script
+          src={`//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js`}
+          strategy="afterInteractive"
+        />
       </body>
       <Script
         src="https://developers.kakao.com/sdk/js/kakao.js"

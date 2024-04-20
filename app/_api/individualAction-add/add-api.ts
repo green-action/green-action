@@ -5,13 +5,19 @@ import type {
   FormDataType,
   InsertImgUrls,
 } from "@/app/_types/individualAction-add/individualAction-add";
+import { error } from "console";
+import { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
 
 // 1. 텍스트 formData 삽입 함수
 export const insertActionTextForm = async ({
   formData,
+  allActivityLocation, // 추가
+  locationCoor, // 추가
   loggedInUserUid,
 }: {
   formData: FormData;
+  allActivityLocation: string;
+  locationCoor: placeCoordinateType | null;
   loggedInUserUid: string;
 }) => {
   try {
@@ -22,7 +28,9 @@ export const insertActionTextForm = async ({
       content: String(formData.get("activityDescription")),
       start_date: String(formData.get("startDate")),
       end_date: String(formData.get("endDate")),
-      location: String(formData.get("activityLocation")),
+      // location: String(formData.get("activityLocation")),
+      location: allActivityLocation,
+      location_coordinates: locationCoor,
       recruit_number: Number(formData.get("maxParticipants")),
       kakao_link: String(formData.get("openKakaoLink")),
     };
@@ -163,6 +171,49 @@ export const insertImgUrls = async ({
       }),
     );
     return response;
+  } catch (error) {
+    console.log("error", error);
+    throw error;
+  }
+};
+
+// 5. 단체방 만들기 - 방 만들고, 참가자 테이블에 본인 추가
+export const insertGroupChatRoom = async ({
+  loggedInUserUid,
+  action_id,
+}: {
+  loggedInUserUid: string;
+  action_id: string;
+}) => {
+  try {
+    // 채팅방 테이블에 insert
+    const { data: room_id, error: insertRoomError } = await supabase
+      .from("chat_rooms_info")
+      .insert({
+        owner_uid: loggedInUserUid,
+        action_id,
+        room_type: "단체",
+      })
+      .select("id");
+
+    if (insertRoomError) {
+      console.error("error", insertRoomError.message);
+      throw insertRoomError;
+    }
+
+    const roomId = room_id[0].id;
+
+    // 채팅방 참가자 테이블
+    const { error } = await supabase.from("chat_participants").insert({
+      room_id: roomId,
+      participant_uid: loggedInUserUid,
+      participant_type: "방장",
+    });
+
+    if (error) {
+      console.error("error", error.message);
+      throw error;
+    }
   } catch (error) {
     console.log("error", error);
     throw error;

@@ -1,22 +1,18 @@
 "use client";
-import React, { useCallback, useState } from "react";
-
 import {
   useAddBookmark,
   useRemoveBookmark,
 } from "@/app/_hooks/useMutations/bookmarks";
 import { useFilterBookmark } from "@/app/_hooks/useQueries/bookmarks";
 import { debounce } from "@/utils/debounce/debounce";
-
-import CustomConfirm from "../customConfirm/CustomConfirm";
-
+import { Skeleton } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
-
 import Image from "next/image";
-import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
+import React, { useCallback, useState } from "react";
+import AlertModal from "../community/AlertModal";
+import CustomConfirm from "../customConfirm/CustomConfirm";
 import bookmarkEmpty from "/app/_assets/image/logo_icon/icon/mypage/Star 31.png";
 import bookmarkFill from "/app/_assets/image/logo_icon/icon/mypage/Star 32.png";
-import AlertModal from "../community/AlertModal";
 
 const Bookmark = ({
   action_id,
@@ -26,7 +22,7 @@ const Bookmark = ({
   mode?: string;
   // mode는 없어도 되는 인자
 }) => {
-  const { data: filterBookmark, isLoading } = useFilterBookmark(action_id);
+  const { data, isLoading, isError } = useFilterBookmark(action_id);
 
   const addBookmarkMutation = useAddBookmark(mode || "");
   const removeBookmarkMutation = useRemoveBookmark(mode || "");
@@ -58,14 +54,14 @@ const Bookmark = ({
     [user_uid, action_id, removeBookmarkMutation],
   );
 
-  const isBookmarked = filterBookmark?.filterBookmark?.find(
+  const isBookmarked = data?.filterBookmark?.find(
     (mark) => mark.user_uid === user_uid,
   );
 
   if (isLoading) {
     return (
       <div className="flex justify-center items-center w-[60px] h-auto">
-        <Image src={SoomLoaing} alt="SoomLoading" />
+        <Skeleton className="flex rounded-full w-12 h-12" />
       </div>
     );
   }
@@ -86,7 +82,7 @@ const Bookmark = ({
                   removeBookmarkMutation.mutate({ user_uid, action_id })
                 }
               />
-              <span>{filterBookmark?.filterBookmark?.length}</span>
+              <span>{data?.filterBookmark?.length}</span>
             </div>
           </>
         ) : (
@@ -97,14 +93,14 @@ const Bookmark = ({
                 <Image
                   src={bookmarkFill}
                   alt="북마크"
-                  className="size-[22px] mr-[6px]"
+                  className="size-[18px] desktop:size-[22px] laptop:size-[22px] mr-[6px]"
                 />
               )}
               {mode === "individualAction" && (
                 <Image
                   src={bookmarkFill}
                   alt="북마크"
-                  className="size-[16px] desktop:size-[16px] mr-[6px] laptop:size-[13px]"
+                  className="desktop:size-[16px] mr-[6px] laptop:size-[13px] phone:size-[13px]"
                 />
               )}
               {mode === "myPosts" && (
@@ -125,9 +121,12 @@ const Bookmark = ({
             <span
               className={`desktop:text-sm laptop:text-[11px] ${
                 mode === "myPosts" && "desktop:text-[12px] laptop:text-[11px]"
+              } ${
+                mode === "individualAction" &&
+                "phone:text-[11px] phone:text-[#848484] desktop:text-black laptop:text-black"
               }`}
             >
-              {filterBookmark?.filterBookmark?.length ?? 0}
+              {data?.filterBookmark?.length ?? 0}
             </span>
           </div>
         )
@@ -139,14 +138,14 @@ const Bookmark = ({
               <Image
                 src={bookmarkEmpty}
                 alt="북마크"
-                className="size-[22px] mr-[6px]"
+                className="size-[18px] desktop:size-[22px] laptop:size-[22px] mr-[6px]"
               />
             )}
             {mode === "individualAction" && (
               <Image
                 src={bookmarkEmpty}
                 alt="북마크"
-                className="size-[16px] desktop:size-[16px] mr-[6px] laptop:size-[13px] "
+                className=" desktop:size-[16px] mr-[6px] laptop:size-[13px] phone:size-[13px] "
               />
             )}
             {mode === "myPosts" && (
@@ -168,9 +167,12 @@ const Bookmark = ({
           <span
             className={`desktop:text-sm laptop:text-[11px] ${
               mode === "myPosts" && "desktop:text-[12px] laptop:text-[11px]"
+            } ${
+              mode === "individualAction" &&
+              "phone:text-[11px] phone:text-[#848484] desktop:text-black laptop:text-black"
             }`}
           >
-            {filterBookmark?.filterBookmark?.length ?? 0}
+            {data?.filterBookmark?.length ?? 0}
           </span>
         </div>
       )}
