@@ -9,7 +9,7 @@ import {
   QUERY_KEY_MESSAGES_LIST,
   QUERY_KEY_UNREAD_MESSAGES_COUNT,
 } from "@/app/_api/queryKeys";
-import { Avatar, Input } from "@nextui-org/react";
+import { Avatar, Input, Tooltip } from "@nextui-org/react";
 import {
   Modal,
   ModalContent,
@@ -26,6 +26,7 @@ import {
 } from "@/app/_hooks/useQueries/chats";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 import Image from "next/image";
+import { IoIosArrowBack } from "react-icons/io";
 
 import type { ChatProps } from "@/app/_types/realtime-chats";
 
@@ -141,22 +142,31 @@ const PrivateChatRoom = ({
         <ModalContent className="max-w-[27%] h-[87%] overflow-y-auto scrollbar-hide rounded-[55px]">
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col w-full shadow-md h-28">
-                <div>action정보</div>
-                <div className="flex">
-                  <Avatar
-                    showFallback
-                    src={participantInfo?.profile_img || ""}
-                    alt="greener_profile"
-                    className="w-[10%] h-[90%]"
-                  />
-                  <div className="flex flex-col">
-                    <span>닉네임</span>
-                    <span>greener</span>
-                  </div>
+              <ModalHeader className="flex items-center gap-5 w-full shadow-md h-28 z-10 px-8">
+                <Tooltip
+                  showArrow={true}
+                  key="bottom"
+                  placement="bottom"
+                  content="green-action 상세페이지로 이동"
+                  color="foreground"
+                >
+                  <button className="bg-transparent w-8">
+                    <IoIosArrowBack size={30} className="cursor-pointer" />
+                  </button>
+                </Tooltip>
+                <Avatar
+                  showFallback
+                  src={participantInfo?.profile_img || ""}
+                  alt="greener_profile"
+                  className="w-[10%] h-[90%]"
+                />
+                <div className="flex flex-col">
+                  <span>닉네임</span>
+                  <span>greener</span>
                 </div>
               </ModalHeader>
               <ModalBody className="bg-[#F3F4F3]">
+                {/* <ModalBody> */}
                 <div className="flex justify-center ">
                   <div className="flex flex-col">
                     <div className="mb-10 font-bold text-3xl">채팅</div>
