@@ -186,7 +186,7 @@ const PrivateChatRoom = ({
                   </span>
                 </div>
               </ModalHeader>
-              <ModalBody className="bg-[#F3F4F3]">
+              <ModalBody className="bg-[#F3F4F3] pt-32">
                 <div className="flex justify-center">
                   <div className={`flex flex-col w-[100%]`}>
                     {messagesList?.map((message) => (
