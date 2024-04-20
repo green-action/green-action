@@ -26,13 +26,14 @@ import { useEffect, useState } from "react";
 import logoImg from "/app/_assets/image/logo_icon/logo/gray.png";
 import whitelogoImg from "/app/_assets/image/logo_icon/logo/white.png";
 import graylogoImg from "/app/_assets/image/logo_icon/logo/gray.png";
-import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
+import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
 import Image from "next/image";
 import AlertModal from "../community/AlertModal";
 import { NotificationIcon } from "../chats/NotificationIcon";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import ChatsListModal from "../chats/ChatsListModal";
+import { useGetAllUnreadCount } from "@/app/_hooks/useQueries/chats";
 
 function Header() {
   const router = useRouter();
@@ -137,6 +138,24 @@ function Header() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [data]);
+
+  // 안읽은 메시지 총 개수 가져오기
+  const { allUnreadCount, isAllUnreadCountLoading, isAllUnreadCountError } =
+    useGetAllUnreadCount(user_uid);
+
+  if (isAllUnreadCountLoading) {
+    return (
+      <div className="w-[200px] h-auto mx-auto">
+        <Image className="" src={SoomLoaing} alt="SoomLoading" />
+      </div>
+    );
+  }
+
+  if (isAllUnreadCountError) {
+    return <div>Error</div>;
+  }
+
+  console.log("allUnreadCount", allUnreadCount);
 
   return (
     <>
@@ -266,7 +285,15 @@ function Header() {
                   } `}
                 >
                   {/* 채팅방 badge */}
-                  <Badge content="99+" shape="circle" color="default">
+                  <Badge
+                    content={
+                      allUnreadCount && allUnreadCount > 0
+                        ? allUnreadCount
+                        : null
+                    }
+                    shape="circle"
+                    color="default"
+                  >
                     <Button
                       radius="full"
                       isIconOnly
@@ -279,18 +306,19 @@ function Header() {
                       <IoChatbubbleEllipsesOutline className="text-2xl" />
                     </Button>
                   </Badge>
-                  {/* push알림 badge */}
-                  <Badge content="99+" shape="circle" color="default">
-                    <Button
-                      radius="full"
-                      isIconOnly
-                      aria-label="more than 99 notifications"
-                      variant="light"
-                    >
-                      <NotificationIcon size={24} height={24} width={24} />
-                    </Button>
-                  </Badge>
                 </div>
+                {/* 임시 - UT 후 추가 예정 */}
+                {/* push알림 badge */}
+                {/* <Badge content="0" shape="circle" color="default">
+                  <Button
+                    radius="full"
+                    isIconOnly
+                    aria-label="more than 99 notifications"
+                    variant="light"
+                  >
+                    <NotificationIcon size={24} height={24} width={24} />
+                  </Button>
+                </Badge> */}
                 <Dropdown
                   placement="bottom-end"
                   isOpen={isProfileHover}

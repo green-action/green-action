@@ -120,3 +120,78 @@ export const getPrivateChatsList = async ({
   // 배열로 묶기
   return filteredCombinedData;
 };
+
+// 안읽은 메시지 수 가져오기
+export const getUnreadMessageCount = async ({
+  loggedInUserUid,
+  room_id,
+}: {
+  loggedInUserUid: string;
+  room_id: string;
+}) => {
+  const { data, error } = await supabase
+    .from("chat_messages")
+    .select("id")
+    .neq("sender_uid", loggedInUserUid)
+    .eq("is_read", false)
+    .eq("room_id", room_id);
+
+  if (error) {
+    console.log("error", error.message);
+    throw error;
+  }
+
+  return data.length;
+};
+
+// 안읽은 메시지 읽음 처리
+export const updateUnreadMessageCount = async ({
+  loggedInUserUid,
+  roomId,
+}: {
+  loggedInUserUid: string;
+  roomId: string;
+}) => {
+  const { data, error } = await supabase
+    .from("chat_messages")
+    .update({ is_read: true })
+    .neq("sender_uid", loggedInUserUid)
+    .eq("room_id", roomId);
+
+  if (error) {
+    console.log("error", error.message);
+    throw error;
+  }
+  return data;
+};
+
+// 안읽은 메시지 총 개수 가져오기
+export const getAllUnreadCount = async (loggedInUserUid: string) => {
+  const { data: myRooms, error: myRoomsError } = await supabase
+    .from("chat_participants")
+    .select("room_id")
+    .eq("participant_uid", loggedInUserUid);
+
+  if (myRoomsError) {
+    console.log("myRoomsError", myRoomsError.message);
+    throw myRoomsError;
+  }
+
+  const roomIds = myRooms.map((item) => {
+    return item.room_id;
+  });
+
+  const { data, error } = await supabase
+    .from("chat_messages")
+    .select("id")
+    .in("room_id", roomIds)
+    .eq("is_read", false)
+    .neq("sender_uid", loggedInUserUid);
+
+  if (error) {
+    console.log("error", error.message);
+    throw error;
+  }
+
+  return data.length;
+};
