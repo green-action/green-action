@@ -24,13 +24,7 @@ import {
   Avatar,
   BreadcrumbItem,
   Breadcrumbs,
-  Button,
   CircularProgress,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
 } from "@nextui-org/react";
 
 import ChatButtons from "@/app/_components/individualAction/ChatButtons";
@@ -67,12 +61,6 @@ const DetailPage = () => {
       <Image src={prevBtn} alt="왼쪽 버튼" className="size-[27px] mr-[12px]" />
     ),
   };
-
-  // // 참여하기 모달창
-  // const { isOpen, onOpen, onClose } = useDisclosure();
-  // const handleOpen = () => {
-  //   onOpen();
-  // };
 
   const { id: postId } = useParams<Params>();
   const params = { id: postId };
@@ -262,7 +250,7 @@ const DetailPage = () => {
                     {detail?.location_coordinates && (
                       <div className="w-[387px] h-[239px]">
                         <KakakoMap
-                          placeCoordinate={detail.location_coordinates}
+                          placeCoordinate={detail.location_coordinates as any}
                         />
                       </div>
                     )}
@@ -363,33 +351,6 @@ const DetailPage = () => {
                   action_id={params.id}
                   detail={detail}
                 />
-                {/* <Modal
-                  backdrop={"opaque"}
-                  isOpen={isOpen}
-                  onClose={onClose}
-                  placement="center"
-                >
-                  <ModalContent>
-                    {(onClose) => (
-                      <>
-                        <ModalHeader className="flex flex-col gap-1">
-                          Green-action 참여 오픈채팅방
-                        </ModalHeader>
-                        <ModalBody>
-                          <a href={detail.kakao_link!}>{detail.kakao_link}</a>
-                        </ModalBody>
-                        <ModalFooter>
-                          <Button
-                            className="bg-[#929292] opacity-50 text-white"
-                            onPress={onClose}
-                          >
-                            닫기
-                          </Button>
-                        </ModalFooter>
-                      </>
-                    )}
-                  </ModalContent>
-                </Modal> */}
                 <div className="flex justify-center mt-[67px]">
                   <KakaoShareButton description={detail.content!} />
                 </div>
@@ -487,7 +448,7 @@ const DetailPage = () => {
                     {detail?.location_coordinates && (
                       <div className="w-[230px] h-[160px] mt-[30px]">
                         <KakakoMap
-                          placeCoordinate={detail.location_coordinates}
+                          placeCoordinate={detail.location_coordinates as any}
                         />
                       </div>
                     )}
@@ -629,7 +590,9 @@ const DetailPage = () => {
                         {detail?.location_coordinates && (
                           <div className="w-[200px] h-[150px] mt-[20px] ">
                             <KakakoMap
-                              placeCoordinate={detail.location_coordinates}
+                              placeCoordinate={
+                                detail.location_coordinates as any
+                              }
                             />
                           </div>
                         )}
@@ -703,34 +666,11 @@ const DetailPage = () => {
                   </div>
                 </div>
               </div>
-              <ChatButtons loggedInUserUid={user_uid} action_id={params.id} />
-              <Modal
-                backdrop={"opaque"}
-                isOpen={isOpen}
-                onClose={onClose}
-                placement="center"
-              >
-                <ModalContent>
-                  {(onClose) => (
-                    <>
-                      <ModalHeader className="flex flex-col gap-1">
-                        Green-action 참여 오픈채팅방
-                      </ModalHeader>
-                      <ModalBody>
-                        <a href={detail.kakao_link!}>{detail.kakao_link}</a>
-                      </ModalBody>
-                      <ModalFooter>
-                        <Button
-                          className="bg-[#929292] opacity-50 text-white"
-                          onPress={onClose}
-                        >
-                          닫기
-                        </Button>
-                      </ModalFooter>
-                    </>
-                  )}
-                </ModalContent>
-              </Modal>
+              <ChatButtons
+                loggedInUserUid={user_uid}
+                action_id={params.id}
+                detail={detail}
+              />
               <div className="flex justify-center mt-[64px]">
                 <KakaoShareButton description={detail.content!} />
               </div>
