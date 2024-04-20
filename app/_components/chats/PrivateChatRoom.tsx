@@ -151,7 +151,7 @@ const PrivateChatRoom = ({
         <ModalContent className="max-w-[27%] h-[87%] overflow-y-auto scrollbar-hide rounded-[55px]">
           {(onClose) => (
             <>
-              <ModalHeader className="flex items-center gap-5 w-full shadow-md h-28 z-10 px-8">
+              <ModalHeader className="fixed bg-white flex items-center gap-5 w-[27%] shadow-md h-28 z-10 px-8 rounded-tl-[55px] rounded-tr-[55px]">
                 {/* 임시 - 버튼 클릭시 action 정보 띄울 예정 */}
                 <Tooltip
                   showArrow={true}
@@ -208,9 +208,8 @@ const PrivateChatRoom = ({
                   </div>
                 </div>
               </ModalBody>
-
-              <ModalFooter className="bg-[#F3F4F3] flex justify-center">
-                <div className="relative w-[90%] mb-8">
+              <ModalFooter className="bg-[#F3F4F3] flex justify-center sticky">
+                <div className="relative w-[90%] mb-5">
                   <input
                     className="w-full h-16 rounded-[50px] pl-8"
                     type="text"
