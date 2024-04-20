@@ -183,25 +183,32 @@ const PrivateChatRoom = ({
                 </div>
               </ModalHeader>
               <ModalBody className="bg-[#F3F4F3]">
-                <div className="flex justify-center w-[100px]">
-                  <div className="flex flex-col">
-                    <div className="mb-10 font-bold text-3xl">채팅</div>
+                <div className="flex justify-center">
+                  <div className={`flex flex-col w-[100%]`}>
                     {messagesList?.map((message) => (
-                      <div className="m-3" key={message.id}>
+                      <div
+                        className={`m-3 ${
+                          message.sender_uid === loggedInUserUid
+                            ? "self-end"
+                            : "self-start"
+                        }`}
+                        key={message.id}
+                      >
                         <div
                           className={`${
-                            message.sender_uid === loggedInUserUid &&
-                            "bg-gray-300"
-                          }`}
+                            message.sender_uid === loggedInUserUid
+                              ? "bg-blue-500 text-white rounded-tl-xl rounded-br-xl"
+                              : "bg-gray-300 text-black rounded-tr-xl rounded-bl-xl"
+                          } p-2`}
                         >
-                          {message.users?.display_name}
+                          {message.content}
                         </div>
-                        <div>{message.content}</div>
                       </div>
                     ))}
                   </div>
                 </div>
               </ModalBody>
+
               <ModalFooter className="bg-[#F3F4F3] flex justify-center">
                 <div className="relative w-[90%] mb-8">
                   <input
