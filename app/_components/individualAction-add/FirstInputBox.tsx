@@ -205,9 +205,13 @@ const FirstInputBox = ({
                   />
                 </div>
               </div>
+              {/* 지도 검색으로 장소선택 시 뜨게 할 지도(미리보기) */}
               {locationCoorRef.current && (
                 <div className="w-[310px] h-[220px] mt-[41px]">
-                  <KakakoMap placeCoordinate={locationCoorRef.current} />
+                  <KakakoMap
+                    placeCoordinate={locationCoorRef.current}
+                    activityLocationMap={activityLocationMap}
+                  />
                 </div>
               )}
             </div>

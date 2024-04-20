@@ -19,12 +19,9 @@ import RecruitSelectTab from "../_components/mypage/RecruitSelectTab";
 import MyActionCard from "../_components/mypage/MyActionCard";
 import CommunityListPost from "../_components/community/CommunityListPost";
 
-import { Button, Tab, Tabs } from "@nextui-org/react";
-
 import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
 import TopButton from "../_components/TopButton";
 
-// 로그인 안 한 상태에서 접근 차단할 것 -
 const MyPage = () => {
   // TODO props 타입등 재설정
   // FIXME 유저닉네임 수정 다시 봐야
@@ -215,7 +212,7 @@ const MyPage = () => {
                   className={`cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt]
                      ${
                        activeTab === "나의 Green-Action" &&
-                       "border-b-2 border-[#979797]"
+                       "border-b-2 border-[#979797] transition duration-300 ease-in-out"
                      }`}
                 >
                   나의 Green-Action
@@ -225,7 +222,7 @@ const MyPage = () => {
                   className={`cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt]
                      ${
                        activeTab === "즐겨찾는 Green-Action" &&
-                       "border-b-2 border-[#979797]"
+                       "border-b-2 border-[#979797] transition duration-300 ease-in-out"
                      }`}
                 >
                   즐겨찾는 Green-Action
@@ -235,7 +232,7 @@ const MyPage = () => {
                   className={`cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt]
                     ${
                       activeTab === "나의 Community" &&
-                      "border-b-2 border-[#979797]"
+                      "border-b-2 border-[#979797] transition duration-300 ease-in-out"
                     }`}
                 >
                   나의 Community
