@@ -3,28 +3,26 @@ import SearchAddressModal from "../daumPostCode/SearchAddressModal";
 import KakakoMap from "../kakaoMap/KakakoMap";
 
 import type { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
+import SearchMapModal from "../kakaoMap/SearchMapModal";
 
 const FirstInputBox = ({
   activityLocation,
   setActivityLocation,
   handleActivityLocationChange,
   locationCoorRef,
+  activityLocationMap,
+  setActivityLocationMap,
 }: {
   activityLocation: string;
   setActivityLocation: React.Dispatch<React.SetStateAction<string>>;
   handleActivityLocationChange: any;
   locationCoorRef: React.MutableRefObject<placeCoordinateType | null>;
+  activityLocationMap: string;
+  setActivityLocationMap: React.Dispatch<React.SetStateAction<string>>;
 }) => {
-  console.log("🐰 ~ locationCoorRef : ", locationCoorRef);
-  let currentLocationCoor = null;
-
-  useEffect(() => {
-    locationCoorRef.current;
-  }, [locationCoorRef]);
-
   return (
     <>
-      <div className="flex justify-between gap-[88px] w-[724px] h-[209px] border-1.5 border-gray-300 rounded-3xl pt-[21px] px-[28px] pb-[28px] mb-4 ">
+      <div className="flex justify-between gap-[88px] w-[724px] h-[396px] border-1.5 border-gray-300 rounded-3xl pt-[21px] px-[28px] pb-[28px] mb-4 ">
         <div className="flex flex-col justify-center w-1/2 gap-6 ">
           <div className="">
             <p className="text-[13px] font-extrabold mb-1">활동 날짜</p>
@@ -79,9 +77,54 @@ const FirstInputBox = ({
               명
             </div>
           </div>
+          {/* 활동 장소 */}
+          <div>
+            <div className="mb-7">
+              <div>
+                <div className="flex items-center gap-5">
+                  <label
+                    htmlFor="activityLocation"
+                    className="text-[13px] font-extrabold"
+                  >
+                    활동 장소
+                  </label>
+                  {/* 도로명주소 검색 - 보류 */}
+                  <SearchAddressModal
+                    activityLocation={activityLocation}
+                    setActivityLocation={setActivityLocation}
+                  />
+                </div>
+                <div className="w-[294px] h-[33px] mt-2 border-1.5 border-gray-300 rounded-full text-sm text-gray-400 pl-4">
+                  <input
+                    type="text"
+                    id="activityLocation"
+                    name="activityLocation"
+                    value={activityLocation}
+                    onChange={handleActivityLocationChange}
+                    form="mainForm"
+                    required
+                    className="w-10/12 h-[30px] mx-4 pr-2 bg-inherit focus:outline-none"
+                  />
+                </div>
+              </div>
+            </div>
+            <SearchMapModal
+              setActivityLocationMap={setActivityLocationMap}
+              locationCoorRef={locationCoorRef}
+            />
+            <input
+              id="activityLocationMap"
+              name="activityLocationMap"
+              value={activityLocationMap}
+              type="text"
+              form="mainForm"
+              placeholder="지도에서 검색해주세요"
+              className="h-[40px] p-4 border-1.5 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
+            />
+          </div>
         </div>
-        <div className="flex flex-col justify-center w-1/2  gap-2 ">
-          <div className="mb-7">
+        <div className="flex flex-col w-1/2  gap-2 mt-[8px]">
+          {/* <div className="mb-7">
             <div>
               <div className="flex items-center gap-5">
                 <label
@@ -90,7 +133,7 @@ const FirstInputBox = ({
                 >
                   활동 장소
                 </label>
-                {/* 도로명주소 검색 - 보류 */}
+                {/* 도로명주소 검색 - 보류 * /}
                 <SearchAddressModal
                   activityLocation={activityLocation}
                   setActivityLocation={setActivityLocation}
@@ -109,7 +152,7 @@ const FirstInputBox = ({
                 />
               </div>
             </div>
-          </div>
+          </div> */}
           <div>
             <label
               htmlFor="openKakaoLink"
@@ -129,7 +172,7 @@ const FirstInputBox = ({
             </div>
           </div>
           {locationCoorRef.current && (
-            <div>
+            <div className="w-[300px] h-[200px]">
               <KakakoMap placeCoordinate={locationCoorRef.current} />
             </div>
           )}

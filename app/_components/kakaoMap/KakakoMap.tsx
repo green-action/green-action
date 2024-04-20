@@ -106,7 +106,8 @@ const KakakoMap = ({
   }, [placeCoordinate]); // 원래는 placeCoordinate 의존성배열에 안넣어도 잘 뜨긴 함
 
   return (
-    <div id="map" ref={mapContainer} className="w-[387px] h-[239px]"></div>
+    <div id="map" ref={mapContainer} className="w-full h-full"></div>
+    // w-[387px] h-[239px]
   );
 };
 

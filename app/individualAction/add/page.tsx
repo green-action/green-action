@@ -141,10 +141,12 @@ const AddActionPage = () => {
             setActivityLocation={setActivityLocation}
             handleActivityLocationChange={handleActivityLocationChange}
             locationCoorRef={locationCoorRef}
+            activityLocationMap={activityLocationMap}
+            setActivityLocationMap={setActivityLocationMap}
           />
           {/* 이미지아래 두번째 박스(활동 제목) */}
           {/* 지도에서 검색 - 추후 '활동장소'와 함께 UI 따로 뺄 예정  */}
-          <div className="flex gap-5  w-[724px] h-[100px] border-1.5 border-gray-300 rounded-3xl pt-[21px] px-[28px] pb-[28px] mb-4 ">
+          {/* <div className="flex gap-5  w-[724px] h-[100px] border-1.5 border-gray-300 rounded-3xl pt-[21px] px-[28px] pb-[28px] mb-4 ">
             <SearchMapModal
               setActivityLocationMap={setActivityLocationMap}
               locationCoorRef={locationCoorRef}
@@ -158,7 +160,7 @@ const AddActionPage = () => {
               placeholder="지도에서 검색해주세요"
               className="h-[40px] p-4 border-1.5 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
             />
-          </div>
+          </div> */}
           <SecondInputBox />
           {/* 이미지 아래 세번째 박스(활동 소개) */}
           <ThirdInputBox />
