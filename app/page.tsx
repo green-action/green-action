@@ -13,6 +13,7 @@ import downArrow from "/app/_assets/image/logo_icon/icon/mainpage/Group_124.png"
 import rightArrow from "/app/_assets/image/mainpage/Group 172.png";
 import mainImg from "/app/_assets/image/mainpage/main.png";
 import setboxImg from "@/app/_assets/image/goods/setbox.png";
+import arrowImg from "../app/_assets/image/individualAction/Group143.svg";
 
 import { useEffect, useRef, useState } from "react";
 import MobileSlider from "./_components/main/MobileSlider";
@@ -109,93 +110,161 @@ const MainPage = () => {
         )}
 
         {/* 배경 이미지 div 끝 */}
-        <section className="z-0 flex flex-col items-center justify-center desktop:pt-[200px] laptop:pt-[0px] desktop:h-[1438px] laptop:h-[1338px] desktop:pb-[200px] laptop:pb-[0px] bg-[#F3F3F3] brightness-10 ">
+        <section className="z-0 flex flex-col items-center justify-center desktop:pt-[200px] laptop:pt-[0px] desktop:h-[1438px] laptop:h-[1338px] phone:h-[935px] desktop:pb-[200px] laptop:pb-[0px] bg-[#F3F3F3] brightness-10 ">
           {isMobile && (
-            <section className=" flex flex-col items-center justify-center  bg-[#F7F7F7] ">
-              <p className="text-[12px] font-bold text-center font-['Inter'] mr-auto">
-                실시간 인기글
-              </p>
-              <div className="w-[100px]">
-                {isMobile && <MobileSlider mode="community" />}
+            <section className="flex flex-col items-center justify-center">
+              <div className="mr-auto">
+                <p className="text-[15px] font-bold text-center font-['Inter'] mr-auto">
+                  실시간 인기글
+                </p>
+                <p className=" font-bold text-[15px] text-[#686868] mt-2">
+                  Community
+                </p>
+              </div>
+              <Link
+                href={`/community`}
+                className="flex ml-auto text-[#979797] text-[11px] gap-1"
+              >
+                전체 보기
+                <Image src={arrowImg} alt="화살표" />
+              </Link>
+              {isMobile && <MobileSlider mode="community" />}
+            </section>
+          )}
+          {(isDesktop || isLaptop) && (
+            <>
+              <Chip
+                classNames={{
+                  base: "desktop:h-[50px] laptop:h-[47px] desktop:px-5 laptop:px-3 desktop:py-8 bg-transparent border-small border-[#ADADAD]",
+                  content:
+                    "desktop:w-[209px] desktop:text-[14pt] laptop:text-[13pt] text-center text-[#5A5A5A] font-['Inter'] drop-shadow flex justify-center",
+                }}
+              >
+                Green-Action Hot Posts
+              </Chip>
+              <div className="desktop:mx-[205px] desktop:mt-[115px] laptop:mt-[115px] phone:mt-[90px]">
+                {isLaptop && <LaptopMainSlidder mode="action" />}
+                {isDesktop && <MainSlider mode="action" />}
               </div>
               <Chip
                 classNames={{
-                  // 전체보기 칩 세로길이, 폰트크기 자체 수정
                   base: "desktop:h-[50px] laptop:h-[41px] bg-[#F7F7F7]/60 border-small border-[#A8A8A8] desktop:mt-[97px] laptop:mt-[90px]",
                   content:
-                    "w-[316px] h-[170px] desktop:text-[13pt] laptop:text-[11pt] text-center text-[#646464] font-semibold drop-shadow",
+                    "desktop:w-[110px] laptop:w-[95px] desktop:text-[13pt] laptop:text-[11pt] text-center text-[#646464] font-semibold drop-shadow",
                 }}
               >
-                <Link href={`/community`}>전체 보기</Link>
+                <Link href={`/individualAction`}>전체 보기</Link>
               </Chip>
+            </>
+          )}
+          {isMobile && (
+            <section className="flex flex-col items-center justify-center">
+              <div className="mr-auto mt-24">
+                <p className=" font-bold text-[15px] text-[#686868] mt-2">
+                  Greenaction
+                </p>
+              </div>
+              <Link
+                href={`/individualAction`}
+                className="flex ml-auto text-[#979797] text-[11px] gap-1"
+              >
+                전체 보기
+                <Image src={arrowImg} alt="화살표" />
+              </Link>
+
+              <div className="h-[200px]">
+                {isMobile && <MobileSlider mode="action" />}
+              </div>
             </section>
           )}
+        </section>
 
-          <Chip
-            classNames={{
-              base: "desktop:h-[50px] laptop:h-[47px] desktop:px-5 laptop:px-3 desktop:py-8 bg-transparent border-small border-[#ADADAD]",
-              content:
-                "desktop:w-[209px] desktop:text-[14pt] laptop:text-[13pt] text-center text-[#5A5A5A] font-['Inter'] drop-shadow flex justify-center",
-            }}
-          >
-            Green-Action Hot Posts
-          </Chip>
-          <div className="desktop:mx-[205px] desktop:mt-[115px] laptop:mt-[115px] phone:mt-[90px]">
-            {isLaptop && <LaptopMainSlidder mode="action" />}
-            {isDesktop && <MainSlider mode="action" />}
-          </div>
-          <Chip
-            classNames={{
-              base: "desktop:h-[50px] laptop:h-[41px] bg-[#F7F7F7]/60 border-small border-[#A8A8A8] desktop:mt-[97px] laptop:mt-[90px]",
-              content:
-                "desktop:w-[110px] laptop:w-[95px] desktop:text-[13pt] laptop:text-[11pt] text-center text-[#646464] font-semibold drop-shadow",
-            }}
-          >
-            <Link href={`/individualAction`}>전체 보기</Link>
-          </Chip>
-        </section>
-        <section className="flex justify-between w-full h-[760px] bg-blend-darken bg-black bg-opacity-[57%]">
-          {/*  className="desktop:h-[760px] laptop:h-[600px] desktop:pt-[250px] laptop:pt-[210px] bg-blend-darken bg-black bg-opacity-50" */}
-          {/*  pt-[311px] 인데 자체수정 */}
-          <div className="bg-[#d6d6d6] w-[50%] brightness-[57.5%]" />
-          <div className="bg-[#d6d6d6] w-[50%] brightness-[57.5%]" />
-          <div
-            style={{ transform: `translateY(-${position / 100}vh` }}
-            className="absolute z-10 flex flex-col justify-center items-center w-full h-[500px] mt-[580px]"
-          >
-            <div className="flex flex-col items-center font-['Italiana'] desktop:text-[48pt] laptop:text-[35pt] text-white">
-              <p>Experience the earth breathing together </p>
-              <p> in your daily life</p>
-            </div>
-            <Chip
-              classNames={{
-                base: "desktop:h-[58px] laptop:h-[40px] bg-transparent border-small border-white desktop:mt-[97px] laptop:mt-[60px]",
-                content:
-                  "flex justify-center desktop:w-[223px] laptop:w-[150px] font-semibold",
-              }}
+        {/*  className="desktop:h-[760px] laptop:h-[600px] desktop:pt-[250px] laptop:pt-[210px] bg-blend-darken bg-black bg-opacity-50" */}
+        {/*  pt-[311px] 인데 자체수정 */}
+
+        {(isDesktop || isLaptop) && (
+          <section className="flex justify-between w-full h-[760px] bg-blend-darken bg-black bg-opacity-[57%]">
+            <div className="bg-[#d6d6d6] w-[50%] brightness-[57.5%]" />
+            <div className="bg-[#d6d6d6] w-[50%] brightness-[57.5%]" />
+            <div
+              style={{ transform: `translateY(-${position / 100}vh` }}
+              className="absolute z-10 flex flex-col justify-center items-center w-full h-[500px] mt-[580px]"
             >
-              {/* setboxImg */}
-              <Link
-                href={`/about`}
-                className="flex gap-4 items-center text-white font-['Inter'] font-light desktop:text-[20pt] laptop:text-[12pt]"
+              <div className="flex flex-col items-center font-['Italiana'] desktop:text-[48pt] laptop:text-[35pt] text-white">
+                <p>Experience the earth breathing together </p>
+                <p> in your daily life</p>
+              </div>
+              <Chip
+                classNames={{
+                  base: "desktop:h-[58px] laptop:h-[40px] bg-transparent border-small border-white desktop:mt-[97px] laptop:mt-[60px]",
+                  content:
+                    "flex justify-center desktop:w-[223px] laptop:w-[150px] font-semibold",
+                }}
               >
-                <p>VIEW MORE</p>
-                <Image
-                  src={rightArrow}
-                  alt="right-arrow"
-                  className="w-[20px] h-[16px]"
-                />
-              </Link>
-            </Chip>
-          </div>
-          <div className="">
-            <Image
-              src={setboxImg}
-              alt="굿즈제품전체사진"
-              className="-z-30 w-[1325px] h-[760px] object-cover brightness-[57%]"
-            />
-          </div>
-        </section>
+                {/* setboxImg */}
+                <Link
+                  href={`/about`}
+                  className="flex gap-4 items-center text-white font-['Inter'] font-light desktop:text-[20pt] laptop:text-[12pt]"
+                >
+                  <p>VIEW MORE</p>
+                  <Image
+                    src={rightArrow}
+                    alt="right-arrow"
+                    className="w-[20px] h-[16px]"
+                  />
+                </Link>
+              </Chip>
+            </div>
+            <div className="">
+              <Image
+                src={setboxImg}
+                alt="굿즈제품전체사진"
+                className="-z-30 w-[1325px] h-[760px] object-cover brightness-[57%]"
+              />
+            </div>
+          </section>
+        )}
+
+        {isMobile && (
+          <section className="flex justify-between w-full h-[310px] bg-blend-darken bg-black bg-opacity-[57%]">
+            <div
+              style={{ transform: `translateY(-${position / 100}vh` }}
+              className="absolute z-10 flex flex-col justify-center items-center w-full h-[310px] mt-[210px]"
+            >
+              <div className="flex flex-col items-center font-['Italiana'] text-[24px] text-white">
+                <p>Experience the earth breathing </p>
+                <p> together in your daily life</p>
+              </div>
+              <Chip
+                classNames={{
+                  base: "desktop:h-[58px] laptop:h-[40px] bg-transparent border-small border-white mt-[60px]",
+                  content:
+                    "flex justify-center desktop:w-[223px] laptop:w-[150px] font-semibold",
+                }}
+              >
+                {/* setboxImg */}
+                <Link
+                  href={`/about`}
+                  className="flex gap-4 items-center text-white font-['Inter'] font-light desktop:text-[20pt] laptop:text-[12pt]"
+                >
+                  <p>VIEW MORE</p>
+                  <Image
+                    src={rightArrow}
+                    alt="right-arrow"
+                    className="w-[20px] h-[16px]"
+                  />
+                </Link>
+              </Chip>
+            </div>
+            <div className="">
+              <Image
+                src={setboxImg}
+                alt="굿즈제품전체사진"
+                className="-z-30 w-[1325px] h-[510px] object-cover brightness-[57%]"
+              />
+            </div>
+          </section>
+        )}
       </div>
     </div>
   );

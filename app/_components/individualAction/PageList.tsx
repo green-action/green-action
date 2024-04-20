@@ -165,7 +165,7 @@ const PageList: React.FC<ChildProps> = ({
                 </div>
               )}
 
-              {isDesktop && (
+              {(isDesktop || isLaptop) && (
                 <div className="flex items-center gap-2  mt-2 ml-6 laptop:ml-3">
                   <Image
                     src={location}
@@ -177,18 +177,7 @@ const PageList: React.FC<ChildProps> = ({
                   </small>
                 </div>
               )}
-              {isLaptop && (
-                <div className="flex items-center gap-2  mt-2 ml-6 laptop:ml-3">
-                  <Image
-                    src={location}
-                    alt="장소"
-                    className="w-[16px] h-[16px]"
-                  />
-                  <small className="text-default-[#1E1E1E] ">
-                    {post.location}
-                  </small>
-                </div>
-              )}
+
               <div className="flex justify-end absolute  desktop:top-5  desktop:right-5 laptop:top-5 gap-3 laptop:right-5 laptop:gap-2">
                 <div className="flex items-center">
                   <Image
