@@ -19,6 +19,7 @@ import {
   Button,
 } from "@nextui-org/react";
 import {
+  useGetActionInfo,
   useGetMessagesList,
   useUpdateUnread,
 } from "@/app/_hooks/useQueries/chats";
@@ -116,16 +117,28 @@ const PrivateChatRoom = ({
   });
   // TODO 스크롤이 위에 있을때 new message 개수 표시하는건 어떻게 처리해야할까?
 
-  if (isLoading || isUpdateUnreadLoading) {
+  // 채팅방의 action id, title, url
+  const { actionInfo, isActionInfoLoading, isActionInfoError } =
+    useGetActionInfo(roomId);
+
+  if (isLoading || isUpdateUnreadLoading || isActionInfoLoading) {
     return (
       <div className="w-[200px] h-auto mx-auto">
         <Image className="" src={SoomLoaing} alt="SoomLoading" />
       </div>
     );
   }
-  if (isError || isUpdateUnreadError || messagesList === undefined) {
+
+  if (
+    isError ||
+    isUpdateUnreadError ||
+    isActionInfoError ||
+    messagesList === undefined
+  ) {
     return <div>Error</div>;
   }
+
+  console.log("actionInfo", actionInfo);
 
   // 메시지 보내기 핸들러
   const handleSendMessage = async () => {

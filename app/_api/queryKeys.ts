@@ -43,3 +43,4 @@ export const QUERY_KEY_MESSAGES_PARTICIPANT_INFO_HEADER = `messages_participant_
 export const QUERY_KEY_MESSAGES_PARTICIPANT_INFO_PAGE = `messages_participant_info_page`;
 export const QUERY_KEY_UNREAD_MESSAGES_COUNT = `unread_messages_count`;
 export const QUERY_KEY_UPDATE_UNREAD = `update_unread_messages`;
+export const QUERY_KEY_CHAT_ACTION_INFO = `chat_action_info`;

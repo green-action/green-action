@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getMessages } from "@/app/_api/messages/privateChat-api";
 import {
   QUERY_KEY_ACTION_IDS_TITLES_URLS,
+  QUERY_KEY_CHAT_ACTION_INFO,
   QUERY_KEY_MESSAGES_LIST,
   QUERY_KEY_MESSAGES_PARTICIPANT_INFO_HEADER,
   QUERY_KEY_MESSAGES_PARTICIPANT_INFO_PAGE,
@@ -22,7 +23,10 @@ import type {
   PrivateChatsListItem,
   PrivateRoomsInfoType,
 } from "@/app/_types/realtime-chats";
-import { getPrivateRoomIds } from "@/app/_api/messages/pagePrivateList-api";
+import {
+  getActionInfo,
+  getPrivateRoomIds,
+} from "@/app/_api/messages/pagePrivateList-api";
 
 export const useGetMessagesList = ({
   roomId,
@@ -181,4 +185,17 @@ export const useUpdateUnread = ({
   });
 
   return { data, isUpdateUnreadLoading, isUpdateUnreadError };
+};
+
+export const useGetActionInfo = (room_id: string) => {
+  const {
+    data: actionInfo,
+    isLoading: isActionInfoLoading,
+    isError: isActionInfoError,
+  } = useQuery({
+    queryKey: [QUERY_KEY_CHAT_ACTION_INFO],
+    queryFn: () => getActionInfo(room_id),
+  });
+
+  return { actionInfo, isActionInfoLoading, isActionInfoError };
 };

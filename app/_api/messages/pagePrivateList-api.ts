@@ -18,3 +18,36 @@ export const getPrivateRoomIds = async (action_id: string) => {
   });
   return roomIds;
 };
+
+// 채팅방의 action id, title, url 가져오기
+export const getActionInfo = async (room_id: string) => {
+  const { data: actionIdTitle, error } = await supabase
+    .from("chat_rooms_info")
+    .select("individual_green_actions(id, title)")
+    .eq("id", room_id);
+
+  if (error) {
+    console.log("error", error.message);
+    throw error;
+  }
+
+  const action_id = actionIdTitle[0].individual_green_actions?.id;
+  const action_title = actionIdTitle[0].individual_green_actions?.title;
+  if (!action_id) return;
+
+  const { data: actionUrl, error: actionUrlError } = await supabase
+    .from("individual_green_actions")
+    .select("green_action_images(img_url)")
+    .eq("id", action_id)
+    .order("created_at", { ascending: false })
+    .limit(1);
+
+  if (actionUrlError) {
+    console.log("error", actionUrlError.message);
+    throw actionUrlError;
+  }
+
+  const action_url = actionUrl[0].green_action_images[0].img_url;
+
+  return { action_id, action_title, action_url };
+};
