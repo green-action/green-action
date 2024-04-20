@@ -16,8 +16,8 @@ import {
 } from "@/app/_api/messages/groupChat-api";
 import { useDisclosure } from "@nextui-org/react";
 
-import PrivateChat from "@/app/_components/chats/PrivateChat";
-import GroupChat from "@/app/_components/chats/GroupChat";
+import PrivateChat from "@/app/_components/chats/PrivateChatRoom";
+import GroupChat from "@/app/_components/chats/GroupChatRoom";
 import ChatsListModal from "@/app/_components/chats/ChatsListModal";
 import { useResponsive } from "@/app/_hooks/responsive";
 

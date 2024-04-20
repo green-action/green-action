@@ -40,8 +40,8 @@ import editAction from "/app/_assets/image/logo_icon/icon/mypage/image 55.png";
 import delAction from "/app/_assets/image/logo_icon/icon/mypage/Group 131.png";
 import nextBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 133.png";
 import prevBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 132.png";
-import PrivateChat from "@/app/_components/chats/PrivateChat";
-import GroupChat from "@/app/_components/chats/GroupChat";
+import PrivateChat from "@/app/_components/chats/PrivateChatRoom";
+import GroupChat from "@/app/_components/chats/GroupChatRoom";
 import ChatButtons from "@/app/_components/individualAction/ChatButtons";
 import KakakoMap from "@/app/_components/kakaoMap/KakakoMap";
 
@@ -119,7 +119,6 @@ const DetailPage = () => {
       </div>
     );
   const detail = individualAction![0];
-  console.log(detail);
 
   if (isError) return <div>Error fetching details...</div>;
 

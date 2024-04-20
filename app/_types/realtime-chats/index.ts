@@ -20,3 +20,31 @@ export interface ChatProps {
   roomId: string;
   actionId: string;
 }
+
+export interface PrivateRoomsInfoType {
+  room_id: string;
+  participant_type: string;
+  chat_rooms_info: {
+    action_id: string;
+    room_type: string;
+  } | null;
+}
+
+export interface PrivateChatsListItem {
+  loggedInUserUid: string;
+  data: PrivateRoomsInfoType[] | undefined;
+}
+
+export interface PrivateChatProps {
+  privateChat: {
+    user: {
+      id: string;
+      display_name: string;
+      profile_img: string;
+    };
+    created_at?: string;
+    content?: string;
+    room_id?: string | undefined;
+    sender_uid?: string;
+  } | null;
+}
