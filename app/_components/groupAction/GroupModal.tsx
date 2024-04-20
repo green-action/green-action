@@ -10,6 +10,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import search from "/app/_assets/image/logo_icon/icon/goods/Group-128.svg";
+import { useResponsive } from "@/app/_hooks/responsive";
 
 const GroupModal = ({
   action,
@@ -23,11 +24,15 @@ const GroupModal = ({
     action_url: string;
   };
 }) => {
+  // {`${isMobile ? "mr-[10px]" : ""}`}
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isMobile } = useResponsive();
   return (
     <>
       <Button
-        className="w-[10%] bg-transparent bottom-[-15px]"
+        className={`w-[10%] bg-transparent bottom-[-15px] ${
+          isMobile ? "mr-[24px]" : ""
+        }`}
         onPress={onOpen}
       >
         <Image

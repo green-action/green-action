@@ -1,7 +1,7 @@
 const ThirdInputBox = () => {
   return (
     <>
-      <div className="flex items-start w-[724px] h-[137px] pl-8 border-1.5 border-gray-300 rounded-3xl mb-5 relative">
+      <div className="flex items-start desktop:w-[724px] laptop:w-[724px] h-[137px] phone:w-[291px] pl-8 border-1.5 border-gray-300 rounded-3xl mb-5 relative">
         <label
           htmlFor="activityDescription"
           className="text-[13px] font-semibold mr-3 mt-4 w-[73px]"

@@ -15,7 +15,7 @@ export const metadata = {
   title: "soom",
   description: "The fastest way to build apps with Next.js and Supabase",
 };
-
+// 여기서 사용자정보 불러오기
 declare global {
   interface Window {
     Kakao: any;
@@ -34,7 +34,6 @@ export default function RootLayout({
   children: React.ReactNode;
   modal: React.ReactNode;
 }) {
-  //bg-background
   return (
     <html lang="ko" className={GeistSans.className}>
       <body className="text-foreground">

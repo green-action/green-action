@@ -10,14 +10,14 @@ const QueryProvider = ({ children }: React.PropsWithChildren) => {
   const queryClient = new QueryClient();
 
   return (
-    <NextUIProvider>
-      <SessionProvider>
-        <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <NextUIProvider>
+        <SessionProvider>
           {children}
           <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </SessionProvider>
-    </NextUIProvider>
+        </SessionProvider>
+      </NextUIProvider>
+    </QueryClientProvider>
   );
 };
 
