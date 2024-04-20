@@ -27,8 +27,11 @@ import {
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 import Image from "next/image";
 import { IoIosArrowBack } from "react-icons/io";
+import { IoPaperPlane } from "react-icons/io5";
 
 import type { ChatProps } from "@/app/_types/realtime-chats";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type ChatPropsExceptActionId = Omit<ChatProps, "actionId">;
 
@@ -38,7 +41,7 @@ const PrivateChatRoom = ({
   roomId,
 }: ChatPropsExceptActionId) => {
   const [message, setMessage] = useState("");
-
+  const router = useRouter();
   const queryClient = useQueryClient();
 
   // 현재 로그인한 유저 uid
@@ -131,6 +134,12 @@ const PrivateChatRoom = ({
     });
   };
 
+  // const handleActionDetailPage = () => {
+  //   router.push(`/detail/${actionInfo?.action_id}`).then(() => {
+  //     window.location.reload();
+  //   });
+  // };
+
   return (
     <>
       <Modal
@@ -143,6 +152,7 @@ const PrivateChatRoom = ({
           {(onClose) => (
             <>
               <ModalHeader className="flex items-center gap-5 w-full shadow-md h-28 z-10 px-8">
+                {/* 임시 - 버튼 클릭시 action 정보 띄울 예정 */}
                 <Tooltip
                   showArrow={true}
                   key="bottom"
@@ -150,8 +160,11 @@ const PrivateChatRoom = ({
                   content="green-action 상세페이지로 이동"
                   color="foreground"
                 >
-                  <button className="bg-transparent w-8">
-                    <IoIosArrowBack size={30} className="cursor-pointer" />
+                  <button
+                    className="bg-transparent w-8"
+                    // onClick={handleActionDetailPage}
+                  >
+                    {/* <IoIosArrowBack size={30} className="cursor-pointer" /> */}
                   </button>
                 </Tooltip>
                 <Avatar
@@ -170,8 +183,7 @@ const PrivateChatRoom = ({
                 </div>
               </ModalHeader>
               <ModalBody className="bg-[#F3F4F3]">
-                {/* <ModalBody> */}
-                <div className="flex justify-center ">
+                <div className="flex justify-center w-[100px]">
                   <div className="flex flex-col">
                     <div className="mb-10 font-bold text-3xl">채팅</div>
                     {messagesList?.map((message) => (
@@ -187,31 +199,31 @@ const PrivateChatRoom = ({
                         <div>{message.content}</div>
                       </div>
                     ))}
-                    <div>
-                      <input
-                        className="w-80 mb-5 mt-10"
-                        type="text"
-                        placeholder="send message..."
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" && !e.nativeEvent.isComposing) {
-                            e.preventDefault();
-                            handleSendMessage();
-                          }
-                        }}
-                      />
-                    </div>
                   </div>
                 </div>
               </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button color="primary" onPress={onClose}>
-                  Action
-                </Button>
+              <ModalFooter className="bg-[#F3F4F3] flex justify-center">
+                <input
+                  className="w-[90%] h-16 mb-8 rounded-[50px] pl-6 relative"
+                  type="text"
+                  placeholder="send message..."
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.nativeEvent.isComposing) {
+                      e.preventDefault();
+                      handleSendMessage();
+                    }
+                  }}
+                />
+                <div
+                  className="absolute right-0 cursor-pointer"
+                  onClick={() => {
+                    handleSendMessage();
+                  }}
+                >
+                  <IoPaperPlane />
+                </div>
               </ModalFooter>
             </>
           )}
