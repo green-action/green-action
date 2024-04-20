@@ -1,11 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-
 import {
   checkPrivateChatRoomExist,
   getActionOwnerUid,
   insertNewPrivateChatRoom,
 } from "@/app/_api/messages/privateChat-api";
-
 import {
   changeRecruitingState,
   checkUserExist,
@@ -15,18 +13,28 @@ import {
   insertNewParticipant,
 } from "@/app/_api/messages/groupChat-api";
 import { useDisclosure } from "@nextui-org/react";
-
 import PrivateChat from "@/app/_components/chats/PrivateChatRoom";
 import GroupChat from "@/app/_components/chats/GroupChatRoom";
 import ChatsListModal from "@/app/_components/chats/ChatsListModal";
 import { useResponsive } from "@/app/_hooks/responsive";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+} from "@nextui-org/react";
 
+// NOTE props에 any 있음 - 카톡링크 모달창 없애면 사라질 이슈임
 const ChatButtons = ({
   loggedInUserUid,
   action_id,
+  detail,
 }: {
   loggedInUserUid: string;
   action_id: string;
+  detail: any;
 }) => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
   const [actionOwnerUid, setActionOwnerUid] = useState("");
@@ -37,6 +45,12 @@ const ChatButtons = ({
     onOpen: onChatsListModalOpen,
     onClose: onChatsListModalClose,
   } = useDisclosure();
+
+  // 참여하기 모달창
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const handleKakaoLinkOpen = () => {
+    onOpen();
+  };
 
   // 1:1 채팅방 모달창
   const {
@@ -212,7 +226,8 @@ const ChatButtons = ({
           ? "1:1 문의방 목록보기"
           : "1:1 문의하기"}
       </div>
-      <div
+      {/* NOTE 그룹채팅방 완성되면 복구 예정 */}
+      {/* <div
         className={`${
           isDesktop
             ? "border-1 border-[#bfbfbf] bg-[#fafafa] h-[74.7px] rounded-[20px] text-center content-center font-semibold cursor-pointer"
@@ -225,7 +240,24 @@ const ChatButtons = ({
         onClick={handleOpenGroupChatRoom}
       >
         {actionOwnerUid === loggedInUserUid ? "그룹채팅방 보기" : "참여하기"}
-      </div>
+      </div> */}
+      {/* NOTE 임시 - 카톡링크 보여주기 모달창 */}
+      {actionOwnerUid !== loggedInUserUid && (
+        <div
+          className={`${
+            isDesktop
+              ? "border-1 border-[#bfbfbf] bg-[#fafafa] h-[74.7px] rounded-[20px] text-center content-center font-semibold cursor-pointer"
+              : isLaptop
+              ? "border-1 border-[#bfbfbf] bg-[#fafafa] h-[74.7px] rounded-[20px] text-center content-center font-semibold cursor-pointer"
+              : "border-1 border-[#bfbfbf] bg-[#fafafa] ml-[28px] w-[305px] h-[47px] rounded-[20px] text-center content-center font-semibold cursor-pointer"
+          }`}
+          key={"opaque"}
+          color="warning"
+          onClick={handleKakaoLinkOpen}
+        >
+          참여하기
+        </div>
+      )}
       {/* 1:1문의 목록보기 */}
       {isChatsListModalOpen && (
         <ChatsListModal
@@ -254,6 +286,34 @@ const ChatButtons = ({
           actionId={action_id}
         />
       )}
+      {/* 임시 - 카카오톡 링크 보여주기 모달창 */}
+      <Modal
+        backdrop={"opaque"}
+        isOpen={isOpen}
+        onClose={onClose}
+        placement="center"
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                Green-action 참여 오픈채팅방
+              </ModalHeader>
+              <ModalBody>
+                <a href={detail.kakao_link}>{detail.kakao_link}</a>
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  className="bg-[#929292] opacity-50 text-white"
+                  onPress={onClose}
+                >
+                  닫기
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </>
   );
 };
