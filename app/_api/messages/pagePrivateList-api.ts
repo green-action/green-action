@@ -51,3 +51,25 @@ export const getActionInfo = async (room_id: string) => {
 
   return { action_id, action_title, action_url };
 };
+
+// 채팅방의 상대방 정보 가져오기
+export const getParticipantInfo = async ({
+  loggedInUserUid,
+  room_id,
+}: {
+  loggedInUserUid: string;
+  room_id: string;
+}) => {
+  const { data, error } = await supabase
+    .from("chat_participants")
+    .select("users(id, display_name, profile_img)")
+    .eq("room_id", room_id)
+    .neq("participant_uid", loggedInUserUid);
+
+  if (error) {
+    console.log("error", error.message);
+    throw error;
+  }
+
+  return data[0].users;
+};

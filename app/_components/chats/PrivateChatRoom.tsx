@@ -101,7 +101,7 @@ const PrivateChatRoom = ({
     return <div>Error</div>;
   }
 
-  console.log("actionInfo", actionInfo);
+  // console.log("actionInfo", actionInfo);
 
   // 메시지 보내기 핸들러
   const handleSendMessage = async () => {
@@ -123,11 +123,16 @@ const PrivateChatRoom = ({
         placement="center"
         size="3xl"
       >
-        <ModalContent className="max-w-[30%] h-[80%] overflow-y-auto scrollbar-hide">
+        <ModalContent className="max-w-[25%] h-[85%] overflow-y-auto scrollbar-hide rounded-[55px]">
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
-                1:1 문의하기
+              <ModalHeader className="flex items-center w-full shadow-md h-24">
+                <div>action정보</div>
+                <Image src="" alt="greener_profile" />
+                <div className="flex flex-col">
+                  <span>닉네임</span>
+                  <span>greener</span>
+                </div>
               </ModalHeader>
               <ModalBody>
                 <div className="flex justify-center">
