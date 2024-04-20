@@ -37,6 +37,8 @@ import person from "/app/_assets/image/logo_icon/icon/mypage/image 166.png";
 import mapPin from "/app/_assets/image/logo_icon/icon/mypage/image 169.png";
 import editAction from "/app/_assets/image/logo_icon/icon/mypage/image 55.png";
 
+import type { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
+
 const DetailPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
   const session = useSession();
@@ -95,8 +97,6 @@ const DetailPage = () => {
   // 두 요청이 모두 완료되었는지 확인
   const isLoading = individualActionLoading || actionImagesLoading;
   const isError = individualActionError || actionImagesError;
-
-  // console.log("이미지url : ", imgUrl);
 
   if (isLoading || !individualAction)
     return (
@@ -251,6 +251,7 @@ const DetailPage = () => {
                       <div className="w-[387px] h-[239px]">
                         <KakakoMap
                           placeCoordinate={detail.location_coordinates as any}
+                          // supabase.d.ts 직접 수정하는게 아니면 as any 라고 해야?
                         />
                       </div>
                     )}

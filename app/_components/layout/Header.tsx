@@ -176,7 +176,15 @@ function Header() {
                 : graylogoImg // 나머지 페이지에서는 항상 gray로고 사용
             }
             alt="logo-image"
-            className="w-[94px] desktop:h-[21.63px] laptop:h-[21.63px] desktop:ml-[-400px] laptop:ml-[30px] desktop:mr-[430px] laptop:mr-[100px] cursor-pointer"
+            className={`w-[94px] cursor-pointer desktop:h-[21.63px] laptop:h-[21.63px] desktop:ml-[-400px]  desktop:mr-[410px]
+            ${
+              isLoggedIn
+                ? display_name?.length >= 5
+                  ? `laptop:ml-[0px] laptop:mr-[0px]`
+                  : `laptop:ml-[30px] laptop:mr-[10px]`
+                : `laptop:ml-[30px] laptop:mr-[100px]`
+            }
+            `}
             onClick={handleLogoLinkClick}
           />
           <NavbarContent>
@@ -186,9 +194,9 @@ function Header() {
                 radius="full"
                 aria-label="NavBar-Tab-Options"
                 variant="light"
-                className="flex rounded-full bg-white/30 font-bold px-0" // + 볼드체
+                className="flex rounded-full bg-white/30 font-bold px-0"
                 classNames={{
-                  tab: "px-0 desktop:h-[40px] laptop:h-[27px] ",
+                  tab: "px-0 desktop:h-[40px] laptop:h-[27px]",
                   tabList:
                     "flex items-center justify-center desktop:gap-[20px] laptop:gap-[30px] desktop:h-[50px] laptop:h-[35px] desktop:min-w-[720px] laptop:min-w-[446px]", //  desktop:min-w-[750px]  d:w-[511px] h-[39px]인데 자체변경? / laptop gap 자체
                   tabContent:
@@ -269,26 +277,36 @@ function Header() {
             </div>
             {isLoggedIn ? (
               <>
-                {/* 채팅방 badge */}
-                <Badge
-                  content={
-                    allUnreadCount && allUnreadCount > 0 ? allUnreadCount : null
-                  }
-                  shape="circle"
-                  color="default"
+                <div
+                  className={`flex gap-[25px] ${
+                    display_name?.length >= 5
+                      ? `desktop:ml-[30px] laptop:ml-[5px]`
+                      : `desktop:ml-[80px] laptop:ml-[10px]`
+                  } `}
                 >
-                  <Button
-                    radius="full"
-                    isIconOnly
-                    aria-label="more than 99 notifications"
-                    variant="light"
-                    onClick={() => {
-                      onChatsListModalOpen();
-                    }}
+                  {/* 채팅방 badge */}
+                  <Badge
+                    content={
+                      allUnreadCount && allUnreadCount > 0
+                        ? allUnreadCount
+                        : null
+                    }
+                    shape="circle"
+                    color="default"
                   >
-                    <IoChatbubbleEllipsesOutline className="text-2xl" />
-                  </Button>
-                </Badge>
+                    <Button
+                      radius="full"
+                      isIconOnly
+                      aria-label="more than 99 notifications"
+                      variant="light"
+                      onClick={() => {
+                        onChatsListModalOpen();
+                      }}
+                    >
+                      <IoChatbubbleEllipsesOutline className="text-2xl" />
+                    </Button>
+                  </Badge>
+                </div>
                 {/* 임시 - UT 후 추가 예정 */}
                 {/* push알림 badge */}
                 {/* <Badge content="0" shape="circle" color="default">
@@ -310,11 +328,14 @@ function Header() {
                     <div className="flex">
                       {/* ml 360px  ml-[280px] mr-[0px] / border-[#DDDDDD] - 자체변경 */}
                       <Chip
-                        className={`desktop:w-[249px] laptop:w-[162px] desktop:h-[50px] laptop:h-[34px] bg-[#F1F1F1]/50 border-small border-[#404040]/40 ${
-                          display_name?.length >= 5
-                            ? `desktop:ml-[120px] laptop:ml-[10px]`
-                            : `desktop:ml-[200px] laptop:ml-[60px]`
-                        } `}
+                        className={`desktop:w-[249px] laptop:w-[162px] desktop:h-[50px] laptop:h-[34px] bg-[#F1F1F1]/50 border-small border-[#404040]/40
+                        desktop:ml-[20px] laptop:ml-[15px]
+                        `}
+                        //
+                        //   ? `desktop:ml-[10px] laptop:ml-[5px]`
+                        //   : `desktop:ml-[10px] laptop:ml-[60px]`
+                        // ? `desktop:ml-[120px] laptop:ml-[10px]`
+                        // : `desktop:ml-[200px] laptop:ml-[60px]`
                       >
                         <div className="flex desktop:gap-[15px] items-center justify-between desktop:text-[13pt] laptop:text-[10pt] text-[#404040]">
                           <p>

@@ -60,7 +60,7 @@ const AddActionPage = () => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-    setModal((state) => ({ ...state, showPoint: true }));
+
     // 오픈카톡방 링크 유효성검사
     // 올바른 링크 양식 : https://open.kakao.com/o/{채팅방 ID}
     const openKakaoLink = formData.get("openKakaoLink") as string;
@@ -81,38 +81,50 @@ const AddActionPage = () => {
     }
 
     try {
-      // 확인창 표시 - 커스텀컨펌 사용 시 X
-      // 1. user_uid와 텍스트 formData insert -> action_id 반환받기
-      const locationCoor = locationCoorRef.current || null; // location 좌표
-      const allActivityLocation = activityLocationMap
-        ? `${activityLocationMap} (${activityLocation})`
-        : activityLocation;
+      // 확인창 표시 - 커스텀컨펌 사용 시 X (우선 컨펌창으로)
+      if (window.confirm("등록하시겠습니까?")) {
+        // 1. user_uid와 텍스트 formData insert -> action_id 반환받기
+        const locationCoor = locationCoorRef.current || null; // location 좌표
+        const allActivityLocation = activityLocationMap
+          ? `${activityLocation} (${activityLocationMap})`
+          : activityLocation;
 
-      const action_id = await insertActionTextForm({
-        formData,
-        allActivityLocation,
-        locationCoor,
-        loggedInUserUid,
-      });
-      setActionId(action_id);
-      // 2. 500point 업데이트
-      await updateUserPoint(loggedInUserUid, { mode: "addAction" });
+        const action_id = await insertActionTextForm({
+          formData,
+          allActivityLocation,
+          locationCoor,
+          loggedInUserUid,
+        });
+        setActionId(action_id);
+        // 2. 500point 업데이트
+        await updateUserPoint(loggedInUserUid, { mode: "addAction" });
 
-      // 3. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
-      const imgUrlsArray = await uploadFilesAndGetUrls({ files, action_id });
+        // 3. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
+        const imgUrlsArray = await uploadFilesAndGetUrls({ files, action_id });
 
-      // 4. 이미지url들 table에 넣기 - action_id에 id사용
-      await insertImgUrls({ action_id, imgUrlsArray });
+        // 4. 이미지url들 table에 넣기 - action_id에 id사용
+        await insertImgUrls({ action_id, imgUrlsArray });
 
-      // 5. 단체 채팅방 생성
-      await insertGroupChatRoom({ loggedInUserUid, action_id });
+        // 5. 단체 채팅방 생성
+        await insertGroupChatRoom({ loggedInUserUid, action_id });
 
-      // 입력값 초기화
-      const target = event.target as HTMLFormElement;
-      target.reset();
+        setModal((state) => ({ ...state, showPoint: true })); // 포인트 휙득 모달창
+
+        // 입력값 초기화
+        const target = event.target as HTMLFormElement;
+        target.reset();
+      } else {
+        return;
+      }
     } catch (error) {
       console.error("Error inserting data:", error);
     }
+  };
+
+  const handleCancelPost = () => {
+    if (window.confirm("정말 등록을 취소하시겠습니까?")) {
+      router.push(`/individualAction`);
+    } else return;
   };
 
   return (
@@ -205,7 +217,10 @@ const AddActionPage = () => {
               >
                 <span className="font-extrabold">등록완료</span>
               </button>
-              <button className="bg-gray-100 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500">
+              <button
+                onClick={handleCancelPost}
+                className="bg-gray-100 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500"
+              >
                 <span className="font-extrabold">취소하기</span>
               </button>
             </div>
@@ -240,7 +255,9 @@ const AddActionPage = () => {
       {Modal.isOpenAlert && (
         <AlertModal
           isOpen={Modal.isOpenAlert}
-          onClose={() => setModal((state) => ({ ...state, isOpenAlert: true }))}
+          onClose={() =>
+            setModal((state) => ({ ...state, isOpenAlert: false }))
+          }
           message={message}
         />
       )}

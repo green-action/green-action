@@ -102,6 +102,9 @@ const CommunityListPost = ({
               {mode === "community" && (
                 <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t"></div>
               )}
+              {mode === "main" && (
+                <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t-main"></div>
+              )}
             </div>
             {/* 사진내부영역 - 아바타,작성자,좋아요 */}
             <div className="flex items-center justify-between pl-[24px] pr-[16px] absolute bottom-0 text-white w-full h-[66px]">
@@ -138,7 +141,10 @@ const CommunityListPost = ({
               mode !== "myPosts" && mode !== "main" && "desktop:w-[410px]"
             }           
           ${mode === "myPosts" && "desktop:w-[335px]"} 
-           ${mode === "main" && "desktop:w-[400px]"} 
+           ${
+             mode === "main" &&
+             "bg-[#F9F9F9]/80 p-5 px-0 rounded-2xl desktop:w-[400px]"
+           } 
           `}
           >
             {/* 함께해요 */}
@@ -230,7 +236,10 @@ const CommunityListPost = ({
               mode !== "myPosts" && mode !== "main" && "laptop:w-[433px]"
             }           
           ${mode === "myPosts" && "laptop:w-[300px]"} 
-           ${mode === "main" && "laptop:w-[275px]"} 
+           ${
+             mode === "main" &&
+             "bg-[#F9F9F9]/80 p-3 px-0 rounded-xl laptop:w-[275px]"
+           } 
           `}
           >
             <div

@@ -27,11 +27,11 @@ const TopButton = () => {
 
   return (
     showButton && (
-      <div className="fixed z-10 right-[8%] bottom-[7%]">
+      <div className="fixed z-10 left-[3%] bottom-[5%]">
         <Button
           onClick={scrollToTop}
           size="sm"
-          className="w-[5px] bg-gray-500/20 rounded-full"
+          className=" bg-[#B3C8A1]/80 rounded-full"
         >
           Top
         </Button>
