@@ -359,13 +359,14 @@ const SearchMapResult = ({
     // id, className 으로 dom api 접근 x -> useRef로 변경하기
     // TODO 지도에서 장소 선택 시 지도뜨게 하기 (모달 X 페이지내)
     <div className="map-container w-full h-full flex">
+      {/* <div className="flex justify-center items-center w-full h-full"> */}
       <div
         ref={mapContainerRef}
-        className="desktop:w-[500px] desktop:h-[500px] laptop:w-[400px] laptop:h-[400px] fixed rounded-xl"
+        className="desktop:w-[500px] desktop:h-[500px] laptop:w-[400px] laptop:h-[400px] fixed desktop:m-0 laptop:mt-[15px] laptop:ml-[30px] rounded-xl"
       />
+      {/* </div> */}
       <div
         ref={searchResultRef}
-        // id="search-result"
         className="w-[500px] ml-[540px] flex flex-col gap-10" // h-[300px]
       >
         {/* <div className="result-text"> fixed top-[22%] */}

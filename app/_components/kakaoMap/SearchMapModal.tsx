@@ -61,7 +61,7 @@ const SearchMapModal = ({
                   id="subForm"
                   method="post"
                   onSubmit={handleKeywordSubmit}
-                  className="fixed z-10 mt-[15px] ml-[10px]"
+                  className="fixed z-10 desktop:mt-[15px] desktop:ml-[10px] laptop:mt-[30px] laptop:ml-[40px]"
                 >
                   <input
                     type="text"

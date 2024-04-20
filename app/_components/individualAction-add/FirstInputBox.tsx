@@ -5,6 +5,7 @@ import KakakoMap from "../kakaoMap/KakakoMap";
 import { useResponsive } from "@/app/_hooks/responsive";
 
 import type { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
+import { Button } from "@nextui-org/react";
 
 const FirstInputBox = ({
   activityLocation,
@@ -22,6 +23,11 @@ const FirstInputBox = ({
   setActivityLocationMap: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
+
+  const handleRemoveLocationMap = () => {
+    setActivityLocationMap("");
+    locationCoorRef.current = null;
+  };
 
   return (
     <div>
@@ -123,11 +129,20 @@ const FirstInputBox = ({
                       />
                     </div>
                   </div>
-                  <div className="flex items-center w-[290px] justify-between">
-                    <SearchMapModal
-                      setActivityLocationMap={setActivityLocationMap}
-                      locationCoorRef={locationCoorRef}
-                    />
+                  <div className="flex flex-col w-[290px] gap-2">
+                    <div className="flex gap-[10px] ">
+                      <SearchMapModal
+                        setActivityLocationMap={setActivityLocationMap}
+                        locationCoorRef={locationCoorRef}
+                      />
+                      {/*넓이가 안먹힘 */}
+                      <Button
+                        onClick={handleRemoveLocationMap}
+                        className="bg-[#5B5B5B] text-white text-[12px] rounded-full desktop:w-[10px] h-[28px]"
+                      >
+                        초기화
+                      </Button>
+                    </div>
                     <input
                       id="activityLocationMap"
                       name="activityLocationMap"
@@ -135,7 +150,7 @@ const FirstInputBox = ({
                       type="text"
                       form="mainForm"
                       placeholder="(선택) 지도에서 검색해주세요"
-                      className="h-[33px] w-[180px] p-4 border-1.5 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
+                      className="h-[33px] w-[290px] p-4 border-1.5 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
                     />
                   </div>
                 </div>

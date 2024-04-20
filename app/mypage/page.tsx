@@ -21,51 +21,15 @@ import CommunityListPost from "../_components/community/CommunityListPost";
 
 import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
 import TopButton from "../_components/TopButton";
+import { Button } from "@nextui-org/react";
 
 const MyPage = () => {
   // TODO props 타입등 재설정
-  // FIXME 유저닉네임 수정 다시 봐야
-  // const user_uid = "9da3ec56-3796-4f4f-aa99-06517955400b";
-  // 임시 유저 아이디 설정
   const router = useRouter();
   const session = useSession();
 
-  // FIXME 로그인 해도 session.data null로 뜨는 문제
   const isLoggedIn = !!session.data;
   const user_uid = session.data?.user.user_uid as string;
-  // let user_uid = "";
-  // 새로고침 시 로그인이 잠시 풀림
-  // if (!isLoggedIn) {
-  //   alert("로그인 해주세요!");
-  //   router.replace("/");
-  // }
-  // const session = useSession();
-  // console.log("🐰 ~ MyPage ~ session : ", session);
-  // const user_uid = session?.data?.user.user_uid || "";
-
-  // useEffect(() => {
-  //   const fetchSession = async () => {
-  //     // const session = useSession(); // 여기에 쓰면 invalid hook call
-  //     const isLoggedIn = await !!session.data;
-  //     user_uid = session?.data?.user.user_uid || "";
-  //     if (!isLoggedIn) {
-  //       alert("로그인 해주세요!");
-  //       router.replace("/");
-  //     }
-  //   };
-  //   fetchSession();
-  // }, [user_uid]);
-
-  // FIXME 새로고침 시 로그인 풀리는 문제
-  const checkUserLogin = () => {
-    const isLoggedIn = !!session.data;
-    const user_uid = session?.data?.user.user_uid || "";
-    // if (!isLoggedIn) {
-    //   alert("로그인 해주세요!");
-    //   router.replace("/");
-    // }
-    return user_uid; // uid를 리턴해줘야만 됨.? why? 쓰지않는데도
-  };
 
   const { data: myActions, isLoading: isActionsLoading } =
     useFetchMyGreenActions(user_uid);
@@ -114,13 +78,10 @@ const MyPage = () => {
     bookmarkedRecruitClicked,
   ]);
 
-  useEffect(() => {
-    checkUserLogin(); // 안됨 -> 이걸해줘야 처음 렌더링시 유저확인되고 데이터가 뜬다?
-  }, [isLoggedIn]);
-
   // My Action, 작성 커뮤니티 글, 찜한 Action 탭 선택시
   const handleActiveTabClick = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    // e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     const target = e.target as HTMLButtonElement;
     const textContent = target.textContent;
@@ -180,7 +141,6 @@ const MyPage = () => {
   return (
     <>
       {/* 닉넴수정 후 메인페이지 -> 마이페이지 이동시 : 임포트한 헤더 컴포넌트에서만 닉넴 수정 반영됨 */}
-      {/* <DynamicHeader /> */}
       <div className="flex justify-center desktop:mb-[100px] laptop:mb-[50px]">
         <TopButton />
         <div className="flex desktop:w-[1540px] laptop:w-[1020px]">
@@ -206,13 +166,17 @@ const MyPage = () => {
                   <Tab key="photos" onClick={handleActiveTabClick}>
                     작성 게시물
                   </Tab>
-                </Tabs> */}
+                </Tabs> 
+
+                <Button
+                  onClick={handleActiveTabClick}
+                  className={`bg-transparent cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt] p-[20px] rounded-none 로도 클릭문제 해결 X*/}
                 <div
                   onClick={handleActiveTabClick}
-                  className={`cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt]
+                  className={`cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt] 
                      ${
                        activeTab === "나의 Green-Action" &&
-                       "border-b-2 border-[#979797] transition duration-300 ease-in-out"
+                       "border-b-2 border-[#979797] transition duration-400 ease-in-out"
                      }`}
                 >
                   나의 Green-Action
@@ -222,7 +186,7 @@ const MyPage = () => {
                   className={`cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt]
                      ${
                        activeTab === "즐겨찾는 Green-Action" &&
-                       "border-b-2 border-[#979797] transition duration-300 ease-in-out"
+                       "border-b-2 border-[#979797] transition duration-400 ease-in-out"
                      }`}
                 >
                   즐겨찾는 Green-Action
@@ -232,7 +196,7 @@ const MyPage = () => {
                   className={`cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt]
                     ${
                       activeTab === "나의 Community" &&
-                      "border-b-2 border-[#979797] transition duration-300 ease-in-out"
+                      "border-b-2 border-[#979797] transition duration-400 ease-in-out"
                     }`}
                 >
                   나의 Community

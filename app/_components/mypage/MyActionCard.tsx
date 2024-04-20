@@ -70,7 +70,7 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
         <div
           className={`none desktop:w-[356px] desktop:h-[455px] ${
             (mode === "myBookmarks" || mode === "myPosts") &&
-            "laptop:w-[327px] laptop:h-[420px] laptop:mb-[149px]"
+            "laptop:w-[327px] laptop:h-[420px] laptop:mb-[149px] desktop:w-[356px] desktop:h-[455px] desktop:mb-[149px]"
           } ${mode === "main" && "laptop:w-[287px] laptop:h-[251px]"} relative`}
           // desktop:h-[25rem]
           // relative 때문에 별 클릭안되는? -z, z-..했으나 안됨
