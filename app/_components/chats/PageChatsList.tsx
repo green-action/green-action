@@ -103,17 +103,19 @@ const PageChatsList = ({
     return <div>Error</div>;
   }
 
-  console.log("privateChatsList", privateChatsList);
+  // console.log("privateChatsList", privateChatsList);
 
   // TODO 해당 읽었는지 안읽었는지는 chat_messages에 column을 하나 더 추가해야할듯 (isRead)
   // 읽었는지 안읽었는지를 어떻게 파악하는건지??
 
   return (
     <>
-      <ModalHeader className="flex flex-col gap-1">
-        1:1채팅방 리스트 in 액션페이지
+      {/* <ModalHeader className="flex flex-col gap-1 bg-[#D4DFD2] h-20 rounded-bl-3xl rounded-br-3xl"> */}
+      <ModalHeader className="flex flex-col gap-1 z-10 shadow-md px-7 py-5">
+        <div className="text-gray-500 text-sm">green-action</div>
+        <div>1:1 문의 목록</div>
       </ModalHeader>
-      <ModalBody>
+      <ModalBody className="bg-[#EAEAEA] pt-10 pb-7">
         {privateChatsList?.map((privateChat) => (
           <PagePrivateItem
             key={privateChat?.room_id}
@@ -121,12 +123,9 @@ const PageChatsList = ({
           />
         ))}
       </ModalBody>
-      <ModalFooter>
-        <Button color="danger" variant="light" onPress={onClose}>
-          Close
-        </Button>
-        <Button color="primary" onPress={onClose}>
-          Action
+      <ModalFooter className="bg-[#EAEAEA] flex justify-start">
+        <Button color="default" onPress={onClose}>
+          close
         </Button>
       </ModalFooter>
     </>

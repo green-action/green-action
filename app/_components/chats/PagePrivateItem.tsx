@@ -52,23 +52,25 @@ const PagePrivateItem = ({ privateChat }: PrivateChatProps) => {
           onClick={() => {
             onPrivateChatOpen();
           }}
-          className="flex bg-gray-300 w-[90%] h-[90%] justify-center items-center mx-auto mb-5 p-4 cursor-pointer"
+          className="flex bg-white w-[95%] h-[97%] justify-center items-center mx-auto mb-5 p-4 cursor-pointer rounded-2xl"
         >
           <div>
             <Avatar
               showFallback
               src={privateChat?.user?.profile_img || ""}
-              alt=""
-              className="mx-3"
+              alt="user_profile"
+              className="ml-4 mr-7 w-[50px] h-[50px]"
             />
           </div>
           <div className="w-[90%]">
             <div className="flex justify-between mb-2">
-              <p>{privateChat?.user?.display_name}</p>
-              <p>{formattedDate}</p>
+              <p className="font-bold text-lg">
+                {privateChat?.user?.display_name}
+              </p>
+              <p className="text-sm text-gray-500">{formattedDate}</p>
             </div>
             <div className="flex justify-between">
-              <p>{privateChat?.content}</p>
+              <p className="text-gray-500">{privateChat?.content}</p>
               {unreadCount > 0 && (
                 <div className="bg-[#B3C8A1] w-7 h-7 rounded-full text-white font-extrabold flex justify-center items-center">
                   {unreadCount}
