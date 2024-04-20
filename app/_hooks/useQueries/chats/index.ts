@@ -60,14 +60,14 @@ export const useGetActionTitleAndUrl = (
   } = useQuery({
     queryKey: [QUERY_KEY_ACTION_IDS_TITLES_URLS],
     queryFn: () => {
-      if (!data) return;
+      if (!data) return [];
 
       const actionIds = data
         .filter((item) => item.chat_rooms_info !== null)
         .map((item) => item.chat_rooms_info?.action_id)
         .filter((id): id is string => typeof id === "string");
 
-      if (actionIds.length === 0) return;
+      if (actionIds.length === 0) return [];
 
       return getActionTitleAndUrl(actionIds);
     },
