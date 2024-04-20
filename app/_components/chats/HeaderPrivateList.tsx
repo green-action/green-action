@@ -49,9 +49,6 @@ const HeaderPrivateList = () => {
                 queryKey: [QUERY_KEY_ACTION_IDS_TITLES_URLS],
               });
             queryClient.invalidateQueries({
-              queryKey: [QUERY_KEY_MESSAGES_PARTICIPANT_INFO_HEADER],
-            });
-            queryClient.invalidateQueries({
               queryKey: [QUERY_KEY_UNREAD_MESSAGES_COUNT],
             });
           },

@@ -27,6 +27,7 @@ const HeaderPrivateItem = ({ eachRoomInfo }: any) => {
     ? formatToLocaleDateTimeString(eachRoomInfo.message.created_at)
     : "";
 
+  // 안읽은 메시지 수 가져오기
   const { unreadCount, isLoading, isError } = useGetUnreadCount({
     loggedInUserUid,
     room_id,

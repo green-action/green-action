@@ -3,12 +3,11 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { supabase } from "@/utils/supabase/client";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { sendMessage } from "@/app/_api/messages/privateChat-api";
 import {
   QUERY_KEY_MESSAGES_LIST,
   QUERY_KEY_UNREAD_MESSAGES_COUNT,
-  QUERY_KEY_UPDATE_UNREAD,
 } from "@/app/_api/queryKeys";
 import { Input } from "@nextui-org/react";
 import {
@@ -19,12 +18,14 @@ import {
   ModalFooter,
   Button,
 } from "@nextui-org/react";
-import { useGetMessagesList } from "@/app/_hooks/useQueries/chats";
+import {
+  useGetMessagesList,
+  useUpdateUnread,
+} from "@/app/_hooks/useQueries/chats";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
-import { updateUnreadMessageCount } from "@/app/_api/messages/headerPrivateList-api";
+import Image from "next/image";
 
 import type { ChatProps } from "@/app/_types/realtime-chats";
-import Image from "next/image";
 
 type ChatPropsExceptActionId = Omit<ChatProps, "actionId">;
 
@@ -109,15 +110,10 @@ const PrivateChatRoom = ({
   });
 
   // 안읽은 메시지 update useQuery가져오기
-  const {
-    data,
-    isLoading: isUpdateUnreadLoading,
-    isError: isUpdateUnreadError,
-  } = useQuery({
-    queryKey: [QUERY_KEY_UPDATE_UNREAD],
-    queryFn: () => updateUnreadMessageCount({ loggedInUserUid, roomId }),
+  const { data, isUpdateUnreadLoading, isUpdateUnreadError } = useUpdateUnread({
+    loggedInUserUid,
+    roomId,
   });
-  // 쿼리키 구독 useEffect에서 무효화 같이 하기
   // TODO 스크롤이 위에 있을때 new message 개수 표시하는건 어떻게 처리해야할까?
 
   if (isLoading || isUpdateUnreadLoading) {

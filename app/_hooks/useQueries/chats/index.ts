@@ -8,12 +8,14 @@ import {
   QUERY_KEY_MY_PRIVATE_ROOMS_IDS,
   QUERY_KEY_PRIVATE_ROOM_IDS,
   QUERY_KEY_UNREAD_MESSAGES_COUNT,
+  QUERY_KEY_UPDATE_UNREAD,
 } from "@/app/_api/queryKeys";
 import {
   getActionTitleAndUrl,
   getMyPrivateRoomInfos,
   getPrivateChatsList,
   getUnreadMessageCount,
+  updateUnreadMessageCount,
 } from "@/app/_api/messages/headerPrivateList-api";
 
 import type {
@@ -160,4 +162,23 @@ export const useGetUnreadCount = ({
   });
 
   return { unreadCount, isLoading, isError };
+};
+
+export const useUpdateUnread = ({
+  loggedInUserUid,
+  roomId,
+}: {
+  loggedInUserUid: string;
+  roomId: string;
+}) => {
+  const {
+    data,
+    isLoading: isUpdateUnreadLoading,
+    isError: isUpdateUnreadError,
+  } = useQuery({
+    queryKey: [QUERY_KEY_UPDATE_UNREAD],
+    queryFn: () => updateUnreadMessageCount({ loggedInUserUid, roomId }),
+  });
+
+  return { data, isUpdateUnreadLoading, isUpdateUnreadError };
 };
