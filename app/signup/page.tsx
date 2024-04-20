@@ -13,10 +13,12 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { FaChevronLeft } from "react-icons/fa6";
 import { PiEyeLight, PiEyeSlash } from "react-icons/pi";
 import { signUpNewUser } from "../_api/auth";
 import logoImg from "../_assets/image/logo_icon/logo/white.png";
 import AlertModal from "../_components/community/AlertModal";
+import { useResponsive } from "../_hooks/responsive";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -27,6 +29,7 @@ const SignUp = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [modalPlacement, setModalPlacement] = React.useState("auto");
+  const { isDesktop, isLaptop, isMobile } = useResponsive();
 
   // alert 대체 모달창을 위한 상태관리
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
@@ -59,7 +62,6 @@ const SignUp = () => {
       nickname.length < 2 ||
       nickname.length > 10
     ) {
-      // alert("회원가입 양식을 확인해주세요.");
       setMessage("회원가입 양식을 확인해주세요.");
       setIsOpenAlertModal(true);
       return;
@@ -87,19 +89,33 @@ const SignUp = () => {
   const handleClick = () => router.push("/login");
 
   return (
-    <div className="w-screen h-screen flex justify-around items-center bg-cover bg-main-img  bg-blend-darken bg-black bg-opacity-10">
-      {/* <Image src={mainImg} alt=""/> */}
+    <div
+      className="desktop:w-screen laptop:w-screen  phone:w-[360px] h-screen flex justify-around 
+  items-center desktop:bg-main-img  laptop:bg-main-img bg-cover  
+  desktop:bg-blend-darken desktop:bg-black desktop:bg-opacity-10 
+  laptop:bg-blend-darken laptop:bg-black laptop:bg-opacity-10  phone:bg-none"
+    >
       <div className="flex flex-col items-center justify-center">
         <Image
-          className="w-[126px] h-[29px] cursor-pointer"
+          className=" desktop:w-[126px] laptop:w-[126px] phone:w-[50px] h-[29px] cursor-pointer"
           src={logoImg}
           alt="logo"
           onClick={() => router.push("/")}
         />
+        {isMobile && (
+          <div className="flex flex-col absolute">
+            <FaChevronLeft
+              className=" relative top-[-270px] ml-[60px] cursor-pointer z-10"
+              onClick={() => router.push("/")}
+            />
+          </div>
+        )}
       </div>
-      <Card className=" desktop:w-[578px] xh-full flex flex-col items-center justify-center bg-white rounded-3xl laptop:w-[450px]">
+      <Card className=" desktop:w-[578px] xh-full flex flex-col items-center justify-center bg-white rounded-3xl laptop:w-[450px]  phone:shadow-none">
         <CardBody className="flex flex-col items-center px-8 py-8 h-full gap-5 mt-[60px] ">
-          <h2 className="text-[24px] font-bold mb-2">Sign up</h2>
+          <h2 className=" desktop:text-2xl laptop:text-2xl font-bold mb-16 phone:text-[18px]">
+            Sign up
+          </h2>
 
           <form
             onSubmit={handleSignUp}
@@ -111,10 +127,10 @@ const SignUp = () => {
               variant="bordered"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mb-9  desktop:w-[427px] h-[60px] relative laptop:w-[333px]"
+              className="mb-9  desktop:w-[427px] h-[60px] relative laptop:w-[333px] phone:w-[291px]"
             />
             {email !== "" && !validateEmail(email) && (
-              <p className="text-red-500 text-xs absolute desktop:top-[160px] desktop:left-[80px] laptop:top-[160px] laptop:left-[65px]">
+              <p className="text-red-500 text-xs absolute desktop:top-[160px] desktop:left-[80px] laptop:top-[160px] laptop:left-[65px]  phone:top-[206px] phone:left-[40px]">
                 잘못된 이메일형식 입니다
               </p>
             )}
@@ -124,7 +140,7 @@ const SignUp = () => {
               variant="bordered"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mb-9 desktop:w-[427px] h-[60px] relative laptop:w-[333px]"
+              className="mb-9 desktop:w-[427px] h-[60px] relative laptop:w-[333px] phone:w-[291px]"
               endContent={
                 <>
                   <div className="flex items-center">
@@ -144,7 +160,7 @@ const SignUp = () => {
               }
             />
             {password !== "" && !validatePassword(password) && (
-              <p className="text-red-500 text-xs absolute desktop:top-[255px] desktop:left-[80px] laptop:top-[253px] laptop:left-[65px] laptop:w-[67%]">
+              <p className="text-red-500 text-xs absolute desktop:top-[255px] desktop:left-[80px] laptop:top-[253px] laptop:left-[65px] laptop:w-[67%] phone:w-[77%] phone:top-[301px] phone:left-[40px]">
                 비밀번호는 영문자, 숫자, 특수문자(@$!%*?&)를 포함하여 6자
                 이상이어야 합니다.
               </p>
@@ -155,7 +171,7 @@ const SignUp = () => {
               value={confirmPassword}
               variant="bordered"
               onChange={(e) => SetConfirmPassword(e.target.value)}
-              className="mb-9 desktop:w-[427px] h-[60px] relative laptop:w-[333px]"
+              className="mb-9 desktop:w-[427px] h-[60px] relative laptop:w-[333px] phone:w-[291px]"
               endContent={
                 <>
                   <div className="flex items-center">
@@ -178,14 +194,14 @@ const SignUp = () => {
             {validatePasswords() &&
               password !== "" &&
               confirmPassword !== "" && (
-                <p className="text-red-500 text-xs absolute desktop:top-[350px] desktop:left-[80px] laptop:top-[353px] laptop:left-[65px]">
+                <p className="text-red-500 text-xs absolute desktop:top-[350px] desktop:left-[80px] laptop:top-[353px] laptop:left-[65px] phone:top-[398px] phone:left-[40px]">
                   비밀번호가 일치하지 않습니다.
                 </p>
               )}
             {!validatePasswords() &&
               password !== "" &&
               confirmPassword !== "" && (
-                <p className="text-green-500 text-xs absolute desktop:top-[350px] desktop:left-[80px] laptop:top-[353px] laptop:left-[65px]">
+                <p className="text-green-500 text-xs absolute desktop:top-[350px] desktop:left-[80px] laptop:top-[353px] laptop:left-[65px] phone:top-[398px] phone:left-[40px]">
                   비밀번호가 일치합니다.
                 </p>
               )}
@@ -195,11 +211,11 @@ const SignUp = () => {
               variant="bordered"
               value={nickname}
               onChange={(e) => SetNickname(e.target.value)}
-              className="mb-9 desktop:w-[427px] h-[60px] relative laptop:w-[333px]"
+              className="mb-9 desktop:w-[427px] h-[60px] relative laptop:w-[333px] phone:w-[291px]"
               maxLength={10}
             />
             {nickname && (nickname.length < 2 || nickname.length > 10) && (
-              <p className="text-red-500 text-xs absolute desktop:top-[448px] desktop:left-[80px] laptop:top-[460px] laptop:left-[65px]">
+              <p className="text-red-500 text-xs absolute desktop:top-[448px] desktop:left-[80px] laptop:top-[460px] laptop:left-[65px] phone:top-[493px] phone:left-[40px]">
                 닉네임은 최소 2글자 이상, 최대 10글자 이하이어야 합니다.
               </p>
             )}
@@ -208,7 +224,7 @@ const SignUp = () => {
               type="submit"
               variant="solid"
               radius="sm"
-              className="bg-black text-white text-[15px] desktop:w-[427px] h-[40px] mt-5 laptop:w-[333px]"
+              className="bg-black text-white text-[15px] desktop:w-[427px] h-[40px] mt-5 laptop:w-[333px] phone:w-[291px]  desktop:rounded-lg laptop:rounded-lg phone:rounded-full"
             >
               Signup
             </Button>

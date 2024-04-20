@@ -12,7 +12,7 @@ import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
 // export const revalidate = 0;
 
-const LaptopMainSlidder = ({ mode }: { mode: string }) => {
+const MobileSlider = ({ mode }: { mode: string }) => {
   // FIXME 메인페이지 mode action 인 경우 모집중인 것만 뜨게할지?
 
   var settings = {
@@ -51,13 +51,11 @@ const LaptopMainSlidder = ({ mode }: { mode: string }) => {
   }
 
   return (
-    //  높이 설정해도 아래만 늘어나고 카드 위가 잘리는 문제 (그림자 등)
-    // <div className="h-[300px]">
     <Slider
       {...settings}
       className={`${
-        mode === "community" ? "h-[300px]" : "h-[430px]"
-      }  laptop:w-[904px] flex items-center justify-center`}
+        mode === "community" ? "h-[200px]" : "h-[150px]"
+      }   phone:w-[360px] mt-11`}
     >
       {mode === "community"
         ? communityPostsByLikes?.slice(0, 8).map(
@@ -65,7 +63,7 @@ const LaptopMainSlidder = ({ mode }: { mode: string }) => {
             (communityPost) => (
               <div
                 key={communityPost.id}
-                className="flex items-center gap-3 h-[480px]"
+                className="flex items-center h-[200px]"
               >
                 <CommunityListPost communityPost={communityPost} mode="main" />
               </div>
@@ -75,7 +73,7 @@ const LaptopMainSlidder = ({ mode }: { mode: string }) => {
             (
               action, // 북마크 수 최다 상위 8개 action
             ) => (
-              <div key={action.id} className="flex items-center h-[480px]">
+              <div key={action.id} className="flex items-center h-[200px]">
                 <MyActionCard action={action} mode="main" />
               </div>
             ),
@@ -84,4 +82,4 @@ const LaptopMainSlidder = ({ mode }: { mode: string }) => {
   );
 };
 
-export default LaptopMainSlidder;
+export default MobileSlider;

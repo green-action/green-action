@@ -272,7 +272,7 @@ const CommunityListPost = ({
           }
             ${
               mode === "main" &&
-              "desktop:w-full desktop:h-full laptop:w-full laptop:h-full "
+              "desktop:w-full desktop:h-full laptop:w-full laptop:h-full phone:w-full phone:h-full"
             }
             `}
           >
