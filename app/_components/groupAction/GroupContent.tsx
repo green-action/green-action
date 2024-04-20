@@ -2,7 +2,6 @@
 import { useResponsive } from "@/app/_hooks/responsive";
 import { useGroupAction } from "@/app/_hooks/useQueries/groupAction";
 import { Card, Image } from "@nextui-org/react";
-import React from "react";
 import TopButton from "../TopButton";
 import GroupModal from "./GroupModal";
 import GroupSkeleton from "./GroupSkeleton";
@@ -87,4 +86,4 @@ const GroupContent = () => {
   );
 };
 
-export default React.memo(GroupContent);
+export default GroupContent;

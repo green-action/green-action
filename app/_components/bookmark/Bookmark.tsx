@@ -1,20 +1,16 @@
 "use client";
-import React, { useCallback, useState } from "react";
-
 import {
   useAddBookmark,
   useRemoveBookmark,
 } from "@/app/_hooks/useMutations/bookmarks";
 import { useFilterBookmark } from "@/app/_hooks/useQueries/bookmarks";
 import { debounce } from "@/utils/debounce/debounce";
-
-import CustomConfirm from "../customConfirm/CustomConfirm";
-
-import { useSession } from "next-auth/react";
-
 import { Skeleton } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
+import React, { useCallback, useState } from "react";
 import AlertModal from "../community/AlertModal";
+import CustomConfirm from "../customConfirm/CustomConfirm";
 import bookmarkEmpty from "/app/_assets/image/logo_icon/icon/mypage/Star 31.png";
 import bookmarkFill from "/app/_assets/image/logo_icon/icon/mypage/Star 32.png";
 
@@ -26,7 +22,7 @@ const Bookmark = ({
   mode?: string;
   // mode는 없어도 되는 인자
 }) => {
-  const { data: filterBookmark, isLoading } = useFilterBookmark(action_id);
+  const { data, isLoading, isError } = useFilterBookmark(action_id);
 
   const addBookmarkMutation = useAddBookmark(mode || "");
   const removeBookmarkMutation = useRemoveBookmark(mode || "");
@@ -58,7 +54,7 @@ const Bookmark = ({
     [user_uid, action_id, removeBookmarkMutation],
   );
 
-  const isBookmarked = filterBookmark?.filterBookmark?.find(
+  const isBookmarked = data?.filterBookmark?.find(
     (mark) => mark.user_uid === user_uid,
   );
 
@@ -86,7 +82,7 @@ const Bookmark = ({
                   removeBookmarkMutation.mutate({ user_uid, action_id })
                 }
               />
-              <span>{filterBookmark?.filterBookmark?.length}</span>
+              <span>{data?.filterBookmark?.length}</span>
             </div>
           </>
         ) : (
@@ -127,7 +123,7 @@ const Bookmark = ({
                 mode === "myPosts" && "desktop:text-[12px] laptop:text-[11px]"
               }`}
             >
-              {filterBookmark?.filterBookmark?.length ?? 0}
+              {data?.filterBookmark?.length ?? 0}
             </span>
           </div>
         )
@@ -170,7 +166,7 @@ const Bookmark = ({
               mode === "myPosts" && "desktop:text-[12px] laptop:text-[11px]"
             }`}
           >
-            {filterBookmark?.filterBookmark?.length ?? 0}
+            {data?.filterBookmark?.length ?? 0}
           </span>
         </div>
       )}

@@ -18,7 +18,7 @@ import AlertModal from "../community/AlertModal";
 // import emptyHeart from "../../../app/_assets/image/logo_icon/icon/community/Group 83.png";
 
 const Likes = ({ post_id, isOpen }: { post_id: string; isOpen: boolean }) => {
-  const { data, isLoading } = useFilterLikes(post_id);
+  const { data, isLoading, isError } = useFilterLikes(post_id);
   const addLikeMutation = useAddLike();
   const removeLikeMutation = useRemoveLike();
 
