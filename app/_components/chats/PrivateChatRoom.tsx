@@ -138,23 +138,26 @@ const PrivateChatRoom = ({
         placement="center"
         size="3xl"
       >
-        <ModalContent className="max-w-[25%] h-[85%] overflow-y-auto scrollbar-hide rounded-[55px]">
+        <ModalContent className="max-w-[27%] h-[87%] overflow-y-auto scrollbar-hide rounded-[55px]">
           {(onClose) => (
             <>
-              <ModalHeader className="flex items-center w-full shadow-md h-24">
+              <ModalHeader className="flex flex-col w-full shadow-md h-28">
                 <div>action정보</div>
-                <Avatar
-                  showFallback
-                  src={participantInfo?.profile_img || ""}
-                  alt="greener_profile"
-                />
-                <div className="flex flex-col">
-                  <span>닉네임</span>
-                  <span>greener</span>
+                <div className="flex">
+                  <Avatar
+                    showFallback
+                    src={participantInfo?.profile_img || ""}
+                    alt="greener_profile"
+                    className="w-[10%] h-[90%]"
+                  />
+                  <div className="flex flex-col">
+                    <span>닉네임</span>
+                    <span>greener</span>
+                  </div>
                 </div>
               </ModalHeader>
-              <ModalBody>
-                <div className="flex justify-center">
+              <ModalBody className="bg-[#F3F4F3]">
+                <div className="flex justify-center ">
                   <div className="flex flex-col">
                     <div className="mb-10 font-bold text-3xl">채팅</div>
                     {messagesList?.map((message) => (
@@ -171,7 +174,20 @@ const PrivateChatRoom = ({
                       </div>
                     ))}
                     <div>
-                      <Input
+                      <input
+                        className="w-80 mb-5 mt-10"
+                        type="text"
+                        placeholder="send message..."
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" && !e.nativeEvent.isComposing) {
+                            e.preventDefault();
+                            handleSendMessage();
+                          }
+                        }}
+                      />
+                      {/* <Input
                         className="w-80 mb-5 mt-10"
                         placeholder="send message..."
                         value={message} // 입력 필드의 값을 상태로 설정
@@ -182,7 +198,7 @@ const PrivateChatRoom = ({
                             handleSendMessage();
                           }
                         }}
-                      />
+                      /> */}
                     </div>
                   </div>
                 </div>
