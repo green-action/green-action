@@ -6,6 +6,7 @@ import type {
   mapResultPropsType,
   placeDataType,
 } from "@/app/_types/individualAction-add/individualAction-add";
+import { Chip } from "@nextui-org/react";
 
 // FIXME 엔터로 검색 시 에러, 페이지네이션 선택시 에러 (기존에는 x)
 const SearchMapResult = ({
@@ -25,13 +26,17 @@ const SearchMapResult = ({
   // 지도 검색결과 장소명 클릭 시 '활동장소'에 자동 입력 + 해당 장소 좌표 useRef 에 담기 + 모달 닫기 (?)
   const handleActivityLocation = (
     e: React.MouseEvent<HTMLParagraphElement, MouseEvent>,
-    placeItem: any,
+    placeItem: placeDataType,
   ) => {
     const target = e.target as HTMLParagraphElement;
     const textContent = target.textContent;
     if (textContent) {
       setActivityLocation(textContent);
-      locationCoorRef.current = { x: placeItem.x, y: placeItem.y };
+      locationCoorRef.current = {
+        x: placeItem.x,
+        y: placeItem.y,
+        placeId: placeItem.id,
+      };
       onClose();
     }
   };
@@ -49,7 +54,7 @@ const SearchMapResult = ({
         // 써야 에러 X
         const mapOption = {
           center: new window.kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-          level: 3, // 지도의 확대 레벨
+          level: 5, // 지도의 확대 레벨
         };
 
         // 지도를 생성
@@ -105,8 +110,6 @@ const SearchMapResult = ({
             resultEl = searchResultRef.current,
             fragment = document.createDocumentFragment(),
             bounds = new window.kakao.maps.LatLngBounds();
-
-          console.log("🐰 ~ displayPlaces ~ listEl : ", listEl);
 
           // 검색 결과 목록에 추가된 항목들을 제거
           // listEl && removeAllChildNods(listEl); // 재검색시 에러 -> 없애면 잘 작동 (데이터 map으로 돌려서 이렇게 할 필요 x?)
@@ -358,21 +361,25 @@ const SearchMapResult = ({
     <div className="map-container w-full h-full flex">
       <div
         ref={mapContainerRef}
-        className="w-[500px] h-[500px] fixed rounded-xl"
+        className="desktop:w-[500px] desktop:h-[500px] laptop:w-[400px] laptop:h-[400px] fixed rounded-xl"
       />
       <div
         ref={searchResultRef}
         // id="search-result"
         className="w-[500px] ml-[540px] flex flex-col gap-10" // h-[300px]
       >
-        {/* <div className="result-text"> */}
-        <p className="result-keyword fixed top-[22%] bg-gray-200 w-[420px] h-[50px]">
-          <span className="font-bold">{searchKeyword}</span> &emsp;{" "}
-          <span>검색 결과</span>
+        {/* <div className="result-text"> fixed top-[22%] */}
+        <p className="result-keyword w-[420px] h-[50px] text-[23px] text-center">
+          <span className="font-bold text-[#95a785]">{searchKeyword}</span>{" "}
+          &emsp; <span>검색 결과</span>
         </p>
         {/* </div> */}
-        <div className="scroll-wrapper mt-[10px]">
-          <ul ref={placeListRef} id="places-list">
+        <div className="scroll-wrapper mt-[10px] ">
+          <ul
+            ref={placeListRef}
+            id="places-list"
+            className="flex flex-col gap-[10px]"
+          >
             {/* map placeData[0]?.address_name*/}
             {placeData &&
               placeData.map((placeItem, index) => {
@@ -381,38 +388,55 @@ const SearchMapResult = ({
                   <li
                     key={placeItem.id}
                     ref={placeItemRef}
-                    className="mt-[20px]"
+                    className="mt-[20px] flex items-center gap-[50px]"
                     // onMouseOver={() => displayInfowindow()}
                   >
-                    <span className="">{index + 1}</span>
-                    <p
-                      id="place-name"
-                      className="font-bold cursor-pointer"
-                      onClick={(e) => handleActivityLocation(e, placeItem)}
-                    >
-                      {placeItem.place_name}
-                    </p>
-                    {placeItem.road_address_name ? (
-                      <>
-                        <span className="">{placeItem.road_address_name}</span>
-                        <br />
-                        <span className="">{placeItem.address_name}</span>
-                      </>
-                    ) : (
-                      <span className="">{placeItem.address_name}</span>
-                    )}
-                    <br />
-                    <span className="">{placeItem.phone}</span>
-                    <br />
-                    <a href={placeItem.place_url} target="_blank">
-                      링크 열기
-                    </a>
+                    <span className="text-[20px]">{index + 1}</span>
+                    <div className="flex flex-col gap-[5px]">
+                      <p
+                        id="place-name"
+                        className="font-bold cursor-pointer text-[16px]"
+                        onClick={(e) => handleActivityLocation(e, placeItem)}
+                      >
+                        {placeItem.place_name}
+                      </p>
+                      <div className="flex flex-col gap-[1px]">
+                        {placeItem.road_address_name ? (
+                          <div className="flex flex-col gap-[1px]">
+                            <p className="">{placeItem.road_address_name}</p>
+                            <div className=" flex gap-[5px]">
+                              <Chip size="sm">지번</Chip>
+                              <span className="">{placeItem.address_name}</span>
+                            </div>
+                          </div>
+                        ) : (
+                          <span className="">{placeItem.address_name}</span>
+                        )}
+                        {placeItem.phone && (
+                          <div className="flex gap-[5px]">
+                            <Chip size="sm">Tel</Chip>
+                            <p className="">{placeItem.phone}</p>
+                          </div>
+                        )}
+                        <a
+                          href={placeItem.place_url}
+                          target="_blank"
+                          className="text-indigo-400 px-[10px]"
+                        >
+                          {` > 자세한 정보`}
+                        </a>
+                      </div>
+                    </div>
                   </li>
                 );
               })}
           </ul>
         </div>
-        <div ref={pageRef} id="pagination" className="flex gap-[10px]"></div>
+        <div
+          ref={pageRef}
+          id="pagination"
+          className="flex justify-center gap-[10px] "
+        ></div>
       </div>
     </div>
   );

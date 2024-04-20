@@ -44,6 +44,7 @@ import PrivateChat from "@/app/_components/chats/PrivateChat";
 import GroupChat from "@/app/_components/chats/GroupChat";
 import ChatButtons from "@/app/_components/individualAction/ChatButtons";
 import KakakoMap from "@/app/_components/kakaoMap/KakakoMap";
+import { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
 
 const DetailPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
@@ -110,8 +111,6 @@ const DetailPage = () => {
   const isLoading = individualActionLoading || actionImagesLoading;
   const isError = individualActionError || actionImagesError;
 
-  // console.log("이미지url : ", imgUrl);
-
   if (isLoading || !individualAction)
     return (
       <div className="flex justify-center items-center h-screen">
@@ -119,7 +118,6 @@ const DetailPage = () => {
       </div>
     );
   const detail = individualAction![0];
-  console.log(detail);
 
   if (isError) return <div>Error fetching details...</div>;
 
@@ -288,7 +286,8 @@ const DetailPage = () => {
                     {detail?.location_coordinates && (
                       <div className="w-[387px] h-[239px]">
                         <KakakoMap
-                          placeCoordinate={detail.location_coordinates}
+                          placeCoordinate={detail.location_coordinates as any}
+                          // supabase.d.ts 직접 수정하는게 아니면 as any 라고 해야?
                         />
                       </div>
                     )}
@@ -509,7 +508,7 @@ const DetailPage = () => {
                     {detail?.location_coordinates && (
                       <div className="w-[230px] h-[160px] mt-[30px]">
                         <KakakoMap
-                          placeCoordinate={detail.location_coordinates}
+                          placeCoordinate={detail.location_coordinates as any}
                         />
                       </div>
                     )}
@@ -651,7 +650,9 @@ const DetailPage = () => {
                         {detail?.location_coordinates && (
                           <div className="w-[200px] h-[150px] mt-[20px] ">
                             <KakakoMap
-                              placeCoordinate={detail.location_coordinates}
+                              placeCoordinate={
+                                detail.location_coordinates as any
+                              }
                             />
                           </div>
                         )}
