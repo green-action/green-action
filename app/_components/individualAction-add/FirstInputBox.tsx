@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect } from "react";
 import SearchAddressModal from "../daumPostCode/SearchAddressModal";
 import SearchMapModal from "../kakaoMap/SearchMapModal";
