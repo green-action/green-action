@@ -6,7 +6,7 @@ import TopButton from "../_components/TopButton";
 const page = () => {
   return (
     <div>
-      <div className=" mx-auto vh-auto desktop:w-[79%] laptop:w-[92%]">
+      <div className=" mx-auto vh-auto">
         <TopButton />
         <PageTap />
       </div>

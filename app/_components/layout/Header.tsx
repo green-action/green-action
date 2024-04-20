@@ -13,7 +13,11 @@ import {
   NavbarContent,
   Tab,
   Tabs,
+  Badge,
+  Button,
+  useDisclosure,
 } from "@nextui-org/react";
+// import { NotificationIcon } from "./NotificationIcon";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -22,10 +26,14 @@ import { useEffect, useState } from "react";
 import logoImg from "/app/_assets/image/logo_icon/logo/gray.png";
 import whitelogoImg from "/app/_assets/image/logo_icon/logo/white.png";
 import graylogoImg from "/app/_assets/image/logo_icon/logo/gray.png";
-import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
+import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
 import Image from "next/image";
 import AlertModal from "../community/AlertModal";
+import { NotificationIcon } from "../chats/NotificationIcon";
+import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
+import ChatsListModal from "../chats/ChatsListModal";
+import { useGetAllUnreadCount } from "@/app/_hooks/useQueries/chats";
 
 function Header() {
   const router = useRouter();
@@ -44,6 +52,13 @@ function Header() {
   // alert 대체 모달창을 위한 상태관리
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const [message, setMessage] = useState("");
+
+  // 채팅방 리스트 모달창
+  const {
+    isOpen: isChatsListModalOpen,
+    onOpen: onChatsListModalOpen,
+    onClose: onChatsListModalClose,
+  } = useDisclosure();
 
   const handleLogoLinkClick = () => {
     router.push("/");
@@ -124,6 +139,24 @@ function Header() {
     };
   }, [data]);
 
+  // 안읽은 메시지 총 개수 가져오기
+  const { allUnreadCount, isAllUnreadCountLoading, isAllUnreadCountError } =
+    useGetAllUnreadCount(user_uid);
+
+  if (isAllUnreadCountLoading) {
+    return (
+      <div className="w-[200px] h-auto mx-auto">
+        <Image className="" src={SoomLoaing} alt="SoomLoading" />
+      </div>
+    );
+  }
+
+  if (isAllUnreadCountError) {
+    return <div>Error</div>;
+  }
+
+  console.log("allUnreadCount", allUnreadCount);
+
   return (
     <>
       {/* NOTE 로그인/회원가입 제외 모든페이지에서 적용하도록 변경 - main, about 페이지는 pathsMainAbout 변수를 설정해 경우를 처리 (로고이미지, signUp 글자 색깔) */}
@@ -143,7 +176,7 @@ function Header() {
                 : graylogoImg // 나머지 페이지에서는 항상 gray로고 사용
             }
             alt="logo-image"
-            className="w-[94px] desktop:h-[21.63px] laptop:h-[21.63px] desktop:ml-[-400px] laptop:ml-[30px] desktop:mr-[460px] laptop:mr-[110px] cursor-pointer"
+            className="w-[94px] desktop:h-[21.63px] laptop:h-[21.63px] desktop:ml-[-400px] laptop:ml-[30px] desktop:mr-[430px] laptop:mr-[100px] cursor-pointer"
             onClick={handleLogoLinkClick}
           />
           <NavbarContent>
@@ -159,7 +192,7 @@ function Header() {
                   tabList:
                     "flex items-center justify-center desktop:gap-[20px] laptop:gap-[30px] desktop:h-[50px] laptop:h-[35px] desktop:min-w-[720px] laptop:min-w-[446px]", //  desktop:min-w-[750px]  d:w-[511px] h-[39px]인데 자체변경? / laptop gap 자체
                   tabContent:
-                    "flex items-center justify-center text-[#2b2b2b] desktop:text-[13pt] laptop:text-[10pt] laptop:h-[35px] desktop:min-w-[160px]  ", // ㅣ:text 11 자체
+                    "flex items-center justify-center text-[#2b2b2b] desktop:text-[13pt] laptop:text-[10pt] laptop:h-[35px] desktop:min-w-[160px]", // ㅣ:text 11 자체
                 }}
               >
                 <Tab
@@ -234,9 +267,40 @@ function Header() {
                 </div>
               )}
             </div>
-
             {isLoggedIn ? (
               <>
+                {/* 채팅방 badge */}
+                <Badge
+                  content={
+                    allUnreadCount && allUnreadCount > 0 ? allUnreadCount : null
+                  }
+                  shape="circle"
+                  color="default"
+                >
+                  <Button
+                    radius="full"
+                    isIconOnly
+                    aria-label="more than 99 notifications"
+                    variant="light"
+                    onClick={() => {
+                      onChatsListModalOpen();
+                    }}
+                  >
+                    <IoChatbubbleEllipsesOutline className="text-2xl" />
+                  </Button>
+                </Badge>
+                {/* 임시 - UT 후 추가 예정 */}
+                {/* push알림 badge */}
+                {/* <Badge content="0" shape="circle" color="default">
+                  <Button
+                    radius="full"
+                    isIconOnly
+                    aria-label="more than 99 notifications"
+                    variant="light"
+                  >
+                    <NotificationIcon size={24} height={24} width={24} />
+                  </Button>
+                </Badge> */}
                 <Dropdown
                   placement="bottom-end"
                   isOpen={isProfileHover}
@@ -280,11 +344,11 @@ function Header() {
                   <DropdownMenu
                     aria-label="Profile Actions"
                     variant="flat"
-                    className="w-[10rem] flex justify-center p-0 m-0 rounded-3xl text-[#454545]"
+                    className="w-full flex justify-center p-0 m-0 rounded-3xl text-[#454545]"
                   >
                     <DropdownItem
                       key="mypage"
-                      className="w-[8rem] h-8 rounded-3xl"
+                      className="w-full h-8 rounded-3xl"
                       onMouseEnter={() => {
                         setIsProfileHover(true);
                       }}
@@ -302,7 +366,7 @@ function Header() {
                     <DropdownItem
                       key="logout"
                       color="danger"
-                      className="w-[8rem] h-8 rounded-3xl  "
+                      className="w-full h-8 rounded-3xl  "
                       onMouseEnter={() => {
                         setIsProfileHover(true);
                       }}
@@ -344,6 +408,15 @@ function Header() {
             setIsOpenAlertModal(false);
           }}
           message={message}
+        />
+      )}
+      {isChatsListModalOpen && (
+        <ChatsListModal
+          isOpen={isChatsListModalOpen}
+          onOpen={onChatsListModalOpen}
+          onClose={onChatsListModalClose}
+          mode="header"
+          action_id=""
         />
       )}
     </>

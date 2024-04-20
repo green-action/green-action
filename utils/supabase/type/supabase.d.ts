@@ -47,6 +47,7 @@ export type Database = {
           content: string;
           created_at: string;
           id: string;
+          is_read: boolean;
           room_id: string;
           sender_uid: string;
         };
@@ -54,6 +55,7 @@ export type Database = {
           content?: string;
           created_at?: string;
           id?: string;
+          is_read?: boolean;
           room_id: string;
           sender_uid?: string;
         };
@@ -61,6 +63,7 @@ export type Database = {
           content?: string;
           created_at?: string;
           id?: string;
+          is_read?: boolean;
           room_id?: string;
           sender_uid?: string;
         };
@@ -332,11 +335,8 @@ export type Database = {
           is_recruiting: boolean | null;
           kakao_link: string | null;
           location: string | null;
-          location_coordinates: {
-            x: number | string;
-            y: number | string;
-          } | null;
-          recruit_number: number | null;
+          location_coordinates: Json | null;
+          recruit_number: number;
           start_date: string | null;
           title: string | null;
           user_uid: string | null;
@@ -350,7 +350,7 @@ export type Database = {
           kakao_link?: string | null;
           location?: string | null;
           location_coordinates?: Json | null;
-          recruit_number?: number | null;
+          recruit_number: number;
           start_date?: string | null;
           title?: string | null;
           user_uid?: string | null;
@@ -364,7 +364,7 @@ export type Database = {
           kakao_link?: string | null;
           location?: string | null;
           location_coordinates?: Json | null;
-          recruit_number?: number | null;
+          recruit_number?: number;
           start_date?: string | null;
           title?: string | null;
           user_uid?: string | null;
