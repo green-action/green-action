@@ -158,11 +158,15 @@ const PrivateChatRoom = ({
                   showFallback
                   src={participantInfo?.profile_img || ""}
                   alt="greener_profile"
-                  className="w-[10%] h-[90%]"
+                  size="lg"
                 />
-                <div className="flex flex-col">
-                  <span>닉네임</span>
-                  <span>greener</span>
+                <div className="flex flex-col gap-0">
+                  <span className="text-xl font-extrabold">
+                    {participantInfo?.display_name}
+                  </span>
+                  <span className="text-gray-500 text-[15px] font-['Pretendard-ExtraLight']">
+                    Greener
+                  </span>
                 </div>
               </ModalHeader>
               <ModalBody className="bg-[#F3F4F3]">
@@ -197,18 +201,6 @@ const PrivateChatRoom = ({
                           }
                         }}
                       />
-                      {/* <Input
-                        className="w-80 mb-5 mt-10"
-                        placeholder="send message..."
-                        value={message} // 입력 필드의 값을 상태로 설정
-                        onChange={(e) => setMessage(e.target.value)} // 입력 필드의 값이 변경될 때마다 상태를 업데이트
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" && !e.nativeEvent.isComposing) {
-                            e.preventDefault();
-                            handleSendMessage();
-                          }
-                        }}
-                      /> */}
                     </div>
                   </div>
                 </div>
