@@ -48,22 +48,24 @@ const HeaderPrivateItem = ({ eachRoomInfo }: any) => {
   return (
     <div
       key={room_id}
-      className="flex flex-col bg-gray-200 p-4 mr-3 mb-3 cursor-pointer"
+      className="flex flex-col bg-white p-4 mr-3 mb-3 cursor-pointer rounded-2xl px-7 py-5"
       onClick={() => {
         onPrivateChatOpen();
       }}
     >
       <div className="flex mb-3 justify-between">
         <div className="flex gap-3">
-          <span>green-action :</span>
-          <span>{eachRoomInfo.action_info.action_title}</span>
+          <span className="text-gray-500">green-action :</span>
+          <span className="text-gray-500">
+            {eachRoomInfo.action_info.action_title}
+          </span>
           <span>
             {eachRoomInfo.chat_rooms_info.participant_type === "방장" && (
               <LiaCrownSolid size={20} />
             )}
           </span>
         </div>
-        <div>{formattedDate}</div>
+        <div className="text-sm text-gray-500">{formattedDate}</div>
       </div>
       <div className="flex">
         <div>
@@ -71,16 +73,20 @@ const HeaderPrivateItem = ({ eachRoomInfo }: any) => {
             showFallback
             src={eachRoomInfo.message.user.profile_img}
             alt="defaultImg"
-            className="mr-5"
+            className="mr-7 w-[50px] h-[50px]"
           />
         </div>
         <div className="w-full">
           <div className="flex flex-col gap-2">
             <div className="flex justify-between">
-              <span>닉네임 : {eachRoomInfo.message.user.display_name}</span>
+              <span className="font-bold text-lg">
+                {eachRoomInfo.message.user.display_name}
+              </span>
             </div>
             <div className="flex justify-between">
-              <span>{eachRoomInfo.message.content}</span>
+              <span className="text-gray-500">
+                {eachRoomInfo.message.content}
+              </span>
               {unreadCount > 0 && (
                 <div className="bg-[#B3C8A1] w-7 h-7 rounded-full text-white font-extrabold flex justify-center items-center">
                   {unreadCount}

@@ -67,16 +67,13 @@ const HeaderChatsSelect = ({ onClose }: { onClose: () => void }) => {
         <div className="text-gray-500 text-xl font-[Italiana]">soom</div>
         <div>나의 1:1 문의 목록</div>
       </ModalHeader>
-      <ModalBody>
+      <ModalBody className="bg-[#EAEAEA] pt-10 pb-7">
         {selected === "private" && <HeaderPrivateChats />}
         {selected === "group" && <div>그룹 채팅</div>}
       </ModalBody>
-      <ModalFooter>
-        <Button color="danger" variant="light" onPress={onClose}>
-          Close
-        </Button>
-        <Button color="primary" onPress={onClose}>
-          Action
+      <ModalFooter className="bg-[#EAEAEA] flex justify-start">
+        <Button color="default" onPress={onClose}>
+          close
         </Button>
       </ModalFooter>
     </>

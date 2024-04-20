@@ -120,7 +120,7 @@ const PrivateChatRoom = ({
   }
 
   // console.log("actionInfo", actionInfo);
-  console.log("participantInfo", participantInfo);
+  // console.log("participantInfo", participantInfo);
 
   // 메시지 보내기 핸들러
   const handleSendMessage = async () => {
