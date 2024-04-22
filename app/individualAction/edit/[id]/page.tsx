@@ -51,6 +51,7 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
       setUploadedFileUrls(idsAndUrlsObjArray);
       setActivityLocation(originalActionData.location || "");
       setActivityLocationMap(originalActionData.location_map?.placeName || "");
+      locationMapRef.current = originalActionData.location_map;
     }
   }, [originalActionData]);
 
@@ -93,10 +94,13 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
     const formData = new FormData(event.currentTarget);
 
     try {
+      const activityLocationMap = locationMapRef.current;
       // 1. action_id와 텍스트 formData 보내서 update
       await updateActionTextForm({
         action_id,
         formData,
+        activityLocation,
+        activityLocationMap,
       });
 
       // 2. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
@@ -409,9 +413,9 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
                   </div>
                 </div>
                 {/* 지도 검색으로 장소선택 시 뜨게 할 지도(미리보기) */}
-                {originalActionData?.location_map && (
+                {locationMapRef.current && (
                   <div className="w-[310px] h-[220px] mt-[41px]">
-                    <KakaoMap placeInfo={originalActionData?.location_map} />
+                    <KakaoMap placeInfo={locationMapRef.current} />
                   </div>
                 )}
               </div>
