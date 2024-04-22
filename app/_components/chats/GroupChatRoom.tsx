@@ -272,7 +272,7 @@ const GroupChatRoom = ({
                   </div>
                 </div>
               </ModalBody>
-              <ModalFooter className="bg-[#F3F4F3] flex justify-center sticky">
+              <ModalFooter className="bg-[#F3F4F3] flex justify-center">
                 <div className="flex items-center justify-between px-8 w-[90%] mb-5 bg-white h-16 rounded-[50px]">
                   <input
                     className="w-[90%] h-[85%] pl-4"
@@ -294,7 +294,7 @@ const GroupChatRoom = ({
               </ModalFooter>
               {/* action info 모달창 */}
               {isActionInfoOpen && (
-                <div className="absolute fixed inset-0 z-20 flex bg-black bg-opacity-30">
+                <div className="absolute fixed inset-0 z-30 flex bg-black bg-opacity-30">
                   <div className="w-full flex justify-end">
                     <div
                       className="desktop:w-[75%] desktop:h-[100%] desktop:top-[130px] desktop:left-[40px] 
@@ -343,15 +343,29 @@ const GroupChatRoom = ({
                             <span>{ownerNicknameImg?.display_name}</span>
                           </div> */}
                         </div>
-                        <div className="flex flex-col items-start">
-                          <span>참여자</span>
-                          <div className="flex">
+                        <div className="flex flex-col items-start pl-10 pt-4">
+                          <span className="font-extrabold">참여자</span>
+                          <div className="flex mt-2 mb-4 gap-2 text-gray-500">
                             <Image
                               src={personIcon}
                               alt="person-icon"
                               className="w-[20px] h-[20px]"
                             />
-                            <span>{participantsInfo?.length}</span>
+                            <span>
+                              {participantsInfo?.length} /{" "}
+                              {actionInfo?.recruit_number}
+                            </span>
+                          </div>
+                          <div className="flex flex-col gap-4">
+                            <div className="flex items-center gap-2 font-extrabold">
+                              <Avatar className="mr-2" />
+                              <LiaCrownSolid size={20} />
+                              <span>닉네임</span>
+                            </div>
+                            <div className="flex items-center gap-4 font-extrabold">
+                              <Avatar />
+                              <span>닉네임</span>
+                            </div>
                           </div>
                         </div>
                         <footer className="absolute bottom-0 w-[75%] h-[9%] border-t-1 flex items-center justify-center gap-3">
