@@ -259,7 +259,7 @@ const AddPostModal = () => {
       {showPointModal && (
         <PointModal
           isOpen={showPointModal}
-          onClose={() => setShowPointModal(false)}
+          onCloseFn={() => setShowPointModal(false)}
           point={300}
         />
       )}

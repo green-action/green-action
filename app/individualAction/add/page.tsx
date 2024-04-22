@@ -114,6 +114,7 @@ const AddActionPage = () => {
       setUploadedFileUrls([]);
       setActivityLocation("");
       setActivityLocationMap("");
+      locationMapRef.current = null;
 
       // router.push(`/individualAction`); // 그냥 이동시키면 modal창 제대로 확인하기 전에 이동됨 / but 모달창 x나 close해야만 이동하는 것도 문제
     } catch (error) {
@@ -259,7 +260,9 @@ const AddActionPage = () => {
           isOpen={Modal.showPoint}
           point={300}
           mod={"add"}
-          onClose={() => setModal((state) => ({ ...state, showPoint: false }))}
+          onCloseFn={() =>
+            setModal((state) => ({ ...state, showPoint: false }))
+          } // 여기서는 onCloseFn 필요가 없음
           handleClick={() => {
             router.push(`/individualAction/detail/${actionId}`);
           }}
