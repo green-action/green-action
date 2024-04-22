@@ -217,12 +217,6 @@ const GroupChatRoom = ({
                       </span>
                     </div>
                   </div>
-                  <button
-                    className="bg-black text-white px-2"
-                    onClick={() => handleCancelParticipate(onClose)}
-                  >
-                    참여 취소하기
-                  </button>
                 </div>
                 <div>
                   <IoReorderThreeOutline
@@ -333,15 +327,6 @@ const GroupChatRoom = ({
                           <span className="text-gray-500 mb-2">
                             {actionInfo?.start_date}~{actionInfo?.end_date}
                           </span>
-                          {/* <div className="flex items-center">
-                            <LiaCrownSolid />
-                            <Avatar
-                              showFallback
-                              src={ownerNicknameImg?.profile_img || ""}
-                              alt="owner_profile"
-                            />
-                            <span>{ownerNicknameImg?.display_name}</span>
-                          </div> */}
                         </div>
                         <div className="flex flex-col items-start pl-10 pt-4">
                           <span className="font-extrabold">참여자</span>
@@ -388,7 +373,10 @@ const GroupChatRoom = ({
                             size={30}
                             className="text-gray-700"
                           />
-                          <span className="text-gray-700 text-[17px] font-extrabold mr-3">
+                          <span
+                            className="text-gray-700 text-[17px] font-extrabold mr-3 cursor-pointer"
+                            onClick={() => handleCancelParticipate(onClose)}
+                          >
                             참여 취소하기
                           </span>
                         </footer>
