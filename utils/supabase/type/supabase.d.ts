@@ -9,6 +9,38 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      alarm: {
+        Row: {
+          created_at: string;
+          id: string;
+          message: string;
+          post_id: string;
+          targetId: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          message: string;
+          post_id: string;
+          targetId: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          message?: string;
+          post_id?: string;
+          targetId?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "public_alarm_post_id_fkey";
+            columns: ["post_id"];
+            isOneToOne: false;
+            referencedRelation: "community_posts";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       bookmarks: {
         Row: {
           action_id: string | null;
@@ -164,25 +196,25 @@ export type Database = {
       };
       community_comments: {
         Row: {
-          content: string | null;
+          content: string;
           created_at: string;
           id: string;
-          post_id: string | null;
-          user_uid: string | null;
+          post_id: string;
+          user_uid: string;
         };
         Insert: {
-          content?: string | null;
+          content: string;
           created_at?: string;
           id?: string;
-          post_id?: string | null;
-          user_uid?: string | null;
+          post_id?: string;
+          user_uid?: string;
         };
         Update: {
-          content?: string | null;
+          content?: string;
           created_at?: string;
           id?: string;
-          post_id?: string | null;
-          user_uid?: string | null;
+          post_id?: string;
+          user_uid?: string;
         };
         Relationships: [
           {
