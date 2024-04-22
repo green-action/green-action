@@ -81,46 +81,41 @@ const AddActionPage = () => {
     }
 
     try {
-      // 확인창 표시 - 커스텀컨펌 사용 시 X (우선 컨펌창으로)
-      if (window.confirm("등록하시겠습니까?")) {
-        // 1. user_uid와 텍스트 formData insert -> action_id 반환받기
-        const activityLocationMap = locationMapRef.current || null; // location 좌표
-        // const allActivityLocation = activityLocationMap
-        //   ? `${activityLocation} (${activityLocationMap})`
-        //   : activityLocation;
+      // 1. user_uid와 텍스트 formData insert -> action_id 반환받기
+      const activityLocationMap = locationMapRef.current || null; // 지도 장소정보 - 장소 좌표, 장소명, 장소 id
+      // const allActivityLocation = activityLocationMap
+      //   ? `${activityLocation} (${activityLocationMap})`
+      //   : activityLocation;
 
-        const action_id = await insertActionTextForm({
-          formData,
-          activityLocation,
-          activityLocationMap,
-          loggedInUserUid,
-        });
-        setActionId(action_id);
-        // 2. 500point 업데이트
-        await updateUserPoint(loggedInUserUid, { mode: "addAction" });
+      const action_id = await insertActionTextForm({
+        formData,
+        activityLocation,
+        activityLocationMap,
+        loggedInUserUid,
+      });
+      setActionId(action_id);
+      // 2. 500point 업데이트
+      await updateUserPoint(loggedInUserUid, { mode: "addAction" });
 
-        // 3. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
-        const imgUrlsArray = await uploadFilesAndGetUrls({ files, action_id });
+      // 3. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
+      const imgUrlsArray = await uploadFilesAndGetUrls({ files, action_id });
 
-        // 4. 이미지url들 table에 넣기 - action_id에 id사용
-        await insertImgUrls({ action_id, imgUrlsArray });
+      // 4. 이미지url들 table에 넣기 - action_id에 id사용
+      await insertImgUrls({ action_id, imgUrlsArray });
 
-        // 5. 단체 채팅방 생성
-        await insertGroupChatRoom({ loggedInUserUid, action_id });
+      // 5. 단체 채팅방 생성
+      await insertGroupChatRoom({ loggedInUserUid, action_id });
 
-        setModal((state) => ({ ...state, showPoint: true })); // 포인트 휙득 모달창
+      setModal((state) => ({ ...state, showPoint: true })); // 포인트 휙득 모달창
 
-        // 입력값 초기화 - 혹은 그냥 바로 green action list 페이지로 이동시키기
-        const target = event.target as HTMLFormElement;
-        target.reset();
-        setUploadedFileUrls([]);
-        setActivityLocation("");
-        setActivityLocationMap("");
+      // 입력값 초기화 - 혹은 그냥 바로 green action list 페이지로 이동시키기
+      const target = event.target as HTMLFormElement;
+      target.reset();
+      setUploadedFileUrls([]);
+      setActivityLocation("");
+      setActivityLocationMap("");
 
-        // router.push(`/individualAction`); // 그냥 이동시키면 modal창 제대로 확인하기 전에 이동됨 / but 모달창 x나 close해야만 이동하는 것도 문제
-      } else {
-        return;
-      }
+      // router.push(`/individualAction`); // 그냥 이동시키면 modal창 제대로 확인하기 전에 이동됨 / but 모달창 x나 close해야만 이동하는 것도 문제
     } catch (error) {
       console.error("Error inserting data:", error);
     }
@@ -216,13 +211,19 @@ const AddActionPage = () => {
           {/* 등록, 취소 버튼 */}
           {(isDesktop || isLaptop) && (
             <div className="w-[724px] flex justify-center gap-4">
-              <button
+              {/* <button
                 type="submit"
                 form="mainForm"
                 className="bg-gray-200 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500"
               >
                 <span className="font-extrabold">등록완료</span>
-              </button>
+              </button> */}
+              <CustomConfirm
+                text="등록하시겠습니까?"
+                buttonName="등록완료"
+                okFunction={() => handleSubmit}
+                mode="individualAdd"
+              />
               <button
                 onClick={handleCancelPost}
                 className="bg-gray-100 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500"
@@ -234,13 +235,20 @@ const AddActionPage = () => {
 
           {isMobile && (
             <div className="w-[291px] flex justify-center gap-4 mt-3">
-              <button
+              {/* 커스텀컨펌창으로 다시 변경 */}
+              <CustomConfirm
+                text="등록하시겠습니까?"
+                buttonName="등록완료"
+                okFunction={() => handleSubmit}
+                mode="individualAdd"
+              />
+              {/* <button
                 type="submit"
                 form="mainForm"
                 className="bg-black w-[170px] h-[40px] rounded-full border-1.5  text-sm font-medium text-white"
               >
                 <span className="font-extrabold">등록완료</span>
-              </button>
+              </button> */}
             </div>
           )}
         </div>

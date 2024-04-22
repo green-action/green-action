@@ -5,6 +5,7 @@ import type {
   FormDataType,
   InsertImgUrls,
 } from "@/app/_types/individualAction-add/individualAction-add";
+import { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
 
 // 수정할 action_id의 데이터 가져오기
 // (외래키 연결된 green_action_images 테이블에서 이미지 url도 함께 가져오기)
@@ -32,9 +33,13 @@ type FormDataWithoutUid = Omit<FormDataType, "user_uid">;
 export const updateActionTextForm = async ({
   action_id,
   formData,
+  activityLocation,
+  activityLocationMap,
 }: {
   action_id: string;
   formData: FormData;
+  activityLocation: string;
+  activityLocationMap: placeCoordinateType | null;
 }) => {
   try {
     // 업데이트할 텍스트 데이터
@@ -43,8 +48,8 @@ export const updateActionTextForm = async ({
       content: String(formData.get("activityDescription")),
       start_date: String(formData.get("startDate")),
       end_date: String(formData.get("endDate")),
-      location: String(formData.get("activityLocation")),
-      location_map: null, // 추후 수정 예정
+      location: activityLocation,
+      location_map: activityLocationMap,
       recruit_number: Number(formData.get("maxParticipants")),
       kakao_link: String(formData.get("openKakaoLink")),
     };

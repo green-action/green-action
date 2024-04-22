@@ -92,8 +92,9 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
       ) : (
         mode !== "community" && (
           <Button
-            variant="ghost"
-            className="text-gray-500 rounded-full !w-[140px] h-[33px] border border-gray-400 bg-[#EFEFEF]"
+            className="rounded-full !w-[170px] h-[40px] border-1.5 border-gray-300 text-sm text-gray-500 font-extrabold hover:bg-black hover:text-white"
+            // border border-gray-400 bg-[#EFEFEF]
+            // variant="ghost"
             onClick={() => {
               customConfirm.show(handleClick);
             }}
@@ -140,6 +141,7 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
         <div className="text-center bg-[#f5f5f2] flex flex-row gap-3 justify-center py-5 rounded-xl">
           <Button
             type="submit"
+            form={`${mode === "individualAdd" && "mainForm"}`}
             onClick={customConfirm.okay}
             className="inline-block w-[100px] py-[5px]  cursor-pointer border border-[#999] bg-white hover:bg-black hover:text-white"
           >
