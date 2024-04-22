@@ -169,7 +169,10 @@ const GroupChatRoom = ({
                         alt="person-icon"
                         className="w-4 h-4"
                       />
-                      <span className="text-gray-500 text-[15px]">3 / 4</span>
+                      <span className="text-gray-500 text-[15px]">
+                        {participantsInfo?.length} /{" "}
+                        {actionInfo?.recruit_number}
+                      </span>
                     </div>
                   </div>
                 </div>
