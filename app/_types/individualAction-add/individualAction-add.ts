@@ -25,7 +25,12 @@ export interface FormDataType {
   start_date: string;
   end_date: string;
   location: string;
-  location_coordinates: { x: number | string; y: number | string } | null;
+  location_map: {
+    x: number | string;
+    y: number | string;
+    placeId: string;
+    placeName: string;
+  } | null;
   recruit_number: number;
   kakao_link: string;
 }
@@ -44,7 +49,7 @@ export interface mapResultPropsType {
   searchKeyword: string;
   setActivityLocation: React.Dispatch<React.SetStateAction<string>>;
   onClose: () => void;
-  locationCoorRef: React.MutableRefObject<placeCoordinateType | null>;
+  locationMapRef: React.MutableRefObject<placeCoordinateType | null>;
 }
 
 export interface placeDataType {

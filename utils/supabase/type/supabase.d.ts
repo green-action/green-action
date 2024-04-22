@@ -335,7 +335,12 @@ export type Database = {
           is_recruiting: boolean | null;
           kakao_link: string | null;
           location: string | null;
-          location_coordinates: Json | null;
+          location_map: {
+            x: string;
+            y: string;
+            placeId: string;
+            placeName: string;
+          } | null; // 수정해야 타입에러 잡을 수 (아니면 as any말고는 방법을 못찾음)
           recruit_number: number;
           start_date: string | null;
           title: string | null;
@@ -349,7 +354,7 @@ export type Database = {
           is_recruiting?: boolean | null;
           kakao_link?: string | null;
           location?: string | null;
-          location_coordinates?: Json | null;
+          location_map?: Json | null;
           recruit_number: number;
           start_date?: string | null;
           title?: string | null;
@@ -363,7 +368,7 @@ export type Database = {
           is_recruiting?: boolean | null;
           kakao_link?: string | null;
           location?: string | null;
-          location_coordinates?: Json | null;
+          location_map?: Json | null;
           recruit_number?: number;
           start_date?: string | null;
           title?: string | null;
