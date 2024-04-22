@@ -3,24 +3,20 @@ import type { placeCoordinateType } from "@/app/_types/individualAction-detail/i
 import React, { useEffect, useRef } from "react";
 // const { kakao } = window; // 에러
 
-const KakakoMap = ({
-  placeCoordinate,
-  activityLocationMap,
-}: {
-  placeCoordinate: placeCoordinateType;
-  activityLocationMap?: string;
+const KakaoMap = ({
+  placeInfo,
+}: // activityLocationMap,
+{
+  placeInfo: placeCoordinateType;
+  // activityLocationMap?: string;
 }) => {
-  // 해당 장소를 x,y 좌표로 뜨게할지? - 이때 place_url 등도 함께 테이블에 넣어서 가져올지, 아니면 해당 url등은 장소 id 를 통해 api에서 바로 가져올 수 있을지
-
-  const { x, y } = placeCoordinate as placeCoordinateType;
-  // 이름으로만 찾으면 여러 검색결과가 떠서, 정확도가 떨어짐  ? - 아니면은 useEffect 문제로 초반에 안뜨다가 새로고침시에 잘 뜨는 문제
-  // 장소명으로 못찾는 경우 이전 데이터? 지도가 보여지는듯 / 혹은 기본 카카오회사 위치 (못찾는 경우 아예 안뜨게 해야?)
+  const { x, y } = placeInfo as placeCoordinateType;
   const mapContainer = useRef<HTMLDivElement>(null); // 보류
 
   // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
   // ${activityLocationMap} justify-content:center;
   let iwContent = `<div style="padding:6px; width:133px;">
-    <a href="https://map.kakao.com/link/map/${activityLocationMap},${y},${x}" style = "font-size: 14px; color:#89997b" target = "_blank">큰지도보기</a> &emsp; <a href="https://map.kakao.com/link/to/${activityLocationMap},${y},${x}" style="font-size: 14px; color:#89997b;" target="_blank">길찾기</a></div>`;
+    <a href="https://map.kakao.com/link/map/${placeInfo.placeName},${y},${x}" style = "font-size: 14px; color:#89997b" target = "_blank">큰지도보기</a> &emsp; <a href="https://map.kakao.com/link/to/${placeInfo.placeName},${y},${x}" style="font-size: 14px; color:#89997b;" target="_blank">길찾기</a></div>`;
 
   useEffect(() => {
     const onLoadKakaoAPI = () => {
@@ -107,11 +103,11 @@ const KakakoMap = ({
     };
 
     onLoadKakaoAPI();
-  }, [placeCoordinate]); // 원래는 placeCoordinate 의존성배열에 안넣어도 잘 뜨긴 함
+  }, [placeInfo]); // 원래는 placeCoordinate 의존성배열에 안넣어도 잘 뜨긴 함
 
   return (
     <div id="map" ref={mapContainer} className="w-full h-full rounded-2xl" />
   );
 };
 
-export default KakakoMap;
+export default KakaoMap;

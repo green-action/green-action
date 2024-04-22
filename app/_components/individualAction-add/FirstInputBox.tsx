@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import SearchAddressModal from "../daumPostCode/SearchAddressModal";
 import SearchMapModal from "../kakaoMap/SearchMapModal";
-import KakakoMap from "../kakaoMap/KakakoMap";
+import KakaoMap from "../kakaoMap/KakaoMap";
 import { useResponsive } from "@/app/_hooks/responsive";
 
 import type { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
@@ -13,14 +13,14 @@ const FirstInputBox = ({
   activityLocation,
   setActivityLocation,
   handleActivityLocationChange,
-  locationCoorRef,
+  locationMapRef,
   activityLocationMap,
   setActivityLocationMap,
 }: {
   activityLocation: string;
   setActivityLocation: React.Dispatch<React.SetStateAction<string>>;
   handleActivityLocationChange: any;
-  locationCoorRef: React.MutableRefObject<placeCoordinateType | null>;
+  locationMapRef: React.MutableRefObject<placeCoordinateType | null>;
   activityLocationMap: string;
   setActivityLocationMap: React.Dispatch<React.SetStateAction<string>>;
 }) => {
@@ -28,7 +28,7 @@ const FirstInputBox = ({
 
   const handleRemoveLocationMap = () => {
     setActivityLocationMap("");
-    locationCoorRef.current = null;
+    locationMapRef.current = null;
   };
 
   return (
@@ -113,7 +113,6 @@ const FirstInputBox = ({
                       </label>
                       {/* 도로명주소 검색 - 보류? */}
                       <SearchAddressModal
-                        activityLocation={activityLocation}
                         setActivityLocation={setActivityLocation}
                       />
                     </div>
@@ -135,7 +134,7 @@ const FirstInputBox = ({
                     <div className="flex gap-[10px] ">
                       <SearchMapModal
                         setActivityLocationMap={setActivityLocationMap}
-                        locationCoorRef={locationCoorRef}
+                        locationMapRef={locationMapRef}
                       />
                       {/*넓이가 안먹힘 */}
                       <Button
@@ -223,12 +222,9 @@ const FirstInputBox = ({
                 </div>
               </div>
               {/* 지도 검색으로 장소선택 시 뜨게 할 지도(미리보기) */}
-              {locationCoorRef.current && (
+              {locationMapRef.current && (
                 <div className="w-[310px] h-[220px] mt-[41px]">
-                  <KakakoMap
-                    placeCoordinate={locationCoorRef.current}
-                    activityLocationMap={activityLocationMap}
-                  />
+                  <KakaoMap placeInfo={locationMapRef.current} />
                 </div>
               )}
             </div>
@@ -303,7 +299,6 @@ const FirstInputBox = ({
                     </label>
                     {/* 도로명주소 검색 - 보류 */}
                     <SearchAddressModal
-                      activityLocation={activityLocation}
                       setActivityLocation={setActivityLocation}
                     />
                     <div className="w-[281px] h-[33px] mt-2 border-1.5 border-gray-300 rounded-full text-sm text-gray-400 pl-4">

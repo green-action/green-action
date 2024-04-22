@@ -5,19 +5,18 @@ import type {
   FormDataType,
   InsertImgUrls,
 } from "@/app/_types/individualAction-add/individualAction-add";
-import { error } from "console";
-import { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
+import type { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
 
 // 1. 텍스트 formData 삽입 함수
 export const insertActionTextForm = async ({
   formData,
-  allActivityLocation, // 추가
-  locationCoor, // 추가
+  activityLocation, // 사용자가 입력한 주소,위치를 넣는 것으로 다시 변경
+  activityLocationMap, // 추가
   loggedInUserUid,
 }: {
   formData: FormData;
-  allActivityLocation: string;
-  locationCoor: placeCoordinateType | null;
+  activityLocation: string;
+  activityLocationMap: placeCoordinateType | null;
   loggedInUserUid: string;
 }) => {
   try {
@@ -29,8 +28,8 @@ export const insertActionTextForm = async ({
       start_date: String(formData.get("startDate")),
       end_date: String(formData.get("endDate")),
       // location: String(formData.get("activityLocation")),
-      location: allActivityLocation,
-      location_coordinates: locationCoor,
+      location: activityLocation,
+      location_map: activityLocationMap,
       recruit_number: Number(formData.get("maxParticipants")),
       kakao_link: String(formData.get("openKakaoLink")),
     };

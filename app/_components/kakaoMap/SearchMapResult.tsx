@@ -13,7 +13,7 @@ const SearchMapResult = ({
   searchKeyword,
   setActivityLocation,
   onClose,
-  locationCoorRef,
+  locationMapRef,
 }: mapResultPropsType) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const searchResultRef = useRef<HTMLDivElement>(null);
@@ -32,10 +32,11 @@ const SearchMapResult = ({
     const textContent = target.textContent;
     if (textContent) {
       setActivityLocation(textContent);
-      locationCoorRef.current = {
+      locationMapRef.current = {
         x: placeItem.x,
         y: placeItem.y,
         placeId: placeItem.id,
+        placeName: placeItem.place_name,
       };
       onClose();
     }
@@ -81,7 +82,7 @@ const SearchMapResult = ({
 
         // NOTE 2. 장소검색이 완료됐을 때 호출되는 콜백함수
         function placesSearchCB(data: any, status: any, pagination: any) {
-          console.log("🐰 ~ placesSearchCB ~ data : ", data);
+          // console.log("🐰 ~ placesSearchCB ~ data : ", data);
           // REVIEW 이 함수에 어떻게 인자가 들어가는 것인지?
           // console.log("🐰 ~ placesSearchCB ~ pagination : ", pagination);
           // pagination = {totlaCount: 45, hasNextPage : true, .., first:1, current: 1, last: 3, perPage:15,..}
