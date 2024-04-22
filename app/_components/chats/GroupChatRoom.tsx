@@ -8,10 +8,15 @@ import type { ChatProps } from "@/app/_types/realtime-chats";
 import {
   useGetGroupActionInfo,
   useGetMessagesList,
+  useUpdateUnread,
   userGetParticipantsInfo,
 } from "@/app/_hooks/useQueries/chats";
 import { sendMessage } from "@/app/_api/messages/privateChat-api";
-import { QUERY_KEY_MESSAGES_LIST } from "@/app/_api/queryKeys";
+import {
+  QUERY_KEY_ALL_UNREAD_COUNT,
+  QUERY_KEY_MESSAGES_LIST,
+  QUERY_KEY_UNREAD_MESSAGES_COUNT,
+} from "@/app/_api/queryKeys";
 import {
   changeRecruitingState,
   countParticipants,
@@ -46,6 +51,13 @@ const GroupChatRoom = ({
   const loggedInUserUid = session.data?.user.user_uid || "";
 
   useEffect(() => {
+    queryClient.invalidateQueries({
+      queryKey: [QUERY_KEY_UNREAD_MESSAGES_COUNT],
+    });
+    queryClient.invalidateQueries({
+      queryKey: [QUERY_KEY_ALL_UNREAD_COUNT],
+    });
+
     const messageSubscription = supabase
       .channel(`${roomId}`)
       .on(
@@ -58,6 +70,12 @@ const GroupChatRoom = ({
         () => {
           queryClient.invalidateQueries({
             queryKey: [QUERY_KEY_MESSAGES_LIST],
+          });
+          queryClient.invalidateQueries({
+            queryKey: [QUERY_KEY_ALL_UNREAD_COUNT],
+          });
+          queryClient.invalidateQueries({
+            queryKey: [QUERY_KEY_UNREAD_MESSAGES_COUNT],
           });
         },
       )
@@ -73,6 +91,12 @@ const GroupChatRoom = ({
     loggedInUserUid,
   });
 
+  // 안읽은 메시지 update useQuery가져오기
+  const { data, isUpdateUnreadLoading, isUpdateUnreadError } = useUpdateUnread({
+    loggedInUserUid,
+    roomId,
+  });
+
   // 채팅방 참가자 정보 가져오기(참가 타입, id, 닉네임, 프로필)
   const { participantsInfo, isParticipantsLoading, isParticipantsError } =
     userGetParticipantsInfo(roomId);
@@ -81,11 +105,17 @@ const GroupChatRoom = ({
   const { actionInfo, isActionInfoLoading, isActionInfoError } =
     useGetGroupActionInfo(actionId);
 
-  if (isLoading || isParticipantsLoading || isActionInfoLoading) {
+  if (
+    isLoading ||
+    isUpdateUnreadLoading ||
+    isParticipantsLoading ||
+    isActionInfoLoading
+  ) {
     <div>Loading</div>;
   }
   if (
     isError ||
+    isUpdateUnreadError ||
     isParticipantsError ||
     isActionInfoError ||
     messagesList === undefined
@@ -156,7 +186,7 @@ const GroupChatRoom = ({
                       <Image
                         src={personIcon}
                         alt="person-icon"
-                        className="w-4 h-4"
+                        className="w-4 h-4 object-cover"
                       />
                       <span className="text-gray-500 text-[15px]">
                         {participantsInfo?.length} /{" "}

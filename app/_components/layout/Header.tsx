@@ -155,8 +155,6 @@ function Header() {
     return <div>Error</div>;
   }
 
-  // console.log("allUnreadCount", allUnreadCount);
-
   return (
     <>
       {/* NOTE 로그인/회원가입 제외 모든페이지에서 적용하도록 변경 - main, about 페이지는 pathsMainAbout 변수를 설정해 경우를 처리 (로고이미지, signUp 글자 색깔) */}

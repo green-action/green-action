@@ -53,6 +53,9 @@ const PrivateChatRoom = ({
     queryClient.invalidateQueries({
       queryKey: [QUERY_KEY_UNREAD_MESSAGES_COUNT],
     });
+    queryClient.invalidateQueries({
+      queryKey: [QUERY_KEY_ALL_UNREAD_COUNT],
+    });
 
     const subscription = supabase
       .channel(`${roomId}`)
