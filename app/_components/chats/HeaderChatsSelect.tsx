@@ -2,6 +2,7 @@ import { useResponsive } from "@/app/_hooks/responsive";
 import { Button, ModalBody, ModalFooter } from "@nextui-org/react";
 import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 import HeaderPrivateList from "./HeaderPrivateList";
+import HeaderGroupList from "./HeaderGroupList";
 
 const HeaderChatsSelect = ({ onClose }: { onClose: () => void }) => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
@@ -22,7 +23,7 @@ const HeaderChatsSelect = ({ onClose }: { onClose: () => void }) => {
             <Tab key="groupChats" title="그룹 채팅 목록">
               <Card>
                 <CardBody className="bg-[#EAEAEA] w-full h-full pt-10 pb-7">
-                  그룹채팅
+                  <HeaderGroupList />
                 </CardBody>
               </Card>
             </Tab>

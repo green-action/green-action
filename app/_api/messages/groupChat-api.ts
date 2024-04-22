@@ -217,3 +217,6 @@ export const getGroupActionInfo = async (action_id: string) => {
 
   return null;
 };
+
+// 참여중인 방 id들 가져오기
+// export const
