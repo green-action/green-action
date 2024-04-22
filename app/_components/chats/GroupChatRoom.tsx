@@ -18,7 +18,6 @@ import {
   deleteParticipant,
   getRecruitingNumber,
 } from "@/app/_api/messages/groupChat-api";
-import { Input } from "@nextui-org/react";
 import {
   Modal,
   ModalContent,
@@ -27,6 +26,11 @@ import {
   ModalFooter,
   Button,
 } from "@nextui-org/react";
+import { IoPaperPlane } from "react-icons/io5";
+import { IoReorderThreeOutline } from "react-icons/io5";
+import { Avatar, Tooltip } from "@nextui-org/react";
+import Image from "next/image";
+import personIcon from "/app/_assets/image/logo_icon/icon/mypage/person.png";
 
 const GroupChatRoom = ({
   isOpen,
@@ -124,8 +128,106 @@ const GroupChatRoom = ({
 
   return (
     <>
-      {/* <Button onPress={onOpen}>Open Modal</Button> */}
       <Modal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        placement="center"
+        size="3xl"
+      >
+        <ModalContent className="max-w-[27%] h-[87%] overflow-y-auto scrollbar-hide rounded-[55px]">
+          {(onClose) => (
+            <>
+              <ModalHeader className="fixed bg-white flex justify-between items-center gap-5 w-[27%] shadow-md h-28 z-10 px-8 rounded-tl-[55px] rounded-tr-[55px]">
+                {/* 임시 - 버튼 클릭시 action 정보 띄울 예정 */}
+                {/* <Tooltip
+                  showArrow={true}
+                  key="bottom"
+                  placement="bottom"
+                  content="green-action 상세페이지로 이동"
+                  color="foreground"
+                >
+                  <button
+                    className="bg-transparent w-8"
+                  >
+                  </button>
+                </Tooltip> */}
+                <div className="flex items-center gap-5">
+                  <Avatar
+                    showFallback
+                    src={actionInfo?.img_url}
+                    alt="greener_profile"
+                    size="lg"
+                  />
+                  <div className="flex flex-col gap-0.5">
+                    <span className="text-gray-500 text-sm">Green action</span>
+                    <span className="text-xl font-extrabold">
+                      {actionInfo?.title}
+                    </span>
+                    <div className="flex gap-2 items-center">
+                      <Image
+                        src={personIcon}
+                        alt="person-icon"
+                        className="w-4 h-4"
+                      />
+                      <span className="text-gray-500 text-[15px]">3 / 4</span>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <IoReorderThreeOutline size={40} className="cursor-pointer" />
+                </div>
+              </ModalHeader>
+              <ModalBody className="bg-[#F3F4F3] pt-32">
+                <div className="flex justify-center">
+                  <div className={`flex flex-col w-[100%]`}>
+                    {messagesList?.map((message) => (
+                      <div
+                        className={`m-3 ${
+                          message.sender_uid === loggedInUserUid
+                            ? "self-end"
+                            : "self-start"
+                        }`}
+                        key={message.id}
+                      >
+                        <div
+                          className={`${
+                            message.sender_uid === loggedInUserUid
+                              ? "bg-[#D4DFD2] rounded-tl-2xl rounded-bl-2xl rounded-br-2xl"
+                              : "bg-gray-300 text-black rounded-tr-2xl rounded-bl-2xl rounded-br-2xl"
+                          } p-5 text-base`}
+                        >
+                          {message.content}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </ModalBody>
+              <ModalFooter className="bg-[#F3F4F3] flex justify-center sticky">
+                <div className="flex items-center justify-between px-8 w-[90%] mb-5 bg-white h-16 rounded-[50px]">
+                  <input
+                    className="w-[90%] h-[85%] pl-4"
+                    type="text"
+                    placeholder="send message..."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.nativeEvent.isComposing) {
+                        e.preventDefault();
+                        handleSendMessage();
+                      }
+                    }}
+                  />
+                  <div className="cursor-pointer" onClick={handleSendMessage}>
+                    <IoPaperPlane size={25} />
+                  </div>
+                </div>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+      {/* <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         placement="center"
@@ -188,7 +290,7 @@ const GroupChatRoom = ({
             </>
           )}
         </ModalContent>
-      </Modal>
+      </Modal> */}
     </>
   );
 };
