@@ -6,10 +6,10 @@ import CommunityDetailModal from "./CommunityDetailModal";
 import { Avatar, Card, useDisclosure } from "@nextui-org/react";
 import { longStyle } from "./style";
 
+import { useResponsive } from "@/app/_hooks/responsive";
 import { useGetCommunityCommentsList } from "@/app/_hooks/useQueries/comments";
 import { useGetPostContents } from "@/app/_hooks/useQueries/community";
 import CommunitySkeleton from "./CommunitySkeleton";
-import { useResponsive } from "@/app/_hooks/responsive";
 
 const CommunityListPost = ({
   communityPost,
