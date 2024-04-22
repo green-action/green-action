@@ -1,5 +1,7 @@
 import { supabase } from "@/utils/supabase/client";
 
+import type { ItemType, ParticipantInfo } from "@/app/_types/realtime-chats";
+
 // 단체방 room_id 가져오기 - 채팅방 테이블 접근
 export const getChatRoomId = async (action_id: string) => {
   try {
@@ -167,38 +169,6 @@ export const deleteParticipant = async (loggedInUserUid: string) => {
   }
 };
 
-// 방장 정보 가져오기
-export const getOwnerInfo = async (room_id: string) => {
-  const { data, error } = await supabase
-    .from("chat_participants")
-    .select("users(id, display_name, profile_img)")
-    .eq("room_id", room_id)
-    .eq("participant_type", "방장");
-
-  if (error) {
-    console.log("error", error.message);
-    throw error;
-  }
-
-  return data[0].users;
-};
-
-interface ItemType {
-  participant_type: string;
-  users: {
-    id: string | null;
-    display_name: string | null;
-    profile_img: string | null;
-  } | null;
-}
-
-interface ParticipantInfo {
-  id: string | null;
-  display_name: string | null;
-  profile_img: string | null;
-  participant_type: string;
-}
-
 // 그룹채팅방 참여자 정보 가져오기
 export const getParticipantsInfo = async (room_id: string) => {
   const { data, error } = await supabase
@@ -221,4 +191,28 @@ export const getParticipantsInfo = async (room_id: string) => {
   });
 
   return newArray;
+};
+
+// action 정보 가져오기
+export const getGroupActionInfo = async (action_id: string) => {
+  const { data, error } = await supabase
+    .from("individual_green_actions")
+    .select(
+      "id, user_uid, title, recruit_number, start_date, end_date, green_action_images(img_url)",
+    )
+    .eq("id", action_id);
+
+  if (error) {
+    console.log("error", error.message);
+    throw error;
+  }
+
+  // 데이터가 존재하면 첫 번째 이미지 URL을 가져옴
+  if (data && data.length > 0) {
+    const { green_action_images, ...actionData } = data[0];
+    const firstImgUrl = green_action_images[0]?.img_url;
+    return { ...actionData, img_url: firstImgUrl };
+  }
+
+  return null;
 };

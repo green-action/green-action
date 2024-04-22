@@ -6,6 +6,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/utils/supabase/client";
 import type { ChatProps } from "@/app/_types/realtime-chats";
 import {
+  useGetGroupActionInfo,
   useGetMessagesList,
   userGetParticipantsInfo,
 } from "@/app/_hooks/useQueries/chats";
@@ -40,8 +41,6 @@ const GroupChatRoom = ({
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
 
-  // console.log("roomId", roomId);
-
   useEffect(() => {
     const messageSubscription = supabase
       .channel(`${roomId}`)
@@ -60,7 +59,6 @@ const GroupChatRoom = ({
 
     return () => {
       messageSubscription.unsubscribe();
-      // presenceSubscription.unsubscribe();
     };
   }, []);
 
@@ -73,14 +71,21 @@ const GroupChatRoom = ({
   const { participantsInfo, isParticipantsLoading, isParticipantsError } =
     userGetParticipantsInfo(roomId);
 
-  if (isLoading || isParticipantsLoading) {
+  // action정보 가져오기(id, 제목, 시작 및 종료일자, 모집인원, 사진1장 url)
+  const { actionInfo, isActionInfoLoading, isActionInfoError } =
+    useGetGroupActionInfo(actionId);
+
+  if (isLoading || isParticipantsLoading || isActionInfoLoading) {
     <div>Loading</div>;
   }
-  if (isError || isParticipantsError || messagesList === undefined) {
+  if (
+    isError ||
+    isParticipantsError ||
+    isActionInfoError ||
+    messagesList === undefined
+  ) {
     <div>Error</div>;
   }
-
-  // console.log("participantsInfo", participantsInfo);
 
   // 메시지 보내기 핸들러
   const handleSendMessage = async () => {

@@ -4,6 +4,7 @@ import {
   QUERY_KEY_ACTION_IDS_TITLES_URLS,
   QUERY_KEY_ALL_UNREAD_COUNT,
   QUERY_KEY_CHAT_ACTION_INFO,
+  QUERY_KEY_GROUP_ACTION_INFO,
   QUERY_KEY_GROUP_PARTICIPANTS_INFO,
   QUERY_KEY_MESSAGES_LIST,
   QUERY_KEY_MESSAGES_PARTICIPANT_INFO_HEADER,
@@ -33,7 +34,7 @@ import {
   getPrivateRoomIds,
 } from "@/app/_api/messages/pagePrivateList-api";
 import {
-  getOwnerInfo,
+  getGroupActionInfo,
   getParticipantsInfo,
 } from "@/app/_api/messages/groupChat-api";
 
@@ -241,7 +242,6 @@ export const useGetAllUnreadCount = (loggedInUserUid: string) => {
   return { allUnreadCount, isAllUnreadCountLoading, isAllUnreadCountError };
 };
 
-// 그룹채팅방 참가자들 정보 다 가져오기
 export const userGetParticipantsInfo = (room_id: string) => {
   const {
     data: participantsInfo,
@@ -253,4 +253,17 @@ export const userGetParticipantsInfo = (room_id: string) => {
   });
 
   return { participantsInfo, isParticipantsLoading, isParticipantsError };
+};
+
+export const useGetGroupActionInfo = (action_id: string) => {
+  const {
+    data: actionInfo,
+    isLoading: isActionInfoLoading,
+    isError: isActionInfoError,
+  } = useQuery({
+    queryKey: [QUERY_KEY_GROUP_ACTION_INFO],
+    queryFn: () => getGroupActionInfo(action_id),
+  });
+
+  return { actionInfo, isActionInfoLoading, isActionInfoError };
 };
