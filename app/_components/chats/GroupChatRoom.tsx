@@ -4,21 +4,16 @@ import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/utils/supabase/client";
-
 import type { ChatProps } from "@/app/_types/realtime-chats";
-
 import { useGetMessagesList } from "@/app/_hooks/useQueries/chats";
 import { sendMessage } from "@/app/_api/messages/privateChat-api";
-
 import { QUERY_KEY_MESSAGES_LIST } from "@/app/_api/queryKeys";
-
 import {
   changeRecruitingState,
   countParticipants,
   deleteParticipant,
   getRecruitingNumber,
 } from "@/app/_api/messages/groupChat-api";
-
 import { Input } from "@nextui-org/react";
 import {
   Modal,
@@ -59,25 +54,6 @@ const GroupChatRoom = ({
         },
       )
       .subscribe();
-
-    // postgres_changes 를 써서 참가자 테이블에 내 uid가 insert되면 'in'
-    // 내 uid가 delete되면 'out' 표시 할 수 있지 않을까??
-
-    // Presence 채널 구독
-    // const chatRoom = supabase.channel(`${roomId}`);
-
-    // const presenceSubscription = chatRoom
-    //   .on("presence", { event: "sync" }, () => {
-    //     const newState = supabase.channel(`${roomId}`).presenceState();
-    //     console.log("sync", newState);
-    //   })
-    //   .on("presence", { event: "join" }, ({ key, newPresences }) => {
-    //     console.log("join", key, newPresences);
-    //   })
-    //   .on("presence", { event: "leave" }, ({ key, leftPresences }) => {
-    //     console.log("leave", key, leftPresences);
-    //   })
-    //   .subscribe();
 
     return () => {
       messageSubscription.unsubscribe();

@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import {
   changeRecruitingState,
   checkUserExist,
@@ -24,7 +25,6 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
-import { useEffect, useRef, useState } from "react";
 
 // NOTE props에 any 있음 - 카톡링크 모달창 없애면 사라질 이슈임
 const ChatButtons = ({
