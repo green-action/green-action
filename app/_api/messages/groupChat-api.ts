@@ -198,7 +198,7 @@ export const getGroupActionInfo = async (action_id: string) => {
   const { data, error } = await supabase
     .from("individual_green_actions")
     .select(
-      "id, user_uid, title, recruit_number, start_date, end_date, green_action_images(img_url)",
+      "id, user_uid, title, recruit_number, is_recruiting, start_date, end_date, green_action_images(img_url)",
     )
     .eq("id", action_id);
 

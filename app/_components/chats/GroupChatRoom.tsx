@@ -29,11 +29,14 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Button,
   useDisclosure,
 } from "@nextui-org/react";
 import { IoPaperPlane } from "react-icons/io5";
 import { IoReorderThreeOutline } from "react-icons/io5";
+import { IoCloseOutline } from "react-icons/io5";
+import { IoIosChatboxes } from "react-icons/io";
+import { HiOutlineArrowLeftOnRectangle } from "react-icons/hi2";
+import { LiaCrownSolid } from "react-icons/lia";
 import { Avatar, Tooltip } from "@nextui-org/react";
 import Image from "next/image";
 import personIcon from "/app/_assets/image/logo_icon/icon/mypage/person.png";
@@ -131,6 +134,17 @@ const GroupChatRoom = ({
   ) {
     <div>Error</div>;
   }
+
+  const ownerInfo = participantsInfo?.find((item) => {
+    return item.participant_type === "방장";
+  });
+
+  const ownerNicknameImg = ownerInfo
+    ? {
+        display_name: ownerInfo.display_name,
+        profile_img: ownerInfo.profile_img,
+      }
+    : null;
 
   // 메시지 보내기 핸들러
   const handleSendMessage = async () => {
@@ -287,15 +301,68 @@ const GroupChatRoom = ({
         bg-[#ffffff] laptop:w-[218px] laptop:h-[240px] laptop:top-[114px] laptop:left-[37px]
         w-[218px] h-[255px] top-[112px] left-[39px]"
                     >
-                      <div className="flex flex-col">
-                        <p
-                          className="self-start cursor-pointer text-[30px] ml-6 mt-2"
+                      <div className="flex flex-col w-full h-full">
+                        <div
+                          className="self-start cursor-pointer ml-6 mt-6"
                           onClick={() => {
                             onActionInfoClose();
                           }}
                         >
-                          x
-                        </p>
+                          <IoCloseOutline size={40} />
+                        </div>
+                        <div className="w-full h-[25%] flex justify-center items-center mb-3">
+                          <img
+                            src={actionInfo?.img_url || ""}
+                            alt="action-image"
+                            className="object-cover w-[37%] h-[78%] rounded-[20%]"
+                          />
+                        </div>
+                        <div className="flex flex-col items-center border-b-1 pb-10">
+                          <div className="flex items-center gap-3">
+                            <IoIosChatboxes
+                              className="text-gray-500"
+                              size={25}
+                            />
+                            <span className="font-extrabold text-[18px]">
+                              {actionInfo?.title}
+                            </span>
+                          </div>
+                          <span className="text-gray-400 mb-4">
+                            Green action
+                          </span>
+                          <span className="text-gray-500 mb-2">
+                            {actionInfo?.start_date}~{actionInfo?.end_date}
+                          </span>
+                          {/* <div className="flex items-center">
+                            <LiaCrownSolid />
+                            <Avatar
+                              showFallback
+                              src={ownerNicknameImg?.profile_img || ""}
+                              alt="owner_profile"
+                            />
+                            <span>{ownerNicknameImg?.display_name}</span>
+                          </div> */}
+                        </div>
+                        <div className="flex flex-col items-start">
+                          <span>참여자</span>
+                          <div className="flex">
+                            <Image
+                              src={personIcon}
+                              alt="person-icon"
+                              className="w-[20px] h-[20px]"
+                            />
+                            <span>{participantsInfo?.length}</span>
+                          </div>
+                        </div>
+                        <footer className="absolute bottom-0 w-[75%] h-[9%] border-t-1 flex items-center justify-center gap-3">
+                          <HiOutlineArrowLeftOnRectangle
+                            size={30}
+                            className="text-gray-700"
+                          />
+                          <span className="text-gray-700 text-[17px] font-extrabold mr-3">
+                            참여 취소하기
+                          </span>
+                        </footer>
                       </div>
                     </div>
                   </div>
