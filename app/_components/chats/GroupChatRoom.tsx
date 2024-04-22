@@ -194,11 +194,9 @@ const GroupChatRoom = ({
                       >
                         {message.sender_uid !== loggedInUserUid && (
                           <div className="flex items-center mb-1">
-                            <img
-                              src={
-                                message.users?.profile_img ||
-                                "/default-profile-image.jpg"
-                              } // 프로필 이미지 URL
+                            <Avatar
+                              showFallback
+                              src={message.users?.profile_img || ""} // 프로필 이미지 URL
                               alt="profile-img"
                               className="w-8 h-8 rounded-full mr-2"
                             />
