@@ -152,11 +152,7 @@ const DetailPage = () => {
                     {detail.users?.introduction}
                   </div>
                 </div>
-                <ChatButtons
-                  loggedInUserUid={user_uid}
-                  action_id={params.id}
-                  detail={detail}
-                />
+                <ChatButtons loggedInUserUid={user_uid} action_id={params.id} />
                 <div className="flex justify-center mt-[67px]">
                   <KakaoShareButton description={detail.content!} />
                 </div>
@@ -347,11 +343,7 @@ const DetailPage = () => {
                     {detail.users?.introduction}
                   </div>
                 </div>
-                <ChatButtons
-                  loggedInUserUid={user_uid}
-                  action_id={params.id}
-                  detail={detail}
-                />
+                <ChatButtons loggedInUserUid={user_uid} action_id={params.id} />
                 <div className="flex justify-center mt-[67px]">
                   <KakaoShareButton description={detail.content!} />
                 </div>
@@ -667,11 +659,7 @@ const DetailPage = () => {
                   </div>
                 </div>
               </div>
-              <ChatButtons
-                loggedInUserUid={user_uid}
-                action_id={params.id}
-                detail={detail}
-              />
+              <ChatButtons loggedInUserUid={user_uid} action_id={params.id} />
               <div className="flex justify-center mt-[64px]">
                 <KakaoShareButton description={detail.content!} />
               </div>

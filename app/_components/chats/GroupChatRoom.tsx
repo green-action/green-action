@@ -192,6 +192,22 @@ const GroupChatRoom = ({
                         }`}
                         key={message.id}
                       >
+                        {message.sender_uid !== loggedInUserUid && (
+                          <div className="flex items-center mb-1">
+                            <img
+                              src={
+                                message.users?.profile_img ||
+                                "/default-profile-image.jpg"
+                              } // 프로필 이미지 URL
+                              alt="profile-img"
+                              className="w-8 h-8 rounded-full mr-2"
+                            />
+                            <span className="font-semibold mr-2">
+                              {message.users?.display_name}
+                            </span>{" "}
+                            {/* 닉네임 */}
+                          </div>
+                        )}
                         <div
                           className={`${
                             message.sender_uid === loggedInUserUid
@@ -203,6 +219,26 @@ const GroupChatRoom = ({
                         </div>
                       </div>
                     ))}
+                    {/* {messagesList?.map((message) => (
+                      <div
+                        className={`m-3 ${
+                          message.sender_uid === loggedInUserUid
+                            ? "self-end"
+                            : "self-start"
+                        }`}
+                        key={message.id}
+                      >
+                        <div
+                          className={`${
+                            message.sender_uid === loggedInUserUid
+                              ? "bg-[#D4DFD2] rounded-tl-2xl rounded-bl-2xl rounded-br-2xl"
+                              : "bg-gray-300 text-black rounded-tr-2xl rounded-bl-2xl rounded-br-2xl"
+                          } p-5 text-base`}
+                        >
+                          {message.content}
+                        </div>
+                      </div>
+                    ))} */}
                   </div>
                 </div>
               </ModalBody>
