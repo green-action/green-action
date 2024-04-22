@@ -46,4 +46,4 @@ export const QUERY_KEY_UPDATE_UNREAD = `update_unread_messages`;
 export const QUERY_KEY_CHAT_ACTION_INFO = `chat_action_info`;
 export const QUERY_KEY_PRIVATE_PARTICIPANT_INFO = `private_participant_info`;
 export const QUERY_KEY_ALL_UNREAD_COUNT = `all_unread_messages_count`;
-export const QUERY_KEY_OWNER_INFO = `group_chat_owner_info`;
+export const QUERY_KEY_GROUP_PARTICIPANTS_INFO = `group_participants_info`;

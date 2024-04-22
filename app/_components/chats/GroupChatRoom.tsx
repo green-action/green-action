@@ -7,7 +7,7 @@ import { supabase } from "@/utils/supabase/client";
 import type { ChatProps } from "@/app/_types/realtime-chats";
 import {
   useGetMessagesList,
-  useGetOwnerInfo,
+  userGetParticipantsInfo,
 } from "@/app/_hooks/useQueries/chats";
 import { sendMessage } from "@/app/_api/messages/privateChat-api";
 import { QUERY_KEY_MESSAGES_LIST } from "@/app/_api/queryKeys";
@@ -69,16 +69,18 @@ const GroupChatRoom = ({
     loggedInUserUid,
   });
 
-  // 방장 정보 가져오기(id, 닉네임, 프로필)
-  const { ownerInfo, isOwnerInfoLading, isOwnerInfoError } =
-    useGetOwnerInfo(roomId);
+  // 채팅방 참가자 정보 가져오기(참가 타입, id, 닉네임, 프로필)
+  const { participantsInfo, isParticipantsLoading, isParticipantsError } =
+    userGetParticipantsInfo(roomId);
 
-  if (isLoading || isOwnerInfoLading) {
+  if (isLoading || isParticipantsLoading) {
     <div>Loading</div>;
   }
-  if (isError || isOwnerInfoError || messagesList === undefined) {
+  if (isError || isParticipantsError || messagesList === undefined) {
     <div>Error</div>;
   }
+
+  // console.log("participantsInfo", participantsInfo);
 
   // 메시지 보내기 핸들러
   const handleSendMessage = async () => {

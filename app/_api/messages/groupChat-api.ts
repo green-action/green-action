@@ -182,3 +182,43 @@ export const getOwnerInfo = async (room_id: string) => {
 
   return data[0].users;
 };
+
+interface ItemType {
+  participant_type: string;
+  users: {
+    id: string | null;
+    display_name: string | null;
+    profile_img: string | null;
+  } | null;
+}
+
+interface ParticipantInfo {
+  id: string | null;
+  display_name: string | null;
+  profile_img: string | null;
+  participant_type: string;
+}
+
+// 그룹채팅방 참여자 정보 가져오기
+export const getParticipantsInfo = async (room_id: string) => {
+  const { data, error } = await supabase
+    .from("chat_participants")
+    .select("participant_type, users(id, display_name, profile_img)")
+    .eq("room_id", room_id);
+
+  if (error) {
+    console.log("error", error.message);
+    throw error;
+  }
+
+  const newArray: ParticipantInfo[] = data.map((item: ItemType) => {
+    return {
+      id: item.users?.id ?? null,
+      display_name: item.users?.display_name ?? null,
+      profile_img: item.users?.profile_img ?? null,
+      participant_type: item.participant_type,
+    };
+  });
+
+  return newArray;
+};

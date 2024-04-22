@@ -4,11 +4,11 @@ import {
   QUERY_KEY_ACTION_IDS_TITLES_URLS,
   QUERY_KEY_ALL_UNREAD_COUNT,
   QUERY_KEY_CHAT_ACTION_INFO,
+  QUERY_KEY_GROUP_PARTICIPANTS_INFO,
   QUERY_KEY_MESSAGES_LIST,
   QUERY_KEY_MESSAGES_PARTICIPANT_INFO_HEADER,
   QUERY_KEY_MESSAGES_PARTICIPANT_INFO_PAGE,
   QUERY_KEY_MY_PRIVATE_ROOMS_IDS,
-  QUERY_KEY_OWNER_INFO,
   QUERY_KEY_PRIVATE_PARTICIPANT_INFO,
   QUERY_KEY_PRIVATE_ROOM_IDS,
   QUERY_KEY_UNREAD_MESSAGES_COUNT,
@@ -32,7 +32,10 @@ import {
   getParticipantInfo,
   getPrivateRoomIds,
 } from "@/app/_api/messages/pagePrivateList-api";
-import { getOwnerInfo } from "@/app/_api/messages/groupChat-api";
+import {
+  getOwnerInfo,
+  getParticipantsInfo,
+} from "@/app/_api/messages/groupChat-api";
 
 export const useGetMessagesList = ({
   roomId,
@@ -238,15 +241,16 @@ export const useGetAllUnreadCount = (loggedInUserUid: string) => {
   return { allUnreadCount, isAllUnreadCountLoading, isAllUnreadCountError };
 };
 
-export const useGetOwnerInfo = (room_id: string) => {
+// 그룹채팅방 참가자들 정보 다 가져오기
+export const userGetParticipantsInfo = (room_id: string) => {
   const {
-    data: ownerInfo,
-    isLoading: isOwnerInfoLading,
-    isError: isOwnerInfoError,
+    data: participantsInfo,
+    isLoading: isParticipantsLoading,
+    isError: isParticipantsError,
   } = useQuery({
-    queryKey: [QUERY_KEY_OWNER_INFO],
-    queryFn: async () => getOwnerInfo(room_id),
+    queryKey: [QUERY_KEY_GROUP_PARTICIPANTS_INFO],
+    queryFn: () => getParticipantsInfo(room_id),
   });
 
-  return { ownerInfo, isOwnerInfoLading, isOwnerInfoError };
+  return { participantsInfo, isParticipantsLoading, isParticipantsError };
 };
