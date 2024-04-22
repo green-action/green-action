@@ -29,7 +29,7 @@ const PointModal: React.FC<PointModalProps> = ({
         placement="center"
         isOpen={open ?? isOpen}
         onOpenChange={onClose ?? onOpenChange}
-        onClose={handleClick || onCloseFn} // onClose로 처리함으로써 close 버튼 외 모달바깥을 눌러 모달이 꺼져도 handleClick을 작동시킴
+        onClose={mod === "add" ? handleClick : onCloseFn} // onClose로 처리함으로써 close 버튼 외 모달바깥을 눌러 모달이 꺼져도 handleClick을 작동시킴
       >
         <ModalContent>
           {(onClose) => (
