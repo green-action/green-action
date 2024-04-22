@@ -30,6 +30,7 @@ import {
   ModalBody,
   ModalFooter,
   Button,
+  useDisclosure,
 } from "@nextui-org/react";
 import { IoPaperPlane } from "react-icons/io5";
 import { IoReorderThreeOutline } from "react-icons/io5";
@@ -45,6 +46,14 @@ const GroupChatRoom = ({
 }: ChatProps) => {
   const [message, setMessage] = useState("");
   const queryClient = useQueryClient();
+
+  // 액션정보 모달창
+  const {
+    isOpen: isActionInfoOpen,
+    onOpen: onActionInfoOpen,
+    onOpenChange: onActionInfoChange,
+    onClose: onActionInfoClose,
+  } = useDisclosure();
 
   // 현재 로그인한 유저 uid
   const session = useSession();
@@ -166,7 +175,7 @@ const GroupChatRoom = ({
         placement="center"
         size="3xl"
       >
-        <ModalContent className="max-w-[27%] h-[87%] overflow-y-auto scrollbar-hide rounded-[55px]">
+        <ModalContent className="max-w-[27%] h-[87%] overflow-y-auto scrollbar-hide rounded-[55px] relative">
           {(onClose) => (
             <>
               <ModalHeader className="fixed bg-white flex justify-between items-center gap-5 w-[27%] shadow-md h-28 z-10 px-8 rounded-tl-[55px] rounded-tr-[55px]">
@@ -202,7 +211,11 @@ const GroupChatRoom = ({
                   </button>
                 </div>
                 <div>
-                  <IoReorderThreeOutline size={40} className="cursor-pointer" />
+                  <IoReorderThreeOutline
+                    size={40}
+                    className="cursor-pointer"
+                    onClick={() => onActionInfoOpen()}
+                  />
                 </div>
               </ModalHeader>
               <ModalBody className="bg-[#F3F4F3] pt-32">
@@ -265,6 +278,56 @@ const GroupChatRoom = ({
                   </div>
                 </div>
               </ModalFooter>
+
+              {isActionInfoOpen && (
+                <Modal
+                  isOpen={isActionInfoOpen}
+                  onOpenChange={onActionInfoOpen}
+                  className="w-[300px] absolute"
+                >
+                  <ModalContent>
+                    {() => (
+                      <>
+                        <ModalHeader className="flex flex-col gap-1">
+                          Modal Title
+                        </ModalHeader>
+                        <ModalBody>
+                          <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing
+                            elit. Nullam pulvinar risus non risus hendrerit
+                            venenatis. Pellentesque sit amet hendrerit risus,
+                            sed porttitor quam.
+                          </p>
+                          <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing
+                            elit. Nullam pulvinar risus non risus hendrerit
+                            venenatis. Pellentesque sit amet hendrerit risus,
+                            sed porttitor quam.
+                          </p>
+                          <p>
+                            Magna exercitation reprehenderit magna aute tempor
+                            cupidatat consequat elit dolor adipisicing. Mollit
+                            dolor eiusmod sunt ex incididunt cillum quis. Velit
+                            duis sit officia eiusmod Lorem aliqua enim laboris
+                            do dolor eiusmod. Et mollit incididunt nisi
+                            consectetur esse laborum eiusmod pariatur proident
+                            Lorem eiusmod et. Culpa deserunt nostrud ad veniam.
+                          </p>
+                        </ModalBody>
+                        <ModalFooter>
+                          <Button
+                            color="danger"
+                            variant="light"
+                            onClick={() => onActionInfoClose()}
+                          >
+                            Close
+                          </Button>
+                        </ModalFooter>
+                      </>
+                    )}
+                  </ModalContent>
+                </Modal>
+              )}
             </>
           )}
         </ModalContent>
