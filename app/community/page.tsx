@@ -10,6 +10,7 @@ import TopButton from "../_components/TopButton";
 
 import { Select, SelectItem } from "@nextui-org/react";
 
+import { MODE_COMMUNITY } from "../_api/constant";
 import CommunitySkeleton from "../_components/community/CommunitySkeleton";
 
 const CommunityListPage = () => {
@@ -105,14 +106,14 @@ const CommunityListPage = () => {
                 <CommunityListPost
                   key={communityPost.id}
                   communityPost={communityPost}
-                  mode="community"
+                  mode={MODE_COMMUNITY}
                 />
               ))
             : sortedLikesCommunityList?.map((communityPost) => (
                 <CommunityListPost
                   key={communityPost.id}
                   communityPost={communityPost}
-                  mode="community"
+                  mode={MODE_COMMUNITY}
                 />
               ))}
         </div>

@@ -11,6 +11,7 @@ import {
   uploadFilesAndGetUrls,
 } from "@/app/_api/individualAction-add/add-api";
 
+import { MODE_INDIVIDUAL_ACTION_ADD } from "@/app/_api/constant";
 import AlertModal from "@/app/_components/community/AlertModal";
 import PointModal from "@/app/_components/community/PointModal";
 import CustomConfirm from "@/app/_components/customConfirm/CustomConfirm";
@@ -18,12 +19,11 @@ import FirstInputBox from "@/app/_components/individualAction-add/FirstInputBox"
 import ImgUpload from "@/app/_components/individualAction-add/ImgUpload";
 import SecondInputBox from "@/app/_components/individualAction-add/SecondInputBox";
 import ThirdInputBox from "@/app/_components/individualAction-add/ThirdInputBox";
-import { useDisclosure, user } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
 import { useResponsive } from "@/app/_hooks/responsive";
-import { FaChevronLeft } from "react-icons/fa6";
-import SearchMapModal from "@/app/_components/kakaoMap/SearchMapModal";
 import { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
+import { useDisclosure } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
+import { FaChevronLeft } from "react-icons/fa6";
 
 const AddActionPage = () => {
   const [uploadedFileUrls, setUploadedFileUrls] = useState<string[]>([]);
@@ -223,7 +223,7 @@ const AddActionPage = () => {
                 text="등록하시겠습니까?"
                 buttonName="등록완료"
                 okFunction={() => handleSubmit}
-                mode="individualAdd"
+                mode={MODE_INDIVIDUAL_ACTION_ADD}
               />
               <button
                 onClick={handleCancelPost}
@@ -241,7 +241,7 @@ const AddActionPage = () => {
                 text="등록하시겠습니까?"
                 buttonName="등록완료"
                 okFunction={() => handleSubmit}
-                mode="individualAdd"
+                mode={MODE_INDIVIDUAL_ACTION_ADD}
               />
               {/* <button
                 type="submit"

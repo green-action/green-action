@@ -1,4 +1,5 @@
 import { supabase } from "@/utils/supabase/client";
+import { MODE_IN } from "../constant";
 
 // 단체방 room_id 가져오기 - 채팅방 테이블 접근
 export const getChatRoomId = async (action_id: string) => {
@@ -132,7 +133,7 @@ export const changeRecruitingState = async ({
   mode: string;
 }) => {
   try {
-    const is_recruiting = mode === "in" ? false : true;
+    const is_recruiting = mode === MODE_IN ? false : true;
 
     const { error } = await supabase
       .from("individual_green_actions")
