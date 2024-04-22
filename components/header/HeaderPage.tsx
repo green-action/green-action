@@ -20,17 +20,13 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import logoImg from "/app/_assets/image/logo_icon/logo/gray.png";
-import whitelogoImg from "/app/_assets/image/logo_icon/logo/white.png";
 import graylogoImg from "/app/_assets/image/logo_icon/logo/gray.png";
-import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
+import whitelogoImg from "/app/_assets/image/logo_icon/logo/white.png";
 
-import Image from "next/image";
 import AlertModal from "@/app/_components/community/AlertModal";
-import HeaderProfile from "./HeaderProfile";
+import Image from "next/image";
 
 import type { Session } from "next-auth";
-import { stat } from "fs";
 // import AlertModal from "../community/AlertModal";
 
 interface Props {

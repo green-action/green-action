@@ -28,7 +28,7 @@ import {
 } from "@nextui-org/react";
 
 import ChatButtons from "@/app/_components/individualAction/ChatButtons";
-import KakakoMap from "@/app/_components/kakaoMap/KakakoMap";
+import KakaoMap from "@/app/_components/kakaoMap/KakaoMap";
 import delAction from "/app/_assets/image/logo_icon/icon/mypage/Group 131.png";
 import prevBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 132.png";
 import nextBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 133.png";
@@ -37,7 +37,7 @@ import person from "/app/_assets/image/logo_icon/icon/mypage/image 166.png";
 import mapPin from "/app/_assets/image/logo_icon/icon/mypage/image 169.png";
 import editAction from "/app/_assets/image/logo_icon/icon/mypage/image 55.png";
 
-import type { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
+import { MODE_DETAIL_PAGE } from "@/app/_api/constant";
 
 const DetailPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
@@ -210,7 +210,10 @@ const DetailPage = () => {
                         <p className="float-end mr-[20px] font-[13px]">
                           {detail.recruit_number}
                         </p>
-                        <Bookmark action_id={params.id} mode="detailPage" />
+                        <Bookmark
+                          action_id={params.id}
+                          mode={MODE_DETAIL_PAGE}
+                        />
                       </div>
                     </div>
                   </div>
@@ -238,19 +241,34 @@ const DetailPage = () => {
                           alt="위치 아이콘"
                           className="float-left mr-[15px] size-[20.26px]"
                         />
-                        <p className="float-left mr-8 font-semibold text-[11px] text-[#848484]">
+                        <p className="float-left mr-7 font-semibold text-[11px] text-[#848484] w-[25px]">
                           장소
                         </p>
                         <p className="font-semibold text-[13px] text-[#1e1e1e]">
                           {detail.location}
                         </p>
                       </div>
+                      {detail.location_map && ( // action생성 시 지도 위치 같이 등록되었을 때만 뜨도록 함
+                        <div className="flex mt-[7px] items-center border-t-1 border-[#bfbfbf] w-[284px] pt-[9px] ">
+                          <Image
+                            src={mapPin}
+                            alt="위치 아이콘"
+                            className="float-left mr-[15px] size-[20.26px]"
+                          />
+                          <p className="float-left mr-3 font-semibold text-[11px] text-[#848484]">
+                            지도 위치
+                          </p>
+                          <p className="font-semibold text-[13px] text-[#1e1e1e]">
+                            {detail.location_map?.placeName}
+                          </p>
+                        </div>
+                      )}
                     </div>
                     {/* 카카오맵 추가 */}
-                    {detail?.location_coordinates && (
+                    {detail?.location_map && (
                       <div className="w-[387px] h-[239px]">
-                        <KakakoMap
-                          placeCoordinate={detail.location_coordinates as any}
+                        <KakaoMap
+                          placeInfo={detail.location_map}
                           // supabase.d.ts 직접 수정하는게 아니면 as any 라고 해야?
                         />
                       </div>
@@ -409,7 +427,10 @@ const DetailPage = () => {
                         <p className="float-end mr-[20px] font-[13px]">
                           {detail.recruit_number}
                         </p>
-                        <Bookmark action_id={params.id} mode="detailPage" />
+                        <Bookmark
+                          action_id={params.id}
+                          mode={MODE_DETAIL_PAGE}
+                        />
                       </div>
                     </div>
                   </div>
@@ -437,20 +458,33 @@ const DetailPage = () => {
                           alt="위치 아이콘"
                           className="float-left mr-[15px] size-[20.26px]"
                         />
-                        <p className="float-left mr-8 font-semibold text-[11px] text-[#848484]">
+                        <p className="float-left mr-7 font-semibold text-[11px] text-[#848484] w-[25px]">
                           장소
                         </p>
                         <p className="font-semibold text-[13px] text-[#1e1e1e]">
                           {detail.location}
                         </p>
                       </div>
+                      {detail.location_map && ( // action생성 시 지도 위치 같이 등록되었을 때만 뜨도록 함
+                        <div className="flex mt-[7px] items-center border-t-1 border-[#bfbfbf] w-[284px] pt-[9px] ">
+                          <Image
+                            src={mapPin}
+                            alt="위치 아이콘"
+                            className="float-left mr-[15px] size-[20.26px]"
+                          />
+                          <p className="float-left mr-3 font-semibold text-[11px] text-[#848484]">
+                            지도 위치
+                          </p>
+                          <p className="font-semibold text-[13px] text-[#1e1e1e]">
+                            {detail.location_map?.placeName}
+                          </p>
+                        </div>
+                      )}
                     </div>
                     {/* 카카오맵 추가 */}
-                    {detail?.location_coordinates && (
+                    {detail?.location_map && (
                       <div className="w-[230px] h-[160px] mt-[30px]">
-                        <KakakoMap
-                          placeCoordinate={detail.location_coordinates as any}
-                        />
+                        <KakaoMap placeInfo={detail.location_map} />
                       </div>
                     )}
                   </div>
@@ -553,7 +587,10 @@ const DetailPage = () => {
                         <p className="mr-[20px] font-[13px]">
                           {detail.recruit_number}
                         </p>
-                        <Bookmark action_id={params.id} mode="detailPage" />
+                        <Bookmark
+                          action_id={params.id}
+                          mode={MODE_DETAIL_PAGE}
+                        />
                       </div>
                       {/* 날짜 장소 */}
                       <div className="w-[284px] mx-auto mt-[35px]">
@@ -578,23 +615,34 @@ const DetailPage = () => {
                             alt="위치 아이콘"
                             className="float-left mr-[15px] size-[20.26px]"
                           />
-                          <p className="float-left mr-8 font-semibold text-[11px] text-[#848484]">
+                          <p className="float-left mr-7 font-semibold text-[11px] text-[#848484] w-[25px]">
                             장소
                           </p>
                           <p className="font-semibold text-[13px] text-[#1e1e1e]">
                             {detail.location}
                           </p>
                         </div>
+                        {detail.location_map && ( // action생성 시 지도 위치 같이 등록되었을 때만 뜨도록 함
+                          <div className="flex mt-[7px] items-center border-t-1 border-[#bfbfbf] w-[284px] pt-[9px] ">
+                            <Image
+                              src={mapPin}
+                              alt="위치 아이콘"
+                              className="float-left mr-[15px] size-[20.26px]"
+                            />
+                            <p className="float-left mr-3 font-semibold text-[11px] text-[#848484]">
+                              지도 위치
+                            </p>
+                            <p className="font-semibold text-[13px] text-[#1e1e1e]">
+                              {detail.location_map?.placeName}
+                            </p>
+                          </div>
+                        )}
                       </div>
                       {/* 카카오맵 추가 */}
                       <div className="flex justify-center">
-                        {detail?.location_coordinates && (
+                        {detail?.location_map && (
                           <div className="w-[200px] h-[150px] mt-[20px] ">
-                            <KakakoMap
-                              placeCoordinate={
-                                detail.location_coordinates as any
-                              }
-                            />
+                            <KakaoMap placeInfo={detail.location_map} />
                           </div>
                         )}
                       </div>

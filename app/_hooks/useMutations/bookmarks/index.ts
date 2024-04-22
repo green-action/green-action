@@ -4,6 +4,7 @@ import {
   removeBookmark,
   removeLike,
 } from "@/app/_api/bookmark/bookmarkQueries";
+import { MODE_MY_BOOKMARKS, MODE_MY_POSTS } from "@/app/_api/constant";
 import {
   QUERY_KEY_BOOKMARK,
   QUERY_KEY_COMMUNITYLIST,
@@ -22,7 +23,7 @@ export const useAddBookmark = (mode: string) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY_BOOKMARK],
       });
-      mode === "myPosts" &&
+      mode === MODE_MY_POSTS &&
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEY_MY_BOOKMARK],
         });
@@ -42,7 +43,7 @@ export const useRemoveBookmark = (mode?: string) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY_BOOKMARK],
       });
-      (mode === "myBookmarks" || mode === "myPosts") &&
+      (mode === MODE_MY_BOOKMARKS || mode === MODE_MY_POSTS) &&
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEY_MY_BOOKMARK],
         });

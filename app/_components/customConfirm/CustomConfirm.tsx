@@ -1,6 +1,11 @@
 "use client";
 import React, { useRef } from "react";
 
+import {
+  MODE_COMMUNITY,
+  MODE_INDIVIDUAL_ACTION_ADD,
+  MODE_MY_BOOKMARKS,
+} from "@/app/_api/constant";
 import { Button } from "@nextui-org/react";
 import Image from "next/image";
 import bookmarkFill from "/app/_assets/image/logo_icon/icon/mypage/Star 32.png";
@@ -35,7 +40,7 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
         dialogContRef.current.style.top = "50%";
         // opacity: 0 -> 1
         dialogContRef.current.style.opacity = "1";
-        if (mode === "individualAdd") {
+        if (mode === MODE_INDIVIDUAL_ACTION_ADD) {
           dialogContRef.current.style.top = "80%";
         }
         // handleClick 할당
@@ -76,12 +81,12 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
       <div
         ref={freezeLayerRef}
         className={`w-full top-0 left-0 bg-black/30 z-[1] hidden absolute rounded-2xl ${
-          mode === "individualAdd" ? "h-[1544px]" : "h-full"
+          mode === MODE_INDIVIDUAL_ACTION_ADD ? "h-[1544px]" : "h-full"
         }`}
       ></div>
 
       {/* mode가 myBookmarks(마이페이지 찜한 action) 인 경우에 버튼 대신 북마크아이콘 */}
-      {mode === "myBookmarks" ? (
+      {mode === MODE_MY_BOOKMARKS ? (
         <button onClick={() => customConfirm.show(handleClick)}>
           <Image
             src={bookmarkFill}
@@ -90,10 +95,11 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
           />
         </button>
       ) : (
-        mode !== "community" && (
+        mode !== MODE_COMMUNITY && (
           <Button
-            variant="ghost"
-            className="text-gray-500 rounded-full !w-[140px] h-[33px] border border-gray-400 bg-[#EFEFEF]"
+            className="rounded-full !w-[170px] h-[40px] border-1.5 border-gray-300 text-sm text-gray-500 font-extrabold hover:bg-black hover:text-white"
+            // border border-gray-400 bg-[#EFEFEF]
+            // variant="ghost"
             onClick={() => {
               customConfirm.show(handleClick);
             }}
@@ -102,7 +108,7 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
           </Button>
         )
       )}
-      {mode === "community" && (
+      {mode === MODE_COMMUNITY && (
         <button
           onClick={() => customConfirm.show(handleClick)}
           role="button"
@@ -131,20 +137,32 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
       <div
         ref={dialogContRef}
         className={`absolute top-[-50%] left-1/2 translate-x-[-50%] translate-y-[-50%] p-[10px] transition-all z-[50] opacity-0 ${
-          mode === "individualAdd" ? "w-[30%]" : "w-full"
+          mode === MODE_INDIVIDUAL_ACTION_ADD ? "w-[30%]" : "w-full"
         }`}
       >
         <div className="p-[10px] py-[50px] leading-7 bg-[#f5f5f2] text-center rounded-xl mb-[-20px] text-[10.5pt]">
           {text}
         </div>
         <div className="text-center bg-[#f5f5f2] flex flex-row gap-3 justify-center py-5 rounded-xl">
-          <Button
-            type="submit"
-            onClick={customConfirm.okay}
-            className="inline-block w-[100px] py-[5px]  cursor-pointer border border-[#999] bg-white hover:bg-black hover:text-white"
-          >
-            네
-          </Button>
+          {/* mode === 'individualAdd' 인 경우 (action 생성/수정 페이지) form 속성 추가 / form = {``} 속성 안에서 조건을 줄 시 없는 경우 문제가 생김 */}
+          {mode === MODE_INDIVIDUAL_ACTION_ADD ? (
+            <Button
+              type="submit"
+              form="mainForm"
+              onClick={customConfirm.okay}
+              className="inline-block w-[100px] py-[5px]  cursor-pointer border border-[#999] bg-white hover:bg-black hover:text-white"
+            >
+              네
+            </Button>
+          ) : (
+            <Button
+              type="submit"
+              onClick={customConfirm.okay}
+              className="inline-block w-[100px] py-[5px]  cursor-pointer border border-[#999] bg-white hover:bg-black hover:text-white"
+            >
+              네
+            </Button>
+          )}
           <Button
             onClick={customConfirm.close}
             className="inline-block w-[100px] py-[5px]  cursor-pointer border border-[#999] bg-white hover:bg-black hover:text-white"
