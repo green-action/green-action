@@ -31,8 +31,8 @@ const AddActionPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 
   const [activityLocation, setActivityLocation] = useState<string>(""); // 주소검색통해 set하기 위해 추가
-  const [activityLocationMap, setActivityLocationMap] = useState<string>(""); // 지도 검색
-  const locationCoorRef = useRef<placeCoordinateType | null>(null); // 지도 검색으로 장소 선택 시 해당 장소의 좌표 담을 useRef
+  const [activityLocationMap, setActivityLocationMap] = useState<string>(""); // 지도 검색 완료 후 뜰 장소명 (렌더링 위해 useState 사용)
+  const locationMapRef = useRef<placeCoordinateType | null>(null); // 지도 검색으로 장소 선택 시 해당 장소의 좌표 담을 useRef
 
   const handleActivityLocationChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -84,15 +84,15 @@ const AddActionPage = () => {
       // 확인창 표시 - 커스텀컨펌 사용 시 X (우선 컨펌창으로)
       if (window.confirm("등록하시겠습니까?")) {
         // 1. user_uid와 텍스트 formData insert -> action_id 반환받기
-        const locationCoor = locationCoorRef.current || null; // location 좌표
-        const allActivityLocation = activityLocationMap
-          ? `${activityLocation} (${activityLocationMap})`
-          : activityLocation;
+        const activityLocationMap = locationMapRef.current || null; // location 좌표
+        // const allActivityLocation = activityLocationMap
+        //   ? `${activityLocation} (${activityLocationMap})`
+        //   : activityLocation;
 
         const action_id = await insertActionTextForm({
           formData,
-          allActivityLocation,
-          locationCoor,
+          activityLocation,
+          activityLocationMap,
           loggedInUserUid,
         });
         setActionId(action_id);
@@ -110,9 +110,14 @@ const AddActionPage = () => {
 
         setModal((state) => ({ ...state, showPoint: true })); // 포인트 휙득 모달창
 
-        // 입력값 초기화
+        // 입력값 초기화 - 혹은 그냥 바로 green action list 페이지로 이동시키기
         const target = event.target as HTMLFormElement;
         target.reset();
+        setUploadedFileUrls([]);
+        setActivityLocation("");
+        setActivityLocationMap("");
+
+        // router.push(`/individualAction`); // 그냥 이동시키면 modal창 제대로 확인하기 전에 이동됨 / but 모달창 x나 close해야만 이동하는 것도 문제
       } else {
         return;
       }
@@ -123,6 +128,7 @@ const AddActionPage = () => {
 
   const handleCancelPost = () => {
     if (window.confirm("정말 등록을 취소하시겠습니까?")) {
+      // TODO 커스텀컨펌창으로 변경하기
       router.push(`/individualAction`);
     } else return;
   };
@@ -165,7 +171,7 @@ const AddActionPage = () => {
             activityLocation={activityLocation}
             setActivityLocation={setActivityLocation}
             handleActivityLocationChange={handleActivityLocationChange}
-            locationCoorRef={locationCoorRef}
+            locationMapRef={locationMapRef}
             activityLocationMap={activityLocationMap}
             setActivityLocationMap={setActivityLocationMap}
           />
@@ -174,7 +180,7 @@ const AddActionPage = () => {
           {/* <div className="flex gap-5  w-[724px] h-[100px] border-1.5 border-gray-300 rounded-3xl pt-[21px] px-[28px] pb-[28px] mb-4 ">
             <SearchMapModal
               setActivityLocationMap={setActivityLocationMap}
-              locationCoorRef={locationCoorRef}
+              locationMapRef={locationMapRef}
             />
             <input
               id="activityLocationMap"
@@ -190,7 +196,7 @@ const AddActionPage = () => {
             <div className="flex gap-5 desktop:w-[724px] laptop:w-[724px] phone:w-[291px] h-[100px] border-1.5 border-gray-300 rounded-3xl pt-[21px] px-[28px] pb-[28px] mb-4">
               <SearchMapModal
                 setActivityLocationMap={setActivityLocationMap}
-                locationCoorRef={locationCoorRef}
+                locationMapRef={locationMapRef}
               />
               <input
                 id="activityLocationMap"
