@@ -107,7 +107,7 @@ const Bookmark = ({
                 <Image
                   src={bookmarkFill}
                   alt="북마크"
-                  className="desktop:w-[15px] laptop:w-[14px] desktop:h-[14px] laptop:h-[13px] desktop:mt-[3px] laptop:mt-[2px] desktop:mr-[8px] laptop:mr-[4px] mb-[2px]"
+                  className="desktop:w-[15px] laptop:w-[14px] desktop:h-[14px] laptop:h-[13px] phone:w-[20px] phone:h-[19px] desktop:mt-[3px] laptop:mt-[2px] desktop:mr-[8px] laptop:mr-[4px] mb-[2px]"
                 />
               )}
               {mode === "main" && (
@@ -120,7 +120,8 @@ const Bookmark = ({
             </button>
             <span
               className={`desktop:text-sm laptop:text-[11px] ${
-                mode === "myPosts" && "desktop:text-[12px] laptop:text-[11px]"
+                mode === "myPosts" &&
+                "desktop:text-[12px] laptop:text-[11px] phone:text-[0px]"
               } ${
                 mode === "individualAction" &&
                 "phone:text-[11px] phone:text-[#848484] desktop:text-black laptop:text-black"
@@ -152,7 +153,7 @@ const Bookmark = ({
               <Image
                 src={bookmarkEmpty}
                 alt="북마크"
-                className="desktop:w-[15px] laptop:w-[15px] desktop:h-[14px] laptop:h-[13px] desktop:mt-[4px] laptop:mt-[2px] desktop:mr-[5px] laptop:mr-[3px] mb-[2px]"
+                className="desktop:w-[15px] laptop:w-[15px] desktop:h-[14px] laptop:h-[13px] phone:w-[20px] phone:h-[19px] desktop:mt-[4px] laptop:mt-[2px] desktop:mr-[5px] laptop:mr-[3px] mb-[2px]"
               />
             )}
             {mode === "main" && (
@@ -166,7 +167,8 @@ const Bookmark = ({
           </button>
           <span
             className={`desktop:text-sm laptop:text-[11px] ${
-              mode === "myPosts" && "desktop:text-[12px] laptop:text-[11px]"
+              mode === "myPosts" &&
+              "desktop:text-[12px] laptop:text-[11px] phone:text-[0px]"
             } ${
               mode === "individualAction" &&
               "phone:text-[11px] phone:text-[#848484] desktop:text-black laptop:text-black"

@@ -22,11 +22,13 @@ import CommunityListPost from "../_components/community/CommunityListPost";
 import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
 import TopButton from "../_components/TopButton";
 import { Button } from "@nextui-org/react";
+import { useResponsive } from "../_hooks/responsive";
 
 const MyPage = () => {
   // TODO props 타입등 재설정
   const router = useRouter();
   const session = useSession();
+  const { isDesktop, isLaptop, isMobile } = useResponsive();
 
   const isLoggedIn = !!session.data;
   const user_uid = session.data?.user.user_uid as string;
@@ -89,7 +91,7 @@ const MyPage = () => {
       setActiveTab(textContent);
     }
   };
-
+  //ㅠㅠ 나누기 각자의 상태를주기
   const filterByRecruiting = () => {
     if (activeTab === "나의 Green-Action") {
       if (myRecruitClicked === "전체") {
@@ -143,121 +145,213 @@ const MyPage = () => {
       {/* 닉넴수정 후 메인페이지 -> 마이페이지 이동시 : 임포트한 헤더 컴포넌트에서만 닉넴 수정 반영됨 */}
       <div className="flex justify-center desktop:mb-[100px] laptop:mb-[50px]">
         <TopButton />
-        <div className="flex desktop:w-[1540px] laptop:w-[1020px]">
-          <MyProfile userInfo={userInfo as User} />
-          <div className="flex flex-col desktop:gap-10 desktop:pl-[82px] laptop:pl-[30px] desktop:pt-1 laptop:pt-[30px] w-full">
-            <div className="flex justify-between laptop:mb-[30px]">
-              <div className="flex desktop:gap-[45px] laptop:gap-[30px] desktop:ml-5 desktop:text-[12pt]">
-                {/* <Tabs 탭은 보류
-                  aria-label="Options"
-                  color="primary"
-                  variant="underlined"
-                  classNames={{
-                    tabList:
-                      "gap-6 w-full relative rounded-none p-0 border-b border-divider",
-                    cursor: "w-full bg-[#22d3ee]",
-                    tab: "max-w-fit px-0 h-12",
-                    tabContent: "group-data-[selected=true]:text-[#6f979e]",
-                  }}
-                >
-                  <Tab key="photos" onClick={handleActiveTabClick}>
-                    My Green-Action
-                  </Tab>
-                  <Tab key="photos" onClick={handleActiveTabClick}>
-                    작성 게시물
-                  </Tab>
-                </Tabs> 
 
-                <Button
-                  onClick={handleActiveTabClick}
-                  className={`bg-transparent cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt] p-[20px] rounded-none 로도 클릭문제 해결 X*/}
-                <div
-                  onClick={handleActiveTabClick}
-                  className={`cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt] 
-                     ${
-                       activeTab === "나의 Green-Action" &&
-                       "border-b-2 border-[#979797] transition duration-400 ease-in-out"
-                     }`}
-                >
-                  나의 Green-Action
-                </div>
-                <div
-                  onClick={handleActiveTabClick}
-                  className={`cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt]
-                     ${
-                       activeTab === "즐겨찾는 Green-Action" &&
-                       "border-b-2 border-[#979797] transition duration-400 ease-in-out"
-                     }`}
-                >
-                  즐겨찾는 Green-Action
-                </div>
-                <div
-                  onClick={handleActiveTabClick}
-                  className={`cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt]
+        <div className="flex desktop:w-[1540px] laptop:w-[1020px] phone:w-[294px]">
+          {(isDesktop || isLaptop) && <MyProfile userInfo={userInfo as User} />}
+
+          <div className="flex flex-col desktop:gap-10 desktop:pl-[82px] laptop:pl-[30px] desktop:pt-1 laptop:pt-[30px] w-full">
+            {isMobile && <MyProfile userInfo={userInfo as User} />}
+            {(isDesktop || isLaptop) && (
+              <>
+                <div className="flex justify-between laptop:mb-[30px] vh-auto">
+                  <div className="flex desktop:gap-[45px] laptop:gap-[30px] desktop:ml-5 desktop:text-[12pt]">
+                    {/* <Tabs 탭은 보류
+                 aria-label="Options"
+                 color="primary"
+                 variant="underlined"
+                 classNames={{
+                   tabList:
+                     "gap-6 w-full relative rounded-none p-0 border-b border-divider",
+                   cursor: "w-full bg-[#22d3ee]",
+                   tab: "max-w-fit px-0 h-12",
+                   tabContent: "group-data-[selected=true]:text-[#6f979e]",
+                 }}
+               >
+                 <Tab key="photos" onClick={handleActiveTabClick}>
+                   My Green-Action
+                 </Tab>
+                 <Tab key="photos" onClick={handleActiveTabClick}>
+                   작성 게시물
+                 </Tab>
+               </Tabs> 
+
+               <Button
+                 onClick={handleActiveTabClick}
+                 className={`bg-transparent cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt] p-[20px] rounded-none 로도 클릭문제 해결 X*/}
+                    <div
+                      onClick={handleActiveTabClick}
+                      className={`cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt] 
                     ${
-                      activeTab === "나의 Community" &&
+                      activeTab === "나의 Green-Action" &&
                       "border-b-2 border-[#979797] transition duration-400 ease-in-out"
                     }`}
-                >
-                  나의 Community
+                    >
+                      나의 Green-Action
+                    </div>
+                    <div
+                      onClick={handleActiveTabClick}
+                      className={`cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt]
+                    ${
+                      activeTab === "즐겨찾는 Green-Action" &&
+                      "border-b-2 border-[#979797] transition duration-400 ease-in-out"
+                    }`}
+                    >
+                      즐겨찾는 Green-Action
+                    </div>
+                    <div
+                      onClick={handleActiveTabClick}
+                      className={`cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt]
+                   ${
+                     activeTab === "나의 Community" &&
+                     "border-b-2 border-[#979797] transition duration-400 ease-in-out"
+                   }`}
+                    >
+                      나의 Community
+                    </div>
+                  </div>
+                  <div className="mr-[80px]">
+                    {activeTab === "나의 Green-Action" && (
+                      <RecruitSelectTab
+                        selected={myRecruitClicked}
+                        setSelected={setMyRecruitClicked}
+                      />
+                    )}
+                    {activeTab === "즐겨찾는 Green-Action" && (
+                      <RecruitSelectTab
+                        selected={bookmarkedRecruitClicked}
+                        setSelected={setBookmarkedRecruitClicked}
+                      />
+                    )}
+                  </div>
                 </div>
-              </div>
-              <div className="mr-[80px]">
-                {activeTab === "나의 Green-Action" && (
-                  <RecruitSelectTab
-                    selected={myRecruitClicked}
-                    setSelected={setMyRecruitClicked}
-                  />
-                )}
-                {activeTab === "즐겨찾는 Green-Action" && (
-                  <RecruitSelectTab
-                    selected={bookmarkedRecruitClicked}
-                    setSelected={setBookmarkedRecruitClicked}
-                  />
-                )}
-              </div>
-            </div>
-            <div className="flex flex-wrap gap-[20px]">
-              {/* LINK My Green Action */}
-              {activeTab === "나의 Green-Action" &&
-                filteredActions?.map((action) => {
-                  return (
-                    <MyActionCard
-                      key={action.id}
-                      action={action}
-                      mode="myPosts"
-                    />
-                  );
-                })}
-            </div>
-            {/* LINK 찜한 Green Action */}
-            <div className="flex flex-wrap gap-[20px]">
-              {activeTab === "즐겨찾는 Green-Action" &&
-                filteredBookmarkedActions?.map((bookmark) => {
-                  return (
-                    <MyActionCard
-                      key={bookmark?.bookmarkedAction?.id || ""}
-                      action={bookmark}
-                      mode="myBookmarks"
-                    />
-                  );
-                })}
-            </div>
-            {/* LINK 내가 쓴 커뮤니티 글 */}
-            <div className="flex flex-wrap gap-[20px]">
-              {activeTab === "나의 Community" &&
-                myPosts?.map((post) => {
-                  return (
-                    <CommunityListPost
-                      key={post.id}
-                      mode="myPosts"
-                      communityPost={post}
-                      my_display_name={display_name}
-                      my_profile_img={profile_img || null}
-                    />
-                  );
-                })}
-            </div>
+                <div className="flex flex-wrap gap-[20px]">
+                  {/* LINK My Green Action */}
+                  {activeTab === "나의 Green-Action" &&
+                    filteredActions?.map((action) => {
+                      return (
+                        <MyActionCard
+                          key={action.id}
+                          action={action}
+                          mode="myPosts"
+                        />
+                      );
+                    })}
+                </div>
+                {/* LINK 찜한 Green Action */}
+                <div className="flex flex-wrap gap-[20px]">
+                  {activeTab === "즐겨찾는 Green-Action" &&
+                    filteredBookmarkedActions?.map((bookmark) => {
+                      return (
+                        <MyActionCard
+                          key={bookmark?.bookmarkedAction?.id || ""}
+                          action={bookmark}
+                          mode="myBookmarks"
+                        />
+                      );
+                    })}
+                </div>
+                {/* LINK 내가 쓴 커뮤니티 글 */}
+                <div className="flex flex-wrap gap-[20px]">
+                  {activeTab === "나의 Community" &&
+                    myPosts?.map((post) => {
+                      return (
+                        <CommunityListPost
+                          key={post.id}
+                          mode="myPosts"
+                          communityPost={post}
+                          my_display_name={display_name}
+                          my_profile_img={profile_img || null}
+                        />
+                      );
+                    })}
+                </div>
+              </>
+            )}
+            {isMobile && (
+              <>
+                <div>
+                  <div className="flex flex-col justify-between mt-[50px] w-full">
+                    <div
+                      className="text-[13pt] font-bold"
+                      onClick={handleActiveTabClick}
+                    >
+                      나의 Green-Action
+                    </div>
+                    <div className="ml-auto">
+                      {"나의 Green-Action" && (
+                        <RecruitSelectTab
+                          selected={myRecruitClicked}
+                          setSelected={setMyRecruitClicked}
+                        />
+                      )}
+                    </div>
+                    <div className="mt-10 gap-5 grid p-2 phone:grid-cols-2">
+                      {/* LINK My Green Action */}
+                      {"나의 Green-Action" &&
+                        filteredActions?.map((action) => {
+                          return (
+                            <MyActionCard
+                              key={action.id}
+                              action={action}
+                              mode="myPosts"
+                            />
+                          );
+                        })}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col justify-between mt-[50px] w-full">
+                  <div
+                    className="text-[13pt] font-bold"
+                    onClick={handleActiveTabClick}
+                  >
+                    즐겨찾는 Green-Action
+                  </div>
+                  <div className="ml-auto mt-5">
+                    {/* LINK 찜한 Green Action */}
+                    {activeTab === "즐겨찾는 Green-Action" && (
+                      <RecruitSelectTab
+                        selected={bookmarkedRecruitClicked}
+                        setSelected={setBookmarkedRecruitClicked}
+                      />
+                    )}
+                  </div>
+                  {/* LINK 찜한 Green Action */}
+                  <div className="mt-10 gap-5 grid p-2 phone:grid-cols-2">
+                    {activeTab === "즐겨찾는 Green-Action" &&
+                      filteredBookmarkedActions?.map((bookmark) => {
+                        return (
+                          <MyActionCard
+                            key={bookmark?.bookmarkedAction?.id || ""}
+                            action={bookmark}
+                            mode="myBookmarks"
+                          />
+                        );
+                      })}
+                  </div>
+                </div>
+                <div className="flex flex-col justify-between mt-[40px] w-full">
+                  <div className="h-[30px] text-[13pt] font-bold">
+                    나의 Community
+                    {/* LINK 내가 쓴 커뮤니티 글 */}
+                    <div className="mt-10 gap-5 grid p-2 phone:grid-cols-2">
+                      {myPosts?.map((post) => {
+                        return (
+                          <CommunityListPost
+                            key={post.id}
+                            mode="myPosts"
+                            communityPost={post}
+                            my_display_name={display_name}
+                            my_profile_img={profile_img || null}
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
