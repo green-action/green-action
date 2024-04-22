@@ -368,18 +368,21 @@ const GroupChatRoom = ({
                             ))}
                           </div>
                         </div>
-                        <footer className="absolute bottom-0 w-[75%] h-[9%] border-t-1 flex items-center justify-center gap-3">
-                          <HiOutlineArrowLeftOnRectangle
-                            size={30}
-                            className="text-gray-700"
-                          />
-                          <span
-                            className="text-gray-700 text-[17px] font-extrabold mr-3 cursor-pointer"
-                            onClick={() => handleCancelParticipate(onClose)}
-                          >
-                            참여 취소하기
-                          </span>
-                        </footer>
+                        {loggedInUserUid !== ownerInfo?.id && (
+                          <footer className="absolute bottom-0 w-[75%] h-[9%] border-t-1 flex items-center justify-center gap-3">
+                            <HiOutlineArrowLeftOnRectangle
+                              size={30}
+                              className="text-gray-700"
+                            />
+
+                            <span
+                              className="text-gray-700 text-[17px] font-extrabold mr-3 cursor-pointer"
+                              onClick={() => handleCancelParticipate(onClose)}
+                            >
+                              참여 취소하기
+                            </span>
+                          </footer>
+                        )}
                       </div>
                     </div>
                   </div>
