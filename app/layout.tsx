@@ -13,7 +13,8 @@ const defaultUrl = process.env.VERCEL_URL
 export const metadata = {
   metadataBase: new URL(defaultUrl),
   title: "soom",
-  description: "The fastest way to build apps with Next.js and Supabase",
+  description:
+    "친환경 및 지속가능성 관련 캠페인 정보 제공, 캠페인 모임 생성과 참여, 인증과 공유가 가능한 서비스 플랫폼 사이트",
 };
 // 여기서 사용자정보 불러오기
 declare global {
