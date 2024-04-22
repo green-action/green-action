@@ -59,9 +59,6 @@ const ChatButtons = ({
     onOpenChange: onPrivateChatOpenChange,
   } = useDisclosure();
 
-  // 1:1 채팅방 room_id 담는 Ref
-  const privateRoomIdRef = useRef("");
-
   // 단체 채팅방 모달창
   const {
     isOpen: isGroupChatOpen,
@@ -69,10 +66,14 @@ const ChatButtons = ({
     onOpenChange: onGroupChatOpenChange,
   } = useDisclosure();
 
+  // 1:1 채팅방 room_id 담는 Ref
+  const privateRoomIdRef = useRef("");
+
   // 단체 채팅방 room_id 담는 Ref
   const groupRoomIdRef = useRef("");
 
   // 액션장 uid 가져오기
+  // TODO useQuery로 변경하기
   useEffect(() => {
     const fetchData = async (action_id: string) => {
       const response = await getActionOwnerUid(action_id);
@@ -83,7 +84,7 @@ const ChatButtons = ({
     fetchData(action_id);
   }, [action_id]);
 
-  // 1:1 채팅방 모달 열기
+  // 1:1 채팅방 열기
   const handleOpenPrivateChatRoom = async () => {
     if (!loggedInUserUid) {
       alert("로그인이 필요합니다");
@@ -144,7 +145,7 @@ const ChatButtons = ({
     onChatsListModalOpen();
   };
 
-  // 단체 채팅방 클릭 핸들러
+  // 단체 채팅방 열기
   const handleOpenGroupChatRoom = async () => {
     if (!loggedInUserUid) {
       alert("로그인이 필요합니다");
@@ -166,42 +167,45 @@ const ChatButtons = ({
       onGroupChatOpen();
       return;
     }
+    // 새로운 참여인 경우
+    const isConfirm = window.confirm("green-action에 참여하시겠습니까?");
+    if (isConfirm) {
+      // 현재 채팅방 인원 가져오기
+      const participantsNumber = await countParticipants(room_id);
 
-    // 현재 채팅방 인원 가져오기
-    const participantsNumber = await countParticipants(room_id);
+      // action 모집인원 가져오기
+      const recruitingNumber = await getRecruitingNumber(room_id);
 
-    // action 모집인원 가져오기
-    const recruitingNumber = await getRecruitingNumber(room_id);
+      // 채팅인원 === 모집인원 -> alert띄우기
+      if (participantsNumber === recruitingNumber) {
+        alert("모집마감 되었습니다.");
+        return;
+      }
 
-    // 채팅인원 === 모집인원 -> alert띄우기
-    if (participantsNumber === recruitingNumber) {
-      alert("모집마감 되었습니다.");
-      return;
+      // 채팅인원 < 모집인원 -> 참가자 테이블에 insert
+      if (participantsNumber < recruitingNumber) {
+        await insertNewParticipant({
+          room_id,
+          loggedInUserUid,
+        });
+      }
+
+      // 채팅인원 +1(내가 참여했으니까) === 모집인원 -> '모집마감' 처리
+      if (participantsNumber + 1 === recruitingNumber) {
+        await changeRecruitingState({ action_id, mode: "in" });
+      }
+
+      // <기존 성공했던 코드 - api 분리 전>
+      // 채팅 인원 파악, 해당 action의 모집인원
+      // 채팅인원 === 모집인원 된 경우 -> 모집상태 '모집마감'으로 변경
+      // await countParticipants({
+      //   room_id,
+      //   action_id,
+      // });
+
+      // 채팅방 모달창 open
+      onGroupChatOpen();
     }
-
-    // 채팅인원 < 모집인원 -> 참가자 테이블에 insert
-    if (participantsNumber < recruitingNumber) {
-      await insertNewParticipant({
-        room_id,
-        loggedInUserUid,
-      });
-    }
-
-    // 채팅인원 +1(내가 참여했으니까) === 모집인원 -> '모집마감' 처리
-    if (participantsNumber + 1 === recruitingNumber) {
-      await changeRecruitingState({ action_id, mode: "in" });
-    }
-
-    // <기존 성공했던 코드 - api 분리 전>
-    // 채팅 인원 파악, 해당 action의 모집인원
-    // 채팅인원 === 모집인원 된 경우 -> 모집상태 '모집마감'으로 변경
-    // await countParticipants({
-    //   room_id,
-    //   action_id,
-    // });
-
-    // 채팅방 모달창 open
-    onGroupChatOpen();
   };
 
   return (
@@ -227,7 +231,7 @@ const ChatButtons = ({
           : "1:1 문의하기"}
       </div>
       {/* NOTE 그룹채팅방 완성되면 복구 예정 */}
-      {/* <div
+      <div
         className={`${
           isDesktop
             ? "border-1 border-[#bfbfbf] bg-[#fafafa] h-[74.7px] rounded-[20px] text-center content-center font-semibold cursor-pointer"
@@ -240,9 +244,9 @@ const ChatButtons = ({
         onClick={handleOpenGroupChatRoom}
       >
         {actionOwnerUid === loggedInUserUid ? "그룹채팅방 보기" : "참여하기"}
-      </div> */}
+      </div>
       {/* NOTE 임시 - 카톡링크 보여주기 모달창 */}
-      {actionOwnerUid !== loggedInUserUid && (
+      {/* {actionOwnerUid !== loggedInUserUid && (
         <div
           className={`${
             isDesktop
@@ -257,7 +261,7 @@ const ChatButtons = ({
         >
           참여하기
         </div>
-      )}
+      )} */}
       {/* 1:1문의 목록보기 */}
       {isChatsListModalOpen && (
         <ChatsListModal
