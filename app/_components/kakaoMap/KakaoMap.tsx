@@ -1,6 +1,8 @@
 "use client";
 import type { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
-import React, { useEffect, useRef } from "react";
+import { Tooltip } from "@nextui-org/react";
+import React, { useEffect, useRef, useState } from "react";
+import { CustomOverlayMap, Map, MapMarker } from "react-kakao-maps-sdk";
 // const { kakao } = window; // 에러
 
 const KakaoMap = ({
@@ -11,6 +13,9 @@ const KakaoMap = ({
   // activityLocationMap?: string;
 }) => {
   const { x, y } = placeInfo as placeCoordinateType;
+  // const position = { lat: Number(y), lng: Number(x) };
+
+  const [position, setPosition] = useState({ lat: 0, lng: 0 });
   const mapContainer = useRef<HTMLDivElement>(null); // 보류
 
   // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
@@ -18,10 +23,18 @@ const KakaoMap = ({
   let iwContent = `<div style="padding:6px; width:133px;">
     <a href="https://map.kakao.com/link/map/${placeInfo.placeName},${y},${x}" style = "font-size: 14px; color:#89997b" target = "_blank">큰지도보기</a> &emsp; <a href="https://map.kakao.com/link/to/${placeInfo.placeName},${y},${x}" style="font-size: 14px; color:#89997b;" target="_blank">길찾기</a></div>`;
 
+  // const iwContent = `<div className="rounded">큰지도</div>`;
+  // className - tailwind css 안먹힘
+
+  const detailMapLink = `https://map.kakao.com/link/map/${placeInfo.placeName},${y},${x}`;
+  const showDirectLink = `https://map.kakao.com/link/to/${placeInfo.placeName},${y},${x}`;
+
   useEffect(() => {
+    setPosition({ lat: Number(y), lng: Number(x) });
+
     const onLoadKakaoAPI = () => {
       window.kakao.maps.load(() => {
-        var infowindow = new window.kakao.maps.InfoWindow({ zIndex: 1 }); // z index 수정?
+        // var infowindow = new window.kakao.maps.InfoWindow({ zIndex: 1 }); // z index 수정?
 
         var options = {
           center: new window.kakao.maps.LatLng(y, x),
@@ -41,16 +54,16 @@ const KakaoMap = ({
         // 마커가 지도 위에 표시되도록 설정합니다
         marker.setMap(map);
 
-        const iwPosition = new window.kakao.maps.LatLng(33.450701, 126.570667); //인포윈도우 표시 위치입니다
-
-        // 인포윈도우를 생성합니다
-        infowindow = new window.kakao.maps.InfoWindow({
-          position: iwPosition,
-          content: iwContent,
-        });
+        // const iwPosition = new window.kakao.maps.LatLng(y, x); //인포윈도우 표시 위치입니다
+        // const iwContent = `<div className="rounded">큰지도</div>`;
+        // // 인포윈도우를 생성합니다
+        // infowindow = new window.kakao.maps.InfoWindow({
+        //   position: iwPosition,
+        //   content: iwContent,
+        // });
 
         // 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
-        infowindow.open(map, marker);
+        // infowindow.open(map, marker);
 
         // 마커에 클릭이벤트를 등록 -> ?
         // window.kakao.maps.event.addListener(marker, "click", function () {
@@ -96,17 +109,50 @@ const KakaoMap = ({
           // 마커에 클릭이벤트를 등록합니다
           window.kakao.maps.event.addListener(marker, "click", function () {
             //  마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-            infowindow.open(map, marker);
+            // infowindow.open(map, marker);
           });
         }
       });
     };
 
-    onLoadKakaoAPI();
-  }, [placeInfo]); // 원래는 placeCoordinate 의존성배열에 안넣어도 잘 뜨긴 함
+    // onLoadKakaoAPI();
+  }, [placeInfo, x, y]); // 원래는 placeCoordinate 의존성배열에 안넣어도 잘 뜨긴 함
 
   return (
-    <div id="map" ref={mapContainer} className="w-full h-full rounded-2xl" />
+    <>
+      {/* <div id="map" ref={mapContainer} className="w-full h-full rounded-2xl" /> */}
+      <Map center={position} level={4} className="w-full h-full rounded-2xl">
+        {/* <MapMarker position={position} /> */}
+        <CustomOverlayMap
+          position={position} // 커스텀 오버레이가 나타날 위치
+          // 공식문서등 전체 스타일도 주던데, 안됨
+        >
+          <div className="desktop:min-w-[170px] laptop:min-w-[100px] desktop:h-[60px] rounded-2xl bg-[#D2DED0]/90 mb-[150px] border-[2px] border-white p-2 flex flex-col items-center">
+            {/* box shadow */}
+            <p className="font-bold desktop:text-[15px] laptop:text-[14px]">
+              {placeInfo.placeName}
+            </p>
+            <div className="flex desktop:gap-[30px] laptop:gap-[20px] desktop:text-[14.5px] laptop:text-[13.5px]">
+              <a
+                href={detailMapLink}
+                target="_blank"
+                className="text-[#1E1E1E] hover:text-[#797979]"
+              >
+                큰지도보기
+              </a>
+              <a
+                href={showDirectLink}
+                target="_blank"
+                className="text-[#1E1E1E] hover:text-[#797979]"
+              >
+                길찾기
+              </a>
+            </div>
+          </div>
+          <MapMarker position={position} />
+        </CustomOverlayMap>
+      </Map>
+    </>
   );
 };
 
