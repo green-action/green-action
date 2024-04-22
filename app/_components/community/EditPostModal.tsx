@@ -10,6 +10,7 @@ import { useGetSinglePostForEdit } from "@/app/_hooks/useQueries/community";
 
 import PostImgEdit from "./PostImgEdit";
 
+import { MODE_COMMUNITY } from "@/app/_api/constant";
 import {
   Button,
   Dropdown,
@@ -110,7 +111,7 @@ const EditPostModal = ({
             <>
               <CustomConfirm
                 text="취소 하시겠습니까?"
-                mode="community"
+                mode={MODE_COMMUNITY}
                 okFunction={onClose}
               />
               <form onSubmit={handleSubmit}>

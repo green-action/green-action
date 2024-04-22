@@ -11,6 +11,7 @@ import {
   uploadFilesAndGetUrls,
 } from "@/app/_api/individualAction-add/add-api";
 
+import { MODE_INDIVIDUAL_ACTION_ADD } from "@/app/_api/constant";
 import AlertModal from "@/app/_components/community/AlertModal";
 import PointModal from "@/app/_components/community/PointModal";
 import CustomConfirm from "@/app/_components/customConfirm/CustomConfirm";
@@ -18,12 +19,11 @@ import FirstInputBox from "@/app/_components/individualAction-add/FirstInputBox"
 import ImgUpload from "@/app/_components/individualAction-add/ImgUpload";
 import SecondInputBox from "@/app/_components/individualAction-add/SecondInputBox";
 import ThirdInputBox from "@/app/_components/individualAction-add/ThirdInputBox";
-import { useDisclosure, user } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
 import { useResponsive } from "@/app/_hooks/responsive";
-import { FaChevronLeft } from "react-icons/fa6";
-import SearchMapModal from "@/app/_components/kakaoMap/SearchMapModal";
 import { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
+import { useDisclosure } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
+import { FaChevronLeft } from "react-icons/fa6";
 
 const AddActionPage = () => {
   const [uploadedFileUrls, setUploadedFileUrls] = useState<string[]>([]);
@@ -31,8 +31,8 @@ const AddActionPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 
   const [activityLocation, setActivityLocation] = useState<string>(""); // 주소검색통해 set하기 위해 추가
-  const [activityLocationMap, setActivityLocationMap] = useState<string>(""); // 지도 검색
-  const locationCoorRef = useRef<placeCoordinateType | null>(null); // 지도 검색으로 장소 선택 시 해당 장소의 좌표 담을 useRef
+  const [activityLocationMap, setActivityLocationMap] = useState<string>(""); // 지도 검색 완료 후 뜰 장소명 (렌더링 위해 useState 사용)
+  const locationMapRef = useRef<placeCoordinateType | null>(null); // 지도 검색으로 장소 선택 시 해당 장소의 좌표 담을 useRef
 
   const handleActivityLocationChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -81,41 +81,42 @@ const AddActionPage = () => {
     }
 
     try {
-      // 확인창 표시 - 커스텀컨펌 사용 시 X (우선 컨펌창으로)
-      if (window.confirm("등록하시겠습니까?")) {
-        // 1. user_uid와 텍스트 formData insert -> action_id 반환받기
-        const locationCoor = locationCoorRef.current || null; // location 좌표
-        const allActivityLocation = activityLocationMap
-          ? `${activityLocation} (${activityLocationMap})`
-          : activityLocation;
+      // 1. user_uid와 텍스트 formData insert -> action_id 반환받기
+      const activityLocationMap = locationMapRef.current || null; // 지도 장소정보 - 장소 좌표, 장소명, 장소 id
+      // const allActivityLocation = activityLocationMap
+      //   ? `${activityLocation} (${activityLocationMap})`
+      //   : activityLocation;
 
-        const action_id = await insertActionTextForm({
-          formData,
-          allActivityLocation,
-          locationCoor,
-          loggedInUserUid,
-        });
-        setActionId(action_id);
-        // 2. 500point 업데이트
-        await updateUserPoint(loggedInUserUid, { mode: "addAction" });
+      const action_id = await insertActionTextForm({
+        formData,
+        activityLocation,
+        activityLocationMap,
+        loggedInUserUid,
+      });
+      setActionId(action_id);
+      // 2. 500point 업데이트
+      await updateUserPoint(loggedInUserUid, { mode: "addAction" });
 
-        // 3. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
-        const imgUrlsArray = await uploadFilesAndGetUrls({ files, action_id });
+      // 3. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
+      const imgUrlsArray = await uploadFilesAndGetUrls({ files, action_id });
 
-        // 4. 이미지url들 table에 넣기 - action_id에 id사용
-        await insertImgUrls({ action_id, imgUrlsArray });
+      // 4. 이미지url들 table에 넣기 - action_id에 id사용
+      await insertImgUrls({ action_id, imgUrlsArray });
 
-        // 5. 단체 채팅방 생성
-        await insertGroupChatRoom({ loggedInUserUid, action_id });
+      // 5. 단체 채팅방 생성
+      await insertGroupChatRoom({ loggedInUserUid, action_id });
 
-        setModal((state) => ({ ...state, showPoint: true })); // 포인트 휙득 모달창
+      setModal((state) => ({ ...state, showPoint: true })); // 포인트 휙득 모달창
 
-        // 입력값 초기화
-        const target = event.target as HTMLFormElement;
-        target.reset();
-      } else {
-        return;
-      }
+      // 입력값 초기화 - 혹은 그냥 바로 green action list 페이지로 이동시키기
+      const target = event.target as HTMLFormElement;
+      target.reset();
+      setUploadedFileUrls([]);
+      setActivityLocation("");
+      setActivityLocationMap("");
+      locationMapRef.current = null;
+
+      // router.push(`/individualAction`); // 그냥 이동시키면 modal창 제대로 확인하기 전에 이동됨 / but 모달창 x나 close해야만 이동하는 것도 문제
     } catch (error) {
       console.error("Error inserting data:", error);
     }
@@ -123,6 +124,7 @@ const AddActionPage = () => {
 
   const handleCancelPost = () => {
     if (window.confirm("정말 등록을 취소하시겠습니까?")) {
+      // TODO 커스텀컨펌창으로 변경하기
       router.push(`/individualAction`);
     } else return;
   };
@@ -165,7 +167,7 @@ const AddActionPage = () => {
             activityLocation={activityLocation}
             setActivityLocation={setActivityLocation}
             handleActivityLocationChange={handleActivityLocationChange}
-            locationCoorRef={locationCoorRef}
+            locationMapRef={locationMapRef}
             activityLocationMap={activityLocationMap}
             setActivityLocationMap={setActivityLocationMap}
           />
@@ -174,7 +176,7 @@ const AddActionPage = () => {
           {/* <div className="flex gap-5  w-[724px] h-[100px] border-1.5 border-gray-300 rounded-3xl pt-[21px] px-[28px] pb-[28px] mb-4 ">
             <SearchMapModal
               setActivityLocationMap={setActivityLocationMap}
-              locationCoorRef={locationCoorRef}
+              locationMapRef={locationMapRef}
             />
             <input
               id="activityLocationMap"
@@ -190,7 +192,7 @@ const AddActionPage = () => {
             <div className="flex gap-5 desktop:w-[724px] laptop:w-[724px] phone:w-[291px] h-[100px] border-1.5 border-gray-300 rounded-3xl pt-[21px] px-[28px] pb-[28px] mb-4">
               <SearchMapModal
                 setActivityLocationMap={setActivityLocationMap}
-                locationCoorRef={locationCoorRef}
+                locationMapRef={locationMapRef}
               />
               <input
                 id="activityLocationMap"
@@ -210,13 +212,19 @@ const AddActionPage = () => {
           {/* 등록, 취소 버튼 */}
           {(isDesktop || isLaptop) && (
             <div className="w-[724px] flex justify-center gap-4">
-              <button
+              {/* <button
                 type="submit"
                 form="mainForm"
                 className="bg-gray-200 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500"
               >
                 <span className="font-extrabold">등록완료</span>
-              </button>
+              </button> */}
+              <CustomConfirm
+                text="등록하시겠습니까?"
+                buttonName="등록완료"
+                okFunction={() => handleSubmit}
+                mode={MODE_INDIVIDUAL_ACTION_ADD}
+              />
               <button
                 onClick={handleCancelPost}
                 className="bg-gray-100 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500"
@@ -228,13 +236,20 @@ const AddActionPage = () => {
 
           {isMobile && (
             <div className="w-[291px] flex justify-center gap-4 mt-3">
-              <button
+              {/* 커스텀컨펌창으로 다시 변경 */}
+              <CustomConfirm
+                text="등록하시겠습니까?"
+                buttonName="등록완료"
+                okFunction={() => handleSubmit}
+                mode={MODE_INDIVIDUAL_ACTION_ADD}
+              />
+              {/* <button
                 type="submit"
                 form="mainForm"
                 className="bg-black w-[170px] h-[40px] rounded-full border-1.5  text-sm font-medium text-white"
               >
                 <span className="font-extrabold">등록완료</span>
-              </button>
+              </button> */}
             </div>
           )}
         </div>
@@ -245,7 +260,9 @@ const AddActionPage = () => {
           isOpen={Modal.showPoint}
           point={300}
           mod={"add"}
-          onClose={() => setModal((state) => ({ ...state, showPoint: false }))}
+          onCloseFn={() =>
+            setModal((state) => ({ ...state, showPoint: false }))
+          } // 여기서는 onCloseFn 필요가 없음
           handleClick={() => {
             router.push(`/individualAction/detail/${actionId}`);
           }}

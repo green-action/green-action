@@ -1,4 +1,5 @@
 import { supabase } from "@/utils/supabase/client";
+import { MODE_IN } from "../constant";
 
 import type { ItemType, ParticipantInfo } from "@/app/_types/realtime-chats";
 
@@ -134,7 +135,7 @@ export const changeRecruitingState = async ({
   mode: string;
 }) => {
   try {
-    const is_recruiting = mode === "in" ? false : true;
+    const is_recruiting = mode === MODE_IN ? false : true;
 
     const { error } = await supabase
       .from("individual_green_actions")
