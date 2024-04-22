@@ -5,7 +5,10 @@ import { useSession } from "next-auth/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/utils/supabase/client";
 import type { ChatProps } from "@/app/_types/realtime-chats";
-import { useGetMessagesList } from "@/app/_hooks/useQueries/chats";
+import {
+  useGetMessagesList,
+  useGetOwnerInfo,
+} from "@/app/_hooks/useQueries/chats";
 import { sendMessage } from "@/app/_api/messages/privateChat-api";
 import { QUERY_KEY_MESSAGES_LIST } from "@/app/_api/queryKeys";
 import {
@@ -66,10 +69,14 @@ const GroupChatRoom = ({
     loggedInUserUid,
   });
 
-  if (isLoading) {
+  // 방장 정보 가져오기(id, 닉네임, 프로필)
+  const { ownerInfo, isOwnerInfoLading, isOwnerInfoError } =
+    useGetOwnerInfo(roomId);
+
+  if (isLoading || isOwnerInfoLading) {
     <div>Loading</div>;
   }
-  if (isError || messagesList === undefined) {
+  if (isError || isOwnerInfoError || messagesList === undefined) {
     <div>Error</div>;
   }
 

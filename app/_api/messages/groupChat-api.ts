@@ -166,3 +166,19 @@ export const deleteParticipant = async (loggedInUserUid: string) => {
     throw error;
   }
 };
+
+// 방장 정보 가져오기
+export const getOwnerInfo = async (room_id: string) => {
+  const { data, error } = await supabase
+    .from("chat_participants")
+    .select("users(id, display_name, profile_img)")
+    .eq("room_id", room_id)
+    .eq("participant_type", "방장");
+
+  if (error) {
+    console.log("error", error.message);
+    throw error;
+  }
+
+  return data[0].users;
+};

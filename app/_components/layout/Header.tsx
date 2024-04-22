@@ -155,7 +155,7 @@ function Header() {
     return <div>Error</div>;
   }
 
-  console.log("allUnreadCount", allUnreadCount);
+  // console.log("allUnreadCount", allUnreadCount);
 
   return (
     <>

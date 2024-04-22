@@ -8,6 +8,7 @@ import {
   QUERY_KEY_MESSAGES_PARTICIPANT_INFO_HEADER,
   QUERY_KEY_MESSAGES_PARTICIPANT_INFO_PAGE,
   QUERY_KEY_MY_PRIVATE_ROOMS_IDS,
+  QUERY_KEY_OWNER_INFO,
   QUERY_KEY_PRIVATE_PARTICIPANT_INFO,
   QUERY_KEY_PRIVATE_ROOM_IDS,
   QUERY_KEY_UNREAD_MESSAGES_COUNT,
@@ -31,6 +32,7 @@ import {
   getParticipantInfo,
   getPrivateRoomIds,
 } from "@/app/_api/messages/pagePrivateList-api";
+import { getOwnerInfo } from "@/app/_api/messages/groupChat-api";
 
 export const useGetMessagesList = ({
   roomId,
@@ -234,4 +236,17 @@ export const useGetAllUnreadCount = (loggedInUserUid: string) => {
     enabled: !!loggedInUserUid,
   });
   return { allUnreadCount, isAllUnreadCountLoading, isAllUnreadCountError };
+};
+
+export const useGetOwnerInfo = (room_id: string) => {
+  const {
+    data: ownerInfo,
+    isLoading: isOwnerInfoLading,
+    isError: isOwnerInfoError,
+  } = useQuery({
+    queryKey: [QUERY_KEY_OWNER_INFO],
+    queryFn: async () => getOwnerInfo(room_id),
+  });
+
+  return { ownerInfo, isOwnerInfoLading, isOwnerInfoError };
 };
