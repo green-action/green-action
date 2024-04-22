@@ -358,14 +358,29 @@ const GroupChatRoom = ({
                           </div>
                           <div className="flex flex-col gap-4">
                             <div className="flex items-center gap-2 font-extrabold">
-                              <Avatar className="mr-2" />
-                              <LiaCrownSolid size={20} />
-                              <span>닉네임</span>
+                              <Avatar
+                                className="mr-2"
+                                src={ownerNicknameImg?.profile_img || ""}
+                              />
+                              <LiaCrownSolid
+                                size={25}
+                                className="text-[#B3C8A1]"
+                              />
+                              <span>{ownerNicknameImg?.display_name}</span>
                             </div>
-                            <div className="flex items-center gap-4 font-extrabold">
-                              <Avatar />
-                              <span>닉네임</span>
-                            </div>
+                            {participantsInfo?.map((participant) => (
+                              <>
+                                {participant.id !== ownerInfo?.id && (
+                                  <div className="flex items-center gap-4 font-extrabold">
+                                    <Avatar
+                                      src={participant.profile_img || ""}
+                                      alt="participant-profile"
+                                    />
+                                    <span>{participant.display_name}</span>
+                                  </div>
+                                )}
+                              </>
+                            ))}
                           </div>
                         </div>
                         <footer className="absolute bottom-0 w-[75%] h-[9%] border-t-1 flex items-center justify-center gap-3">
