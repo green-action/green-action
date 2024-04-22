@@ -1,6 +1,6 @@
 export interface PointModalProps {
   isOpen?: boolean | null;
-  onClose?: () => void;
+  onCloseFn?: () => void;
   point: number;
   mod?: string;
   handleClick?: () => void;
