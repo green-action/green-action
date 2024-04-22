@@ -94,7 +94,7 @@ const MyProfile = ({ userInfo }: { userInfo: User }) => {
       )}
 
       {isMobile && (
-        <Card className="shadow-none bg-[#F3F4F3]">
+        <Card className="shadow-none bg-[#F3F4F3] mt-6">
           <div className="flex desktop:pl-5 laptop:pl-3">
             <div className="flex gap-3 items-center h-[73px]">
               <Avatar

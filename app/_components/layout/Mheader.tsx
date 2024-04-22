@@ -20,6 +20,7 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   NavbarBrand,
+  colors,
 } from "@nextui-org/react";
 // import { NotificationIcon } from "./NotificationIcon";
 import { signOut, useSession } from "next-auth/react";
@@ -161,7 +162,7 @@ const Mheader = () => {
           isBlurred={isScrolled}
           isMenuOpen={isMenuOpen}
           onMenuOpenChange={setIsMenuOpen}
-          className="phone:min-w-[360px] flex bg-transparent h-[100px] items-center justify-center pt-[20px] mb-[20px] text-[11pt]"
+          className="phone:min-w-[360px] flex bg-transparent items-center justify-center text-[11pt]"
         >
           <NavbarContent
             justify="start"
@@ -169,6 +170,8 @@ const Mheader = () => {
           >
             <NavbarMenuToggle
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+              // aria-level={{ light: ThemeColors }}
+              className="bg-white bg-opacity-30 rounded-full w-[40px] h-[40px]"
             />
           </NavbarContent>
           <NavbarBrand>
@@ -193,7 +196,7 @@ const Mheader = () => {
           <NavbarContent>
             <div className="flex flex-col">
               <NavbarMenu>
-                <NavbarMenuItem className="text-[#454545] text-[14px] flex flex-col mt-16 absolute">
+                <NavbarMenuItem className="text-[#454545] text-[14px] flex flex-col mt-9 absolute">
                   <Link href={"/about"} className="mb-4 font-bold">
                     About
                     <Image
