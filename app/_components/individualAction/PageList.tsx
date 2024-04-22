@@ -9,9 +9,10 @@ import date from "../../_assets/image/individualAction/image170.png";
 import person from "../../_assets/image/individualAction/image24.png";
 import location from "../../_assets/image/individualAction/image35.png";
 
+import { MODE_INDIVIDUAL_ACTION } from "@/app/_api/constant";
+import { useResponsive } from "@/app/_hooks/responsive";
 import type { Index } from "@/app/_types";
 import Image from "next/image";
-import { useResponsive } from "@/app/_hooks/responsive";
 import IndividualSkeleton from "./IndividualSkeleton";
 
 interface ChildProps {
@@ -189,7 +190,7 @@ const PageList: React.FC<ChildProps> = ({
                     {post.recruit_number}
                   </span>
                 </div>
-                <Bookmark action_id={post.id} mode="individualAction" />
+                <Bookmark action_id={post.id} mode={MODE_INDIVIDUAL_ACTION} />
               </div>
               <Image
                 src={arrow}

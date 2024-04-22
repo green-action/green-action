@@ -27,6 +27,7 @@ import {
 import CustomConfirm from "../customConfirm/CustomConfirm";
 import PointModal from "./PointModal";
 
+import { MODE_COMMUNITY } from "@/app/_api/constant";
 import { updateUserPoint } from "@/app/_api/individualAction-add/add-api";
 import { LuPencilLine } from "react-icons/lu";
 import AlertModal from "./AlertModal";
@@ -152,7 +153,7 @@ const AddPostModal = () => {
             <>
               <CustomConfirm
                 text="취소 하시겠습니까?"
-                mode="community"
+                mode={MODE_COMMUNITY}
                 okFunction={onClose}
               />
               <form onSubmit={handleSubmit}>

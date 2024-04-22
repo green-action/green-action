@@ -1,7 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
+import { MODE_INDIVIDUAL_ACTION_ADD } from "@/app/_api/constant";
 import {
   insertImgUrls,
   uploadFilesAndGetUrls,
@@ -11,17 +10,19 @@ import {
   updateActionTextForm,
 } from "@/app/_api/individualAction-edit/edit-api";
 import CustomConfirm from "@/app/_components/customConfirm/CustomConfirm";
+import SearchAddressModal from "@/app/_components/daumPostCode/SearchAddressModal";
 import ImgEdit from "@/app/_components/individualAction-edit/ImgEdit";
-import { useGetActionForEdit } from "@/app/_hooks/useQueries/individualAction-edit";
+import KakaoMap from "@/app/_components/kakaoMap/KakaoMap";
+import SearchMapModal from "@/app/_components/kakaoMap/SearchMapModal";
 import { useResponsive } from "@/app/_hooks/responsive";
+import { useGetActionForEdit } from "@/app/_hooks/useQueries/individualAction-edit";
+import { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
+import { Button } from "@nextui-org/react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useRef, useState } from "react";
 import { FaChevronLeft } from "react-icons/fa6";
 import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
-import SearchAddressModal from "@/app/_components/daumPostCode/SearchAddressModal";
-import KakaoMap from "@/app/_components/kakaoMap/KakaoMap";
-import Image from "next/image";
-import SearchMapModal from "@/app/_components/kakaoMap/SearchMapModal";
-import { Button } from "@nextui-org/react";
-import { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
 
 // TODO 장소 지도 좌표 등 수정하도록 해야
 const EditActionPage = ({ params }: { params: { id: string } }) => {
@@ -572,7 +573,7 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
                 text="수정하시겠습니까?"
                 buttonName="수정완료"
                 okFunction={() => handleSubmit}
-                mode="individualAdd"
+                mode={MODE_INDIVIDUAL_ACTION_ADD}
               />
               <button
                 onClick={handleCancelEdit}
@@ -588,7 +589,7 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
                 text="수정하시겠습니까?"
                 buttonName="수정완료"
                 okFunction={() => handleSubmit}
-                mode="individualAdd"
+                mode={MODE_INDIVIDUAL_ACTION_ADD}
               />
             </div>
           )}

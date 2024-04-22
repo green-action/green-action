@@ -6,6 +6,7 @@ import type {
   InsertImgUrls,
 } from "@/app/_types/individualAction-add/individualAction-add";
 import type { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
+import { MODE_ADD_ACTION, MODE_ADD_POST, MODE_COMMENT } from "../constant";
 
 // 1. 텍스트 formData 삽입 함수
 export const insertActionTextForm = async ({
@@ -75,9 +76,9 @@ export const updateUserPoint = async (
     let updatedPoint;
 
     // 댓글은 100포인트, 개인액션 및 게시글 등록은 300포인트 업데이트
-    if (point && mode === "comment") {
+    if (point && mode === MODE_COMMENT) {
       updatedPoint = point + 100;
-    } else if (point && (mode === "addAction" || mode === "addPost")) {
+    } else if (point && (mode === MODE_ADD_ACTION || mode === MODE_ADD_POST)) {
       updatedPoint = point + 300;
     }
 

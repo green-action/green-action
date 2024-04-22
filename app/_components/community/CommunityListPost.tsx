@@ -6,6 +6,14 @@ import CommunityDetailModal from "./CommunityDetailModal";
 import { Avatar, Card, useDisclosure } from "@nextui-org/react";
 import { longStyle } from "./style";
 
+import {
+  MODE_COMMUNITY,
+  MODE_DESKTOP,
+  MODE_LAPTOP,
+  MODE_MAIN,
+  MODE_MOBILE,
+  MODE_MY_POSTS,
+} from "@/app/_api/constant";
 import { useResponsive } from "@/app/_hooks/responsive";
 import { useGetCommunityCommentsList } from "@/app/_hooks/useQueries/comments";
 import { useGetPostContents } from "@/app/_hooks/useQueries/community";
@@ -36,7 +44,7 @@ const CommunityListPost = ({
     useGetCommunityCommentsList(post_id);
 
   // 게시글 작성자 정보
-  const { display_name, profile_img } = (mode !== "myPosts" &&
+  const { display_name, profile_img } = (mode !== MODE_MY_POSTS &&
     communityPost?.users) || {
     display_name: null,
     profile_img: null,
@@ -48,19 +56,19 @@ const CommunityListPost = ({
     return (
       <div
         className={` ${
-          mode === "main" &&
+          mode === MODE_MAIN &&
           "desktop:w-[410px] desktop:h-[295px] laptop:w-[287px] laptop:h-[207px]"
         }
             ${
-              mode === "myPosts" &&
+              mode === MODE_MY_POSTS &&
               "desktop:w-[356px] laptop:w-[327px] laptop:h-[400px]"
             }
-          ${mode !== "main" && mode !== "myPosts" && "w-[31%] mb-2"}
+          ${mode !== MODE_MAIN && mode !== MODE_MY_POSTS && "w-[31%] mb-2"}
         `}
       >
-        {mode === "myPosts" && <CommunitySkeleton mode="myPosts" />}
-        {mode === "main" && <CommunitySkeleton mode="main" />}
-        {mode !== "myPosts" && mode !== "main" && <CommunitySkeleton />}
+        {mode === MODE_MY_POSTS && <CommunitySkeleton mode={MODE_MY_POSTS} />}
+        {mode === MODE_MAIN && <CommunitySkeleton mode={MODE_MAIN} />}
+        {mode !== MODE_MY_POSTS && mode !== MODE_MAIN && <CommunitySkeleton />}
       </div>
     );
   }
@@ -73,12 +81,12 @@ const CommunityListPost = ({
       {isDesktop && (
         <div
           className={` ${
-            mode === "main" && "desktop:w-[410px] desktop:h-[295px]"
+            mode === MODE_MAIN && "desktop:w-[410px] desktop:h-[295px]"
           }
-            ${mode === "myPosts" && "desktop:w-[356px]"}
+            ${mode === MODE_MY_POSTS && "desktop:w-[356px]"}
           ${
-            mode !== "main" &&
-            mode !== "myPosts" &&
+            mode !== MODE_MAIN &&
+            mode !== MODE_MY_POSTS &&
             "desktop:w-[410px] w-[140px] mb-2"
           }
         `}
@@ -88,8 +96,8 @@ const CommunityListPost = ({
             isFooterBlurred
             radius="lg"
             className={`shadow-none border-none desktop:w-[410px] desktop:h-[295px] mb-3 rounded-2xl 
-          ${mode === "myPosts" && "desktop:w-[356px] desktop:h-[250px]"}
-            ${mode === "main" && "desktop:w-full desktop:h-full"}
+          ${mode === MODE_MY_POSTS && "desktop:w-[356px] desktop:h-[250px]"}
+            ${mode === MODE_MAIN && "desktop:w-full desktop:h-full"}
             `}
           >
             <div className="relative w-full desktop:h-[295px] overflow-hidden">
@@ -99,10 +107,10 @@ const CommunityListPost = ({
                 className="object-cover w-full h-full cursor-pointer brightness-90"
                 src={communityPost?.img_url}
               />
-              {mode === "community" && (
+              {mode === MODE_COMMUNITY && (
                 <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t"></div>
               )}
-              {mode === "main" && (
+              {mode === MODE_MAIN && (
                 <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t-main"></div>
               )}
             </div>
@@ -116,9 +124,9 @@ const CommunityListPost = ({
                 />
                 <p
                   className={`text-white text-[16px] font-extrabold mr-3 ${
-                    mode === "myPosts" && "desktop:text-[13px]"
+                    mode === MODE_MY_POSTS && "desktop:text-[13px]"
                   }
-                ${mode === "main" && "desktop:text-[16px]"}`}
+                ${mode === MODE_MAIN && "desktop:text-[16px]"}`}
                 >
                   {display_name || my_display_name}
                 </p>
@@ -129,7 +137,7 @@ const CommunityListPost = ({
                   <Likes
                     post_id={communityPost?.id as string}
                     isOpen={isOpen}
-                    mode="desktop"
+                    mode={MODE_DESKTOP}
                   />
                 </div>
               </div>
@@ -138,11 +146,11 @@ const CommunityListPost = ({
           {/* 사진하단영역 - 함께해요, 제목 */}
           <div
             className={`flex justify-center items-center mt-4 ${
-              mode !== "myPosts" && mode !== "main" && "desktop:w-[410px]"
+              mode !== MODE_MY_POSTS && mode !== "main" && "desktop:w-[410px]"
             }           
-          ${mode === "myPosts" && "desktop:w-[335px]"} 
+          ${mode === MODE_MY_POSTS && "desktop:w-[335px]"} 
            ${
-             mode === "main" &&
+             mode === MODE_MAIN &&
              "bg-[#F9F9F9]/80 p-5 px-0 rounded-2xl desktop:w-[400px]"
            } 
           `}
@@ -152,11 +160,11 @@ const CommunityListPost = ({
               className={`flex items-center justify-center ml-[24px] rounded-[24px] 
             border-2 border-[#3E3E3E] text-[13px] font-extrabold p-0.5 w-[150px] h-[31px]
           ${
-            mode === "myPosts" &&
+            mode === MODE_MY_POSTS &&
             "ml-[15px] desktop:text-[13px] desktop:w-[160px]"
           }  
           ${
-            mode === "main" &&
+            mode === MODE_MAIN &&
             "desktop:ml-[20px] desktop:w-[180px] desktop:text-[14px] desktop:px-0 desktop:h-[28px]"
           }`}
             >
@@ -164,9 +172,9 @@ const CommunityListPost = ({
             </div>
             <p
               className={`text-[15px] font-extrabold w-3/4 mx-[24px] overflow-hidden whitespace-nowrap overflow-ellipsis ${
-                mode === "main" && "desktop:mx-[24px] desktop:text-[16px]"
+                mode === MODE_MAIN && "desktop:mx-[24px] desktop:text-[16px]"
               } ${
-                mode === "myPosts" &&
+                mode === MODE_MY_POSTS &&
                 " desktop:ml-[24px] mr-0 desktop:text-[15px]"
               }
             `}
@@ -178,9 +186,13 @@ const CommunityListPost = ({
       )}
       {isLaptop && (
         <div
-          className={` ${mode === "main" && "laptop:w-[287px] laptop:h-[207px]"}
-            ${mode === "myPosts" && "laptop:w-[327px] laptop:h-[400px]"}
-          ${mode !== "main" && mode !== "myPosts" && "laptop:w-[433px] mb-2"}
+          className={` ${
+            mode === MODE_MAIN && "laptop:w-[287px] laptop:h-[207px]"
+          }
+            ${mode === MODE_MY_POSTS && "laptop:w-[327px] laptop:h-[400px]"}
+          ${
+            mode !== "main" && mode !== MODE_MY_POSTS && "laptop:w-[433px] mb-2"
+          }
         `}
         >
           {/* 게시글 이미지 */}
@@ -188,8 +200,8 @@ const CommunityListPost = ({
             isFooterBlurred
             radius="lg"
             className={`shadow-none border-none laptop:w-[433px] laptop:h-[311px] mb-3 rounded-2xl 
-          ${mode === "myPosts" && "laptop:w-[327px] laptop:h-[230px]"}
-            ${mode === "main" && "laptop:w-full laptop:h-full "}
+          ${mode === MODE_MY_POSTS && "laptop:w-[327px] laptop:h-[230px]"}
+            ${mode === MODE_MAIN && "laptop:w-full laptop:h-full "}
             `}
           >
             <div className="relative w-full laptop:h-[311px] overflow-hidden">
@@ -199,7 +211,7 @@ const CommunityListPost = ({
                 className="object-cover w-full h-full cursor-pointer brightness-90"
                 src={communityPost?.img_url}
               />
-              {mode === "community" && (
+              {mode === MODE_COMMUNITY && (
                 <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t"></div>
               )}
             </div>
@@ -213,7 +225,7 @@ const CommunityListPost = ({
                 />
                 <p
                   className={`text-white text-[16px] font-extrabold mr-3
-                ${mode === "main" && "laptop:text-[13px]"}`}
+                ${mode === MODE_MAIN && "laptop:text-[13px]"}`}
                 >
                   {display_name || my_display_name}
                 </p>
@@ -224,7 +236,7 @@ const CommunityListPost = ({
                   <Likes
                     post_id={communityPost?.id as string}
                     isOpen={isOpen}
-                    mode="laptop"
+                    mode={MODE_LAPTOP}
                   />
                 </div>
               </div>
@@ -233,11 +245,11 @@ const CommunityListPost = ({
           {/* 사진하단영역 - 함께해요, 제목 */}
           <div
             className={`flex justify-center items-center mt-4 ${
-              mode !== "myPosts" && mode !== "main" && "laptop:w-[433px]"
+              mode !== MODE_MY_POSTS && mode !== "main" && "laptop:w-[433px]"
             }           
-          ${mode === "myPosts" && "laptop:w-[300px]"} 
+          ${mode === MODE_MY_POSTS && "laptop:w-[300px]"} 
            ${
-             mode === "main" &&
+             mode === MODE_MAIN &&
              "bg-[#F9F9F9]/80 p-3 px-0 rounded-xl laptop:w-[275px]"
            } 
           `}
@@ -246,10 +258,11 @@ const CommunityListPost = ({
               className={`flex items-center justify-center ml-[24px] rounded-[24px] 
             border-2 border-[#3E3E3E] text-[13px] font-extrabold p-0.5 w-[150px] h-[31px]
           ${
-            mode === "myPosts" && "ml-[15px] laptop:text-[8pt] laptop:w-[140px]"
+            mode === MODE_MY_POSTS &&
+            "ml-[15px] laptop:text-[8pt] laptop:w-[140px]"
           }  
           ${
-            mode === "main" &&
+            mode === MODE_MAIN &&
             "laptop:ml-[15px] laptop:text-[11px] laptop:px-0 laptop:w-[130px] laptop:h-[24px]"
           }`}
             >
@@ -257,9 +270,10 @@ const CommunityListPost = ({
             </div>
             <p
               className={`text-[15px] font-extrabold w-3/4 mx-[24px] overflow-hidden whitespace-nowrap overflow-ellipsis ${
-                mode === "main" && "laptop:mx-[15px] laptop:text-[13px]"
+                mode === MODE_MAIN && "laptop:mx-[15px] laptop:text-[13px]"
               } ${
-                mode === "myPosts" && "laptop:ml-[15px] mr-0 laptop:text-[13px]"
+                mode === MODE_MY_POSTS &&
+                "laptop:ml-[15px] mr-0 laptop:text-[13px]"
               }
             `}
             >
@@ -276,11 +290,11 @@ const CommunityListPost = ({
             radius="lg"
             className={`shadow-none border-none w-[140px] h-[98px] mb-3 rounded-2xl 
           ${
-            mode === "myPosts" &&
+            mode === MODE_MY_POSTS &&
             "desktop:w-[356px] laptop:w-[327px] desktop:h-[250px] laptop:h-[230px]"
           }
             ${
-              mode === "main" &&
+              mode === MODE_MAIN &&
               "desktop:w-full desktop:h-full laptop:w-full laptop:h-full phone:w-full phone:h-full"
             }
             `}
@@ -292,7 +306,7 @@ const CommunityListPost = ({
                 className="object-cover w-full h-full cursor-pointer brightness-90"
                 src={communityPost?.img_url}
               />
-              {mode === "community" && (
+              {mode === MODE_COMMUNITY && (
                 <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t"></div>
               )}
             </div>
@@ -310,7 +324,7 @@ const CommunityListPost = ({
                   <Likes
                     post_id={communityPost?.id as string}
                     isOpen={isOpen}
-                    mode="mobile"
+                    mode={MODE_MOBILE}
                   />
                 </div>
               </div>

@@ -17,6 +17,7 @@ import {
   insertCommunityPostFormData,
 } from "@/app/_api/community/community-api";
 import { updateEditedPost } from "@/app/_api/community/communityEdit-api";
+import { MODE_COMMUNITY, MODE_MAIN, MODE_MY_POSTS } from "@/app/_api/constant";
 
 export const useDeleteCommunityPostMutation = () => {
   const queryClient = useQueryClient();
@@ -66,15 +67,15 @@ export const useUpdateEditPostMutation = (mode: string) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY_COMMUNITY_POST],
       });
-      mode === "main" &&
+      mode === MODE_MAIN &&
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEY_COMMUNITY_POSTS_LIKES],
         });
-      mode === "community" &&
+      mode === MODE_COMMUNITY &&
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEY_COMMUNITYLIST],
         });
-      mode === "myPosts" &&
+      mode === MODE_MY_POSTS &&
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEY_MY_COMMUNITYPOST],
         });
