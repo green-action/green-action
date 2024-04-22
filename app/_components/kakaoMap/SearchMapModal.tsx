@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Button,
   Modal,
@@ -13,10 +15,10 @@ import { placeCoordinateType } from "@/app/_types/individualAction-detail/indivi
 
 const SearchMapModal = ({
   setActivityLocationMap,
-  locationCoorRef,
+  locationMapRef,
 }: {
   setActivityLocationMap: React.Dispatch<React.SetStateAction<string>>;
-  locationCoorRef: React.MutableRefObject<placeCoordinateType | null>;
+  locationMapRef: React.MutableRefObject<placeCoordinateType | null>;
 }) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
 
@@ -80,7 +82,7 @@ const SearchMapModal = ({
                   searchKeyword={keyword}
                   setActivityLocation={setActivityLocationMap}
                   onClose={onClose}
-                  locationCoorRef={locationCoorRef}
+                  locationMapRef={locationMapRef}
                 />
               </ModalBody>
               <ModalFooter>

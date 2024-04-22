@@ -11,10 +11,8 @@ import React, { useRef, useState } from "react";
 import DaumPostcode from "react-daum-postcode";
 
 const SearchAddressModal = ({
-  activityLocation,
   setActivityLocation,
 }: {
-  activityLocation: any;
   setActivityLocation: any;
 }) => {
   // formData로 set하는 방법은 모르는 상태 + formData는 submit 시에 가져올 수 있는듯?
@@ -47,7 +45,11 @@ const SearchAddressModal = ({
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                도로명 주소 검색
+                <p>도로명 주소 검색</p>
+                <p className="text-[12px] font-[Pretendard-ExtraLight]">
+                  검색 후 도로명을 누르면 해당 도로명 주소가 활동장소 칸에
+                  입력됩니다.
+                </p>
               </ModalHeader>
               <ModalBody>
                 <DaumPostcode
