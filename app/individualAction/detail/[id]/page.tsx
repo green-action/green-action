@@ -37,7 +37,7 @@ import person from "/app/_assets/image/logo_icon/icon/mypage/image 166.png";
 import mapPin from "/app/_assets/image/logo_icon/icon/mypage/image 169.png";
 import editAction from "/app/_assets/image/logo_icon/icon/mypage/image 55.png";
 
-import type { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
+import { MODE_DETAIL_PAGE } from "@/app/_api/constant";
 
 const DetailPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
@@ -210,7 +210,10 @@ const DetailPage = () => {
                         <p className="float-end mr-[20px] font-[13px]">
                           {detail.recruit_number}
                         </p>
-                        <Bookmark action_id={params.id} mode="detailPage" />
+                        <Bookmark
+                          action_id={params.id}
+                          mode={MODE_DETAIL_PAGE}
+                        />
                       </div>
                     </div>
                   </div>
@@ -424,7 +427,10 @@ const DetailPage = () => {
                         <p className="float-end mr-[20px] font-[13px]">
                           {detail.recruit_number}
                         </p>
-                        <Bookmark action_id={params.id} mode="detailPage" />
+                        <Bookmark
+                          action_id={params.id}
+                          mode={MODE_DETAIL_PAGE}
+                        />
                       </div>
                     </div>
                   </div>
@@ -581,7 +587,10 @@ const DetailPage = () => {
                         <p className="mr-[20px] font-[13px]">
                           {detail.recruit_number}
                         </p>
-                        <Bookmark action_id={params.id} mode="detailPage" />
+                        <Bookmark
+                          action_id={params.id}
+                          mode={MODE_DETAIL_PAGE}
+                        />
                       </div>
                       {/* 날짜 장소 */}
                       <div className="w-[284px] mx-auto mt-[35px]">

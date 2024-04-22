@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 import { User } from "../_types";
 
@@ -14,14 +14,14 @@ import {
   usefetchMyCommunityPosts,
 } from "../_hooks/useQueries/mypage";
 
+import CommunityListPost from "../_components/community/CommunityListPost";
+import MyActionCard from "../_components/mypage/MyActionCard";
 import MyProfile from "../_components/mypage/MyProfile";
 import RecruitSelectTab from "../_components/mypage/RecruitSelectTab";
-import MyActionCard from "../_components/mypage/MyActionCard";
-import CommunityListPost from "../_components/community/CommunityListPost";
 
-import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
+import { MODE_MY_BOOKMARKS, MODE_MY_POSTS } from "../_api/constant";
 import TopButton from "../_components/TopButton";
-import { Button } from "@nextui-org/react";
+import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
 
 const MyPage = () => {
   // TODO props 타입등 재설정
@@ -225,7 +225,7 @@ const MyPage = () => {
                     <MyActionCard
                       key={action.id}
                       action={action}
-                      mode="myPosts"
+                      mode={MODE_MY_POSTS}
                     />
                   );
                 })}
@@ -238,7 +238,7 @@ const MyPage = () => {
                     <MyActionCard
                       key={bookmark?.bookmarkedAction?.id || ""}
                       action={bookmark}
-                      mode="myBookmarks"
+                      mode={MODE_MY_BOOKMARKS}
                     />
                   );
                 })}
@@ -250,7 +250,7 @@ const MyPage = () => {
                   return (
                     <CommunityListPost
                       key={post.id}
-                      mode="myPosts"
+                      mode={MODE_MY_POSTS}
                       communityPost={post}
                       my_display_name={display_name}
                       my_profile_img={profile_img || null}

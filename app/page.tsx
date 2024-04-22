@@ -8,14 +8,15 @@ import LaptopMainSlidder from "./_components/main/LaptopMainSlidder";
 import MainSlider from "./_components/main/MainSlider";
 import { useResponsive } from "./_hooks/responsive";
 
+import setboxImg from "@/app/_assets/image/goods/setbox.png";
+import arrowImg from "../app/_assets/image/individualAction/Group143.svg";
 import TopButton from "./_components/TopButton";
 import downArrow from "/app/_assets/image/logo_icon/icon/mainpage/Group_124.png";
 import rightArrow from "/app/_assets/image/mainpage/Group 172.png";
 import mainImg from "/app/_assets/image/mainpage/main.png";
-import setboxImg from "@/app/_assets/image/goods/setbox.png";
-import arrowImg from "../app/_assets/image/individualAction/Group143.svg";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { MODE_ACTION, MODE_COMMUNITY } from "./_api/constant";
 import MobileSlider from "./_components/main/MobileSlider";
 
 // TODO 메인페이지 커뮤니티글카드 디자인 수정
@@ -94,8 +95,8 @@ const MainPage = () => {
               Community Hot Posts
             </Chip>
             <div className="desktop:mx-[76px] desktop:mt-[140px] laptop:mt-[130px]">
-              {isLaptop && <LaptopMainSlidder mode="community" />}
-              {isDesktop && <MainSlider mode="community" />}
+              {isLaptop && <LaptopMainSlidder mode={MODE_COMMUNITY} />}
+              {isDesktop && <MainSlider mode={MODE_COMMUNITY} />}
             </div>
             <Chip
               classNames={{
@@ -128,7 +129,7 @@ const MainPage = () => {
                 전체 보기
                 <Image src={arrowImg} alt="화살표" />
               </Link>
-              {isMobile && <MobileSlider mode="community" />}
+              {isMobile && <MobileSlider mode={MODE_COMMUNITY} />}
             </section>
           )}
 
@@ -144,8 +145,8 @@ const MainPage = () => {
                 Green-Action Hot Posts
               </Chip>
               <div className="desktop:mx-[205px] desktop:mt-[115px] laptop:mt-[115px]">
-                {isLaptop && <LaptopMainSlidder mode="action" />}
-                {isDesktop && <MainSlider mode="action" />}
+                {isLaptop && <LaptopMainSlidder mode={MODE_ACTION} />}
+                {isDesktop && <MainSlider mode={MODE_ACTION} />}
               </div>
               <Chip
                 classNames={{
@@ -174,7 +175,7 @@ const MainPage = () => {
               </Link>
 
               <div className="h-[200px]">
-                {isMobile && <MobileSlider mode="action" />}
+                {isMobile && <MobileSlider mode={MODE_ACTION} />}
               </div>
             </section>
           )}
