@@ -5,7 +5,7 @@ import type {
   FormDataType,
   InsertImgUrls,
 } from "@/app/_types/individualAction-add/individualAction-add";
-import { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
+import type { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
 
 // 수정할 action_id의 데이터 가져오기
 // (외래키 연결된 green_action_images 테이블에서 이미지 url도 함께 가져오기)
