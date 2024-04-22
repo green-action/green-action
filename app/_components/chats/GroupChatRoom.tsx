@@ -52,8 +52,10 @@ const GroupChatRoom = ({
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "chat_messages" },
 
+        // TODO 안읽은 메시지 (헤더 아이콘) 같이 무효화하기
+        // TODO 헤더 채팅리스트도 무효화 (얘는 리스트에서 해줘야할듯?)
         // 채팅 리스트 무효화 성공 - 리스트 전체를 무효화 (수정 필요)
-        (payload) => {
+        () => {
           queryClient.invalidateQueries({
             queryKey: [QUERY_KEY_MESSAGES_LIST],
           });
@@ -138,19 +140,6 @@ const GroupChatRoom = ({
           {(onClose) => (
             <>
               <ModalHeader className="fixed bg-white flex justify-between items-center gap-5 w-[27%] shadow-md h-28 z-10 px-8 rounded-tl-[55px] rounded-tr-[55px]">
-                {/* 임시 - 버튼 클릭시 action 정보 띄울 예정 */}
-                {/* <Tooltip
-                  showArrow={true}
-                  key="bottom"
-                  placement="bottom"
-                  content="green-action 상세페이지로 이동"
-                  color="foreground"
-                >
-                  <button
-                    className="bg-transparent w-8"
-                  >
-                  </button>
-                </Tooltip> */}
                 <div className="flex items-center gap-5">
                   <Avatar
                     showFallback
@@ -175,6 +164,12 @@ const GroupChatRoom = ({
                       </span>
                     </div>
                   </div>
+                  <button
+                    className="bg-black text-white px-2"
+                    onClick={() => handleCancelParticipate(onClose)}
+                  >
+                    참여 취소하기
+                  </button>
                 </div>
                 <div>
                   <IoReorderThreeOutline size={40} className="cursor-pointer" />
@@ -193,50 +188,30 @@ const GroupChatRoom = ({
                         key={message.id}
                       >
                         {message.sender_uid !== loggedInUserUid && (
-                          <div className="flex items-center mb-1">
+                          <div className="flex items-start mb-1">
                             <Avatar
                               showFallback
                               src={message.users?.profile_img || ""} // 프로필 이미지 URL
                               alt="profile-img"
-                              className="w-8 h-8 rounded-full mr-2"
+                              className="w-11 h-11 rounded-full mr-4"
                             />
-                            <span className="font-semibold mr-2">
-                              {message.users?.display_name}
-                            </span>{" "}
-                            {/* 닉네임 */}
+                            <div>
+                              <span className="font-semibold mr-2">
+                                {message.users?.display_name}
+                              </span>
+                              <div className="bg-gray-300 text-black rounded-tr-2xl rounded-bl-2xl rounded-br-2xl p-5 text-base">
+                                {message.content}
+                              </div>
+                            </div>
                           </div>
                         )}
-                        <div
-                          className={`${
-                            message.sender_uid === loggedInUserUid
-                              ? "bg-[#D4DFD2] rounded-tl-2xl rounded-bl-2xl rounded-br-2xl"
-                              : "bg-gray-300 text-black rounded-tr-2xl rounded-bl-2xl rounded-br-2xl"
-                          } p-5 text-base`}
-                        >
-                          {message.content}
-                        </div>
+                        {message.sender_uid === loggedInUserUid && (
+                          <div className="bg-[#D4DFD2] rounded-tl-2xl rounded-bl-2xl rounded-br-2xl p-5 text-base">
+                            {message.content}
+                          </div>
+                        )}
                       </div>
                     ))}
-                    {/* {messagesList?.map((message) => (
-                      <div
-                        className={`m-3 ${
-                          message.sender_uid === loggedInUserUid
-                            ? "self-end"
-                            : "self-start"
-                        }`}
-                        key={message.id}
-                      >
-                        <div
-                          className={`${
-                            message.sender_uid === loggedInUserUid
-                              ? "bg-[#D4DFD2] rounded-tl-2xl rounded-bl-2xl rounded-br-2xl"
-                              : "bg-gray-300 text-black rounded-tr-2xl rounded-bl-2xl rounded-br-2xl"
-                          } p-5 text-base`}
-                        >
-                          {message.content}
-                        </div>
-                      </div>
-                    ))} */}
                   </div>
                 </div>
               </ModalBody>
@@ -264,70 +239,6 @@ const GroupChatRoom = ({
           )}
         </ModalContent>
       </Modal>
-      {/* <Modal
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        placement="center"
-        size="3xl"
-      >
-        <ModalContent className="max-w-[30%] h-[80%] overflow-y-auto scrollbar-hide">
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex gap-1">
-                <span className="mr-5">action 참여자 단체 채팅방</span>
-                <button
-                  className="bg-black text-white px-2"
-                  onClick={() => handleCancelParticipate(onClose)}
-                >
-                  참여 취소하기
-                </button>
-              </ModalHeader>
-              <ModalBody>
-                <div className="flex justify-center">
-                  <div className="flex flex-col">
-                    <div className="mb-10 font-bold text-3xl">채팅</div>
-                    {messagesList?.map((message) => (
-                      <div className="m-3" key={message.id}>
-                        <div
-                          className={`${
-                            message.sender_uid === loggedInUserUid &&
-                            "bg-gray-300"
-                          }`}
-                        >
-                          {message.users?.display_name}
-                        </div>
-                        <div>{message.content}</div>
-                      </div>
-                    ))}
-                    <div>
-                      <Input
-                        className="w-80 mb-5 mt-10"
-                        placeholder="send message..."
-                        value={message} // 입력 필드의 값을 상태로 설정
-                        onChange={(e) => setMessage(e.target.value)} // 입력 필드의 값이 변경될 때마다 상태를 업데이트
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" && !e.nativeEvent.isComposing) {
-                            e.preventDefault();
-                            handleSendMessage();
-                          }
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button color="primary" onPress={onClose}>
-                  Action
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal> */}
     </>
   );
 };
