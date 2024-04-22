@@ -278,55 +278,28 @@ const GroupChatRoom = ({
                   </div>
                 </div>
               </ModalFooter>
-
+              {/* action info 모달창 */}
               {isActionInfoOpen && (
-                <Modal
-                  isOpen={isActionInfoOpen}
-                  onOpenChange={onActionInfoOpen}
-                  className="w-[300px] absolute"
-                >
-                  <ModalContent>
-                    {() => (
-                      <>
-                        <ModalHeader className="flex flex-col gap-1">
-                          Modal Title
-                        </ModalHeader>
-                        <ModalBody>
-                          <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit. Nullam pulvinar risus non risus hendrerit
-                            venenatis. Pellentesque sit amet hendrerit risus,
-                            sed porttitor quam.
-                          </p>
-                          <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit. Nullam pulvinar risus non risus hendrerit
-                            venenatis. Pellentesque sit amet hendrerit risus,
-                            sed porttitor quam.
-                          </p>
-                          <p>
-                            Magna exercitation reprehenderit magna aute tempor
-                            cupidatat consequat elit dolor adipisicing. Mollit
-                            dolor eiusmod sunt ex incididunt cillum quis. Velit
-                            duis sit officia eiusmod Lorem aliqua enim laboris
-                            do dolor eiusmod. Et mollit incididunt nisi
-                            consectetur esse laborum eiusmod pariatur proident
-                            Lorem eiusmod et. Culpa deserunt nostrud ad veniam.
-                          </p>
-                        </ModalBody>
-                        <ModalFooter>
-                          <Button
-                            color="danger"
-                            variant="light"
-                            onClick={() => onActionInfoClose()}
-                          >
-                            Close
-                          </Button>
-                        </ModalFooter>
-                      </>
-                    )}
-                  </ModalContent>
-                </Modal>
+                <div className="absolute fixed inset-0 z-20 flex bg-black bg-opacity-30">
+                  <div className="w-full flex justify-end">
+                    <div
+                      className="desktop:w-[75%] desktop:h-[100%] desktop:top-[130px] desktop:left-[40px] 
+        bg-[#ffffff] laptop:w-[218px] laptop:h-[240px] laptop:top-[114px] laptop:left-[37px]
+        w-[218px] h-[255px] top-[112px] left-[39px]"
+                    >
+                      <div className="flex flex-col">
+                        <p
+                          className="self-start cursor-pointer text-[30px] ml-6 mt-2"
+                          onClick={() => {
+                            onActionInfoClose();
+                          }}
+                        >
+                          x
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               )}
             </>
           )}
