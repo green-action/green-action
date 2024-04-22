@@ -59,8 +59,8 @@ const MainSlider = ({ mode }: { mode: string }) => {
       {...desktopSettings}
       className={`${
         mode === "community"
-          ? "h-[400px] desktop:w-[1750px] laptop:w-[904px]"
-          : "h-[550px] desktop:w-[1500px] laptop:w-[904px]"
+          ? "h-[510px] desktop:w-[1750px]"
+          : "h-[550px] desktop:w-[1500px] "
       }   flex items-center justify-center`}
     >
       {mode === "community"
