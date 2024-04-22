@@ -238,7 +238,7 @@ const DetailPage = () => {
                           alt="위치 아이콘"
                           className="float-left mr-[15px] size-[20.26px]"
                         />
-                        <p className="float-left mr-8 font-semibold text-[11px] text-[#848484]">
+                        <p className="float-left mr-7 font-semibold text-[11px] text-[#848484] w-[25px]">
                           장소
                         </p>
                         <p className="font-semibold text-[13px] text-[#1e1e1e]">
@@ -452,7 +452,7 @@ const DetailPage = () => {
                           alt="위치 아이콘"
                           className="float-left mr-[15px] size-[20.26px]"
                         />
-                        <p className="float-left mr-8 font-semibold text-[11px] text-[#848484]">
+                        <p className="float-left mr-7 font-semibold text-[11px] text-[#848484] w-[25px]">
                           장소
                         </p>
                         <p className="font-semibold text-[13px] text-[#1e1e1e]">
@@ -606,7 +606,7 @@ const DetailPage = () => {
                             alt="위치 아이콘"
                             className="float-left mr-[15px] size-[20.26px]"
                           />
-                          <p className="float-left mr-8 font-semibold text-[11px] text-[#848484]">
+                          <p className="float-left mr-7 font-semibold text-[11px] text-[#848484] w-[25px]">
                             장소
                           </p>
                           <p className="font-semibold text-[13px] text-[#1e1e1e]">
