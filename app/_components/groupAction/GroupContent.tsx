@@ -1,5 +1,6 @@
 "use client";
 
+import { ACTIVE_TABS } from "@/app/_api/constant";
 import { useResponsive } from "@/app/_hooks/responsive";
 import { useGroupAction } from "@/app/_hooks/useQueries/groupAction";
 import { Card, Image } from "@nextui-org/react";
@@ -23,8 +24,8 @@ const GroupContent = () => {
             : isLaptop
             ? "grid-cols-3 w-[910px]"
             : isMobile
-            ? "grid-cols-a w-[282px]"
-            : ""
+            ? "grid-cols-1 w-[282px]"
+            : "w-[1500px] grid-cols-4"
         }`}
       >
         {[...Array(8)].map((_, index) => (
@@ -51,7 +52,7 @@ const GroupContent = () => {
           ? "grid-cols-3 w-[910px]"
           : isMobile
           ? "grid w-[282px]"
-          : ""
+          : "grid-cols-4 w-[1500px]"
       }`}
     >
       <TopButton />
@@ -66,7 +67,7 @@ const GroupContent = () => {
           <Link
             href="/groupAction"
             className={`cursor-pointer text-[13px] font-bold p-3 ${
-              activeTabs === "단체와 함께해요"
+              activeTabs === ACTIVE_TABS
                 ? "text-black border-b-2 border-black mt-3"
                 : ""
             }`}
@@ -91,7 +92,7 @@ const GroupContent = () => {
                   ? "w-[289px] h-[433px]"
                   : isMobile
                   ? "w-[278px] h-[415px]"
-                  : ""
+                  : "w-[365px] h-[550px]"
               } `}
             >
               <Image
@@ -105,7 +106,7 @@ const GroupContent = () => {
             </Card>
             <section
               className={`flex flex-row justify-between items-center pl-[5%] ${
-                isMobile ? "pl-[12%]" : ""
+                isMobile ? "pl-[12%]" : "pl-[5%]"
               } `}
             >
               <h2 className="font-bold mt-[30px] text-[14px]  whitespace-nowrap w-[48%]">
