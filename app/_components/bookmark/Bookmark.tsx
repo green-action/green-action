@@ -69,7 +69,7 @@ const Bookmark = ({
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center w-[60px] h-auto">
+      <div className="flex justify-center items-center">
         <Skeleton className="flex rounded-full w-12 h-12" />
       </div>
     );
