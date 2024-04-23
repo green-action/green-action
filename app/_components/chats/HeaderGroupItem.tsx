@@ -6,6 +6,7 @@ import Image from "next/image";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 import {
   useGetActionInfo,
+  useGetGroupParticipantsCount,
   useGetUnreadCount,
 } from "@/app/_hooks/useQueries/chats";
 import { formatToLocaleDateTimeString } from "@/utils/date/date";
@@ -23,6 +24,11 @@ const HeaderGroupItem = ({ room_id }: { room_id: string }) => {
     onOpenChange: onGroupChatOpenChange,
   } = useDisclosure();
 
+  // 날짜 형식 변경
+  // const formattedDate = privateChat
+  // ? formatToLocaleDateTimeString(privateChat.created_at ?? "")
+  // : "";
+
   // 채팅방의 action정보
   const { actionInfo, isActionInfoLoading, isActionInfoError } =
     useGetActionInfo(room_id);
@@ -33,7 +39,11 @@ const HeaderGroupItem = ({ room_id }: { room_id: string }) => {
     room_id,
   });
 
-  if (isActionInfoLoading || isLoading) {
+  // 그룹방 참여인원
+  const { participantsCount, isParticipantsCountLoading, isParticipantsError } =
+    useGetGroupParticipantsCount(room_id);
+
+  if (isActionInfoLoading || isLoading || isParticipantsCountLoading) {
     return (
       <div className="w-[200px] h-auto mx-auto">
         <Image className="" src={SoomLoaing} alt="SoomLoading" />
@@ -41,7 +51,12 @@ const HeaderGroupItem = ({ room_id }: { room_id: string }) => {
     );
   }
 
-  if (isActionInfoError || isError || unreadCount === undefined) {
+  if (
+    isActionInfoError ||
+    isError ||
+    isParticipantsError ||
+    unreadCount === undefined
+  ) {
     return <div>Error</div>;
   }
 
@@ -55,22 +70,24 @@ const HeaderGroupItem = ({ room_id }: { room_id: string }) => {
     >
       <div className="flex mb-3 justify-between">
         <div className="flex gap-3">
-          <span className="text-gray-500">green-action :</span>
-          <span className="text-gray-500">action title</span>
+          <span className="font-bold text-lg">{actionInfo?.title}</span>
           <span>
-            {/* 방장이면 보여주기 */}
-            <LiaCrownSolid size={20} />
+            {/* {loggedInUserUid === actionInfo?.user_uid && (
+              <LiaCrownSolid size={20} />
+            )} */}
           </span>
         </div>
         <div className="text-sm text-gray-500">날짜</div>
+        <div>
+          {participantsCount} / {actionInfo?.recruit_number}
+        </div>
       </div>
       <div className="flex">
         <div>
-          <Avatar
-            showFallback
-            src=""
-            alt="user-profile"
-            className="mr-7 w-[50px] h-[50px]"
+          <img
+            src={actionInfo?.action_url}
+            alt="action-image"
+            className="mr-7 w-[70px] h-[70px] object-cover rounded-2xl"
           />
         </div>
         <div className="w-full">
@@ -94,8 +111,8 @@ const HeaderGroupItem = ({ room_id }: { room_id: string }) => {
         <GroupChatRoom
           isOpen={isGroupChatOpen}
           onOpenChange={onGroupChatOpenChange}
-          //  props 확인 필요
-          roomId=""
+          //  TODO props 확인 필요
+          roomId={room_id}
           actionId=""
         />
       )}

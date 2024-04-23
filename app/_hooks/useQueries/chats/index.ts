@@ -6,6 +6,7 @@ import {
   QUERY_KEY_CHAT_ACTION_INFO,
   QUERY_KEY_GROUP_ACTION_INFO,
   QUERY_KEY_GROUP_LIST_ACTIONS_INFO,
+  QUERY_KEY_GROUP_PARTICIPANTS_COUNT,
   QUERY_KEY_GROUP_PARTICIPANTS_INFO,
   QUERY_KEY_MESSAGES_LIST,
   QUERY_KEY_MESSAGES_PARTICIPANT_INFO_HEADER,
@@ -38,6 +39,7 @@ import {
 import {
   getGroupActionInfo,
   getMyGroupChatIds,
+  getParticipantsCount,
   getParticipantsInfo,
 } from "@/app/_api/messages/groupChat-api";
 
@@ -282,4 +284,17 @@ export const useGetMyGroupChatIds = (loggedInUserUid: string) => {
   });
 
   return { roomIds, isRoomIdsLoading, isRoomIdsError };
+};
+
+export const useGetGroupParticipantsCount = (room_id: string) => {
+  const {
+    data: participantsCount,
+    isLoading: isParticipantsCountLoading,
+    isError: isParticipantsError,
+  } = useQuery({
+    queryKey: [QUERY_KEY_GROUP_PARTICIPANTS_COUNT, room_id],
+    queryFn: () => getParticipantsCount(room_id),
+  });
+
+  return { participantsCount, isParticipantsCountLoading, isParticipantsError };
 };

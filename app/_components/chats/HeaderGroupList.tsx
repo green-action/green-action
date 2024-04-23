@@ -85,11 +85,12 @@ const HeaderGroupList = () => {
     return <div>Error</div>;
   }
 
+  if (!roomIds) return [];
+
   return (
     <>
-      {roomIds?.map((room_id) => (
-        <HeaderGroupItem room_id={room_id} />
-      ))}
+      {roomIds.length > 0 &&
+        roomIds?.map((room_id) => <HeaderGroupItem room_id={room_id} />)}
     </>
   );
 };

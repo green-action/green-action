@@ -251,3 +251,18 @@ export const getMyGroupChatIds = async (loggedInUserUid: string) => {
 
   return roomIdsArray;
 };
+
+// 그룹채팅방 참가자 인원 가져오기
+export const getParticipantsCount = async (room_id: string) => {
+  const { data, error } = await supabase
+    .from("chat_rooms_info")
+    .select("chat_participants(id)")
+    .eq("id", room_id);
+
+  if (error) {
+    console.log("error", error.message);
+    throw error;
+  }
+
+  return data[0].chat_participants.length;
+};

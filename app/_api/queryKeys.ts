@@ -50,3 +50,4 @@ export const QUERY_KEY_GROUP_PARTICIPANTS_INFO = `group_participants_info`;
 export const QUERY_KEY_GROUP_ACTION_INFO = `group_action_info`;
 export const QUERY_KEY_MY_GROUP_CHAT_IDS = `my_group_chat_ids`;
 export const QUERY_KEY_GROUP_LIST_ACTIONS_INFO = `group_list_actions_info`;
+export const QUERY_KEY_GROUP_PARTICIPANTS_COUNT = `group_participants_count`;
