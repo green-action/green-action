@@ -36,6 +36,8 @@ import { useResponsive } from "@/app/_hooks/responsive";
 import Mheader from "./Mheader";
 
 import AlertModal from "../community/AlertModal";
+import { NotificationIcon } from "../chats/NotificationIcon";
+import PushListModal from "../push/PushListModal";
 
 function Header() {
   const router = useRouter();
@@ -63,6 +65,13 @@ function Header() {
     isOpen: isChatsListModalOpen,
     onOpen: onChatsListModalOpen,
     onClose: onChatsListModalClose,
+  } = useDisclosure();
+
+  // push 알림 리스트 모달창
+  const {
+    isOpen: isPushListModalOpen,
+    onOpen: onPushListModalOpen,
+    onClose: onPushListModalClose,
   } = useDisclosure();
 
   const handleLogoLinkClick = () => {
@@ -318,15 +327,18 @@ function Header() {
                     {/* 임시 - UT 후 추가 예정 */}
                     {/* push알림 badge */}
                     {/* <Badge content="0" shape="circle" color="default">
-                  <Button
-                    radius="full"
-                    isIconOnly
-                    aria-label="more than 99 notifications"
-                    variant="light"
-                  >
-                    <NotificationIcon size={24} height={24} width={24} />
-                  </Button>
-                </Badge> */}
+                      <Button
+                        radius="full"
+                        isIconOnly
+                        aria-label="more than 99 notifications"
+                        variant="light"
+                        onClick={() => {
+                          onPushListModalOpen();
+                        }}
+                      >
+                        <NotificationIcon size={24} height={24} width={24} />
+                      </Button>
+                    </Badge> */}
                     <Dropdown
                       placement="bottom-end"
                       isOpen={isProfileHover}
@@ -448,6 +460,13 @@ function Header() {
               action_id=""
             />
           )}
+          {/* {isPushListModalOpen && (
+            <PushListModal
+              isOpen={isPushListModalOpen}
+              onOpen={onPushListModalOpen}
+              onClose={onPushListModalClose}
+            />
+          )} */}
         </>
       )}
       {isMobile && <Mheader />}
