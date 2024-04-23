@@ -4,18 +4,46 @@ import { LiaCrownSolid } from "react-icons/lia";
 import PrivateChatRoom from "./PrivateChatRoom";
 import Image from "next/image";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
-import { useGetUnreadCount } from "@/app/_hooks/useQueries/chats";
+import {
+  useGetActionInfo,
+  useGetUnreadCount,
+} from "@/app/_hooks/useQueries/chats";
 import { formatToLocaleDateTimeString } from "@/utils/date/date";
 import { useSession } from "next-auth/react";
 import GroupChatRoom from "./GroupChatRoom";
 
 const HeaderGroupItem = ({ room_id }: { room_id: string }) => {
+  const session = useSession();
+  const loggedInUserUid = session.data?.user.user_uid || "";
+
   // 단체 채팅방 모달창
   const {
     isOpen: isGroupChatOpen,
     onOpen: onGroupChatOpen,
     onOpenChange: onGroupChatOpenChange,
   } = useDisclosure();
+
+  // 채팅방의 action정보
+  const { actionInfo, isActionInfoLoading, isActionInfoError } =
+    useGetActionInfo(room_id);
+
+  // 안읽은 메시지 수
+  const { unreadCount, isLoading, isError } = useGetUnreadCount({
+    loggedInUserUid,
+    room_id,
+  });
+
+  if (isActionInfoLoading || isLoading) {
+    return (
+      <div className="w-[200px] h-auto mx-auto">
+        <Image className="" src={SoomLoaing} alt="SoomLoading" />
+      </div>
+    );
+  }
+
+  if (isActionInfoError || isError || unreadCount === undefined) {
+    return <div>Error</div>;
+  }
 
   return (
     <div
@@ -52,14 +80,11 @@ const HeaderGroupItem = ({ room_id }: { room_id: string }) => {
             </div>
             <div className="flex justify-between">
               <span className="text-gray-500">메시지</span>
-              {/* {unreadCount > 0 && (
+              {unreadCount > 0 && (
                 <div className="bg-[#B3C8A1] w-7 h-7 rounded-full text-white font-extrabold flex justify-center items-center">
                   {unreadCount}
                 </div>
-              )} */}
-              <div className="bg-[#B3C8A1] w-7 h-7 rounded-full text-white font-extrabold flex justify-center items-center">
-                3
-              </div>
+              )}
             </div>
           </div>
         </div>

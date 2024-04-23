@@ -206,7 +206,7 @@ export const useGetActionInfo = (room_id: string) => {
     isLoading: isActionInfoLoading,
     isError: isActionInfoError,
   } = useQuery({
-    queryKey: [QUERY_KEY_CHAT_ACTION_INFO],
+    queryKey: [QUERY_KEY_CHAT_ACTION_INFO, room_id],
     queryFn: () => getActionInfo(room_id),
   });
 

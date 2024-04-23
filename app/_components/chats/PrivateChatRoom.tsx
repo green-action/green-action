@@ -92,7 +92,7 @@ const PrivateChatRoom = ({
   });
   // TODO 스크롤이 위에 있을때 new message 개수 표시하는건 어떻게 처리해야할까?
 
-  // 채팅방의 action id, title, url
+  // 채팅방의 action정보
   const { actionInfo, isActionInfoLoading, isActionInfoError } =
     useGetActionInfo(roomId);
 
