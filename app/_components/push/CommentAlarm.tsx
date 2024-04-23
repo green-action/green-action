@@ -7,6 +7,19 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 const CommentAlarm = () => {
+  const [comments, setComments] = useState<
+    RealtimePostgresInsertPayload<{ [key: string]: any }>[]
+  >([]);
+  const [alarm, setAlarm] = useState<
+    {
+      created_at: string;
+      id: string;
+      message: string;
+      post_id: string;
+      targetId: string;
+    }[]
+  >([]);
+
   // 내가 작성한 글 가져오기
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
@@ -46,6 +59,7 @@ const CommentAlarm = () => {
 
   useEffect(() => {
     if (commentData) {
+      setComments((prevComments) => [commentData, ...prevComments]);
       const commentWriterUid = commentData.new.user_uid;
 
       const commentPush = async () => {
@@ -67,16 +81,20 @@ const CommentAlarm = () => {
           await supabase.from("alarm").insert(newPush);
 
           // 알림 테이블에서 알림 데이터 가져오기
-          const { data: alarm } = await supabase
+          const { data: newAlarm } = await supabase
             .from("alarm")
             .select("*")
             .eq("targetId", loggedInUserUid)
-            .order("created_at", { ascending: true });
-          // 오름차순
+            .order("created_at", { ascending: false });
+          // 내림차순
 
           // 가장 최신 데이터를 실시간 알림으로 전달하기
-          if (alarm) {
-            console.log("댓글달림! : ", alarm[alarm.length - 1].message);
+          // if (alarm) {
+          //   console.log("댓글달림! : ", alarm[alarm.length - 1].message);
+          // }
+
+          if (newAlarm) {
+            setAlarm(newAlarm);
           }
         }
       };
@@ -97,9 +115,13 @@ const CommentAlarm = () => {
     <div>
       <div>commentAlarm</div>
       <div>
-        {/* {data?.map((item, index) => (
-          <li key={index}>{item}</li>
-        ))} */}
+        {/* 최신 알림 메시지 표시 */}
+        {alarm &&
+          alarm.map((item, index) => (
+            <div key={index}>
+              <li>{item.message}</li>
+            </div>
+          ))}
       </div>
     </div>
   );
