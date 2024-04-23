@@ -63,7 +63,7 @@ const PageChatsList = ({
             queryClient.invalidateQueries({
               queryKey: [QUERY_KEY_MESSAGES_PARTICIPANT_INFO_PAGE],
             }),
-              // 채팅방 개설은 되어있지만, 메시지가 하나도 없었던 경우 대비
+              // 채팅방 개설은 되어있지만, 메시지가 하나도 없었던 경우 대비 -> 메시지 내용 없을때도 방 띄우게 만들면 삭제가능
               queryClient.invalidateQueries({
                 queryKey: [QUERY_KEY_PRIVATE_ROOM_IDS],
               });

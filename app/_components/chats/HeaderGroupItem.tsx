@@ -9,7 +9,7 @@ import { formatToLocaleDateTimeString } from "@/utils/date/date";
 import { useSession } from "next-auth/react";
 import GroupChatRoom from "./GroupChatRoom";
 
-const HeaderGroupItem = () => {
+const HeaderGroupItem = ({ room_id }: { room_id: string }) => {
   // 단체 채팅방 모달창
   const {
     isOpen: isGroupChatOpen,
