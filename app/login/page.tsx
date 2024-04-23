@@ -94,21 +94,23 @@ const Login = () => {
 
   return (
     <div
-      className="desktop:w-screen laptop:w-screen  phone:w-[360px] h-screen flex justify-around 
-    items-center desktop:bg-main-img  laptop:bg-main-img bg-cover  
-    desktop:bg-blend-darken desktop:bg-black desktop:bg-opacity-10  laptop:bg-blend-darken laptop:bg-black laptop:bg-opacity-10  phone:bg-none "
+      className="desktop:w-screen laptop:w-screen phone:m-w-[360px] h-screen flex justify-center
+    items-center desktop:bg-main-img laptop:bg-main-img bg-cover  
+    desktop:bg-blend-darken desktop:bg-black desktop:bg-opacity-10 laptop:bg-blend-darken laptop:bg-black laptop:bg-opacity-10 phone:bg-none "
     >
       <div className="flex flex-col items-center justify-center">
-        <Image
-          className=" desktop:w-[126px] laptop:w-[126px] phone:w-0 h-[29px] cursor-pointer"
-          src={logoImg}
-          alt="logo"
-          onClick={() => router.push("/")}
-        />
+        {(isDesktop || isLaptop) && (
+          <Image
+            className="desktop:w-[126px] laptop:w-[126px] h-[29px] cursor-pointer"
+            src={logoImg}
+            alt="logo"
+            onClick={() => router.push("/")}
+          />
+        )}
         {isMobile && (
           <div className="flex flex-col absolute">
             <FaChevronLeft
-              className=" relative top-[-270px] ml-[60px] cursor-pointer z-10"
+              className=" relative top-[-270px] left-8 cursor-pointer z-10"
               onClick={() => router.push("/")}
             />
           </div>
