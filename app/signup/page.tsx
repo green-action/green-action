@@ -133,11 +133,34 @@ const SignUp = () => {
               onChange={(e) => setEmail(e.target.value)}
               className="mb-9  desktop:w-[427px] h-[60px] relative laptop:w-[333px] phone:w-[291px]"
             />
-            {email !== "" && !validateEmail(email) && (
-              <p className="text-red-500 text-xs absolute desktop:top-[160px] desktop:left-[80px] laptop:top-[160px] laptop:left-[65px]  phone:top-[206px] phone:left-[40px]">
-                잘못된 이메일형식 입니다
-              </p>
+            {isDesktop && (
+              <>
+                {email !== "" && !validateEmail(email) && (
+                  <p className="text-red-500 text-xs absolute desktop:top-[210px] desktop:left-[80px]">
+                    잘못된 이메일형식 입니다
+                  </p>
+                )}
+              </>
             )}
+            {isLaptop && (
+              <>
+                {email !== "" && !validateEmail(email) && (
+                  <p className="text-red-500 text-xs absolute laptop:top-[210px] laptop:left-[65px]">
+                    잘못된 이메일형식 입니다
+                  </p>
+                )}
+              </>
+            )}
+            {isMobile && (
+              <>
+                {email !== "" && !validateEmail(email) && (
+                  <p className="text-red-500 text-xs absolute phone:top-[206px] phone:left-[40px]">
+                    잘못된 이메일형식 입니다
+                  </p>
+                )}
+              </>
+            )}
+
             <Input
               type={passwordVisible ? "text" : "password"}
               label="password"
@@ -163,12 +186,37 @@ const SignUp = () => {
                 </>
               }
             />
-            {password !== "" && !validatePassword(password) && (
-              <p className="text-red-500 text-xs absolute desktop:top-[255px] desktop:left-[80px] laptop:top-[253px] laptop:left-[65px] laptop:w-[67%] phone:w-[77%] phone:top-[301px] phone:left-[40px]">
-                비밀번호는 영문자, 숫자, 특수문자(@$!%*?&)를 포함하여 6자
-                이상이어야 합니다.
-              </p>
+            {isDesktop && (
+              <>
+                {password !== "" && !validatePassword(password) && (
+                  <p className="text-red-500 text-xs absolute desktop:top-[307px] desktop:left-[80px]">
+                    비밀번호는 영문자, 숫자, 특수문자(@$!%*?&)를 포함하여 6자
+                    이상이어야 합니다.
+                  </p>
+                )}
+              </>
             )}
+            {isLaptop && (
+              <>
+                {password !== "" && !validatePassword(password) && (
+                  <p className="text-red-500 text-xs absolute laptop:top-[304px] laptop:left-[65px] laptop:w-[67%]">
+                    비밀번호는 영문자, 숫자, 특수문자(@$!%*?&)를 포함하여 6자
+                    이상이어야 합니다.
+                  </p>
+                )}
+              </>
+            )}
+            {isMobile && (
+              <>
+                {password !== "" && !validatePassword(password) && (
+                  <p className="text-red-500 text-xs absolute phone:w-[77%] phone:top-[301px] phone:left-[40px]">
+                    비밀번호는 영문자, 숫자, 특수문자(@$!%*?&)를 포함하여 6자
+                    이상이어야 합니다.
+                  </p>
+                )}
+              </>
+            )}
+
             <Input
               type={passwordVisible ? "text" : "password"}
               label="confirmPassword"
@@ -194,21 +242,61 @@ const SignUp = () => {
                 </>
               }
             />
+            {isDesktop && (
+              <>
+                {validatePasswords() &&
+                  password !== "" &&
+                  confirmPassword !== "" && (
+                    <p className="text-red-500 text-xs absolute desktop:top-[400px] desktop:left-[80px]">
+                      비밀번호가 일치하지 않습니다.
+                    </p>
+                  )}
+                {!validatePasswords() &&
+                  password !== "" &&
+                  confirmPassword !== "" && (
+                    <p className="text-green-500 text-xs absolute desktop:top-[400px] desktop:left-[80px]">
+                      비밀번호가 일치합니다.
+                    </p>
+                  )}
+              </>
+            )}
 
-            {validatePasswords() &&
-              password !== "" &&
-              confirmPassword !== "" && (
-                <p className="text-red-500 text-xs absolute desktop:top-[350px] desktop:left-[80px] laptop:top-[353px] laptop:left-[65px] phone:top-[398px] phone:left-[40px]">
-                  비밀번호가 일치하지 않습니다.
-                </p>
-              )}
-            {!validatePasswords() &&
-              password !== "" &&
-              confirmPassword !== "" && (
-                <p className="text-green-500 text-xs absolute desktop:top-[350px] desktop:left-[80px] laptop:top-[353px] laptop:left-[65px] phone:top-[398px] phone:left-[40px]">
-                  비밀번호가 일치합니다.
-                </p>
-              )}
+            {isLaptop && (
+              <>
+                {validatePasswords() &&
+                  password !== "" &&
+                  confirmPassword !== "" && (
+                    <p className="text-red-500 text-xs absolute laptop:top-[402px] laptop:left-[65px]">
+                      비밀번호가 일치하지 않습니다.
+                    </p>
+                  )}
+                {!validatePasswords() &&
+                  password !== "" &&
+                  confirmPassword !== "" && (
+                    <p className="text-green-500 text-xs absolute laptop:top-[402px] laptop:left-[65px]">
+                      비밀번호가 일치합니다.
+                    </p>
+                  )}
+              </>
+            )}
+            {isMobile && (
+              <>
+                {validatePasswords() &&
+                  password !== "" &&
+                  confirmPassword !== "" && (
+                    <p className="text-red-500 text-xs absolute phone:top-[398px] phone:left-[40px]">
+                      비밀번호가 일치하지 않습니다.
+                    </p>
+                  )}
+                {!validatePasswords() &&
+                  password !== "" &&
+                  confirmPassword !== "" && (
+                    <p className="text-green-500 text-xs absolute phone:top-[398px] phone:left-[40px]">
+                      비밀번호가 일치합니다.
+                    </p>
+                  )}
+              </>
+            )}
             <Input
               type="text"
               label="Nickname"
@@ -218,12 +306,33 @@ const SignUp = () => {
               className="mb-9 desktop:w-[427px] h-[60px] relative laptop:w-[333px] phone:w-[291px]"
               maxLength={10}
             />
-            {nickname && (nickname.length < 2 || nickname.length > 10) && (
-              <p className="text-red-500 text-xs absolute desktop:top-[448px] desktop:left-[80px] laptop:top-[460px] laptop:left-[65px] phone:top-[493px] phone:left-[40px]">
-                닉네임은 최소 2글자 이상, 최대 10글자 이하이어야 합니다.
-              </p>
+            {isDesktop && (
+              <>
+                {nickname && (nickname.length < 2 || nickname.length > 10) && (
+                  <p className="text-red-500 text-xs absolute desktop:top-[499px] desktop:left-[80px]">
+                    닉네임은 최소 2글자 이상, 최대 10글자 이하이어야 합니다.
+                  </p>
+                )}
+              </>
             )}
-
+            {isLaptop && (
+              <>
+                {nickname && (nickname.length < 2 || nickname.length > 10) && (
+                  <p className="text-red-500 text-xs absolute laptop:top-[499px] laptop:left-[65px]">
+                    닉네임은 최소 2글자 이상, 최대 10글자 이하이어야 합니다.
+                  </p>
+                )}
+              </>
+            )}
+            {isMobile && (
+              <>
+                {nickname && (nickname.length < 2 || nickname.length > 10) && (
+                  <p className="text-red-500 text-xs absolute phone:top-[493px] phone:left-[40px]">
+                    닉네임은 최소 2글자 이상, 최대 10글자 이하이어야 합니다.
+                  </p>
+                )}
+              </>
+            )}
             <Button
               type="submit"
               variant="solid"
