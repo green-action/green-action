@@ -19,11 +19,11 @@ export const getPrivateRoomIds = async (action_id: string) => {
   return roomIds;
 };
 
-// 채팅방의 action id, title, url 가져오기
+// 채팅방의 action정보 가져오기
 export const getActionInfo = async (room_id: string) => {
-  const { data: actionIdTitle, error } = await supabase
+  const { data, error } = await supabase
     .from("chat_rooms_info")
-    .select("individual_green_actions(id, title)")
+    .select("individual_green_actions(id, title, recruit_number, user_uid)")
     .eq("id", room_id);
 
   if (error) {
@@ -31,8 +31,10 @@ export const getActionInfo = async (room_id: string) => {
     throw error;
   }
 
-  const action_id = actionIdTitle[0].individual_green_actions?.id;
-  const action_title = actionIdTitle[0].individual_green_actions?.title;
+  const action_id = data[0].individual_green_actions?.id;
+  const title = data[0].individual_green_actions?.title;
+  const recruit_number = data[0].individual_green_actions?.recruit_number;
+  const user_uid = data[0].individual_green_actions?.user_uid;
   if (!action_id) return;
 
   const { data: actionUrl, error: actionUrlError } = await supabase
@@ -49,7 +51,7 @@ export const getActionInfo = async (room_id: string) => {
 
   const action_url = actionUrl[0].green_action_images[0].img_url;
 
-  return { action_id, action_title, action_url };
+  return { action_id, title, action_url, recruit_number, user_uid };
 };
 
 // 채팅방의 상대방 정보 가져오기
