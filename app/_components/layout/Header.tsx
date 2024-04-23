@@ -326,7 +326,7 @@ function Header() {
                     </div>
                     {/* 임시 - UT 후 추가 예정 */}
                     {/* push알림 badge */}
-                    <Badge content="0" shape="circle" color="default">
+                    {/* <Badge content="0" shape="circle" color="default">
                       <Button
                         radius="full"
                         isIconOnly
@@ -338,7 +338,7 @@ function Header() {
                       >
                         <NotificationIcon size={24} height={24} width={24} />
                       </Button>
-                    </Badge>
+                    </Badge> */}
                     <Dropdown
                       placement="bottom-end"
                       isOpen={isProfileHover}
@@ -460,13 +460,13 @@ function Header() {
               action_id=""
             />
           )}
-          {isPushListModalOpen && (
+          {/* {isPushListModalOpen && (
             <PushListModal
               isOpen={isPushListModalOpen}
               onOpen={onPushListModalOpen}
               onClose={onPushListModalClose}
             />
-          )}
+          )} */}
         </>
       )}
       {isMobile && <Mheader />}
