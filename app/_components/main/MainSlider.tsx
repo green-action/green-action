@@ -59,7 +59,7 @@ const MainSlider = ({ mode }: { mode: string }) => {
       className={`${
         mode === MODE_COMMUNITY
           ? "h-[510px] desktop:w-[1750px]"
-          : "h-[550px] desktop:w-[1500px] "
+          : "h-[600px] desktop:w-[1600px]"
       }   flex items-center justify-center`}
     >
       {mode === MODE_COMMUNITY
@@ -81,7 +81,7 @@ const MainSlider = ({ mode }: { mode: string }) => {
             (
               action, // 북마크 수 최다 상위 8개 action
             ) => (
-              <div key={action.id} className="flex items-center h-[480px]">
+              <div key={action.id} className="flex items-center h-[550px]">
                 <MyActionCard action={action} mode={MODE_MAIN} />
               </div>
             ),

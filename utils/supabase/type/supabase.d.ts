@@ -365,7 +365,6 @@ export type Database = {
           end_date: string | null;
           id: string;
           is_recruiting: boolean;
-          kakao_link: string | null;
           location: string | null;
           location_map: Json | null;
           recruit_number: number;
@@ -379,7 +378,6 @@ export type Database = {
           end_date?: string | null;
           id?: string;
           is_recruiting?: boolean;
-          kakao_link?: string | null;
           location?: string | null;
           location_map?: Json | null;
           recruit_number: number;
@@ -393,7 +391,6 @@ export type Database = {
           end_date?: string | null;
           id?: string;
           is_recruiting?: boolean;
-          kakao_link?: string | null;
           location?: string | null;
           location_map?: Json | null;
           recruit_number?: number;

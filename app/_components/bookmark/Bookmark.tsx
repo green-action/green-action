@@ -19,8 +19,10 @@ import Image from "next/image";
 import React, { useCallback, useState } from "react";
 import AlertModal from "../community/AlertModal";
 import CustomConfirm from "../customConfirm/CustomConfirm";
-import bookmarkEmpty from "/app/_assets/image/logo_icon/icon/mypage/Star 31.png";
-import bookmarkFill from "/app/_assets/image/logo_icon/icon/mypage/Star 32.png";
+// import bookmarkEmpty from "/app/_assets/image/logo_icon/icon/mypage/Star 31.png";
+// import bookmarkFill from "/app/_assets/image/logo_icon/icon/mypage/Star 32.png";
+import bookmarkEmpty from "/app/_assets/image/individualAction/star_2.png";
+import bookmarkFill from "/app/_assets/image/individualAction/star_1.png";
 
 const Bookmark = ({
   action_id,
@@ -100,21 +102,22 @@ const Bookmark = ({
                 <Image
                   src={bookmarkFill}
                   alt="북마크"
-                  className="size-[18px] desktop:size-[22px] laptop:size-[22px] mr-[6px]"
+                  className="size-[18px] desktop:size-[23px] laptop:size-[22px] mr-[6px]"
                 />
               )}
               {mode === MODE_INDIVIDUAL_ACTION && (
                 <Image
                   src={bookmarkFill}
                   alt="북마크"
-                  className="desktop:size-[16px] mr-[6px] laptop:size-[13px] phone:size-[13px]"
+                  className="desktop:size-[17px] mr-[3px] laptop:size-[14px] phone:size-[14px]"
                 />
               )}
               {mode === MODE_MY_POSTS && (
                 <Image
                   src={bookmarkFill}
                   alt="북마크"
-                  className="desktop:w-[15px] laptop:w-[14px] desktop:h-[14px] laptop:h-[13px] phone:w-[20px] phone:h-[19px] desktop:mt-[3px] laptop:mt-[2px] desktop:mr-[8px] laptop:mr-[4px] mb-[2px]"
+                  className="desktop:size-[17px] desktop:mr-[4px] laptop:size-[16px] laptop:mr-[4px]"
+                  // className="desktop:w-[15px] laptop:w-[14px] desktop:h-[14px] laptop:h-[13px] phone:w-[20px] phone:h-[19px] desktop:mt-[3px] laptop:mt-[2px] desktop:mr-[8px] laptop:mr-[4px] mb-[2px]"
                 />
               )}
               {mode === MODE_MAIN && (
@@ -126,10 +129,12 @@ const Bookmark = ({
               )}
             </button>
             <span
-              className={`desktop:text-sm laptop:text-[11px] ${
-                mode === MODE_MY_POSTS &&
-                "desktop:text-[12px] laptop:text-[11px] phone:text-[0px]"
-              } ${
+              className={`desktop:text-sm laptop:text-[11px] 
+               ${mode === MODE_DETAIL_PAGE && "laptop:text-[14px]"}
+                ${
+                  mode === MODE_MY_POSTS &&
+                  "desktop:text-[12px] laptop:text-[11px] phone:text-[0px]"
+                } ${
                 mode === MODE_INDIVIDUAL_ACTION &&
                 "phone:text-[11px] phone:text-[#848484] desktop:text-black laptop:text-black"
               }`}
@@ -160,7 +165,8 @@ const Bookmark = ({
               <Image
                 src={bookmarkEmpty}
                 alt="북마크"
-                className="desktop:w-[15px] laptop:w-[15px] desktop:h-[14px] laptop:h-[13px] phone:w-[20px] phone:h-[19px] desktop:mt-[4px] laptop:mt-[2px] desktop:mr-[5px] laptop:mr-[3px] mb-[2px]"
+                className="desktop:size-[17px] desktop:mr-[4px] laptop:size-[16px] laptop:mr-[4px] phone:size-[17px]"
+                // className="desktop:w-[15px] laptop:w-[15px] desktop:h-[14px] laptop:h-[13px] phone:w-[20px] phone:h-[19px] desktop:mt-[4px] laptop:mt-[2px] desktop:mr-[5px] laptop:mr-[3px] mb-[2px]"
               />
             )}
             {mode === MODE_MAIN && (
@@ -173,10 +179,12 @@ const Bookmark = ({
             {/* <CiStar className="text-[19px]" /> */}
           </button>
           <span
-            className={`desktop:text-sm laptop:text-[11px] ${
-              mode === MODE_MY_POSTS &&
-              "desktop:text-[12px] laptop:text-[11px] phone:text-[0px]"
-            } ${
+            className={`desktop:text-sm laptop:text-[11px] 
+              ${mode === MODE_DETAIL_PAGE && "laptop:text-[14px]"}
+              ${
+                mode === MODE_MY_POSTS &&
+                "desktop:text-[12px] laptop:text-[11px] phone:text-[0px]"
+              } ${
               mode === MODE_INDIVIDUAL_ACTION &&
               "phone:text-[11px] phone:text-[#848484] desktop:text-black laptop:text-black"
             }`}

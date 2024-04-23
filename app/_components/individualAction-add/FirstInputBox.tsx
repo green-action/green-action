@@ -203,7 +203,7 @@ const FirstInputBox = ({
               </div>
             </div>
           </div> */}
-              <div>
+              {/* <div>
                 <label
                   htmlFor="openKakaoLink"
                   className="text-[13px] font-extrabold"
@@ -220,7 +220,7 @@ const FirstInputBox = ({
                     className="w-10/12 h-[30px] mx-4 pr-2 bg-inherit focus:outline-none"
                   />
                 </div>
-              </div>
+              </div> */}
               {/* 지도 검색으로 장소선택 시 뜨게 할 지도(미리보기) */}
               {locationMapRef.current && (
                 <div className="w-[310px] h-[220px] mt-[41px]">

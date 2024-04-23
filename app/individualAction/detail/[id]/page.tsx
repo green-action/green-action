@@ -33,7 +33,7 @@ import delAction from "/app/_assets/image/logo_icon/icon/mypage/Group 131.png";
 import prevBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 132.png";
 import nextBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 133.png";
 import calendar from "/app/_assets/image/logo_icon/icon/mypage/image 127.png";
-import person from "/app/_assets/image/logo_icon/icon/mypage/image 166.png";
+import person from "/app/_assets/image/individualAction/person.png";
 import mapPin from "/app/_assets/image/logo_icon/icon/mypage/image 169.png";
 import editAction from "/app/_assets/image/logo_icon/icon/mypage/image 55.png";
 
@@ -105,10 +105,9 @@ const DetailPage = () => {
       </div>
     );
   const detail = individualAction![0];
+  const locationMap = detail.location_map as any;
 
   if (isError) return <div>Error fetching details...</div>;
-
-  const locationMap = detail.location_map as any;
 
   return (
     <>
@@ -263,7 +262,7 @@ const DetailPage = () => {
                       )}
                     </div>
                     {/* 카카오맵 추가 */}
-                    {detail?.location_map && (
+                    {locationMap && (
                       <div className="w-[387px] h-[239px]">
                         <KakaoMap
                           placeInfo={locationMap}
@@ -476,7 +475,7 @@ const DetailPage = () => {
                       )}
                     </div>
                     {/* 카카오맵 추가 */}
-                    {detail?.location_map && (
+                    {locationMap && (
                       <div className="w-[230px] h-[160px] mt-[30px]">
                         <KakaoMap placeInfo={locationMap} />
                       </div>
@@ -627,14 +626,14 @@ const DetailPage = () => {
                               지도 위치
                             </p>
                             <p className="font-semibold text-[13px] text-[#1e1e1e]">
-                              {locationMap?.placeName as any}
+                              {locationMap?.placeName}
                             </p>
                           </div>
                         )}
                       </div>
                       {/* 카카오맵 추가 */}
                       <div className="flex justify-center">
-                        {detail?.location_map && (
+                        {locationMap && (
                           <div className="w-[200px] h-[150px] mt-[20px] ">
                             <KakaoMap placeInfo={locationMap} />
                           </div>
