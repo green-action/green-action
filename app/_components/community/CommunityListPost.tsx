@@ -180,7 +180,7 @@ const CommunityListPost = ({
               mode !== MODE_MAIN &&
               "w-[410px] items-center"
             }           
-          ${mode === MODE_MY_POSTS && "w-[335px]"} 
+          ${mode === MODE_MY_POSTS && "w-[335px] items-center"} 
            ${
              mode === MODE_MAIN &&
              "bg-[#F9F9F9]/70 p-[30px] rounded-2xl w-[400px] h-[120px] flex-col items-start justify-center"
@@ -197,8 +197,7 @@ const CommunityListPost = ({
               "ml-[24px] text-[13px] w-[150px] "
             }           
           ${
-            mode === MODE_MY_POSTS &&
-            "ml-[15px] desktop:text-[13px] desktop:w-[160px]"
+            mode === MODE_MY_POSTS && "ml-[15px] desktop:text-[13px] w-[135px]"
           }  
           ${
             mode === MODE_MAIN &&
@@ -213,7 +212,7 @@ const CommunityListPost = ({
                 className={`text-[15px] font-extrabold w-3/4 mx-[24px] overflow-hidden whitespace-nowrap overflow-ellipsis 
                 } ${
                   mode === MODE_MY_POSTS &&
-                  " desktop:ml-[24px] mr-0 desktop:text-[15px]"
+                  " desktop:ml-[10px] mr-0 desktop:text-[15px]"
                 }
             `}
               >
@@ -335,7 +334,7 @@ const CommunityListPost = ({
             }
           ${
             mode === MODE_MY_POSTS &&
-            "ml-[15px] laptop:text-[8pt] laptop:w-[140px]"
+            "p-0 ml-[15px] laptop:text-[11px] laptop:w-[125px]"
           }  
           ${mode === MODE_MAIN && "text-[11px] w-[90px] h-[24px]"}`}
             >
@@ -345,7 +344,7 @@ const CommunityListPost = ({
             {mode !== MODE_MAIN && (
               <p
                 className={`text-[15px] font-extrabold w-3/4 mx-[24px] overflow-hidden whitespace-nowrap overflow-ellipsis 
-                } ${mode === MODE_MY_POSTS && "ml-[15px] mr-0 text-[13px]"}
+                } ${mode === MODE_MY_POSTS && "ml-[10px] mr-0 text-[11px]"}
             `}
               >
                 {communityPost?.title}

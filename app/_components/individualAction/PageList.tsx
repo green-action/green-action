@@ -6,7 +6,7 @@ import Bookmark from "../bookmark/Bookmark";
 
 import arrow from "../../_assets/image/individualAction/Group89.png";
 import date from "../../_assets/image/individualAction/image170.png";
-import person from "../../_assets/image/individualAction/image24.png";
+import person from "../../_assets/image/individualAction/person.png";
 import location from "../../_assets/image/individualAction/image35.png";
 
 import { MODE_INDIVIDUAL_ACTION } from "@/app/_api/constant";
@@ -184,7 +184,7 @@ const PageList: React.FC<ChildProps> = ({
                   <Image
                     src={person}
                     alt="모집인원"
-                    className=" desktop:w-[22px] h-[22px] laptop:w-[18px] phone:w-[18px]"
+                    className="desktop:w-[19px] laptop:w-[17px] phone:w-[18px]"
                   />
                   <span className="ml-1 desktop:text-sm  laptop:text-[11px] phone:text-[11px] phone:text-[#848484] desktop:text-black laptop:text-black">
                     {post.recruit_number}

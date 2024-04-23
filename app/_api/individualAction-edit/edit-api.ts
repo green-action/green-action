@@ -51,7 +51,6 @@ export const updateActionTextForm = async ({
       location: activityLocation,
       location_map: activityLocationMap,
       recruit_number: Number(formData.get("maxParticipants")),
-      kakao_link: String(formData.get("openKakaoLink")),
     };
 
     // supabase에서 해당 action_id의 데이터 가져오기

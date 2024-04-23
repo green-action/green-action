@@ -55,7 +55,7 @@ const LaptopMainSlidder = ({ mode }: { mode: string }) => {
     <Slider
       {...settings}
       className={`${
-        mode === MODE_COMMUNITY ? "h-[400px]" : "h-[430px]"
+        mode === MODE_COMMUNITY ? "h-[400px]" : "h-[500px]"
       }  laptop:w-[904px] flex items-center justify-center`}
     >
       {mode === MODE_COMMUNITY
