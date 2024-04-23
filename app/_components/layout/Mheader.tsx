@@ -225,12 +225,15 @@ const Mheader = () => {
                       className="relative bottom-4 left-[74px]"
                     />
                   </Link>
-                  <Link href={"/goods"} className="mb-4 font-bold">
+                  <Link
+                    href={"/goods"}
+                    className="mb-4 font-bold"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
                     Goods
                     <Image
                       src={outside}
                       alt="outside"
-                      onClick={() => setIsMenuOpen(false)}
                       className="relative bottom-4 left-11"
                     />
                   </Link>
