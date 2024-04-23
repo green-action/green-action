@@ -337,7 +337,7 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
           className={`none ${
             (mode === MODE_MY_BOOKMARKS || mode === MODE_MY_POSTS) &&
             "h-[150px] gap-4"
-          } ${mode === MODE_MAIN && "phone:w-[140px] phone:h-[98px]"} relative`}
+          }relative`}
         >
           <Card
             isFooterBlurred
