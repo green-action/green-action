@@ -44,7 +44,6 @@ const Bookmark = ({
   const handleAddBookmarkClick = useCallback(
     debounce(() => {
       if (user_uid === null || user_uid === undefined) {
-        // alert("로그인하고 이용해주세요");
         setMessage("로그인이 필요한 서비스입니다.");
         setIsOpenAlertModal(true);
         return;
@@ -115,7 +114,7 @@ const Bookmark = ({
                 <Image
                   src={bookmarkFill}
                   alt="북마크"
-                  className="desktop:w-[15px] laptop:w-[14px] desktop:h-[14px] laptop:h-[13px] desktop:mt-[3px] laptop:mt-[2px] desktop:mr-[8px] laptop:mr-[4px] mb-[2px]"
+                  className="desktop:w-[15px] laptop:w-[14px] desktop:h-[14px] laptop:h-[13px] phone:w-[20px] phone:h-[19px] desktop:mt-[3px] laptop:mt-[2px] desktop:mr-[8px] laptop:mr-[4px] mb-[2px]"
                 />
               )}
               {mode === MODE_MAIN && (
@@ -129,7 +128,7 @@ const Bookmark = ({
             <span
               className={`desktop:text-sm laptop:text-[11px] ${
                 mode === MODE_MY_POSTS &&
-                "desktop:text-[12px] laptop:text-[11px]"
+                "desktop:text-[12px] laptop:text-[11px] phone:text-[0px]"
               } ${
                 mode === MODE_INDIVIDUAL_ACTION &&
                 "phone:text-[11px] phone:text-[#848484] desktop:text-black laptop:text-black"
@@ -161,7 +160,7 @@ const Bookmark = ({
               <Image
                 src={bookmarkEmpty}
                 alt="북마크"
-                className="desktop:w-[15px] laptop:w-[15px] desktop:h-[14px] laptop:h-[13px] desktop:mt-[4px] laptop:mt-[2px] desktop:mr-[5px] laptop:mr-[3px] mb-[2px]"
+                className="desktop:w-[15px] laptop:w-[15px] desktop:h-[14px] laptop:h-[13px] phone:w-[20px] phone:h-[19px] desktop:mt-[4px] laptop:mt-[2px] desktop:mr-[5px] laptop:mr-[3px] mb-[2px]"
               />
             )}
             {mode === MODE_MAIN && (
@@ -175,7 +174,8 @@ const Bookmark = ({
           </button>
           <span
             className={`desktop:text-sm laptop:text-[11px] ${
-              mode === MODE_MY_POSTS && "desktop:text-[12px] laptop:text-[11px]"
+              mode === MODE_MY_POSTS &&
+              "desktop:text-[12px] laptop:text-[11px] phone:text-[0px]"
             } ${
               mode === MODE_INDIVIDUAL_ACTION &&
               "phone:text-[11px] phone:text-[#848484] desktop:text-black laptop:text-black"

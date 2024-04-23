@@ -36,7 +36,7 @@ const ProfileImgUpload = ({
           //  누를 시 모달이 닫히는 문제 - form 안 button이라 form태그로 제출되어서? -> type="reset"으로 해결
           onClick={handleDeleteImage}
           color="default"
-          className="absolute desktop:top-[11rem] laptop:top-[10rem] desktop:right-[9rem] laptop:right-[9rem]"
+          className="absolute desktop:top-[11rem] laptop:top-[10rem] desktop:right-[9rem] laptop:right-[9rem] phone:right-[11rem] phone:top-[7.5rem]"
           type="reset"
         >
           x
@@ -45,9 +45,9 @@ const ProfileImgUpload = ({
       <Avatar
         showFallback
         src={uploadedFileUrl}
-        className="desktop:w-[150px] desktop:h-[150px] laptop:w-[147.16px] laptop:h-[147.16px]"
+        className="desktop:w-[150px] desktop:h-[150px] laptop:w-[147.16px] laptop:h-[147.16px] phone:w-[90px] phone:h-[90px]"
       />
-      <div className="absolute desktop:bottom-[15rem] laptop:bottom-[15.5rem] desktop:right-[9rem] laptop:right-[9.5rem]">
+      <div className="absolute desktop:bottom-[15rem] laptop:bottom-[15.5rem] desktop:right-[9rem] laptop:right-[9.5rem] phone:bottom-[15rem] phone:right-[10.5rem]">
         <label htmlFor={`fileInput`} className="cursor-pointer">
           <IoIosCamera size="35" />
         </label>

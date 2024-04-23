@@ -274,7 +274,7 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
                           mode === MODE_MY_BOOKMARKS ||
                           mode === MODE_MAIN) &&
                         "phone:h-[98px] phone:mb-[10px]"
-                      } phone:mb-[10px] cursor-pointer shadow-none border-none `}
+                      } phone:mb-[10px] cursor-pointer shadow-none border-none`}
                     >
                       {actionImgUrl ? (
                         <img
@@ -292,7 +292,6 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
                     </Card>
 
                     <div className="flex w-full gap-0">
-                      {/* <div className="flex desktop:gap-2 laptop:gap-[6px] mb-4 desktop:min-w-[240px] laptop:min-w-[190px] items-center"> */}
                       <p className="max-w-[165px] desktop:text-[15px] laptop:text-[13px] font-bold overflow-hidden whitespace-nowrap overflow-ellipsis">
                         {title}
                       </p>
@@ -320,14 +319,13 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
                         </Chip>
                       )}
                     </div>
-                    <div className="flex justify-end items-start pt-0 desktop:gap-[15px] laptop:gap-[10px]  desktop:text-[14px] laptop:text-[11px] w-full">
+                    <div className="flex justify-end items-start pt-0 desktop:gap-[15px] laptop:gap-[10px]  desktop:text-[14px] laptop:text-[11px]  w-full">
                       {/* LINK 북마크 컴포넌트 */}
                       <div className="flex desktop:mt-[0px] laptop:mt-[0.5px]">
                         <Bookmark action_id={id} mode={mode} />
                       </div>
                     </div>
                   </div>
-                  {/* </div> */}
                 </div>
               )}
             </div>
@@ -336,20 +334,20 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
       )}
       {isMobile && (
         <div
-          className={`none desktop:w-[356px] desktop:h-[455px] phone:h-[98px] ${
+          className={`none ${
             (mode === MODE_MY_BOOKMARKS || mode === MODE_MY_POSTS) &&
-            "laptop:w-[327px] laptop:h-[420px] laptop:mb-[149px]"
+            "h-[150px] gap-4"
           } ${mode === MODE_MAIN && "phone:w-[140px] phone:h-[98px]"} relative`}
         >
           <Card
             isFooterBlurred
             radius="lg"
-            className={`border-none w-full phone:h-[98px] ${
+            className={`border-none w-full h-full ${
               (mode === MODE_MY_POSTS ||
                 mode === MODE_MY_BOOKMARKS ||
                 mode === MODE_MAIN) &&
-              "phone:h-[98px] phone:mb-[10px]"
-            } phone:mb-[10px] cursor-pointer shadow-none border-none `}
+              "phone:h-[98px] "
+            } phone:mb-[15px] cursor-pointer shadow-none border-none`}
           >
             {actionImgUrl ? (
               <img
@@ -367,40 +365,82 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
           </Card>
 
           <div className="flex w-full gap-0">
-            <div className="flex gap-[6px] mb-4 min-w-[190px] items-center">
-              <p className="max-w-[165px] text-[13px] font-bold overflow-hidden whitespace-nowrap overflow-ellipsis">
-                {title}
+            <div className="flex flex-col gap-[5px] mb-4 ml-3 min-w-[140px]">
+              <p className="max-w-[165px] text-[10px] font-bold overflow-hidden whitespace-nowrap overflow-ellipsis">
+                {title?.length > 13 ? `${title?.substring(0, 13)}...` : title}
               </p>
               {is_recruiting ? (
                 <Chip
                   classNames={{
-                    base: "h-[16px]",
-                    content: "w-[34px] flex justify-center items-center",
+                    base: "h-[14px]",
+                    content: "w-[33px] flex justify-center items-center",
                   }}
-                  className="text-white bg-[#B3C8A1] rounded-[5px] text-center text-[8pt]"
+                  className="text-white bg-[#B3C8A1] rounded-[5px] text-center text-[7pt]"
                 >
                   모집중
                 </Chip>
               ) : (
                 <Chip
                   classNames={{
-                    base: "h-[16px]",
-                    content:
-                      "desktop:w-[50px] laptop:w-[42px] flex justify-center items-center",
+                    base: "h-[14px]",
+                    content: "w-[33px] flex justify-center items-center",
                   }}
-                  className="text-white bg-[#5F5F5F] rounded-[5px] text-center text-[8pt]"
+                  className="text-white bg-[#5F5F5F] rounded-[5px] text-center text-[7pt]"
                 >
                   모집마감
                 </Chip>
               )}
             </div>
-            <div className="flex justify-end items-start pt-0 gap-[10px] text-[11px] w-full">
+            <div className="flex justify-end items-start pt-0 gap-[10px] w-full text-[0px]">
               {/* LINK 북마크 컴포넌트 */}
-              <div className="flex mt-[0.5px]">
+              <div className="flex mt-[10px]">
                 <Bookmark action_id={id} mode={mode} />
               </div>
             </div>
           </div>
+          {mode === "myPosts" && (
+            <div className="flex items-center ml-[62px] mt-[-50px]">
+              <Dropdown
+                placement="bottom"
+                className="flex w-[10px] p-0 m-0 rounded-3xl justify-end"
+              >
+                <DropdownTrigger>
+                  <Button className="bg-transparent w-[1px] justify-end">
+                    <Image
+                      src={optionDots}
+                      alt="option-three-dots-icon"
+                      className="w-[2.3px]"
+                    />
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu aria-label="Static Actions" className="p-3">
+                  {is_recruiting && (
+                    <DropdownItem key="모집마감" onClick={handleModalOpen}>
+                      모집마감
+                    </DropdownItem>
+                  )}
+                  <DropdownItem key="수정" onClick={handleEditClick}>
+                    수정
+                  </DropdownItem>
+                  <DropdownItem
+                    key="삭제"
+                    color="danger"
+                    onClick={handleDeleteClick}
+                  >
+                    삭제
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+
+              {/* 모집마감 변경 모달 */}
+              <MyActionRecruitingModal
+                id={id}
+                isOpen={isOpen}
+                onClose={onClose}
+                onOpenChange={onOpenChange}
+              />
+            </div>
+          )}
         </div>
       )}
     </div>
