@@ -90,7 +90,8 @@ const SignUp = () => {
 
   return (
     <div
-      className="desktop:w-screen laptop:w-screen  phone:m-w-[360px] h-screen flex justify-center
+      className="desktop:w-screen laptop:w-screen  phone:m-w-[360px] h-screen flex 
+      desktop:justify-around laptop:justify-around phone:justify-center
   items-center desktop:bg-main-img laptop:bg-main-img bg-cover  
   desktop:bg-blend-darken desktop:bg-black desktop:bg-opacity-10 
   laptop:bg-blend-darken laptop:bg-black laptop:bg-opacity-10 phone:bg-none"
