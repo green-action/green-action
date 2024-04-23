@@ -78,7 +78,7 @@ const GroupInsideModal = ({
       }
 
       // 2. 참가자 테이블에서 삭제
-      await deleteParticipant(loggedInUserUid);
+      await deleteParticipant({ loggedInUserUid, roomId });
     }
     onClose();
   };

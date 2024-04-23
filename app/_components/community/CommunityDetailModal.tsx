@@ -104,7 +104,7 @@ const CommunityDetailModal = ({
                 <p className="font-semibold text-[14px]">{display_name}</p>
                 <p className="font-normal text-xs">Greener</p>
               </ModalHeader>
-              <ModalBody>
+              <ModalBody className="pb-0">
                 {/* 게시글 이미지 */}
                 <img
                   src={communityPost?.img_url ?? "기본 이미지 URL"}
