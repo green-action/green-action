@@ -90,16 +90,30 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
             className={`border-none w-full desktop:h-[311px] laptop:h-[251px]  ${
               (mode === MODE_MY_POSTS || mode === MODE_MY_BOOKMARKS) &&
               "desktop:h-[311px] laptop:h-[280px] laptop:mb-[10px]"
-            } laptop:mb-[10px] cursor-pointer shadow-none border-none `}
+            } laptop:mb-[10px] shadow-none border-none `}
           >
             {actionImgUrl ? (
-              <img
-                src={actionImgUrl.img_url}
-                alt="Green Action Image"
-                className="w-full h-full"
-                onClick={handleActionClick}
-              />
+              mode === MODE_MAIN ? (
+                // 이미지 있고 메인 모드일때
+                <img
+                  src={actionImgUrl.img_url}
+                  alt="Green Action Image"
+                  className="w-full h-full"
+                />
+              ) : (
+                // 이미지 있고 메인 모드 아닐 때
+                <img
+                  src={actionImgUrl.img_url}
+                  alt="Green Action Image"
+                  className="w-full h-full cursor-pointer"
+                  onClick={handleActionClick}
+                />
+              )
+            ) : mode === MODE_MAIN ? (
+              // 이미지 없고 메인 모드일때
+              <div className="none bg-gray-300 w-full h-full rounded" />
             ) : (
+              // 이미지 없고 메인 모드 아닐 때
               <div
                 className="none bg-gray-300 w-full h-full rounded"
                 onClick={handleActionClick}
