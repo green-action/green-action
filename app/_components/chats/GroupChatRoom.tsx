@@ -146,7 +146,7 @@ const GroupChatRoom = ({
         placement="center"
         size="3xl"
       >
-        <ModalContent className="max-w-[27%] h-[87%] overflow-y-auto scrollbar-hide rounded-[55px] relative">
+        <ModalContent className="relative max-w-[27%] h-[87%] overflow-y-auto scrollbar-hide rounded-[55px] relative">
           {(onClose) => (
             <>
               <ModalHeader className="fixed bg-white flex justify-between items-center gap-5 w-[27%] shadow-md h-28 z-10 px-8 rounded-tl-[55px] rounded-tr-[55px]">
@@ -183,7 +183,7 @@ const GroupChatRoom = ({
                   />
                 </div>
               </ModalHeader>
-              <ModalBody className="bg-[#F3F4F3] pt-32">
+              <ModalBody className="bg-[#F3F4F3] pt-32 pb-0">
                 <div className="flex justify-center">
                   <div className={`flex flex-col w-[100%]`}>
                     {messagesList?.map((message) => (
@@ -222,8 +222,28 @@ const GroupChatRoom = ({
                     ))}
                   </div>
                 </div>
+                <div className="sticky bottom-0 w-[100%] mx-auto bg-[#F3F4F3] flex justify-center pt-2">
+                  <div className="flex items-center justify-between px-8 w-[90%] mb-[34px] bg-white h-16 rounded-[50px]">
+                    <input
+                      className="w-[90%] h-[85%] pl-4"
+                      type="text"
+                      placeholder="send message..."
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && !e.nativeEvent.isComposing) {
+                          e.preventDefault();
+                          handleSendMessage();
+                        }
+                      }}
+                    />
+                    <div className="cursor-pointer" onClick={handleSendMessage}>
+                      <IoPaperPlane size={25} />
+                    </div>
+                  </div>
+                </div>
               </ModalBody>
-              <ModalFooter className="bg-[#F3F4F3] flex justify-center">
+              {/* <ModalFooter className="bg-[#F3F4F3] flex justify-center">
                 <div className="flex items-center justify-between px-8 w-[90%] mb-5 bg-white h-16 rounded-[50px]">
                   <input
                     className="w-[90%] h-[85%] pl-4"
@@ -242,7 +262,7 @@ const GroupChatRoom = ({
                     <IoPaperPlane size={25} />
                   </div>
                 </div>
-              </ModalFooter>
+              </ModalFooter> */}
               {/* action info 모달창 */}
               {isActionInfoOpen && (
                 <GroupInsideModal
