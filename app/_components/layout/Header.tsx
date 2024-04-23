@@ -4,6 +4,8 @@ import { useFetchUserInfo } from "@/app/_hooks/useQueries/mypage";
 import { User } from "@/app/_types";
 import {
   Avatar,
+  Badge,
+  Button,
   Chip,
   Dropdown,
   DropdownItem,
@@ -13,8 +15,6 @@ import {
   NavbarContent,
   Tab,
   Tabs,
-  Badge,
-  Button,
   useDisclosure,
 } from "@nextui-org/react";
 // import { NotificationIcon } from "./NotificationIcon";
@@ -23,19 +23,19 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import logoImg from "/app/_assets/image/logo_icon/logo/gray.png";
-import whitelogoImg from "/app/_assets/image/logo_icon/logo/white.png";
-import graylogoImg from "/app/_assets/image/logo_icon/logo/gray.png";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
+import graylogoImg from "/app/_assets/image/logo_icon/logo/gray.png";
+import whitelogoImg from "/app/_assets/image/logo_icon/logo/white.png";
 
+import { MODE_HEADER } from "@/app/_api/constant";
+import { useGetAllUnreadCount } from "@/app/_hooks/useQueries/chats";
 import Image from "next/image";
-import AlertModal from "../community/AlertModal";
-import { NotificationIcon } from "../chats/NotificationIcon";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import ChatsListModal from "../chats/ChatsListModal";
-import { useGetAllUnreadCount } from "@/app/_hooks/useQueries/chats";
 import { useResponsive } from "@/app/_hooks/responsive";
 import Mheader from "./Mheader";
+
+import AlertModal from "../community/AlertModal";
 
 function Header() {
   const router = useRouter();
@@ -160,7 +160,7 @@ function Header() {
     return <div>Error</div>;
   }
 
-  console.log("allUnreadCount", allUnreadCount);
+  // console.log("allUnreadCount", allUnreadCount);
 
   return (
     <>
@@ -444,7 +444,7 @@ function Header() {
               isOpen={isChatsListModalOpen}
               onOpen={onChatsListModalOpen}
               onClose={onChatsListModalClose}
-              mode="header"
+              mode={MODE_HEADER}
               action_id=""
             />
           )}

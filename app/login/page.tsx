@@ -16,12 +16,12 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
+import { FaChevronLeft } from "react-icons/fa6";
 import { PiEyeLight, PiEyeSlash } from "react-icons/pi";
 import googleimg from "../_assets/image/logo_icon/icon/login/google.png";
 import kakaoimg from "../_assets/image/logo_icon/icon/login/kakao.png";
 import logoImg from "../_assets/image/logo_icon/logo/white.png";
 import AlertModal from "../_components/community/AlertModal";
-import { FaChevronLeft } from "react-icons/fa6";
 import { useResponsive } from "../_hooks/responsive";
 
 const Login = () => {

@@ -1,3 +1,4 @@
+import { MODE_COMMUNITY, MODE_MAIN } from "@/app/_api/constant";
 import {
   useFetchCommunityPostsLikes,
   useFetchIndivActionsBookmarks,
@@ -51,15 +52,13 @@ const LaptopMainSlidder = ({ mode }: { mode: string }) => {
   }
 
   return (
-    //  높이 설정해도 아래만 늘어나고 카드 위가 잘리는 문제 (그림자 등)
-    // <div className="h-[300px]">
     <Slider
       {...settings}
       className={`${
-        mode === "community" ? "h-[300px]" : "h-[430px]"
+        mode === MODE_COMMUNITY ? "h-[400px]" : "h-[430px]"
       }  laptop:w-[904px] flex items-center justify-center`}
     >
-      {mode === "community"
+      {mode === MODE_COMMUNITY
         ? communityPostsByLikes?.slice(0, 8).map(
             // 좋아요 수 최다 상위 8개 포스트만 가져오기
             (communityPost) => (
@@ -67,7 +66,10 @@ const LaptopMainSlidder = ({ mode }: { mode: string }) => {
                 key={communityPost.id}
                 className="flex items-center gap-3 h-[480px]"
               >
-                <CommunityListPost communityPost={communityPost} mode="main" />
+                <CommunityListPost
+                  communityPost={communityPost}
+                  mode={MODE_MAIN}
+                />
               </div>
             ),
           )
@@ -76,7 +78,7 @@ const LaptopMainSlidder = ({ mode }: { mode: string }) => {
               action, // 북마크 수 최다 상위 8개 action
             ) => (
               <div key={action.id} className="flex items-center h-[480px]">
-                <MyActionCard action={action} mode="main" />
+                <MyActionCard action={action} mode={MODE_MAIN} />
               </div>
             ),
           )}

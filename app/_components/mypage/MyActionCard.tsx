@@ -1,5 +1,5 @@
-import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import Bookmark from "../bookmark/Bookmark";
 import MyActionRecruitingModal from "./MyActionRecruitingModal";
@@ -17,13 +17,18 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 
+import rightArrowImg from "../../_assets/image/individualAction/Group89.png";
 import dateImg from "../../_assets/image/individualAction/image170.png";
 import locationImg from "../../_assets/image/individualAction/image35.png";
-import rightArrowImg from "../../_assets/image/individualAction/Group89.png";
 
-import person from "/app/_assets/image/logo_icon/icon/mypage/image24.png";
-import optionDots from "/app/_assets/image/logo_icon/icon/mypage/Group 100.png";
+import {
+  MODE_MAIN,
+  MODE_MY_BOOKMARKS,
+  MODE_MY_POSTS,
+} from "@/app/_api/constant";
 import { useResponsive } from "@/app/_hooks/responsive";
+import optionDots from "/app/_assets/image/logo_icon/icon/mypage/Group 100.png";
+import person from "/app/_assets/image/logo_icon/icon/mypage/image24.png";
 
 // TODO MyAction 타입 사용 후 에러 해결하기
 const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
@@ -46,7 +51,7 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
     end_date,
     location,
     // actionBookmarks,
-  } = mode === "myBookmarks" ? action.bookmarkedAction : action;
+  } = mode === MODE_MY_BOOKMARKS ? action.bookmarkedAction : action;
 
   const actionImgUrl = actionImgUrls[0]; // as string || ''
 
@@ -69,9 +74,11 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
       {(isDesktop || isLaptop) && (
         <div
           className={`none desktop:w-[356px] desktop:h-[455px] ${
-            (mode === "myBookmarks" || mode === "myPosts") &&
+            (mode === MODE_MY_BOOKMARKS || mode === MODE_MY_POSTS) &&
             "laptop:w-[327px] laptop:h-[420px] laptop:mb-[149px] desktop:w-[356px] desktop:h-[455px] desktop:mb-[149px]"
-          } ${mode === "main" && "laptop:w-[287px] laptop:h-[251px]"} relative`}
+          } ${
+            mode === MODE_MAIN && "laptop:w-[287px] laptop:h-[251px]"
+          } relative`}
           // desktop:h-[25rem]
           // relative 때문에 별 클릭안되는? -z, z-..했으나 안됨
         >
@@ -80,7 +87,7 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
             isFooterBlurred
             radius="lg"
             className={`border-none w-full desktop:h-[311px] laptop:h-[251px]  ${
-              (mode === "myPosts" || mode === "myBookmarks") &&
+              (mode === MODE_MY_POSTS || mode === MODE_MY_BOOKMARKS) &&
               "desktop:h-[311px] laptop:h-[280px] laptop:mb-[10px]"
             } laptop:mb-[10px] cursor-pointer shadow-none border-none `}
           >
@@ -100,9 +107,9 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
           </Card>
           <div
             className={`pl-3 ${
-              (mode === "main" ||
-                mode === "myPosts" ||
-                mode === "myBookmarks") &&
+              (mode === MODE_MAIN ||
+                mode === MODE_MY_POSTS ||
+                mode === MODE_MY_BOOKMARKS) &&
               "pt-5 pl-5"
             } bg-[#F9F9F9]  p-5 rounded-2xl w-full mt-3`}
           >
@@ -165,7 +172,7 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
             <hr className="text-gray-700 desktop:w-[190px] laptop:w-[170px] my-1" />
             <div
               className={`flex gap-1 ${
-                mode !== "myPosts" && "justify-between"
+                mode !== MODE_MY_POSTS && "justify-between"
               }`}
             >
               <div className="flex gap-1">
@@ -180,7 +187,7 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
               </div>
               {/* {(isDesktop||isLaptop) && } */}
 
-              {mode !== "myPosts" && (
+              {mode !== MODE_MY_POSTS && (
                 <div>
                   <Image
                     src={rightArrowImg}
@@ -192,7 +199,7 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
                 </div>
               )}
 
-              {mode === "myPosts" && (
+              {mode === MODE_MY_POSTS && (
                 <div className="flex items-center desktop:ml-10 laptop:ml-[50px]">
                   <Dropdown
                     placement="bottom"
@@ -253,19 +260,19 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
                 <div key={id} className="relative">
                   <div
                     className={`none desktop:w-[356px] desktop:h-[455px] phone:h-[98px] ${
-                      (mode === "myBookmarks" || mode === "myPosts") &&
+                      (mode === MODE_MY_BOOKMARKS || mode === MODE_MY_POSTS) &&
                       "laptop:w-[327px] laptop:h-[420px] laptop:mb-[149px]"
                     } ${
-                      mode === "main" && "phone:w-[140px] phone:h-[98px]"
+                      mode === MODE_MAIN && "phone:w-[140px] phone:h-[98px]"
                     } relative`}
                   >
                     <Card
                       isFooterBlurred
                       radius="lg"
                       className={`border-none w-full phone:h-[98px] ${
-                        (mode === "myPosts" ||
-                          mode === "myBookmarks" ||
-                          mode === "main") &&
+                        (mode === MODE_MY_POSTS ||
+                          mode === MODE_MY_BOOKMARKS ||
+                          mode === MODE_MAIN) &&
                         "phone:h-[98px] phone:mb-[10px]"
                       } phone:mb-[10px] cursor-pointer shadow-none border-none`}
                     >
@@ -327,15 +334,18 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
       )}
       {isMobile && (
         <div
-          className={`none ${mode === "main" && "h-[150px] gap-4"} relative`}
+          className={`none ${
+            (mode === MODE_MY_BOOKMARKS || mode === MODE_MY_POSTS) &&
+            "h-[150px] gap-4"
+          } ${mode === MODE_MAIN && "phone:w-[140px] phone:h-[98px]"} relative`}
         >
           <Card
             isFooterBlurred
             radius="lg"
             className={`border-none w-full h-full ${
-              (mode === "myPosts" ||
-                mode === "myBookmarks" ||
-                mode === "main") &&
+              (mode === MODE_MY_POSTS ||
+                mode === MODE_MY_BOOKMARKS ||
+                mode === MODE_MAIN) &&
               "phone:h-[98px] "
             } phone:mb-[15px] cursor-pointer shadow-none border-none`}
           >

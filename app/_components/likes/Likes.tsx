@@ -10,6 +10,7 @@ import { debounce } from "@/utils/debounce/debounce";
 
 import { GoHeart, GoHeartFill } from "react-icons/go";
 
+import { MODE_MOBILE } from "@/app/_api/constant";
 import { Skeleton } from "@nextui-org/react";
 import AlertModal from "../community/AlertModal";
 
@@ -91,7 +92,7 @@ const Likes = ({
           <GoHeart className="size-[18px]" />
         )}
       </button>
-      {mode !== "mobile" && (
+      {mode !== MODE_MOBILE && (
         <span
           className={`text-[16px] ${isOpen ? `text-black` : `text-white`} `}
         >

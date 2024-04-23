@@ -143,7 +143,8 @@ const MyPage = () => {
   const filterByBookmarkAction = () => {
     if (bookmarkedRecruitClicked === "전체") {
       setFilteredBookmarkedActions(sortedMyBookmarks);
-    } else if (bookmarkedRecruitClicked === "모집 중") {
+    }
+    if (bookmarkedRecruitClicked === "모집 중") {
       setFilteredBookmarkedActions(
         sortedMyBookmarks?.filter(
           (action) => action.bookmarkedAction?.is_recruiting,
@@ -163,7 +164,7 @@ const MyPage = () => {
 
   useEffect(() => {
     filterByBookmarkAction();
-  }, [bookmarkedRecruitClicked, sortedMyBookmarks]);
+  }, [myRecruitClicked, sortedMyActions]);
 
   if (
     isActionsLoading ||
