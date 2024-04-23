@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/utils/supabase/client";
@@ -22,12 +22,11 @@ import {
   ModalContent,
   ModalHeader,
   ModalBody,
-  ModalFooter,
   useDisclosure,
 } from "@nextui-org/react";
 import { IoPaperPlane } from "react-icons/io5";
 import { IoReorderThreeOutline } from "react-icons/io5";
-import { Avatar, Tooltip } from "@nextui-org/react";
+import { Avatar } from "@nextui-org/react";
 import Image from "next/image";
 import personIcon from "/app/_assets/image/logo_icon/icon/mypage/person.png";
 import GroupInsideModal from "./GroupInsideModal";
@@ -40,6 +39,7 @@ const GroupChatRoom = ({
 }: ChatProps) => {
   const [message, setMessage] = useState("");
   const queryClient = useQueryClient();
+  const chatRoomRef = useRef<HTMLDivElement | null>(null);
 
   // 액션정보 모달창
   const {
@@ -94,6 +94,12 @@ const GroupChatRoom = ({
     loggedInUserUid,
   });
 
+  useEffect(() => {
+    if (chatRoomRef.current) {
+      chatRoomRef.current.scrollTop = chatRoomRef.current.scrollHeight;
+    }
+  }, []);
+
   // 안읽은 메시지 update useQuery가져오기
   const { data, isUpdateUnreadLoading, isUpdateUnreadError } = useUpdateUnread({
     loggedInUserUid,
@@ -146,6 +152,7 @@ const GroupChatRoom = ({
         placement="center"
         size="3xl"
         className="relative"
+        ref={chatRoomRef}
       >
         <ModalContent
           className={`relative max-w-[27%] h-[87%] ${
