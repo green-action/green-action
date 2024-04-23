@@ -4,7 +4,7 @@ import { supabase } from "@/utils/supabase/client";
 export const getMessages = async (room_id: string) => {
   const { data, error } = await supabase
     .from("chat_messages")
-    .select("*, users(display_name, profile_img)")
+    .select("*, users(id, display_name, profile_img)")
     .eq("room_id", room_id)
     .order("created_at", { ascending: true });
   // TODO 개수 100개쯤 제한? -> 무한스크롤 10개씩 증가할수있음

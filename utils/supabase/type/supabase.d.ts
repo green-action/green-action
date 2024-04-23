@@ -360,45 +360,45 @@ export type Database = {
       };
       individual_green_actions: {
         Row: {
-          content: string | null;
+          content: string;
           created_at: string;
           end_date: string | null;
           id: string;
-          is_recruiting: boolean | null;
+          is_recruiting: boolean;
           kakao_link: string | null;
           location: string | null;
-          location_map: Json | null; // 수정해야 타입에러 잡을 수 (아니면 as any말고는 방법을 못찾음)
+          location_map: Json | null;
           recruit_number: number;
           start_date: string | null;
-          title: string | null;
-          user_uid: string | null;
+          title: string;
+          user_uid: string;
         };
         Insert: {
-          content?: string | null;
+          content: string;
           created_at?: string;
           end_date?: string | null;
           id?: string;
-          is_recruiting?: boolean | null;
+          is_recruiting?: boolean;
           kakao_link?: string | null;
           location?: string | null;
           location_map?: Json | null;
           recruit_number: number;
           start_date?: string | null;
-          title?: string | null;
+          title: string;
           user_uid?: string | null;
         };
         Update: {
-          content?: string | null;
+          content?: string;
           created_at?: string;
           end_date?: string | null;
           id?: string;
-          is_recruiting?: boolean | null;
+          is_recruiting?: boolean;
           kakao_link?: string | null;
           location?: string | null;
           location_map?: Json | null;
           recruit_number?: number;
           start_date?: string | null;
-          title?: string | null;
+          title?: string;
           user_uid?: string | null;
         };
         Relationships: [

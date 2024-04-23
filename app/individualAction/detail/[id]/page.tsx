@@ -153,11 +153,7 @@ const DetailPage = () => {
                     {detail.users?.introduction}
                   </div>
                 </div>
-                <ChatButtons
-                  loggedInUserUid={user_uid}
-                  action_id={params.id}
-                  detail={detail}
-                />
+                <ChatButtons loggedInUserUid={user_uid} action_id={params.id} />
                 <div className="flex justify-center mt-[67px]">
                   <KakaoShareButton description={detail.content!} />
                 </div>
@@ -260,7 +256,7 @@ const DetailPage = () => {
                             지도 위치
                           </p>
                           <p className="font-semibold text-[13px] text-[#1e1e1e]">
-                            {locationMap.placeName}
+                            {locationMap?.placeName}
                           </p>
                         </div>
                       )}
@@ -366,11 +362,7 @@ const DetailPage = () => {
                     {detail.users?.introduction}
                   </div>
                 </div>
-                <ChatButtons
-                  loggedInUserUid={user_uid}
-                  action_id={params.id}
-                  detail={detail}
-                />
+                <ChatButtons loggedInUserUid={user_uid} action_id={params.id} />
                 <div className="flex justify-center mt-[67px]">
                   <KakaoShareButton description={detail.content!} />
                 </div>
@@ -716,11 +708,7 @@ const DetailPage = () => {
                   </div>
                 </div>
               </div>
-              <ChatButtons
-                loggedInUserUid={user_uid}
-                action_id={params.id}
-                detail={detail}
-              />
+              <ChatButtons loggedInUserUid={user_uid} action_id={params.id} />
               <div className="flex justify-center mt-[64px]">
                 <KakaoShareButton description={detail.content!} />
               </div>
