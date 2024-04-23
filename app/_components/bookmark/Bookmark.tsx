@@ -1,4 +1,12 @@
 "use client";
+
+import {
+  MODE_DETAIL_PAGE,
+  MODE_INDIVIDUAL_ACTION,
+  MODE_MAIN,
+  MODE_MY_BOOKMARKS,
+  MODE_MY_POSTS,
+} from "@/app/_api/constant";
 import {
   useAddBookmark,
   useRemoveBookmark,
@@ -36,7 +44,6 @@ const Bookmark = ({
   const handleAddBookmarkClick = useCallback(
     debounce(() => {
       if (user_uid === null || user_uid === undefined) {
-        // alert("로그인하고 이용해주세요");
         setMessage("로그인이 필요한 서비스입니다.");
         setIsOpenAlertModal(true);
         return;
@@ -71,7 +78,7 @@ const Bookmark = ({
       {/* 이중 삼항 연산자 */}
       {/* 북마크된 상태일 때 */}
       {isBookmarked ? (
-        mode === "myBookmarks" ? (
+        mode === MODE_MY_BOOKMARKS ? (
           <>
             {/* isBookmarked - true 이면서 mode === "myBookmarks" 인 경우 Custom Confirm 창으로 연결*/}
             <div className="flex">
@@ -89,28 +96,28 @@ const Bookmark = ({
           // isBookmarked - true 이지만 mode !== "myBookmarks"인 경우
           <div className="flex items-center">
             <button onClick={() => handleRemoveBookmarkClick()}>
-              {mode === "detailPage" && (
+              {mode === MODE_DETAIL_PAGE && (
                 <Image
                   src={bookmarkFill}
                   alt="북마크"
                   className="size-[18px] desktop:size-[22px] laptop:size-[22px] mr-[6px]"
                 />
               )}
-              {mode === "individualAction" && (
+              {mode === MODE_INDIVIDUAL_ACTION && (
                 <Image
                   src={bookmarkFill}
                   alt="북마크"
                   className="desktop:size-[16px] mr-[6px] laptop:size-[13px] phone:size-[13px]"
                 />
               )}
-              {mode === "myPosts" && (
+              {mode === MODE_MY_POSTS && (
                 <Image
                   src={bookmarkFill}
                   alt="북마크"
-                  className="desktop:w-[15px] laptop:w-[14px] desktop:h-[14px] laptop:h-[13px] desktop:mt-[3px] laptop:mt-[2px] desktop:mr-[8px] laptop:mr-[4px] mb-[2px]"
+                  className="desktop:w-[15px] laptop:w-[14px] desktop:h-[14px] laptop:h-[13px] phone:w-[20px] phone:h-[19px] desktop:mt-[3px] laptop:mt-[2px] desktop:mr-[8px] laptop:mr-[4px] mb-[2px]"
                 />
               )}
-              {mode === "main" && (
+              {mode === MODE_MAIN && (
                 <Image
                   src={bookmarkFill}
                   alt="북마크"
@@ -120,9 +127,10 @@ const Bookmark = ({
             </button>
             <span
               className={`desktop:text-sm laptop:text-[11px] ${
-                mode === "myPosts" && "desktop:text-[12px] laptop:text-[11px]"
+                mode === MODE_MY_POSTS &&
+                "desktop:text-[12px] laptop:text-[11px] phone:text-[0px]"
               } ${
-                mode === "individualAction" &&
+                mode === MODE_INDIVIDUAL_ACTION &&
                 "phone:text-[11px] phone:text-[#848484] desktop:text-black laptop:text-black"
               }`}
             >
@@ -134,28 +142,28 @@ const Bookmark = ({
         // isBookmarked - false
         <div className="flex items-center">
           <button onClick={() => handleAddBookmarkClick()}>
-            {mode === "detailPage" && (
+            {mode === MODE_DETAIL_PAGE && (
               <Image
                 src={bookmarkEmpty}
                 alt="북마크"
                 className="size-[18px] desktop:size-[22px] laptop:size-[22px] mr-[6px]"
               />
             )}
-            {mode === "individualAction" && (
+            {mode === MODE_INDIVIDUAL_ACTION && (
               <Image
                 src={bookmarkEmpty}
                 alt="북마크"
                 className=" desktop:size-[16px] mr-[6px] laptop:size-[13px] phone:size-[13px] "
               />
             )}
-            {mode === "myPosts" && (
+            {mode === MODE_MY_POSTS && (
               <Image
                 src={bookmarkEmpty}
                 alt="북마크"
-                className="desktop:w-[15px] laptop:w-[15px] desktop:h-[14px] laptop:h-[13px] desktop:mt-[4px] laptop:mt-[2px] desktop:mr-[5px] laptop:mr-[3px] mb-[2px]"
+                className="desktop:w-[15px] laptop:w-[15px] desktop:h-[14px] laptop:h-[13px] phone:w-[20px] phone:h-[19px] desktop:mt-[4px] laptop:mt-[2px] desktop:mr-[5px] laptop:mr-[3px] mb-[2px]"
               />
             )}
-            {mode === "main" && (
+            {mode === MODE_MAIN && (
               <Image
                 src={bookmarkEmpty}
                 alt="북마크"
@@ -166,9 +174,10 @@ const Bookmark = ({
           </button>
           <span
             className={`desktop:text-sm laptop:text-[11px] ${
-              mode === "myPosts" && "desktop:text-[12px] laptop:text-[11px]"
+              mode === MODE_MY_POSTS &&
+              "desktop:text-[12px] laptop:text-[11px] phone:text-[0px]"
             } ${
-              mode === "individualAction" &&
+              mode === MODE_INDIVIDUAL_ACTION &&
               "phone:text-[11px] phone:text-[#848484] desktop:text-black laptop:text-black"
             }`}
           >

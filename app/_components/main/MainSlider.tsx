@@ -1,3 +1,4 @@
+import { MODE_COMMUNITY, MODE_MAIN } from "@/app/_api/constant";
 import { useResponsive } from "@/app/_hooks/responsive";
 import {
   useFetchCommunityPostsLikes,
@@ -53,17 +54,15 @@ const MainSlider = ({ mode }: { mode: string }) => {
   }
 
   return (
-    //  높이 설정해도 아래만 늘어나고 카드 위가 잘리는 문제 (그림자 등)
-    // <div className="h-[300px]">
     <Slider
       {...desktopSettings}
       className={`${
-        mode === "community"
-          ? "h-[400px] desktop:w-[1750px] laptop:w-[904px]"
-          : "h-[550px] desktop:w-[1500px] laptop:w-[904px]"
+        mode === MODE_COMMUNITY
+          ? "h-[510px] desktop:w-[1750px]"
+          : "h-[550px] desktop:w-[1500px] "
       }   flex items-center justify-center`}
     >
-      {mode === "community"
+      {mode === MODE_COMMUNITY
         ? communityPostsByLikes?.slice(0, 8).map(
             // 좋아요 수 최다 상위 8개 포스트만 가져오기
             (communityPost) => (
@@ -71,7 +70,10 @@ const MainSlider = ({ mode }: { mode: string }) => {
                 key={communityPost.id}
                 className="flex items-center gap-3 h-[480px] "
               >
-                <CommunityListPost communityPost={communityPost} mode="main" />
+                <CommunityListPost
+                  communityPost={communityPost}
+                  mode={MODE_MAIN}
+                />
               </div>
             ),
           )
@@ -80,7 +82,7 @@ const MainSlider = ({ mode }: { mode: string }) => {
               action, // 북마크 수 최다 상위 8개 action
             ) => (
               <div key={action.id} className="flex items-center h-[480px]">
-                <MyActionCard action={action} mode="main" />
+                <MyActionCard action={action} mode={MODE_MAIN} />
               </div>
             ),
           )}

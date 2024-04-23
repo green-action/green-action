@@ -1,3 +1,4 @@
+import { MODE_COMMUNITY, MODE_MAIN } from "@/app/_api/constant";
 import {
   useFetchCommunityPostsLikes,
   useFetchIndivActionsBookmarks,
@@ -54,18 +55,21 @@ const MobileSlider = ({ mode }: { mode: string }) => {
     <Slider
       {...settings}
       className={`${
-        mode === "community" ? "h-[200px]" : "h-[150px]"
+        mode === MODE_COMMUNITY ? "h-[200px]" : "h-[200px]"
       }   phone:w-[360px] mt-11`}
     >
-      {mode === "community"
+      {mode === MODE_COMMUNITY
         ? communityPostsByLikes?.slice(0, 8).map(
             // 좋아요 수 최다 상위 8개 포스트만 가져오기
             (communityPost) => (
               <div
                 key={communityPost.id}
-                className="flex items-center h-[200px]"
+                className="flex items-center w-full h-[200px]"
               >
-                <CommunityListPost communityPost={communityPost} mode="main" />
+                <CommunityListPost
+                  communityPost={communityPost}
+                  mode={MODE_MAIN}
+                />
               </div>
             ),
           )
@@ -74,7 +78,7 @@ const MobileSlider = ({ mode }: { mode: string }) => {
               action, // 북마크 수 최다 상위 8개 action
             ) => (
               <div key={action.id} className="flex items-center h-[200px]">
-                <MyActionCard action={action} mode="main" />
+                <MyActionCard action={action} mode={MODE_MAIN} />
               </div>
             ),
           )}

@@ -8,14 +8,15 @@ import LaptopMainSlidder from "./_components/main/LaptopMainSlidder";
 import MainSlider from "./_components/main/MainSlider";
 import { useResponsive } from "./_hooks/responsive";
 
+import setboxImg from "@/app/_assets/image/goods/setbox.png";
+import arrowImg from "../app/_assets/image/individualAction/Group143.svg";
 import TopButton from "./_components/TopButton";
 import downArrow from "/app/_assets/image/logo_icon/icon/mainpage/Group_124.png";
 import rightArrow from "/app/_assets/image/mainpage/Group 172.png";
 import mainImg from "/app/_assets/image/mainpage/main.png";
-import setboxImg from "@/app/_assets/image/goods/setbox.png";
-import arrowImg from "../app/_assets/image/individualAction/Group143.svg";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { MODE_ACTION, MODE_COMMUNITY } from "./_api/constant";
 import MobileSlider from "./_components/main/MobileSlider";
 
 // TODO 메인페이지 커뮤니티글카드 디자인 수정
@@ -43,7 +44,7 @@ const MainPage = () => {
         <Image
           src={mainImg}
           alt="메인사진"
-          className="absolute top-0 min-w-[1020px] desktop:h-[2700px] laptop:h-[2100px] phone:h-[1000px] brightness-[70%]" // 밝기: 60% 너무 어두워 70%로 변경
+          className="absolute top-0 min-w-[1020px] desktop:h-[2780px] laptop:h-[2150px] phone:h-[1000px] phone:min-w-[360px] brightness-[70%]" // 밝기: 60% 너무 어두워 70%로 변경
         />
         <section
           style={{ transform: `translateY(-${position / 30}vh` }}
@@ -94,8 +95,8 @@ const MainPage = () => {
               Community Hot Posts
             </Chip>
             <div className="desktop:mx-[76px] desktop:mt-[140px] laptop:mt-[130px]">
-              {isLaptop && <LaptopMainSlidder mode="community" />}
-              {isDesktop && <MainSlider mode="community" />}
+              {isLaptop && <LaptopMainSlidder mode={MODE_COMMUNITY} />}
+              {isDesktop && <MainSlider mode={MODE_COMMUNITY} />}
             </div>
             <Chip
               classNames={{
@@ -110,7 +111,7 @@ const MainPage = () => {
           </section>
         )}
         {/* 배경 이미지 div 끝 */}
-        <section className="z-0 flex flex-col items-center justify-center desktop:pt-[200px] laptop:pt-[0px] desktop:h-[1438px] laptop:h-[1338px] phone:h-[935px] desktop:pb-[200px] laptop:pb-[0px] bg-[#F3F3F3] brightness-10 ">
+        <section className="z-0 flex flex-col items-center justify-center desktop:pt-[200px] laptop:pt-[0px] desktop:h-[1438px] laptop:h-[1338px] phone:h-[800px] desktop:pb-[200px] laptop:pb-[0px] phone:pb-[80px] phone:pt-[0px] bg-[#F3F3F3] brightness-10 ">
           {isMobile && (
             <section className="flex flex-col items-center justify-center">
               <div className="mr-auto">
@@ -128,7 +129,7 @@ const MainPage = () => {
                 전체 보기
                 <Image src={arrowImg} alt="화살표" />
               </Link>
-              {isMobile && <MobileSlider mode="community" />}
+              {isMobile && <MobileSlider mode={MODE_COMMUNITY} />}
             </section>
           )}
 
@@ -144,8 +145,8 @@ const MainPage = () => {
                 Green-Action Hot Posts
               </Chip>
               <div className="desktop:mx-[205px] desktop:mt-[115px] laptop:mt-[115px]">
-                {isLaptop && <LaptopMainSlidder mode="action" />}
-                {isDesktop && <MainSlider mode="action" />}
+                {isLaptop && <LaptopMainSlidder mode={MODE_ACTION} />}
+                {isDesktop && <MainSlider mode={MODE_ACTION} />}
               </div>
               <Chip
                 classNames={{
@@ -160,8 +161,8 @@ const MainPage = () => {
           )}
           {isMobile && (
             <section className="flex flex-col items-center justify-center">
-              <div className="mr-auto mt-24">
-                <p className=" font-bold text-[15px] text-[#686868] mt-2">
+              <div className="mr-auto mt-20">
+                <p className=" font-bold text-[15px] text-[#686868]">
                   Greenaction
                 </p>
               </div>
@@ -174,7 +175,7 @@ const MainPage = () => {
               </Link>
 
               <div className="h-[200px]">
-                {isMobile && <MobileSlider mode="action" />}
+                {isMobile && <MobileSlider mode={MODE_ACTION} />}
               </div>
             </section>
           )}

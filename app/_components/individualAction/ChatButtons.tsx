@@ -1,3 +1,4 @@
+import { MODE_ACTION_PAGE } from "@/app/_api/constant";
 import {
   changeRecruitingState,
   checkUserExist,
@@ -264,7 +265,7 @@ const ChatButtons = ({
           isOpen={isChatsListModalOpen}
           onOpen={onChatsListModalOpen}
           onClose={onChatsListModalClose}
-          mode="actionPage"
+          mode={MODE_ACTION_PAGE}
           action_id={action_id}
         />
       )}
