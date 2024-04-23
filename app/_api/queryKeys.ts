@@ -46,3 +46,12 @@ export const QUERY_KEY_UPDATE_UNREAD = `update_unread_messages`;
 export const QUERY_KEY_CHAT_ACTION_INFO = `chat_action_info`;
 export const QUERY_KEY_PRIVATE_PARTICIPANT_INFO = `private_participant_info`;
 export const QUERY_KEY_ALL_UNREAD_COUNT = `all_unread_messages_count`;
+export const QUERY_KEY_GROUP_PARTICIPANTS_INFO = `group_participants_info`;
+export const QUERY_KEY_GROUP_ACTION_INFO = `group_action_info`;
+export const QUERY_KEY_MY_GROUP_CHAT_IDS = `my_group_chat_ids`;
+export const QUERY_KEY_GROUP_LIST_ACTIONS_INFO = `group_list_actions_info`;
+export const QUERY_KEY_GROUP_PARTICIPANTS_COUNT = `group_participants_count`;
+export const QUERY_KEY_LAST_MESSAGE_INFO = `group_list_last_message_info`;
+
+// push
+export const QUERY_KEY_MY_COMMUNITYLIST = `my_communityList`;

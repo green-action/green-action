@@ -9,6 +9,38 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      alarm: {
+        Row: {
+          created_at: string;
+          id: string;
+          message: string;
+          post_id: string;
+          targetId: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          message: string;
+          post_id: string;
+          targetId: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          message?: string;
+          post_id?: string;
+          targetId?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "public_alarm_post_id_fkey";
+            columns: ["post_id"];
+            isOneToOne: false;
+            referencedRelation: "community_posts";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       bookmarks: {
         Row: {
           action_id: string | null;
@@ -164,25 +196,25 @@ export type Database = {
       };
       community_comments: {
         Row: {
-          content: string | null;
+          content: string;
           created_at: string;
           id: string;
-          post_id: string | null;
-          user_uid: string | null;
+          post_id: string;
+          user_uid: string;
         };
         Insert: {
-          content?: string | null;
+          content: string;
           created_at?: string;
           id?: string;
-          post_id?: string | null;
-          user_uid?: string | null;
+          post_id?: string;
+          user_uid?: string;
         };
         Update: {
-          content?: string | null;
+          content?: string;
           created_at?: string;
           id?: string;
-          post_id?: string | null;
-          user_uid?: string | null;
+          post_id?: string;
+          user_uid?: string;
         };
         Relationships: [
           {
@@ -328,50 +360,45 @@ export type Database = {
       };
       individual_green_actions: {
         Row: {
-          content: string | null;
+          content: string;
           created_at: string;
           end_date: string | null;
           id: string;
-          is_recruiting: boolean | null;
+          is_recruiting: boolean;
           kakao_link: string | null;
           location: string | null;
-          location_map: {
-            x: string;
-            y: string;
-            placeId: string;
-            placeName: string;
-          } | null; // 수정해야 타입에러 잡을 수 (아니면 as any말고는 방법을 못찾음)
+          location_map: Json | null;
           recruit_number: number;
           start_date: string | null;
-          title: string | null;
-          user_uid: string | null;
+          title: string;
+          user_uid: string;
         };
         Insert: {
-          content?: string | null;
+          content: string;
           created_at?: string;
           end_date?: string | null;
           id?: string;
-          is_recruiting?: boolean | null;
+          is_recruiting?: boolean;
           kakao_link?: string | null;
           location?: string | null;
           location_map?: Json | null;
           recruit_number: number;
           start_date?: string | null;
-          title?: string | null;
+          title: string;
           user_uid?: string | null;
         };
         Update: {
-          content?: string | null;
+          content?: string;
           created_at?: string;
           end_date?: string | null;
           id?: string;
-          is_recruiting?: boolean | null;
+          is_recruiting?: boolean;
           kakao_link?: string | null;
           location?: string | null;
           location_map?: Json | null;
           recruit_number?: number;
           start_date?: string | null;
-          title?: string | null;
+          title?: string;
           user_uid?: string | null;
         };
         Relationships: [

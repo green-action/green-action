@@ -137,7 +137,7 @@ const CommunityListPost = ({
                   src={communityPost?.img_url}
                 />
               )}
-              {mode === MODE_COMMUNITY && (
+              {(mode === MODE_COMMUNITY || mode === MODE_MY_POSTS) && (
                 <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t"></div>
               )}
               {mode === MODE_MAIN && (
@@ -274,7 +274,7 @@ const CommunityListPost = ({
                   src={communityPost?.img_url}
                 />
               )}
-              {mode === MODE_COMMUNITY && (
+              {(mode === MODE_COMMUNITY || mode === MODE_MY_POSTS) && (
                 <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t"></div>
               )}
               {mode === MODE_MAIN && (
