@@ -90,7 +90,7 @@ const MyPage = () => {
       setActiveTab(textContent);
     }
   };
-  //ㅠㅠ 나누기 각자의 상태를주기
+
   const filterByRecruiting = () => {
     if (activeTab === "나의 Green-Action") {
       if (myRecruitClicked === "전체") {
@@ -160,11 +160,8 @@ const MyPage = () => {
   };
   useEffect(() => {
     filterByRecruitingAction();
-  }, [myRecruitClicked, sortedMyActions]);
-
-  useEffect(() => {
     filterByBookmarkAction();
-  }, [myRecruitClicked, sortedMyActions]);
+  }, [myRecruitClicked, sortedMyActions, myRecruitClicked, sortedMyActions]);
 
   if (
     isActionsLoading ||

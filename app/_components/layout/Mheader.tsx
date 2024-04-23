@@ -237,7 +237,6 @@ const Mheader = () => {
                   {isLoggedIn ? (
                     <div className="flex justify-center items-center gap-2 text-[#9C9C9C]">
                       <Avatar
-                        className=""
                         size="md"
                         isBordered
                         name={display_name}
@@ -251,7 +250,10 @@ const Mheader = () => {
                         마이페이지
                       </div>
                       <div
-                        onClick={handleLogout}
+                        onClick={() => {
+                          handleLogout();
+                          setIsMenuOpen(false);
+                        }}
                         className="p-1 cursor-pointer"
                       >
                         Logout
