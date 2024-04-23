@@ -145,8 +145,13 @@ const GroupChatRoom = ({
         onOpenChange={onOpenChange}
         placement="center"
         size="3xl"
+        className="relative"
       >
-        <ModalContent className="relative max-w-[27%] h-[87%] overflow-y-auto scrollbar-hide rounded-[55px] relative">
+        <ModalContent
+          className={`relative max-w-[27%] h-[87%] ${
+            isActionInfoOpen ? "overflow-hidden" : "overflow-y-auto"
+          } scrollbar-hide rounded-[55px] `}
+        >
           {(onClose) => (
             <>
               <ModalHeader className="fixed bg-white flex justify-between items-center gap-5 w-[27%] shadow-md h-28 z-10 px-8 rounded-tl-[55px] rounded-tr-[55px]">
@@ -242,6 +247,17 @@ const GroupChatRoom = ({
                     </div>
                   </div>
                 </div>
+                {/* action info 모달창 */}
+                {isActionInfoOpen && (
+                  <GroupInsideModal
+                    onActionInfoClose={onActionInfoClose}
+                    actionInfo={actionInfo}
+                    participantsInfo={participantsInfo}
+                    roomId={roomId}
+                    actionId={actionId}
+                    onClose={onClose}
+                  />
+                )}
               </ModalBody>
               {/* <ModalFooter className="bg-[#F3F4F3] flex justify-center">
                 <div className="flex items-center justify-between px-8 w-[90%] mb-5 bg-white h-16 rounded-[50px]">
@@ -264,7 +280,7 @@ const GroupChatRoom = ({
                 </div>
               </ModalFooter> */}
               {/* action info 모달창 */}
-              {isActionInfoOpen && (
+              {/* {isActionInfoOpen && (
                 <GroupInsideModal
                   onActionInfoClose={onActionInfoClose}
                   actionInfo={actionInfo}
@@ -273,7 +289,7 @@ const GroupChatRoom = ({
                   actionId={actionId}
                   onClose={onClose}
                 />
-              )}
+              )} */}
             </>
           )}
         </ModalContent>
