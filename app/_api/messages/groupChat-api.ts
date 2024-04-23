@@ -218,5 +218,70 @@ export const getGroupActionInfo = async (action_id: string) => {
   return null;
 };
 
-// 참여중인 방 id들 가져오기
-// export const
+// 참여중인 단체방 id들 가져오기
+export const getMyGroupChatIds = async (loggedInUserUid: string) => {
+  const { data, error } = await supabase
+    .from("chat_participants")
+    .select("room_id")
+    .eq("participant_uid", loggedInUserUid);
+
+  if (error) {
+    console.log("error", error.message);
+    throw error;
+  }
+
+  const allRoomIds = data.map((item) => {
+    return item.room_id;
+  });
+
+  const { data: roomIds, error: roomIdsError } = await supabase
+    .from("chat_rooms_info")
+    .select("id")
+    .in("id", allRoomIds)
+    .eq("room_type", "단체");
+
+  if (roomIdsError) {
+    console.log("error", roomIdsError.message);
+    throw roomIdsError;
+  }
+
+  const roomIdsArray = roomIds.map((roomId) => {
+    return roomId.id;
+  });
+
+  return roomIdsArray;
+};
+
+// 단체방 리스트의 action들 info 가져오기
+export const getGroupListActionInfo = async (roomIds: string[]) => {
+  const { data: actionInfo, error: actionInfoError } = await supabase
+    .from("chat_rooms_info")
+    .select("individual_green_actions(id, title, recruit_number, user_uid)")
+    .in("id", roomIds);
+
+  if (actionInfoError) {
+    console.log("error", actionInfoError.message);
+    throw actionInfoError;
+  }
+
+  const actionIds = actionInfo.map((item) => {
+    return item.individual_green_actions?.id;
+  });
+
+  const { data: actionUrlsIds, error: actionUrlsError } = await supabase
+    .from("green_action_images")
+    .select("img_url, action_id")
+    .in("action_id", actionIds);
+
+  if (actionUrlsError) {
+    console.log("error", actionUrlsError.message);
+    throw actionUrlsError;
+  }
+
+  // const actionUrls = actionUrlsIds.map((actionUrlId) => {
+  //   const url = actionUrlId.img_url
+  //   return actionUrlId.
+  // })
+
+  return actionUrlsIds;
+};

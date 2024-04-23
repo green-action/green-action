@@ -5,10 +5,12 @@ import {
   QUERY_KEY_ALL_UNREAD_COUNT,
   QUERY_KEY_CHAT_ACTION_INFO,
   QUERY_KEY_GROUP_ACTION_INFO,
+  QUERY_KEY_GROUP_LIST_ACTIONS_INFO,
   QUERY_KEY_GROUP_PARTICIPANTS_INFO,
   QUERY_KEY_MESSAGES_LIST,
   QUERY_KEY_MESSAGES_PARTICIPANT_INFO_HEADER,
   QUERY_KEY_MESSAGES_PARTICIPANT_INFO_PAGE,
+  QUERY_KEY_MY_GROUP_CHAT_IDS,
   QUERY_KEY_MY_PRIVATE_ROOMS_IDS,
   QUERY_KEY_PRIVATE_PARTICIPANT_INFO,
   QUERY_KEY_PRIVATE_ROOM_IDS,
@@ -35,6 +37,8 @@ import {
 } from "@/app/_api/messages/pagePrivateList-api";
 import {
   getGroupActionInfo,
+  getGroupListActionInfo,
+  getMyGroupChatIds,
   getParticipantsInfo,
 } from "@/app/_api/messages/groupChat-api";
 
@@ -266,4 +270,36 @@ export const useGetGroupActionInfo = (action_id: string) => {
   });
 
   return { actionInfo, isActionInfoLoading, isActionInfoError };
+};
+
+export const useGetMyGroupChatIds = (loggedInUserUid: string) => {
+  const {
+    data: roomIds,
+    isLoading: isRoomIdsLoading,
+    isError: isRoomIdsError,
+  } = useQuery({
+    queryKey: [QUERY_KEY_MY_GROUP_CHAT_IDS],
+    queryFn: () => getMyGroupChatIds(loggedInUserUid),
+  });
+
+  return { roomIds, isRoomIdsLoading, isRoomIdsError };
+};
+
+export const useGetGroupListActionsInfo = (roomIds: string[] | undefined) => {
+  const {
+    data: actionsInfo,
+    isLoading: isActionsInfoLoading,
+    isError: isActionsInfoError,
+  } = useQuery({
+    queryKey: [QUERY_KEY_GROUP_LIST_ACTIONS_INFO],
+    queryFn: async () => {
+      if (roomIds) {
+        return await getGroupListActionInfo(roomIds);
+      }
+      return [];
+    },
+    enabled: !!roomIds,
+  });
+
+  return { actionsInfo, isActionsInfoLoading, isActionsInfoError };
 };
