@@ -182,8 +182,8 @@ const PrivateChatRoom = ({
                     ))}
                   </div>
                 </div>
-                <div className="sticky bottom-0 w-[90%] mx-auto bg-#F3F4F3">
-                  <div className="flex items-center justify-between px-8 mb-[34px] h-16 bg-white rounded-[50px]">
+                <div className="sticky bottom-0 w-[100%] mx-auto bg-[#F3F4F3] flex justify-center pt-2">
+                  <div className="flex items-center justify-between px-8 mb-[34px] w-[90%] h-16 bg-white rounded-[50px]">
                     <input
                       className="w-[90%] h-[85%] pl-4"
                       type="text"
