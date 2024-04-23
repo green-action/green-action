@@ -153,7 +153,7 @@ const MyPage = () => {
 
   return (
     <>
-      <div className="flex justify-center desktop:w-[1920px] laptop:w-[1020px] mx-auto">
+      <div className="flex justify-center top-0 min-h-[500px]desktop:w-[1920px] laptop:w-[1020px] mx-auto">
         <TopButton />
 
         <div className="flex desktop:w-[1540px] laptop:w-[1020px] phone:w-[294px] desktop:mb-[100px] laptop:mb-[50px] ">
