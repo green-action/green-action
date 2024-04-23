@@ -230,7 +230,7 @@ const GroupChatRoom = ({
                 <div className="sticky bottom-0 w-[100%] mx-auto bg-[#F3F4F3] flex justify-center pt-2">
                   <div className="flex items-center justify-between px-8 w-[90%] mb-[34px] bg-white h-16 rounded-[50px]">
                     <input
-                      className="w-[90%] h-[85%] pl-4"
+                      className="w-[90%] h-[85%] pl-4 focus:outline-none"
                       type="text"
                       placeholder="send message..."
                       value={message}
