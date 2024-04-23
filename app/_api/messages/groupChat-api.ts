@@ -1,6 +1,8 @@
 import { supabase } from "@/utils/supabase/client";
 import { MODE_IN } from "../constant";
 
+import type { ItemType, ParticipantInfo } from "@/app/_types/realtime-chats";
+
 // 단체방 room_id 가져오기 - 채팅방 테이블 접근
 export const getChatRoomId = async (action_id: string) => {
   try {
@@ -166,4 +168,120 @@ export const deleteParticipant = async (loggedInUserUid: string) => {
     console.error("error >>", error);
     throw error;
   }
+};
+
+// 그룹채팅방 참여자 정보 가져오기
+export const getParticipantsInfo = async (room_id: string) => {
+  const { data, error } = await supabase
+    .from("chat_participants")
+    .select("participant_type, users(id, display_name, profile_img)")
+    .eq("room_id", room_id);
+
+  if (error) {
+    console.log("error", error.message);
+    throw error;
+  }
+
+  const newArray: ParticipantInfo[] = data.map((item: ItemType) => {
+    return {
+      id: item.users?.id ?? null,
+      display_name: item.users?.display_name ?? null,
+      profile_img: item.users?.profile_img ?? null,
+      participant_type: item.participant_type,
+    };
+  });
+
+  return newArray;
+};
+
+// action 정보 가져오기
+export const getGroupActionInfo = async (action_id: string) => {
+  const { data, error } = await supabase
+    .from("individual_green_actions")
+    .select(
+      "id, user_uid, title, recruit_number, is_recruiting, start_date, end_date, green_action_images(img_url)",
+    )
+    .eq("id", action_id);
+
+  if (error) {
+    console.log("error", error.message);
+    throw error;
+  }
+
+  // 데이터가 존재하면 첫 번째 이미지 URL을 가져옴
+  if (data && data.length > 0) {
+    const { green_action_images, ...actionData } = data[0];
+    const firstImgUrl = green_action_images[0]?.img_url;
+    return { ...actionData, img_url: firstImgUrl };
+  }
+
+  return null;
+};
+
+// 참여중인 단체방 id들 가져오기
+export const getMyGroupChatIds = async (loggedInUserUid: string) => {
+  const { data, error } = await supabase
+    .from("chat_participants")
+    .select("room_id")
+    .eq("participant_uid", loggedInUserUid);
+
+  if (error) {
+    console.log("error", error.message);
+    throw error;
+  }
+
+  const allRoomIds = data.map((item) => {
+    return item.room_id;
+  });
+
+  const { data: roomIds, error: roomIdsError } = await supabase
+    .from("chat_rooms_info")
+    .select("id")
+    .in("id", allRoomIds)
+    .eq("room_type", "단체");
+
+  if (roomIdsError) {
+    console.log("error", roomIdsError.message);
+    throw roomIdsError;
+  }
+
+  const roomIdsArray = roomIds.map((roomId) => {
+    return roomId.id;
+  });
+
+  return roomIdsArray;
+};
+
+// 그룹채팅방 참가자 인원 가져오기
+export const getParticipantsCount = async (room_id: string) => {
+  const { data, error } = await supabase
+    .from("chat_rooms_info")
+    .select("chat_participants(id)")
+    .eq("id", room_id);
+
+  if (error) {
+    console.log("error", error.message);
+    throw error;
+  }
+
+  return data[0].chat_participants.length;
+};
+
+// 그룹채팅방 마지막 메시지, 날짜 가져오기
+export const getLastMessageInfo = async (room_id: string) => {
+  const { data, error } = await supabase
+    .from("chat_messages")
+    .select("content, created_at")
+    .eq("room_id", room_id)
+    .order("created_at", { ascending: false })
+    .limit(1);
+
+  if (error) {
+    console.log(
+      `Error fetching chat messages for room ${room_id}: ${error.message}`,
+    );
+    throw error;
+  }
+
+  return data[0] || [];
 };
