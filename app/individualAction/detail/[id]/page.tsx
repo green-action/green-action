@@ -108,6 +108,8 @@ const DetailPage = () => {
 
   if (isError) return <div>Error fetching details...</div>;
 
+  const locationMap = detail.location_map as any;
+
   return (
     <>
       {isDesktop && (
@@ -244,7 +246,7 @@ const DetailPage = () => {
                           {detail.location}
                         </p>
                       </div>
-                      {detail.location_map && ( // action생성 시 지도 위치 같이 등록되었을 때만 뜨도록 함
+                      {locationMap && ( // action생성 시 지도 위치 같이 등록되었을 때만 뜨도록 함
                         <div className="flex mt-[7px] items-center border-t-1 border-[#bfbfbf] w-[284px] pt-[9px] ">
                           <Image
                             src={mapPin}
@@ -255,7 +257,7 @@ const DetailPage = () => {
                             지도 위치
                           </p>
                           <p className="font-semibold text-[13px] text-[#1e1e1e]">
-                            {detail.location_map?.placeName}
+                            {locationMap?.placeName}
                           </p>
                         </div>
                       )}
@@ -264,7 +266,7 @@ const DetailPage = () => {
                     {detail?.location_map && (
                       <div className="w-[387px] h-[239px]">
                         <KakaoMap
-                          placeInfo={detail.location_map}
+                          placeInfo={locationMap}
                           // supabase.d.ts 직접 수정하는게 아니면 as any 라고 해야?
                         />
                       </div>
@@ -457,7 +459,7 @@ const DetailPage = () => {
                           {detail.location}
                         </p>
                       </div>
-                      {detail.location_map && ( // action생성 시 지도 위치 같이 등록되었을 때만 뜨도록 함
+                      {locationMap && ( // action생성 시 지도 위치 같이 등록되었을 때만 뜨도록 함
                         <div className="flex mt-[7px] items-center border-t-1 border-[#bfbfbf] w-[284px] pt-[9px] ">
                           <Image
                             src={mapPin}
@@ -468,7 +470,7 @@ const DetailPage = () => {
                             지도 위치
                           </p>
                           <p className="font-semibold text-[13px] text-[#1e1e1e]">
-                            {detail.location_map?.placeName}
+                            {locationMap?.placeName}
                           </p>
                         </div>
                       )}
@@ -476,7 +478,7 @@ const DetailPage = () => {
                     {/* 카카오맵 추가 */}
                     {detail?.location_map && (
                       <div className="w-[230px] h-[160px] mt-[30px]">
-                        <KakaoMap placeInfo={detail.location_map} />
+                        <KakaoMap placeInfo={locationMap} />
                       </div>
                     )}
                   </div>
@@ -614,7 +616,7 @@ const DetailPage = () => {
                             {detail.location}
                           </p>
                         </div>
-                        {detail.location_map && ( // action생성 시 지도 위치 같이 등록되었을 때만 뜨도록 함
+                        {locationMap && ( // action생성 시 지도 위치 같이 등록되었을 때만 뜨도록 함
                           <div className="flex mt-[7px] items-center border-t-1 border-[#bfbfbf] w-[284px] pt-[9px] ">
                             <Image
                               src={mapPin}
@@ -625,7 +627,7 @@ const DetailPage = () => {
                               지도 위치
                             </p>
                             <p className="font-semibold text-[13px] text-[#1e1e1e]">
-                              {detail.location_map?.placeName}
+                              {locationMap?.placeName as any}
                             </p>
                           </div>
                         )}
@@ -634,7 +636,7 @@ const DetailPage = () => {
                       <div className="flex justify-center">
                         {detail?.location_map && (
                           <div className="w-[200px] h-[150px] mt-[20px] ">
-                            <KakaoMap placeInfo={detail.location_map} />
+                            <KakaoMap placeInfo={locationMap} />
                           </div>
                         )}
                       </div>
