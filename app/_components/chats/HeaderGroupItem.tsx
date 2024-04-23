@@ -62,7 +62,8 @@ const HeaderGroupItem = ({ room_id }: { room_id: string }) => {
     isError ||
     isParticipantsError ||
     isLastMessageInfoError ||
-    unreadCount === undefined
+    unreadCount === undefined ||
+    actionInfo === undefined
   ) {
     return <div>Error</div>;
   }

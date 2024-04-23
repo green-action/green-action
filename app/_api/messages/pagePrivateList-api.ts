@@ -31,11 +31,13 @@ export const getActionInfo = async (room_id: string) => {
     throw error;
   }
 
+  if (!data || data.length === 0) return undefined;
+
   const action_id = data[0].individual_green_actions?.id;
   const title = data[0].individual_green_actions?.title;
   const recruit_number = data[0].individual_green_actions?.recruit_number;
   const user_uid = data[0].individual_green_actions?.user_uid;
-  if (!action_id) return [];
+  if (!action_id) return undefined;
 
   const { data: actionUrl, error: actionUrlError } = await supabase
     .from("individual_green_actions")
