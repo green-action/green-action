@@ -32,7 +32,6 @@ export interface FormDataType {
     placeName: string;
   } | null;
   recruit_number: number;
-  kakao_link: string;
 }
 
 export interface FileUpload {

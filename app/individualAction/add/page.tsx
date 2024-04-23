@@ -61,20 +61,7 @@ const AddActionPage = () => {
 
     const formData = new FormData(event.currentTarget);
 
-    // 오픈카톡방 링크 유효성검사
-    // 올바른 링크 양식 : https://open.kakao.com/o/{채팅방 ID}
-    const openKakaoLink = formData.get("openKakaoLink") as string;
-    const kakaoLinkPattern = /^https:\/\/open\.kakao\.com\/o\//;
-
-    if (!kakaoLinkPattern.test(openKakaoLink)) {
-      // alert("카카오톡 오픈채팅방 링크가 올바르지 않습니다.");
-      setMessage("카카오톡 오픈채팅방 링크가 올바르지 않습니다.");
-      setModal((state) => ({ ...state, isOpenAlert: true }));
-      return;
-    }
-
     if (!files.length) {
-      // alert("사진은 필수값입니다.");
       setMessage("사진은 필수값입니다.");
       setModal((state) => ({ ...state, isOpenAlert: true }));
       return;
@@ -83,10 +70,6 @@ const AddActionPage = () => {
     try {
       // 1. user_uid와 텍스트 formData insert -> action_id 반환받기
       const activityLocationMap = locationMapRef.current || null; // 지도 장소정보 - 장소 좌표, 장소명, 장소 id
-      // const allActivityLocation = activityLocationMap
-      //   ? `${activityLocation} (${activityLocationMap})`
-      //   : activityLocation;
-
       const action_id = await insertActionTextForm({
         formData,
         activityLocation,
