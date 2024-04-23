@@ -126,7 +126,9 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
                 mode === MODE_MY_POSTS ||
                 mode === MODE_MY_BOOKMARKS) &&
               "pt-5 pl-5"
-            } bg-[#F9F9F9] p-5 rounded-2xl w-full mt-3 flex flex-col gap-[5px]`}
+            } bg-[#F9F9F9] p-5 rounded-2xl w-full mt-3 flex flex-col gap-[5px] ${
+              mode === MODE_MAIN && ""
+            }`}
           >
             {/* desktop:w-[290px] */}
             <div className="flex w-full justify-between laptop:gap-[6px] mb-4 laptop:min-w-[190px] items-center">
