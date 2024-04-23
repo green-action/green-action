@@ -54,6 +54,10 @@ const GroupChatRoom = ({
   const loggedInUserUid = session.data?.user.user_uid || "";
 
   useEffect(() => {
+    if (chatRoomRef.current) {
+      chatRoomRef.current.scrollTop = chatRoomRef.current.scrollHeight;
+    }
+
     queryClient.invalidateQueries({
       queryKey: [QUERY_KEY_UNREAD_MESSAGES_COUNT],
     });
@@ -93,12 +97,6 @@ const GroupChatRoom = ({
     roomId,
     loggedInUserUid,
   });
-
-  useEffect(() => {
-    if (chatRoomRef.current) {
-      chatRoomRef.current.scrollTop = chatRoomRef.current.scrollHeight;
-    }
-  }, []);
 
   // 안읽은 메시지 update useQuery가져오기
   const { data, isUpdateUnreadLoading, isUpdateUnreadError } = useUpdateUnread({

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { supabase } from "@/utils/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
@@ -21,7 +21,6 @@ import {
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 import Image from "next/image";
 import { IoPaperPlane } from "react-icons/io5";
-import send from "@/app/_assets/image/individualAction/image184.svg";
 import { useResponsive } from "@/app/_hooks/responsive";
 import { formatToLocaleDateTimeString } from "@/utils/date/date";
 
@@ -37,12 +36,17 @@ const PrivateChatRoom = ({
   const [message, setMessage] = useState("");
   const queryClient = useQueryClient();
   const { isDesktop, isLaptop, isMobile } = useResponsive();
+  const chatRoomRef = useRef<HTMLDivElement | null>(null);
 
   // 현재 로그인한 유저 uid
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
 
   useEffect(() => {
+    if (chatRoomRef.current) {
+      chatRoomRef.current.scrollTop = chatRoomRef.current.scrollHeight;
+    }
+
     queryClient.invalidateQueries({
       queryKey: [QUERY_KEY_UNREAD_MESSAGES_COUNT],
     });
@@ -142,6 +146,7 @@ const PrivateChatRoom = ({
           onOpenChange={onOpenChange}
           placement="center"
           size="3xl"
+          ref={chatRoomRef}
         >
           <ModalContent className="relative max-w-[27%] h-[87%] overflow-y-auto scrollbar-hide rounded-[55px]">
             {(onClose) => (
