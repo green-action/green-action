@@ -188,7 +188,7 @@ const MyPage = () => {
         <div className="flex desktop:w-[1540px] laptop:w-[1020px] phone:w-[294px]">
           {(isDesktop || isLaptop) && <MyProfile userInfo={userInfo as User} />}
 
-          <div className="flex flex-col desktop:gap-10 desktop:pl-[82px] laptop:pl-[30px] desktop:pt-1 laptop:pt-[30px] w-full">
+          <div className="flex flex-col desktop:pl-[82px] laptop:pl-[30px] desktop:pt-1 laptop:pt-[30px] w-full">
             {isMobile && <MyProfile userInfo={userInfo as User} />}
             {(isDesktop || isLaptop) && (
               <>
