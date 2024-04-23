@@ -33,18 +33,30 @@ const MyPage = () => {
   const isLoggedIn = !!session.data;
   const user_uid = session.data?.user.user_uid as string;
 
-  const { data: myActions, isLoading: isActionsLoading } =
-    useFetchMyGreenActions(user_uid);
+  const {
+    data: myActions,
+    isLoading: isActionsLoading,
+    isError: IsActionsError,
+  } = useFetchMyGreenActions(user_uid);
 
-  const { data: myPosts, isLoading: isPostsLoading } =
-    usefetchMyCommunityPosts(user_uid);
+  const {
+    data: myPosts,
+    isLoading: isPostsLoading,
+    isError: IsPostsError,
+  } = usefetchMyCommunityPosts(user_uid);
 
-  const { data: myBookmarks, isLoading: isBookmarksLoading } =
-    usefetchBookmarkedActions(user_uid);
+  const {
+    data: myBookmarks,
+    isLoading: isBookmarksLoading,
+    isError: IsBookmarksError,
+  } = usefetchBookmarkedActions(user_uid);
 
   // 유저 정보 조회
-  const { data: userInfo, isLoading: isUserInfoLoading } =
-    useFetchUserInfo(user_uid);
+  const {
+    data: userInfo,
+    isLoading: isUserInfoLoading,
+    isError: IsUserInfoError,
+  } = useFetchUserInfo(user_uid);
 
   const { display_name, profile_img } = (userInfo as User) || ""; // as User 외에도 || '' 처리해줘야 에러안뜸
 
@@ -181,11 +193,10 @@ const MyPage = () => {
 
   return (
     <>
-      {/* 닉넴수정 후 메인페이지 -> 마이페이지 이동시 : 임포트한 헤더 컴포넌트에서만 닉넴 수정 반영됨 */}
-      <div className="flex justify-center desktop:mb-[100px] laptop:mb-[50px]">
+      <div className="flex justify-center desktop:w-[1920px] laptop:w-[1020px] mx-auto">
         <TopButton />
 
-        <div className="flex desktop:w-[1540px] laptop:w-[1020px] phone:w-[294px]">
+        <div className="flex desktop:w-[1540px] laptop:w-[1020px] phone:w-[294px] desktop:mb-[100px] laptop:mb-[50px] ">
           {(isDesktop || isLaptop) && <MyProfile userInfo={userInfo as User} />}
 
           <div className="flex flex-col desktop:pl-[82px] laptop:pl-[30px] desktop:pt-1 laptop:pt-[30px] w-full">
