@@ -8,6 +8,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/utils/supabase/client";
 import {
   QUERY_KEY_ALL_UNREAD_COUNT,
+  QUERY_KEY_LAST_MESSAGE_INFO,
   QUERY_KEY_MY_GROUP_CHAT_IDS,
   QUERY_KEY_UNREAD_MESSAGES_COUNT,
 } from "@/app/_api/queryKeys";
@@ -58,7 +59,9 @@ const HeaderGroupList = () => {
             queryClient.invalidateQueries({
               queryKey: [QUERY_KEY_ALL_UNREAD_COUNT],
             });
-            // TODO 채팅 메시지, 날짜 업데이트하는 무효화 추가필요
+            queryClient.invalidateQueries({
+              queryKey: [QUERY_KEY_LAST_MESSAGE_INFO, roomId],
+            });
           },
         )
         .subscribe();
