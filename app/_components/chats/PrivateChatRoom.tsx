@@ -21,6 +21,7 @@ import {
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 import Image from "next/image";
 import { IoPaperPlane } from "react-icons/io5";
+import { IoReorderThreeOutline } from "react-icons/io5";
 import { useResponsive } from "@/app/_hooks/responsive";
 import { formatToLocaleDateTimeString } from "@/utils/date/date";
 
@@ -151,20 +152,29 @@ const PrivateChatRoom = ({
           <ModalContent className="relative max-w-[27%] h-[87%] overflow-y-auto scrollbar-hide rounded-[55px]">
             {(onClose) => (
               <>
-                <ModalHeader className="fixed bg-white flex items-center gap-5 w-[27%] shadow-md h-28 z-10 px-8 rounded-tl-[55px] rounded-tr-[55px]">
-                  <Avatar
-                    showFallback
-                    src={participantInfo?.profile_img || ""}
-                    alt="greener_profile"
-                    size="lg"
-                  />
-                  <div className="flex flex-col gap-0">
-                    <span className="text-xl font-extrabold">
-                      {participantInfo?.display_name}
-                    </span>
-                    <span className="text-gray-500 text-[15px] font-['Pretendard-ExtraLight']">
-                      Greener
-                    </span>
+                <ModalHeader className="fixed bg-white flex justify-between items-center gap-5 w-[27%] shadow-md h-28 z-10 px-8 rounded-tl-[55px] rounded-tr-[55px]">
+                  <div className="flex gap-5 ml-2">
+                    <Avatar
+                      showFallback
+                      src={participantInfo?.profile_img || ""}
+                      alt="greener_profile"
+                      size="lg"
+                    />
+                    <div className="flex flex-col gap-0">
+                      <span className="text-xl font-extrabold">
+                        {participantInfo?.display_name}
+                      </span>
+                      <span className="text-gray-500 text-[15px] font-['Pretendard-ExtraLight']">
+                        Greener
+                      </span>
+                    </div>
+                  </div>
+                  <div>
+                    <IoReorderThreeOutline
+                      size={40}
+                      className="cursor-pointer"
+                      // onClick={() => onActionInfoOpen()}
+                    />
                   </div>
                 </ModalHeader>
                 <ModalBody className="bg-[#F3F4F3] pt-32 pb-0">
