@@ -15,3 +15,4 @@ export const MODE_ACTION = "action";
 export const MODE_DESKTOP = "desktop";
 export const MODE_LAPTOP = "laptop";
 export const MODE_MOBILE = "mobile";
+export const ACTIVE_TABS = "단체와 함께해요";

@@ -1,10 +1,23 @@
-import IndividualSkeleton from "../_components/individualAction/IndividualSkeleton";
+import { MODE_MAIN, MODE_MY_POSTS } from "../_api/constant";
+import CommunitySkeleton from "../_components/community/CommunitySkeleton";
 
-const test = () => {
+const test = ({ mode }: { mode?: string }) => {
   return (
-    <div className="mt-10 gap-5 grid p-2 desktop:grid-cols-4 laptop:grid-cols-3 desktop:w-[1510px] laptop:w-[920px] phone:w-[292px] mx-auto phone:grid-cols-2">
-      <IndividualSkeleton />
-      <IndividualSkeleton />
+    <div
+      className={`${
+        mode === MODE_MAIN &&
+        "desktop:w-[410px] desktop:h-[295px] laptop:w-[287px] laptop:h-[207px]"
+      }
+            ${
+              mode === MODE_MY_POSTS &&
+              "desktop:w-[356px] laptop:w-[327px] laptop:h-[400px]"
+            }
+          ${mode !== MODE_MAIN && mode !== MODE_MY_POSTS && "w-[31%] mb-2"}
+        `}
+    >
+      <CommunitySkeleton />
+      <CommunitySkeleton />
+      <CommunitySkeleton />
     </div>
   );
 };
