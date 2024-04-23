@@ -194,29 +194,6 @@ const MyPage = () => {
               <>
                 <div className="flex justify-between laptop:mb-[30px] vh-auto">
                   <div className="flex desktop:gap-[45px] laptop:gap-[30px] desktop:ml-5 desktop:text-[12pt]">
-                    {/* <Tabs 탭은 보류
-                 aria-label="Options"
-                 color="primary"
-                 variant="underlined"
-                 classNames={{
-                   tabList:
-                     "gap-6 w-full relative rounded-none p-0 border-b border-divider",
-                   cursor: "w-full bg-[#22d3ee]",
-                   tab: "max-w-fit px-0 h-12",
-                   tabContent: "group-data-[selected=true]:text-[#6f979e]",
-                 }}
-               >
-                 <Tab key="photos" onClick={handleActiveTabClick}>
-                   My Green-Action
-                 </Tab>
-                 <Tab key="photos" onClick={handleActiveTabClick}>
-                   작성 게시물
-                 </Tab>
-               </Tabs> 
-
-               <Button
-                 onClick={handleActiveTabClick}
-                 className={`bg-transparent cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt] p-[20px] rounded-none 로도 클릭문제 해결 X*/}
                     <div
                       onClick={handleActiveTabClick}
                       className={`cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt] 

@@ -8,7 +8,8 @@ import {
 } from "@/app/_api/constant";
 import { Button } from "@nextui-org/react";
 import Image from "next/image";
-import bookmarkFill from "/app/_assets/image/logo_icon/icon/mypage/Star 32.png";
+// import bookmarkFill from "/app/_assets/image/logo_icon/icon/mypage/Star 32.png";
+import bookmarkFill from "/app/_assets/image/individualAction/Star_1.png";
 
 interface CustomConfirmProps {
   text: string;
@@ -91,7 +92,8 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
           <Image
             src={bookmarkFill}
             alt="북마크"
-            className="desktop:w-[15px] laptop:w-[14px] desktop:h-[14px] laptop:h-[13px] desktop:mt-[3px] laptop:mt-[2px] desktop:mr-[8px] laptop:mr-[4px] mb-[2px]"
+            className="desktop:size-[17px] desktop:mr-[4px] desktop:mt-[2px] laptop:size-[16px] laptop:mr-[4px]"
+            // className="desktop:w-[15px] laptop:w-[14px] desktop:h-[14px] laptop:h-[13px] desktop:mt-[3px] laptop:mt-[2px] desktop:mr-[8px] laptop:mr-[4px] mb-[2px]"
           />
         </button>
       ) : (

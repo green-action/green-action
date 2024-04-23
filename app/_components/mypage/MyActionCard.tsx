@@ -28,7 +28,7 @@ import {
 } from "@/app/_api/constant";
 import { useResponsive } from "@/app/_hooks/responsive";
 import optionDots from "/app/_assets/image/logo_icon/icon/mypage/Group 100.png";
-import person from "/app/_assets/image/logo_icon/icon/mypage/image24.png";
+import person from "/app/_assets/image/individualAction/person.png";
 
 // TODO MyAction 타입 사용 후 에러 해결하기
 const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
@@ -73,11 +73,12 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
     <div key={id}>
       {(isDesktop || isLaptop) && (
         <div
-          className={`none desktop:w-[356px] desktop:h-[455px] ${
+          className={`none   ${
             (mode === MODE_MY_BOOKMARKS || mode === MODE_MY_POSTS) &&
-            "laptop:w-[327px] laptop:h-[420px] laptop:mb-[149px] desktop:w-[356px] desktop:h-[455px] desktop:mb-[149px]"
+            "laptop:w-[327px] laptop:h-[440px] laptop:mb-[149px] desktop:w-[356px] desktop:h-[505px] desktop:mb-[149px]"
           } ${
-            mode === MODE_MAIN && "laptop:w-[287px] laptop:h-[251px]"
+            mode === MODE_MAIN &&
+            "desktop:w-[356px] desktop:h-[505px] laptop:w-[287px] laptop:h-[251px]"
           } relative`}
           // desktop:h-[25rem]
           // relative 때문에 별 클릭안되는? -z, z-..했으나 안됨
@@ -111,43 +112,40 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
                 mode === MODE_MY_POSTS ||
                 mode === MODE_MY_BOOKMARKS) &&
               "pt-5 pl-5"
-            } bg-[#F9F9F9]  p-5 rounded-2xl w-full mt-3`}
+            } bg-[#F9F9F9] p-5 rounded-2xl w-full mt-3 flex flex-col gap-[5px]`}
           >
-            <div className="flex w-full gap-0">
-              <div className="flex desktop:gap-2 laptop:gap-[6px] mb-4 desktop:min-w-[240px] laptop:min-w-[190px] items-center">
-                <p className=" max-w-[165px] desktop:text-[15px] laptop:text-[13px] font-bold overflow-hidden whitespace-nowrap overflow-ellipsis">
-                  {title}
-                </p>
-                {is_recruiting ? (
-                  <Chip
-                    classNames={{
-                      base: "desktop:h-[18px] laptop:h-[16px]",
-                      content:
-                        "desktop:w-[41px] laptop:w-[34px] flex justify-center items-center",
-                    }}
-                    className="text-white laptop:w-[20px] bg-[#B3C8A1] rounded-[5px] text-center desktop:text-[10pt] laptop:text-[8pt]"
-                  >
-                    모집중
-                  </Chip>
-                ) : (
-                  <Chip
-                    classNames={{
-                      base: "desktop:h-[18px] laptop:h-[16px]",
-                      content:
-                        "desktop:w-[50px] laptop:w-[42px] flex justify-center items-center",
-                    }}
-                    className="text-white bg-[#5F5F5F] rounded-[5px] text-center desktop:text-[10pt] laptop:text-[8pt]"
-                  >
-                    모집마감
-                  </Chip>
-                )}
-              </div>
+            {/* desktop:w-[290px] */}
+            <div className="flex w-full justify-between laptop:gap-[6px] mb-4 laptop:min-w-[190px] items-center">
+              {is_recruiting ? (
+                <Chip
+                  classNames={{
+                    base: "desktop:h-[18px] laptop:h-[16px]",
+                    content:
+                      "desktop:w-[50px] laptop:w-[40px] flex justify-center items-center",
+                  }}
+                  className="text-white laptop:w-[20px] bg-[#B3C8A1] rounded-3xl text-center desktop:text-[10pt] laptop:text-[8pt]"
+                >
+                  모집중
+                </Chip>
+              ) : (
+                <Chip
+                  classNames={{
+                    base: "desktop:h-[18px] laptop:h-[16px]",
+                    content:
+                      "desktop:w-[55px] laptop:w-[50px] flex justify-center items-center",
+                  }}
+                  className="text-white bg-[#5F5F5F] rounded-3xl text-center desktop:text-[10pt] laptop:text-[8pt]"
+                >
+                  모집마감
+                </Chip>
+              )}
               <div className="flex justify-end items-start pt-0 desktop:gap-[15px] laptop:gap-[10px]  desktop:text-[14px] laptop:text-[11px] w-full">
-                <div className="flex items-center desktop:gap-[1px]">
+                {/* 모집인원, 북마크 */}
+                <div className="flex items-center desktop:gap-[4px] laptop:gap-[4px]">
                   <Image
                     src={person}
                     alt="person-icon"
-                    className="desktop:w-[23px] desktop:h-[21px] laptop:w-[20px] laptop:h-[18px]"
+                    className="desktop:w-[19px] laptop:w-[18px]"
                   />
                   <p>{recruit_number}</p>
                 </div>
@@ -157,6 +155,9 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
                 </div>
               </div>
             </div>
+            <p className="w-full desktop:text-[15px] laptop:text-[13px] font-bold overflow-hidden whitespace-nowrap overflow-ellipsis mb-[10px]">
+              {title}
+            </p>
             <div className="flex gap-12 items-center desktop:text-sm laptop:text-[12px] ml-[1px]">
               <div className="flex gap-2">
                 <Image
@@ -169,7 +170,7 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
                 </p>
               </div>
             </div>
-            <hr className="text-gray-700 desktop:w-[190px] laptop:w-[170px] my-1" />
+            <hr className="text-gray-700 desktop:w-[190px] laptop:w-[170px]" />
             <div
               className={`flex gap-1 ${
                 mode !== MODE_MY_POSTS && "justify-between"

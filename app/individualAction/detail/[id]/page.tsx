@@ -33,7 +33,7 @@ import delAction from "/app/_assets/image/logo_icon/icon/mypage/Group 131.png";
 import prevBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 132.png";
 import nextBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 133.png";
 import calendar from "/app/_assets/image/logo_icon/icon/mypage/image 127.png";
-import person from "/app/_assets/image/logo_icon/icon/mypage/image 166.png";
+import person from "/app/_assets/image/individualAction/person.png";
 import mapPin from "/app/_assets/image/logo_icon/icon/mypage/image 169.png";
 import editAction from "/app/_assets/image/logo_icon/icon/mypage/image 55.png";
 

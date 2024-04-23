@@ -68,7 +68,6 @@ const MyProfileEditModal = ({
     e.preventDefault();
 
     if (!editedName.trim()) {
-      // alert("닉네임을 입력해주세요.");
       setMessage("닉네임을 입력해주세요.");
       setIsOpenAlertModal(true);
       return;
@@ -106,7 +105,7 @@ const MyProfileEditModal = ({
       <TfiPencil
         color="gray"
         onClick={handleEditProfileClick}
-        className="cursor-pointer laptop:w-[11px]"
+        className="cursor-pointer laptop:w-[11.5px] desktop:w-[14px]"
       />
 
       <Modal
@@ -162,18 +161,14 @@ const MyProfileEditModal = ({
                 </div>
                 <ModalFooter>
                   <Button
-                    color="danger"
-                    variant="faded"
                     onPress={onClose}
-                    className="rounded-3xl"
+                    className="rounded-3xl bg-[#E77D6F] text-white"
                   >
                     취소
                   </Button>
                   <Button
                     type="submit"
-                    variant="faded"
-                    color="primary"
-                    className="rounded-3xl"
+                    className="rounded-3xl bg-black text-white"
                   >
                     작성완료
                   </Button>
