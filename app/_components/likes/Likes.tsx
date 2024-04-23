@@ -65,8 +65,8 @@ const Likes = ({
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center w-[60px] h-auto">
-        <Skeleton className="flex rounded-full w-12 h-12" />
+      <div className="flex justify-center items-center">
+        <Skeleton className="flex rounded-full w-12 h-12 phone:w-[18px] phone:h-[18px]" />
       </div>
     );
   }
