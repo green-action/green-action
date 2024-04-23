@@ -184,7 +184,7 @@ const PageList: React.FC<ChildProps> = ({
                   <Image
                     src={person}
                     alt="모집인원"
-                    className=" desktop:w-[22px] h-[22px] laptop:w-[18px] phone:w-[18px]"
+                    className="desktop:w-[19px] laptop:w-[17px] phone:w-[18px]"
                   />
                   <span className="ml-1 desktop:text-sm  laptop:text-[11px] phone:text-[11px] phone:text-[#848484] desktop:text-black laptop:text-black">
                     {post.recruit_number}

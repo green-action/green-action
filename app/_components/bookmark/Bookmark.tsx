@@ -102,14 +102,14 @@ const Bookmark = ({
                 <Image
                   src={bookmarkFill}
                   alt="북마크"
-                  className="size-[18px] desktop:size-[22px] laptop:size-[22px] mr-[6px]"
+                  className="size-[18px] desktop:size-[23px] laptop:size-[22px] mr-[6px]"
                 />
               )}
               {mode === MODE_INDIVIDUAL_ACTION && (
                 <Image
                   src={bookmarkFill}
                   alt="북마크"
-                  className="desktop:size-[16px] mr-[6px] laptop:size-[13px] phone:size-[13px]"
+                  className="desktop:size-[17px] mr-[3px] laptop:size-[14px] phone:size-[14px]"
                 />
               )}
               {mode === MODE_MY_POSTS && (
@@ -129,10 +129,12 @@ const Bookmark = ({
               )}
             </button>
             <span
-              className={`desktop:text-sm laptop:text-[11px] ${
-                mode === MODE_MY_POSTS &&
-                "desktop:text-[12px] laptop:text-[11px] phone:text-[0px]"
-              } ${
+              className={`desktop:text-sm laptop:text-[11px] 
+               ${mode === MODE_DETAIL_PAGE && "laptop:text-[14px]"}
+                ${
+                  mode === MODE_MY_POSTS &&
+                  "desktop:text-[12px] laptop:text-[11px] phone:text-[0px]"
+                } ${
                 mode === MODE_INDIVIDUAL_ACTION &&
                 "phone:text-[11px] phone:text-[#848484] desktop:text-black laptop:text-black"
               }`}
@@ -177,10 +179,12 @@ const Bookmark = ({
             {/* <CiStar className="text-[19px]" /> */}
           </button>
           <span
-            className={`desktop:text-sm laptop:text-[11px] ${
-              mode === MODE_MY_POSTS &&
-              "desktop:text-[12px] laptop:text-[11px] phone:text-[0px]"
-            } ${
+            className={`desktop:text-sm laptop:text-[11px] 
+              ${mode === MODE_DETAIL_PAGE && "laptop:text-[14px]"}
+              ${
+                mode === MODE_MY_POSTS &&
+                "desktop:text-[12px] laptop:text-[11px] phone:text-[0px]"
+              } ${
               mode === MODE_INDIVIDUAL_ACTION &&
               "phone:text-[11px] phone:text-[#848484] desktop:text-black laptop:text-black"
             }`}
