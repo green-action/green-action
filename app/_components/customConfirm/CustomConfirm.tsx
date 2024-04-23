@@ -9,7 +9,7 @@ import {
 import { Button } from "@nextui-org/react";
 import Image from "next/image";
 // import bookmarkFill from "/app/_assets/image/logo_icon/icon/mypage/Star 32.png";
-import bookmarkFill from "/app/_assets/image/individualAction/Star_1.png";
+import bookmarkFill from "/app/_assets/image/individualAction/star_1.png";
 
 interface CustomConfirmProps {
   text: string;
