@@ -48,3 +48,19 @@ export interface PrivateChatProps {
     sender_uid?: string;
   } | null;
 }
+
+export interface ItemType {
+  participant_type: string;
+  users: {
+    id: string | null;
+    display_name: string | null;
+    profile_img: string | null;
+  } | null;
+}
+
+export interface ParticipantInfo {
+  id: string | null;
+  display_name: string | null;
+  profile_img: string | null;
+  participant_type: string;
+}

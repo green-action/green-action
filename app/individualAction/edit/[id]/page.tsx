@@ -49,10 +49,11 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     if (originalActionData) {
       const idsAndUrlsObjArray = [...originalActionData.green_action_images];
+      const locationMap = originalActionData.location_map as any;
       setUploadedFileUrls(idsAndUrlsObjArray);
       setActivityLocation(originalActionData.location || "");
-      setActivityLocationMap(originalActionData.location_map?.placeName || "");
-      locationMapRef.current = originalActionData.location_map;
+      setActivityLocationMap(locationMap?.placeName || "");
+      locationMapRef.current = locationMap;
     }
   }, [originalActionData]);
 
