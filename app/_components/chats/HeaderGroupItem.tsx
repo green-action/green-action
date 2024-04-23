@@ -12,6 +12,7 @@ import {
 import { formatToLocaleDateTimeString } from "@/utils/date/date";
 import { useSession } from "next-auth/react";
 import GroupChatRoom from "./GroupChatRoom";
+import personIcon from "/app/_assets/image/logo_icon/icon/mypage/person.png";
 
 const HeaderGroupItem = ({ room_id }: { room_id: string }) => {
   const session = useSession();
@@ -62,46 +63,55 @@ const HeaderGroupItem = ({ room_id }: { room_id: string }) => {
 
   return (
     <div
-      //   key={room_id}
-      className="flex flex-col bg-white p-4 mr-3 mb-3 cursor-pointer rounded-2xl px-7 py-5"
+      key={room_id}
+      className="flex flex-col bg-white mb-3 cursor-pointer rounded-2xl px-7 py-6"
       onClick={() => {
-        // onPrivateChatOpen();
+        onGroupChatOpen();
       }}
     >
-      <div className="flex mb-3 justify-between">
-        <div className="flex gap-3">
-          <span className="font-bold text-lg">{actionInfo?.title}</span>
-          <span>
-            {/* {loggedInUserUid === actionInfo?.user_uid && (
-              <LiaCrownSolid size={20} />
-            )} */}
-          </span>
-        </div>
-        <div className="text-sm text-gray-500">날짜</div>
-        <div>
-          {participantsCount} / {actionInfo?.recruit_number}
-        </div>
-      </div>
-      <div className="flex">
+      <div className="flex justify-between"></div>
+      <div className="flex items-center">
         <div>
           <img
             src={actionInfo?.action_url}
             alt="action-image"
-            className="mr-7 w-[70px] h-[70px] object-cover rounded-2xl"
+            className="mr-10 w-[70px] h-[70px] object-cover rounded-2xl"
           />
         </div>
         <div className="w-full">
           <div className="flex flex-col gap-2">
             <div className="flex justify-between">
-              <span className="font-bold text-lg">닉네임</span>
+              <div className="flex items-center gap-3">
+                <span className="font-bold text-lg">{actionInfo?.title}</span>
+                {loggedInUserUid === actionInfo?.user_uid && (
+                  <LiaCrownSolid size={20} />
+                )}
+              </div>
+
+              <div className="flex items-center gap-3">
+                <div>
+                  <Image
+                    src={personIcon}
+                    alt="person-icon"
+                    className="w-[20px] h-[20px] text-gray-600"
+                  />
+                </div>
+                <div className="text-gray-600">
+                  {participantsCount} / {actionInfo?.recruit_number}
+                </div>
+              </div>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-500">메시지</span>
-              {unreadCount > 0 && (
-                <div className="bg-[#B3C8A1] w-7 h-7 rounded-full text-white font-extrabold flex justify-center items-center">
-                  {unreadCount}
-                </div>
-              )}
+              <span className="text-gray-500">안녕하세요어쩌구</span>
+              <div className="flex items-center gap-3">
+                {/* TODO 날짜 형식 짧게 만들기 */}
+                <span className="text-gray-500">12.03 12:30</span>
+                {unreadCount > 0 && (
+                  <div className="bg-[#B3C8A1] w-7 h-7 rounded-full text-white font-extrabold flex justify-center items-center">
+                    {unreadCount}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -111,9 +121,8 @@ const HeaderGroupItem = ({ room_id }: { room_id: string }) => {
         <GroupChatRoom
           isOpen={isGroupChatOpen}
           onOpenChange={onGroupChatOpenChange}
-          //  TODO props 확인 필요
           roomId={room_id}
-          actionId=""
+          actionId={actionInfo?.action_id}
         />
       )}
     </div>
