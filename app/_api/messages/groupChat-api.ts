@@ -153,12 +153,19 @@ export const changeRecruitingState = async ({
 };
 
 // 참가 취소시 - 참가자 테이블에서 삭제
-export const deleteParticipant = async (loggedInUserUid: string) => {
+export const deleteParticipant = async ({
+  loggedInUserUid,
+  roomId,
+}: {
+  loggedInUserUid: string;
+  roomId: string;
+}) => {
   try {
     const { error } = await supabase
       .from("chat_participants")
       .delete()
-      .eq("participant_uid", loggedInUserUid);
+      .eq("participant_uid", loggedInUserUid)
+      .eq("room_id", roomId);
 
     if (error) {
       console.log("error", error.message);
