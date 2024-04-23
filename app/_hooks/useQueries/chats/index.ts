@@ -37,7 +37,6 @@ import {
 } from "@/app/_api/messages/pagePrivateList-api";
 import {
   getGroupActionInfo,
-  getGroupListActionInfo,
   getMyGroupChatIds,
   getParticipantsInfo,
 } from "@/app/_api/messages/groupChat-api";
@@ -283,23 +282,4 @@ export const useGetMyGroupChatIds = (loggedInUserUid: string) => {
   });
 
   return { roomIds, isRoomIdsLoading, isRoomIdsError };
-};
-
-export const useGetGroupListActionsInfo = (roomIds: string[] | undefined) => {
-  const {
-    data: actionsInfo,
-    isLoading: isActionsInfoLoading,
-    isError: isActionsInfoError,
-  } = useQuery({
-    queryKey: [QUERY_KEY_GROUP_LIST_ACTIONS_INFO],
-    queryFn: async () => {
-      if (roomIds) {
-        return await getGroupListActionInfo(roomIds);
-      }
-      return [];
-    },
-    enabled: !!roomIds,
-  });
-
-  return { actionsInfo, isActionsInfoLoading, isActionsInfoError };
 };

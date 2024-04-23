@@ -251,37 +251,3 @@ export const getMyGroupChatIds = async (loggedInUserUid: string) => {
 
   return roomIdsArray;
 };
-
-// 단체방 리스트의 action들 info 가져오기
-export const getGroupListActionInfo = async (roomIds: string[]) => {
-  const { data: actionInfo, error: actionInfoError } = await supabase
-    .from("chat_rooms_info")
-    .select("individual_green_actions(id, title, recruit_number, user_uid)")
-    .in("id", roomIds);
-
-  if (actionInfoError) {
-    console.log("error", actionInfoError.message);
-    throw actionInfoError;
-  }
-
-  const actionIds = actionInfo.map((item) => {
-    return item.individual_green_actions?.id;
-  });
-
-  const { data: actionUrlsIds, error: actionUrlsError } = await supabase
-    .from("green_action_images")
-    .select("img_url, action_id")
-    .in("action_id", actionIds);
-
-  if (actionUrlsError) {
-    console.log("error", actionUrlsError.message);
-    throw actionUrlsError;
-  }
-
-  // const actionUrls = actionUrlsIds.map((actionUrlId) => {
-  //   const url = actionUrlId.img_url
-  //   return actionUrlId.
-  // })
-
-  return actionUrlsIds;
-};

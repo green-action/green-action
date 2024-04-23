@@ -35,7 +35,7 @@ export const getActionInfo = async (room_id: string) => {
   const title = data[0].individual_green_actions?.title;
   const recruit_number = data[0].individual_green_actions?.recruit_number;
   const user_uid = data[0].individual_green_actions?.user_uid;
-  if (!action_id) return;
+  if (!action_id) return [];
 
   const { data: actionUrl, error: actionUrlError } = await supabase
     .from("individual_green_actions")
