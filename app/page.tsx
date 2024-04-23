@@ -110,7 +110,7 @@ const MainPage = () => {
           </section>
         )}
         {/* 배경 이미지 div 끝 */}
-        <section className="z-0 flex flex-col items-center justify-center desktop:pt-[200px] laptop:pt-[0px] desktop:h-[1438px] laptop:h-[1338px] phone:h-[935px] desktop:pb-[200px] laptop:pb-[0px] bg-[#F3F3F3] brightness-10 ">
+        <section className="z-0 flex flex-col items-center justify-center desktop:pt-[200px] laptop:pt-[0px] desktop:h-[1438px] laptop:h-[1338px] phone:h-[800px] desktop:pb-[200px] laptop:pb-[0px] phone:pb-[80px] phone:pt-[0px] bg-[#F3F3F3] brightness-10 ">
           {isMobile && (
             <section className="flex flex-col items-center justify-center">
               <div className="mr-auto">
@@ -160,8 +160,8 @@ const MainPage = () => {
           )}
           {isMobile && (
             <section className="flex flex-col items-center justify-center">
-              <div className="mr-auto mt-24">
-                <p className=" font-bold text-[15px] text-[#686868] mt-2">
+              <div className="mr-auto mt-20">
+                <p className=" font-bold text-[15px] text-[#686868]">
                   Greenaction
                 </p>
               </div>

@@ -183,7 +183,7 @@ function Header() {
                     : graylogoImg // 나머지 페이지에서는 항상 gray로고 사용
                 }
                 alt="logo-image"
-                className={`w-[94px] cursor-pointer desktop:h-[21.63px] laptop:h-[21.63px] desktop:ml-[-400px]  desktop:mr-[410px]
+                className={`w-[94px] cursor-pointer desktop:h-[21.63px] laptop:h-[21.63px] desktop:ml-[-400px] desktop:mr-[410px]
             ${
               isLoggedIn
                 ? display_name?.length >= 5

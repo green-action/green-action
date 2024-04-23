@@ -272,7 +272,7 @@ const MyProfile = ({ userInfo }: { userInfo: User }) => {
               key="bottom"
               placement="bottom"
               content={
-                <div className="text-gray-500 p-2 text-center text-[0.8rem]">
+                <div className="text-gray-500 p-2 text-center text-[0.6rem]">
                   <p>Q. 포인트는 어디에 사용하나요?</p>
                   <p>
                     A. 'Goods'에 있는 친환경 굿즈들을 <br /> 구매하실 수 있어요!
@@ -287,7 +287,7 @@ const MyProfile = ({ userInfo }: { userInfo: User }) => {
                   </p>
                 </div>
               }
-              className="w-[15rem]"
+              className="w-[13rem]"
             >
               <Image
                 src={pointQuestion}

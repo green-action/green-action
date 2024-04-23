@@ -65,7 +65,6 @@ const MyPage = () => {
   const [myRecruitClicked, setMyRecruitClicked] = useState("전체");
   const [bookmarkedRecruitClicked, setBookmarkedRecruitClicked] =
     useState("전체");
-
   const [filteredActions, setFilteredActions] = useState(sortedMyActions);
   const [filteredBookmarkedActions, setFilteredBookmarkedActions] =
     useState(sortedMyBookmarks);
@@ -126,6 +125,45 @@ const MyPage = () => {
       }
     }
   };
+
+  const filterByRecruitingAction = () => {
+    if (myRecruitClicked === "전체") {
+      setFilteredActions(sortedMyActions);
+    } else if (myRecruitClicked === "모집 중") {
+      setFilteredActions(
+        sortedMyActions?.filter((action) => action.is_recruiting),
+      );
+    } else if (myRecruitClicked === "모집 마감") {
+      setFilteredActions(
+        sortedMyActions?.filter((action) => !action.is_recruiting),
+      );
+    }
+  };
+
+  const filterByBookmarkAction = () => {
+    if (bookmarkedRecruitClicked === "전체") {
+      setFilteredBookmarkedActions(sortedMyBookmarks);
+    } else if (bookmarkedRecruitClicked === "모집 중") {
+      setFilteredBookmarkedActions(
+        sortedMyBookmarks?.filter(
+          (action) => action.bookmarkedAction?.is_recruiting,
+        ),
+      );
+    } else if (bookmarkedRecruitClicked === "모집 마감") {
+      setFilteredBookmarkedActions(
+        sortedMyBookmarks?.filter(
+          (action) => !action.bookmarkedAction?.is_recruiting,
+        ),
+      );
+    }
+  };
+  useEffect(() => {
+    filterByRecruitingAction();
+  }, [myRecruitClicked, sortedMyActions]);
+
+  useEffect(() => {
+    filterByBookmarkAction();
+  }, [bookmarkedRecruitClicked, sortedMyBookmarks]);
 
   if (
     isActionsLoading ||
@@ -271,10 +309,7 @@ const MyPage = () => {
               <>
                 <div>
                   <div className="flex flex-col justify-between mt-[50px] w-full">
-                    <div
-                      className="text-[13pt] font-bold"
-                      onClick={handleActiveTabClick}
-                    >
+                    <div className="text-[13pt] font-bold">
                       나의 Green-Action
                     </div>
                     <div className="ml-auto">
@@ -302,10 +337,7 @@ const MyPage = () => {
                 </div>
 
                 <div className="flex flex-col justify-between mt-[50px] w-full">
-                  <div
-                    className="text-[13pt] font-bold"
-                    onClick={handleActiveTabClick}
-                  >
+                  <div className="text-[13pt] font-bold">
                     즐겨찾는 Green-Action
                   </div>
                   <div className="ml-auto mt-5">
