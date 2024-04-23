@@ -102,7 +102,7 @@ const MyPage = () => {
       setActiveTab(textContent);
     }
   };
-  //ㅠㅠ 나누기 각자의 상태를주기
+
   const filterByRecruiting = () => {
     if (activeTab === "나의 Green-Action") {
       if (myRecruitClicked === "전체") {
@@ -137,46 +137,6 @@ const MyPage = () => {
       }
     }
   };
-
-  const filterByRecruitingAction = () => {
-    if (myRecruitClicked === "전체") {
-      setFilteredActions(sortedMyActions);
-    } else if (myRecruitClicked === "모집 중") {
-      setFilteredActions(
-        sortedMyActions?.filter((action) => action.is_recruiting),
-      );
-    } else if (myRecruitClicked === "모집 마감") {
-      setFilteredActions(
-        sortedMyActions?.filter((action) => !action.is_recruiting),
-      );
-    }
-  };
-
-  const filterByBookmarkAction = () => {
-    if (bookmarkedRecruitClicked === "전체") {
-      setFilteredBookmarkedActions(sortedMyBookmarks);
-    }
-    if (bookmarkedRecruitClicked === "모집 중") {
-      setFilteredBookmarkedActions(
-        sortedMyBookmarks?.filter(
-          (action) => action.bookmarkedAction?.is_recruiting,
-        ),
-      );
-    } else if (bookmarkedRecruitClicked === "모집 마감") {
-      setFilteredBookmarkedActions(
-        sortedMyBookmarks?.filter(
-          (action) => !action.bookmarkedAction?.is_recruiting,
-        ),
-      );
-    }
-  };
-  useEffect(() => {
-    filterByRecruitingAction();
-  }, [myRecruitClicked, sortedMyActions]);
-
-  useEffect(() => {
-    filterByBookmarkAction();
-  }, [myRecruitClicked, sortedMyActions]);
 
   if (
     isActionsLoading ||
