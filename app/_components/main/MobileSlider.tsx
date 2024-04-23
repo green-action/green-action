@@ -55,7 +55,7 @@ const MobileSlider = ({ mode }: { mode: string }) => {
     <Slider
       {...settings}
       className={`${
-        mode === MODE_COMMUNITY ? "h-[200px]" : "h-[150px]"
+        mode === MODE_COMMUNITY ? "h-[200px]" : "h-[200px]"
       }   phone:w-[360px] mt-11`}
     >
       {mode === MODE_COMMUNITY
@@ -64,7 +64,7 @@ const MobileSlider = ({ mode }: { mode: string }) => {
             (communityPost) => (
               <div
                 key={communityPost.id}
-                className="flex items-center h-[200px]"
+                className="flex items-center w-full h-[200px]"
               >
                 <CommunityListPost
                   communityPost={communityPost}

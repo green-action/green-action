@@ -530,7 +530,7 @@ const DetailPage = () => {
         </div>
       )}
       {isMobile && (
-        <div className="mx-auto mt-[64px] mb-[30px]">
+        <div className="w-[360px] mx-auto mt-[64px] mb-[30px]">
           <TopButton />
           <div className="w-[360px]">
             {/* 전체 contents */}
