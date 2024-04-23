@@ -167,7 +167,7 @@ const PrivateChatRoom = ({
                     <div className={`flex flex-col w-[100%]`}>
                       {messagesList?.map((message) => (
                         <div
-                          className={`m-3  max-w-[70%] ${
+                          className={`m-3 max-w-[70%] ${
                             message.sender_uid === loggedInUserUid
                               ? "self-end"
                               : "self-start"

@@ -188,7 +188,7 @@ const GroupChatRoom = ({
                   />
                 </div>
               </ModalHeader>
-              <ModalBody className="bg-[#F3F4F3] pt-32 pb-0">
+              <ModalBody className="bg-[#F3F4F3] pt-32 pb-0 px-0">
                 <div className="flex justify-center">
                   <div className={`flex flex-col w-[100%]`}>
                     {messagesList?.map((message) => (
@@ -206,7 +206,7 @@ const GroupChatRoom = ({
                               showFallback
                               src={message.users?.profile_img || ""} // 프로필 이미지 URL
                               alt="profile-img"
-                              className="w-11 h-11 rounded-full mr-4"
+                              className="w-11 h-11 rounded-full mr-4 ml-4"
                             />
                             <div>
                               <span className="font-semibold mr-2">
@@ -219,7 +219,7 @@ const GroupChatRoom = ({
                           </div>
                         )}
                         {message.sender_uid === loggedInUserUid && (
-                          <div className="bg-[#D4DFD2] rounded-tl-2xl rounded-bl-2xl rounded-br-2xl p-5 text-base">
+                          <div className="bg-[#D4DFD2] rounded-tl-2xl rounded-bl-2xl rounded-br-2xl p-5 mr-4 text-base">
                             {message.content}
                           </div>
                         )}
@@ -259,37 +259,6 @@ const GroupChatRoom = ({
                   />
                 )}
               </ModalBody>
-              {/* <ModalFooter className="bg-[#F3F4F3] flex justify-center">
-                <div className="flex items-center justify-between px-8 w-[90%] mb-5 bg-white h-16 rounded-[50px]">
-                  <input
-                    className="w-[90%] h-[85%] pl-4"
-                    type="text"
-                    placeholder="send message..."
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" && !e.nativeEvent.isComposing) {
-                        e.preventDefault();
-                        handleSendMessage();
-                      }
-                    }}
-                  />
-                  <div className="cursor-pointer" onClick={handleSendMessage}>
-                    <IoPaperPlane size={25} />
-                  </div>
-                </div>
-              </ModalFooter> */}
-              {/* action info 모달창 */}
-              {/* {isActionInfoOpen && (
-                <GroupInsideModal
-                  onActionInfoClose={onActionInfoClose}
-                  actionInfo={actionInfo}
-                  participantsInfo={participantsInfo}
-                  roomId={roomId}
-                  actionId={actionId}
-                  onClose={onClose}
-                />
-              )} */}
             </>
           )}
         </ModalContent>
