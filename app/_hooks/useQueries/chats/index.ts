@@ -8,6 +8,7 @@ import {
   QUERY_KEY_GROUP_LIST_ACTIONS_INFO,
   QUERY_KEY_GROUP_PARTICIPANTS_COUNT,
   QUERY_KEY_GROUP_PARTICIPANTS_INFO,
+  QUERY_KEY_LAST_MESSAGE_INFO,
   QUERY_KEY_MESSAGES_LIST,
   QUERY_KEY_MESSAGES_PARTICIPANT_INFO_HEADER,
   QUERY_KEY_MESSAGES_PARTICIPANT_INFO_PAGE,
@@ -38,6 +39,7 @@ import {
 } from "@/app/_api/messages/pagePrivateList-api";
 import {
   getGroupActionInfo,
+  getLastMessageInfo,
   getMyGroupChatIds,
   getParticipantsCount,
   getParticipantsInfo,
@@ -297,4 +299,17 @@ export const useGetGroupParticipantsCount = (room_id: string) => {
   });
 
   return { participantsCount, isParticipantsCountLoading, isParticipantsError };
+};
+
+export const useGetLastMessageInfo = (room_id: string) => {
+  const {
+    data: lastMessageInfo,
+    isLoading: isLastMessageInfoLoading,
+    isError: isLastMessageInfoError,
+  } = useQuery({
+    queryKey: [QUERY_KEY_LAST_MESSAGE_INFO, room_id],
+    queryFn: () => getLastMessageInfo(room_id),
+  });
+
+  return { lastMessageInfo, isLastMessageInfoLoading, isLastMessageInfoError };
 };

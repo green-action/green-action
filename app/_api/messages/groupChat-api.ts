@@ -266,3 +266,22 @@ export const getParticipantsCount = async (room_id: string) => {
 
   return data[0].chat_participants.length;
 };
+
+// 그룹채팅방 마지막 메시지, 날짜 가져오기
+export const getLastMessageInfo = async (room_id: string) => {
+  const { data, error } = await supabase
+    .from("chat_messages")
+    .select("content, created_at")
+    .eq("room_id", room_id)
+    .order("created_at", { ascending: false })
+    .limit(1);
+
+  if (error) {
+    console.log(
+      `Error fetching chat messages for room ${room_id}: ${error.message}`,
+    );
+    throw error;
+  }
+
+  return data[0] || [];
+};

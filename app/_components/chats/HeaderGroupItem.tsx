@@ -7,6 +7,7 @@ import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 import {
   useGetActionInfo,
   useGetGroupParticipantsCount,
+  useGetLastMessageInfo,
   useGetUnreadCount,
 } from "@/app/_hooks/useQueries/chats";
 import { formatToLocaleDateTimeString } from "@/utils/date/date";
@@ -25,11 +26,6 @@ const HeaderGroupItem = ({ room_id }: { room_id: string }) => {
     onOpenChange: onGroupChatOpenChange,
   } = useDisclosure();
 
-  // 날짜 형식 변경
-  // const formattedDate = privateChat
-  // ? formatToLocaleDateTimeString(privateChat.created_at ?? "")
-  // : "";
-
   // 채팅방의 action정보
   const { actionInfo, isActionInfoLoading, isActionInfoError } =
     useGetActionInfo(room_id);
@@ -44,7 +40,16 @@ const HeaderGroupItem = ({ room_id }: { room_id: string }) => {
   const { participantsCount, isParticipantsCountLoading, isParticipantsError } =
     useGetGroupParticipantsCount(room_id);
 
-  if (isActionInfoLoading || isLoading || isParticipantsCountLoading) {
+  // 그룹방 마지막 메시지 정보
+  const { lastMessageInfo, isLastMessageInfoLoading, isLastMessageInfoError } =
+    useGetLastMessageInfo(room_id);
+
+  if (
+    isActionInfoLoading ||
+    isLoading ||
+    isParticipantsCountLoading ||
+    isLastMessageInfoLoading
+  ) {
     return (
       <div className="w-[200px] h-auto mx-auto">
         <Image className="" src={SoomLoaing} alt="SoomLoading" />
@@ -56,10 +61,16 @@ const HeaderGroupItem = ({ room_id }: { room_id: string }) => {
     isActionInfoError ||
     isError ||
     isParticipantsError ||
+    isLastMessageInfoError ||
     unreadCount === undefined
   ) {
     return <div>Error</div>;
   }
+
+  // 날짜 형식 변경
+  const formattedDate = lastMessageInfo
+    ? formatToLocaleDateTimeString(lastMessageInfo.created_at ?? "")
+    : "";
 
   return (
     <div
@@ -102,10 +113,19 @@ const HeaderGroupItem = ({ room_id }: { room_id: string }) => {
               </div>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-500">안녕하세요어쩌구</span>
+              {lastMessageInfo?.content ? (
+                <span className="max-w-[170px] text-gray-500 overflow-hidden whitespace-nowrap overflow-ellipsis">
+                  {lastMessageInfo?.content}
+                </span>
+              ) : (
+                <span className="text-gray-500">(아직 메시지가 없습니다.)</span>
+              )}
               <div className="flex items-center gap-3">
-                {/* TODO 날짜 형식 짧게 만들기 */}
-                <span className="text-gray-500">12.03 12:30</span>
+                {lastMessageInfo?.content && (
+                  <span className="text-gray-400 text-sm ml-1">
+                    {formattedDate}
+                  </span>
+                )}
                 {unreadCount > 0 && (
                   <div className="bg-[#B3C8A1] w-7 h-7 rounded-full text-white font-extrabold flex justify-center items-center">
                     {unreadCount}
