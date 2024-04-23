@@ -52,12 +52,10 @@ const LaptopMainSlidder = ({ mode }: { mode: string }) => {
   }
 
   return (
-    //  높이 설정해도 아래만 늘어나고 카드 위가 잘리는 문제 (그림자 등)
-    // <div className="h-[300px]">
     <Slider
       {...settings}
       className={`${
-        mode === MODE_COMMUNITY ? "h-[300px]" : "h-[430px]"
+        mode === MODE_COMMUNITY ? "h-[400px]" : "h-[430px]"
       }  laptop:w-[904px] flex items-center justify-center`}
     >
       {mode === MODE_COMMUNITY
