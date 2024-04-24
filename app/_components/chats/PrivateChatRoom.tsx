@@ -173,8 +173,13 @@ const PrivateChatRoom = ({
           placement="center"
           size="3xl"
           ref={chatRoomRef}
+          className="relative"
         >
-          <ModalContent className="relative max-w-[27%] h-[87%] overflow-y-auto scrollbar-hide rounded-[55px]">
+          <ModalContent
+            className={` max-w-[27%] h-[87%] scrollbar-hide rounded-[55px] ${
+              isActionInfoOpen ? "overflow-hidden" : "overflow-y-auto"
+            }`}
+          >
             {(onClose) => (
               <>
                 <ModalHeader className="fixed bg-white flex justify-between items-center gap-5 w-[27%] shadow-md h-28 z-10 px-8 rounded-tl-[55px] rounded-tr-[55px]">
@@ -202,15 +207,15 @@ const PrivateChatRoom = ({
                     />
                   </div>
                 </ModalHeader>
-                <ModalBody className="bg-[#F3F4F3] pt-32 pb-0">
+                <ModalBody className="bg-[#F3F4F3] pt-32 pb-0 px-0">
                   <div className="flex justify-center h-[100%]">
                     <div className={`flex flex-col w-[100%]`}>
                       {messagesList?.map((message) => (
                         <div
                           className={`m-3 max-w-[70%] ${
                             message.sender_uid === loggedInUserUid
-                              ? "self-end"
-                              : "self-start"
+                              ? "self-end mr-8"
+                              : "self-start ml-8"
                           }`}
                           key={message.id}
                         >
