@@ -172,13 +172,60 @@ const HeaderPrivateList = () => {
     })
     .filter((combined) => combined !== null);
 
-  // console.log("combinedObjects", combinedObjects);
+  // combinedObjects가 null 또는 undefined인 경우 빈 배열로 초기화합니다.
+  const todayMessages = [];
+  const previousMessages = [];
+
+  // combinedObjects가 null 또는 undefined가 아닌 경우에만 처리합니다.
+  if (combinedObjects) {
+    // 오늘 날짜를 문자열로 가져옵니다.
+    const today = new Date().toDateString();
+
+    // combinedObjects를 생성하면서 메시지를 오늘 날짜와 그 이전 날짜로 분리합니다.
+    combinedObjects.map((eachRoomInfo) => {
+      // 각 방 정보에서 메시지 정보를 가져옵니다.
+      const messageDate = new Date(
+        eachRoomInfo.message.created_at,
+      ).toDateString();
+
+      // 생성일이 오늘 날짜와 같으면 todayMessages에 추가합니다.
+      // 그렇지 않으면 previousMessages에 추가합니다.
+      if (messageDate === today) {
+        todayMessages.push(eachRoomInfo);
+      } else {
+        previousMessages.push(eachRoomInfo);
+      }
+    });
+  }
+
+  // console.log("todayMessages", todayMessages);
+  // console.log("previousMessages", previousMessages);
 
   return (
-    <div className="p-10">
-      {combinedObjects?.map((eachRoomInfo) => (
-        <HeaderPrivateItem eachRoomInfo={eachRoomInfo} />
-      ))}
+    // <div className="p-10">
+    // {combinedObjects?.map((eachRoomInfo) => (
+    //   <HeaderPrivateItem eachRoomInfo={eachRoomInfo} />
+    // ))}
+    // </div>
+    <div className="px-10 pt-8">
+      <div className="flex flex-col">
+        <div className="mb-5 ml-2 mt-2 text-[18px] font-black">
+          오늘 받은 알림
+        </div>
+        <div className="mb-7">
+          {todayMessages?.map((eachRoomInfo) => (
+            <HeaderPrivateItem eachRoomInfo={eachRoomInfo} />
+          ))}
+        </div>
+      </div>
+      <div className="flex flex-col">
+        <div className="mb-5 ml-2 mt-2 text-[18px] font-black">이전 알림</div>
+        <div>
+          {previousMessages?.map((eachRoomInfo) => (
+            <HeaderPrivateItem eachRoomInfo={eachRoomInfo} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
