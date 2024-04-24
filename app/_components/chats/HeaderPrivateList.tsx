@@ -219,7 +219,11 @@ const HeaderPrivateList = () => {
         >
           오늘 받은 알림
         </div>
-        <div className="mb-7">
+        <div
+          className={`${
+            isDesktop ? "mb-7" : isLaptop ? "mb-5" : isMobile && "mb-2"
+          }`}
+        >
           {/* TODO any 해결 필요 */}
           {todayMessages?.map((eachRoomInfo: any) => (
             <HeaderPrivateItem eachRoomInfo={eachRoomInfo} mode={MODE_TODAY} />
@@ -228,12 +232,12 @@ const HeaderPrivateList = () => {
       </div>
       <div className="flex flex-col">
         <div
-          className={`mb-5 ml-2 mt-2 font-black ${
+          className={`ml-2 mt-2 font-black ${
             isDesktop
-              ? "text-[18px]"
+              ? "text-[18px] mb-5"
               : isLaptop
-              ? "text-[15px]"
-              : isMobile && "text-[13px]"
+              ? "text-[15px] mb-2"
+              : isMobile && "text-[13px] mb-2"
           }`}
         >
           이전 알림

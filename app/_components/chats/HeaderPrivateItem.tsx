@@ -60,7 +60,7 @@ const HeaderPrivateItem = ({
           ? "mb-6 px-9 py-8"
           : isLaptop
           ? "mb-4 px-7 py-5"
-          : isMobile && "mb-2"
+          : isMobile && "mb-3 px-4 py-2"
       }`}
       onClick={() => {
         onPrivateChatOpen();
@@ -77,33 +77,41 @@ const HeaderPrivateItem = ({
                 ? "w-[65px] h-[65px] mr-7"
                 : isLaptop
                 ? "w-[50px] h-[50px] mr-4"
-                : isMobile && ""
+                : isMobile && "w-[30px] h-[30px] mr-3"
             }`}
           />
         </div>
         <div
           className={`flex flex-col w-full ${
-            isDesktop ? "gap-2" : isLaptop ? "gap-1" : isMobile && ""
+            isDesktop ? "gap-2" : isLaptop ? "gap-1" : isMobile && "gap-1"
           }`}
         >
           <div className="flex justify-between">
             <div>
               <span
                 className={`font-black ${
-                  isDesktop ? "text-xl" : isLaptop ? "text-sm" : isMobile && ""
+                  isDesktop
+                    ? "text-xl"
+                    : isLaptop
+                    ? "text-sm"
+                    : isMobile && "text-xs"
                 }`}
               >
                 {eachRoomInfo.message.user.display_name}
               </span>
             </div>
-            <div className="flex items-center gap-2">
+            <div
+              className={`flex items-center ${
+                isDesktop ? "gap-2" : isLaptop ? "gap-2" : isMobile && "gap-1"
+              }`}
+            >
               <p
                 className={`bg-[#7B7B7B] rounded-xl text-white ${
                   isDesktop
                     ? "px-3"
                     : isLaptop
                     ? "text-xs px-2"
-                    : isMobile && ""
+                    : isMobile && "text-[10px] px-1"
                 }`}
               >
                 {eachRoomInfo.chat_rooms_info.participant_type === "방장" &&
@@ -115,7 +123,7 @@ const HeaderPrivateItem = ({
                     ? "text-lg max-w-[170px]"
                     : isLaptop
                     ? "text-sm max-w-[90px]"
-                    : isMobile && ""
+                    : isMobile && "text-xs max-w-[78px]"
                 }`}
               >
                 {eachRoomInfo.action_info.action_title}
@@ -124,8 +132,12 @@ const HeaderPrivateItem = ({
           </div>
           <div className="flex justify-between">
             <div
-              className={`max-w-[170px] text-gray-500 overflow-hidden whitespace-nowrap overflow-ellipsis ${
-                isLaptop ? "text-sm" : isMobile && ""
+              className={`text-gray-500 overflow-hidden whitespace-nowrap overflow-ellipsis ${
+                isDesktop
+                  ? "max-w-[170px]"
+                  : isLaptop
+                  ? "max-w-[170px] text-sm"
+                  : isMobile && "max-w-[120px] text-xs"
               }`}
             >
               {eachRoomInfo.message.content}
@@ -133,7 +145,7 @@ const HeaderPrivateItem = ({
             <div className="flex items-center gap-2">
               <span
                 className={`text-gray-500 ${
-                  isLaptop ? "text-sm" : isMobile && ""
+                  isLaptop ? "text-sm" : isMobile && "text-xs"
                 }`}
               >
                 {mode === MODE_TODAY
@@ -141,7 +153,15 @@ const HeaderPrivateItem = ({
                   : previousFormatDate(eachRoomInfo.message.created_at)}
               </span>
               {unreadCount > 0 && (
-                <div className="bg-[#B3C8A1] w-7 h-7 ml-1 rounded-full text-white font-extrabold flex justify-center items-center">
+                <div
+                  className={`bg-[#B3C8A1] ml-1 rounded-full text-white font-extrabold flex justify-center items-center ${
+                    isDesktop
+                      ? "w-7 h-7"
+                      : isLaptop
+                      ? "w-6 h-6 text-sm"
+                      : isMobile && "w-4 h-4 text-xs"
+                  }`}
+                >
                   {unreadCount}
                 </div>
               )}

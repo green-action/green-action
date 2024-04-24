@@ -75,7 +75,7 @@ const HeaderChatsSelect = ({ onClose }: { onClose: () => void }) => {
               </div>
             </div>
             <div
-              className={`bg-[#F2F2F2] w-full h-full ${
+              className={`bg-[#F2F2F2] w-full h-[100vh] ${
                 isDesktop
                   ? "mt-[17%]"
                   : isLaptop
