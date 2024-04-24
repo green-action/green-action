@@ -1,7 +1,6 @@
 import React from "react";
 import { Avatar, useDisclosure } from "@nextui-org/react";
 import { useGetUnreadCount } from "@/app/_hooks/useQueries/chats";
-import { formatToLocaleDateTimeString } from "@/utils/date/date";
 import { useSession } from "next-auth/react";
 import { MODE_TODAY } from "@/app/_api/constant";
 import Image from "next/image";
@@ -35,11 +34,11 @@ const HeaderPrivateItem = ({
   // 날짜 형식 변경
   const todayFormatTime = (timeString: string) => {
     const date = new Date(timeString);
-    const hours = date.getHours() % 12 || 12;
+    const hours = (date.getHours() % 12 || 12).toString();
     const minutes = date.getMinutes().toString().padStart(2, "0");
-    const ampm = date.getHours() >= 12 ? "pm" : "am";
+    const ampm = date.getHours() >= 12 ? "오후" : "오전";
 
-    return `${hours}:${minutes} ${ampm}`;
+    return `${ampm} ${hours}:${minutes}`;
   };
 
   const previousFormatDate = (dateString: string) => {

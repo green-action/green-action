@@ -1,7 +1,5 @@
 import React from "react";
-import { Avatar, useDisclosure } from "@nextui-org/react";
-import { LiaCrownSolid } from "react-icons/lia";
-import PrivateChatRoom from "./PrivateChatRoom";
+import { useDisclosure } from "@nextui-org/react";
 import Image from "next/image";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 import {
@@ -10,7 +8,6 @@ import {
   useGetLastMessageInfo,
   useGetUnreadCount,
 } from "@/app/_hooks/useQueries/chats";
-import { formatToLocaleDateTimeString } from "@/utils/date/date";
 import { useSession } from "next-auth/react";
 import GroupChatRoom from "./GroupChatRoom";
 import personIcon from "/app/_assets/image/logo_icon/icon/mypage/person.png";
@@ -80,11 +77,11 @@ const HeaderGroupItem = ({
   // 날짜 형식 변경
   const todayFormatTime = (timeString: string) => {
     const date = new Date(timeString);
-    const hours = date.getHours() % 12 || 12;
+    const hours = (date.getHours() % 12 || 12).toString();
     const minutes = date.getMinutes().toString().padStart(2, "0");
-    const ampm = date.getHours() >= 12 ? "pm" : "am";
+    const ampm = date.getHours() >= 12 ? "오후" : "오전";
 
-    return `${hours}:${minutes} ${ampm}`;
+    return `${ampm} ${hours}:${minutes}`;
   };
 
   const previousFormatDate = (dateString: string) => {
