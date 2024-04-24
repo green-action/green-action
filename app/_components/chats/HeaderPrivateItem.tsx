@@ -33,10 +33,6 @@ const HeaderPrivateItem = ({
   const action_id = eachRoomInfo?.action_info.action_id;
 
   // 날짜 형식 변경
-  const formattedDate = eachRoomInfo
-    ? formatToLocaleDateTimeString(eachRoomInfo.message.created_at)
-    : "";
-
   const todayFormatTime = (timeString: string) => {
     const date = new Date(timeString);
     const hours = date.getHours() % 12 || 12;
@@ -75,7 +71,7 @@ const HeaderPrivateItem = ({
   return (
     <div
       key={room_id}
-      className="flex flex-col bg-white mr-3 mb-5 cursor-pointer rounded-2xl px-9 py-7"
+      className="flex flex-col bg-white mr-3 mb-6 cursor-pointer rounded-2xl px-9 py-8"
       onClick={() => {
         onPrivateChatOpen();
       }}
@@ -86,7 +82,7 @@ const HeaderPrivateItem = ({
             showFallback
             src={eachRoomInfo.message.user.profile_img}
             alt="defaultImg"
-            className="mr-7 w-[60px] h-[60px]"
+            className="mr-7 w-[65px] h-[65px]"
           />
         </div>
         <div className="flex flex-col gap-2 w-full">

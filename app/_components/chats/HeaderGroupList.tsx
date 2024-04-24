@@ -16,6 +16,7 @@ import {
   QUERY_KEY_MY_GROUP_CHAT_IDS,
   QUERY_KEY_UNREAD_MESSAGES_COUNT,
 } from "@/app/_api/queryKeys";
+import { MODE_PREVIOUS, MODE_TODAY } from "@/app/_api/constant";
 
 const HeaderGroupList = () => {
   const session = useSession();
@@ -127,7 +128,7 @@ const HeaderGroupList = () => {
         <div className="mb-7">
           {/* TODO any 해결 필요 */}
           {todayRoomIdsDates?.map((idDate: any) => (
-            <HeaderGroupItem room_id={idDate.room_id} />
+            <HeaderGroupItem room_id={idDate.room_id} mode={MODE_TODAY} />
           ))}
         </div>
       </div>
@@ -136,7 +137,7 @@ const HeaderGroupList = () => {
         <div>
           {/* TODO any 해결 필요 */}
           {previousRoomIdsDates?.map((idDate: any) => (
-            <HeaderGroupItem room_id={idDate.room_id} />
+            <HeaderGroupItem room_id={idDate.room_id} mode={MODE_PREVIOUS} />
           ))}
         </div>
       </div>
