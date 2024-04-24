@@ -6,6 +6,7 @@ import { MODE_TODAY } from "@/app/_api/constant";
 import Image from "next/image";
 import PrivateChatRoom from "./PrivateChatRoom";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
+import { previousFormatDate, todayFormatTime } from "@/utils/date/date";
 
 // TODO any 타입 해결 필요
 const HeaderPrivateItem = ({
@@ -30,24 +31,6 @@ const HeaderPrivateItem = ({
 
   const room_id = eachRoomInfo?.chat_rooms_info.room_id;
   const action_id = eachRoomInfo?.action_info.action_id;
-
-  // 날짜 형식 변경
-  const todayFormatTime = (timeString: string) => {
-    const date = new Date(timeString);
-    const hours = (date.getHours() % 12 || 12).toString();
-    const minutes = date.getMinutes().toString().padStart(2, "0");
-    const ampm = date.getHours() >= 12 ? "오후" : "오전";
-
-    return `${ampm} ${hours}:${minutes}`;
-  };
-
-  const previousFormatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    const month = date.getMonth() + 1; // getMonth()는 0부터 시작하므로 1을 더해줍니다.
-    const day = date.getDate();
-
-    return `${month}월 ${day}일`;
-  };
 
   // 안읽은 메시지 수 가져오기
   const { unreadCount, isLoading, isError } = useGetUnreadCount({

@@ -12,6 +12,7 @@ import { useSession } from "next-auth/react";
 import GroupChatRoom from "./GroupChatRoom";
 import personIcon from "/app/_assets/image/logo_icon/icon/mypage/person.png";
 import { MODE_TODAY } from "@/app/_api/constant";
+import { previousFormatDate, todayFormatTime } from "@/utils/date/date";
 
 const HeaderGroupItem = ({
   room_id,
@@ -73,24 +74,6 @@ const HeaderGroupItem = ({
   }
 
   if (!lastMessageInfo) return [];
-
-  // 날짜 형식 변경
-  const todayFormatTime = (timeString: string) => {
-    const date = new Date(timeString);
-    const hours = (date.getHours() % 12 || 12).toString();
-    const minutes = date.getMinutes().toString().padStart(2, "0");
-    const ampm = date.getHours() >= 12 ? "오후" : "오전";
-
-    return `${ampm} ${hours}:${minutes}`;
-  };
-
-  const previousFormatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    const month = date.getMonth() + 1; // getMonth()는 0부터 시작하므로 1을 더해줍니다.
-    const day = date.getDate();
-
-    return `${month}월 ${day}일`;
-  };
 
   return (
     <div
