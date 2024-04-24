@@ -15,7 +15,15 @@ const HeaderChatsSelect = ({ onClose }: { onClose: () => void }) => {
       <ModalBody className="p-0">
         <div className="flex w-full flex-col">
           <div className="h-screen">
-            <div className="fixed bg-white w-full z-10 flex text-[20px] gap-8 h-[60px] items-end pt-[120px] pl-11">
+            <div
+              className={`${
+                isDesktop
+                  ? "w-full pt-[120px]"
+                  : isLaptop
+                  ? "w-full pt-[120px]"
+                  : isMobile && "max-w-[332px] rounded-[55px] pt-[110px]"
+              } fixed bg-white z-10 flex text-[20px] gap-8 h-[60px] items-end pl-11`}
+            >
               <div
                 className={`pb-2 cursor-pointer ${
                   privateSelected
