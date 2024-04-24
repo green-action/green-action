@@ -8,7 +8,7 @@ import AboutComputerSize from "./AboutComputerSize";
 import AboutMobileSize from "./AboutMobileSize";
 
 const AboutContent = () => {
-  const { isDesktop, isLaptop, isMobile } = useResponsive();
+  const { isMobile } = useResponsive();
 
   // parallax scroll
   const [position, setPosition] = useState(0);
@@ -28,12 +28,7 @@ const AboutContent = () => {
     Aos.init();
   }, []);
 
-  return (
-    <div>
-      {isDesktop && isLaptop && <AboutComputerSize />}
-      {isMobile && <AboutMobileSize />}
-    </div>
-  );
+  return <div>{isMobile ? <AboutMobileSize /> : <AboutComputerSize />}</div>;
 };
 
 export default React.memo(AboutContent);

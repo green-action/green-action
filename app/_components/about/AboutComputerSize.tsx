@@ -116,7 +116,7 @@ const AboutComputerSize = () => {
         {/* third part - 카드 4장 */}
         <div className="flex flex-col  mx-auto items-center desktop:w-[80%] desktop:h-[1344px] desktop:mb-[730px] laptop:w-[885px] laptop:h-[1317px] laptop:mb-[500px]">
           <div>
-            <div className="flex laptop:justify-end">
+            <div className={`flex ${isLaptop && "justify-end"}`}>
               {/* 카드 1 */}
               <div className="flex flex-col justify-between bg-white rounded-[40px] border-1.5 desktop:w-[450px] desktop:h-[590px] desktop:mb-[170px] desktop:mr-[40px] desktop:py-[45px] desktop:px-[60px] laptop:w-[434px] laptop:h-[572px] laptop:mb-[173px] laptop:mr-[18px] laptop:py-[45px] laptop:px-[60px]">
                 <span className="font-[Italiana] text-[40px] text-[#3A3A3A] ">
@@ -157,13 +157,21 @@ const AboutComputerSize = () => {
                 />
                 <div className="absolute flex flex-col justify-between inset-0 desktop:top-[53px] desktop:bottom-[53px] desktop:left-[60px] laptop:top-[45px] laptop:bottom-[45px] laptop:left-[54px]">
                   <span className="font-[Italiana] text-[40px] text-white">
-                    {isDesktop
-                      ? `(3) Share your
-              ${(<br />)} experience`
-                      : `(3) Share
-                ${(<br />)}
-                your
-                ${(<br />)} experience`}
+                    {isDesktop ? (
+                      <>
+                        (3) Share your
+                        <br />
+                        experience
+                      </>
+                    ) : (
+                      <>
+                        (3) Share
+                        <br />
+                        your
+                        <br />
+                        experience
+                      </>
+                    )}
                   </span>
                   <span className="text-white text-[16px] font-[Pretendard-ExtraLight]">
                     green-action을 실천했다면, community에 글을
