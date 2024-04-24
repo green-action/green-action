@@ -95,10 +95,10 @@ const HeaderGroupList = () => {
   if (!roomIds) return [];
 
   return (
-    <>
+    <div className="p-10">
       {roomIds.length > 0 &&
         roomIds?.map((room_id) => <HeaderGroupItem room_id={room_id} />)}
-    </>
+    </div>
   );
 };
 

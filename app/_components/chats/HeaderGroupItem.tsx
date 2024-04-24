@@ -76,7 +76,7 @@ const HeaderGroupItem = ({ room_id }: { room_id: string }) => {
   return (
     <div
       key={room_id}
-      className="flex flex-col bg-white mb-3 cursor-pointer rounded-2xl px-7 py-6"
+      className="flex flex-col bg-white mb-5 cursor-pointer rounded-2xl px-7 py-6"
       onClick={() => {
         onGroupChatOpen();
       }}

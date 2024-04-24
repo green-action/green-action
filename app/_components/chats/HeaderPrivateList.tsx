@@ -175,11 +175,11 @@ const HeaderPrivateList = () => {
   // console.log("combinedObjects", combinedObjects);
 
   return (
-    <>
+    <div className="p-10">
       {combinedObjects?.map((eachRoomInfo) => (
         <HeaderPrivateItem eachRoomInfo={eachRoomInfo} />
       ))}
-    </>
+    </div>
   );
 };
 
