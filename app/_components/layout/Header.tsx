@@ -213,9 +213,9 @@ function Header() {
                     classNames={{
                       tab: "px-0 desktop:h-[40px] laptop:h-[27px]",
                       tabList:
-                        "flex items-center justify-center desktop:gap-[20px] laptop:gap-[30px] desktop:h-[50px] laptop:h-[35px] desktop:min-w-[720px] laptop:min-w-[446px]", //  desktop:min-w-[750px]  d:w-[511px] h-[39px]인데 자체변경? / laptop gap 자체
+                        "flex items-center justify-center desktop:gap-[20px] laptop:gap-[30px] desktop:h-[52px] laptop:h-[35px] desktop:min-w-[720px] laptop:min-w-[446px]", //  desktop:min-w-[750px]  d:w-[511px] h-[39px]인데 자체변경? / laptop gap 자체
                       tabContent:
-                        "flex items-center justify-center text-[#2b2b2b] desktop:text-[13pt] laptop:text-[10pt] laptop:h-[35px] desktop:min-w-[160px]", // ㅣ:text 11 자체
+                        "flex items-center justify-center text-[#2b2b2b] desktop:text-[13pt] dekstop:h-[50px] laptop:text-[10pt] laptop:h-[35px] desktop:min-w-[160px]", // ㅣ:text 11 자체
                     }}
                   >
                     <Tab
@@ -266,12 +266,16 @@ function Header() {
                       {/* 폰트크기 넓이 안맞음 */}
                       <Navbar
                         isBlurred={false}
-                        className="flex desktop:gap-[23px] laptop:gap-[19px] desktop:mt-3 items-center justify-center desktop:w-[345px] laptop:w-[255px] desktop:h-[50px] laptop:h-[35px] rounded-full bg-[#E8E8E8]/30  "
+                        className={`flex desktop:gap-[35px] laptop:gap-[19px] desktop:mt-3 items-center justify-between desktop:w-[360px] px-0 laptop:w-[255px] desktop:h-[50px] laptop:h-[35px] rounded-full ${
+                          pathname === "/"
+                            ? `bg-[#E8E8E8]/30`
+                            : `bg-[#E8E8E8]/80`
+                        } `}
                       >
                         <Link
                           href={"/individualAction"}
                           // 안 맞아서 폰트크기 13pt에 각각 넓이 130px으로 자체적 맞춤
-                          className={`desktop:text-[13pt] laptop:text-[10pt] rounded-full desktop:px-2 desktop:py-1 laptop:px-1 laptop:py-1 hover:bg-[#FFFFFF]/50 hover:border-medium hover:border-[#DDDDDD] desktop:w-[130px] laptop:w-[140px] text-center  ${
+                          className={`desktop:text-[13pt] laptop:text-[10pt] flex items-center dekstop:h-[44px] laptop:h-[32px] rounded-full desktop:px-3 desktop:py-1 laptop:px-1 laptop:py-1 hover:bg-[#FFFFFF]/50 hover:border-medium hover:border-[#DDDDDD] desktop:w-[140px] laptop:w-[140px] text-center  ${
                             childSelected === "/individualAction" &&
                             "bg-[#FFFFFF]/50"
                           }`}
@@ -280,13 +284,33 @@ function Header() {
                         </Link>
                         <Link
                           href={"/groupAction"}
-                          className={`desktop:text-[13pt] laptop:text-[10pt] rounded-full desktop:px-2 desktop:py-1 laptop:px-1 laptop:py-1 hover:bg-[#FFFFFF]/50 hover:border-medium hover:border-[#DDDDDD] desktop:w-[130px] laptop:w-[140px] text-center ${
+                          className={`desktop:text-[13pt] laptop:text-[10pt] flex items-center desktop:h-[44px] laptop:h-[32px] rounded-full desktop:px-3 desktop:py-1 laptop:px-1 laptop:py-1 hover:bg-[#FFFFFF]/50 hover:border-medium hover:border-[#DDDDDD] desktop:w-[140px] laptop:w-[140px] text-center  ${
                             childSelected === "/groupAction" &&
                             "bg-[#FFFFFF]/50"
                           }`}
                         >
                           단체와 함께해요
                         </Link>
+                        {/* <Tabs>
+                          <Tab
+                            href={"/individualAction"}
+                            className={`${
+                              childSelected === "/individualAction" &&
+                              "bg-[#FFFFFF]/50"
+                            }`}
+                          >
+                            개인과 함께해요
+                          </Tab>
+                          <Tab
+                            href={"/groupAction"}
+                            className={`${
+                              childSelected === "/groupAction" &&
+                              "bg-[#FFFFFF]/50"
+                            }`}
+                          >
+                            단체와 함께해요
+                          </Tab>
+                        </Tabs> */}
                       </Navbar>
                     </div>
                   )}

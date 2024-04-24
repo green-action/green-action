@@ -20,11 +20,11 @@ const KakaoMap = ({ placeInfo }: { placeInfo: placeCoordinateType }) => {
     <>
       {/* 카카오맵 api - react sdk 라이브러리 사용 */}
       <Map center={position} level={4} className="w-full h-full rounded-2xl">
-        <CustomOverlayMap
-          position={position} // 커스텀 오버레이가 나타날 위치
-        >
+        <MapMarker position={position} />
+        <CustomOverlayMap position={position}>
           {isDesktop && (
-            <div className="desktop:min-w-[170px] desktop:h-[60px] rounded-2xl bg-white/[88%] desktop:mb-[150px] border-[2px] border-[#5D5D5D]/[40%] p-2 flex flex-col items-center">
+            // <div className="absolute z-10 right-[13%] bottom-[15%]"> 이렇게 하니 화면크기에따라 위치 많이 바뀜
+            <div className="desktop:min-w-[170px] desktop:h-[75px] rounded-2xl bg-white/[88%] border-[2px] border-[#5D5D5D]/[40%] p-2 flex flex-col gap-[5px] justify-center items-center mt-[95px]">
               <p className="font-bold desktop:text-[15px]">
                 {placeInfo.placeName}
               </p>
@@ -45,9 +45,10 @@ const KakaoMap = ({ placeInfo }: { placeInfo: placeCoordinateType }) => {
                 </a>
               </div>
             </div>
+            // </div>
           )}
           {isLaptop && (
-            <div className="min-w-[100px] h-[49px] mb-[123px] rounded-xl bg-[#D2DED0]/90 border-[2px] border-white p-2 flex flex-col items-center">
+            <div className="min-w-[100px] h-[49px] rounded-xl  bg-white/[88%] border-[2px]  border-[#5D5D5D]/[40%] p-2 flex flex-col justify-center items-center mt-[85px]">
               <p className="font-bold laptop:text-[13px]">
                 {placeInfo.placeName}
               </p>
@@ -70,7 +71,7 @@ const KakaoMap = ({ placeInfo }: { placeInfo: placeCoordinateType }) => {
             </div>
           )}
           {isMobile && (
-            <div className="min-w-[90px] h-[38px] mb-[115px] rounded-xl bg-[#D2DED0]/90 border-[2px] border-white p-1 flex flex-col items-center">
+            <div className="min-w-[95px] h-[43px] rounded-xl  bg-white/[88%] border-[2px]  border-[#5D5D5D]/[40%] p-1 flex flex-col items-center mt-[90px]">
               <p className="font-bold text-[11px]">{placeInfo.placeName}</p>
               <div className="flex gap-[6px] text-[10.5px]">
                 <a
@@ -90,7 +91,6 @@ const KakaoMap = ({ placeInfo }: { placeInfo: placeCoordinateType }) => {
               </div>
             </div>
           )}
-          <MapMarker position={position} />
         </CustomOverlayMap>
       </Map>
     </>
