@@ -52,11 +52,14 @@ const MainPage = () => {
         >
           {(isDesktop || isLaptop) && (
             <>
-              <p className="text-center h-[500px] desktop:text-[80pt] laptop:text-[50pt] w-full font-['Italiana']">
-                EXPERIENCE A NEW WAY OF
-                <span className="desktop:mt-[-40px] block">GREEN LIFE</span>
+              <p className="text-center h-[390px] desktop:text-[80pt] laptop:text-[50pt] w-full  font-['Italiana'] ">
+                {/* EXPERIENCE A NEW WAY OF */}
+                First step for green life,
+                <span className="desktop:mt-[-30px] laptop:mt-[-20px] block">
+                  soom
+                </span>
               </p>
-              <p className="text-center desktop:text-[15pt] laptop:text-[11pt] font-['Pretendard-ExtraLight'] desktop:mt-[20px] laptop:mt-[70px]">
+              <p className="text-center desktop:text-[15pt] laptop:text-[11pt] font-['Pretendard-ExtraLight'] desktop:mt-[0px] laptop:mt-[60px]">
                 지구와 함께 숨쉬다
                 <br />
                 SOOM과 함께 일상의 그린 라이프를 경험하세요
@@ -66,8 +69,8 @@ const MainPage = () => {
           {isMobile && (
             <>
               <p className="text-center vh-auto text-[34px] w-full font-['Italiana'] mb-[10px]">
-                EXPERIENCE A NEW
-                <span className="block">WAY OF GREEN LIFE</span>
+                Fist step for green life,
+                <span className="block">soom</span>
               </p>
               <p className="text-center text-[9pt] font-['Pretendard-ExtraLight'] mt-[40px]">
                 지구와 함께 숨쉬다
@@ -79,17 +82,17 @@ const MainPage = () => {
         </section>
 
         {(isDesktop || isLaptop) && (
-          <section className="z-0 flex flex-col items-center justify-center desktop:mt-[480px] laptop:mt-[450px] desktop:pb-[210px] laptop:pb-[190px]">
+          <section className="z-0 flex flex-col items-center justify-center desktop:mt-[530px] laptop:mt-[520px] desktop:pb-[210px] laptop:pb-[190px]">
             <Image
               src={downArrow}
               alt="down-arrow"
-              className="desktop:w-[135px] laptop:w-[87px] desktop:ml-[1400px] laptop:ml-[800px] desktop:mb-[145px] laptop:mb-[200px]"
+              className="desktop:w-[135px] laptop:w-[87px] desktop:ml-[1400px] laptop:ml-[800px] desktop:mb-[90px] laptop:mb-[130px]"
             />
             <Chip
               classNames={{
                 base: "desktop:h-[50px] laptop:h-[47px] desktop:px-5 laptop:px-3 desktop:py-8 bg-transparent border-small border-white",
                 content:
-                  "desktop:w-[209px] desktop:text-[14pt] laptop:text-[13pt] text-white text-center font-['Inter'] drop-shadow ",
+                  "desktop:w-[209px] desktop:text-[14pt] laptop:text-[15px] text-white text-center font-['Inter'] drop-shadow",
               }}
             >
               Community Hot Posts
@@ -139,10 +142,10 @@ const MainPage = () => {
                 classNames={{
                   base: "desktop:h-[50px] laptop:h-[47px] desktop:px-5 laptop:px-3 desktop:py-8 bg-transparent border-small border-[#ADADAD]",
                   content:
-                    "desktop:w-[209px] desktop:text-[14pt] laptop:text-[13pt] text-center text-[#5A5A5A] font-['Inter'] drop-shadow flex justify-center",
+                    "desktop:w-[209px] desktop:text-[14pt] laptop:text-[15px] text-center text-[#5A5A5A] font-['Inter'] drop-shadow flex justify-center",
                 }}
               >
-                Green-Action Hot Posts
+                Green Action Hot Posts
               </Chip>
               <div className="desktop:mx-[205px] desktop:mt-[115px] laptop:mt-[115px]">
                 {isLaptop && <LaptopMainSlidder mode={MODE_ACTION} />}

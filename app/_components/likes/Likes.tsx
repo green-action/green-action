@@ -10,7 +10,14 @@ import { debounce } from "@/utils/debounce/debounce";
 
 import { GoHeart, GoHeartFill } from "react-icons/go";
 
-import { MODE_MOBILE } from "@/app/_api/constant";
+import {
+  MODE_MAIN,
+  MODE_MAIN_DESKTOP,
+  MODE_MAIN_DESKTOP_COUNT,
+  MODE_MAIN_LAPTOP,
+  MODE_MAIN_LAPTOP_COUNT,
+  MODE_MOBILE,
+} from "@/app/_api/constant";
 import { Skeleton } from "@nextui-org/react";
 import AlertModal from "../community/AlertModal";
 
@@ -73,32 +80,51 @@ const Likes = ({
 
   return (
     <>
-      <button onClick={() => handleDebounce()}>
+      <button
+        onClick={() => handleDebounce()}
+        className={`${mode === MODE_MAIN_LAPTOP && "ml-[20px]"} ${
+          (mode === MODE_MAIN_DESKTOP_COUNT ||
+            mode === MODE_MAIN_LAPTOP_COUNT) &&
+          "hidden"
+        }`}
+      >
         {isLiked ? (
           // 아이콘 이미지 - 이미지가 흰색밖에 없어서 리액트 아이콘으로 수정
-
           // <Image
           //   src={heart}
           //   alt="Liked heart"
           //   className="hover:cursor-pointer w-[18px] h-[16px]"
           // />
-          <GoHeartFill className="size-[18px]" />
+          <GoHeartFill
+            className={`size-[18px] ${
+              mode === MODE_MAIN_DESKTOP && "size-[30px]"
+            } ${mode === MODE_MAIN_LAPTOP && "size-[20px]"}`}
+          />
         ) : (
           // <Image
           //   src={emptyHeart}
           //   alt="Liked heart"
           //   className="hover:cursor-pointer w-[18px] h-[16px]"
           // />
-          <GoHeart className="size-[18px]" />
+          <GoHeart
+            className={`size-[18px] ${
+              mode === MODE_MAIN_DESKTOP && "size-[30px]"
+            } ${mode === MODE_MAIN_LAPTOP && "size-[20px]"}`}
+          />
         )}
       </button>
-      {mode !== MODE_MOBILE && (
-        <span
-          className={`text-[16px] ${isOpen ? `text-black` : `text-white`} `}
-        >
-          {data?.likes?.length ?? 0}
-        </span>
-      )}
+      {mode !== MODE_MOBILE &&
+        mode !== MODE_MAIN_DESKTOP &&
+        mode !== MODE_MAIN_LAPTOP && (
+          <span
+            className={` ${mode !== MODE_MAIN_LAPTOP_COUNT && "text-[16px]"} 
+            ${isOpen ? `text-black` : `text-white`} 
+              ${mode === MODE_MAIN_DESKTOP_COUNT && `text-black`} 
+              ${mode === MODE_MAIN_LAPTOP_COUNT && `text-[13px] mb-1`}`}
+          >
+            {data?.likes?.length ?? 0}
+          </span>
+        )}
 
       {isOpenAlertModal && (
         <AlertModal

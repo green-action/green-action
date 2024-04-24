@@ -1,11 +1,14 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-
 import Bookmark from "../bookmark/Bookmark";
 import MyActionRecruitingModal from "./MyActionRecruitingModal";
-
 import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
-
+import { useResponsive } from "@/app/_hooks/responsive";
+import {
+  MODE_MAIN,
+  MODE_MY_BOOKMARKS,
+  MODE_MY_POSTS,
+} from "@/app/_api/constant";
 import {
   Button,
   Card,
@@ -16,19 +19,12 @@ import {
   DropdownTrigger,
   useDisclosure,
 } from "@nextui-org/react";
-
 import rightArrowImg from "../../_assets/image/individualAction/Group89.png";
 import dateImg from "../../_assets/image/individualAction/image170.png";
 import locationImg from "../../_assets/image/individualAction/image35.png";
-
-import {
-  MODE_MAIN,
-  MODE_MY_BOOKMARKS,
-  MODE_MY_POSTS,
-} from "@/app/_api/constant";
-import { useResponsive } from "@/app/_hooks/responsive";
 import optionDots from "/app/_assets/image/logo_icon/icon/mypage/Group 100.png";
 import person from "/app/_assets/image/individualAction/person.png";
+import { GoArrowRight } from "react-icons/go";
 
 // TODO MyAction 타입 사용 후 에러 해결하기
 const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
@@ -75,7 +71,7 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
         <div
           className={`none   ${
             (mode === MODE_MY_BOOKMARKS || mode === MODE_MY_POSTS) &&
-            "laptop:w-[327px] laptop:h-[440px] laptop:mb-[149px] desktop:w-[356px] desktop:h-[505px] desktop:mb-[149px]"
+            "laptop:w-[327px] laptop:h-[465px] laptop:mb-[149px] desktop:w-[356px] desktop:h-[505px] desktop:mb-[149px]"
           } ${
             mode === MODE_MAIN &&
             "desktop:w-[356px] desktop:h-[505px] laptop:w-[287px] laptop:h-[251px]"
@@ -206,11 +202,10 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
 
               {mode !== MODE_MY_POSTS && (
                 <div>
-                  <Image
-                    src={rightArrowImg}
-                    alt="우향 화살표 아이콘"
-                    className={`
-                 desktop:w-[22px] laptop:w-[19px] desktop:h-[15px] laptop:h-[12px] mr-2 desktop:mb-4 laptop:mt-0 cursor-pointer`}
+                  <GoArrowRight
+                    size="30"
+                    color="#9e9d9d"
+                    className="cursor-pointer"
                     onClick={handleActionClick}
                   />
                 </div>
