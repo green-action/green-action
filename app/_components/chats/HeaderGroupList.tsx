@@ -122,7 +122,11 @@ const HeaderGroupList = () => {
   });
 
   return (
-    <div className="px-10 pt-8">
+    <div
+      className={`pt-8 ${
+        isDesktop ? "px-10" : isLaptop ? "px-8" : isMobile && "px-5"
+      }`}
+    >
       <div className="flex flex-col">
         <div
           className={`ml-2 mt-2 font-black ${

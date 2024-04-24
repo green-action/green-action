@@ -85,7 +85,7 @@ const HeaderGroupItem = ({
           ? "mb-6 px-9 py-8"
           : isLaptop
           ? "mb-4 px-6 py-5"
-          : isMobile && "mb-3 px-4 py-2"
+          : isMobile && "mb-3 px-4 py-[10px]"
       }`}
       onClick={() => {
         onGroupChatOpen();
@@ -96,13 +96,12 @@ const HeaderGroupItem = ({
           <img
             src={actionInfo?.action_url}
             alt="defaultImg"
-            // className="mr-10 w-[65px] h-[65px] "
             className={`rounded-full ${
               isDesktop
                 ? "w-[65px] h-[65px] mr-10"
                 : isLaptop
                 ? "w-[50px] h-[50px] mr-7"
-                : isMobile && "w-[30px] h-[30px] mr-3"
+                : isMobile && "w-[30px] h-[30px] mr-5"
             }`}
           />
         </div>
@@ -149,12 +148,12 @@ const HeaderGroupItem = ({
                     ? "w-[20px] h-[20px]"
                     : isLaptop
                     ? "w-[17px] h-[17px]"
-                    : isMobile && ""
+                    : isMobile && "w-[14px] h-[14px]"
                 }`}
               />
               <span
                 className={`text-[#7B7B7B] ${
-                  isLaptop ? "text-sm" : isMobile && ""
+                  isLaptop ? "text-sm" : isMobile && "text-xs"
                 }`}
               >
                 {participantsCount} / {actionInfo?.recruit_number}
@@ -196,7 +195,15 @@ const HeaderGroupItem = ({
                   : previousFormatDate(lastMessageInfo.created_at)}
               </span>
               {unreadCount > 0 && (
-                <div className="bg-[#B3C8A1] w-7 h-7 ml-1 rounded-full text-white font-extrabold flex justify-center items-center">
+                <div
+                  className={`bg-[#B3C8A1] ml-1 rounded-full text-white font-extrabold flex justify-center items-center ${
+                    isDesktop
+                      ? "w-7 h-7"
+                      : isLaptop
+                      ? "w-6 h-6 text-sm"
+                      : isMobile && "w-4 h-4 text-xs"
+                  }`}
+                >
                   {unreadCount}
                 </div>
               )}
