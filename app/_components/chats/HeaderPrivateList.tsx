@@ -202,9 +202,21 @@ const HeaderPrivateList = () => {
   }
 
   return (
-    <div className="px-10 pt-8">
+    <div
+      className={`pt-8 ${
+        isDesktop ? "px-10" : isLaptop ? "px-8" : isMobile && "px-5"
+      }`}
+    >
       <div className="flex flex-col">
-        <div className="mb-5 ml-2 mt-2 text-[18px] font-black">
+        <div
+          className={`ml-2 mt-2 font-black ${
+            isDesktop
+              ? "text-[18px] mb-5"
+              : isLaptop
+              ? "text-[15px] mb-2"
+              : isMobile && "text-[13px] mb-2"
+          }`}
+        >
           오늘 받은 알림
         </div>
         <div className="mb-7">
@@ -215,7 +227,17 @@ const HeaderPrivateList = () => {
         </div>
       </div>
       <div className="flex flex-col">
-        <div className="mb-5 ml-2 mt-2 text-[18px] font-black">이전 알림</div>
+        <div
+          className={`mb-5 ml-2 mt-2 font-black ${
+            isDesktop
+              ? "text-[18px]"
+              : isLaptop
+              ? "text-[15px]"
+              : isMobile && "text-[13px]"
+          }`}
+        >
+          이전 알림
+        </div>
         <div>
           {/* TODO any 해결 필요 */}
           {previousMessages?.map((eachRoomInfo: any) => (

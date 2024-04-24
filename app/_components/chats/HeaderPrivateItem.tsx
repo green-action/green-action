@@ -53,7 +53,7 @@ const HeaderPrivateItem = ({
   return (
     <div
       key={room_id}
-      className="flex flex-col bg-white mr-3 mb-6 cursor-pointer rounded-2xl px-9 py-8"
+      className="flex flex-col bg-white mb-6 cursor-pointer rounded-2xl px-9 py-8"
       onClick={() => {
         onPrivateChatOpen();
       }}
