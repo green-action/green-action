@@ -27,9 +27,9 @@ import { IoPaperPlane } from "react-icons/io5";
 import { IoReorderThreeOutline } from "react-icons/io5";
 import { useResponsive } from "@/app/_hooks/responsive";
 import { formatToLocaleDateTimeString } from "@/utils/date/date";
+import GroupInsideModal from "./GroupInsideModal";
 
 import type { ChatProps } from "@/app/_types/realtime-chats";
-import GroupInsideModal from "./GroupInsideModal";
 
 const PrivateChatRoom = ({
   isOpen,
@@ -110,7 +110,6 @@ const PrivateChatRoom = ({
     loggedInUserUid,
     roomId,
   });
-  // TODO 스크롤이 위에 있을때 new message 개수 표시하는건 어떻게 처리해야할까?
 
   // // 채팅방의 action정보, 참가자 정보
   // const { actionInfo, isActionInfoLoading, isActionInfoError } =
@@ -159,11 +158,6 @@ const PrivateChatRoom = ({
   ) {
     return <div>Error</div>;
   }
-
-  // console.log("actionParticipantsInfo", actionParticipantsInfo);
-
-  // console.log("actionInfo", actionInfo);
-  // console.log("participantInfo", participantInfo);
 
   // 메시지 보내기 핸들러
   const handleSendMessage = async () => {

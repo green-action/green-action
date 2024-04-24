@@ -173,17 +173,19 @@ const HeaderPrivateList = () => {
     })
     .filter((combined) => combined !== null);
 
+  // TODO any 해결필요
   // combinedObjects가 null 또는 undefined인 경우 빈 배열로 초기화합니다.
-  const todayMessages = [];
-  const previousMessages = [];
+  const todayMessages: any = [];
+  const previousMessages: any = [];
 
   // combinedObjects가 null 또는 undefined가 아닌 경우에만 처리합니다.
   if (combinedObjects) {
     // 오늘 날짜를 문자열로 가져옵니다.
     const today = new Date().toDateString();
 
+    // TODO any 해결 필요
     // combinedObjects를 생성하면서 메시지를 오늘 날짜와 그 이전 날짜로 분리합니다.
-    combinedObjects.map((eachRoomInfo) => {
+    combinedObjects.map((eachRoomInfo: any) => {
       // 각 방 정보에서 메시지 정보를 가져옵니다.
       const messageDate = new Date(
         eachRoomInfo.message.created_at,
@@ -199,22 +201,15 @@ const HeaderPrivateList = () => {
     });
   }
 
-  // console.log("todayMessages", todayMessages);
-  // console.log("previousMessages", previousMessages);
-
   return (
-    // <div className="p-10">
-    // {combinedObjects?.map((eachRoomInfo) => (
-    //   <HeaderPrivateItem eachRoomInfo={eachRoomInfo} />
-    // ))}
-    // </div>
     <div className="px-10 pt-8">
       <div className="flex flex-col">
         <div className="mb-5 ml-2 mt-2 text-[18px] font-black">
           오늘 받은 알림
         </div>
         <div className="mb-7">
-          {todayMessages?.map((eachRoomInfo) => (
+          {/* TODO any 해결 필요 */}
+          {todayMessages?.map((eachRoomInfo: any) => (
             <HeaderPrivateItem eachRoomInfo={eachRoomInfo} mode={MODE_TODAY} />
           ))}
         </div>
@@ -222,7 +217,8 @@ const HeaderPrivateList = () => {
       <div className="flex flex-col">
         <div className="mb-5 ml-2 mt-2 text-[18px] font-black">이전 알림</div>
         <div>
-          {previousMessages?.map((eachRoomInfo) => (
+          {/* TODO any 해결 필요 */}
+          {previousMessages?.map((eachRoomInfo: any) => (
             <HeaderPrivateItem
               eachRoomInfo={eachRoomInfo}
               mode={MODE_PREVIOUS}

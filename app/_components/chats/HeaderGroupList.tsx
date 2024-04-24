@@ -102,8 +102,9 @@ const HeaderGroupList = () => {
   if (!roomIds || !lastDates) return [];
 
   const today = new Date().toDateString();
-  const todayRoomIdsDates = [];
-  const previousRoomIdsDates = [];
+  // TODO any 해결필요
+  const todayRoomIdsDates: any = [];
+  const previousRoomIdsDates: any = [];
 
   lastDates?.map((item) => {
     if (item === null) return [];
@@ -118,17 +119,14 @@ const HeaderGroupList = () => {
   });
 
   return (
-    // <div className="p-10">
-    //   {roomIds.length > 0 &&
-    //     roomIds?.map((room_id) => <HeaderGroupItem room_id={room_id} />)}
-    // </div>
     <div className="px-10 pt-8">
       <div className="flex flex-col">
         <div className="mb-5 ml-2 mt-2 text-[18px] font-black">
           오늘 받은 알림
         </div>
         <div className="mb-7">
-          {todayRoomIdsDates?.map((idDate) => (
+          {/* TODO any 해결 필요 */}
+          {todayRoomIdsDates?.map((idDate: any) => (
             <HeaderGroupItem room_id={idDate.room_id} />
           ))}
         </div>
@@ -136,7 +134,8 @@ const HeaderGroupList = () => {
       <div className="flex flex-col">
         <div className="mb-5 ml-2 mt-2 text-[18px] font-black">이전 알림</div>
         <div>
-          {previousRoomIdsDates?.map((idDate) => (
+          {/* TODO any 해결 필요 */}
+          {previousRoomIdsDates?.map((idDate: any) => (
             <HeaderGroupItem room_id={idDate.room_id} />
           ))}
         </div>
