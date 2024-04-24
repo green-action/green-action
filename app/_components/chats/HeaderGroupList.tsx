@@ -8,6 +8,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/utils/supabase/client";
 import {
   QUERY_KEY_ALL_UNREAD_COUNT,
+  QUERY_KEY_GROUP_PARTICIPANTS_COUNT,
   QUERY_KEY_LAST_MESSAGE_INFO,
   QUERY_KEY_MY_GROUP_CHAT_IDS,
   QUERY_KEY_UNREAD_MESSAGES_COUNT,
@@ -30,6 +31,9 @@ const HeaderGroupList = () => {
       () => {
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEY_MY_GROUP_CHAT_IDS],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY_GROUP_PARTICIPANTS_COUNT],
         });
       },
     );

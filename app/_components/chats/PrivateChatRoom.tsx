@@ -72,7 +72,7 @@ const PrivateChatRoom = ({
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "chat_messages" },
 
-        // 채팅 리스트 무효화 성공 - 리스트 전체를 무효화 (수정 필요)
+        // TODO 채팅 리스트 무효화 성공 - 리스트 전체를 무효화 (수정 필요 - setQueryData 등)
         () => {
           queryClient.invalidateQueries({
             queryKey: [QUERY_KEY_MESSAGES_LIST],

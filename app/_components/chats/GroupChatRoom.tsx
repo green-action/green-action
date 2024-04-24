@@ -73,7 +73,6 @@ const GroupChatRoom = ({
 
         // TODO 안읽은 메시지 (헤더 아이콘) 같이 무효화하기
         // TODO 헤더 채팅리스트도 무효화 (얘는 리스트에서 해줘야할듯?)
-        // 채팅 리스트 무효화 성공 - 리스트 전체를 무효화 (수정 필요)
         () => {
           queryClient.invalidateQueries({
             queryKey: [QUERY_KEY_MESSAGES_LIST],
