@@ -18,11 +18,11 @@ const HeaderChatsSelect = ({ onClose }: { onClose: () => void }) => {
             <div
               className={`${
                 isDesktop
-                  ? "w-full pt-[120px]"
+                  ? "w-full"
                   : isLaptop
-                  ? "w-full pt-[120px]"
-                  : isMobile && "max-w-[332px] rounded-[55px] pt-[110px]"
-              } fixed bg-white z-10 flex text-[20px] gap-8 h-[60px] items-end pl-11`}
+                  ? "w-full"
+                  : isMobile && "w-[332px] rounded-t-[55px]"
+              } fixed bg-white z-10 flex text-[20px] h-[13%] gap-8 h-[60px] items-end pl-11`}
             >
               <div
                 className={`pb-2 cursor-pointer ${
@@ -45,7 +45,15 @@ const HeaderChatsSelect = ({ onClose }: { onClose: () => void }) => {
                 단체 채팅
               </div>
             </div>
-            <div className="bg-[#F2F2F2] w-full h-full mt-[110px]">
+            <div
+              className={`bg-[#F2F2F2] w-full h-full ${
+                isDesktop
+                  ? "mt-[17%]"
+                  : isLaptop
+                  ? "mt-[15%]"
+                  : isMobile && "mt-[15%]"
+              }`}
+            >
               {privateSelected ? <HeaderPrivateList /> : <HeaderGroupList />}
             </div>
           </div>
