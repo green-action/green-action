@@ -13,7 +13,7 @@ const PushListModal = ({
     <>
       <Modal size="full" isOpen={isOpen} onClose={onClose}>
         <ModalContent className="w-[600px] absolute right-0  overflow-y-auto scrollbar-hide">
-          <CommentAlarm />
+          <CommentAlarm onClose={onClose} />
         </ModalContent>
       </Modal>
     </>

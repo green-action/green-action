@@ -8,8 +8,15 @@ import { supabase } from "@/utils/supabase/client";
 import { RealtimePostgresInsertPayload } from "@supabase/supabase-js";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import {
+  Card,
+  CardBody,
+  ModalBody,
+  ModalFooter,
+  Button,
+} from "@nextui-org/react";
 
-const CommentAlarm = () => {
+const CommentAlarm = ({ onClose }: { onClose: () => void }) => {
   const [comments, setComments] = useState<
     RealtimePostgresInsertPayload<{ [key: string]: any }>[]
   >([]);
@@ -118,20 +125,6 @@ const CommentAlarm = () => {
     }
   }, [commentData, loggedInUserUid]);
 
-  // const {
-  //   data: pushList,
-  //   isLoading: pushListLoading,
-  //   isError: pushListError,
-  // } = useMyPushList(loggedInUserUid);
-
-  // if (isLoading || pushListLoading) {
-  //   return <div>Loading...</div>;
-  // }
-
-  // if (isError || pushListError) {
-  //   return <div>Error occurred</div>;
-  // }
-
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -141,18 +134,24 @@ const CommentAlarm = () => {
   }
 
   return (
-    <div>
-      <div>commentAlarm</div>
-      <div>
-        {/* 최신 알림 메시지 표시 */}
-        {alarm &&
-          alarm.map((item, index) => (
-            <div key={index}>
-              <li>{item.message}</li>
-            </div>
-          ))}
-      </div>
-    </div>
+    <>
+      <ModalBody>
+        <div>알림</div>
+        <div>
+          {alarm &&
+            alarm.map((item, index) => (
+              <Card key={index} className="mb-[20px]">
+                <CardBody className="">{item.message}</CardBody>
+              </Card>
+            ))}
+        </div>
+      </ModalBody>
+      <ModalFooter className="bg-[#EAEAEA] flex justify-start">
+        <Button color="default" onPress={onClose}>
+          close
+        </Button>
+      </ModalFooter>
+    </>
   );
 };
 
