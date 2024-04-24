@@ -16,6 +16,7 @@ import {
 import HeaderPrivateItem from "./HeaderPrivateItem";
 import Image from "next/image";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
+import { MODE_PREVIOUS, MODE_TODAY } from "@/app/_api/constant";
 
 const HeaderPrivateList = () => {
   const session = useSession();
@@ -214,7 +215,7 @@ const HeaderPrivateList = () => {
         </div>
         <div className="mb-7">
           {todayMessages?.map((eachRoomInfo) => (
-            <HeaderPrivateItem eachRoomInfo={eachRoomInfo} />
+            <HeaderPrivateItem eachRoomInfo={eachRoomInfo} mode={MODE_TODAY} />
           ))}
         </div>
       </div>
@@ -222,7 +223,10 @@ const HeaderPrivateList = () => {
         <div className="mb-5 ml-2 mt-2 text-[18px] font-black">이전 알림</div>
         <div>
           {previousMessages?.map((eachRoomInfo) => (
-            <HeaderPrivateItem eachRoomInfo={eachRoomInfo} />
+            <HeaderPrivateItem
+              eachRoomInfo={eachRoomInfo}
+              mode={MODE_PREVIOUS}
+            />
           ))}
         </div>
       </div>

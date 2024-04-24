@@ -18,7 +18,7 @@ const ChatsListModal = ({
   return (
     <>
       <Modal size="full" isOpen={isOpen} onClose={onClose}>
-        <ModalContent className="w-[650px] absolute right-0 overflow-y-auto scrollbar-hide">
+        <ModalContent className="w-[700px] absolute right-0 overflow-y-auto scrollbar-hide">
           {(onClose) => (
             <>
               {mode === MODE_HEADER && <HeaderChatsSelect onClose={onClose} />}
