@@ -53,6 +53,7 @@ export const QUERY_KEY_GROUP_LIST_ACTIONS_INFO = `group_list_actions_info`;
 export const QUERY_KEY_GROUP_PARTICIPANTS_COUNT = `group_participants_count`;
 export const QUERY_KEY_LAST_MESSAGE_INFO = `group_list_last_message_info`;
 export const QUERY_KEY_ACTION_PARTICIPANTS_INFO = `action_participants_info`;
+export const QUERY_KEY_LAST_MESSAGE_DATES = `last_message_dates`;
 
 // push
 export const QUERY_KEY_MY_COMMUNITYLIST = `my_communityList`;

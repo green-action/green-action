@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import HeaderGroupItem from "./HeaderGroupItem";
-import { useGetMyGroupChatIds } from "@/app/_hooks/useQueries/chats";
+import {
+  useGetLastDates,
+  useGetMyGroupChatIds,
+} from "@/app/_hooks/useQueries/chats";
 import { useSession } from "next-auth/react";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 import Image from "next/image";
@@ -80,7 +83,11 @@ const HeaderGroupList = () => {
     };
   }, [roomIds]);
 
-  if (isRoomIdsLoading) {
+  // 마지막 메시지 날짜에 따라 채팅방 id를 오늘/이전 알림으로 나누기 위해 가져옴
+  const { lastDates, isLastDatesLoading, isLastDatesError } =
+    useGetLastDates(roomIds);
+
+  if (isRoomIdsLoading || isLastDatesLoading) {
     return (
       <div className="w-[200px] h-auto mx-auto">
         <Image className="" src={SoomLoaing} alt="SoomLoading" />
@@ -88,7 +95,7 @@ const HeaderGroupList = () => {
     );
   }
 
-  if (isRoomIdsError) {
+  if (isRoomIdsError || isLastDatesError) {
     return <div>Error</div>;
   }
 

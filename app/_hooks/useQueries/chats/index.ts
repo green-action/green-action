@@ -12,6 +12,7 @@ import {
   QUERY_KEY_GROUP_LIST_ACTIONS_INFO,
   QUERY_KEY_GROUP_PARTICIPANTS_COUNT,
   QUERY_KEY_GROUP_PARTICIPANTS_INFO,
+  QUERY_KEY_LAST_MESSAGE_DATES,
   QUERY_KEY_LAST_MESSAGE_INFO,
   QUERY_KEY_MESSAGES_LIST,
   QUERY_KEY_MESSAGES_PARTICIPANT_INFO_HEADER,
@@ -43,6 +44,7 @@ import {
 } from "@/app/_api/messages/pagePrivateList-api";
 import {
   getGroupActionInfo,
+  getLastDates,
   getLastMessageInfo,
   getMyGroupChatIds,
   getParticipantsCount,
@@ -333,4 +335,23 @@ export const useGetActionParticipantsInfo = (action_id: string) => {
     isActionParticipantsLoading,
     isActionParticipantsError,
   };
+};
+
+export const useGetLastDates = (roomIds: string[] | undefined) => {
+  const {
+    data: lastDates,
+    isLoading: isLastDatesLoading,
+    isError: isLastDatesError,
+  } = useQuery({
+    queryKey: [QUERY_KEY_LAST_MESSAGE_DATES],
+    queryFn: async () => {
+      if (roomIds) {
+        return await getLastDates(roomIds);
+      }
+      return [];
+    },
+    enabled: !!roomIds,
+  });
+
+  return { lastDates, isLastDatesLoading, isLastDatesError };
 };
