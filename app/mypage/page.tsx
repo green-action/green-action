@@ -36,26 +36,26 @@ const MyPage = () => {
   const {
     data: myActions,
     isLoading: isActionsLoading,
-    isError: IsActionsError,
+    isError: isActionsError,
   } = useFetchMyGreenActions(user_uid);
 
   const {
     data: myPosts,
     isLoading: isPostsLoading,
-    isError: IsPostsError,
+    isError: isPostsError,
   } = usefetchMyCommunityPosts(user_uid);
 
   const {
     data: myBookmarks,
     isLoading: isBookmarksLoading,
-    isError: IsBookmarksError,
+    isError: isBookmarksError,
   } = usefetchBookmarkedActions(user_uid);
 
   // 유저 정보 조회
   const {
     data: userInfo,
     isLoading: isUserInfoLoading,
-    isError: IsUserInfoError,
+    isError: isUserInfoError,
   } = useFetchUserInfo(user_uid);
 
   const { display_name, profile_img } = (userInfo as User) || ""; // as User 외에도 || '' 처리해줘야 에러안뜸
@@ -147,6 +147,15 @@ const MyPage = () => {
     return (
       <div className="flex justify-center items-center w-screen h-[500px]">
         <Image src={SoomLoading} alt="SoomLoading" className="w-[100px]" />
+      </div>
+    );
+  }
+
+  if (isActionsError || isPostsError || isBookmarksError || isUserInfoError) {
+    return (
+      <div className="flex justify-center items-center w-screen h-[500px]">
+        ❌ ERROR : 이 페이지를 표시하는 도중 문제가 발생했습니다. 다른 페이지로
+        이동하시거나 다시 방문해주세요.
       </div>
     );
   }

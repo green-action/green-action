@@ -14,6 +14,7 @@ import { useResponsive } from "@/app/_hooks/responsive";
 import type { Index } from "@/app/_types";
 import Image from "next/image";
 import IndividualSkeleton from "./IndividualSkeleton";
+import { GoArrowRight } from "react-icons/go";
 
 interface ChildProps {
   filteredActions: Index;
@@ -101,20 +102,22 @@ const PageList: React.FC<ChildProps> = ({
                 </Chip>
               )}
               {isDesktop && (
-                <div className="flex gap-4 mt-4  desktop:max-w-[70%] laptop:w-[70%] ml-7 laptop:ml-3">
-                  <h4 className="font-bold  desktop:text-[15px] laptop:text-[15px] text-black mt-[-4px] phone:text-[11px]">
-                    {(post.title?.length as any) > 17
+                <div className="flex gap-4 mt-4 dekstop:w-full laptop:w-[70%] ml-7 laptop:ml-3">
+                  <h4 className="font-bold  desktop:text-[15px] laptop:text-[15px] text-black mt-[-4px] phone:text-[11px] overflow-hidden whitespace-nowrap overflow-ellipsis">
+                    {/* {(post.title?.length as any) > 17
                       ? `${post.title?.substring(0, 17)}...`
-                      : post.title}
+                      : post.title} */}
+                    {post.title}
                   </h4>
                 </div>
               )}
               {isLaptop && (
                 <div className="flex gap-4 mt-4  desktop:max-w-[70%] laptop:w-[70%] ml-7 laptop:ml-3">
-                  <h4 className="font-bold  desktop:text-[15px] laptop:text-[15px] text-black mt-[-4px] phone:text-[11px]">
-                    {(post.title?.length as any) > 17
+                  <h4 className="font-bold  desktop:text-[15px] laptop:text-[15px] text-black mt-[-4px] phone:text-[11px] overflow-hidden whitespace-nowrap overflow-ellipsis">
+                    {/* {(post.title?.length as any) > 17
                       ? `${post.title?.substring(0, 17)}...`
-                      : post.title}
+                      : post.title} */}
+                    {post.title}
                   </h4>
                 </div>
               )}
@@ -192,10 +195,15 @@ const PageList: React.FC<ChildProps> = ({
                 </div>
                 <Bookmark action_id={post.id} mode={MODE_INDIVIDUAL_ACTION} />
               </div>
-              <Image
+              {/* <Image
                 src={arrow}
                 alt="화살표"
                 className="w-[24px] h-[12px] ml-auto mr-2  desktop:mb-4 laptop:mb-4 phone:mb-1 cursor-pointer"
+                onClick={() => handleClick(post.id)}
+              /> */}
+              <GoArrowRight
+                color="#9e9d9d"
+                className="cursor-pointer ml-auto mr-2 desktop:mb-2 desktop:size-[33px] laptop:mb-1 laptop:size-[28px] phone:mb-1 phone:size-[20px]"
                 onClick={() => handleClick(post.id)}
               />
             </div>

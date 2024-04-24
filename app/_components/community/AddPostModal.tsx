@@ -31,6 +31,8 @@ import { MODE_COMMUNITY } from "@/app/_api/constant";
 import { updateUserPoint } from "@/app/_api/individualAction-add/add-api";
 import { LuPencilLine } from "react-icons/lu";
 import AlertModal from "./AlertModal";
+import postImg from "../../_assets/image/individualAction/write.png";
+import Image from "next/image";
 
 const AddPostModal = () => {
   const [uploadedFileUrl, setUploadedFileUrl] = useState<string>("");
@@ -135,12 +137,18 @@ const AddPostModal = () => {
   return (
     <>
       {/* 글쓰기 버튼 */}
-      <Button
-        className="fixed z-50 bottom-[8rem] right-[1.5rem] rounded-full w-20 h-20 bg-gray-300 flex items-center justify-center phone:bottom-[6rem]"
+      {/* <Button
+        className="fixed z-50 bottom-[8rem] right-[1.5rem] rounded-full w-20 h-20 bg-gray-300 flex items-center justify-center"
         onClick={handleAddPostClick}
-      >
-        <LuPencilLine className="w-8 h-8" />
-      </Button>
+      > */}
+      {/* <LuPencilLine className="w-8 h-8" /> */}
+      <Image
+        src={postImg}
+        alt="게시글 작성 이미지"
+        className="desktop:size-[95px] laptop:size-[80px] fixed z-50 bottom-[8rem] right-[1.5rem] cursor-pointer hover:scale-105 ease-in-out duration-300"
+        onClick={handleAddPostClick}
+      />
+      {/* </Button> */}
       {/* 게시글 글쓰기 모달창 */}
       <Modal
         size="lg"

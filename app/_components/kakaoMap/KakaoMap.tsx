@@ -24,7 +24,7 @@ const KakaoMap = ({ placeInfo }: { placeInfo: placeCoordinateType }) => {
           position={position} // 커스텀 오버레이가 나타날 위치
         >
           {isDesktop && (
-            <div className="desktop:min-w-[170px] desktop:h-[60px] rounded-2xl bg-[#D2DED0]/90 desktop:mb-[150px] border-[2px] border-white p-2 flex flex-col items-center">
+            <div className="desktop:min-w-[170px] desktop:h-[60px] rounded-2xl bg-white/[88%] desktop:mb-[150px] border-[2px] border-[#5D5D5D]/[40%] p-2 flex flex-col items-center">
               <p className="font-bold desktop:text-[15px]">
                 {placeInfo.placeName}
               </p>
@@ -32,14 +32,14 @@ const KakaoMap = ({ placeInfo }: { placeInfo: placeCoordinateType }) => {
                 <a
                   href={detailMapLink}
                   target="_blank"
-                  className="text-[#1E1E1E] hover:text-[#797979]"
+                  className="text-[#5D5D5D] hover:text-black font-semibold"
                 >
                   큰지도보기
                 </a>
                 <a
                   href={showDirectLink}
                   target="_blank"
-                  className="text-[#1E1E1E] hover:text-[#797979]"
+                  className="text-[#5D5D5D] hover:text-black font-semibold"
                 >
                   길찾기
                 </a>

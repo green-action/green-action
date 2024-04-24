@@ -23,7 +23,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
+import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
 import graylogoImg from "/app/_assets/image/logo_icon/logo/gray.png";
 import whitelogoImg from "/app/_assets/image/logo_icon/logo/white.png";
 
@@ -46,9 +46,11 @@ function Header() {
   const isLoggedIn = !!session.data;
   const user_uid = session?.data?.user.user_uid as string;
 
-  const pathsMainAbout = pathname === "/" || pathname === "/about";
-
-  const { data, isLoading: isUserDataLoading } = useFetchUserInfo(user_uid);
+  const {
+    data,
+    isLoading: isUserDataLoading,
+    isError: isUserDataError,
+  } = useFetchUserInfo(user_uid);
   const { display_name, profile_img } = (data as User) || "";
 
   const [isOpen, setIsOpen] = useState(false);
@@ -157,16 +159,22 @@ function Header() {
   const { allUnreadCount, isAllUnreadCountLoading, isAllUnreadCountError } =
     useGetAllUnreadCount(user_uid);
 
-  if (isAllUnreadCountLoading) {
+  if (isAllUnreadCountLoading || isUserDataLoading) {
     return (
-      <div className="w-[200px] h-auto mx-auto">
-        <Image className="" src={SoomLoaing} alt="SoomLoading" />
+      <div className="w-[80px] h-auto mx-auto">
+        <Image className="" src={SoomLoading} alt="SoomLoading" />
       </div>
     );
   }
 
   if (isAllUnreadCountError) {
-    return <div>Error</div>;
+    // isUserDataError 처리하면 로그아웃상태에서 안뜸
+    return (
+      <div className="flex justify-center items-center w-screen h-[500px]">
+        ❌ ERROR : 이 페이지를 표시하는 도중 문제가 발생했습니다. 다른 페이지로
+        이동하시거나 다시 방문해주세요.
+      </div>
+    );
   }
 
   // console.log("allUnreadCount", allUnreadCount);
@@ -175,7 +183,6 @@ function Header() {
     <>
       {(isDesktop || isLaptop) && (
         <>
-          {/* NOTE 로그인/회원가입 제외 모든페이지에서 적용하도록 변경 - main, about 페이지는 pathsMainAbout 변수를 설정해 경우를 처리 (로고이미지, signUp 글자 색깔) */}
           {pathname !== "/signup" && pathname !== "/login" && (
             <Navbar
               isBlurred={isScrolled} // TODO 스크롤내리면 isBlurred 처리
@@ -192,15 +199,7 @@ function Header() {
                     : graylogoImg // 나머지 페이지에서는 항상 gray로고 사용
                 }
                 alt="logo-image"
-                className={`w-[94px] cursor-pointer desktop:h-[21.63px] laptop:h-[21.63px] desktop:ml-[-400px] desktop:mr-[410px]
-            ${
-              isLoggedIn
-                ? display_name?.length >= 5
-                  ? `laptop:ml-[0px] laptop:mr-[0px]`
-                  : `laptop:ml-[30px] laptop:mr-[10px]`
-                : `laptop:ml-[30px] laptop:mr-[100px]`
-            }
-            `}
+                className={`w-[94px] cursor-pointer desktop:h-[21.63px] laptop:h-[21.63px] desktop:ml-[-40%] desktop:mr-[42%] laptop:ml-[5%] laptop:mr-[10%]`}
                 onClick={handleLogoLinkClick}
               />
               <NavbarContent>
@@ -294,13 +293,7 @@ function Header() {
                 </div>
                 {isLoggedIn ? (
                   <>
-                    <div
-                      className={`flex gap-[25px] ${
-                        display_name?.length >= 5
-                          ? `desktop:ml-[30px] laptop:ml-[5px]`
-                          : `desktop:ml-[80px] laptop:ml-[10px]`
-                      } `}
-                    >
+                    <div className="flex gap-[25px] desktop:ml-[20%] desktop:mr-[25%] laptop:ml-[5%] laptop:mr-[5%]">
                       {/* 채팅방 badge */}
                       <Badge
                         content={
@@ -320,7 +313,11 @@ function Header() {
                             onChatsListModalOpen();
                           }}
                         >
-                          <IoChatbubbleEllipsesOutline className="text-2xl" />
+                          <IoChatbubbleEllipsesOutline
+                            className={`text-2xl ${
+                              pathname === "/" ? "text-white" : "text-black"
+                            }`}
+                          />
                         </Button>
                       </Badge>
                     </div>
@@ -342,54 +339,12 @@ function Header() {
                     <Dropdown
                       placement="bottom-end"
                       isOpen={isProfileHover}
-                      className="flex rounded-3xl bg-[#F1F1F1]/50"
+                      className="flex rounded-3xl bg-[#F1F1F1]/90"
+                      // classNames={{ content: "text-[10px]" }}
                     >
                       <DropdownTrigger>
-                        <div className="flex">
-                          {/* ml 360px  ml-[280px] mr-[0px] / border-[#DDDDDD] - 자체변경 */}
-                          <Chip
-                            className={`desktop:w-[249px] laptop:w-[162px] desktop:h-[50px] laptop:h-[34px] bg-[#F1F1F1]/50 border-small border-[#404040]/40
-                        desktop:ml-[20px] laptop:ml-[15px]
-                        `}
-                            //
-                            //   ? `desktop:ml-[10px] laptop:ml-[5px]`
-                            //   : `desktop:ml-[10px] laptop:ml-[60px]`
-                            // ? `desktop:ml-[120px] laptop:ml-[10px]`
-                            // : `desktop:ml-[200px] laptop:ml-[60px]`
-                          >
-                            <div className="flex desktop:gap-[15px] items-center justify-between desktop:text-[13pt] laptop:text-[10pt] text-[#404040]">
-                              <p>
-                                {display_name} Greener님
-                                <span className="desktop:contents laptop:hidden">
-                                  ! 환영합니다
-                                </span>
-                              </p>
-                              <Avatar
-                                as="button"
-                                className="transition-transform desktop:w-[39px] laptop:w-[28px] desktop:h-[39px] laptop:h-[28px]  desktop:ml-[0px] laptop:ml-[8px]"
-                                name={display_name}
-                                // size="sm"
-                                showFallback
-                                src={profile_img || ""}
-                                onMouseEnter={() => {
-                                  setIsProfileHover(true);
-                                }}
-                                onMouseLeave={() => {
-                                  setIsProfileHover(false);
-                                }}
-                              />
-                            </div>
-                          </Chip>
-                        </div>
-                      </DropdownTrigger>
-                      <DropdownMenu
-                        aria-label="Profile Actions"
-                        variant="flat"
-                        className="w-full flex justify-center p-0 m-0 rounded-3xl text-[#454545]"
-                      >
-                        <DropdownItem
-                          key="mypage"
-                          className="w-full h-8 rounded-3xl"
+                        <div
+                          className="desktop:w-[60px] desktop:h-[75px] laptop:w-[55px] laptop:h-[55px] rounded-3xl flex items-center"
                           onMouseEnter={() => {
                             setIsProfileHover(true);
                           }}
@@ -397,23 +352,50 @@ function Header() {
                             setIsProfileHover(false);
                           }}
                         >
+                          <Avatar
+                            className="transition-transform desktop:w-[52px] laptop:w-[38px] desktop:h-[52px] laptop:h-[38px]  desktop:ml-[0px] laptop:ml-[8px]"
+                            name={display_name}
+                            showFallback
+                            src={profile_img || ""}
+                          />
+                        </div>
+                      </DropdownTrigger>
+                      <DropdownMenu
+                        aria-label="Profile Actions"
+                        variant="flat"
+                        disabledKeys={["profile"]}
+                        className="w-full flex justify-center p-0 m-0 rounded-3xl text-[#454545]"
+                        // itemClasses={{ base: ["text-[15px]"] }}
+                        onMouseEnter={() => {
+                          setIsProfileHover(true);
+                        }}
+                        onMouseLeave={() => {
+                          setIsProfileHover(false);
+                        }}
+                      >
+                        <DropdownItem
+                          isReadOnly
+                          key="profile"
+                          className="cursor-default opacity-100 text-[#404040]"
+                        >
+                          <span className="font-bold">{display_name}</span>{" "}
+                          Greener님! <br /> 환영합니다
+                        </DropdownItem>
+                        <DropdownItem
+                          key="mypage"
+                          className="w-full h-8 rounded-3xl"
+                        >
                           <div
                             onClick={handleMypageLinkClick}
                             className="font-bold p-1"
                           >
-                            마이페이지
+                            My Page
                           </div>
                         </DropdownItem>
                         <DropdownItem
                           key="logout"
                           color="danger"
                           className="w-full h-8 rounded-3xl  "
-                          onMouseEnter={() => {
-                            setIsProfileHover(true);
-                          }}
-                          onMouseLeave={() => {
-                            setIsProfileHover(false);
-                          }}
                         >
                           <div onClick={handleLogout} className="font-bold p-1">
                             Logout
@@ -423,8 +405,9 @@ function Header() {
                     </Dropdown>
                   </>
                 ) : (
+                  // 로그인 상태가 아닐 떄
                   <div
-                    className={`flex desktop:gap-14 laptop:gap-[35px] desktop:w-[170px] desktop:ml-[320px] laptop:ml-[102px] ${
+                    className={`flex desktop:gap-14 laptop:gap-[35px] desktop:w-[170px] desktop:ml-[320px] laptop:ml-[9%] ${
                       // pathsMainAbout ? "text-white " : "text-[#666666]"
                       pathname === "/about"
                         ? isScrolled
