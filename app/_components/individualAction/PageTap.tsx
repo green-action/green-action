@@ -8,9 +8,11 @@ import AlertModal from "../community/AlertModal";
 import PageList from "./PageList";
 import { useResponsive } from "@/app/_hooks/responsive";
 import Link from "next/link";
+import Image from "next/image";
+import postImg from "../../_assets/image/individualAction/write.png";
 
 const PageTap = () => {
-  const [activeTab, setActiveTab] = useState("모든 GreenAction");
+  const [activeTab, setActiveTab] = useState("모든 Green Action");
   const [activeTabs, setActiveTabs] = useState("개인과 함께해요");
   const [selectedOrder, setSelectedOrder] = useState("최신순");
 
@@ -40,7 +42,7 @@ const PageTap = () => {
   const [filteredActions, setFilteredActions] = useState(sortedActions);
 
   const filterAndSortActions = () => {
-    if (activeTab === "모든 GreenAction") {
+    if (activeTab === "모든 Green Action") {
       if (selectedOrder === "최신순") {
         setFilteredActions(sortedActions);
       } else if (selectedOrder === "찜한순") {
@@ -48,7 +50,7 @@ const PageTap = () => {
       }
     }
 
-    if (activeTab === "모집중 GreenAction") {
+    if (activeTab === "모집중 Green Action") {
       if (selectedOrder === "최신순") {
         setFilteredActions(
           sortedActions?.filter((action) => action.is_recruiting),
@@ -59,7 +61,7 @@ const PageTap = () => {
         );
       }
     }
-    if (activeTab === "마감된 GreenAction") {
+    if (activeTab === "마감된 Green Action") {
       if (selectedOrder === "최신순") {
         setFilteredActions(
           sortedActions?.filter((action) => !action.is_recruiting),
@@ -111,33 +113,33 @@ const PageTap = () => {
           <ul className="flex gap-7 ml-6 font-bold">
             <li
               onClick={handleActiveTabClick}
-              className={`flex justify-center items-center cursor-pointer  desktop:w-[130px] h-[34px] text-[12px] laptop:w-[108px] ${
-                activeTab === "모든 GreenAction"
+              className={`flex justify-center items-center cursor-pointer  desktop:w-[130px] h-[34px] text-[15px] laptop:w-[108px] ${
+                activeTab === "모든 Green Action"
                   ? "border-b-2 border-black transition duration-300 ease-in-out text-[12px]"
                   : ""
               }`}
             >
-              모든 GreenAction
+              모든 Green Action
             </li>
             <li
               onClick={handleActiveTabClick}
-              className={`flex justify-center items-center cursor-pointer desktop:w-[130px] h-[34px] text-[12px] laptop:w-[108px] ${
-                activeTab === "모집중 GreenAction"
+              className={`flex justify-center items-center cursor-pointer desktop:w-[130px] h-[34px] text-[15px] laptop:w-[108px] ${
+                activeTab === "모집중 Green Action"
                   ? "border-b-2 border-black transition duration-300 ease-in-out text-[12px]"
                   : ""
               }`}
             >
-              모집중 GreenAction
+              모집중 Green Action
             </li>
             <li
               onClick={handleActiveTabClick}
-              className={`flex justify-center items-center cursor-pointer desktop:w-[130px] h-[34px] text-[12px] laptop:w-[108px] ${
-                activeTab === "마감된 GreenAction"
+              className={`flex justify-center items-center cursor-pointer desktop:w-[130px] h-[34px] text-[15px] laptop:w-[108px] ${
+                activeTab === "마감된 Green Action"
                   ? "border-b-2 border-black transition duration-300 ease-in-out text-[12px] "
                   : ""
               }`}
             >
-              마감된 GreenAction
+              마감된 Green Action
             </li>
           </ul>
         )}
@@ -146,32 +148,32 @@ const PageTap = () => {
             <li
               onClick={handleActiveTabClick}
               className={`flex justify-center items-center cursor-pointer  desktop:w-[130px] h-[34px] text-[12px]  laptop:w-[108px] ${
-                activeTab === "모든 GreenAction"
+                activeTab === "모든 Green Action"
                   ? "border-b-2 border-black transition duration-300 ease-in-out text-[12px]"
                   : ""
               }`}
             >
-              모든 GreenAction
+              모든 Green Action
             </li>
             <li
               onClick={handleActiveTabClick}
               className={`flex justify-center items-center cursor-pointer desktop:w-[130px] h-[34px]  text-[12px]  laptop:w-[108px] ${
-                activeTab === "모집중 GreenAction"
+                activeTab === "모집중 Green Action"
                   ? "border-b-2 border-black transition duration-300 ease-in-out text-[12px]"
                   : ""
               }`}
             >
-              모집중 GreenAction
+              모집중 Green Action
             </li>
             <li
               onClick={handleActiveTabClick}
               className={`flex justify-center items-center cursor-pointer desktop:w-[130px] h-[34px] text-[12px] laptop:w-[108px] ${
-                activeTab === "마감된 GreenAction"
+                activeTab === "마감된 Green Action"
                   ? "border-b-2 border-black transition duration-300 ease-in-out text-[12px] "
                   : ""
               }`}
             >
-              마감된 GreenAction
+              마감된 Green Action
             </li>
           </ul>
         )}
@@ -204,32 +206,32 @@ const PageTap = () => {
                 onClick={handleActiveTabClick}
                 className={`flex justify-center items-center cursor-pointer h-[34px] text-[12px]
                 ${
-                  activeTab === "모든 GreenAction"
+                  activeTab === "모든 Green Action"
                     ? "text-black transition duration-300 ease-in-out text-[12px] "
                     : ""
                 }`}
               >
-                모든 GreenAction
+                모든 Green Action
               </li>
               <li
                 onClick={handleActiveTabClick}
                 className={`flex justify-center items-center cursor-pointer h-[34px] text-[12px]  ${
-                  activeTab === "모집중 GreenAction"
+                  activeTab === "모집중 Green Action"
                     ? "text-black transition duration-300 ease-in-out text-[12px] "
                     : ""
                 }`}
               >
-                모집중 GreenAction
+                모집중 Green Action
               </li>
               <li
                 onClick={handleActiveTabClick}
                 className={`flex justify-center items-center cursor-pointer h-[34px] text-[12px] ${
-                  activeTab === "마감된 GreenAction"
+                  activeTab === "마감된 Green Action"
                     ? "text-black transition duration-300 ease-in-out text-[12px] "
                     : ""
                 }`}
               >
-                마감된 GreenAction
+                마감된 Green Action
               </li>
             </ul>
           </div>
@@ -330,12 +332,17 @@ const PageTap = () => {
           </div>
         )}
       </div>
-      <Button
+      {/* <Button
         className="fixed z-50 bottom-[8rem] right-[1.5rem] rounded-full w-20 h-20 bg-gray-300 flex items-center justify-center"
         onClick={handleClick}
-      >
-        <LuPencilLine className="w-8 h-8" />
-      </Button>
+      > */}
+      <Image
+        src={postImg}
+        alt="게시글 작성 이미지"
+        className="desktop:size-[95px] laptop:size-[80px] fixed z-50 bottom-[8rem] right-[1.5rem] cursor-pointer hover:scale-105 ease-in-out duration-300"
+        onClick={handleClick}
+      />
+      {/* </Button> */}
 
       <PageList
         filteredActions={filteredActions}
