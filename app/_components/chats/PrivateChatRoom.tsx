@@ -8,7 +8,9 @@ import { sendMessage } from "@/app/_api/messages/privateChat-api";
 import {
   QUERY_KEY_ALL_UNREAD_COUNT,
   QUERY_KEY_MESSAGES_LIST,
+  QUERY_KEY_MY_PRIVATE_ROOMS_IDS,
   QUERY_KEY_UNREAD_MESSAGES_COUNT,
+  QUERY_KEY_UPDATE_UNREAD,
 } from "@/app/_api/queryKeys";
 import { Avatar, useDisclosure } from "@nextui-org/react";
 import { Modal, ModalContent, ModalHeader, ModalBody } from "@nextui-org/react";
@@ -77,6 +79,17 @@ const PrivateChatRoom = ({
           });
           queryClient.invalidateQueries({
             queryKey: [QUERY_KEY_ALL_UNREAD_COUNT],
+          });
+          queryClient.invalidateQueries({
+            queryKey: [QUERY_KEY_UNREAD_MESSAGES_COUNT],
+          });
+          // header 개인채팅 리스트 가져오기 무효화
+          queryClient.invalidateQueries({
+            queryKey: [QUERY_KEY_MY_PRIVATE_ROOMS_IDS],
+          });
+          // 메시지 insert되면 리스트의 안읽수 업데이트도 같이 되어야함
+          queryClient.invalidateQueries({
+            queryKey: [QUERY_KEY_UPDATE_UNREAD],
           });
         },
       )

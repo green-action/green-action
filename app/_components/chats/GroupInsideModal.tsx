@@ -84,7 +84,7 @@ const GroupInsideModal = ({
   };
 
   return (
-    <div className="sticky w-[100%] inset-0 z-30 flex bg-black bg-opacity-30">
+    <div className="absolute bottom-0 w-[100%] inset-0 z-30 flex bg-black bg-opacity-30">
       <div className="w-full flex justify-end">
         <div
           className="desktop:w-[75%] desktop:h-[100%] desktop:top-[130px] desktop:left-[40px] 
