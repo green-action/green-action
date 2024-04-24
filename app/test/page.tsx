@@ -1,16 +1,14 @@
 "use client";
-import GoodsSkeleton from "../_components/goods/GoodsSkeleton";
-import { useResponsive } from "../_hooks/responsive";
+import CommunitySkeleton from "../_components/community/CommunitySkeleton";
 
 const page = () => {
-  const { isDesktop, isLaptop, isMobile } = useResponsive();
   return (
-    <div
-      className={`grid gap-[50px] mt-14 mx-auto desktop:grid-cols-4 desktop:w-[1500px] laptop:grid-cols-3 laptop:w-[910px] phone:grid-cols-1 phone:w-[300px] `}
-    >
-      <GoodsSkeleton />
-      <GoodsSkeleton />
-      <GoodsSkeleton />
+    <div className="desktop:w-[1306px] laptop:w-[910px] phone:w-[287px] mx-auto desktop:mb-12">
+      <div className="grid desktop:grid-cols-3 laptop:grid-cols-2 desktop:gap-10 desktop:gap-y-[92px] laptop:w-full laptop:gap-x-[40px] laptop:gap-y-[89px] phone:grid-cols-2 phone:w-[287px] phone:gap-x-[9px] phone:gap-y-[80px] phone:mt-[140px]">
+        {[...Array(12)].map((_, index) => (
+          <CommunitySkeleton key={index} />
+        ))}
+      </div>
     </div>
   );
 };
