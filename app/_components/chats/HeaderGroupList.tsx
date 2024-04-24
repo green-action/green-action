@@ -17,10 +17,12 @@ import {
   QUERY_KEY_UNREAD_MESSAGES_COUNT,
 } from "@/app/_api/queryKeys";
 import { MODE_PREVIOUS, MODE_TODAY } from "@/app/_api/constant";
+import { useResponsive } from "@/app/_hooks/responsive";
 
 const HeaderGroupList = () => {
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
+  const { isDesktop, isLaptop, isMobile } = useResponsive();
   const queryClient = useQueryClient();
 
   const { roomIds, isRoomIdsLoading, isRoomIdsError } =
@@ -122,7 +124,15 @@ const HeaderGroupList = () => {
   return (
     <div className="px-10 pt-8">
       <div className="flex flex-col">
-        <div className="mb-5 ml-2 mt-2 text-[18px] font-black">
+        <div
+          className={`ml-2 mt-2 font-black ${
+            isDesktop
+              ? "text-[18px] mb-5"
+              : isLaptop
+              ? "text-[15px] mb-2"
+              : isMobile && "text-[13px] mb-2"
+          }`}
+        >
           오늘 받은 알림
         </div>
         <div className="mb-7">
@@ -133,7 +143,17 @@ const HeaderGroupList = () => {
         </div>
       </div>
       <div className="flex flex-col">
-        <div className="mb-5 ml-2 mt-2 text-[18px] font-black">이전 알림</div>
+        <div
+          className={`ml-2 mt-2 font-black ${
+            isDesktop
+              ? "text-[18px] mb-5"
+              : isLaptop
+              ? "text-[15px] mb-2"
+              : isMobile && "text-[13px] mb-2"
+          }`}
+        >
+          이전 알림
+        </div>
         <div>
           {/* TODO any 해결 필요 */}
           {previousRoomIdsDates?.map((idDate: any) => (
