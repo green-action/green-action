@@ -30,9 +30,9 @@ const ChatsListModal = ({
           className={`
           ${
             isDesktop
-              ? "w-[32%] right-0"
+              ? "w-[32%] min-w-[620px] right-0"
               : isLaptop
-              ? "w-[32%] right-0"
+              ? "w-[32%] min-w-[430px] right-0"
               : isMobile && "max-w-[332px] h-[87%] rounded-[55px]"
           }
           
