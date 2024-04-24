@@ -1,6 +1,9 @@
 "use client";
 
-import { useMyCommunityList } from "@/app/_hooks/useQueries/push";
+import {
+  useMyCommunityList,
+  useMyPushList,
+} from "@/app/_hooks/useQueries/push";
 import { supabase } from "@/utils/supabase/client";
 import { RealtimePostgresInsertPayload } from "@supabase/supabase-js";
 import { useSession } from "next-auth/react";
@@ -88,11 +91,6 @@ const CommentAlarm = () => {
             .order("created_at", { ascending: false });
           // 내림차순
 
-          // 가장 최신 데이터를 실시간 알림으로 전달하기
-          // if (alarm) {
-          //   console.log("댓글달림! : ", alarm[alarm.length - 1].message);
-          // }
-
           if (newAlarm) {
             setAlarm(newAlarm);
           }
@@ -100,8 +98,39 @@ const CommentAlarm = () => {
       };
 
       commentPush();
+    } else {
+      const getComment = async () => {
+        // 알림 테이블에서 알림 데이터 가져오기
+        const { data: newAlarm } = await supabase
+          .from("alarm")
+          .select("*")
+          .eq("targetId", loggedInUserUid)
+          .order("created_at", { ascending: false });
+        // 내림차순
+
+        console.log(newAlarm);
+
+        if (newAlarm) {
+          setAlarm(newAlarm);
+        }
+      };
+      getComment();
     }
   }, [commentData, loggedInUserUid]);
+
+  // const {
+  //   data: pushList,
+  //   isLoading: pushListLoading,
+  //   isError: pushListError,
+  // } = useMyPushList(loggedInUserUid);
+
+  // if (isLoading || pushListLoading) {
+  //   return <div>Loading...</div>;
+  // }
+
+  // if (isError || pushListError) {
+  //   return <div>Error occurred</div>;
+  // }
 
   if (isLoading) {
     return <div>Loading...</div>;

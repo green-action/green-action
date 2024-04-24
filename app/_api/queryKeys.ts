@@ -55,3 +55,5 @@ export const QUERY_KEY_LAST_MESSAGE_INFO = `group_list_last_message_info`;
 
 // push
 export const QUERY_KEY_MY_COMMUNITYLIST = `my_communityList`;
+export const QUERY_KEY_COMMENT_WRITER_INFO = `comment_writer_info`;
+export const QUERY_KEY_MY_PUSHLIST = `my_pushList`;
