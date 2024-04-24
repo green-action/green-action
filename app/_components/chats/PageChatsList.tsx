@@ -117,6 +117,7 @@ const PageChatsList = ({
           <PagePrivateItem
             key={privateChat?.room_id}
             privateChat={privateChat}
+            actionId={action_id}
           />
         ))}
       </ModalBody>

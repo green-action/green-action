@@ -47,6 +47,7 @@ export interface PrivateChatProps {
     room_id?: string | undefined;
     sender_uid?: string;
   } | null;
+  actionId: string;
 }
 
 export interface ItemType {

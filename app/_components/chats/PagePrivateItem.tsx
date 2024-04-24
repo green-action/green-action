@@ -9,7 +9,7 @@ import Image from "next/image";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 import { useSession } from "next-auth/react";
 
-const PagePrivateItem = ({ privateChat }: PrivateChatProps) => {
+const PagePrivateItem = ({ privateChat, actionId }: PrivateChatProps) => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 
   // 현재 로그인한 유저 uid
@@ -70,7 +70,9 @@ const PagePrivateItem = ({ privateChat }: PrivateChatProps) => {
               <p className="text-sm text-gray-500">{formattedDate}</p>
             </div>
             <div className="flex justify-between">
-              <p className="text-gray-500">{privateChat?.content}</p>
+              <p className="max-w-[170px] text-gray-500 overflow-hidden whitespace-nowrap overflow-ellipsis">
+                {privateChat?.content}
+              </p>
               {unreadCount > 0 && (
                 <div className="bg-[#B3C8A1] w-7 h-7 rounded-full text-white font-extrabold flex justify-center items-center">
                   {unreadCount}
@@ -85,6 +87,7 @@ const PagePrivateItem = ({ privateChat }: PrivateChatProps) => {
           isOpen={isPrivateChatOpen}
           onOpenChange={onPrivateChatOpenChange}
           roomId={privateChat?.room_id ?? ""}
+          actionId={actionId}
         />
       )}
     </div>

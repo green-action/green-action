@@ -88,7 +88,7 @@ const HeaderPrivateItem = ({ eachRoomInfo }: any) => {
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-500">
+              <span className="max-w-[170px] text-gray-500 overflow-hidden whitespace-nowrap overflow-ellipsis">
                 {eachRoomInfo.message.content}
               </span>
               {unreadCount > 0 && (
