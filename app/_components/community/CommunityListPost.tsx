@@ -17,7 +17,6 @@ import {
 import { useResponsive } from "@/app/_hooks/responsive";
 import { useGetCommunityCommentsList } from "@/app/_hooks/useQueries/comments";
 import { useGetPostContents } from "@/app/_hooks/useQueries/community";
-import { useEffect, useRef } from "react";
 import { GoArrowRight } from "react-icons/go";
 import CommunitySkeleton from "./CommunitySkeleton";
 
@@ -35,25 +34,6 @@ const CommunityListPost = ({
   // 게시글 상세 모달창 open여부 props
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { isDesktop, isLaptop, isMobile } = useResponsive();
-
-  const loader = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    try {
-      const observer = new IntersectionObserver((items) => {
-        items.forEach((item) => {
-          if (item.isIntersecting) {
-            console.log(item.target);
-          }
-        });
-      });
-      if (loader.current) {
-        observer.observe(loader.current);
-      }
-
-      // 컴포넌트가 언마운트될 때 observer를 정리합니다.
-      return () => observer.disconnect();
-    } catch {}
-  }, [loader.current]);
 
   const post_id = communityPost?.id as string;
 
@@ -87,8 +67,12 @@ const CommunityListPost = ({
           ${mode !== MODE_MAIN && mode !== MODE_MY_POSTS && "w-[31%] mb-2"}
         `}
       >
-        {mode === MODE_MY_POSTS && <CommunitySkeleton mode={MODE_MY_POSTS} />}
-        {mode === MODE_MAIN && <CommunitySkeleton mode={MODE_MAIN} />}
+        {mode === MODE_MY_POSTS && !isMobile && (
+          <CommunitySkeleton mode={MODE_MY_POSTS} />
+        )}
+        {mode === MODE_MAIN && !isMobile && (
+          <CommunitySkeleton mode={MODE_MAIN} />
+        )}
         {mode !== MODE_MY_POSTS && mode !== MODE_MAIN && <CommunitySkeleton />}
       </div>
     );
@@ -101,7 +85,6 @@ const CommunityListPost = ({
     <>
       {isDesktop && (
         <div
-          ref={loader}
           className={` ${
             mode === MODE_MAIN && "desktop:w-[410px] desktop:h-[295px]"
           }
@@ -241,7 +224,6 @@ const CommunityListPost = ({
       )}
       {isLaptop && (
         <div
-          ref={loader}
           className={` ${
             mode === MODE_MAIN && "laptop:w-[287px] laptop:h-[207px]"
           }
@@ -371,7 +353,7 @@ const CommunityListPost = ({
         </div>
       )}
       {isMobile && (
-        <div className="mb-2" ref={loader}>
+        <div className="mb-2">
           {/* 게시글 이미지 */}
           <Card
             isFooterBlurred

@@ -18,15 +18,7 @@ const GroupContent = () => {
   if (isLoading || !groupAction) {
     return (
       <div
-        className={`grid gap-[50px] m-auto mt-14 mx-auto ${
-          isDesktop
-            ? "grid-cols-4 w-[1500px]"
-            : isLaptop
-            ? "grid-cols-3 w-[910px]"
-            : isMobile
-            ? "grid-cols-1 w-[282px]"
-            : "w-[1500px] grid-cols-4"
-        }`}
+        className={`grid gap-[50px] mt-14 mx-auto desktop:grid-cols-4 desktop:w-[1500px] laptop:grid-cols-3 laptop:w-[910px] phone:grid-cols-1 phone:w-[300px]`}
       >
         {[...Array(8)].map((_, index) => (
           <GroupSkeleton key={index} />
@@ -51,7 +43,7 @@ const GroupContent = () => {
           : isLaptop
           ? "grid-cols-3 w-[910px]"
           : isMobile
-          ? "grid w-[282px]"
+          ? "grid-cols-1 w-[300px]"
           : "grid-cols-4 w-[1500px]"
       }`}
     >

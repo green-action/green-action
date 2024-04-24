@@ -19,10 +19,8 @@ import Image from "next/image";
 import React, { useCallback, useState } from "react";
 import AlertModal from "../community/AlertModal";
 import CustomConfirm from "../customConfirm/CustomConfirm";
-// import bookmarkEmpty from "/app/_assets/image/logo_icon/icon/mypage/Star 31.png";
-// import bookmarkFill from "/app/_assets/image/logo_icon/icon/mypage/Star 32.png";
-import bookmarkEmpty from "/app/_assets/image/individualAction/star_2.png";
 import bookmarkFill from "/app/_assets/image/individualAction/star_1.png";
+import bookmarkEmpty from "/app/_assets/image/individualAction/star_2.png";
 
 const Bookmark = ({
   action_id,
