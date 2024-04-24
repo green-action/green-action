@@ -246,6 +246,7 @@ const ChatButtons = ({
           isOpen={isPrivateChatOpen}
           onOpenChange={onPrivateChatOpenChange}
           roomId={privateRoomIdRef.current}
+          actionId={action_id}
         />
       )}
       {/* 그룹채팅방 */}

@@ -21,7 +21,11 @@ const HeaderPrivateItem = ({ eachRoomInfo }: any) => {
     onOpenChange: onPrivateChatOpenChange,
   } = useDisclosure();
 
+  // console.log("eachRoomInfo", eachRoomInfo);
+
   const room_id = eachRoomInfo?.chat_rooms_info.room_id;
+  const action_id = eachRoomInfo?.action_info.action_id;
+
   // 날짜 형식 변경
   const formattedDate = eachRoomInfo
     ? formatToLocaleDateTimeString(eachRoomInfo.message.created_at)
@@ -101,6 +105,7 @@ const HeaderPrivateItem = ({ eachRoomInfo }: any) => {
           isOpen={isPrivateChatOpen}
           onOpenChange={onPrivateChatOpenChange}
           roomId={room_id}
+          actionId={action_id}
         />
       )}
     </div>

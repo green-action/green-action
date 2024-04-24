@@ -10,10 +10,11 @@ import {
   QUERY_KEY_MESSAGES_LIST,
   QUERY_KEY_UNREAD_MESSAGES_COUNT,
 } from "@/app/_api/queryKeys";
-import { Avatar } from "@nextui-org/react";
+import { Avatar, useDisclosure } from "@nextui-org/react";
 import { Modal, ModalContent, ModalHeader, ModalBody } from "@nextui-org/react";
 import {
-  useGetActionInfo,
+  useGetActionParticipantsInfo,
+  useGetGroupActionInfo,
   useGetMessagesList,
   useGetParticipantInfo,
   useUpdateUnread,
@@ -26,14 +27,14 @@ import { useResponsive } from "@/app/_hooks/responsive";
 import { formatToLocaleDateTimeString } from "@/utils/date/date";
 
 import type { ChatProps } from "@/app/_types/realtime-chats";
-
-type ChatPropsExceptActionId = Omit<ChatProps, "actionId">;
+import GroupInsideModal from "./GroupInsideModal";
 
 const PrivateChatRoom = ({
   isOpen,
   onOpenChange,
   roomId,
-}: ChatPropsExceptActionId) => {
+  actionId,
+}: ChatProps) => {
   const [message, setMessage] = useState("");
   const queryClient = useQueryClient();
   const { isDesktop, isLaptop, isMobile } = useResponsive();
@@ -42,6 +43,14 @@ const PrivateChatRoom = ({
   // 현재 로그인한 유저 uid
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
+
+  // 액션정보 모달창
+  const {
+    isOpen: isActionInfoOpen,
+    onOpen: onActionInfoOpen,
+    onOpenChange: onActionInfoChange,
+    onClose: onActionInfoClose,
+  } = useDisclosure();
 
   useEffect(() => {
     if (chatRoomRef.current) {
@@ -90,9 +99,20 @@ const PrivateChatRoom = ({
   });
   // TODO 스크롤이 위에 있을때 new message 개수 표시하는건 어떻게 처리해야할까?
 
-  // 채팅방의 action정보
+  // // 채팅방의 action정보, 참가자 정보
+  // const { actionInfo, isActionInfoLoading, isActionInfoError } =
+  //   useGetActionInfo(roomId);
+
+  // action정보 가져오기(id, 제목, 시작 및 종료일자, 모집인원, 사진1장 url)
   const { actionInfo, isActionInfoLoading, isActionInfoError } =
-    useGetActionInfo(roomId);
+    useGetGroupActionInfo(actionId);
+
+  // action 참여자 정보
+  const {
+    actionParticipantsInfo,
+    isActionParticipantsLoading,
+    isActionParticipantsError,
+  } = useGetActionParticipantsInfo(actionId);
 
   // 채팅방 상대방의 id, 닉네임, 이미지
   const { participantInfo, isParticiPantLoading, isParticiPantError } =
@@ -105,7 +125,8 @@ const PrivateChatRoom = ({
     isLoading ||
     isUpdateUnreadLoading ||
     isActionInfoLoading ||
-    isParticiPantLoading
+    isParticiPantLoading ||
+    isActionParticipantsLoading
   ) {
     return (
       <div className="w-[200px] h-auto mx-auto">
@@ -119,10 +140,14 @@ const PrivateChatRoom = ({
     isUpdateUnreadError ||
     isActionInfoError ||
     isParticiPantError ||
-    messagesList === undefined
+    isActionParticipantsError ||
+    messagesList === undefined ||
+    actionParticipantsInfo === undefined
   ) {
     return <div>Error</div>;
   }
+
+  // console.log("actionParticipantsInfo", actionParticipantsInfo);
 
   // console.log("actionInfo", actionInfo);
   // console.log("participantInfo", participantInfo);
@@ -173,7 +198,7 @@ const PrivateChatRoom = ({
                     <IoReorderThreeOutline
                       size={40}
                       className="cursor-pointer"
-                      // onClick={() => onActionInfoOpen()}
+                      onClick={() => onActionInfoOpen()}
                     />
                   </div>
                 </ModalHeader>
@@ -225,6 +250,17 @@ const PrivateChatRoom = ({
                       </div>
                     </div>
                   </div>
+                  {/* action info 모달창 */}
+                  {isActionInfoOpen && (
+                    <GroupInsideModal
+                      onActionInfoClose={onActionInfoClose}
+                      actionInfo={actionInfo}
+                      participantsInfo={actionParticipantsInfo}
+                      roomId={roomId}
+                      actionId={actionId}
+                      onClose={onClose}
+                    />
+                  )}
                 </ModalBody>
               </>
             )}

@@ -1,7 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { getMessages } from "@/app/_api/messages/privateChat-api";
+import {
+  getActionParticipantsInfo,
+  getMessages,
+} from "@/app/_api/messages/privateChat-api";
 import {
   QUERY_KEY_ACTION_IDS_TITLES_URLS,
+  QUERY_KEY_ACTION_PARTICIPANTS_INFO,
   QUERY_KEY_ALL_UNREAD_COUNT,
   QUERY_KEY_CHAT_ACTION_INFO,
   QUERY_KEY_GROUP_ACTION_INFO,
@@ -312,4 +316,21 @@ export const useGetLastMessageInfo = (room_id: string) => {
   });
 
   return { lastMessageInfo, isLastMessageInfoLoading, isLastMessageInfoError };
+};
+
+export const useGetActionParticipantsInfo = (action_id: string) => {
+  const {
+    data: actionParticipantsInfo,
+    isLoading: isActionParticipantsLoading,
+    isError: isActionParticipantsError,
+  } = useQuery({
+    queryKey: [QUERY_KEY_ACTION_PARTICIPANTS_INFO, action_id],
+    queryFn: () => getActionParticipantsInfo(action_id),
+  });
+
+  return {
+    actionParticipantsInfo: actionParticipantsInfo || [],
+    isActionParticipantsLoading,
+    isActionParticipantsError,
+  };
 };
