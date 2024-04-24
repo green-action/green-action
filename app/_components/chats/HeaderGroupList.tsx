@@ -99,12 +99,48 @@ const HeaderGroupList = () => {
     return <div>Error</div>;
   }
 
-  if (!roomIds) return [];
+  if (!roomIds || !lastDates) return [];
+
+  const today = new Date().toDateString();
+  const todayRoomIdsDates = [];
+  const previousRoomIdsDates = [];
+
+  lastDates?.map((item) => {
+    if (item === null) return [];
+
+    const itemDate = new Date(item.created_at).toDateString();
+
+    if (itemDate === today) {
+      todayRoomIdsDates.push(item);
+    } else {
+      previousRoomIdsDates.push(item);
+    }
+  });
 
   return (
-    <div className="p-10">
-      {roomIds.length > 0 &&
-        roomIds?.map((room_id) => <HeaderGroupItem room_id={room_id} />)}
+    // <div className="p-10">
+    //   {roomIds.length > 0 &&
+    //     roomIds?.map((room_id) => <HeaderGroupItem room_id={room_id} />)}
+    // </div>
+    <div className="px-10 pt-8">
+      <div className="flex flex-col">
+        <div className="mb-5 ml-2 mt-2 text-[18px] font-black">
+          오늘 받은 알림
+        </div>
+        <div className="mb-7">
+          {todayRoomIdsDates?.map((idDate) => (
+            <HeaderGroupItem room_id={idDate.room_id} />
+          ))}
+        </div>
+      </div>
+      <div className="flex flex-col">
+        <div className="mb-5 ml-2 mt-2 text-[18px] font-black">이전 알림</div>
+        <div>
+          {previousRoomIdsDates?.map((idDate) => (
+            <HeaderGroupItem room_id={idDate.room_id} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
