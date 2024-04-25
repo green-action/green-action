@@ -34,19 +34,25 @@ const FirstInputBox = ({
   return (
     <div>
       <div
-        className="flex justify-between gap-[88px]  desktop:w-[724px] laptop:w-[724px] 
-        desktop:h-[396px] laptop:h-[396px] phone:w-[291px]
+        //  justify-between
+        className={`flex justify-between gap-[88px]  desktop:w-[724px] laptop:w-[724px] 
+         phone:w-[291px]
       desktop:border-1.5 desktop:border-gray-300  
       laptop:border-1.5 laptop:border-gray-300
        phone:border-t-2  phone:border-[#EDEDED]
-       desktop:rounded-3xl laptop:rounded-3xl pt-[21px] desktop:px-[28px] laptop:px-[28px] pb-[28px] mb-4 mr-6 phone:pl-0"
+       desktop:rounded-3xl laptop:rounded-3xl pt-[21px] desktop:px-[28px] laptop:px-[28px] pb-[0px] mb-4 mr-6 phone:pl-0 bg-pin
+       ${
+         (isDesktop || isLaptop) &&
+         (locationMapRef.current ? "h-[420px]" : "h-[220px]")
+       }
+       `}
       >
         {(isDesktop || isLaptop) && (
-          <div className="flex gap-[57px]">
-            <div>
+          <div className="flex flex-col">
+            <div className="flex gap-[87px] items-start">
               <div className="flex flex-col justify-center w-1/2 gap-6">
-                <div className="">
-                  <p className="text-[13px] font-extrabold mb-1">활동 날짜</p>
+                <div className="mb-2">
+                  <p className="text-[13px] font-extrabold mb-2">활동 날짜</p>
                   <div className="flex w-full gap-4 justify-between mb-[18px]">
                     <div className="flex flex-col w-[134px] h-[31px]">
                       <label
@@ -101,71 +107,67 @@ const FirstInputBox = ({
                     명
                   </div>
                 </div>
-                <div className="flex flex-col justify-center w-1/2 gap-2">
-                  <div className="">
-                    {/* mb-7 */}
-                    <div className="flex flex-col gap-2">
-                      <label
-                        htmlFor="activityLocation"
-                        className="text-[13px] font-extrabold"
-                      >
-                        활동 장소
-                      </label>
-                      {/* 도로명주소 검색 - 보류? */}
-                      <SearchAddressModal
-                        setActivityLocation={setActivityLocation}
-                      />
-                    </div>
-                    <div className="w-[294px] h-[33px] mt-2 border-1.5 border-gray-300 rounded-full text-gray-400 pl-4">
-                      <input
-                        type="text"
-                        id="activityLocation"
-                        name="activityLocation"
-                        value={activityLocation}
-                        onChange={handleActivityLocationChange}
-                        form="mainForm"
-                        required
-                        className="text-[13px] w-[281px] h-[30px] bg-inherit focus:outline-none placeholder:text-[12px]"
-                        placeholder="위치/주소를 입력해주세요. 도로명 주소검색도 가능해요."
-                      />
-                    </div>
+              </div>
+              <div className="flex flex-col justify-center w-1/2 gap-2">
+                <div className="">
+                  {/* mb-7 */}
+                  <div className="flex flex-col gap-2">
+                    <label
+                      htmlFor="activityLocation"
+                      className="text-[13px] font-extrabold"
+                    >
+                      활동 장소
+                    </label>
+                    {/* 도로명주소 검색 - 보류? */}
+                    <SearchAddressModal
+                      setActivityLocation={setActivityLocation}
+                    />
                   </div>
-                  <div className="flex flex-col w-[290px] gap-2">
-                    <div className="flex gap-[10px] ">
-                      <SearchMapModal
-                        setActivityLocationMap={setActivityLocationMap}
-                        locationMapRef={locationMapRef}
-                      />
-                      {/*넓이가 안먹힘 */}
-                      <Button
-                        onClick={handleRemoveLocationMap}
-                        className="bg-[#5B5B5B] text-white text-[12px] rounded-full desktop:w-[10px] h-[28px]"
-                      >
-                        초기화
-                      </Button>
-                    </div>
+                  <div className="w-[294px] h-[33px] mt-2 border-1.5 border-gray-300 rounded-full text-gray-400 pl-4">
                     <input
-                      id="activityLocationMap"
-                      name="activityLocationMap"
-                      value={activityLocationMap}
                       type="text"
+                      id="activityLocation"
+                      name="activityLocation"
+                      value={activityLocation}
+                      onChange={handleActivityLocationChange}
                       form="mainForm"
-                      placeholder="(선택) 지도에서 검색해주세요"
-                      className="h-[33px] w-[290px] p-4 border-1.5 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
+                      required
+                      className="text-[13px] w-[281px] h-[30px] bg-inherit focus:outline-none placeholder:text-[12px]"
+                      placeholder="위치/주소를 입력해주세요. 도로명 주소검색도 가능해요."
                     />
                   </div>
                 </div>
+                <div className="flex flex-col w-[290px] gap-2">
+                  <div className="flex gap-[10px] ">
+                    <SearchMapModal
+                      setActivityLocationMap={setActivityLocationMap}
+                      locationMapRef={locationMapRef}
+                    />
+                    {/*넓이가 안먹힘 */}
+                    <Button
+                      onClick={handleRemoveLocationMap}
+                      className="bg-[#5B5B5B] text-white text-[12px] rounded-full desktop:w-[10px] h-[28px]"
+                    >
+                      초기화
+                    </Button>
+                  </div>
+                  <input
+                    id="activityLocationMap"
+                    name="activityLocationMap"
+                    value={activityLocationMap}
+                    type="text"
+                    form="mainForm"
+                    placeholder="(선택) 지도에서 검색해주세요"
+                    className="h-[33px] w-[290px] p-4 border-1.5 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
+                  />
+                </div>
               </div>
             </div>
-            {/*  </div> */}
-            <div className="flex flex-col w-1/2  gap-2 mt-[8px]">
-              {/* 지도 검색으로 장소선택 시 뜨게 할 지도(미리보기) */}
-              {locationMapRef.current && (
-                <div className="w-[310px] h-[220px] mt-[41px]">
-                  <KakaoMap placeInfo={locationMapRef.current} />
-                </div>
-              )}
-            </div>
+            {locationMapRef.current && (
+              <div className="w-[665px] h-[180px] mt-5 ">
+                <KakaoMap placeInfo={locationMapRef.current} />
+              </div>
+            )}
           </div>
         )}
 
