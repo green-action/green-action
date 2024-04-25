@@ -290,7 +290,7 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
                               ? "text-base p-5"
                               : isLaptop
                               ? "text-sm p-3"
-                              : isMobile && "text-[12px]"
+                              : isMobile && "text-[12px] p-2"
                           }
                           ${
                             message.sender_uid === loggedInUserUid
@@ -323,7 +323,7 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
                         ? "mb-[34px] h-16"
                         : isLaptop
                         ? "mb-[20px] h-12"
-                        : isMobile && "mb-[17px] h-12"
+                        : isMobile && "mb-[17px] h-10"
                     }`}
                   >
                     <input

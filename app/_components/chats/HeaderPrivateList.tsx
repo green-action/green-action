@@ -202,7 +202,7 @@ const HeaderPrivateList = () => {
           ? "pt-8 px-10"
           : isLaptop
           ? "pt-12 px-8"
-          : isMobile && "pt-10 px-5"
+          : isMobile && "pt-4 px-5"
       }`}
     >
       <div className="flex flex-col">
