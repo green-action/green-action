@@ -92,7 +92,7 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
     <div className="absolute bottom-0 w-[100%] inset-0 z-30 flex bg-black bg-opacity-30">
       <div className="w-full flex justify-end">
         <div
-          className={`bg-[#ffffff] w-[75%] h-[750px]
+          className={`bg-[#ffffff] w-[390px] h-[750px]
           ${
             isDesktop
               ? "top-[130px] left-[40px] "
@@ -106,7 +106,7 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
             <div
               className={`self-start cursor-pointer ${
                 isDesktop
-                  ? "ml-6 mt-6 mb-6"
+                  ? "ml-6 mt-6 mb-1"
                   : isLaptop
                   ? "mt-2 ml-2"
                   : isMobile && ""
@@ -115,23 +115,23 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
                 onActionInfoClose();
               }}
             >
-              <IoCloseOutline size={isDesktop ? 40 : isLaptop ? 23 : 18} />
+              <IoCloseOutline size={isDesktop ? 30 : isLaptop ? 23 : 18} />
             </div>
             <div
               className={`w-full flex justify-center items-center ${
                 isDesktop
-                  ? "mb-7 h-[180px]"
+                  ? "mb-3 h-[180px]"
                   : isLaptop
                   ? "mb-1 h-[130px]"
                   : isMobile && "mb-1 h-[80px]"
               }`}
             >
               <Image
-                width={500}
-                height={300}
+                width={140}
+                height={140}
                 src={actionInfo?.img_url as string}
                 alt="action-image"
-                className="object-cover w-[37%] h-[78%] rounded-[20%]"
+                className="object-cover w-[140px] h-[140px] rounded-[20%]"
               />
             </div>
             <div className="flex flex-col items-center border-b-1 pb-6">
@@ -141,10 +141,21 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
                   {actionInfo?.title}
                 </span>
               </div>
-              <span className="text-gray-400 mb-3">Green action</span>
-              <span className="text-gray-500 mb-1">
+              <span className="text-gray-400 mb-5 mt-1">Green action</span>
+              <div className="flex items-center text-sm text-gray-500 gap-5">
+                <div className="flex flex-col justify-center items-center">
+                  <span className="text-xs text-gray-400">시작일</span>
+                  <span>{actionInfo?.start_date}</span>
+                </div>
+                <span className="text-gray-400">-</span>
+                <div className="flex flex-col justify-center items-center">
+                  <span className="text-xs text-gray-400">종료일</span>
+                  <span>{actionInfo?.end_date}</span>
+                </div>
+              </div>
+              {/* <span className="text-gray-500 mb-1">
                 {actionInfo?.start_date} ~ {actionInfo?.end_date}
-              </span>
+              </span> */}
             </div>
             <div
               className={`flex flex-col items-start pl-7 pr-7 pt-5 overflow-y-auto scrollbar-hide ${
@@ -191,7 +202,7 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
               </div>
             </div>
             {loggedInUserUid !== ownerInfo?.id && (
-              <footer className="absolute bottom-0 bg-white w-[75%] h-[72px] border-t-1 flex items-center justify-center gap-3">
+              <footer className="absolute bottom-0 bg-white w-[390px] h-[72px] border-t-1 flex items-center justify-center gap-3">
                 <HiOutlineArrowLeftOnRectangle
                   size={30}
                   className="text-gray-700"

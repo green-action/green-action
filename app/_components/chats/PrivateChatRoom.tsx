@@ -191,7 +191,7 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
             ${isActionInfoOpen ? "overflow-hidden" : "overflow-y-auto"}
             ${
               isDesktop
-                ? "max-w-[27%] h-[750px] "
+                ? "w-[520px] h-[750px] "
                 : isLaptop
                 ? "max-w-[28%] h-[87%]"
                 : isMobile && "max-w-[332px] h-[87%]"
@@ -203,7 +203,7 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
               <ModalHeader
                 className={`fixed bg-white flex justify-between items-center gap-5 shadow-md z-10 px-8 rounded-tl-[30px] rounded-tr-[30px] ${
                   isDesktop
-                    ? "w-[27%] h-28"
+                    ? "w-[520px] h-28"
                     : isLaptop
                     ? "w-[28%] h-[12%]"
                     : isMobile && "w-[332px] h-[70px]"
@@ -260,7 +260,7 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
               </ModalHeader>
               <ModalBody
                 className={`bg-[#F3F4F3] pb-0 px-0 ${
-                  isDesktop ? "pt-32" : isLaptop ? "pt-32" : isMobile && "pt-24"
+                  isDesktop ? "pt-32" : isLaptop ? "pt-24" : isMobile && "pt-24"
                 }`}
               >
                 <div className="flex justify-center h-[100%]">
