@@ -174,25 +174,20 @@ const HeaderPrivateList = () => {
     .filter((combined) => combined !== null);
 
   // TODO any 해결필요
-  // combinedObjects가 null 또는 undefined인 경우 빈 배열로 초기화합니다.
+  // combinedObjects가 null 또는 undefined인 경우 빈 배열로 초기화
   const todayMessages: any = [];
   const previousMessages: any = [];
 
-  // combinedObjects가 null 또는 undefined가 아닌 경우에만 처리합니다.
   if (combinedObjects) {
-    // 오늘 날짜를 문자열로 가져옵니다.
     const today = new Date().toDateString();
 
     // TODO any 해결 필요
-    // combinedObjects를 생성하면서 메시지를 오늘 날짜와 그 이전 날짜로 분리합니다.
+    // combinedObjects를 생성하면서 메시지를 오늘 날짜와 그 이전 날짜로 분리
     combinedObjects.map((eachRoomInfo: any) => {
-      // 각 방 정보에서 메시지 정보를 가져옵니다.
       const messageDate = new Date(
         eachRoomInfo.message.created_at,
       ).toDateString();
 
-      // 생성일이 오늘 날짜와 같으면 todayMessages에 추가합니다.
-      // 그렇지 않으면 previousMessages에 추가합니다.
       if (messageDate === today) {
         todayMessages.push(eachRoomInfo);
       } else {
