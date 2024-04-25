@@ -20,8 +20,8 @@ const HeaderChatsSelect = ({ onClose }: { onClose: () => void }) => {
                   ? "w-full"
                   : isLaptop
                   ? "w-full"
-                  : isMobile && "w-[332px] rounded-t-[55px]"
-              } fixed bg-white z-10 flex text-[20px] h-[13.5%] gap-8 h-[60px] items-end pl-11`}
+                  : isMobile && "w-[332px] rounded-t-[30px]"
+              } fixed bg-white z-10 flex text-[20px] h-[13.5%] gap-8 items-end pl-11`}
             >
               <div
                 className={`pb-2 cursor-pointer 
