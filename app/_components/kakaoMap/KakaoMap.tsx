@@ -9,8 +9,13 @@ const KakaoMap = ({ placeInfo }: { placeInfo: placeCoordinateType }) => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
   const [position, setPosition] = useState({ lat: 0, lng: 0 });
 
-  const detailMapLink = `https://map.kakao.com/link/map/${placeInfo.placeName},${y},${x}`;
-  const showDirectLink = `https://map.kakao.com/link/to/${placeInfo.placeName},${y},${x}`;
+  // const detailMapLink = `https://map.kakao.com/link/map/${placeInfo.placeName},${y},${x}`;
+  const detailMapLink = `${
+    placeInfo.placeId
+      ? `https://map.kakao.com/link/map/${placeInfo.placeId}`
+      : `https://map.kakao.com/link/map/${placeInfo.placeName},${y},${x}`
+  } `;
+  // const showDirectLink = `https://map.kakao.com/link/to/${placeInfo.placeName},${y},${x}`;
 
   useEffect(() => {
     setPosition({ lat: Number(y), lng: Number(x) });
@@ -28,22 +33,13 @@ const KakaoMap = ({ placeInfo }: { placeInfo: placeCoordinateType }) => {
               <p className="font-bold desktop:text-[15px]">
                 {placeInfo.placeName}
               </p>
-              <div className="flex desktop:gap-[30px] desktop:text-[14.5px]">
-                <a
-                  href={detailMapLink}
-                  target="_blank"
-                  className="text-[#5D5D5D] hover:text-black font-semibold"
-                >
-                  큰지도보기
-                </a>
-                <a
-                  href={showDirectLink}
-                  target="_blank"
-                  className="text-[#5D5D5D] hover:text-black font-semibold"
-                >
-                  길찾기
-                </a>
-              </div>
+              <a
+                href={detailMapLink}
+                target="_blank"
+                className="text-[#5D5D5D] hover:text-black font-semibold desktop:text-[14.5px]"
+              >
+                큰지도보기
+              </a>
             </div>
             // </div>
           )}
@@ -52,43 +48,25 @@ const KakaoMap = ({ placeInfo }: { placeInfo: placeCoordinateType }) => {
               <p className="font-bold laptop:text-[13px]">
                 {placeInfo.placeName}
               </p>
-              <div className="flex laptop:gap-[20px] laptop:text-[12.5px]">
-                <a
-                  href={detailMapLink}
-                  target="_blank"
-                  className="text-[#1E1E1E] hover:text-[#797979]"
-                >
-                  큰지도보기
-                </a>
-                <a
-                  href={showDirectLink}
-                  target="_blank"
-                  className="text-[#1E1E1E] hover:text-[#797979]"
-                >
-                  길찾기
-                </a>
-              </div>
+              <a
+                href={detailMapLink}
+                target="_blank"
+                className="text-[#1E1E1E] hover:text-[#797979] laptop:text-[12.5px]"
+              >
+                큰지도보기
+              </a>
             </div>
           )}
           {isMobile && (
             <div className="min-w-[95px] h-[43px] rounded-xl  bg-white/[88%] border-[2px]  border-[#5D5D5D]/[40%] p-1 flex flex-col items-center mt-[90px]">
               <p className="font-bold text-[11px]">{placeInfo.placeName}</p>
-              <div className="flex gap-[6px] text-[10.5px]">
-                <a
-                  href={detailMapLink}
-                  target="_blank"
-                  className="text-[#1E1E1E] hover:text-[#797979]"
-                >
-                  큰지도보기
-                </a>
-                <a
-                  href={showDirectLink}
-                  target="_blank"
-                  className="text-[#1E1E1E] hover:text-[#797979]"
-                >
-                  길찾기
-                </a>
-              </div>
+              <a
+                href={detailMapLink}
+                target="_blank"
+                className="text-[#1E1E1E] hover:text-[#797979] text-[10.5px]"
+              >
+                큰지도보기
+              </a>
             </div>
           )}
         </CustomOverlayMap>
