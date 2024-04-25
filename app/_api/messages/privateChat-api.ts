@@ -1,3 +1,4 @@
+import { ItemType, ParticipantInfo } from "@/app/_types/realtime-chats";
 import { supabase } from "@/utils/supabase/client";
 
 // 메시지 리스트 가져오기
@@ -190,7 +191,7 @@ export const getActionParticipantsInfo = async (action_id: string) => {
 
   const { data, error } = await supabase
     .from("chat_participants")
-    .select("users(id, display_name, profile_img)")
+    .select("participant_type, users(id, display_name, profile_img)")
     .eq("room_id", room_id);
 
   if (error) {
@@ -198,13 +199,14 @@ export const getActionParticipantsInfo = async (action_id: string) => {
     throw error;
   }
 
-  const actionParticipantsInfo = data.map((item) => {
-    if (item.users === undefined || null) {
-      return [];
-    }
-
-    return item.users;
+  const newArray: ParticipantInfo[] = data.map((item: ItemType) => {
+    return {
+      id: item.users?.id ?? null,
+      display_name: item.users?.display_name ?? null,
+      profile_img: item.users?.profile_img ?? null,
+      participant_type: item.participant_type,
+    };
   });
 
-  return actionParticipantsInfo;
+  return newArray;
 };

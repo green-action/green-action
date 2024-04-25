@@ -130,7 +130,11 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
                 {actionInfo?.start_date} ~ {actionInfo?.end_date}
               </span>
             </div>
-            <div className="flex flex-col items-start pl-9 pr-7 pt-4 pb-[90px] overflow-y-auto scrollbar-hide">
+            <div
+              className={`flex flex-col items-start pl-9 pr-7 pt-4 overflow-y-auto scrollbar-hide ${
+                loggedInUserUid === ownerInfo?.id ? "pb-[20px]" : "pb-[90px]"
+              }`}
+            >
               <div className="flex items-center gap-4 w-full mb-4">
                 <span className="font-extrabold">참여자</span>
                 <div className="flex gap-2 text-gray-500 items-center">
@@ -176,7 +180,6 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
                   size={30}
                   className="text-gray-700"
                 />
-
                 <span
                   className="text-gray-700 text-[17px] font-extrabold mr-3 cursor-pointer"
                   onClick={() => handleCancelParticipate(onClose)}
