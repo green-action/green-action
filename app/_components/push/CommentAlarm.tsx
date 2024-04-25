@@ -78,12 +78,15 @@ const CommentAlarm = ({ onClose }: { onClose: () => void }) => {
           .eq("id", commentWriterUid)
           .single();
 
-        if (commentWriter) {
+        // 내가 작성한 댓글이 아니라면 알림 테이블에 알림 추가
+        if (commentWriterUid !== loggedInUserUid) {
           const newPush = {
             created_at: commentData.commit_timestamp,
             targetId: loggedInUserUid,
             post_id: commentData.new.post_id,
-            message: `${commentWriter.display_name} 님이 새 댓글을 남겼습니다!`,
+            message: `${
+              commentWriter!.display_name
+            } 님이 새 댓글을 남겼습니다!`,
             isRead: false,
           };
 
@@ -96,7 +99,6 @@ const CommentAlarm = ({ onClose }: { onClose: () => void }) => {
           }
         }
       };
-
       commentPush();
     } else {
       const getComment = async () => {
@@ -123,7 +125,7 @@ const CommentAlarm = ({ onClose }: { onClose: () => void }) => {
         <div>알림</div>
         <div>
           {alarm &&
-            alarm.map((item, index) => (
+            alarm.map((item) => (
               <CommentDetail
                 item={item}
                 // onClose={onClose}
