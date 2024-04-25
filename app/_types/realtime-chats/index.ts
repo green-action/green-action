@@ -48,6 +48,7 @@ export interface PrivateChatProps {
     sender_uid?: string;
   } | null;
   actionId: string;
+  mode: string;
 }
 
 export interface ItemType {

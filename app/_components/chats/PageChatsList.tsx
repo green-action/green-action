@@ -1,24 +1,26 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { useQueryClient } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
-import { supabase } from "@/utils/supabase/client";
+import { MODE_PREVIOUS, MODE_TODAY } from "@/app/_api/constant";
 import {
   QUERY_KEY_MESSAGES_PARTICIPANT_INFO_PAGE,
   QUERY_KEY_PRIVATE_ROOM_IDS,
   QUERY_KEY_UNREAD_MESSAGES_COUNT,
 } from "@/app/_api/queryKeys";
-import { ModalHeader, ModalBody, ModalFooter, Button } from "@nextui-org/react";
-import PagePrivateItem from "./PagePrivateItem";
 import { useResponsive } from "@/app/_hooks/responsive";
 import {
   useGetPrivateList,
   useGetPrivateRoomIds,
 } from "@/app/_hooks/useQueries/chats";
+import { supabase } from "@/utils/supabase/client";
+import { ModalBody } from "@nextui-org/react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { useEffect } from "react";
+import PagePrivateItem from "./PagePrivateItem";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
-import { PrivateChat } from "@/app/_types/realtime-chats";
+
+import type { PrivateChat } from "@/app/_types/realtime-chats";
 
 const PageChatsList = ({
   onClose,
@@ -184,6 +186,7 @@ const PageChatsList = ({
                   key={privateChat?.room_id}
                   privateChat={privateChat}
                   actionId={action_id}
+                  mode={MODE_TODAY}
                 />
               ))}
             </div>
@@ -206,6 +209,7 @@ const PageChatsList = ({
                   key={privateChat?.room_id}
                   privateChat={privateChat}
                   actionId={action_id}
+                  mode={MODE_PREVIOUS}
                 />
               ))}
             </div>
