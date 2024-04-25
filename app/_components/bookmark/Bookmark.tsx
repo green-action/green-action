@@ -29,7 +29,6 @@ const Bookmark = ({
 }: {
   action_id: string;
   mode?: string;
-  // mode는 없어도 되는 인자
 }) => {
   const { data, isLoading, isError } = useFilterBookmark(action_id);
 
@@ -38,7 +37,6 @@ const Bookmark = ({
   const session = useSession();
   const user_uid = session.data?.user.user_uid as string;
 
-  // alert 대체 모달창을 위한 상태관리
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -84,12 +82,9 @@ const Bookmark = ({
 
   return (
     <>
-      {/* 이중 삼항 연산자 */}
-      {/* 북마크된 상태일 때 */}
       {isBookmarked ? (
         mode === MODE_MY_BOOKMARKS ? (
           <>
-            {/* isBookmarked - true 이면서 mode === "myBookmarks" 인 경우 Custom Confirm 창으로 연결*/}
             <div className="flex">
               <CustomConfirm
                 text="해당 Green Action을 북마크 목록에서 해제할까요?"
@@ -102,7 +97,6 @@ const Bookmark = ({
             </div>
           </>
         ) : (
-          // isBookmarked - true 이지만 mode !== "myBookmarks"인 경우
           <div className="flex items-center">
             <button onClick={() => handleRemoveBookmarkClick()}>
               {mode === MODE_DETAIL_PAGE && (
@@ -152,7 +146,6 @@ const Bookmark = ({
           </div>
         )
       ) : (
-        // isBookmarked - false
         <div className="flex items-center">
           <button onClick={() => handleAddBookmarkClick()}>
             {mode === MODE_DETAIL_PAGE && (
@@ -174,7 +167,6 @@ const Bookmark = ({
                 src={bookmarkEmpty}
                 alt="북마크"
                 className="desktop:size-[17px] desktop:h-[16px] desktop:mr-[6px] laptop:w-[16px] laptop:h-[15px] laptop:mr-[5px] phone:size-[17px]"
-                // className="desktop:w-[15px] laptop:w-[15px] desktop:h-[14px] laptop:h-[13px] phone:w-[20px] phone:h-[19px] desktop:mt-[4px] laptop:mt-[2px] desktop:mr-[5px] laptop:mr-[3px] mb-[2px]"
               />
             )}
             {mode === MODE_MAIN && (
@@ -184,7 +176,6 @@ const Bookmark = ({
                 className="desktop:w-[18px] desktop:h-[17px] laptop:w-[16px] laptop:h-[15px] desktop:mt-[2px] laptop:mt-[1px] desktop:mr-[6px] laptop:mr-[5px] desktop:mb-[2px]  laptop:mb-[2px]"
               />
             )}
-            {/* <CiStar className="text-[19px]" /> */}
           </button>
           <span
             className={`desktop:text-sm laptop:text-[11px] 

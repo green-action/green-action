@@ -30,7 +30,6 @@ const Likes = ({
   const addLikeMutation = useAddLike();
   const removeLikeMutation = useRemoveLike();
 
-  // alert 대체 모달창을 위한 상태관리
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -88,23 +87,12 @@ const Likes = ({
         }`}
       >
         {isLiked ? (
-          // 아이콘 이미지 - 이미지가 흰색밖에 없어서 리액트 아이콘으로 수정
-          // <Image
-          //   src={heart}
-          //   alt="Liked heart"
-          //   className="hover:cursor-pointer w-[18px] h-[16px]"
-          // />
           <GoHeartFill
             className={`size-[18px] ${
               mode === MODE_MAIN_DESKTOP && "size-[30px]"
             } ${mode === MODE_MAIN_LAPTOP && "size-[20px]"}`}
           />
         ) : (
-          // <Image
-          //   src={emptyHeart}
-          //   alt="Liked heart"
-          //   className="hover:cursor-pointer w-[18px] h-[16px]"
-          // />
           <GoHeart
             className={`size-[18px] ${
               mode === MODE_MAIN_DESKTOP && "size-[30px]"

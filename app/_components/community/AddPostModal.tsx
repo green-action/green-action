@@ -29,10 +29,9 @@ import PointModal from "./PointModal";
 
 import { MODE_COMMUNITY } from "@/app/_api/constant";
 import { updateUserPoint } from "@/app/_api/individualAction-add/add-api";
-import { LuPencilLine } from "react-icons/lu";
-import AlertModal from "./AlertModal";
-import postImg from "../../_assets/image/individualAction/write.png";
 import Image from "next/image";
+import postImg from "../../_assets/image/individualAction/write.png";
+import AlertModal from "./AlertModal";
 
 const AddPostModal = () => {
   const [uploadedFileUrl, setUploadedFileUrl] = useState<string>("");
@@ -136,12 +135,6 @@ const AddPostModal = () => {
 
   return (
     <>
-      {/* 글쓰기 버튼 */}
-      {/* <Button
-        className="fixed z-50 bottom-[8rem] right-[1.5rem] rounded-full w-20 h-20 bg-gray-300 flex items-center justify-center"
-        onClick={handleAddPostClick}
-      > */}
-      {/* <LuPencilLine className="w-8 h-8" /> */}
       <Image
         src={postImg}
         alt="게시글 작성 이미지"
@@ -248,12 +241,6 @@ const AddPostModal = () => {
                 </ModalBody>
                 {/* 작성완료 버튼 */}
                 <ModalFooter className="flex justify-center mb-12 !p-0">
-                  {/* <Button
-                    type="submit"
-                    className="text-gray-500 rounded-full !w-[140px] h-[33px] border border-gray-400 bg-[#EFEFEF]"
-                  >
-                    작성완료
-                  </Button> */}
                   <CustomConfirm
                     text="작성하시겠습니까?"
                     buttonName="작성완료"
