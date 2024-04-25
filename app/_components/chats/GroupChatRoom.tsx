@@ -169,9 +169,9 @@ const GroupChatRoom: React.FC<ChatProps> = ({
               <ModalHeader
                 className={`fixed bg-white flex justify-between items-center gap-5 shadow-md z-10 px-8 rounded-tl-[30px] rounded-tr-[30px] ${
                   isDesktop
-                    ? "w-[27%] h-28"
+                    ? "w-[520px] h-28"
                     : isLaptop
-                    ? "w-[28%] h-[12%]"
+                    ? "w-[325px] h-[65px]"
                     : isMobile && "w-[332px] h-[70px]"
                 }`}
               >
