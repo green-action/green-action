@@ -265,32 +265,28 @@ const MyPage = () => {
             )}
             {isMobile && (
               <>
-                <div>
-                  <div className="flex flex-col justify-between mt-[50px] w-full">
-                    <div className="text-[13pt] font-bold">
-                      나의 Green-Action
-                    </div>
-                    <div className="ml-auto">
-                      {"나의 Green-Action" && (
-                        <RecruitSelectTab
-                          selected={myRecruitClicked}
-                          setSelected={setMyRecruitClicked}
-                        />
-                      )}
-                    </div>
-                    <div className="mt-10 gap-5 grid p-2 phone:grid-cols-2">
-                      {/* LINK My Green Action */}
-                      {"나의 Green-Action" &&
-                        filteredActions?.map((action) => {
-                          return (
-                            <MyActionCard
-                              key={action.id}
-                              action={action}
-                              mode="myPosts"
-                            />
-                          );
-                        })}
-                    </div>
+                <div className="flex flex-col justify-between mt-[50px] w-full">
+                  <div className="text-[13pt] font-bold">나의 Green-Action</div>
+                  <div className="ml-auto">
+                    {"나의 Green-Action" && (
+                      <RecruitSelectTab
+                        selected={myRecruitClicked}
+                        setSelected={setMyRecruitClicked}
+                      />
+                    )}
+                  </div>
+                  <div className="mt-10 gap-5 grid p-2 phone:grid-cols-2">
+                    {/* LINK My Green Action */}
+                    {"나의 Green-Action" &&
+                      filteredActions?.map((action) => {
+                        return (
+                          <MyActionCard
+                            key={action.id}
+                            action={action}
+                            mode="myPosts"
+                          />
+                        );
+                      })}
                   </div>
                 </div>
 

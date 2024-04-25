@@ -3,7 +3,7 @@ import Script from "next/script";
 import QueryProvider from "./Provider";
 import Chatbot from "./_components/layout/Chatbot";
 import Footer from "./_components/layout/Footer";
-import Header from "./_components/layout/Header";
+import Header from "./_components/layout/DLheader";
 import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL

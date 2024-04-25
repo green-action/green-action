@@ -150,11 +150,11 @@ const Mheader = () => {
           isBlurred={isScrolled}
           isMenuOpen={isMenuOpen}
           onMenuOpenChange={setIsMenuOpen}
-          className="phone:min-w-[360px] mib-h-[100px] flex bg-transparent items-center justify-center text-[11pt] mb-4"
+          className="min-w-[360px] mib-h-[100px] flex bg-transparent items-center justify-center text-[11pt] mb-4"
         >
           <NavbarContent
             justify="start"
-            className="desktop:hidden laptop:hidden "
+            className="desktop:hidden laptop:hidden"
           >
             <NavbarMenuToggle
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -181,17 +181,10 @@ const Mheader = () => {
             `}
               onClick={handleLogoLinkClick}
             />
-            {/* aria-label={
-                    isMenuOpen ? (
-                      <IoIosArrowBack className="w-[30px] h-[30px] absolute top-4 left-2" />
-                    ) : (
-                      <LuAlignLeft />
-                    )
-                  } */}
           </NavbarBrand>
           <NavbarContent>
             <div className="flex flex-col">
-              <NavbarMenu className="absolute top-0 w-[80%] h-[vh-full] z-[50] bg-white">
+              <NavbarMenu className="absolute top-0 w-[80%] h-[vh-full] z-[40] bg-white">
                 <NavbarMenuToggle
                   icon={
                     <Image
