@@ -1,11 +1,12 @@
 import React, { useState } from "react";
+
 import type { PostImgUploadProps } from "@/app/_types/community/community";
 
-const PostImgUpload = ({
+const PostImgUpload: React.FC<PostImgUploadProps> = ({
   uploadedFileUrl,
   setUploadedFileUrl,
   setFile,
-}: PostImgUploadProps) => {
+}) => {
   // 드래그 앤 드랍 상태
   const [isDragging, setIsDragging] = useState(false);
 

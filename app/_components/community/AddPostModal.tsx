@@ -1,14 +1,9 @@
 "use client";
 
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-
 import { uploadFileAndGetUrl } from "@/app/_api/community/community-api";
+import { MODE_COMMUNITY } from "@/app/_api/constant";
+import { updateUserPoint } from "@/app/_api/individualAction-add/add-api";
 import { useInsertCommunityPostFormData } from "@/app/_hooks/useMutations/community";
-
-import PostImgUpload from "./PostImgUpload";
-
 import {
   Button,
   Dropdown,
@@ -23,15 +18,15 @@ import {
   Selection,
   useDisclosure,
 } from "@nextui-org/react";
-
-import CustomConfirm from "../customConfirm/CustomConfirm";
-import PointModal from "./PointModal";
-
-import { MODE_COMMUNITY } from "@/app/_api/constant";
-import { updateUserPoint } from "@/app/_api/individualAction-add/add-api";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import postImg from "../../_assets/image/individualAction/write.png";
+import CustomConfirm from "../customConfirm/CustomConfirm";
 import AlertModal from "./AlertModal";
+import PointModal from "./PointModal";
+import PostImgUpload from "./PostImgUpload";
 
 const AddPostModal = () => {
   const [uploadedFileUrl, setUploadedFileUrl] = useState<string>("");
@@ -135,6 +130,12 @@ const AddPostModal = () => {
 
   return (
     <>
+      {/* 글쓰기 버튼 */}
+      {/* <Button
+        className="fixed z-50 bottom-[8rem] right-[1.5rem] rounded-full w-20 h-20 bg-gray-300 flex items-center justify-center"
+        onClick={handleAddPostClick}
+      > */}
+      {/* <LuPencilLine className="w-8 h-8" /> */}
       <Image
         src={postImg}
         alt="게시글 작성 이미지"

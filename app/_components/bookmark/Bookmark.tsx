@@ -23,13 +23,9 @@ import CustomConfirm from "../customConfirm/CustomConfirm";
 import bookmarkFill from "/app/_assets/image/individualAction/star_1.png";
 import bookmarkEmpty from "/app/_assets/image/individualAction/star_2.png";
 
-const Bookmark = ({
-  action_id,
-  mode,
-}: {
-  action_id: string;
-  mode?: string;
-}) => {
+import { bookmarkProps } from "@/app/_types/bookmark";
+
+const Bookmark: React.FC<bookmarkProps> = ({ action_id, mode }) => {
   const { data, isLoading, isError } = useFilterBookmark(action_id);
 
   const addBookmarkMutation = useAddBookmark(mode || "");

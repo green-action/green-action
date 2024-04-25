@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import type {
   mapResultPropsType,
@@ -9,12 +9,12 @@ import type {
 import { Chip } from "@nextui-org/react";
 
 // FIXME 엔터로 검색 시 에러, 페이지네이션 선택시 에러 (기존에는 x)
-const SearchMapResult = ({
+const SearchMapResult: React.FC<mapResultPropsType> = ({
   searchKeyword,
   setActivityLocation,
   onClose,
   locationMapRef,
-}: mapResultPropsType) => {
+}) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const searchResultRef = useRef<HTMLDivElement>(null);
   const placeListRef = useRef<HTMLUListElement>(null);

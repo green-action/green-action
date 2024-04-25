@@ -65,3 +65,12 @@ export interface placeDataType {
   x: string;
   y: string;
 }
+
+export interface firstInputBoxProps {
+  activityLocation: string;
+  setActivityLocation: React.Dispatch<React.SetStateAction<string>>;
+  handleActivityLocationChange: any;
+  locationMapRef: React.MutableRefObject<placeCoordinateType | null>;
+  activityLocationMap: string;
+  setActivityLocationMap: React.Dispatch<React.SetStateAction<string>>;
+}

@@ -1,25 +1,18 @@
 "use client";
 
-import { Card, Chip } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
-import Bookmark from "../bookmark/Bookmark";
-
-import arrow from "../../_assets/image/individualAction/Group89.png";
-import date from "../../_assets/image/individualAction/image170.png";
-import person from "../../_assets/image/individualAction/person.png";
-import location from "../../_assets/image/individualAction/image35.png";
-
 import { MODE_INDIVIDUAL_ACTION } from "@/app/_api/constant";
 import { useResponsive } from "@/app/_hooks/responsive";
-import type { Index } from "@/app/_types";
+import { Card, Chip } from "@nextui-org/react";
 import Image from "next/image";
-import IndividualSkeleton from "./IndividualSkeleton";
+import { useRouter } from "next/navigation";
 import { GoArrowRight } from "react-icons/go";
+import date from "../../_assets/image/individualAction/image170.png";
+import location from "../../_assets/image/individualAction/image35.png";
+import person from "../../_assets/image/individualAction/person.png";
+import Bookmark from "../bookmark/Bookmark";
+import IndividualSkeleton from "./IndividualSkeleton";
 
-interface ChildProps {
-  filteredActions: Index;
-  isActionsLoading: boolean;
-}
+import type { ChildProps } from "@/app/_types/individualAction/indext";
 
 const PageList: React.FC<ChildProps> = ({
   filteredActions,

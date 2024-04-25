@@ -1,11 +1,9 @@
 "use client";
 import { MODE_MAIN, MODE_MY_POSTS } from "@/app/_api/constant";
-import { useResponsive } from "@/app/_hooks/responsive";
 import { Card, Skeleton } from "@nextui-org/react";
 import React from "react";
 
 const CommunitySkeleton = ({ mode }: { mode?: string }) => {
-  const { isMobile } = useResponsive();
   return (
     <div
       className={`phone:w-1/2 ${

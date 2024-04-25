@@ -17,15 +17,9 @@ import { BsXCircle } from "react-icons/bs";
 import { GoHeart, GoHeartFill } from "react-icons/go";
 import AlertModal from "../community/AlertModal";
 
-const Likes = ({
-  post_id,
-  isOpen,
-  mode,
-}: {
-  post_id: string;
-  isOpen: boolean;
-  mode: string;
-}) => {
+import type { likesProps } from "@/app/_types/bookmark";
+
+const Likes: React.FC<likesProps> = ({ post_id, isOpen, mode }) => {
   const { data, isLoading, isError } = useFilterLikes(post_id);
   const addLikeMutation = useAddLike();
   const removeLikeMutation = useRemoveLike();

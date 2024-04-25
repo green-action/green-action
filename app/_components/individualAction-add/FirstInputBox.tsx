@@ -1,28 +1,21 @@
 "use client";
 
-import React, { useEffect } from "react";
-import SearchAddressModal from "../daumPostCode/SearchAddressModal";
-import SearchMapModal from "../kakaoMap/SearchMapModal";
-import KakaoMap from "../kakaoMap/KakaoMap";
 import { useResponsive } from "@/app/_hooks/responsive";
-
-import type { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
 import { Button } from "@nextui-org/react";
+import React from "react";
+import SearchAddressModal from "../daumPostCode/SearchAddressModal";
+import KakaoMap from "../kakaoMap/KakaoMap";
+import SearchMapModal from "../kakaoMap/SearchMapModal";
 
-const FirstInputBox = ({
+import type { firstInputBoxProps } from "@/app/_types/individualAction-add/individualAction-add";
+
+const FirstInputBox: React.FC<firstInputBoxProps> = ({
   activityLocation,
   setActivityLocation,
   handleActivityLocationChange,
   locationMapRef,
   activityLocationMap,
   setActivityLocationMap,
-}: {
-  activityLocation: string;
-  setActivityLocation: React.Dispatch<React.SetStateAction<string>>;
-  handleActivityLocationChange: any;
-  locationMapRef: React.MutableRefObject<placeCoordinateType | null>;
-  activityLocationMap: string;
-  setActivityLocationMap: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 

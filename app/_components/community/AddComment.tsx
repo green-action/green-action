@@ -1,33 +1,26 @@
 "use client";
-import React, { useState } from "react";
-
-import type { AddCommentProps } from "@/app/_types/comments/comments";
-
+import { updateUserPoint } from "@/app/_api/individualAction-add/add-api";
 import { useInsertCommunityCommentMutation } from "@/app/_hooks/useMutations/comments";
 import { useGetCurrentUerProfileImg } from "@/app/_hooks/useQueries/comments";
-
 import { Avatar } from "@nextui-org/react";
-
-import { updateUserPoint } from "@/app/_api/individualAction-add/add-api";
 import Image from "next/image";
+import React, { useState } from "react";
 import PointModal from "./PointModal";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
-const AddComment = ({ loggedInUserUid, post_id }: AddCommentProps) => {
-  // 로그인한 유저 프로필이미지
+import type { AddCommentProps } from "@/app/_types/comments/comments";
+
+const AddComment: React.FC<AddCommentProps> = ({
+  loggedInUserUid,
+  post_id,
+}) => {
   const { currentUserProfileImg, isLoading, isError } = loggedInUserUid
     ? useGetCurrentUerProfileImg(loggedInUserUid)
     : { currentUserProfileImg: null, isLoading: false, isError: false };
 
-  // 댓글 등록 mutation
   const { insertCommentMutation } = useInsertCommunityCommentMutation();
 
-  // PointModal을 위한 상태관리
   const [showPointModal, setShowPointModal] = useState(false);
-
-  // custom confirm창을 위한 상태관리
-  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
-
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -103,14 +96,6 @@ const AddComment = ({ loggedInUserUid, post_id }: AddCommentProps) => {
           point={100}
         />
       )}
-      {/* {isConfirmOpen && (
-        <CustomConfirm
-          text="등록하시겠습니까?"
-          mode="addComment"
-          // okFunction={() => handleInsertComment}
-          okFunction={() => handleConfirm}
-        />
-      )} */}
     </>
   );
 };

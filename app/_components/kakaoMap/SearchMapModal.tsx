@@ -11,14 +11,12 @@ import {
 } from "@nextui-org/react";
 import React, { useState } from "react";
 import SearchMapResult from "./SearchMapResult";
-import { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
 
-const SearchMapModal = ({
+import type { searchMapModalProps } from "@/app/_types/individualAction-detail/individualAction-detail";
+
+const SearchMapModal: React.FC<searchMapModalProps> = ({
   setActivityLocationMap,
   locationMapRef,
-}: {
-  setActivityLocationMap: React.Dispatch<React.SetStateAction<string>>;
-  locationMapRef: React.MutableRefObject<placeCoordinateType | null>;
 }) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
 

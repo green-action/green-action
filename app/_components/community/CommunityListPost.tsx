@@ -1,11 +1,3 @@
-import type { CommunityPostObj } from "@/app/_types/community/community";
-
-import Likes from "../likes/Likes";
-import CommunityDetailModal from "./CommunityDetailModal";
-
-import { Avatar, Card, useDisclosure } from "@nextui-org/react";
-import { longStyle } from "./style";
-
 import {
   MODE_COMMUNITY,
   MODE_DESKTOP,
@@ -21,20 +13,20 @@ import {
 import { useResponsive } from "@/app/_hooks/responsive";
 import { useGetCommunityCommentsList } from "@/app/_hooks/useQueries/comments";
 import { useGetPostContents } from "@/app/_hooks/useQueries/community";
-import { useEffect, useRef } from "react";
+import { Avatar, Card, useDisclosure } from "@nextui-org/react";
 import { GoArrowRight, GoHeartFill } from "react-icons/go";
+import Likes from "../likes/Likes";
+import CommunityDetailModal from "./CommunityDetailModal";
 import CommunitySkeleton from "./CommunitySkeleton";
+import { longStyle } from "./style";
 
-const CommunityListPost = ({
+import type { CommunityListPostProps } from "@/app/_types/community/community";
+
+const CommunityListPost: React.FC<CommunityListPostProps> = ({
   communityPost,
   mode,
   my_display_name,
   my_profile_img,
-}: {
-  communityPost: CommunityPostObj | undefined;
-  mode: string;
-  my_display_name?: string;
-  my_profile_img?: string | null;
 }) => {
   // 게시글 상세 모달창 open여부 props
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -55,7 +47,7 @@ const CommunityListPost = ({
     display_name: null,
     profile_img: null,
   };
-  // profile_img가 null인 경우 undefined로 변환 (null이면 src안에서 타입에러 발생)
+
   const imgSrc = profile_img || "";
 
   if (isPostLoading || isCommentsLoading) {
@@ -112,7 +104,7 @@ const CommunityListPost = ({
           >
             <div className="relative w-full desktop:h-[295px] overflow-hidden">
               {mode !== MODE_MAIN ? (
-                <img // main 이 아닌 경우
+                <img
                   onClick={() => onOpen()}
                   alt="Community Post Image"
                   className="object-cover w-full h-full cursor-pointer brightness-90"
@@ -205,7 +197,6 @@ const CommunityListPost = ({
                 </div>
               </div>
             ) : (
-              // 모드 메인이 아닌 경우
               <div
                 className={`flex items-center justify-center rounded-[24px] 
             border-2 border-[#3E3E3E]  font-extrabold p-0.5  h-[31px]
@@ -273,7 +264,7 @@ const CommunityListPost = ({
           >
             <div className="relative w-full laptop:h-[311px] overflow-hidden">
               {mode !== MODE_MAIN ? (
-                <img // main 이 아닌 경우
+                <img
                   onClick={() => onOpen()}
                   alt="Community Post Image"
                   className="object-cover w-full h-full cursor-pointer brightness-90"
