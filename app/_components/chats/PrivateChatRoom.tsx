@@ -182,13 +182,13 @@ const PrivateChatRoom = ({
         className="relative"
       >
         <ModalContent
-          className={`scrollbar-hide rounded-[55px] h-[87%] 
+          className={`scrollbar-hide rounded-[30px] h-[87%] 
             ${isActionInfoOpen ? "overflow-hidden" : "overflow-y-auto"}
             ${
               isDesktop
                 ? "max-w-[27%]"
                 : isLaptop
-                ? "max-w-[500px] "
+                ? "max-w-[28%] "
                 : isMobile && "max-w-[332px]"
             }
             `}
@@ -196,30 +196,37 @@ const PrivateChatRoom = ({
           {(onClose) => (
             <>
               <ModalHeader
-                className={`fixed bg-white flex justify-between items-center gap-5 shadow-md z-10 px-8 rounded-tl-[55px] rounded-tr-[55px] ${
+                className={`fixed bg-white flex justify-between items-center gap-5 shadow-md z-10 px-8 rounded-tl-[30px] rounded-tr-[30px] ${
                   isDesktop
                     ? "w-[27%] h-28"
                     : isLaptop
-                    ? "w-[500px] h-28"
+                    ? "w-[28%] h-[12%]"
                     : isMobile && "w-[332px] h-[73px]"
                 }`}
               >
-                <div className="flex gap-5 ml-2">
+                <div
+                  className={`flex ml-2 items-center ${
+                    isDesktop
+                      ? "gap-5"
+                      : isLaptop
+                      ? "gap-4"
+                      : isMobile && "gap-3"
+                  }`}
+                >
                   <Avatar
                     showFallback
                     src={participantInfo?.profile_img || ""}
                     alt="greener_profile"
-                    size={`${isDesktop || isLaptop ? "lg" : "md"}`}
+                    size={`${isDesktop ? "lg" : "md"}`}
+                    className={`${isLaptop && "w-[40px] h-[40px]"}`}
                   />
-                  <div
-                    className={`flex flex-col ${
-                      isDesktop || (isLaptop && "gap-0")
-                    }`}
-                  >
+                  <div className="flex flex-col gap-0">
                     <span
-                      className={`font-extrabold ${
-                        isDesktop || isLaptop
+                      className={`font-black py-0 m-0 ${
+                        isDesktop
                           ? "text-xl"
+                          : isLaptop
+                          ? "text-[17px]"
                           : isMobile && "text-[15px]"
                       }`}
                     >
@@ -230,7 +237,7 @@ const PrivateChatRoom = ({
                         isDesktop
                           ? "text-[15px]"
                           : isLaptop
-                          ? "text-[15px]"
+                          ? "text-[13px]"
                           : isMobile && "text-[11px]"
                       }`}
                     >
@@ -240,7 +247,7 @@ const PrivateChatRoom = ({
                 </div>
                 <div>
                   <IoReorderThreeOutline
-                    size={`${isDesktop || isLaptop ? 40 : 27}`}
+                    size={`${isDesktop ? 40 : isLaptop ? 35 : 27}`}
                     className="cursor-pointer"
                     onClick={() => onActionInfoOpen()}
                   />
@@ -303,7 +310,15 @@ const PrivateChatRoom = ({
                   </div>
                 </div>
                 <div className="sticky bottom-0 w-[100%] mx-auto bg-[#F3F4F3] flex justify-center pt-2">
-                  <div className="flex items-center justify-between px-8 mb-[34px] w-[90%] h-16 bg-white rounded-[50px]">
+                  <div
+                    className={`flex items-center justify-between px-8 w-[90%] bg-white rounded-[50px] ${
+                      isDesktop
+                        ? "mb-[34px] h-16"
+                        : isLaptop
+                        ? "mb-[24px] h-16"
+                        : isMobile && "mb-[17px] h-12"
+                    }`}
+                  >
                     <input
                       className="w-[90%] h-[85%] pl-4 focus:outline-none"
                       type="text"
