@@ -12,8 +12,6 @@ import CommunityListPost from "../community/CommunityListPost";
 import MyActionCard from "../mypage/MyActionCard";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
-// export const revalidate = 0;
-
 const MainSlider = ({ mode }: { mode: string }) => {
   // FIXME 메인페이지 mode action 인 경우 모집중인 것만 뜨게할지?
   const { isDesktop, isLaptop, isMobile } = useResponsive();
@@ -25,10 +23,11 @@ const MainSlider = ({ mode }: { mode: string }) => {
     dots: true,
     infinite: true,
     arrows: false,
-    speed: 9000,
+    speed: 7000,
     slidesToShow: 4,
     slidesToScroll: 4,
     adaptiveHeight: true,
+    pauseOnFocus: true, //마우스 클릭 시 슬라이드 멈춤 ▶기본값 true
   };
 
   const { data: communityPostsLikes, isLoading: isPostsLoading } =
@@ -60,7 +59,8 @@ const MainSlider = ({ mode }: { mode: string }) => {
         mode === MODE_COMMUNITY
           ? "h-[510px] desktop:w-[1750px]"
           : "h-[600px] desktop:w-[1600px]"
-      }   flex items-center justify-center`}
+      }   flex items-center justify-center 
+      `}
     >
       {mode === MODE_COMMUNITY
         ? communityPostsByLikes?.slice(0, 8).map(
