@@ -18,6 +18,7 @@ import {
 } from "@/app/_hooks/useQueries/chats";
 import Image from "next/image";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
+import { PrivateChat } from "@/app/_types/realtime-chats";
 
 const PageChatsList = ({
   onClose,
@@ -104,10 +105,29 @@ const PageChatsList = ({
     return <div>Error</div>;
   }
 
+  // 오늘 알림, 이전 알림 리스트 분리
+  const today = new Date().toDateString();
+
+  const todayChats: (PrivateChat | null)[] | undefined = [];
+  const previousChats: (PrivateChat | null)[] | undefined = [];
+
+  privateChatsList?.map((privateChat) => {
+    if (!privateChat) return [];
+
+    if (privateChat.created_at) {
+      const messageDate = new Date(privateChat.created_at).toDateString();
+
+      if (messageDate === today) {
+        todayChats.push(privateChat);
+      } else {
+        previousChats.push(privateChat);
+      }
+    }
+  });
+
   return (
     <>
       <header className="flex items-end gap-1 z-10 px-0">
-        {/* <div className="text-gray-500 text-sm">green-action</div> */}
         <div className="flex w-full flex-col">
           <div
             className={`${
@@ -137,13 +157,6 @@ const PageChatsList = ({
         </div>
       </header>
       <ModalBody className="bg-[#EAEAEA] pt-[22%] pb-7 px-0">
-        {/* {privateChatsList?.map((privateChat) => (
-          <PagePrivateItem
-            key={privateChat?.room_id}
-            privateChat={privateChat}
-            actionId={action_id}
-          />
-        ))} */}
         <div
           className={`${
             isDesktop ? "px-10" : isLaptop ? "px-8" : isMobile && "px-5 pt-3"
@@ -166,11 +179,7 @@ const PageChatsList = ({
                 isDesktop ? "mb-7" : isLaptop ? "mb-5" : isMobile && "mb-2"
               }`}
             >
-              {/* TODO any 해결 필요 */}
-              {/* {todayMessages?.map((eachRoomInfo: any) => (
-            <HeaderPrivateItem eachRoomInfo={eachRoomInfo} mode={MODE_TODAY} />
-          ))} */}
-              {privateChatsList?.map((privateChat) => (
+              {todayChats?.map((privateChat) => (
                 <PagePrivateItem
                   key={privateChat?.room_id}
                   privateChat={privateChat}
@@ -192,14 +201,7 @@ const PageChatsList = ({
               이전 알림
             </div>
             <div>
-              {/* TODO any 해결 필요 */}
-              {/* {previousMessages?.map((eachRoomInfo: any) => (
-                <HeaderPrivateItem
-                  eachRoomInfo={eachRoomInfo}
-                  mode={MODE_PREVIOUS}
-                />
-              ))} */}
-              {privateChatsList?.map((privateChat) => (
+              {previousChats?.map((privateChat) => (
                 <PagePrivateItem
                   key={privateChat?.room_id}
                   privateChat={privateChat}

@@ -173,10 +173,34 @@ const HeaderPrivateList = () => {
     })
     .filter((combined) => combined !== null);
 
-  // TODO any 해결필요
-  // combinedObjects가 null 또는 undefined인 경우 빈 배열로 초기화
-  const todayMessages: any = [];
-  const previousMessages: any = [];
+  type CombinedObject =
+    | ({
+        chat_rooms_info: {
+          room_type: string | undefined;
+          room_id: string;
+          participant_type: string;
+        };
+        action_info: {
+          action_id: string;
+          action_title: string;
+          action_imgUrl: string;
+        };
+        message: {
+          content: string;
+          created_at: string;
+          room_id: string;
+          sender_uid: string;
+          user: {
+            display_name: string;
+            id: string;
+            profile_img: string;
+          };
+        } | null;
+      } | null)[]
+    | undefined;
+
+  const todayMessages: (CombinedObject | null)[] | undefined = [];
+  const previousMessages: (CombinedObject | null)[] | undefined = [];
 
   if (combinedObjects) {
     const today = new Date().toDateString();
@@ -219,8 +243,7 @@ const HeaderPrivateList = () => {
             isDesktop ? "mb-7" : isLaptop ? "mb-5" : isMobile && "mb-2"
           }`}
         >
-          {/* TODO any 해결 필요 */}
-          {todayMessages?.map((eachRoomInfo: any) => (
+          {todayMessages?.map((eachRoomInfo) => (
             <HeaderPrivateItem eachRoomInfo={eachRoomInfo} mode={MODE_TODAY} />
           ))}
         </div>
@@ -238,8 +261,7 @@ const HeaderPrivateList = () => {
           이전 알림
         </div>
         <div>
-          {/* TODO any 해결 필요 */}
-          {previousMessages?.map((eachRoomInfo: any) => (
+          {previousMessages?.map((eachRoomInfo) => (
             <HeaderPrivateItem
               eachRoomInfo={eachRoomInfo}
               mode={MODE_PREVIOUS}

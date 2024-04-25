@@ -65,3 +65,44 @@ export interface ParticipantInfo {
   profile_img: string | null;
   participant_type?: string;
 }
+
+export interface PrivateChat {
+  user: {
+    id: string;
+    display_name: string;
+    profile_img: string;
+  };
+  created_at?: string | undefined;
+  content?: string | undefined;
+  room_id?: string | undefined;
+  sender_uid?: string | undefined;
+}
+
+export interface CombinedObject {
+  chat_rooms_info: {
+    room_type: string | undefined;
+    room_id: string;
+    participant_type: string;
+  };
+  action_info: {
+    action_id: string;
+    action_title: string;
+    action_imgUrl: string;
+  };
+  message: {
+    content: string;
+    created_at: string;
+    room_id: string;
+    sender_uid: string;
+    user: {
+      display_name: string;
+      id: string;
+      profile_img: string;
+    };
+  } | null;
+}
+
+export interface LastDates {
+  room_id: string;
+  created_at: string;
+}
