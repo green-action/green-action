@@ -91,7 +91,7 @@ const GroupContent = () => {
               radius="lg"
               width="100%"
               className="w-full object-cover desktop:h-[550px] laptop:h-[433px] phone:h-[415px]"
-              src={action.img_url as string}
+              src={action.img_url}
               alt="campaign Img"
             />
           </Card>

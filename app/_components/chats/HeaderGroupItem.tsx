@@ -89,7 +89,9 @@ const HeaderGroupItem: React.FC<headerGroupItemProps> = ({ room_id, mode }) => {
     >
       <div className="flex items-center justify-between">
         <div>
-          <img
+          <Image
+            width={65}
+            height={65}
             src={actionInfo?.action_url}
             alt="defaultImg"
             className={`rounded-full ${

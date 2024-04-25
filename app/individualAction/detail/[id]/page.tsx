@@ -29,11 +29,11 @@ import {
 
 import ChatButtons from "@/app/_components/individualAction/ChatButtons";
 import KakaoMap from "@/app/_components/kakaoMap/KakaoMap";
+import person from "/app/_assets/image/individualAction/person.png";
 import delAction from "/app/_assets/image/logo_icon/icon/mypage/Group 131.png";
 import prevBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 132.png";
 import nextBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 133.png";
 import calendar from "/app/_assets/image/logo_icon/icon/mypage/image 127.png";
-import person from "/app/_assets/image/individualAction/person.png";
 import mapPin from "/app/_assets/image/logo_icon/icon/mypage/image 169.png";
 import editAction from "/app/_assets/image/logo_icon/icon/mypage/image 55.png";
 
@@ -288,7 +288,9 @@ const DetailPage = () => {
                     <div className="rounded-[20px]">
                       {" "}
                       {imgUrl!.length === 1 ? (
-                        <img
+                        <Image
+                          width={387}
+                          height={390}
                           src={imgUrl![0].img_url}
                           alt="green_action_image"
                           className="w-[387px] h-[390px] rounded-[20px]"
@@ -301,7 +303,9 @@ const DetailPage = () => {
                           {imgUrl?.map((item) => {
                             return (
                               <div>
-                                <img
+                                <Image
+                                  width={387}
+                                  height={390}
                                   src={item.img_url}
                                   alt="green_action_image"
                                   className="w-[387px] h-[390px] rounded-[20px]"
@@ -486,7 +490,7 @@ const DetailPage = () => {
                     <div className="rounded-[20px]">
                       {" "}
                       {imgUrl!.length === 1 ? (
-                        <img
+                        <Image
                           src={imgUrl![0].img_url}
                           alt="green_action_image"
                           className="w-[387px] h-[390px] rounded-[20px]"
@@ -499,7 +503,7 @@ const DetailPage = () => {
                           {imgUrl?.map((item) => {
                             return (
                               <div>
-                                <img
+                                <Image
                                   src={item.img_url}
                                   alt="green_action_image"
                                   className="w-[387px] h-[390px] rounded-[20px]"
@@ -646,7 +650,7 @@ const DetailPage = () => {
                     <div className="rounded-[20px]">
                       {" "}
                       {imgUrl!.length === 1 ? (
-                        <img
+                        <Image
                           src={imgUrl![0].img_url}
                           alt="green_action_image"
                           className="w-[272px] h-[275px] rounded-[20px]"
@@ -659,7 +663,7 @@ const DetailPage = () => {
                           {imgUrl?.map((item) => {
                             return (
                               <div>
-                                <img
+                                <Image
                                   src={item.img_url}
                                   alt="green_action_image"
                                   className="w-[272px] h-[275px] rounded-[20px]"
