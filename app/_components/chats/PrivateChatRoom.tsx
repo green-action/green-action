@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { supabase } from "@/utils/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
@@ -8,12 +8,15 @@ import { sendMessage } from "@/app/_api/messages/privateChat-api";
 import {
   QUERY_KEY_ALL_UNREAD_COUNT,
   QUERY_KEY_MESSAGES_LIST,
+  QUERY_KEY_MY_PRIVATE_ROOMS_IDS,
   QUERY_KEY_UNREAD_MESSAGES_COUNT,
+  QUERY_KEY_UPDATE_UNREAD,
 } from "@/app/_api/queryKeys";
-import { Avatar } from "@nextui-org/react";
+import { Avatar, useDisclosure } from "@nextui-org/react";
 import { Modal, ModalContent, ModalHeader, ModalBody } from "@nextui-org/react";
 import {
-  useGetActionInfo,
+  useGetActionParticipantsInfo,
+  useGetGroupActionInfo,
   useGetMessagesList,
   useGetParticipantInfo,
   useUpdateUnread,
@@ -21,28 +24,41 @@ import {
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 import Image from "next/image";
 import { IoPaperPlane } from "react-icons/io5";
-import send from "@/app/_assets/image/individualAction/image184.svg";
+import { IoReorderThreeOutline } from "react-icons/io5";
 import { useResponsive } from "@/app/_hooks/responsive";
 import { formatToLocaleDateTimeString } from "@/utils/date/date";
+import GroupInsideModal from "./GroupInsideModal";
 
 import type { ChatProps } from "@/app/_types/realtime-chats";
-
-type ChatPropsExceptActionId = Omit<ChatProps, "actionId">;
 
 const PrivateChatRoom = ({
   isOpen,
   onOpenChange,
   roomId,
-}: ChatPropsExceptActionId) => {
+  actionId,
+}: ChatProps) => {
   const [message, setMessage] = useState("");
   const queryClient = useQueryClient();
   const { isDesktop, isLaptop, isMobile } = useResponsive();
+  const chatRoomRef = useRef<HTMLDivElement | null>(null);
 
   // 현재 로그인한 유저 uid
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
 
+  // 액션정보 모달창
+  const {
+    isOpen: isActionInfoOpen,
+    onOpen: onActionInfoOpen,
+    onOpenChange: onActionInfoChange,
+    onClose: onActionInfoClose,
+  } = useDisclosure();
+
   useEffect(() => {
+    if (chatRoomRef.current) {
+      chatRoomRef.current.scrollTop = chatRoomRef.current.scrollHeight;
+    }
+
     queryClient.invalidateQueries({
       queryKey: [QUERY_KEY_UNREAD_MESSAGES_COUNT],
     });
@@ -56,13 +72,24 @@ const PrivateChatRoom = ({
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "chat_messages" },
 
-        // 채팅 리스트 무효화 성공 - 리스트 전체를 무효화 (수정 필요)
+        // TODO 채팅 리스트 무효화 성공 - 리스트 전체를 무효화 (수정 필요 - setQueryData 등)
         () => {
           queryClient.invalidateQueries({
             queryKey: [QUERY_KEY_MESSAGES_LIST],
           });
           queryClient.invalidateQueries({
             queryKey: [QUERY_KEY_ALL_UNREAD_COUNT],
+          });
+          queryClient.invalidateQueries({
+            queryKey: [QUERY_KEY_UNREAD_MESSAGES_COUNT],
+          });
+          // header 개인채팅 리스트 가져오기 무효화
+          queryClient.invalidateQueries({
+            queryKey: [QUERY_KEY_MY_PRIVATE_ROOMS_IDS],
+          });
+          // 메시지 insert되면 리스트의 안읽수 업데이트도 같이 되어야함
+          queryClient.invalidateQueries({
+            queryKey: [QUERY_KEY_UPDATE_UNREAD],
           });
         },
       )
@@ -83,11 +110,21 @@ const PrivateChatRoom = ({
     loggedInUserUid,
     roomId,
   });
-  // TODO 스크롤이 위에 있을때 new message 개수 표시하는건 어떻게 처리해야할까?
 
-  // 채팅방의 action정보
+  // // 채팅방의 action정보, 참가자 정보
+  // const { actionInfo, isActionInfoLoading, isActionInfoError } =
+  //   useGetActionInfo(roomId);
+
+  // action정보 가져오기(id, 제목, 시작 및 종료일자, 모집인원, 사진1장 url)
   const { actionInfo, isActionInfoLoading, isActionInfoError } =
-    useGetActionInfo(roomId);
+    useGetGroupActionInfo(actionId);
+
+  // action 참여자 정보
+  const {
+    actionParticipantsInfo,
+    isActionParticipantsLoading,
+    isActionParticipantsError,
+  } = useGetActionParticipantsInfo(actionId);
 
   // 채팅방 상대방의 id, 닉네임, 이미지
   const { participantInfo, isParticiPantLoading, isParticiPantError } =
@@ -100,7 +137,8 @@ const PrivateChatRoom = ({
     isLoading ||
     isUpdateUnreadLoading ||
     isActionInfoLoading ||
-    isParticiPantLoading
+    isParticiPantLoading ||
+    isActionParticipantsLoading
   ) {
     return (
       <div className="w-[200px] h-auto mx-auto">
@@ -114,13 +152,12 @@ const PrivateChatRoom = ({
     isUpdateUnreadError ||
     isActionInfoError ||
     isParticiPantError ||
-    messagesList === undefined
+    isActionParticipantsError ||
+    messagesList === undefined ||
+    actionParticipantsInfo === undefined
   ) {
     return <div>Error</div>;
   }
-
-  // console.log("actionInfo", actionInfo);
-  // console.log("participantInfo", participantInfo);
 
   // 메시지 보내기 핸들러
   const handleSendMessage = async () => {
@@ -142,35 +179,50 @@ const PrivateChatRoom = ({
           onOpenChange={onOpenChange}
           placement="center"
           size="3xl"
+          ref={chatRoomRef}
+          className="relative"
         >
-          <ModalContent className="relative max-w-[27%] h-[87%] overflow-y-auto scrollbar-hide rounded-[55px]">
+          <ModalContent
+            className={` max-w-[27%] h-[87%] scrollbar-hide rounded-[55px] ${
+              isActionInfoOpen ? "overflow-hidden" : "overflow-y-auto"
+            }`}
+          >
             {(onClose) => (
               <>
-                <ModalHeader className="fixed bg-white flex items-center gap-5 w-[27%] shadow-md h-28 z-10 px-8 rounded-tl-[55px] rounded-tr-[55px]">
-                  <Avatar
-                    showFallback
-                    src={participantInfo?.profile_img || ""}
-                    alt="greener_profile"
-                    size="lg"
-                  />
-                  <div className="flex flex-col gap-0">
-                    <span className="text-xl font-extrabold">
-                      {participantInfo?.display_name}
-                    </span>
-                    <span className="text-gray-500 text-[15px] font-['Pretendard-ExtraLight']">
-                      Greener
-                    </span>
+                <ModalHeader className="fixed bg-white flex justify-between items-center gap-5 w-[27%] shadow-md h-28 z-10 px-8 rounded-tl-[55px] rounded-tr-[55px]">
+                  <div className="flex gap-5 ml-2">
+                    <Avatar
+                      showFallback
+                      src={participantInfo?.profile_img || ""}
+                      alt="greener_profile"
+                      size="lg"
+                    />
+                    <div className="flex flex-col gap-0">
+                      <span className="text-xl font-extrabold">
+                        {participantInfo?.display_name}
+                      </span>
+                      <span className="text-gray-500 text-[15px] font-['Pretendard-ExtraLight']">
+                        Greener
+                      </span>
+                    </div>
+                  </div>
+                  <div>
+                    <IoReorderThreeOutline
+                      size={40}
+                      className="cursor-pointer"
+                      onClick={() => onActionInfoOpen()}
+                    />
                   </div>
                 </ModalHeader>
-                <ModalBody className="bg-[#F3F4F3] pt-32 pb-0">
+                <ModalBody className="bg-[#F3F4F3] pt-32 pb-0 px-0">
                   <div className="flex justify-center h-[100%]">
                     <div className={`flex flex-col w-[100%]`}>
                       {messagesList?.map((message) => (
                         <div
-                          className={`m-3  max-w-[70%] ${
+                          className={`m-3 max-w-[70%] ${
                             message.sender_uid === loggedInUserUid
-                              ? "self-end"
-                              : "self-start"
+                              ? "self-end mr-8"
+                              : "self-start ml-8"
                           }`}
                           key={message.id}
                         >
@@ -190,7 +242,7 @@ const PrivateChatRoom = ({
                   <div className="sticky bottom-0 w-[100%] mx-auto bg-[#F3F4F3] flex justify-center pt-2">
                     <div className="flex items-center justify-between px-8 mb-[34px] w-[90%] h-16 bg-white rounded-[50px]">
                       <input
-                        className="w-[90%] h-[85%] pl-4"
+                        className="w-[90%] h-[85%] pl-4 focus:outline-none "
                         type="text"
                         placeholder="send message..."
                         value={message}
@@ -210,6 +262,17 @@ const PrivateChatRoom = ({
                       </div>
                     </div>
                   </div>
+                  {/* action info 모달창 */}
+                  {isActionInfoOpen && (
+                    <GroupInsideModal
+                      onActionInfoClose={onActionInfoClose}
+                      actionInfo={actionInfo}
+                      participantsInfo={actionParticipantsInfo}
+                      roomId={roomId}
+                      actionId={actionId}
+                      onClose={onClose}
+                    />
+                  )}
                 </ModalBody>
               </>
             )}

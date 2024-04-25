@@ -173,3 +173,38 @@ export const sendMessage = async ({
     throw error;
   }
 };
+
+// action 참가자 가져오기
+export const getActionParticipantsInfo = async (action_id: string) => {
+  const { data: actionRoomId, error: actionRoomIdError } = await supabase
+    .from("chat_rooms_info")
+    .select("id")
+    .eq("action_id", action_id);
+
+  if (actionRoomIdError) {
+    console.log("error", actionRoomIdError.message);
+    throw actionRoomIdError;
+  }
+
+  const room_id = actionRoomId[0].id;
+
+  const { data, error } = await supabase
+    .from("chat_participants")
+    .select("users(id, display_name, profile_img)")
+    .eq("room_id", room_id);
+
+  if (error) {
+    console.log("error", error.message);
+    throw error;
+  }
+
+  const actionParticipantsInfo = data.map((item) => {
+    if (item.users === undefined || null) {
+      return [];
+    }
+
+    return item.users;
+  });
+
+  return actionParticipantsInfo;
+};
