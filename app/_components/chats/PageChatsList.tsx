@@ -146,7 +146,7 @@ const PageChatsList = ({
         ))} */}
         <div
           className={`${
-            isDesktop ? "px-10" : isLaptop ? "px-8" : isMobile && "px-5"
+            isDesktop ? "px-10" : isLaptop ? "px-8" : isMobile && "px-5 pt-3"
           }`}
         >
           <div className="flex flex-col">

@@ -52,29 +52,71 @@ const PagePrivateItem = ({ privateChat, actionId }: PrivateChatProps) => {
           onClick={() => {
             onPrivateChatOpen();
           }}
-          className="flex bg-white w-full h-[97%] justify-center items-center mb-5 p-4 cursor-pointer rounded-2xl"
+          className={`flex bg-white w-full h-[97%] justify-center items-center cursor-pointer rounded-2xl ${
+            isDesktop
+              ? "mb-6 px-9 py-8"
+              : isLaptop
+              ? "mb-4 px-7 py-5"
+              : isMobile && "mb-3 px-4 py-2"
+          }`}
         >
           <div>
             <Avatar
               showFallback
               src={privateChat?.user?.profile_img || ""}
               alt="user_profile"
-              className="ml-4 mr-7 w-[50px] h-[50px]"
+              className={`${
+                isDesktop
+                  ? "w-[65px] h-[65px] mr-7"
+                  : isLaptop
+                  ? "w-[50px] h-[50px] mr-4"
+                  : isMobile && "w-[30px] h-[30px] mr-3"
+              }`}
             />
           </div>
           <div className="w-[90%]">
             <div className="flex justify-between mb-2">
-              <p className="font-bold text-lg">
+              <p
+                className={`font-black ${
+                  isDesktop
+                    ? "text-xl"
+                    : isLaptop
+                    ? "text-sm"
+                    : isMobile && "text-xs"
+                }`}
+              >
                 {privateChat?.user?.display_name}
               </p>
-              <p className="text-sm text-gray-500">{formattedDate}</p>
+              <p
+                className={`text-gray-500 ${
+                  isLaptop ? "text-sm" : isMobile && "text-xs"
+                }`}
+              >
+                {formattedDate}
+              </p>
             </div>
             <div className="flex justify-between">
-              <p className="max-w-[170px] text-gray-500 overflow-hidden whitespace-nowrap overflow-ellipsis">
+              <p
+                className={`text-gray-500 overflow-hidden whitespace-nowrap overflow-ellipsis ${
+                  isDesktop
+                    ? "max-w-[170px]"
+                    : isLaptop
+                    ? "max-w-[130px] text-sm"
+                    : isMobile && "max-w-[120px] text-xs"
+                }`}
+              >
                 {privateChat?.content}
               </p>
               {unreadCount > 0 && (
-                <div className="bg-[#B3C8A1] w-7 h-7 rounded-full text-white font-extrabold flex justify-center items-center">
+                <div
+                  className={`bg-[#B3C8A1] ml-1 rounded-full text-white font-extrabold flex justify-center items-center ${
+                    isDesktop
+                      ? "w-7 h-7"
+                      : isLaptop
+                      ? "w-6 h-6 text-sm"
+                      : isMobile && "w-4 h-4 text-xs"
+                  }`}
+                >
                   {unreadCount}
                 </div>
               )}
