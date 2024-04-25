@@ -31,7 +31,9 @@ interface GroupInsideModalProps {
       }
     | null
     | undefined;
-  participantsInfo: ParticipantInfo[] | undefined;
+  // participantsInfo: ParticipantInfo[] | undefined;
+  // TODO any 해결필요
+  participantsInfo: any;
   roomId: string;
   actionId: string;
   onClose: () => void;
@@ -49,7 +51,8 @@ const GroupInsideModal = ({
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
 
-  const ownerInfo = participantsInfo?.find((item) => {
+  // TODO any 해결필요
+  const ownerInfo = participantsInfo?.find((item: any) => {
     return item.participant_type === "방장";
   });
 
@@ -84,7 +87,7 @@ const GroupInsideModal = ({
   };
 
   return (
-    <div className="absolute fixed inset-0 z-30 flex bg-black bg-opacity-30">
+    <div className="absolute bottom-0 w-[100%] inset-0 z-30 flex bg-black bg-opacity-30">
       <div className="w-full flex justify-end">
         <div
           className="desktop:w-[75%] desktop:h-[100%] desktop:top-[130px] desktop:left-[40px] 
@@ -140,7 +143,8 @@ const GroupInsideModal = ({
                   <LiaCrownSolid size={25} className="text-[#B3C8A1]" />
                   <span>{ownerNicknameImg?.display_name}</span>
                 </div>
-                {participantsInfo?.map((participant) => (
+                {/* TODO any 해결 필요 */}
+                {participantsInfo?.map((participant: any) => (
                   <>
                     {participant.id !== ownerInfo?.id && (
                       <div className="flex items-center gap-4 font-extrabold">

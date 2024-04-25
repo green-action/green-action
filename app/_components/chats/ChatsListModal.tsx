@@ -1,7 +1,8 @@
 import { MODE_ACTION_PAGE, MODE_HEADER } from "@/app/_api/constant";
 import { Modal, ModalContent } from "@nextui-org/react";
-import HeaderChatsList from "./HeaderChatsSelect";
 import PrivateChatsList from "./PageChatsList";
+import HeaderChatsSelect from "./HeaderChatsSelect";
+import { useResponsive } from "@/app/_hooks/responsive";
 
 const ChatsListModal = ({
   isOpen,
@@ -15,13 +16,31 @@ const ChatsListModal = ({
   mode: string;
   action_id: string;
 }) => {
+  const { isDesktop, isLaptop, isMobile } = useResponsive();
+
   return (
     <>
-      <Modal size="full" isOpen={isOpen} onClose={onClose}>
-        <ModalContent className="w-[600px] absolute right-0 overflow-y-auto scrollbar-hide">
+      <Modal
+        size={`${isDesktop || isLaptop ? "full" : "md"}`}
+        isOpen={isOpen}
+        onClose={onClose}
+        placement={`${isMobile ? "center" : "auto"}`}
+      >
+        <ModalContent
+          className={`
+          ${
+            isDesktop
+              ? "w-[32%] min-w-[620px] right-0"
+              : isLaptop
+              ? "w-[32%] min-w-[430px] right-0"
+              : isMobile && "max-w-[332px] h-[87%] rounded-[55px]"
+          }
+          
+          overflow-y-auto scrollbar-hide absolute`}
+        >
           {(onClose) => (
             <>
-              {mode === MODE_HEADER && <HeaderChatsList onClose={onClose} />}
+              {mode === MODE_HEADER && <HeaderChatsSelect onClose={onClose} />}
               {mode === MODE_ACTION_PAGE && (
                 <PrivateChatsList onClose={onClose} action_id={action_id} />
               )}

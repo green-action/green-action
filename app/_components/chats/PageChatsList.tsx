@@ -29,6 +29,7 @@ const PageChatsList = ({
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
   const queryClient = useQueryClient();
+  const { isDesktop, isLaptop, isMobile } = useResponsive();
 
   // 채팅방 room_id 배열 가져오기
   const { roomIds, isLoading, isError } = useGetPrivateRoomIds(action_id);
@@ -103,28 +104,112 @@ const PageChatsList = ({
     return <div>Error</div>;
   }
 
-  // console.log("privateChatsList", privateChatsList);
-
   return (
     <>
-      {/* <ModalHeader className="flex flex-col gap-1 bg-[#D4DFD2] h-20 rounded-bl-3xl rounded-br-3xl"> */}
-      <ModalHeader className="flex flex-col gap-1 z-10 shadow-md px-7 py-5">
-        <div className="text-gray-500 text-sm">green-action</div>
-        <div>1:1 문의 목록</div>
-      </ModalHeader>
-      <ModalBody className="bg-[#EAEAEA] pt-10 pb-7">
-        {privateChatsList?.map((privateChat) => (
+      <header className="flex items-end gap-1 z-10 px-0">
+        {/* <div className="text-gray-500 text-sm">green-action</div> */}
+        <div className="flex w-full flex-col">
+          <div
+            className={`${
+              isDesktop
+                ? "w-full"
+                : isLaptop
+                ? "w-full"
+                : isMobile && "w-[332px] rounded-t-[55px]"
+            } fixed bg-white z-10 flex text-[20px] gap-8 h-[13%] items-end pl-11`}
+          >
+            <div
+              className={`pb-2
+                ${isDesktop && "border-b-3 border-black font-black text-black"}
+                ${
+                  isLaptop &&
+                  "border-b-2 border-black font-black text-black text-base"
+                }
+                ${
+                  isMobile &&
+                  "border-b-2 border-black font-black text-black text-sm"
+                } 
+                `}
+            >
+              1:1 문의 목록
+            </div>
+          </div>
+        </div>
+      </header>
+      <ModalBody className="bg-[#EAEAEA] pt-[22%] pb-7 px-0">
+        {/* {privateChatsList?.map((privateChat) => (
           <PagePrivateItem
             key={privateChat?.room_id}
             privateChat={privateChat}
+            actionId={action_id}
           />
-        ))}
+        ))} */}
+        <div
+          className={`${
+            isDesktop ? "px-10" : isLaptop ? "px-8" : isMobile && "px-5 pt-3"
+          }`}
+        >
+          <div className="flex flex-col">
+            <div
+              className={`ml-2 mt-2 font-black ${
+                isDesktop
+                  ? "text-[18px] mb-5"
+                  : isLaptop
+                  ? "text-[15px] mb-2"
+                  : isMobile && "text-[13px] mb-2"
+              }`}
+            >
+              오늘 받은 알림
+            </div>
+            <div
+              className={`${
+                isDesktop ? "mb-7" : isLaptop ? "mb-5" : isMobile && "mb-2"
+              }`}
+            >
+              {/* TODO any 해결 필요 */}
+              {/* {todayMessages?.map((eachRoomInfo: any) => (
+            <HeaderPrivateItem eachRoomInfo={eachRoomInfo} mode={MODE_TODAY} />
+          ))} */}
+              {privateChatsList?.map((privateChat) => (
+                <PagePrivateItem
+                  key={privateChat?.room_id}
+                  privateChat={privateChat}
+                  actionId={action_id}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-col">
+            <div
+              className={`ml-2 mt-2 font-black ${
+                isDesktop
+                  ? "text-[18px] mb-5"
+                  : isLaptop
+                  ? "text-[15px] mb-2"
+                  : isMobile && "text-[13px] mb-2"
+              }`}
+            >
+              이전 알림
+            </div>
+            <div>
+              {/* TODO any 해결 필요 */}
+              {/* {previousMessages?.map((eachRoomInfo: any) => (
+                <HeaderPrivateItem
+                  eachRoomInfo={eachRoomInfo}
+                  mode={MODE_PREVIOUS}
+                />
+              ))} */}
+              {privateChatsList?.map((privateChat) => (
+                <PagePrivateItem
+                  key={privateChat?.room_id}
+                  privateChat={privateChat}
+                  actionId={action_id}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
       </ModalBody>
-      <ModalFooter className="bg-[#EAEAEA] flex justify-start">
-        <Button color="default" onPress={onClose}>
-          close
-        </Button>
-      </ModalFooter>
     </>
   );
 };
