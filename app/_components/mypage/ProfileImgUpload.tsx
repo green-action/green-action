@@ -1,15 +1,14 @@
+import { Avatar } from "@nextui-org/react";
 import React from "react";
+import { IoIosCamera } from "react-icons/io";
 
 import type { ProfileImgUploadProps } from "@/app/_types/mypage/mypage";
 
-import { Avatar } from "@nextui-org/react";
-import { IoIosCamera } from "react-icons/io";
-
-const ProfileImgUpload = ({
+const ProfileImgUpload: React.FC<ProfileImgUploadProps> = ({
   uploadedFileUrl,
   setUploadedFileUrl,
   setFile,
-}: ProfileImgUploadProps) => {
+}) => {
   // 이미지 미리보기 띄우기
   const handleShowPreview = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

@@ -9,6 +9,7 @@ export const MODE_DETAIL_PAGE = "detailPage";
 export const MODE_INDIVIDUAL_ACTION = "individualAction";
 export const MODE_INDIVIDUAL_ACTION_ADD = "individualAdd";
 export const MODE_COMMENT = "comment";
+export const MODE_ADD_COMMENT = "addComment"
 export const MODE_ADD_ACTION = "addAction";
 export const MODE_ADD_POST = "addPost";
 export const MODE_IN = "in";

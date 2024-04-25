@@ -1,11 +1,12 @@
 import React, { useState } from "react";
+
 import type { EditImgProps } from "@/app/_types/community/community";
 
-const PostImgEdit = ({
+const PostImgEdit: React.FC<EditImgProps> = ({
   uploadedFileUrl,
   setUploadedFileUrl,
   setFile,
-}: EditImgProps) => {
+}) => {
   // 드래그 앤 드랍 상태
   const [isDragging, setIsDragging] = useState(false);
 

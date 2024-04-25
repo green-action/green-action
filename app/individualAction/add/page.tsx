@@ -1,8 +1,6 @@
 "use client";
 
-import { useSession } from "next-auth/react";
-import React, { useRef, useState } from "react";
-
+import { MODE_INDIVIDUAL_ACTION_ADD } from "@/app/_api/constant";
 import {
   insertActionTextForm,
   insertGroupChatRoom,
@@ -10,8 +8,6 @@ import {
   updateUserPoint,
   uploadFilesAndGetUrls,
 } from "@/app/_api/individualAction-add/add-api";
-
-import { MODE_INDIVIDUAL_ACTION_ADD } from "@/app/_api/constant";
 import AlertModal from "@/app/_components/community/AlertModal";
 import PointModal from "@/app/_components/community/PointModal";
 import CustomConfirm from "@/app/_components/customConfirm/CustomConfirm";
@@ -22,7 +18,9 @@ import ThirdInputBox from "@/app/_components/individualAction-add/ThirdInputBox"
 import { useResponsive } from "@/app/_hooks/responsive";
 import { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
 import { useDisclosure } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import React, { useRef, useState } from "react";
 import { FaChevronLeft } from "react-icons/fa6";
 
 const AddActionPage = () => {

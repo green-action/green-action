@@ -1,17 +1,8 @@
-import { useState } from "react";
+import { GoodsItem } from "@/app/_types/goods";
+import React, { useState } from "react";
 import ProductInfoModal from "./ProductInfoModal";
 
-const GoodsImg = ({
-  item,
-}: {
-  item: {
-    id: string;
-    img_url: string;
-    point: number;
-    product_info: string;
-    product_name: string;
-  };
-}) => {
+const GoodsImg: React.FC<GoodsItem> = ({ item }) => {
   const [showProductInfo, setShowProductInfo] = useState(false);
   const handleToggleProductInfo = () => {
     setShowProductInfo(!showProductInfo);

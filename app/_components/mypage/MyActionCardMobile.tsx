@@ -10,10 +10,10 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import MyActionCard from "./MyActionCard";
 import CommunityListPost from "../community/CommunityListPost";
-import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
+import MyActionCard from "./MyActionCard";
 import RecruitSelectTab from "./RecruitSelectTab";
+import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
 
 const MyActionCardMobile = () => {
   // TODO props 타입등 재설정
@@ -49,7 +49,7 @@ const MyActionCardMobile = () => {
     isError: isUserInfoError,
   } = useFetchUserInfo(user_uid);
 
-  const { display_name, profile_img } = (userInfo as User) || ""; // as User 외에도 || '' 처리해줘야 에러안뜸
+  const { display_name, profile_img } = (userInfo as User["userInfo"]) || ""; // as User["userInfo"] 외에도 || '' 처리해줘야 에러안뜸
 
   // my action - created_at (작성일) 기준으로 정렬하기
   const sortedMyActions = myActions?.slice().sort((a, b) => {

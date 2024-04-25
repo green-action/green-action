@@ -10,19 +10,14 @@ import {
 } from "@nextui-org/react";
 import React from "react";
 
-interface MyActionRecruitingChange {
-  id: string;
-  isOpen: boolean;
-  onClose: () => void;
-  onOpenChange: () => void;
-}
+import type { MyActionRecruitingChange } from "@/app/_types/mypage/mypage";
 
-const MyActionRecruitingModal = ({
+const MyActionRecruitingModal: React.FC<MyActionRecruitingChange> = ({
   id,
   isOpen,
   onClose,
   onOpenChange,
-}: MyActionRecruitingChange) => {
+}) => {
   // 타입 변경하기
   const { updateRecruiting } = useUpdateActionRecruiting(id);
 

@@ -1,44 +1,29 @@
 "use client";
 
-import { useSession } from "next-auth/react";
-import React, { useCallback, useState } from "react";
-
-import { useAddLike, useRemoveLike } from "@/app/_hooks/useMutations/bookmarks";
-import { useFilterLikes } from "@/app/_hooks/useQueries/bookmarks";
-
-import { debounce } from "@/utils/debounce/debounce";
-
-import { GoHeart, GoHeartFill } from "react-icons/go";
-
 import {
-  MODE_MAIN,
   MODE_MAIN_DESKTOP,
   MODE_MAIN_DESKTOP_COUNT,
   MODE_MAIN_LAPTOP,
   MODE_MAIN_LAPTOP_COUNT,
   MODE_MOBILE,
 } from "@/app/_api/constant";
+import { useAddLike, useRemoveLike } from "@/app/_hooks/useMutations/bookmarks";
+import { useFilterLikes } from "@/app/_hooks/useQueries/bookmarks";
+import { debounce } from "@/utils/debounce/debounce";
 import { Skeleton } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
+import React, { useCallback, useState } from "react";
+import { BsXCircle } from "react-icons/bs";
+import { GoHeart, GoHeartFill } from "react-icons/go";
 import AlertModal from "../community/AlertModal";
 
-// import Image from "next/image";
-// import heart from "../../../app/_assets/image/logo_icon/icon/community/Group 130.png";
-// import emptyHeart from "../../../app/_assets/image/logo_icon/icon/community/Group 83.png";
+import type { likesProps } from "@/app/_types/bookmark";
 
-const Likes = ({
-  post_id,
-  isOpen,
-  mode,
-}: {
-  post_id: string;
-  isOpen: boolean;
-  mode: string;
-}) => {
-  const { data, isLoading } = useFilterLikes(post_id);
+const Likes: React.FC<likesProps> = ({ post_id, isOpen, mode }) => {
+  const { data, isLoading, isError } = useFilterLikes(post_id);
   const addLikeMutation = useAddLike();
   const removeLikeMutation = useRemoveLike();
 
-  // alert 대체 모달창을 위한 상태관리
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -68,12 +53,19 @@ const Likes = ({
 
   const isLiked = data?.likes?.find((like) => like.user_uid === user_uid);
 
-  const handleDebounce = useCallback(debounce(handleToggle(), 1000), [isLiked]);
+  const handleDebounce = useCallback(debounce(handleToggle(), 300), [isLiked]);
 
   if (isLoading) {
     return (
       <div className="flex justify-center items-center">
         <Skeleton className="flex rounded-full w-12 h-12 phone:w-[18px] phone:h-[18px]" />
+      </div>
+    );
+  }
+  if (isError) {
+    return (
+      <div className="flex justify-center items-center">
+        <BsXCircle />
       </div>
     );
   }
@@ -89,23 +81,12 @@ const Likes = ({
         }`}
       >
         {isLiked ? (
-          // 아이콘 이미지 - 이미지가 흰색밖에 없어서 리액트 아이콘으로 수정
-          // <Image
-          //   src={heart}
-          //   alt="Liked heart"
-          //   className="hover:cursor-pointer w-[18px] h-[16px]"
-          // />
           <GoHeartFill
             className={`size-[18px] ${
               mode === MODE_MAIN_DESKTOP && "size-[30px]"
             } ${mode === MODE_MAIN_LAPTOP && "size-[20px]"}`}
           />
         ) : (
-          // <Image
-          //   src={emptyHeart}
-          //   alt="Liked heart"
-          //   className="hover:cursor-pointer w-[18px] h-[16px]"
-          // />
           <GoHeart
             className={`size-[18px] ${
               mode === MODE_MAIN_DESKTOP && "size-[30px]"

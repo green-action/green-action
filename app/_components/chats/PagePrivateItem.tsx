@@ -1,17 +1,21 @@
-import React from "react";
-import { Avatar, useDisclosure } from "@nextui-org/react";
-import { useResponsive } from "@/app/_hooks/responsive";
-import PrivateChatRoom from "./PrivateChatRoom";
-import { previousFormatDate, todayFormatTime } from "@/utils/date/date";
-import { useGetUnreadCount } from "@/app/_hooks/useQueries/chats";
-import Image from "next/image";
-import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
-import { useSession } from "next-auth/react";
 import { MODE_TODAY } from "@/app/_api/constant";
+import { useResponsive } from "@/app/_hooks/responsive";
+import { useGetUnreadCount } from "@/app/_hooks/useQueries/chats";
+import { previousFormatDate, todayFormatTime } from "@/utils/date/date";
+import { Avatar, useDisclosure } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import React from "react";
+import PrivateChatRoom from "./PrivateChatRoom";
+import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
 import type { PrivateChatProps } from "@/app/_types/realtime-chats";
 
-const PagePrivateItem = ({ privateChat, actionId, mode }: PrivateChatProps) => {
+const PagePrivateItem: React.FC<PrivateChatProps> = ({
+  privateChat,
+  actionId,
+  mode,
+}) => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 
   // 현재 로그인한 유저 uid

@@ -62,7 +62,7 @@ const HeaderPage = ({ isLoggedIn, session }: Props) => {
   const { data: userData, isLoading: isUserDataLoading } =
     useFetchUserInfo(user_uid);
   // console.log("유저데이터==>", userData);
-  const { display_name, profile_img } = (userData as User) || "";
+  const { display_name, profile_img } = (userData as User["userInfo"]) || "";
   const [isLoggedIns, setIsLoggedIns] = useState(false);
 
   // useEffect(() => {

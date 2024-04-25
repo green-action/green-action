@@ -1,28 +1,27 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
-import { User } from "../_types";
 import {
   useFetchMyGreenActions,
   useFetchUserInfo,
   usefetchBookmarkedActions,
   usefetchMyCommunityPosts,
 } from "../_hooks/useQueries/mypage";
+import { User } from "../_types";
 
+import CommunityListPost from "../_components/community/CommunityListPost";
+import MyActionCard from "../_components/mypage/MyActionCard";
 import MyProfile from "../_components/mypage/MyProfile";
 import RecruitSelectTab from "../_components/mypage/RecruitSelectTab";
-import MyActionCard from "../_components/mypage/MyActionCard";
-import CommunityListPost from "../_components/community/CommunityListPost";
 
-import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
 import TopButton from "../_components/TopButton";
-import { Button } from "@nextui-org/react";
-import { useResponsive } from "../_hooks/responsive";
 import MyActionCardMobile from "../_components/mypage/MyActionCardMobile";
+import { useResponsive } from "../_hooks/responsive";
+import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
 
 const MyPage = () => {
   // TODO props 타입등 재설정
@@ -58,7 +57,7 @@ const MyPage = () => {
     isError: isUserInfoError,
   } = useFetchUserInfo(user_uid);
 
-  const { display_name, profile_img } = (userInfo as User) || ""; // as User 외에도 || '' 처리해줘야 에러안뜸
+  const { display_name, profile_img } = (userInfo as User["userInfo"]) || ""; // as User["userInfo"] 외에도 || '' 처리해줘야 에러안뜸
 
   // my action - created_at (작성일) 기준으로 정렬하기
   const sortedMyActions = myActions?.slice().sort((a, b) => {
@@ -166,10 +165,12 @@ const MyPage = () => {
         <TopButton />
 
         <div className="flex desktop:w-[1540px] laptop:w-[1020px] phone:w-[294px] desktop:mb-[100px] laptop:mb-[50px] ">
-          {(isDesktop || isLaptop) && <MyProfile userInfo={userInfo as User} />}
+          {(isDesktop || isLaptop) && (
+            <MyProfile userInfo={userInfo as User["userInfo"]} />
+          )}
 
           <div className="flex flex-col desktop:pl-[82px] laptop:pl-[30px] desktop:pt-1 laptop:pt-[30px] w-full">
-            {isMobile && <MyProfile userInfo={userInfo as User} />}
+            {isMobile && <MyProfile userInfo={userInfo as User["userInfo"]} />}
             {(isDesktop || isLaptop) && (
               <>
                 <div className="flex justify-between laptop:mb-[30px] vh-auto">

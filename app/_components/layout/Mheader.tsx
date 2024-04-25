@@ -1,6 +1,5 @@
 "use client";
 
-import { useResponsive } from "@/app/_hooks/responsive";
 import { useGetAllUnreadCount } from "@/app/_hooks/useQueries/chats";
 import { useFetchUserInfo } from "@/app/_hooks/useQueries/mypage";
 import { User } from "@/app/_types";
@@ -40,7 +39,7 @@ const Mheader = () => {
   const isAbout = pathname === "/about";
 
   const { data, isLoading: isUserDataLoading } = useFetchUserInfo(user_uid);
-  const { display_name, profile_img } = (data as User) || "";
+  const { display_name, profile_img } = (data as User["userInfo"]) || "";
 
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileHover, setIsProfileHover] = useState(false);

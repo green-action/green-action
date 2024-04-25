@@ -6,7 +6,6 @@ import {
   Avatar,
   Badge,
   Button,
-  Chip,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -28,16 +27,14 @@ import graylogoImg from "/app/_assets/image/logo_icon/logo/gray.png";
 import whitelogoImg from "/app/_assets/image/logo_icon/logo/white.png";
 
 import { MODE_HEADER } from "@/app/_api/constant";
+import { useResponsive } from "@/app/_hooks/responsive";
 import { useGetAllUnreadCount } from "@/app/_hooks/useQueries/chats";
 import Image from "next/image";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import ChatsListModal from "../chats/ChatsListModal";
-import { useResponsive } from "@/app/_hooks/responsive";
 import Mheader from "./Mheader";
 
 import AlertModal from "../community/AlertModal";
-import { NotificationIcon } from "../chats/NotificationIcon";
-import PushListModal from "../push/PushListModal";
 
 const Allheader = () => {
   const router = useRouter();
@@ -51,7 +48,7 @@ const Allheader = () => {
     isLoading: isUserDataLoading,
     isError: isUserDataError,
   } = useFetchUserInfo(user_uid);
-  const { display_name, profile_img } = (data as User) || "";
+  const { display_name, profile_img } = (data as User["userInfo"]) || "";
 
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileHover, setIsProfileHover] = useState(false);

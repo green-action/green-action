@@ -1,20 +1,20 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { Button, Chip } from "@nextui-org/react";
+import React, { useEffect, useRef, useState } from "react";
+import AlertModal from "../community/AlertModal";
 
 import type {
   mapResultPropsType,
   placeDataType,
 } from "@/app/_types/individualAction-add/individualAction-add";
-import AlertModal from "../community/AlertModal";
 
-const SearchMapResult = ({
+const SearchMapResult: React.FC<mapResultPropsType> = ({
   searchKeyword,
   setActivityLocation,
   onClose,
   locationMapRef,
-}: mapResultPropsType) => {
+}) => {
   interface markerMadeLocationRefType {
     // 직접 지정한 마커 위치 정보 (좌표, 지번이름) 타입
     x: string;
