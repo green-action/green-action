@@ -98,7 +98,7 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
               ? "top-[130px] left-[40px] w-[390px] h-[750px]"
               : isLaptop
               ? "top-[112px] left-[37px] w-[250px] h-[480px]"
-              : isMobile && "top-[90px] left-[32px] w-[170px] h-[380px]"
+              : isMobile && "top-[90px] left-[32px] w-[253px] h-[380px]"
           }
           `}
         >
@@ -109,7 +109,7 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
                   ? "ml-6 mt-6 mb-1"
                   : isLaptop
                   ? "mt-3 ml-3"
-                  : isMobile && ""
+                  : isMobile && "mt-3 ml-3"
               }`}
               onClick={() => {
                 onActionInfoClose();
@@ -136,7 +136,7 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
                     ? "w-[140px] h-[140px]"
                     : isLaptop
                     ? "w-[90px] h-[90px] my-2"
-                    : isMobile && "w-[50px] h-[50px]"
+                    : isMobile && "w-[70px] h-[70px] my-5"
                 }`}
               />
             </div>
@@ -148,7 +148,7 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
               <div className="flex items-center gap-3">
                 <IoIosChatboxes
                   className="text-gray-500"
-                  size={isDesktop ? 25 : isLaptop ? 14 : 14}
+                  size={isDesktop ? 25 : isLaptop ? 14 : 13}
                 />
                 <span
                   className={`font-extrabold ${
@@ -156,7 +156,7 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
                       ? "text-[18px]"
                       : isLaptop
                       ? "text-[12px]"
-                      : isMobile && ""
+                      : isMobile && "text-[12px]"
                   }`}
                 >
                   {actionInfo?.title}
@@ -181,7 +181,7 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
                         ? "text-xs"
                         : isLaptop
                         ? "text-[10px]"
-                        : isMobile && "text-[10px]"
+                        : isMobile && "text-[9px]"
                     }`}
                   >
                     시작일
@@ -202,7 +202,7 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
                         ? "text-xs"
                         : isLaptop
                         ? "text-[10px]"
-                        : isMobile && "text-[10px]"
+                        : isMobile && "text-[9px]"
                     }`}
                   >
                     종료일
@@ -235,15 +235,19 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
                   : isMobile &&
                     `pt-1 pl-1 ${
                       loggedInUserUid === ownerInfo?.id
-                        ? "pb-[10px]"
-                        : "pb-[90px]"
+                        ? "pb-[13px]"
+                        : "pb-[50px]"
                     }`
               }
               `}
             >
               <div
                 className={`flex items-center gap-4 w-full ${
-                  isDesktop ? "mb-6" : isLaptop ? "mb-4" : isMobile && "mb-1"
+                  isDesktop
+                    ? "mb-6"
+                    : isLaptop
+                    ? "mb-4"
+                    : isMobile && "mb-3 ml-4 mt-2"
                 }`}
               >
                 <span
@@ -268,19 +272,27 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
                         ? "w-[18px] h-[18px]"
                         : isLaptop
                         ? "w-[13px] h-[13px]"
-                        : isMobile && "w-[10px] h-[10px]"
+                        : isMobile && "w-[9px] h-[9px]"
                     }`}
                   />
                   <span
                     className={`${
-                      isLaptop ? "text-xs" : isMobile && "text-[10px]"
+                      isLaptop ? "text-xs" : isMobile && "text-[9px]"
                     }`}
                   >
                     {participantsInfo?.length} / {actionInfo?.recruit_number}
                   </span>
                 </div>
               </div>
-              <div className="flex flex-col gap-4">
+              <div
+                className={`flex flex-col ${
+                  isDesktop
+                    ? "gap-4"
+                    : isLaptop
+                    ? "gap-4"
+                    : isMobile && "ml-3 gap-3"
+                }`}
+              >
                 <div className="flex items-center gap-2 font-extrabold">
                   <Avatar
                     className={`mr-2 ${
@@ -340,7 +352,7 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
                     ? "w-[390px] h-[72px]"
                     : isLaptop
                     ? "w-[250px] h-[48px]"
-                    : isMobile && "w-[180px] h-[38px]"
+                    : isMobile && "w-[253px] h-[38px]"
                 }`}
               >
                 <HiOutlineArrowLeftOnRectangle
