@@ -47,7 +47,9 @@ const PageList: React.FC<ChildProps> = ({
             className="border-none desktop:w-[356px] desktop:h-[311px] brightness-90 items-center shadow-none laptop:w-[291px] laptop:h-[255px] phone:w-[140px] phone:h-[98px]"
           >
             {post.actionImgUrls[0] ? (
-              <img
+              <Image
+                width={356}
+                height={311}
                 alt="PostImage"
                 className=" w-full h-full object-cover cursor-pointer"
                 src={post.actionImgUrls[0].img_url}

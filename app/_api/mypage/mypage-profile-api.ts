@@ -5,7 +5,11 @@ import {
 import { supabase } from "@/utils/supabase/client";
 
 // 내 유저정보 가져오기
-export const fetchUserInfo = async (user_uid: string) => {
+export const fetchUserInfo = async (user_uid: string | undefined) => {
+  if (!user_uid) {
+    console.error("User UID is undefined or invalid.");
+    return null;
+  }
   try {
     const { data, error } = await supabase
       .from("users")
@@ -14,7 +18,8 @@ export const fetchUserInfo = async (user_uid: string) => {
     if (error) throw error;
     return data[0];
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching user info:", error);
+    return null;
   }
 };
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import type { EditImgProps } from "@/app/_types/community/community";
+import Image from "next/image";
 
 const PostImgEdit: React.FC<EditImgProps> = ({
   uploadedFileUrl,
@@ -72,7 +73,7 @@ const PostImgEdit: React.FC<EditImgProps> = ({
         {/* 이미지 업로드한 경우 */}
         {uploadedFileUrl ? (
           <div className="relative w-full h-full">
-            <img
+            <Image
               src={uploadedFileUrl}
               alt={`Uploaded Image`}
               className="w-full h-full rounded-3xl object-cover"

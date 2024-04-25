@@ -22,9 +22,9 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
-import graylogoImg from "/app/_assets/image/logo_icon/logo/gray.png";
-import whitelogoImg from "/app/_assets/image/logo_icon/logo/white.png";
+import SoomLoading from "@/app/_assets/image/loading/SOOM_gif.gif";
+import graylogoImg from "@/app/_assets/image/logo_icon/logo/gray.png";
+import whitelogoImg from "@/app/_assets/image/logo_icon/logo/white.png";
 
 import { MODE_HEADER } from "@/app/_api/constant";
 import { useResponsive } from "@/app/_hooks/responsive";
@@ -45,6 +45,7 @@ const Allheader = () => {
   const isLoggedIn = !!session.data;
   const user_uid = session?.data?.user.user_uid as string;
 
+  const isAbout = pathname === "/about";
   const {
     data,
     isLoading: isUserDataLoading,
@@ -92,6 +93,10 @@ const Allheader = () => {
         });
         setMessage("로그아웃 되었습니다.");
         setIsOpenAlertModal(true);
+
+        if (!isAbout) {
+          router.push("/login");
+        }
       } catch (error) {
         console.error("Logout error:", error);
       }
@@ -428,32 +433,33 @@ const Allheader = () => {
               </NavbarContent>
             </Navbar>
           )}
-          {isOpenAlertModal && (
-            <AlertModal
-              isOpen={isOpenAlertModal}
-              onClose={() => {
-                setIsOpenAlertModal(false);
-              }}
-              message={message}
-            />
-          )}
-          {isChatsListModalOpen && (
-            <ChatsListModal
-              isOpen={isChatsListModalOpen}
-              onOpen={onChatsListModalOpen}
-              onClose={onChatsListModalClose}
-              mode={MODE_HEADER}
-              action_id=""
-            />
-          )}
-          {isPushListModalOpen && (
-            <PushListModal
-              isOpen={isPushListModalOpen}
-              onOpen={onPushListModalOpen}
-              onClose={onPushListModalClose}
-            />
-          )}
         </>
+      )}
+
+      {isOpenAlertModal && (
+        <AlertModal
+          isOpen={isOpenAlertModal}
+          onClose={() => {
+            setIsOpenAlertModal(false);
+          }}
+          message={message}
+        />
+      )}
+      {isChatsListModalOpen && (
+        <ChatsListModal
+          isOpen={isChatsListModalOpen}
+          onOpen={onChatsListModalOpen}
+          onClose={onChatsListModalClose}
+          mode={MODE_HEADER}
+          action_id=""
+        />
+      )}
+      {isPushListModalOpen && (
+        <PushListModal
+          isOpen={isPushListModalOpen}
+          onOpen={onPushListModalOpen}
+          onClose={onPushListModalClose}
+        />
       )}
       {isMobile && <Mheader />}
     </>

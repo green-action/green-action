@@ -90,14 +90,18 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
             {actionImgUrl ? (
               mode === MODE_MAIN ? (
                 // 이미지 있고 메인 모드일때
-                <img
+                <Image
+                  width={600}
+                  height={400}
                   src={actionImgUrl.img_url}
                   alt="Green Action Image"
                   className="w-full h-full"
                 />
               ) : (
                 // 이미지 있고 메인 모드 아닐 때
-                <img
+                <Image
+                  width={600}
+                  height={400}
                   src={actionImgUrl.img_url}
                   alt="Green Action Image"
                   className="w-full h-full cursor-pointer"
@@ -288,7 +292,9 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
                       } phone:mb-[10px] cursor-pointer shadow-none border-none`}
                     >
                       {actionImgUrl ? (
-                        <img
+                        <Image
+                          width={600}
+                          height={400}
                           src={actionImgUrl.img_url}
                           alt="Green Action Image"
                           className="w-full h-full"
@@ -361,7 +367,9 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
             } phone:mb-[15px] cursor-pointer shadow-none border-none`}
           >
             {actionImgUrl ? (
-              <img
+              <Image
+                width={600}
+                height={400}
                 src={actionImgUrl.img_url}
                 alt="Green Action Image"
                 className="w-full h-full"

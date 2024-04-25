@@ -21,6 +21,7 @@ import CommunitySkeleton from "./CommunitySkeleton";
 import { longStyle } from "./style";
 
 import type { CommunityListPostProps } from "@/app/_types/community/community";
+import Image from "next/image";
 
 const CommunityListPost: React.FC<CommunityListPostProps> = ({
   communityPost,
@@ -104,14 +105,18 @@ const CommunityListPost: React.FC<CommunityListPostProps> = ({
           >
             <div className="relative w-full desktop:h-[295px] overflow-hidden">
               {mode !== MODE_MAIN ? (
-                <img
+                <Image
+                  width={410}
+                  height={295}
                   onClick={() => onOpen()}
                   alt="Community Post Image"
                   className="object-cover w-full h-full cursor-pointer brightness-90"
                   src={communityPost?.img_url}
                 />
               ) : (
-                <img
+                <Image
+                  width={410}
+                  height={295}
                   alt="Community Post Image"
                   className="object-cover w-full h-full brightness-90"
                   src={communityPost?.img_url}
@@ -264,14 +269,18 @@ const CommunityListPost: React.FC<CommunityListPostProps> = ({
           >
             <div className="relative w-full laptop:h-[311px] overflow-hidden">
               {mode !== MODE_MAIN ? (
-                <img
+                <Image
+                  width={433}
+                  height={311}
                   onClick={() => onOpen()}
                   alt="Community Post Image"
                   className="object-cover w-full h-full cursor-pointer brightness-90"
                   src={communityPost?.img_url}
                 />
               ) : (
-                <img
+                <Image
+                  width={433}
+                  height={311}
                   alt="Community Post Image"
                   className="object-cover w-full h-full brightness-90"
                   src={communityPost?.img_url}
@@ -423,7 +432,9 @@ const CommunityListPost: React.FC<CommunityListPostProps> = ({
             `}
           >
             <div className="relative w-full h-[98px] overflow-hidden">
-              <img
+              <Image
+                width={140}
+                height={98}
                 onClick={() => onOpen()}
                 alt="Community Post Image"
                 className={`object-cover w-full h-full brightness-90 ${
