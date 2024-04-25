@@ -92,13 +92,13 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
     <div className="absolute bottom-0 w-[100%] inset-0 z-30 flex bg-black bg-opacity-30">
       <div className="w-full flex justify-end">
         <div
-          className={`bg-[#ffffff] w-[390px] h-[750px]
+          className={`bg-[#ffffff] 
           ${
             isDesktop
-              ? "top-[130px] left-[40px] "
+              ? "top-[130px] left-[40px] w-[390px] h-[750px]"
               : isLaptop
-              ? "top-[112px] left-[37px]"
-              : isMobile && ""
+              ? "top-[112px] left-[37px] w-[250px] h-[480px]"
+              : isMobile && "top-[90px] left-[32px] w-[170px] h-[380px]"
           }
           `}
         >
@@ -108,21 +108,21 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
                 isDesktop
                   ? "ml-6 mt-6 mb-1"
                   : isLaptop
-                  ? "mt-2 ml-2"
+                  ? "mt-3 ml-3"
                   : isMobile && ""
               }`}
               onClick={() => {
                 onActionInfoClose();
               }}
             >
-              <IoCloseOutline size={isDesktop ? 30 : isLaptop ? 23 : 18} />
+              <IoCloseOutline size={isDesktop ? 30 : isLaptop ? 20 : 18} />
             </div>
             <div
               className={`w-full flex justify-center items-center ${
                 isDesktop
                   ? "mb-3 h-[180px]"
                   : isLaptop
-                  ? "mb-1 h-[130px]"
+                  ? "mb-1 h-[120px]"
                   : isMobile && "mb-1 h-[80px]"
               }`}
             >
@@ -131,46 +131,151 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
                 height={140}
                 src={actionInfo?.img_url as string}
                 alt="action-image"
-                className="object-cover w-[140px] h-[140px] rounded-[20%]"
+                className={`object-cover rounded-[20%] ${
+                  isDesktop
+                    ? "w-[140px] h-[140px]"
+                    : isLaptop
+                    ? "w-[90px] h-[90px] my-2"
+                    : isMobile && "w-[50px] h-[50px]"
+                }`}
               />
             </div>
-            <div className="flex flex-col items-center border-b-1 pb-6">
+            <div
+              className={`flex flex-col items-center border-b-1 ${
+                isDesktop ? "pb-6" : isLaptop ? "pb-3" : isMobile && "pb-2"
+              }`}
+            >
               <div className="flex items-center gap-3">
-                <IoIosChatboxes className="text-gray-500" size={25} />
-                <span className="font-extrabold text-[18px]">
+                <IoIosChatboxes
+                  className="text-gray-500"
+                  size={isDesktop ? 25 : isLaptop ? 14 : 14}
+                />
+                <span
+                  className={`font-extrabold ${
+                    isDesktop
+                      ? "text-[18px]"
+                      : isLaptop
+                      ? "text-[12px]"
+                      : isMobile && ""
+                  }`}
+                >
                   {actionInfo?.title}
                 </span>
               </div>
-              <span className="text-gray-400 mb-5 mt-1">Green action</span>
+              <span
+                className={`text-gray-400 mt-1 ${
+                  isDesktop
+                    ? "mb-5"
+                    : isLaptop
+                    ? "text-[10px] mb-2"
+                    : isMobile && "text-[10px] mb-2"
+                }`}
+              >
+                Green action
+              </span>
               <div className="flex items-center text-sm text-gray-500 gap-5">
                 <div className="flex flex-col justify-center items-center">
-                  <span className="text-xs text-gray-400">시작일</span>
-                  <span>{actionInfo?.start_date}</span>
+                  <span
+                    className={`text-gray-400 ${
+                      isDesktop
+                        ? "text-xs"
+                        : isLaptop
+                        ? "text-[10px]"
+                        : isMobile && "text-[10px]"
+                    }`}
+                  >
+                    시작일
+                  </span>
+                  <span
+                    className={`${
+                      isLaptop ? "text-[10px]" : isMobile && "text-[10px]"
+                    }`}
+                  >
+                    {actionInfo?.start_date}
+                  </span>
                 </div>
                 <span className="text-gray-400">-</span>
                 <div className="flex flex-col justify-center items-center">
-                  <span className="text-xs text-gray-400">종료일</span>
-                  <span>{actionInfo?.end_date}</span>
+                  <span
+                    className={`text-gray-400 ${
+                      isDesktop
+                        ? "text-xs"
+                        : isLaptop
+                        ? "text-[10px]"
+                        : isMobile && "text-[10px]"
+                    }`}
+                  >
+                    종료일
+                  </span>
+                  <span
+                    className={`${
+                      isLaptop ? "text-[10px]" : isMobile && "text-[10px]"
+                    }`}
+                  >
+                    {actionInfo?.end_date}
+                  </span>
                 </div>
               </div>
-              {/* <span className="text-gray-500 mb-1">
-                {actionInfo?.start_date} ~ {actionInfo?.end_date}
-              </span> */}
             </div>
             <div
-              className={`flex flex-col items-start pl-7 pr-7 pt-5 overflow-y-auto scrollbar-hide ${
-                loggedInUserUid === ownerInfo?.id ? "pb-[20px]" : "pb-[90px]"
-              }`}
+              className={`flex flex-col items-start pr-7 overflow-y-auto scrollbar-hide 
+              ${
+                isDesktop
+                  ? `pt-5 pl-7 ${
+                      loggedInUserUid === ownerInfo?.id
+                        ? "pb-[20px]"
+                        : "pb-[90px]"
+                    }`
+                  : isLaptop
+                  ? `pt-3 pl-5 ${
+                      loggedInUserUid === ownerInfo?.id
+                        ? "pb-[20px]"
+                        : "pb-[57px]"
+                    }`
+                  : isMobile &&
+                    `pt-1 pl-1 ${
+                      loggedInUserUid === ownerInfo?.id
+                        ? "pb-[10px]"
+                        : "pb-[90px]"
+                    }`
+              }
+              `}
             >
-              <div className="flex items-center gap-4 w-full mb-6">
-                <span className="font-extrabold ml-1">참여자</span>
+              <div
+                className={`flex items-center gap-4 w-full ${
+                  isDesktop ? "mb-6" : isLaptop ? "mb-4" : isMobile && "mb-1"
+                }`}
+              >
+                <span
+                  className={`font-extrabold ${
+                    isDesktop
+                      ? "ml-1"
+                      : isLaptop
+                      ? "text-xs"
+                      : isMobile && "text-[10px]"
+                  }`}
+                >
+                  참여자
+                </span>
                 <div className="flex gap-2 text-gray-500 items-center">
                   <Image
+                    width={18}
+                    height={18}
                     src={personIcon}
                     alt="person-icon"
-                    className="w-[18px] h-[18px]"
+                    className={`${
+                      isDesktop
+                        ? "w-[18px] h-[18px]"
+                        : isLaptop
+                        ? "w-[13px] h-[13px]"
+                        : isMobile && "w-[10px] h-[10px]"
+                    }`}
                   />
-                  <span>
+                  <span
+                    className={`${
+                      isLaptop ? "text-xs" : isMobile && "text-[10px]"
+                    }`}
+                  >
                     {participantsInfo?.length} / {actionInfo?.recruit_number}
                   </span>
                 </div>
@@ -178,11 +283,26 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-2 font-extrabold">
                   <Avatar
-                    className="mr-2 w-[35px] h-[35px]"
+                    className={`mr-2 ${
+                      isDesktop
+                        ? "w-[35px] h-[35px]"
+                        : isLaptop
+                        ? "w-[26px] h-[26px]"
+                        : isMobile && "w-[18px] h-[18px]"
+                    }`}
                     src={ownerNicknameImg?.profile_img || ""}
                   />
-                  <LiaCrownSolid size={25} className="text-[#B3C8A1]" />
-                  <span>{ownerNicknameImg?.display_name}</span>
+                  <LiaCrownSolid
+                    size={isDesktop ? 25 : isLaptop ? 18 : 13}
+                    className="text-[#B3C8A1]"
+                  />
+                  <span
+                    className={`${
+                      isLaptop ? "text-xs" : isMobile && "text-[10px]"
+                    }`}
+                  >
+                    {ownerNicknameImg?.display_name}
+                  </span>
                 </div>
                 {/* TODO any 해결 필요 */}
                 {participantsInfo?.map((participant: any) => (
@@ -192,9 +312,21 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
                         <Avatar
                           src={participant.profile_img || ""}
                           alt="participant-profile"
-                          className={`w-[35px] h-[35px]`}
+                          className={`${
+                            isDesktop
+                              ? "w-[35px] h-[35px]"
+                              : isLaptop
+                              ? "w-[26px] h-[26px]"
+                              : isMobile && "w-[18px] h-[18px]"
+                          }`}
                         />
-                        <span>{participant.display_name}</span>
+                        <span
+                          className={`${
+                            isLaptop ? "text-xs" : isMobile && "text-[10px]"
+                          }`}
+                        >
+                          {participant.display_name}
+                        </span>
                       </div>
                     )}
                   </>
@@ -202,13 +334,27 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
               </div>
             </div>
             {loggedInUserUid !== ownerInfo?.id && (
-              <footer className="absolute bottom-0 bg-white w-[390px] h-[72px] border-t-1 flex items-center justify-center gap-3">
+              <footer
+                className={`absolute bottom-0 bg-white border-t-1 flex items-center justify-center gap-3 ${
+                  isDesktop
+                    ? "w-[390px] h-[72px]"
+                    : isLaptop
+                    ? "w-[250px] h-[48px]"
+                    : isMobile && "w-[180px] h-[38px]"
+                }`}
+              >
                 <HiOutlineArrowLeftOnRectangle
-                  size={30}
+                  size={isDesktop ? 30 : isLaptop ? 20 : 10}
                   className="text-gray-700"
                 />
                 <span
-                  className="text-gray-700 text-[17px] font-extrabold mr-3 cursor-pointer"
+                  className={`text-gray-700 font-extrabold mr-3 cursor-pointer ${
+                    isDesktop
+                      ? "text-[17px]"
+                      : isLaptop
+                      ? "text-[13px]"
+                      : isMobile && ""
+                  }`}
                   onClick={() => handleCancelParticipate(onClose)}
                 >
                   참여 취소하기
