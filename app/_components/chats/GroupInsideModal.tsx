@@ -126,17 +126,12 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
                   : isMobile && "mb-1 h-[80px]"
               }`}
             >
-              <img
-                src={actionInfo?.img_url || ""}
+              <Image
+                width={500}
+                height={300}
+                src={actionInfo?.img_url as string}
                 alt="action-image"
-                className={`object-cover rounded-[20%] 
-                ${
-                  isDesktop
-                    ? "w-[150px] h-[150px]"
-                    : isLaptop
-                    ? "w-[100px] h-[100px]"
-                    : isMobile && "w-[80px] h-[80px]"
-                }`}
+                className="object-cover w-[37%] h-[78%] rounded-[20%]"
               />
             </div>
             <div className="flex flex-col items-center border-b-1 pb-6">
