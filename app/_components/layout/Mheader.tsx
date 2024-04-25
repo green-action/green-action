@@ -22,14 +22,13 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
+import { LuAlignLeft } from "react-icons/lu";
 import ChatsListModal from "../chats/ChatsListModal";
 import AlertModal from "../community/AlertModal";
 import outside from "/app/_assets/image/individualAction/Group217.svg";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 import graylogoImg from "/app/_assets/image/logo_icon/logo/gray.png";
 import whitelogoImg from "/app/_assets/image/logo_icon/logo/white.png";
-import { LuAlignLeft } from "react-icons/lu";
-import { IoIosArrowBack } from "react-icons/io";
 const Mheader = () => {
   const router = useRouter();
   const pathname = usePathname();
@@ -49,7 +48,6 @@ const Mheader = () => {
   // alert 대체 모달창을 위한 상태관리
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const [message, setMessage] = useState("");
-  const { isDesktop, isLaptop, isMobile } = useResponsive();
 
   // 채팅방 리스트 모달창
   const {
@@ -75,6 +73,9 @@ const Mheader = () => {
         });
         setMessage("로그아웃 되었습니다.");
         setIsOpenAlertModal(true);
+        if (pathname === "/mypage") {
+          router.push("/login");
+        }
       } catch (error) {
         console.error("Logout error:", error);
       }

@@ -93,6 +93,9 @@ function Allheader() {
         });
         setMessage("로그아웃 되었습니다.");
         setIsOpenAlertModal(true);
+        if (pathname === "/mypage") {
+          router.push("/login");
+        }
       } catch (error) {
         console.error("Logout error:", error);
       }
