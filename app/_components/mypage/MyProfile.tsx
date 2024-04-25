@@ -1,25 +1,24 @@
 "use client";
 
+import coin from "@/app/_assets/image/logo_icon/icon/mypage/akar-icons_coin.svg";
+import pointQuestion from "@/app/_assets/image/mainpage/question_circle.png";
+import { useResponsive } from "@/app/_hooks/responsive";
+import { useUpdateUserIntro } from "@/app/_hooks/useMutations/mypage";
+import { User } from "@/app/_types";
 import {
   Avatar,
   Button,
   Card,
   CardBody,
-  CardFooter,
   CardHeader,
   Tooltip,
 } from "@nextui-org/react";
-import { HiOutlinePlus } from "react-icons/hi2";
-import pointQuestion from "@/app/_assets/image/mainpage/question_circle.png";
-import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { useUpdateUserIntro } from "@/app/_hooks/useMutations/mypage";
-import { User } from "@/app/_types";
+import React, { useState } from "react";
+import { HiOutlinePlus } from "react-icons/hi2";
 import MyProfileEditModal from "./MyProfileEditModal";
-import coin from "@/app/_assets/image/logo_icon/icon/mypage/akar-icons_coin.svg";
-import { useResponsive } from "@/app/_hooks/responsive";
 
-const MyProfile = ({ userInfo }: { userInfo: User }) => {
+const MyProfile: React.FC<User> = ({ userInfo }) => {
   const {
     id: user_uid,
     display_name,
@@ -27,7 +26,7 @@ const MyProfile = ({ userInfo }: { userInfo: User }) => {
     introduction,
     point,
     profile_img,
-  } = (userInfo as User) || "";
+  } = (userInfo as User["userInfo"]) || "";
 
   const [isIntroEditing, setIsIntroEditing] = useState<boolean>(false);
   const [editedIntro, setEditedIntro] = useState<string>(introduction); // 초기값 기존 intro

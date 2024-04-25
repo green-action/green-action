@@ -1,13 +1,13 @@
 "use client";
-
 import React, { useState } from "react";
+
 import type { ImgUploadProps } from "@/app/_types/individualAction-add/individualAction-add";
 
-const ImgUpload = ({
+const ImgUpload: React.FC<ImgUploadProps> = ({
   uploadedFileUrls,
   setUploadedFileUrls,
   setFiles,
-}: ImgUploadProps) => {
+}) => {
   // 드래그 앤 드랍 상태
   const [isDragging, setIsDragging] = useState(false);
 

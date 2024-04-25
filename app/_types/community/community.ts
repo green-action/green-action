@@ -29,13 +29,22 @@ export interface CommunityDetailProps {
   mode?: string;
 }
 
+export interface CommunityListPostProps {
+  communityPost: CommunityPostObj | undefined;
+  mode: string;
+  my_display_name?: string;
+  my_profile_img?: string | null;
+}
+
 export interface CommentProps {
-  content: string | null;
-  created_at: string;
-  id: string;
-  post_id: string | null;
-  user_uid: string | null;
-  users: { display_name: string | null; profile_img: string | null } | null;
+  comment: {
+    content: string | null;
+    created_at: string;
+    id: string;
+    post_id: string | null;
+    user_uid: string | null;
+    users: { display_name: string | null; profile_img: string | null } | null;
+  };
 }
 
 export interface InsertComment {
@@ -62,4 +71,10 @@ export interface EditImgProps {
   uploadedFileUrl: string | null;
   setUploadedFileUrl: React.Dispatch<React.SetStateAction<string | null>>;
   setFile: React.Dispatch<React.SetStateAction<File | null | undefined>>;
+}
+
+export interface AlertModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  message: string;
 }

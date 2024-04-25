@@ -28,7 +28,6 @@ const SignUp = () => {
   const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [modalPlacement, setModalPlacement] = React.useState("auto");
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 
   // alert 대체 모달창을 위한 상태관리

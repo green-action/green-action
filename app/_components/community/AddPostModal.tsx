@@ -1,14 +1,10 @@
 "use client";
 
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-
 import { uploadFileAndGetUrl } from "@/app/_api/community/community-api";
+import { MODE_COMMUNITY } from "@/app/_api/constant";
+import { updateUserPoint } from "@/app/_api/individualAction-add/add-api";
+import { useResponsive } from "@/app/_hooks/responsive";
 import { useInsertCommunityPostFormData } from "@/app/_hooks/useMutations/community";
-
-import PostImgUpload from "./PostImgUpload";
-
 import {
   Button,
   Dropdown,
@@ -23,16 +19,15 @@ import {
   Selection,
   useDisclosure,
 } from "@nextui-org/react";
-
-import CustomConfirm from "../customConfirm/CustomConfirm";
-import PointModal from "./PointModal";
-
-import { MODE_COMMUNITY } from "@/app/_api/constant";
-import { updateUserPoint } from "@/app/_api/individualAction-add/add-api";
-import { useResponsive } from "@/app/_hooks/responsive";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import postImg from "../../_assets/image/individualAction/write.png";
+import CustomConfirm from "../customConfirm/CustomConfirm";
 import AlertModal from "./AlertModal";
+import PointModal from "./PointModal";
+import PostImgUpload from "./PostImgUpload";
 
 const AddPostModal = () => {
   const [uploadedFileUrl, setUploadedFileUrl] = useState<string>("");
@@ -254,12 +249,6 @@ const AddPostModal = () => {
                 </ModalBody>
                 {/* 작성완료 버튼 */}
                 <ModalFooter className="flex justify-center mb-12 !p-0">
-                  {/* <Button
-                    type="submit"
-                    className="text-gray-500 rounded-full !w-[140px] h-[33px] border border-gray-400 bg-[#EFEFEF]"
-                  >
-                    작성완료
-                  </Button> */}
                   <CustomConfirm
                     text="작성하시겠습니까?"
                     buttonName="작성완료"

@@ -1,14 +1,14 @@
-import { Session } from "next-auth";
-
 export type User = {
-  id: string;
-  email?: string | undefined;
-  profile_img: string | null;
-  display_name: string;
-  password: string;
-  point: number;
-  introduction: string;
-  sub: string;
+  userInfo: {
+    id: string;
+    email?: string | undefined;
+    profile_img: string | null;
+    display_name: string;
+    password: string;
+    point: number;
+    introduction: string;
+    sub: string;
+  };
 };
 
 export type Index =
@@ -33,4 +33,16 @@ export interface kakaoUser {
   email: string;
   name: string;
   avatar_url: string;
+}
+
+export interface myProfileEditModalProps {
+  user_uid: string;
+  display_name: string;
+  profile_img: string;
+  setProfileImg: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export interface recruitSelectTabProps {
+  selected: string;
+  setSelected: React.Dispatch<React.SetStateAction<string>>;
 }

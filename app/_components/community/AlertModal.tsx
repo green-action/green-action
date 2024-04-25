@@ -1,16 +1,11 @@
-import React from "react";
-
-import Image from "next/image";
 import { Button, Modal, ModalBody, ModalContent } from "@nextui-org/react";
+import Image from "next/image";
+import React from "react";
 import logoImg from "../../_assets/image/logo_icon/logo/gray.png";
 
-interface PointModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  message: string;
-}
+import type { AlertModalProps } from "@/app/_types/community/community";
 
-const AlertModal: React.FC<PointModalProps> = ({
+const AlertModal: React.FC<AlertModalProps> = ({
   isOpen,
   onClose,
   message,

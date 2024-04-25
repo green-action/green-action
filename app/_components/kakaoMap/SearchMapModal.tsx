@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
-import SearchMapResult from "./SearchMapResult";
+import { useResponsive } from "@/app/_hooks/responsive";
 import {
   Button,
   Modal,
@@ -11,18 +10,16 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
-import search from "/app/_assets/image/logo_icon/icon/goods/Group 128.png";
 import Image from "next/image";
-import { useResponsive } from "@/app/_hooks/responsive";
+import React, { useState } from "react";
+import SearchMapResult from "./SearchMapResult";
+import search from "/app/_assets/image/logo_icon/icon/goods/Group 128.png";
 
-import type { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
+import type { searchMapModalProps } from "@/app/_types/individualAction-detail/individualAction-detail";
 
-const SearchMapModal = ({
+const SearchMapModal: React.FC<searchMapModalProps> = ({
   setActivityLocationMap,
   locationMapRef,
-}: {
-  setActivityLocationMap: React.Dispatch<React.SetStateAction<string>>;
-  locationMapRef: React.MutableRefObject<placeCoordinateType | null>;
 }) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
   const { isDesktop, isLaptop, isMobile } = useResponsive();

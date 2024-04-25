@@ -1,13 +1,12 @@
 import { useResponsive } from "@/app/_hooks/responsive";
 import { Select, SelectItem } from "@nextui-org/react";
-import React, { useState } from "react";
+import React from "react";
 
-const RecruitSelectTab = ({
+import type { recruitSelectTabProps } from "@/app/_types";
+
+const RecruitSelectTab: React.FC<recruitSelectTabProps> = ({
   selected,
   setSelected,
-}: {
-  selected: string;
-  setSelected: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const handleCategorizeByRecruiting = async (
     e: React.MouseEvent<HTMLLIElement, MouseEvent>,
