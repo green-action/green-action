@@ -28,7 +28,8 @@ import outside from "/app/_assets/image/individualAction/Group217.svg";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 import graylogoImg from "/app/_assets/image/logo_icon/logo/gray.png";
 import whitelogoImg from "/app/_assets/image/logo_icon/logo/white.png";
-
+import { LuAlignLeft } from "react-icons/lu";
+import { IoIosArrowBack } from "react-icons/io";
 const Mheader = () => {
   const router = useRouter();
   const pathname = usePathname();
@@ -110,7 +111,6 @@ const Mheader = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    // useFetchUserInfo(user_uid);
     const handleScroll = () => {
       if (window.scrollY > 0) {
         setIsScrolled(true);
@@ -140,9 +140,7 @@ const Mheader = () => {
   if (isAllUnreadCountError) {
     return <div>Error</div>;
   }
-
-  console.log("allUnreadCount", allUnreadCount);
-
+  const icon = isMenuOpen ? <IoIosArrowBack /> : <LuAlignLeft />;
   return (
     <>
       {pathname !== "/signup" && pathname !== "/login" && (
@@ -152,16 +150,19 @@ const Mheader = () => {
           isBlurred={isScrolled}
           isMenuOpen={isMenuOpen}
           onMenuOpenChange={setIsMenuOpen}
-          className="phone:min-w-[360px] flex bg-transparent items-center justify-center text-[11pt]"
+          className="phone:min-w-[360px] mib-h-[100px] flex bg-transparent items-center justify-center text-[11pt] relative"
         >
           <NavbarContent
             justify="start"
-            className="desktop:hidden laptop:hidden"
+            className="desktop:hidden laptop:hidden "
           >
             <NavbarMenuToggle
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-              className={`${pathname === "/" ? "text-white" : "text-black"} 
-            `}
+              icon={<div className="w-[30px] h-[30px] z-[999]">{icon}</div>}
+              isSelected={true}
+              className={`${
+                pathname === "/" ? "text-white" : "text-[#7B7B7B]"
+              } mt-5`}
             />
           </NavbarContent>
           <NavbarBrand>
@@ -176,7 +177,7 @@ const Mheader = () => {
                   : graylogoImg // 나머지 페이지에서는 항상 gray로고 사용
               }
               alt="logo-image"
-              className={`w-[74px] cursor-pointer dh-[21.63px] m-auto
+              className={`w-[74px] cursor-pointer dh-[21.63px] m-auto mt-5
             
             `}
               onClick={handleLogoLinkClick}
@@ -185,11 +186,15 @@ const Mheader = () => {
 
           <NavbarContent>
             <div className="flex flex-col">
-              <NavbarMenu>
-                <NavbarMenuItem className="text-[#454545] text-[14px] flex flex-col mt-9 absolute">
+              <NavbarMenu
+                className={`absolute top-0 w-[80%] h-[vh-full] z-40 ${
+                  isMenuOpen ? <IoIosArrowBack /> : <LuAlignLeft />
+                }`}
+              >
+                <NavbarMenuItem className="text-[#454545] text-[14px] flex flex-col mt-16 absolute ml-10 top-0">
                   <Link
                     href={"/about"}
-                    className="mb-4 font-bold"
+                    className="mb-11 font-bold"
                     onClick={() => setIsMenuOpen(false)}
                     aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                   >
@@ -197,48 +202,48 @@ const Mheader = () => {
                     <Image
                       src={outside}
                       alt="outside"
-                      className="relative bottom-4 left-11"
+                      className="relative bottom-4 left-[200px]"
                     />
                   </Link>
 
                   <Link
                     href={"/individualAction"}
-                    className="mb-4 font-bold"
+                    className="mb-11 font-bold"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Green Action
                     <Image
                       src={outside}
                       alt="outside"
-                      className="relative bottom-4 left-[85px]"
+                      className="relative bottom-4 left-[200px]"
                     />
                   </Link>
                   <Link
                     href={"/community"}
-                    className="mb-4 font-bold"
+                    className="mb-11 font-bold"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Community
                     <Image
                       src={outside}
                       alt="outside"
-                      className="relative bottom-4 left-[74px]"
+                      className="relative bottom-4 left-[200px]"
                     />
                   </Link>
                   <Link
                     href={"/goods"}
-                    className="mb-4 font-bold"
+                    className="mb-11 font-bold"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Goods
                     <Image
                       src={outside}
                       alt="outside"
-                      className="relative bottom-4 left-11"
+                      className="relative bottom-4 left-[200px]"
                     />
                   </Link>
                   {isLoggedIn ? (
-                    <div className="flex justify-center items-center gap-2 text-[#9C9C9C]">
+                    <div className="flex justify-center items-center gap-2 text-[#9C9C9C] mt-12">
                       <Avatar
                         size="md"
                         isBordered
@@ -247,11 +252,15 @@ const Mheader = () => {
                         src={profile_img || ""}
                       />
                       <div
-                        onClick={handleMypageLinkClick}
+                        onClick={() => {
+                          handleMypageLinkClick();
+                          setIsMenuOpen(false);
+                        }}
                         className="p-1 cursor-pointer ml-2"
                       >
                         마이페이지
                       </div>
+
                       <div
                         onClick={() => {
                           handleLogout();
@@ -263,14 +272,17 @@ const Mheader = () => {
                       </div>
                     </div>
                   ) : (
-                    ""
+                    <div className="flex gap-5 text-[13px] text-[#9C9C9C] mt-12">
+                      <Link href={"/signup"}>Sign up</Link>
+                      <Link href={"/login"}>Log in</Link>
+                    </div>
                   )}
                 </NavbarMenuItem>
               </NavbarMenu>
             </div>
             {isLoggedIn ? (
               <>
-                <div className="flex gap-[25px]">
+                <div className="flex gap-[25px] mt-5">
                   {/* 채팅방 badge */}
                   <Badge
                     content={
@@ -290,13 +302,17 @@ const Mheader = () => {
                         onChatsListModalOpen();
                       }}
                     >
-                      <IoChatbubbleEllipsesOutline className="text-2xl" />
+                      <IoChatbubbleEllipsesOutline
+                        className={`text-2xl ${
+                          pathname === "/" ? "text-white" : "text-black"
+                        }`}
+                      />
                     </Button>
                   </Badge>
                 </div>
 
                 <div className="flex">
-                  <div className="flex items-center justify-between  text-[#404040]">
+                  <div className="flex items-center justify-between  text-[#404040] mt-5">
                     <Avatar
                       className="transition-transform"
                       name={display_name}
@@ -308,21 +324,7 @@ const Mheader = () => {
                 </div>
               </>
             ) : (
-              <div
-                className={`flex gap-3 text-[12px] ${
-                  // pathsMainAbout ? "text-white " : "text-[#666666]"
-                  pathname === "/about"
-                    ? isScrolled
-                      ? "text-[#666666]" // about 페이지에서 isScrolled 상태에 따라 글자색 변경
-                      : "text-white"
-                    : pathname === "/" // 메인페이지에서는 항상 글자색 white
-                    ? "text-white"
-                    : "text-[#666666]" // 나머지 페이지에서는 항상 글자색 gray
-                } font-['Pretendard-Light']`}
-              >
-                <Link href={"/signup"}>Sign up</Link>
-                <Link href={"/login"}>Log in</Link>
-              </div>
+              ""
             )}
           </NavbarContent>
         </Navbar>
