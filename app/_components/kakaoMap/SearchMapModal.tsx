@@ -1,5 +1,7 @@
 "use client";
 
+import React, { useState } from "react";
+import SearchMapResult from "./SearchMapResult";
 import {
   Button,
   Modal,
@@ -9,10 +11,11 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
-import React, { useState } from "react";
-import SearchMapResult from "./SearchMapResult";
-import { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
+import search from "/app/_assets/image/logo_icon/icon/goods/Group 128.png";
+import Image from "next/image";
 import { useResponsive } from "@/app/_hooks/responsive";
+
+import type { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
 
 const SearchMapModal = ({
   setActivityLocationMap,
@@ -53,8 +56,8 @@ const SearchMapModal = ({
             onOpenChange={onOpenChange}
             placement="center"
             size="5xl"
-            className="h-[600px]"
-            scrollBehavior="inside"
+            className="h-[620px]"
+            // scrollBehavior="inside"
           >
             <ModalContent>
               {(onClose) => (
@@ -67,7 +70,7 @@ const SearchMapModal = ({
                       id="subForm"
                       method="post"
                       onSubmit={handleKeywordSubmit}
-                      className="fixed z-10 desktop:mt-[15px] desktop:ml-[10px] laptop:mt-[30px] laptop:ml-[40px]"
+                      className="fixed z-10 desktop:mt-[15px] desktop:ml-[50px] laptop:mt-[30px] laptop:ml-[40px]"
                     >
                       <input
                         type="text"
@@ -76,11 +79,19 @@ const SearchMapModal = ({
                         placeholder="검색어를 입력해주세요. (예: 잠원한강공원) "
                         required
                         form="subForm"
-                        className="w-[300px] border-2 rounded-2xl p-2"
+                        className="desktop:w-[400px] laptop:w-[400px] rounded-2xl p-2 shadow-md border-[#e2eee0] border-[3px] focus:outline-none"
                       />
-                      <Button type="submit" form="subForm">
-                        검색
-                      </Button>
+                      <button
+                        type="submit"
+                        form="subForm"
+                        className="w-[40px] absolute right-[0px] top-[7px] outline-none"
+                      >
+                        <Image
+                          src={search}
+                          alt="검색 버튼"
+                          className="size-[33px] cursor-pointer"
+                        />
+                      </button>
                     </form>
                     <SearchMapResult
                       searchKeyword={keyword}
@@ -90,7 +101,11 @@ const SearchMapModal = ({
                     />
                   </ModalBody>
                   <ModalFooter>
-                    <Button color="danger" variant="light" onPress={onClose}>
+                    <Button
+                      onPress={onClose}
+                      size="md"
+                      className="bg-[#5B5B5B] text-white rounded-full hover:bg-black"
+                    >
                       Close
                     </Button>
                   </ModalFooter>
@@ -100,6 +115,7 @@ const SearchMapModal = ({
           </Modal>
         </>
       )}
+
       {isMobile && (
         <>
           <Button

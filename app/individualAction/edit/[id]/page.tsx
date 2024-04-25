@@ -132,10 +132,14 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
       {/* 전체 Wrapper */}
       <form onSubmit={handleSubmit} id="mainForm" method="post" />
       <div
-        className="flex flex-col desktop:w-[809px] 
-      laptop:w-[809px] h-[1000px]
+        className={`flex flex-col desktop:w-[809px] 
+      laptop:w-[809px] 
       phone:w-[291px] desktop:border-1.5 laptop:border-1.5
-       desktop:border-gray-300 laptop:border-gray-300 phone:border-0 rounded-3xl mx-auto mb-12 mt-0 "
+       desktop:border-gray-300 laptop:border-gray-300 phone:border-0 rounded-3xl mx-auto mb-12 mt-0
+       ${
+         (isDesktop || isLaptop) &&
+         (locationMapRef.current ? "h-[1025px]" : "h-[830px]")
+       }`}
       >
         {/* new green-action 타이틀 */}
         <div className="ml-8 my-[16px] phone:text-center">
@@ -162,122 +166,133 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
             setFiles={setFiles}
           />
 
-          {/* 이미지아래 첫번째 박스(날짜, 장소, 인원, 링크) */}
           {(isDesktop || isLaptop) && (
-            <div className="flex justify-between gap-[57px] w-[724px] h-[396px] border-1.5 border-gray-300 rounded-3xl pt-[21px] px-[28px] pb-[28px] mb-4 ">
-              <div className="flex flex-col justify-center w-1/2 gap-6">
-                <div className="">
-                  <p className="text-[13px] font-extrabold mb-1">활동 날짜</p>
-                  <div className="flex w-full gap-4 justify-between mb-[18px]">
-                    <div className="flex flex-col w-[134px] h-[31px]">
-                      <label
-                        htmlFor="startDate"
-                        className="text-[10px] text-gray-400 mb-1"
-                      >
-                        시작일
+            <div
+              className={`flex justify-between gap-[57px] w-[724px]  border-1.5 border-gray-300 rounded-3xl pt-[21px] px-[28px] pb-[28px] mb-4
+            ${locationMapRef.current ? "h-[420px]" : "h-[220px]"}`}
+            >
+              <div className="flex flex-col">
+                <div className="flex gap-[87px]">
+                  <div className="flex flex-col justify-start w-1/2 gap-6">
+                    <div className="mb-2">
+                      <p className="text-[13px] font-extrabold mb-2">
+                        활동 날짜
+                      </p>
+                      <div className="flex w-full gap-4 justify-between mb-[18px]">
+                        <div className="flex flex-col w-[134px] h-[31px]">
+                          <label
+                            htmlFor="startDate"
+                            className="text-[10px] text-gray-400 mb-1"
+                          >
+                            시작일
+                          </label>
+                          <input
+                            id="startDate"
+                            name="startDate"
+                            defaultValue={originalActionData?.start_date || ""}
+                            required
+                            type="date"
+                            form="mainForm"
+                            className="h-[40px] p-4 border-1.5 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
+                          />
+                        </div>
+                        <div className="flex flex-col w-[134px] h-[31px]">
+                          <label
+                            htmlFor="endDate"
+                            className="text-[10px] text-gray-400 mb-1"
+                          >
+                            종료일
+                          </label>
+                          <input
+                            id="endDate"
+                            name="endDate"
+                            defaultValue={originalActionData?.end_date || ""}
+                            required
+                            type="date"
+                            form="mainForm"
+                            className="h-[40px] p-4 border-1.5 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <label htmlFor="maxParticipants">
+                        <span className="text-[13px] font-extrabold">
+                          모집 인원
+                        </span>
                       </label>
-                      <input
-                        id="startDate"
-                        name="startDate"
-                        defaultValue={originalActionData?.start_date || ""}
-                        required
-                        type="date"
-                        form="mainForm"
-                        className="h-[40px] p-4 border-1.5 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
-                      />
+                      <div className="h-[33px] flex items-center mt-2 border-1.5 border-gray-300 rounded-full text-xs text-gray-400 pl-7">
+                        최대
+                        <input
+                          id="maxParticipants"
+                          name="maxParticipants"
+                          defaultValue={
+                            originalActionData?.recruit_number || ""
+                          }
+                          required
+                          form="mainForm"
+                          className=" w-1/6 h-[30px] text-right mx-2 pr-4 bg-inherit focus:outline-none"
+                        />
+                        명
+                      </div>
                     </div>
-                    <div className="flex flex-col w-[134px] h-[31px]">
+                  </div>
+                  {/* 우측칸 활동장소 */}
+                  <div className="flex flex-col justify-start w-1/2  gap-2 ">
+                    <div className="flex flex-col gap-2">
+                      {/* <div className="flex flex-col"> */}
                       <label
-                        htmlFor="endDate"
-                        className="text-[10px] text-gray-400 mb-1"
+                        htmlFor="activityLocation"
+                        className="text-[13px] font-extrabold"
                       >
-                        종료일
+                        활동 장소
                       </label>
-                      <input
-                        id="endDate"
-                        name="endDate"
-                        defaultValue={originalActionData?.end_date || ""}
-                        required
-                        type="date"
-                        form="mainForm"
-                        className="h-[40px] p-4 border-1.5 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
+                      <SearchAddressModal
+                        setActivityLocation={setActivityLocation}
                       />
+                      {/* </div> */}
+                      <div className="w-[294px] h-[33px] border-1.5 border-gray-300 rounded-full text-gray-400 pl-4">
+                        <input
+                          type="text"
+                          id="activityLocation"
+                          name="activityLocation"
+                          value={activityLocation}
+                          onChange={handleActivityLocationChange}
+                          form="mainForm"
+                          required
+                          className="text-[13px] w-[281px] h-[30px] bg-inherit focus:outline-none placeholder:text-[12px]"
+                          placeholder="위치/주소를 입력해주세요. 도로명 주소검색도 가능해요."
+                        />
+                      </div>
+                      <div className="flex flex-col w-[290px] gap-2">
+                        <div className="flex gap-[10px] ">
+                          <SearchMapModal
+                            setActivityLocationMap={setActivityLocationMap}
+                            locationMapRef={locationMapRef}
+                          />
+                          <Button
+                            onClick={handleRemoveLocationMap}
+                            className="bg-[#5B5B5B] text-white text-[12px] rounded-full desktop:w-[10px] h-[28px]"
+                          >
+                            초기화
+                          </Button>
+                        </div>
+                        <input
+                          id="activityLocationMap"
+                          name="activityLocationMap"
+                          value={activityLocationMap}
+                          type="text"
+                          form="mainForm"
+                          placeholder="(선택) 지도에서 검색해주세요"
+                          className="h-[33px] w-[290px] p-4 border-1.5 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div>
-                  <label htmlFor="maxParticipants">
-                    <span className="text-[13px] font-extrabold">
-                      모집 인원
-                    </span>
-                  </label>
-                  <div className="h-[33px] flex items-center mt-2 border-1.5 border-gray-300 rounded-full text-xs text-gray-400 pl-7">
-                    최대
-                    <input
-                      id="maxParticipants"
-                      name="maxParticipants"
-                      defaultValue={originalActionData?.recruit_number || ""}
-                      required
-                      form="mainForm"
-                      className=" w-1/6 h-[30px] text-right mx-2 pr-4 bg-inherit focus:outline-none"
-                    />
-                    명
-                  </div>
-                </div>
-                <div className="flex flex-col gap-2">
-                  {/* <div className="flex flex-col"> */}
-                  <label
-                    htmlFor="activityLocation"
-                    className="text-[13px] font-extrabold"
-                  >
-                    활동 장소
-                  </label>
-                  <SearchAddressModal
-                    setActivityLocation={setActivityLocation}
-                  />
-                  {/* </div> */}
-                  <div className="w-[294px] h-[33px] border-1.5 border-gray-300 rounded-full text-gray-400 pl-4">
-                    <input
-                      type="text"
-                      id="activityLocation"
-                      name="activityLocation"
-                      value={activityLocation}
-                      onChange={handleActivityLocationChange}
-                      form="mainForm"
-                      required
-                      className="text-[13px] w-[281px] h-[30px] bg-inherit focus:outline-none placeholder:text-[12px]"
-                      placeholder="위치/주소를 입력해주세요. 도로명 주소검색도 가능해요."
-                    />
-                  </div>
-                  <div className="flex flex-col w-[290px] gap-2">
-                    <div className="flex gap-[10px] ">
-                      <SearchMapModal
-                        setActivityLocationMap={setActivityLocationMap}
-                        locationMapRef={locationMapRef}
-                      />
-                      <Button
-                        onClick={handleRemoveLocationMap}
-                        className="bg-[#5B5B5B] text-white text-[12px] rounded-full desktop:w-[10px] h-[28px]"
-                      >
-                        초기화
-                      </Button>
-                    </div>
-                    <input
-                      id="activityLocationMap"
-                      name="activityLocationMap"
-                      value={activityLocationMap}
-                      type="text"
-                      form="mainForm"
-                      placeholder="(선택) 지도에서 검색해주세요"
-                      className="h-[33px] w-[290px] p-4 border-1.5 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col justify-start w-1/2  gap-2">
                 {/* 지도 검색으로 장소선택 시 뜨게 할 지도(미리보기) */}
                 {locationMapRef.current && (
-                  <div className="w-[310px] h-[220px] mt-[41px]">
+                  <div className="w-[665px] h-[180px] mt-5">
                     <KakaoMap placeInfo={locationMapRef.current} />
                   </div>
                 )}

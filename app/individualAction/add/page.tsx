@@ -118,10 +118,14 @@ const AddActionPage = () => {
       {/* 이중 form태그라 id/form 속성으로 연결시키기 (mainForm, subForm)*/}
       <form onSubmit={handleSubmit} id="mainForm" method="post" />
       <div
-        className="flex flex-col desktop:w-[809px] 
+        className={`flex flex-col desktop:w-[809px] 
       laptop:w-[809px] h-[1000px] 
       phone:w-[291px] desktop:border-1.5 laptop:border-1.5
-       desktop:border-gray-300 laptop:border-gray-300 phone:border-0 rounded-3xl mx-auto mb-12 mt-0 "
+       desktop:border-gray-300 laptop:border-gray-300 phone:border-0 rounded-3xl mx-auto mb-12 mt-0
+       ${
+         (isDesktop || isLaptop) &&
+         (locationMapRef.current ? "h-[1025px]" : "h-[830px]")
+       }`}
       >
         {/* new green-action 타이틀 */}
         <div className="ml-8 my-[16px] phone:text-center">
