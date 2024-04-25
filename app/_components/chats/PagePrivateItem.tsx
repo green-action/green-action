@@ -54,9 +54,9 @@ const PagePrivateItem = ({ privateChat, actionId }: PrivateChatProps) => {
           }}
           className={`flex bg-white w-full h-[97%] justify-center items-center cursor-pointer rounded-2xl ${
             isDesktop
-              ? "mb-6 px-9 py-8"
+              ? "mb-5 px-9 py-6"
               : isLaptop
-              ? "mb-4 px-7 py-5"
+              ? "mb-3 px-7 py-5"
               : isMobile && "mb-3 px-4 py-2"
           }`}
         >
