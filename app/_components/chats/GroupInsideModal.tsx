@@ -92,7 +92,7 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
     <div className="absolute bottom-0 w-[100%] inset-0 z-30 flex bg-black bg-opacity-30">
       <div className="w-full flex justify-end">
         <div
-          className={`bg-[#ffffff] w-[75%] h-[100%]
+          className={`bg-[#ffffff] w-[75%] h-[750px]
           ${
             isDesktop
               ? "top-[130px] left-[40px] "
@@ -104,48 +104,50 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
         >
           <div className="flex flex-col w-full h-full">
             <div
-              className="self-start cursor-pointer ml-6 mt-6"
+              className="self-start cursor-pointer ml-6 mt-6 mb-6"
               onClick={() => {
                 onActionInfoClose();
               }}
             >
               <IoCloseOutline size={40} />
             </div>
-            <div className="w-full h-[25%] flex justify-center items-center mb-3">
+            <div className="w-full h-[25%] flex justify-center items-center mb-7">
               <img
                 src={actionInfo?.img_url || ""}
                 alt="action-image"
-                className="object-cover w-[37%] h-[78%] rounded-[20%]"
+                className="object-cover w-[150px] h-[150px] rounded-[20%]"
               />
             </div>
-            <div className="flex flex-col items-center border-b-1 pb-10">
+            <div className="flex flex-col items-center border-b-1 pb-6">
               <div className="flex items-center gap-3">
                 <IoIosChatboxes className="text-gray-500" size={25} />
                 <span className="font-extrabold text-[18px]">
                   {actionInfo?.title}
                 </span>
               </div>
-              <span className="text-gray-400 mb-4">Green action</span>
-              <span className="text-gray-500 mb-2">
-                {actionInfo?.start_date}~{actionInfo?.end_date}
+              <span className="text-gray-400 mb-3">Green action</span>
+              <span className="text-gray-500 mb-1">
+                {actionInfo?.start_date} ~ {actionInfo?.end_date}
               </span>
             </div>
-            <div className="flex flex-col items-start pl-10 pt-4">
-              <span className="font-extrabold">참여자</span>
-              <div className="flex mt-2 mb-4 gap-2 text-gray-500">
-                <Image
-                  src={personIcon}
-                  alt="person-icon"
-                  className="w-[20px] h-[20px]"
-                />
-                <span>
-                  {participantsInfo?.length} / {actionInfo?.recruit_number}
-                </span>
+            <div className="flex flex-col items-start pl-9 pr-7 pt-4 pb-[90px] overflow-y-auto scrollbar-hide">
+              <div className="flex items-center gap-4 w-full mb-4">
+                <span className="font-extrabold">참여자</span>
+                <div className="flex gap-2 text-gray-500 items-center">
+                  <Image
+                    src={personIcon}
+                    alt="person-icon"
+                    className="w-[18px] h-[18px]"
+                  />
+                  <span>
+                    {participantsInfo?.length} / {actionInfo?.recruit_number}
+                  </span>
+                </div>
               </div>
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-2 font-extrabold">
                   <Avatar
-                    className="mr-2"
+                    className="mr-2 w-[35px] h-[35px]"
                     src={ownerNicknameImg?.profile_img || ""}
                   />
                   <LiaCrownSolid size={25} className="text-[#B3C8A1]" />
@@ -159,6 +161,7 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
                         <Avatar
                           src={participant.profile_img || ""}
                           alt="participant-profile"
+                          className={`w-[35px] h-[35px]`}
                         />
                         <span>{participant.display_name}</span>
                       </div>
@@ -168,7 +171,7 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
               </div>
             </div>
             {loggedInUserUid !== ownerInfo?.id && (
-              <footer className="absolute bottom-0 w-[75%] h-[9%] border-t-1 flex items-center justify-center gap-3">
+              <footer className="absolute bottom-0 bg-white w-[75%] h-[72px] border-t-1 flex items-center justify-center gap-3">
                 <HiOutlineArrowLeftOnRectangle
                   size={30}
                   className="text-gray-700"

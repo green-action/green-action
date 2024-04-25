@@ -153,14 +153,14 @@ const GroupChatRoom: React.FC<ChatProps> = ({
         ref={chatRoomRef}
       >
         <ModalContent
-          className={`relative h-[87%] scrollbar-hide rounded-[30px] 
+          className={`relative scrollbar-hide rounded-[30px] 
           ${isActionInfoOpen ? "overflow-hidden" : "overflow-y-auto"}
           ${
             isDesktop
-              ? "max-w-[27%]"
+              ? "max-w-[27%] h-[750px]"
               : isLaptop
-              ? "max-w-[28%]"
-              : isMobile && "max-w-[332px]"
+              ? "max-w-[28%] h-[87%]"
+              : isMobile && "max-w-[332px] h-[87%]"
           }
           `}
         >
