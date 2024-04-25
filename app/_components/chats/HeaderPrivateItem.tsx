@@ -136,7 +136,7 @@ const HeaderPrivateItem = ({
                 isDesktop
                   ? "max-w-[170px]"
                   : isLaptop
-                  ? "max-w-[170px] text-sm"
+                  ? "max-w-[130px] text-sm"
                   : isMobile && "max-w-[120px] text-xs"
               }`}
             >

@@ -52,7 +52,7 @@ const PagePrivateItem = ({ privateChat, actionId }: PrivateChatProps) => {
           onClick={() => {
             onPrivateChatOpen();
           }}
-          className="flex bg-white w-[95%] h-[97%] justify-center items-center mx-auto mb-5 p-4 cursor-pointer rounded-2xl"
+          className="flex bg-white w-full h-[97%] justify-center items-center mb-5 p-4 cursor-pointer rounded-2xl"
         >
           <div>
             <Avatar
