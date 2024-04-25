@@ -140,7 +140,7 @@ const Mheader = () => {
   if (isAllUnreadCountError) {
     return <div>Error</div>;
   }
-  const icon = isMenuOpen ? <IoIosArrowBack /> : <LuAlignLeft />;
+
   return (
     <>
       {pathname !== "/signup" && pathname !== "/login" && (
@@ -150,7 +150,7 @@ const Mheader = () => {
           isBlurred={isScrolled}
           isMenuOpen={isMenuOpen}
           onMenuOpenChange={setIsMenuOpen}
-          className="phone:min-w-[360px] mib-h-[100px] flex bg-transparent items-center justify-center text-[11pt] relative"
+          className="phone:min-w-[360px] mib-h-[100px] flex bg-transparent items-center justify-center text-[11pt] mb-4"
         >
           <NavbarContent
             justify="start"
@@ -158,8 +158,7 @@ const Mheader = () => {
           >
             <NavbarMenuToggle
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-              icon={<div className="w-[30px] h-[30px] z-[999]">{icon}</div>}
-              isSelected={true}
+              icon={<LuAlignLeft className="w-[30px] h-[30px]" />}
               className={`${
                 pathname === "/" ? "text-white" : "text-[#7B7B7B]"
               } mt-5`}
@@ -170,11 +169,11 @@ const Mheader = () => {
               src={
                 pathname === "/about"
                   ? isScrolled
-                    ? graylogoImg // about 페이지에서 isScrolled 상태에 따라 로고 변경
+                    ? graylogoImg
                     : whitelogoImg
-                  : pathname === "/" // 메인페이지에서는 항상 white로고 사용
+                  : pathname === "/"
                   ? whitelogoImg
-                  : graylogoImg // 나머지 페이지에서는 항상 gray로고 사용
+                  : graylogoImg
               }
               alt="logo-image"
               className={`w-[74px] cursor-pointer dh-[21.63px] m-auto mt-5
@@ -182,16 +181,27 @@ const Mheader = () => {
             `}
               onClick={handleLogoLinkClick}
             />
+            {/* aria-label={
+                    isMenuOpen ? (
+                      <IoIosArrowBack className="w-[30px] h-[30px] absolute top-4 left-2" />
+                    ) : (
+                      <LuAlignLeft />
+                    )
+                  } */}
           </NavbarBrand>
-
           <NavbarContent>
             <div className="flex flex-col">
-              <NavbarMenu
-                className={`absolute top-0 w-[80%] h-[vh-full] z-40 ${
-                  isMenuOpen ? <IoIosArrowBack /> : <LuAlignLeft />
-                }`}
-              >
-                <NavbarMenuItem className="text-[#454545] text-[14px] flex flex-col mt-16 absolute ml-10 top-0">
+              <NavbarMenu className="absolute top-0 w-[80%] h-[vh-full] z-[50] bg-white">
+                <NavbarMenuToggle
+                  icon={
+                    <Image
+                      src={outside}
+                      alt="outside"
+                      className="w-[20px] h-[20px] absolute top-8 text-[#343434] -scale-x-100"
+                    />
+                  }
+                />
+                <NavbarMenuItem className="text-[#454545] text-[14px] flex flex-col mt-24 absolute ml-10 top-0">
                   <Link
                     href={"/about"}
                     className="mb-11 font-bold"
