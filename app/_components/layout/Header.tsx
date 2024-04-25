@@ -261,7 +261,7 @@ function Header() {
                       onMouseLeave={() => {
                         setIsOpen(false);
                       }}
-                      className="flex justify-center absolute desktop:h-[45px] laptop:h-[35px]  desktop:mt-[2.8%] laptop:mt-[4.2%] desktop:mr-[18%] laptop:mr-[12%] desktop:pt-[23px] desktop:text-[13pt] laptop:text-[10pt] font-bold text-[#2b2b2b]"
+                      className="flex justify-center absolute desktop:h-[45px] laptop:h-[35px]  desktop:mt-[2.8%] laptop:mt-[4.2%] desktop:mr-[18%] laptop:mr-[12%] desktop:pt-[23px] font-bold text-[#2b2b2b]"
                     >
                       {/* 폰트크기 넓이 안맞음 */}
                       <Navbar
@@ -275,7 +275,7 @@ function Header() {
                         <Link
                           href={"/individualAction"}
                           // 안 맞아서 폰트크기 13pt에 각각 넓이 130px으로 자체적 맞춤
-                          className={`desktop:text-[13pt] laptop:text-[10pt] flex items-center dekstop:h-[44px] laptop:h-[32px] rounded-full desktop:px-3 desktop:py-1 laptop:px-1 laptop:py-1 hover:bg-[#FFFFFF]/50 hover:border-medium hover:border-[#DDDDDD] desktop:w-[140px] laptop:w-[140px] text-center  ${
+                          className={`desktop:text-[13pt] laptop:text-[10pt] flex items-center desktop:h-[44px] laptop:h-[32px] rounded-full desktop:px-3 desktop:py-1 laptop:px-1 laptop:py-1 hover:bg-[#FFFFFF]/50 hover:border-medium hover:border-[#DDDDDD] desktop:w-[140px] laptop:w-[140px] text-center  ${
                             childSelected === "/individualAction" &&
                             "bg-[#FFFFFF]/50"
                           }`}
