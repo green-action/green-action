@@ -10,9 +10,8 @@ export async function middleware(req: NextRequest) {
   const session = await getToken({ req, secret, raw: true });
   const { pathname } = req.nextUrl;
 
-  // 로그인이 필요한 페이지 리스트
-  const LOGIN_REQUIRED_PAGES = [`/mypage`, `/individualAction/add`];
-  const LOGIN_NOT_REQUIRED_PAGES = [`/login`, `/signup`];
+  const LOGIN_REQUIRED_PAGES = ["/mypage", "/individualAction/add"];
+  const LOGIN_NOT_REQUIRED_PAGES = ["/login", "/signup"];
 
   // 로그인이 필요한 페이지 리스트
   if (LOGIN_REQUIRED_PAGES.includes(pathname) && !session) {
