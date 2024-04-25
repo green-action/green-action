@@ -15,6 +15,7 @@ import {
 } from "@/app/_api/messages/groupChat-api";
 
 import type { ParticipantInfo } from "@/app/_types/realtime-chats";
+import { useResponsive } from "@/app/_hooks/responsive";
 
 interface GroupInsideModalProps {
   onActionInfoClose: () => void;
@@ -31,7 +32,9 @@ interface GroupInsideModalProps {
       }
     | null
     | undefined;
-  participantsInfo: ParticipantInfo[] | undefined;
+  // participantsInfo: ParticipantInfo[] | undefined;
+  // TODO any 해결필요
+  participantsInfo: any;
   roomId: string;
   actionId: string;
   onClose: () => void;
@@ -48,8 +51,10 @@ const GroupInsideModal = ({
   // 현재 로그인한 유저 uid
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
+  const { isDesktop, isLaptop, isMobile } = useResponsive();
 
-  const ownerInfo = participantsInfo?.find((item) => {
+  // TODO any 해결필요
+  const ownerInfo = participantsInfo?.find((item: any) => {
     return item.participant_type === "방장";
   });
 
@@ -84,12 +89,18 @@ const GroupInsideModal = ({
   };
 
   return (
-    <div className="absolute fixed inset-0 z-30 flex bg-black bg-opacity-30">
+    <div className="absolute bottom-0 w-[100%] inset-0 z-30 flex bg-black bg-opacity-30">
       <div className="w-full flex justify-end">
         <div
-          className="desktop:w-[75%] desktop:h-[100%] desktop:top-[130px] desktop:left-[40px] 
-        bg-[#ffffff] laptop:w-[218px] laptop:h-[240px] laptop:top-[114px] laptop:left-[37px]
-        w-[218px] h-[255px] top-[112px] left-[39px]"
+          className={`bg-[#ffffff] w-[75%] h-[100%]
+          ${
+            isDesktop
+              ? "top-[130px] left-[40px] "
+              : isLaptop
+              ? "top-[112px] left-[37px]"
+              : isMobile && ""
+          }
+          `}
         >
           <div className="flex flex-col w-full h-full">
             <div
@@ -140,7 +151,8 @@ const GroupInsideModal = ({
                   <LiaCrownSolid size={25} className="text-[#B3C8A1]" />
                   <span>{ownerNicknameImg?.display_name}</span>
                 </div>
-                {participantsInfo?.map((participant) => (
+                {/* TODO any 해결 필요 */}
+                {participantsInfo?.map((participant: any) => (
                   <>
                     {participant.id !== ownerInfo?.id && (
                       <div className="flex items-center gap-4 font-extrabold">
