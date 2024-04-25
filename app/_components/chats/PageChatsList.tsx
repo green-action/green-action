@@ -1,23 +1,26 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { useQueryClient } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
-import { supabase } from "@/utils/supabase/client";
+import { MODE_PREVIOUS, MODE_TODAY } from "@/app/_api/constant";
 import {
   QUERY_KEY_MESSAGES_PARTICIPANT_INFO_PAGE,
   QUERY_KEY_PRIVATE_ROOM_IDS,
   QUERY_KEY_UNREAD_MESSAGES_COUNT,
 } from "@/app/_api/queryKeys";
-import { ModalHeader, ModalBody, ModalFooter, Button } from "@nextui-org/react";
-import PagePrivateItem from "./PagePrivateItem";
 import { useResponsive } from "@/app/_hooks/responsive";
 import {
   useGetPrivateList,
   useGetPrivateRoomIds,
 } from "@/app/_hooks/useQueries/chats";
+import { supabase } from "@/utils/supabase/client";
+import { ModalBody } from "@nextui-org/react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { useEffect } from "react";
+import PagePrivateItem from "./PagePrivateItem";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
+
+import type { PrivateChat } from "@/app/_types/realtime-chats";
 
 const PageChatsList = ({
   onClose,
@@ -104,10 +107,29 @@ const PageChatsList = ({
     return <div>Error</div>;
   }
 
+  // 오늘 알림, 이전 알림 리스트 분리
+  const today = new Date().toDateString();
+
+  const todayChats: (PrivateChat | null)[] | undefined = [];
+  const previousChats: (PrivateChat | null)[] | undefined = [];
+
+  privateChatsList?.map((privateChat) => {
+    if (!privateChat) return [];
+
+    if (privateChat.created_at) {
+      const messageDate = new Date(privateChat.created_at).toDateString();
+
+      if (messageDate === today) {
+        todayChats.push(privateChat);
+      } else {
+        previousChats.push(privateChat);
+      }
+    }
+  });
+
   return (
     <>
       <header className="flex items-end gap-1 z-10 px-0">
-        {/* <div className="text-gray-500 text-sm">green-action</div> */}
         <div className="flex w-full flex-col">
           <div
             className={`${
@@ -137,13 +159,6 @@ const PageChatsList = ({
         </div>
       </header>
       <ModalBody className="bg-[#EAEAEA] pt-[22%] pb-7 px-0">
-        {/* {privateChatsList?.map((privateChat) => (
-          <PagePrivateItem
-            key={privateChat?.room_id}
-            privateChat={privateChat}
-            actionId={action_id}
-          />
-        ))} */}
         <div
           className={`${
             isDesktop ? "px-10" : isLaptop ? "px-8" : isMobile && "px-5 pt-3"
@@ -166,15 +181,12 @@ const PageChatsList = ({
                 isDesktop ? "mb-7" : isLaptop ? "mb-5" : isMobile && "mb-2"
               }`}
             >
-              {/* TODO any 해결 필요 */}
-              {/* {todayMessages?.map((eachRoomInfo: any) => (
-            <HeaderPrivateItem eachRoomInfo={eachRoomInfo} mode={MODE_TODAY} />
-          ))} */}
-              {privateChatsList?.map((privateChat) => (
+              {todayChats?.map((privateChat) => (
                 <PagePrivateItem
                   key={privateChat?.room_id}
                   privateChat={privateChat}
                   actionId={action_id}
+                  mode={MODE_TODAY}
                 />
               ))}
             </div>
@@ -192,18 +204,12 @@ const PageChatsList = ({
               이전 알림
             </div>
             <div>
-              {/* TODO any 해결 필요 */}
-              {/* {previousMessages?.map((eachRoomInfo: any) => (
-                <HeaderPrivateItem
-                  eachRoomInfo={eachRoomInfo}
-                  mode={MODE_PREVIOUS}
-                />
-              ))} */}
-              {privateChatsList?.map((privateChat) => (
+              {previousChats?.map((privateChat) => (
                 <PagePrivateItem
                   key={privateChat?.room_id}
                   privateChat={privateChat}
                   actionId={action_id}
+                  mode={MODE_PREVIOUS}
                 />
               ))}
             </div>
