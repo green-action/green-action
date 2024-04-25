@@ -212,7 +212,7 @@ const ChatButtons = ({
         }
       >
         {actionOwnerUid === loggedInUserUid
-          ? "1:1 문의방 목록보기"
+          ? "1:1 문의 확인하기"
           : "1:1 문의하기"}
       </div>
       <div
@@ -246,6 +246,7 @@ const ChatButtons = ({
           isOpen={isPrivateChatOpen}
           onOpenChange={onPrivateChatOpenChange}
           roomId={privateRoomIdRef.current}
+          actionId={action_id}
         />
       )}
       {/* 그룹채팅방 */}

@@ -16,6 +16,7 @@ import {
 import HeaderPrivateItem from "./HeaderPrivateItem";
 import Image from "next/image";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
+import { MODE_PREVIOUS, MODE_TODAY } from "@/app/_api/constant";
 
 const HeaderPrivateList = () => {
   const session = useSession();
@@ -172,14 +173,103 @@ const HeaderPrivateList = () => {
     })
     .filter((combined) => combined !== null);
 
-  // console.log("combinedObjects", combinedObjects);
+  type CombinedObject =
+    | ({
+        chat_rooms_info: {
+          room_type: string | undefined;
+          room_id: string;
+          participant_type: string;
+        };
+        action_info: {
+          action_id: string;
+          action_title: string;
+          action_imgUrl: string;
+        };
+        message: {
+          content: string;
+          created_at: string;
+          room_id: string;
+          sender_uid: string;
+          user: {
+            display_name: string;
+            id: string;
+            profile_img: string;
+          };
+        } | null;
+      } | null)[]
+    | undefined;
+
+  const todayMessages: (CombinedObject | null)[] | undefined = [];
+  const previousMessages: (CombinedObject | null)[] | undefined = [];
+
+  if (combinedObjects) {
+    const today = new Date().toDateString();
+
+    // TODO any 해결 필요
+    // combinedObjects를 생성하면서 메시지를 오늘 날짜와 그 이전 날짜로 분리
+    combinedObjects.map((eachRoomInfo: any) => {
+      const messageDate = new Date(
+        eachRoomInfo.message.created_at,
+      ).toDateString();
+
+      if (messageDate === today) {
+        todayMessages.push(eachRoomInfo);
+      } else {
+        previousMessages.push(eachRoomInfo);
+      }
+    });
+  }
 
   return (
-    <>
-      {combinedObjects?.map((eachRoomInfo) => (
-        <HeaderPrivateItem eachRoomInfo={eachRoomInfo} />
-      ))}
-    </>
+    <div
+      className={`pt-8 ${
+        isDesktop ? "px-10" : isLaptop ? "px-8" : isMobile && "px-5"
+      }`}
+    >
+      <div className="flex flex-col">
+        <div
+          className={`ml-2 mt-2 font-black ${
+            isDesktop
+              ? "text-[18px] mb-5"
+              : isLaptop
+              ? "text-[15px] mb-2"
+              : isMobile && "text-[13px] mb-2"
+          }`}
+        >
+          오늘 받은 알림
+        </div>
+        <div
+          className={`${
+            isDesktop ? "mb-7" : isLaptop ? "mb-5" : isMobile && "mb-2"
+          }`}
+        >
+          {todayMessages?.map((eachRoomInfo) => (
+            <HeaderPrivateItem eachRoomInfo={eachRoomInfo} mode={MODE_TODAY} />
+          ))}
+        </div>
+      </div>
+      <div className="flex flex-col">
+        <div
+          className={`ml-2 mt-2 font-black ${
+            isDesktop
+              ? "text-[18px] mb-5"
+              : isLaptop
+              ? "text-[15px] mb-2"
+              : isMobile && "text-[13px] mb-2"
+          }`}
+        >
+          이전 알림
+        </div>
+        <div>
+          {previousMessages?.map((eachRoomInfo) => (
+            <HeaderPrivateItem
+              eachRoomInfo={eachRoomInfo}
+              mode={MODE_PREVIOUS}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
   );
 };
 

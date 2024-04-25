@@ -1,13 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
-import { getMessages } from "@/app/_api/messages/privateChat-api";
+import {
+  getActionParticipantsInfo,
+  getMessages,
+} from "@/app/_api/messages/privateChat-api";
 import {
   QUERY_KEY_ACTION_IDS_TITLES_URLS,
+  QUERY_KEY_ACTION_PARTICIPANTS_INFO,
   QUERY_KEY_ALL_UNREAD_COUNT,
   QUERY_KEY_CHAT_ACTION_INFO,
   QUERY_KEY_GROUP_ACTION_INFO,
   QUERY_KEY_GROUP_LIST_ACTIONS_INFO,
   QUERY_KEY_GROUP_PARTICIPANTS_COUNT,
   QUERY_KEY_GROUP_PARTICIPANTS_INFO,
+  QUERY_KEY_LAST_MESSAGE_DATES,
   QUERY_KEY_LAST_MESSAGE_INFO,
   QUERY_KEY_MESSAGES_LIST,
   QUERY_KEY_MESSAGES_PARTICIPANT_INFO_HEADER,
@@ -39,6 +44,7 @@ import {
 } from "@/app/_api/messages/pagePrivateList-api";
 import {
   getGroupActionInfo,
+  getLastDates,
   getLastMessageInfo,
   getMyGroupChatIds,
   getParticipantsCount,
@@ -312,4 +318,40 @@ export const useGetLastMessageInfo = (room_id: string) => {
   });
 
   return { lastMessageInfo, isLastMessageInfoLoading, isLastMessageInfoError };
+};
+
+export const useGetActionParticipantsInfo = (action_id: string) => {
+  const {
+    data: actionParticipantsInfo,
+    isLoading: isActionParticipantsLoading,
+    isError: isActionParticipantsError,
+  } = useQuery({
+    queryKey: [QUERY_KEY_ACTION_PARTICIPANTS_INFO, action_id],
+    queryFn: () => getActionParticipantsInfo(action_id),
+  });
+
+  return {
+    actionParticipantsInfo: actionParticipantsInfo || [],
+    isActionParticipantsLoading,
+    isActionParticipantsError,
+  };
+};
+
+export const useGetLastDates = (roomIds: string[] | undefined) => {
+  const {
+    data: lastDates,
+    isLoading: isLastDatesLoading,
+    isError: isLastDatesError,
+  } = useQuery({
+    queryKey: [QUERY_KEY_LAST_MESSAGE_DATES],
+    queryFn: async () => {
+      if (roomIds) {
+        return await getLastDates(roomIds);
+      }
+      return [];
+    },
+    enabled: !!roomIds,
+  });
+
+  return { lastDates, isLastDatesLoading, isLastDatesError };
 };
