@@ -30,7 +30,11 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
-import { IoPaperPlane, IoReorderThreeOutline } from "react-icons/io5";
+import {
+  IoPaperPlane,
+  IoReorderThreeOutline,
+  IoCloseOutline,
+} from "react-icons/io5";
 import GroupInsideModal from "./GroupInsideModal";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
@@ -39,6 +43,7 @@ import type { ChatProps } from "@/app/_types/realtime-chats";
 const PrivateChatRoom: React.FC<ChatProps> = ({
   isOpen,
   onOpenChange,
+  onPrivateChatClose,
   roomId,
   actionId,
 }) => {
@@ -250,11 +255,16 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
                     </span>
                   </div>
                 </div>
-                <div>
+                <div className="flex items-center">
                   <IoReorderThreeOutline
                     size={`${isDesktop ? 40 : isLaptop ? 35 : 27}`}
                     className="cursor-pointer"
                     onClick={() => onActionInfoOpen()}
+                  />
+                  <IoCloseOutline
+                    size={`${isDesktop ? 40 : isLaptop ? 35 : 27}`}
+                    className="cursor-pointer"
+                    onClick={() => onClose()}
                   />
                 </div>
               </ModalHeader>
