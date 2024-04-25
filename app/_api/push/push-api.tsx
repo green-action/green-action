@@ -53,3 +53,21 @@ export const fetchMyPushList = async (id: string) => {
     throw error;
   }
 };
+
+// 안읽은 push 읽음처리
+export const updateUnreadPush = async (id: string) => {
+  try {
+    const { data, error } = await supabase
+      .from("alarm")
+      .update({ isRead: true })
+      .eq("id", id);
+
+    if (error) {
+      throw new Error("Failed to update alarm unread from database");
+    }
+    return data;
+  } catch (error) {
+    console.error("Error : ", error);
+    throw error;
+  }
+};

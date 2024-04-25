@@ -8,22 +8,11 @@ import { supabase } from "@/utils/supabase/client";
 import { RealtimePostgresInsertPayload } from "@supabase/supabase-js";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import {
-  Card,
-  CardBody,
-  ModalBody,
-  ModalFooter,
-  Button,
-  useDisclosure,
-} from "@nextui-org/react";
-import { useRouter } from "next/navigation";
+import { ModalBody, ModalFooter, Button } from "@nextui-org/react";
 import { fetchMyPushList } from "@/app/_api/push/push-api";
-import CommunityDetailModal from "../community/CommunityDetailModal";
 import CommentDetail from "./CommentDetail";
 
 const CommentAlarm = ({ onClose }: { onClose: () => void }) => {
-  const router = useRouter();
-
   const [comments, setComments] = useState<
     RealtimePostgresInsertPayload<{ [key: string]: any }>[]
   >([]);
@@ -34,6 +23,7 @@ const CommentAlarm = ({ onClose }: { onClose: () => void }) => {
       message: string;
       post_id: string;
       targetId: string;
+      isRead: boolean;
     }[]
   >([]);
 
@@ -93,6 +83,7 @@ const CommentAlarm = ({ onClose }: { onClose: () => void }) => {
             targetId: loggedInUserUid,
             post_id: commentData.new.post_id,
             message: `${commentWriter.display_name} 님이 새 댓글을 남겼습니다!`,
+            isRead: false,
           };
 
           await supabase.from("alarm").insert(newPush);

@@ -28,7 +28,7 @@ export const useCommentWriterInfo = (id: string) => {
 
 export const useMyPushList = (id: string) => {
   const { data, isLoading, isError } = useQuery({
-    queryKey: [QUERY_KEY_MY_PUSHLIST, id],
+    queryKey: [QUERY_KEY_MY_PUSHLIST],
     queryFn: () => fetchMyPushList(id),
   });
   return { data, isLoading, isError };
