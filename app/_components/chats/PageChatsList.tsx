@@ -137,7 +137,7 @@ const PageChatsList = ({
                 ? "w-full"
                 : isLaptop
                 ? "w-full"
-                : isMobile && "w-[332px] rounded-t-[55px]"
+                : isMobile && "w-[332px] rounded-t-[30px]"
             } fixed bg-white z-10 flex text-[20px] gap-8 h-[13%] items-end pl-11`}
           >
             <div

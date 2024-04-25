@@ -188,7 +188,7 @@ const PrivateChatRoom = ({
               isDesktop
                 ? "max-w-[27%]"
                 : isLaptop
-                ? "max-w-[28%] "
+                ? "max-w-[28%]"
                 : isMobile && "max-w-[332px]"
             }
             `}
@@ -201,16 +201,16 @@ const PrivateChatRoom = ({
                     ? "w-[27%] h-28"
                     : isLaptop
                     ? "w-[28%] h-[12%]"
-                    : isMobile && "w-[332px] h-[73px]"
+                    : isMobile && "w-[332px] h-[70px]"
                 }`}
               >
                 <div
-                  className={`flex ml-2 items-center ${
+                  className={`flex items-center ${
                     isDesktop
-                      ? "gap-5"
+                      ? "gap-5 ml-2"
                       : isLaptop
-                      ? "gap-4"
-                      : isMobile && "gap-3"
+                      ? "gap-4 ml-2"
+                      : isMobile && "gap-4 ml-0"
                   }`}
                 >
                   <Avatar
@@ -272,8 +272,8 @@ const PrivateChatRoom = ({
                         ${
                           isMobile &&
                           (message.sender_uid === loggedInUserUid
-                            ? "self-end"
-                            : "self-start")
+                            ? "self-end mr-5"
+                            : "self-start ml-5")
                         }
                        `}
                         key={message.id}
@@ -320,7 +320,13 @@ const PrivateChatRoom = ({
                     }`}
                   >
                     <input
-                      className="w-[90%] h-[85%] pl-4 focus:outline-none"
+                      className={`w-[90%] h-[85%] focus:outline-none ${
+                        isDesktop
+                          ? "pl-4"
+                          : isLaptop
+                          ? "pl-4"
+                          : isMobile && "pl-0"
+                      }`}
                       type="text"
                       placeholder="send message..."
                       value={message}

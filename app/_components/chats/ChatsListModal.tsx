@@ -33,7 +33,7 @@ const ChatsListModal = ({
               ? "w-[32%] min-w-[620px] right-0"
               : isLaptop
               ? "w-[32%] min-w-[430px] right-0"
-              : isMobile && "max-w-[332px] h-[87%] rounded-[55px]"
+              : isMobile && "max-w-[332px] h-[87%] rounded-[30px]"
           }
           
           overflow-y-auto scrollbar-hide absolute`}
