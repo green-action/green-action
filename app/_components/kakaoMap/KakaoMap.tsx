@@ -1,8 +1,9 @@
 "use client";
 import { useResponsive } from "@/app/_hooks/responsive";
-import type { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
 import { useEffect, useState } from "react";
 import { CustomOverlayMap, Map, MapMarker } from "react-kakao-maps-sdk";
+
+import type { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
 
 const KakaoMap = ({ placeInfo }: { placeInfo: placeCoordinateType }) => {
   const { x, y } = placeInfo as placeCoordinateType;

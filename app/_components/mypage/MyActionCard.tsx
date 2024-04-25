@@ -1,14 +1,10 @@
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import Bookmark from "../bookmark/Bookmark";
-import MyActionRecruitingModal from "./MyActionRecruitingModal";
-import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
-import { useResponsive } from "@/app/_hooks/responsive";
 import {
   MODE_MAIN,
   MODE_MY_BOOKMARKS,
   MODE_MY_POSTS,
 } from "@/app/_api/constant";
+import { useResponsive } from "@/app/_hooks/responsive";
+import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
 import {
   Button,
   Card,
@@ -19,12 +15,15 @@ import {
   DropdownTrigger,
   useDisclosure,
 } from "@nextui-org/react";
-import rightArrowImg from "../../_assets/image/individualAction/Group89.png";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { GoArrowRight } from "react-icons/go";
 import dateImg from "../../_assets/image/individualAction/image170.png";
 import locationImg from "../../_assets/image/individualAction/image35.png";
-import optionDots from "/app/_assets/image/logo_icon/icon/mypage/Group 100.png";
+import Bookmark from "../bookmark/Bookmark";
+import MyActionRecruitingModal from "./MyActionRecruitingModal";
 import person from "/app/_assets/image/individualAction/person.png";
-import { GoArrowRight } from "react-icons/go";
+import optionDots from "/app/_assets/image/logo_icon/icon/mypage/Group 100.png";
 
 // TODO MyAction 타입 사용 후 에러 해결하기
 const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {

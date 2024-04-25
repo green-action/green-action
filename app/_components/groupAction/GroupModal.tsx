@@ -17,7 +17,6 @@ import search from "/app/_assets/image/logo_icon/icon/goods/Group-128.svg";
 import type { groupModalProps } from "@/app/_types/groupAction";
 
 const GroupModal: React.FC<groupModalProps> = ({ action }) => {
-  // {`${isMobile ? "mr-[10px]" : ""}`}
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 
