@@ -15,6 +15,7 @@ import {
 } from "@/app/_api/messages/groupChat-api";
 
 import type { ParticipantInfo } from "@/app/_types/realtime-chats";
+import { useResponsive } from "@/app/_hooks/responsive";
 
 interface GroupInsideModalProps {
   onActionInfoClose: () => void;
@@ -50,6 +51,7 @@ const GroupInsideModal = ({
   // 현재 로그인한 유저 uid
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
+  const { isDesktop, isLaptop, isMobile } = useResponsive();
 
   // TODO any 해결필요
   const ownerInfo = participantsInfo?.find((item: any) => {
@@ -90,9 +92,15 @@ const GroupInsideModal = ({
     <div className="absolute bottom-0 w-[100%] inset-0 z-30 flex bg-black bg-opacity-30">
       <div className="w-full flex justify-end">
         <div
-          className="desktop:w-[75%] desktop:h-[100%] desktop:top-[130px] desktop:left-[40px] 
-        bg-[#ffffff] laptop:w-[218px] laptop:h-[240px] laptop:top-[114px] laptop:left-[37px]
-        w-[218px] h-[255px] top-[112px] left-[39px]"
+          className={`bg-[#ffffff] w-[75%] h-[100%]
+          ${
+            isDesktop
+              ? "top-[130px] left-[40px] "
+              : isLaptop
+              ? "top-[112px] left-[37px]"
+              : isMobile && ""
+          }
+          `}
         >
           <div className="flex flex-col w-full h-full">
             <div
