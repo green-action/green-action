@@ -315,7 +315,7 @@ const PrivateChatRoom = ({
                       isDesktop
                         ? "mb-[34px] h-16"
                         : isLaptop
-                        ? "mb-[24px] h-16"
+                        ? "mb-[20px] h-12"
                         : isMobile && "mb-[17px] h-12"
                     }`}
                   >
@@ -324,7 +324,7 @@ const PrivateChatRoom = ({
                         isDesktop
                           ? "pl-4"
                           : isLaptop
-                          ? "pl-4"
+                          ? "pl-2"
                           : isMobile && "pl-0"
                       }`}
                       type="text"
