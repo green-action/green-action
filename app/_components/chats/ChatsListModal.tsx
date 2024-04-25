@@ -1,20 +1,17 @@
 import { MODE_ACTION_PAGE, MODE_HEADER } from "@/app/_api/constant";
-import { Modal, ModalContent } from "@nextui-org/react";
-import PrivateChatsList from "./PageChatsList";
-import HeaderChatsSelect from "./HeaderChatsSelect";
 import { useResponsive } from "@/app/_hooks/responsive";
+import { Modal, ModalContent } from "@nextui-org/react";
+import React from "react";
+import HeaderChatsSelect from "./HeaderChatsSelect";
+import PrivateChatsList from "./PageChatsList";
 
-const ChatsListModal = ({
+import type { chatsListModalProps } from "@/app/_types/realtime-chats";
+
+const ChatsListModal: React.FC<chatsListModalProps> = ({
   isOpen,
   onClose,
   mode,
   action_id,
-}: {
-  isOpen: boolean;
-  onOpen: () => void;
-  onClose: () => void;
-  mode: string;
-  action_id: string;
 }) => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 

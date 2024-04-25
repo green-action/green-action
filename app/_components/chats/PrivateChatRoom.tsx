@@ -1,9 +1,5 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { useSession } from "next-auth/react";
-import { supabase } from "@/utils/supabase/client";
-import { useQueryClient } from "@tanstack/react-query";
 import { sendMessage } from "@/app/_api/messages/privateChat-api";
 import {
   QUERY_KEY_ALL_UNREAD_COUNT,
@@ -12,8 +8,7 @@ import {
   QUERY_KEY_UNREAD_MESSAGES_COUNT,
   QUERY_KEY_UPDATE_UNREAD,
 } from "@/app/_api/queryKeys";
-import { Avatar, useDisclosure } from "@nextui-org/react";
-import { Modal, ModalContent, ModalHeader, ModalBody } from "@nextui-org/react";
+import { useResponsive } from "@/app/_hooks/responsive";
 import {
   useGetActionParticipantsInfo,
   useGetGroupActionInfo,
@@ -21,22 +16,32 @@ import {
   useGetParticipantInfo,
   useUpdateUnread,
 } from "@/app/_hooks/useQueries/chats";
-import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
-import Image from "next/image";
-import { IoPaperPlane } from "react-icons/io5";
-import { IoReorderThreeOutline } from "react-icons/io5";
-import { useResponsive } from "@/app/_hooks/responsive";
 import { formatToLocaleDateTimeString } from "@/utils/date/date";
+import { supabase } from "@/utils/supabase/client";
+import {
+  Avatar,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  useDisclosure,
+} from "@nextui-org/react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import React, { useEffect, useRef, useState } from "react";
+import { IoPaperPlane, IoReorderThreeOutline } from "react-icons/io5";
 import GroupInsideModal from "./GroupInsideModal";
+import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
 import type { ChatProps } from "@/app/_types/realtime-chats";
 
-const PrivateChatRoom = ({
+const PrivateChatRoom: React.FC<ChatProps> = ({
   isOpen,
   onOpenChange,
   roomId,
   actionId,
-}: ChatProps) => {
+}) => {
   const [message, setMessage] = useState("");
   const queryClient = useQueryClient();
   const { isDesktop, isLaptop, isMobile } = useResponsive();

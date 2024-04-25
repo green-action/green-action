@@ -85,23 +85,18 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
           mode === MODE_INDIVIDUAL_ACTION_ADD ? "h-[1544px]" : "h-full"
         }`}
       ></div>
-
-      {/* mode가 myBookmarks(마이페이지 찜한 action) 인 경우에 버튼 대신 북마크아이콘 */}
       {mode === MODE_MY_BOOKMARKS ? (
         <button onClick={() => customConfirm.show(handleClick)}>
           <Image
             src={bookmarkFill}
             alt="북마크"
             className="desktop:size-[17px] desktop:mr-[4px] desktop:mt-[2px] laptop:size-[16px] laptop:mr-[4px]"
-            // className="desktop:w-[15px] laptop:w-[14px] desktop:h-[14px] laptop:h-[13px] desktop:mt-[3px] laptop:mt-[2px] desktop:mr-[8px] laptop:mr-[4px] mb-[2px]"
           />
         </button>
       ) : (
         mode !== MODE_COMMUNITY && (
           <Button
             className="rounded-full !w-[170px] h-[40px] border-1.5 border-gray-300 text-sm text-gray-500 font-extrabold hover:bg-black hover:text-white"
-            // border border-gray-400 bg-[#EFEFEF]
-            // variant="ghost"
             onClick={() => {
               customConfirm.show(handleClick);
             }}
@@ -135,7 +130,6 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
           </svg>
         </button>
       )}
-
       <div
         ref={dialogContRef}
         className={`absolute top-[-50%] left-1/2 translate-x-[-50%] translate-y-[-50%] p-[10px] transition-all z-[50] opacity-0 ${
@@ -146,7 +140,6 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
           {text}
         </div>
         <div className="text-center bg-[#f5f5f2] flex flex-row gap-3 justify-center py-5 rounded-xl">
-          {/* mode === 'individualAdd' 인 경우 (action 생성/수정 페이지) form 속성 추가 / form = {``} 속성 안에서 조건을 줄 시 없는 경우 문제가 생김 */}
           {mode === MODE_INDIVIDUAL_ACTION_ADD ? (
             <Button
               type="submit"

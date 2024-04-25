@@ -1,20 +1,19 @@
-import React from "react";
-import { Avatar } from "@nextui-org/react";
-import Image from "next/image";
-import personIcon from "/app/_assets/image/logo_icon/icon/mypage/person.png";
-import { IoCloseOutline } from "react-icons/io5";
-import { LiaCrownSolid } from "react-icons/lia";
-import { IoIosChatboxes } from "react-icons/io";
-import { HiOutlineArrowLeftOnRectangle } from "react-icons/hi2";
-import { useSession } from "next-auth/react";
 import {
   changeRecruitingState,
   countParticipants,
   deleteParticipant,
   getRecruitingNumber,
 } from "@/app/_api/messages/groupChat-api";
+import { Avatar } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import React from "react";
+import { HiOutlineArrowLeftOnRectangle } from "react-icons/hi2";
+import { IoIosChatboxes } from "react-icons/io";
+import { IoCloseOutline } from "react-icons/io5";
+import { LiaCrownSolid } from "react-icons/lia";
+import personIcon from "/app/_assets/image/logo_icon/icon/mypage/person.png";
 
-import type { ParticipantInfo } from "@/app/_types/realtime-chats";
 import { useResponsive } from "@/app/_hooks/responsive";
 
 interface GroupInsideModalProps {
@@ -34,20 +33,21 @@ interface GroupInsideModalProps {
     | undefined;
   // participantsInfo: ParticipantInfo[] | undefined;
   // TODO any 해결필요
+  // TODO any 해결 후 type 분리
   participantsInfo: any;
   roomId: string;
   actionId: string;
   onClose: () => void;
 }
 
-const GroupInsideModal = ({
+const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
   onActionInfoClose,
   actionInfo,
   participantsInfo,
   roomId,
   actionId,
   onClose,
-}: GroupInsideModalProps) => {
+}) => {
   // 현재 로그인한 유저 uid
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";

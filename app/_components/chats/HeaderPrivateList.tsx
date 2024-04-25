@@ -1,22 +1,22 @@
-import React, { useEffect } from "react";
-import { useSession } from "next-auth/react";
-import { useResponsive } from "@/app/_hooks/responsive";
-import { supabase } from "@/utils/supabase/client";
-import { useQueryClient } from "@tanstack/react-query";
-import {
-  useGetActionTitleAndUrl,
-  useGetMessageAndParticipantInfo,
-  useGetMyPrivateRoomsInfo,
-} from "@/app/_hooks/useQueries/chats";
+import { MODE_PREVIOUS, MODE_TODAY } from "@/app/_api/constant";
 import {
   QUERY_KEY_ACTION_IDS_TITLES_URLS,
   QUERY_KEY_MESSAGES_PARTICIPANT_INFO_HEADER,
   QUERY_KEY_UNREAD_MESSAGES_COUNT,
 } from "@/app/_api/queryKeys";
-import HeaderPrivateItem from "./HeaderPrivateItem";
+import { useResponsive } from "@/app/_hooks/responsive";
+import {
+  useGetActionTitleAndUrl,
+  useGetMessageAndParticipantInfo,
+  useGetMyPrivateRoomsInfo,
+} from "@/app/_hooks/useQueries/chats";
+import { supabase } from "@/utils/supabase/client";
+import { useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { useEffect } from "react";
+import HeaderPrivateItem from "./HeaderPrivateItem";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
-import { MODE_PREVIOUS, MODE_TODAY } from "@/app/_api/constant";
 import { CombinedObject } from "@/app/_types/realtime-chats";
 
 const HeaderPrivateList = () => {

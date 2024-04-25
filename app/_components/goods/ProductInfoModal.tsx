@@ -4,26 +4,17 @@ import { useUserPoint } from "@/app/_hooks/useQueries/goods";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import AlertModal from "../community/AlertModal";
 import search from "/app/_assets/image/logo_icon/icon/goods/Group 128.png";
 
-const ProductInfoModal = ({
+import type { productInfoModalProps } from "@/app/_types/goods";
+
+const ProductInfoModal: React.FC<productInfoModalProps> = ({
   item,
   showProductInfo,
   setShowProductInfo,
   handleToggleProductInfo,
-}: {
-  item: {
-    id: string;
-    img_url: string;
-    point: number;
-    product_info: string;
-    product_name: string;
-  };
-  showProductInfo: boolean;
-  setShowProductInfo: Dispatch<SetStateAction<boolean>>;
-  handleToggleProductInfo: () => void;
 }) => {
   const queryClient = useQueryClient();
   const session = useSession();

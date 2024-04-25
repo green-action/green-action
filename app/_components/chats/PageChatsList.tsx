@@ -20,14 +20,14 @@ import { useEffect } from "react";
 import PagePrivateItem from "./PagePrivateItem";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
-import type { PrivateChat } from "@/app/_types/realtime-chats";
+import type {
+  PrivateChat,
+  pageChatsListProps,
+} from "@/app/_types/realtime-chats";
 
-const PageChatsList = ({
+const PageChatsList: React.FC<pageChatsListProps> = ({
   onClose,
   action_id,
-}: {
-  onClose: () => void;
-  action_id: string;
 }) => {
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";

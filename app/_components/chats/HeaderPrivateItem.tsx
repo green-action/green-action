@@ -1,13 +1,12 @@
-import React from "react";
-import { Avatar, useDisclosure } from "@nextui-org/react";
-import { useGetUnreadCount } from "@/app/_hooks/useQueries/chats";
-import { useSession } from "next-auth/react";
 import { MODE_TODAY } from "@/app/_api/constant";
+import { useResponsive } from "@/app/_hooks/responsive";
+import { useGetUnreadCount } from "@/app/_hooks/useQueries/chats";
+import { previousFormatDate, todayFormatTime } from "@/utils/date/date";
+import { Avatar, useDisclosure } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import PrivateChatRoom from "./PrivateChatRoom";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
-import { previousFormatDate, todayFormatTime } from "@/utils/date/date";
-import { useResponsive } from "@/app/_hooks/responsive";
 
 // TODO any 타입 해결 필요
 const HeaderPrivateItem = ({

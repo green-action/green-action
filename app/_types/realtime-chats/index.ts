@@ -1,3 +1,11 @@
+export interface chatsListModalProps {
+  isOpen: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+  mode: string;
+  action_id: string;
+}
+
 export interface MessageType {
   action_id: string;
   content: string;
@@ -106,4 +114,20 @@ export interface CombinedObject {
 export interface LastDates {
   room_id: string;
   created_at: string;
+}
+
+export interface headerGroupItemProps {
+  room_id: string;
+  mode: string;
+}
+
+export interface notificationIconProps {
+  size: number;
+  height: number;
+  width: number;
+}
+
+export interface pageChatsListProps {
+  onClose: () => void;
+  action_id: string;
 }
