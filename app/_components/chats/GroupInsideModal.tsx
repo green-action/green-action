@@ -112,8 +112,10 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
               <IoCloseOutline size={40} />
             </div>
             <div className="w-full h-[25%] flex justify-center items-center mb-3">
-              <img
-                src={actionInfo?.img_url || ""}
+              <Image
+                width={500}
+                height={300}
+                src={actionInfo?.img_url as string}
                 alt="action-image"
                 className="object-cover w-[37%] h-[78%] rounded-[20%]"
               />

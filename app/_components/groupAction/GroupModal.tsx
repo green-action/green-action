@@ -41,7 +41,7 @@ const GroupModal: React.FC<groupModalProps> = ({ action }) => {
               {(onClose) => (
                 <>
                   <ModalHeader className="flex flex-col gap-1 relative z-[-9999]">
-                    <img
+                    <Image
                       className="rounded-3xl bg-origin-border mt-4"
                       src={action.img_url}
                       alt="캠페인 포스터"
@@ -107,7 +107,7 @@ const GroupModal: React.FC<groupModalProps> = ({ action }) => {
               {(onClose) => (
                 <>
                   <ModalHeader className="flex flex-col gap-1 relative z-[-9999]">
-                    <img
+                    <Image
                       className="rounded-3xl bg-origin-border mt-4"
                       src={action.img_url}
                       alt="캠페인 포스터"

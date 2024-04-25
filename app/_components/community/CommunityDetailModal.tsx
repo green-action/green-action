@@ -24,6 +24,7 @@ import CommunityPostComment from "./Comment";
 import EditPostModal from "./EditPostModal";
 
 import type { CommunityDetailProps } from "@/app/_types/community/community";
+import Image from "next/image";
 
 const CommunityDetailModal: React.FC<CommunityDetailProps> = ({
   isOpen,
@@ -102,7 +103,9 @@ const CommunityDetailModal: React.FC<CommunityDetailProps> = ({
               </ModalHeader>
               <ModalBody className="pb-0">
                 {/* 게시글 이미지 */}
-                <img
+                <Image
+                  width={500}
+                  height={300}
                   src={communityPost?.img_url ?? "기본 이미지 URL"}
                   alt="Community Post"
                   className="mx-auto mb-2 w-[95%] h-[300px] rounded-2xl bg-slate-300 object-cover"
