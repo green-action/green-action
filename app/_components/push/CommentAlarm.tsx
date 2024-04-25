@@ -14,9 +14,16 @@ import {
   ModalBody,
   ModalFooter,
   Button,
+  useDisclosure,
 } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
+import { fetchMyPushList } from "@/app/_api/push/push-api";
+import CommunityDetailModal from "../community/CommunityDetailModal";
+import CommentDetail from "./CommentDetail";
 
 const CommentAlarm = ({ onClose }: { onClose: () => void }) => {
+  const router = useRouter();
+
   const [comments, setComments] = useState<
     RealtimePostgresInsertPayload<{ [key: string]: any }>[]
   >([]);
@@ -90,14 +97,7 @@ const CommentAlarm = ({ onClose }: { onClose: () => void }) => {
 
           await supabase.from("alarm").insert(newPush);
 
-          // 알림 테이블에서 알림 데이터 가져오기
-          const { data: newAlarm } = await supabase
-            .from("alarm")
-            .select("*")
-            .eq("targetId", loggedInUserUid)
-            .order("created_at", { ascending: false });
-          // 내림차순
-
+          const newAlarm = await fetchMyPushList(loggedInUserUid);
           if (newAlarm) {
             setAlarm(newAlarm);
           }
@@ -107,16 +107,7 @@ const CommentAlarm = ({ onClose }: { onClose: () => void }) => {
       commentPush();
     } else {
       const getComment = async () => {
-        // 알림 테이블에서 알림 데이터 가져오기
-        const { data: newAlarm } = await supabase
-          .from("alarm")
-          .select("*")
-          .eq("targetId", loggedInUserUid)
-          .order("created_at", { ascending: false });
-        // 내림차순
-
-        console.log(newAlarm);
-
+        const newAlarm = await fetchMyPushList(loggedInUserUid);
         if (newAlarm) {
           setAlarm(newAlarm);
         }
@@ -140,9 +131,7 @@ const CommentAlarm = ({ onClose }: { onClose: () => void }) => {
         <div>
           {alarm &&
             alarm.map((item, index) => (
-              <Card key={index} className="mb-[20px]">
-                <CardBody className="">{item.message}</CardBody>
-              </Card>
+              <CommentDetail item={item} onClose={onClose} />
             ))}
         </div>
       </ModalBody>

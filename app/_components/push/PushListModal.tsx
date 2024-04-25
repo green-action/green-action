@@ -1,4 +1,4 @@
-import { Modal, ModalContent } from "@nextui-org/react";
+import { Modal, ModalContent, useDisclosure } from "@nextui-org/react";
 import CommentAlarm from "./CommentAlarm";
 
 const PushListModal = ({
