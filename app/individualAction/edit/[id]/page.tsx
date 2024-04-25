@@ -395,25 +395,6 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
                       </div>
                     </div>
                   </div> */}
-                <div>
-                  <label
-                    htmlFor="openKakaoLink"
-                    className="text-[13px] font-extrabold"
-                  >
-                    카카오톡 오픈채팅방 링크
-                  </label>
-                  <div className="w-[294px] h-[33px] mt-2 border-1.5 border-gray-300 rounded-full text-sm text-gray-400 pl-4">
-                    <input
-                      type="url"
-                      id="openKakaoLink"
-                      name="openKakaoLink"
-                      defaultValue={originalActionData?.kakao_link || ""}
-                      required
-                      form="mainForm"
-                      className="w-10/12 h-[30px] mx-4 pr-2 bg-inherit focus:outline-none"
-                    />
-                  </div>
-                </div>
                 {/* 지도 검색으로 장소선택 시 뜨게 할 지도(미리보기) */}
                 {locationMapRef.current && (
                   <div className="w-[310px] h-[220px] mt-[41px]">
@@ -506,25 +487,6 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
                           className="w-10/12 h-[30px] mx-4 pr-2 bg-inherit focus:outline-none"
                         />
                       </div>
-                    </div>
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="openKakaoLink"
-                      className="text-[13px] font-extrabold"
-                    >
-                      카카오톡 오픈채팅방 링크
-                    </label>
-                    <div className="w-[281px] h-[33px] mt-2 border-1.5 border-gray-300 rounded-full text-sm text-gray-400 pl-4">
-                      <input
-                        type="url"
-                        id="openKakaoLink"
-                        name="openKakaoLink"
-                        defaultValue={originalActionData?.kakao_link || ""}
-                        required
-                        form="mainForm"
-                        className="w-10/12 h-[30px] mx-4 pr-2 bg-inherit focus:outline-none"
-                      />
                     </div>
                   </div>
                 </div>

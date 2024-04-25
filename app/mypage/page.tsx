@@ -33,18 +33,30 @@ const MyPage = () => {
   const isLoggedIn = !!session.data;
   const user_uid = session.data?.user.user_uid as string;
 
-  const { data: myActions, isLoading: isActionsLoading } =
-    useFetchMyGreenActions(user_uid);
+  const {
+    data: myActions,
+    isLoading: isActionsLoading,
+    isError: isActionsError,
+  } = useFetchMyGreenActions(user_uid);
 
-  const { data: myPosts, isLoading: isPostsLoading } =
-    usefetchMyCommunityPosts(user_uid);
+  const {
+    data: myPosts,
+    isLoading: isPostsLoading,
+    isError: isPostsError,
+  } = usefetchMyCommunityPosts(user_uid);
 
-  const { data: myBookmarks, isLoading: isBookmarksLoading } =
-    usefetchBookmarkedActions(user_uid);
+  const {
+    data: myBookmarks,
+    isLoading: isBookmarksLoading,
+    isError: isBookmarksError,
+  } = usefetchBookmarkedActions(user_uid);
 
   // 유저 정보 조회
-  const { data: userInfo, isLoading: isUserInfoLoading } =
-    useFetchUserInfo(user_uid);
+  const {
+    data: userInfo,
+    isLoading: isUserInfoLoading,
+    isError: isUserInfoError,
+  } = useFetchUserInfo(user_uid);
 
   const { display_name, profile_img } = (userInfo as User) || ""; // as User 외에도 || '' 처리해줘야 에러안뜸
 
@@ -126,43 +138,6 @@ const MyPage = () => {
     }
   };
 
-  const filterByRecruitingAction = () => {
-    if (myRecruitClicked === "전체") {
-      setFilteredActions(sortedMyActions);
-    } else if (myRecruitClicked === "모집 중") {
-      setFilteredActions(
-        sortedMyActions?.filter((action) => action.is_recruiting),
-      );
-    } else if (myRecruitClicked === "모집 마감") {
-      setFilteredActions(
-        sortedMyActions?.filter((action) => !action.is_recruiting),
-      );
-    }
-  };
-
-  const filterByBookmarkAction = () => {
-    if (bookmarkedRecruitClicked === "전체") {
-      setFilteredBookmarkedActions(sortedMyBookmarks);
-    }
-    if (bookmarkedRecruitClicked === "모집 중") {
-      setFilteredBookmarkedActions(
-        sortedMyBookmarks?.filter(
-          (action) => action.bookmarkedAction?.is_recruiting,
-        ),
-      );
-    } else if (bookmarkedRecruitClicked === "모집 마감") {
-      setFilteredBookmarkedActions(
-        sortedMyBookmarks?.filter(
-          (action) => !action.bookmarkedAction?.is_recruiting,
-        ),
-      );
-    }
-  };
-  useEffect(() => {
-    filterByRecruitingAction();
-    filterByBookmarkAction();
-  }, [myRecruitClicked, sortedMyActions, myRecruitClicked, sortedMyActions]);
-
   if (
     isActionsLoading ||
     isPostsLoading ||
@@ -176,13 +151,21 @@ const MyPage = () => {
     );
   }
 
+  if (isActionsError || isPostsError || isBookmarksError || isUserInfoError) {
+    return (
+      <div className="flex justify-center items-center w-screen h-[500px]">
+        ❌ ERROR : 이 페이지를 표시하는 도중 문제가 발생했습니다. 다른 페이지로
+        이동하시거나 다시 방문해주세요.
+      </div>
+    );
+  }
+
   return (
     <>
-      {/* 닉넴수정 후 메인페이지 -> 마이페이지 이동시 : 임포트한 헤더 컴포넌트에서만 닉넴 수정 반영됨 */}
-      <div className="flex justify-center desktop:mb-[100px] laptop:mb-[50px]">
+      <div className="flex justify-center top-0 min-h-[500px] desktop:w-[1920px] laptop:w-[1020px] mx-auto">
         <TopButton />
 
-        <div className="flex desktop:w-[1540px] laptop:w-[1020px] phone:w-[294px]">
+        <div className="flex desktop:w-[1540px] laptop:w-[1020px] phone:w-[294px] desktop:mb-[100px] laptop:mb-[50px] ">
           {(isDesktop || isLaptop) && <MyProfile userInfo={userInfo as User} />}
 
           <div className="flex flex-col desktop:pl-[82px] laptop:pl-[30px] desktop:pt-1 laptop:pt-[30px] w-full">
@@ -191,29 +174,6 @@ const MyPage = () => {
               <>
                 <div className="flex justify-between laptop:mb-[30px] vh-auto">
                   <div className="flex desktop:gap-[45px] laptop:gap-[30px] desktop:ml-5 desktop:text-[12pt]">
-                    {/* <Tabs 탭은 보류
-                 aria-label="Options"
-                 color="primary"
-                 variant="underlined"
-                 classNames={{
-                   tabList:
-                     "gap-6 w-full relative rounded-none p-0 border-b border-divider",
-                   cursor: "w-full bg-[#22d3ee]",
-                   tab: "max-w-fit px-0 h-12",
-                   tabContent: "group-data-[selected=true]:text-[#6f979e]",
-                 }}
-               >
-                 <Tab key="photos" onClick={handleActiveTabClick}>
-                   My Green-Action
-                 </Tab>
-                 <Tab key="photos" onClick={handleActiveTabClick}>
-                   작성 게시물
-                 </Tab>
-               </Tabs> 
-
-               <Button
-                 onClick={handleActiveTabClick}
-                 className={`bg-transparent cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt] p-[20px] rounded-none 로도 클릭문제 해결 X*/}
                     <div
                       onClick={handleActiveTabClick}
                       className={`cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt] 

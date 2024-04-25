@@ -61,7 +61,7 @@ const MyProfile = ({ userInfo }: { userInfo: User }) => {
   return (
     <div className="flex flex-col gap-5 desktop:w-[347px] laptop:w-[206px] phone:w-[294px] desktop:min-h-[43rem] laptop:ml-[55px]">
       {(isDesktop || isLaptop) && (
-        <Card>
+        <Card className="shadow-none bg-[#F3F4F3]">
           <div className="flex desktop:pl-5 laptop:pl-3">
             <div className="flex desktop:gap-4 laptop:gap-3 items-center desktop:h-[102px] laptop:h-[83px]">
               <Avatar
@@ -69,11 +69,11 @@ const MyProfile = ({ userInfo }: { userInfo: User }) => {
                 src={profileImg || ""}
                 className="desktop:w-[58px] desktop:h-[58px] laptop:w-[35px] laptop:h-[35px]"
               />
-              <div className="flex flex-col desktop:gap-[0.1rem] laptop:gap-[0rem] desktop:w-[9rem] laptop:w-[115px] overflow-hidden whitespace-nowrap overflow-ellipsis">
-                <p className="font-bold desktop:text-[15px] laptop:text-[13px]">
+              <div className="flex flex-col desktop:gap-[0.1rem] laptop:gap-[0rem] desktop:w-[144px] laptop:w-[115px] overflow-hidden whitespace-nowrap overflow-ellipsis">
+                <p className="font-bold desktop:text-[16px] laptop:text-[13px]">
                   {display_name}
                 </p>
-                <p className="desktop:text-[0.7rem] laptop:text-[10px]">
+                <p className="desktop:text-[12px] laptop:text-[10px]">
                   {email}
                 </p>
                 <p className="desktop:text-sm font-bold laptop:text-[11px]">
@@ -81,7 +81,7 @@ const MyProfile = ({ userInfo }: { userInfo: User }) => {
                 </p>
               </div>
             </div>
-            <div className="flex items-end desktop:pb-5 laptop:pb-4">
+            <div className="flex items-end  desktop:pb-5  laptop:pb-4">
               <MyProfileEditModal
                 user_uid={user_uid}
                 display_name={display_name}
@@ -120,11 +120,11 @@ const MyProfile = ({ userInfo }: { userInfo: User }) => {
         </Card>
       )}
       {(isDesktop || isLaptop) && (
-        <Card className="w-full min-h-[276px] p-[0.5rem]">
+        <Card className="shadow-none bg-[#EFF2EF] w-full min-h-[276px] p-[0.5rem]">
           <CardHeader className="font-bold desktop:text-[13pt] laptop:text-[10pt] ">
             <p>My Profile</p>
           </CardHeader>
-          <CardBody className="desktop:text-[15px] laptop:text-[12.5px]">
+          <CardBody className="desktop:text-[16px] laptop:text-[12.5px] text-[#393939]">
             {/* SECTION - 자기소개 등록 */}
             {isIntroEditing ? (
               <form onSubmit={handleEditIntroSubmit}>
@@ -133,20 +133,20 @@ const MyProfile = ({ userInfo }: { userInfo: User }) => {
                   onChange={(e) => {
                     handleEditedIntroChange(e);
                   }}
-                  className="resize-none rounded-xl w-full min-h-[150px] p-2 bg-gray-200/50"
+                  className="resize-none rounded-xl w-full min-h-[150px] p-2 bg-[#fffefe]"
                   placeholder="100자 이내로 작성해주세요."
                   maxLength={100}
                 />
-                <div className="flex justify-end gap-[10px] ">
+                <div className="flex justify-end gap-[10px] mt-[10px]">
                   <Button
                     onClick={handleCancelEditIntroClick}
-                    className="desktop:h-[30px] laptop:h-[25px] desktop:text-sm laptop:text-[12px]"
+                    className="desktop:h-[30px] laptop:h-[25px] desktop:text-sm laptop:text-[12px] bg-[#E77D6F] text-white"
                   >
                     작성취소
                   </Button>
                   <Button
                     type="submit"
-                    className="desktop:h-[30px] laptop:h-[25px] desktop:text-sm laptop:text-[12px]"
+                    className="desktop:h-[30px] laptop:h-[25px] desktop:text-sm laptop:text-[12px]  bg-black text-white"
                   >
                     작성완료
                   </Button>
@@ -179,20 +179,20 @@ const MyProfile = ({ userInfo }: { userInfo: User }) => {
                   onChange={(e) => {
                     handleEditedIntroChange(e);
                   }}
-                  className="resize-none rounded-xl w-full min-h-[150px] p-2 bg-gray-200/50"
+                  className="resize-none rounded-xl w-full min-h-[150px] p-2 bg-[#fffefe]"
                   placeholder="100자 이내로 작성해주세요."
                   maxLength={100}
                 />
                 <div className="flex justify-end gap-[10px] ">
                   <Button
                     onClick={handleCancelEditIntroClick}
-                    className="desktop:h-[30px] laptop:h-[25px] desktop:text-sm laptop:text-[12px]"
+                    className="desktop:h-[30px] laptop:h-[25px] desktop:text-sm laptop:text-[12px] bg-[#E77D6F] text-white"
                   >
                     작성취소
                   </Button>
                   <Button
                     type="submit"
-                    className="desktop:h-[30px] laptop:h-[25px] desktop:text-sm laptop:text-[12px]"
+                    className="desktop:h-[30px] laptop:h-[25px] desktop:text-sm laptop:text-[12px] bg-black text-white"
                   >
                     작성완료
                   </Button>
@@ -212,7 +212,7 @@ const MyProfile = ({ userInfo }: { userInfo: User }) => {
         </Card>
       )}
       {(isDesktop || isLaptop) && (
-        <Card>
+        <Card className="shadow-none bg-[#D2DED0] p-2">
           <CardHeader className="mb-[-1.5rem]">
             {/* text-[15pt] */}
             <p className="font-bold desktop:text-[13pt] laptop:text-[10pt]">
@@ -222,7 +222,7 @@ const MyProfile = ({ userInfo }: { userInfo: User }) => {
 
           <CardBody className="flex flex-row gap-3">
             <Image src={coin} alt="코인" />
-            <div className="font-bold w-[235px] desktop:text-[13pt] laptop:text-[11pt]">
+            <div className="font-bold desktop:w-[175px] laptop:w-[150px] desktop:text-[13pt] laptop:text-[11pt] ">
               {point} P
             </div>
             <Tooltip
@@ -250,7 +250,7 @@ const MyProfile = ({ userInfo }: { userInfo: User }) => {
               <Image
                 src={pointQuestion}
                 alt="questionMark"
-                className="w-[17px] h-[17px]"
+                className="w-[17px] h-[17px] mt-[1px] "
               />
             </Tooltip>
           </CardBody>

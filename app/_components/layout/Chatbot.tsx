@@ -11,8 +11,7 @@ const Chatbot = () => {
       theme={{
         button: {
           backgroundColor: "#303235",
-          size: `${80}px`,
-          // size: `${isMobile ? 40 : 80}px`, mobile size일때 사이즈변화 회의필요
+          size: `${isMobile ? 50 : 80}px`,
         },
       }}
     />

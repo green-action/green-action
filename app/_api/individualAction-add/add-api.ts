@@ -28,11 +28,9 @@ export const insertActionTextForm = async ({
       content: String(formData.get("activityDescription")),
       start_date: String(formData.get("startDate")),
       end_date: String(formData.get("endDate")),
-      // location: String(formData.get("activityLocation")),
       location: activityLocation,
       location_map: activityLocationMap,
       recruit_number: Number(formData.get("maxParticipants")),
-      kakao_link: String(formData.get("openKakaoLink")),
     };
 
     // supabase에 insert하기

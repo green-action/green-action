@@ -18,7 +18,6 @@ export type Index =
       end_date: string | null;
       id: string;
       is_recruiting: boolean | null;
-      kakao_link: string | null;
       location: string | null;
       recruit_number: number | null;
       start_date: string | null;

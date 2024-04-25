@@ -1,4 +1,8 @@
 export const MODE_MAIN = "main";
+export const MODE_MAIN_DESKTOP = "mainDesktop";
+export const MODE_MAIN_DESKTOP_COUNT = "mainDesktopCount";
+export const MODE_MAIN_LAPTOP_COUNT = "mainLaptopCount";
+export const MODE_MAIN_LAPTOP = "mainLaptop";
 export const MODE_MY_POSTS = "myPosts";
 export const MODE_MY_BOOKMARKS = "myBookmarks";
 export const MODE_DETAIL_PAGE = "detailPage";
