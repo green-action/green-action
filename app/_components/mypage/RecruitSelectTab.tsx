@@ -63,7 +63,7 @@ const RecruitSelectTab = ({
           defaultSelectedKeys={[selected]} // ["전체"]로 할 시 탭이동후 돌아올 때 기존데이터렌더링 시에도 '전체'로 뜨는 문제 -> selected(state)로 해결 (다만 탭 이동시 리셋되진않음)
           size="sm"
           radius="full"
-          className="w-[100px] h-[20px] text-[11px]"
+          className="w-[110px] h-[20px] text-[11px]"
           variant="underlined"
           disallowEmptySelection
           selectionMode="single"

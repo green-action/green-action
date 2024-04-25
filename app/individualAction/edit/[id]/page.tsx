@@ -374,27 +374,7 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col justify-start w-1/2  gap-2 ">
-                {/* <div className="mb-7">
-                    <div>
-                      <label
-                        htmlFor="activityLocation"
-                        className="text-[13px] font-extrabold"
-                      >
-                        활동 장소
-                      </label>
-                      <div className=" w-[294px] h-[33px] mt-2 border-1.5 border-gray-300 rounded-full text-sm text-gray-400 pl-4">
-                        <input
-                          type="text"
-                          id="activityLocation"
-                          name="activityLocation"
-                          defaultValue={originalActionData?.location || ""}
-                          required
-                          className="w-10/12 h-[30px] mx-4 pr-2 bg-inherit focus:outline-none"
-                        />
-                      </div>
-                    </div>
-                  </div> */}
+              <div className="flex flex-col justify-start w-1/2  gap-2">
                 {/* 지도 검색으로 장소선택 시 뜨게 할 지도(미리보기) */}
                 {locationMapRef.current && (
                   <div className="w-[310px] h-[220px] mt-[41px]">
@@ -472,22 +452,59 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
                     <div>
                       <label
                         htmlFor="activityLocation"
-                        className="text-[13px] font-extrabold"
+                        className="text-[13px] font-extrabold m"
                       >
                         활동 장소
-                      </label>
-                      <div className=" w-[294px] h-[33px] mt-2 border-1.5 border-gray-300 rounded-full text-sm text-gray-400 pl-4">
-                        <input
-                          type="text"
-                          id="activityLocation"
-                          name="activityLocation"
-                          defaultValue={originalActionData?.location || ""}
-                          required
-                          form="mainForm"
-                          className="w-10/12 h-[30px] mx-4 pr-2 bg-inherit focus:outline-none"
+                        <SearchAddressModal
+                          setActivityLocation={setActivityLocation}
                         />
-                      </div>
+                      </label>
                     </div>
+                    <div className="w-[294px] h-[33px] mt-2 border-1.5 border-gray-300 rounded-full text-gray-400 pl-4">
+                      <input
+                        type="text"
+                        id="activityLocation"
+                        name="activityLocation"
+                        value={activityLocation}
+                        onChange={handleActivityLocationChange}
+                        form="mainForm"
+                        required
+                        className="text-[13px] w-[281px] h-[30px] bg-inherit focus:outline-none placeholder:text-[12px]"
+                        placeholder="위치/주소를 입력해주세요. 도로명 주소검색도 가능해요."
+                      />
+                    </div>
+                  </div>
+                  <div className="flex flex-col w-[290px] gap-2">
+                    <div className="flex gap-[10px] ">
+                      <SearchMapModal
+                        setActivityLocationMap={setActivityLocationMap}
+                        locationMapRef={locationMapRef}
+                      />
+                      {/*넓이가 안먹힘 */}
+                      <Button
+                        onClick={handleRemoveLocationMap}
+                        className="bg-[#5B5B5B] text-white text-[12px] rounded-full desktop:w-[10px] h-[28px]"
+                      >
+                        초기화
+                      </Button>
+                    </div>
+                    <input
+                      id="activityLocationMap"
+                      name="activityLocationMap"
+                      value={activityLocationMap}
+                      type="text"
+                      form="mainForm"
+                      placeholder="(선택) 지도에서 검색해주세요"
+                      className="h-[33px] w-[290px] p-4 border-1.5 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
+                    />
+                  </div>
+                  <div className="flex flex-col w-1/2  gap-2">
+                    {/* 지도 검색으로 장소선택 시 뜨게 할 지도(미리보기) */}
+                    {locationMapRef.current && (
+                      <div className="w-[310px] h-[220px] mt-[10px]">
+                        <KakaoMap placeInfo={locationMapRef.current} />
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
