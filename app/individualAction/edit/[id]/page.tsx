@@ -138,7 +138,7 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
        desktop:border-gray-300 laptop:border-gray-300 phone:border-0 rounded-3xl mx-auto mb-12 mt-0
        ${
          (isDesktop || isLaptop) &&
-         (locationMapRef.current ? "h-[1000px]" : "h-[830px]")
+         (locationMapRef.current ? "h-[1025px]" : "h-[830px]")
        }`}
       >
         {/* new green-action 타이틀 */}
@@ -169,7 +169,7 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
           {(isDesktop || isLaptop) && (
             <div
               className={`flex justify-between gap-[57px] w-[724px]  border-1.5 border-gray-300 rounded-3xl pt-[21px] px-[28px] pb-[28px] mb-4
-            ${locationMapRef.current ? "h-[396px]" : "h-[220px]"}`}
+            ${locationMapRef.current ? "h-[420px]" : "h-[220px]"}`}
             >
               <div className="flex flex-col">
                 <div className="flex gap-[87px]">
@@ -292,7 +292,7 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
                 </div>
                 {/* 지도 검색으로 장소선택 시 뜨게 할 지도(미리보기) */}
                 {locationMapRef.current && (
-                  <div className="w-[665px] h-[160px] mt-5">
+                  <div className="w-[665px] h-[180px] mt-5">
                     <KakaoMap placeInfo={locationMapRef.current} />
                   </div>
                 )}

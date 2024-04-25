@@ -43,7 +43,7 @@ const FirstInputBox = ({
        desktop:rounded-3xl laptop:rounded-3xl pt-[21px] desktop:px-[28px] laptop:px-[28px] pb-[0px] mb-4 mr-6 phone:pl-0 bg-pin
        ${
          (isDesktop || isLaptop) &&
-         (locationMapRef.current ? "h-[396px]" : "h-[220px]")
+         (locationMapRef.current ? "h-[420px]" : "h-[220px]")
        }
        `}
       >
@@ -164,7 +164,7 @@ const FirstInputBox = ({
               </div>
             </div>
             {locationMapRef.current && (
-              <div className="w-[665px] h-[160px] mt-5 ">
+              <div className="w-[665px] h-[180px] mt-5 ">
                 <KakaoMap placeInfo={locationMapRef.current} />
               </div>
             )}

@@ -124,7 +124,7 @@ const AddActionPage = () => {
        desktop:border-gray-300 laptop:border-gray-300 phone:border-0 rounded-3xl mx-auto mb-12 mt-0
        ${
          (isDesktop || isLaptop) &&
-         (locationMapRef.current ? "h-[1000px]" : "h-[830px]")
+         (locationMapRef.current ? "h-[1025px]" : "h-[830px]")
        }`}
       >
         {/* new green-action 타이틀 */}
