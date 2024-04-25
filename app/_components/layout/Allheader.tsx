@@ -43,6 +43,7 @@ const Allheader = () => {
   const isLoggedIn = !!session.data;
   const user_uid = session?.data?.user.user_uid as string;
 
+  const isAbout = pathname === "/about";
   const {
     data,
     isLoading: isUserDataLoading,
@@ -90,6 +91,10 @@ const Allheader = () => {
         });
         setMessage("로그아웃 되었습니다.");
         setIsOpenAlertModal(true);
+
+        if (!isAbout) {
+          router.push("/login");
+        }
       } catch (error) {
         console.error("Logout error:", error);
       }
@@ -426,33 +431,34 @@ const Allheader = () => {
               </NavbarContent>
             </Navbar>
           )}
-          {isOpenAlertModal && (
-            <AlertModal
-              isOpen={isOpenAlertModal}
-              onClose={() => {
-                setIsOpenAlertModal(false);
-              }}
-              message={message}
-            />
-          )}
-          {isChatsListModalOpen && (
-            <ChatsListModal
-              isOpen={isChatsListModalOpen}
-              onOpen={onChatsListModalOpen}
-              onClose={onChatsListModalClose}
-              mode={MODE_HEADER}
-              action_id=""
-            />
-          )}
-          {/* {isPushListModalOpen && (
+        </>
+      )}
+
+      {isOpenAlertModal && (
+        <AlertModal
+          isOpen={isOpenAlertModal}
+          onClose={() => {
+            setIsOpenAlertModal(false);
+          }}
+          message={message}
+        />
+      )}
+      {isChatsListModalOpen && (
+        <ChatsListModal
+          isOpen={isChatsListModalOpen}
+          onOpen={onChatsListModalOpen}
+          onClose={onChatsListModalClose}
+          mode={MODE_HEADER}
+          action_id=""
+        />
+      )}
+      {/* {isPushListModalOpen && (
             <PushListModal
               isOpen={isPushListModalOpen}
               onOpen={onPushListModalOpen}
               onClose={onPushListModalClose}
             />
           )} */}
-        </>
-      )}
       {isMobile && <Mheader />}
     </>
   );
