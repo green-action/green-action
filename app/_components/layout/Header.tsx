@@ -1,10 +1,7 @@
-import React from "react";
-import { useResponsive } from "@/app/_hooks/responsive";
-import DLheader from "./DLheader";
-import Mheader from "./Mheader";
+import Allheader from "./Allheader";
 
 function Header() {
-  return <DLheader />;
+  return <Allheader />;
 }
 
 export default Header;

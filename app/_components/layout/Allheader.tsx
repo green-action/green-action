@@ -39,7 +39,7 @@ import AlertModal from "../community/AlertModal";
 import { NotificationIcon } from "../chats/NotificationIcon";
 import PushListModal from "../push/PushListModal";
 
-function DLheader() {
+function Allheader() {
   const router = useRouter();
   const pathname = usePathname();
   const session = useSession();
@@ -458,4 +458,4 @@ function DLheader() {
   );
 }
 
-export default DLheader;
+export default Allheader;

@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 import { User } from "../_types";
-
 import {
   useFetchMyGreenActions,
   useFetchUserInfo,
@@ -23,6 +22,7 @@ import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
 import TopButton from "../_components/TopButton";
 import { Button } from "@nextui-org/react";
 import { useResponsive } from "../_hooks/responsive";
+import MyActionCardMobile from "../_components/mypage/MyActionCardMobile";
 
 const MyPage = () => {
   // TODO props 타입등 재설정
@@ -263,81 +263,7 @@ const MyPage = () => {
                 </div>
               </>
             )}
-            {isMobile && (
-              <>
-                <div className="flex flex-col justify-between mt-[50px] w-full">
-                  <div className="text-[13pt] font-bold">나의 Green-Action</div>
-                  <div className="ml-auto">
-                    {"나의 Green-Action" && (
-                      <RecruitSelectTab
-                        selected={myRecruitClicked}
-                        setSelected={setMyRecruitClicked}
-                      />
-                    )}
-                  </div>
-                  <div className="mt-10 gap-5 grid p-2 phone:grid-cols-2">
-                    {/* LINK My Green Action */}
-                    {"나의 Green-Action" &&
-                      filteredActions?.map((action) => {
-                        return (
-                          <MyActionCard
-                            key={action.id}
-                            action={action}
-                            mode="myPosts"
-                          />
-                        );
-                      })}
-                  </div>
-                </div>
-
-                <div className="flex flex-col justify-between mt-[50px] w-full">
-                  <div className="text-[13pt] font-bold">
-                    즐겨찾는 Green-Action
-                  </div>
-                  <div className="ml-auto mt-5">
-                    {/* LINK 찜한 Green Action */}
-                    {activeTab === "즐겨찾는 Green-Action" && (
-                      <RecruitSelectTab
-                        selected={bookmarkedRecruitClicked}
-                        setSelected={setBookmarkedRecruitClicked}
-                      />
-                    )}
-                  </div>
-                  {/* LINK 찜한 Green Action */}
-                  <div className="mt-10 gap-5 grid p-2 phone:grid-cols-2">
-                    {activeTab === "즐겨찾는 Green-Action" &&
-                      filteredBookmarkedActions?.map((bookmark) => {
-                        return (
-                          <MyActionCard
-                            key={bookmark?.bookmarkedAction?.id || ""}
-                            action={bookmark}
-                            mode="myBookmarks"
-                          />
-                        );
-                      })}
-                  </div>
-                </div>
-                <div className="flex flex-col justify-between mt-[40px] w-full">
-                  <div className="h-[30px] text-[13pt] font-bold">
-                    나의 Community
-                    {/* LINK 내가 쓴 커뮤니티 글 */}
-                    <div className="mt-10 gap-5 grid p-2 phone:grid-cols-2">
-                      {myPosts?.map((post) => {
-                        return (
-                          <CommunityListPost
-                            key={post.id}
-                            mode="myPosts"
-                            communityPost={post}
-                            my_display_name={display_name}
-                            my_profile_img={profile_img || null}
-                          />
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              </>
-            )}
+            {isMobile && <MyActionCardMobile />}
           </div>
         </div>
       </div>
