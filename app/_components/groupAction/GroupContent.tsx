@@ -13,7 +13,7 @@ import GroupSkeleton from "./GroupSkeleton";
 const GroupContent = () => {
   const { data: groupAction, isLoading, isError } = useGroupAction();
   const { isDesktop, isLaptop, isMobile } = useResponsive();
-  const [activeTabs, setActiveTabs] = useState("단체와 함께해요");
+  const [activeTabs, setActiveTabs] = useState(ACTIVE_TABS);
 
   if (isLoading || !groupAction) {
     return (
@@ -68,47 +68,45 @@ const GroupContent = () => {
           </Link>
         </div>
       )}
-      {groupGreenActions.map((action) => {
-        return (
-          <div
-            className={`flex flex-col ${
-              isDesktop ? "mb-[100px]" : isLaptop ? "mb-[180px]" : "mb-[80px]"
-            }`}
-            key={action.id}
+      {groupGreenActions.map((action) => (
+        <div
+          className={`flex flex-col ${
+            isDesktop ? "mb-[100px]" : isLaptop ? "mb-[180px]" : "mb-[80px]"
+          }`}
+          key={action.id}
+        >
+          <Card
+            className={`m-auto brightness-90 ${
+              isDesktop
+                ? "w-[365px] h-[550px]"
+                : isLaptop
+                ? "w-[289px] h-[433px]"
+                : isMobile
+                ? "w-[278px] h-[415px]"
+                : "w-[365px] h-[550px]"
+            } `}
           >
-            <Card
-              className={`m-auto brightness-90 ${
-                isDesktop
-                  ? "w-[365px] h-[550px]"
-                  : isLaptop
-                  ? "w-[289px] h-[433px]"
-                  : isMobile
-                  ? "w-[278px] h-[415px]"
-                  : "w-[365px] h-[550px]"
-              } `}
-            >
-              <Image
-                shadow="sm"
-                radius="lg"
-                width="100%"
-                className="w-full object-cover desktop:h-[550px] laptop:h-[433px] phone:h-[415px]"
-                src={action.img_url as string}
-                alt="campaign Img"
-              />
-            </Card>
-            <section
-              className={`flex flex-row justify-between items-center pl-[5%] ${
-                isMobile ? "pl-[12%]" : "pl-[5%]"
-              } `}
-            >
-              <h2 className="font-bold mt-[30px] text-[14px]  whitespace-nowrap w-[48%]">
-                {action.title}
-              </h2>
-              <GroupModal action={action} />
-            </section>
-          </div>
-        );
-      })}
+            <Image
+              shadow="sm"
+              radius="lg"
+              width="100%"
+              className="w-full object-cover desktop:h-[550px] laptop:h-[433px] phone:h-[415px]"
+              src={action.img_url as string}
+              alt="campaign Img"
+            />
+          </Card>
+          <section
+            className={`flex flex-row justify-between items-center pl-[5%] ${
+              isMobile ? "pl-[12%]" : "pl-[5%]"
+            } `}
+          >
+            <h2 className="font-bold mt-[30px] text-[14px]  whitespace-nowrap w-[48%]">
+              {action.title}
+            </h2>
+            <GroupModal action={action} />
+          </section>
+        </div>
+      ))}
     </div>
   );
 };
