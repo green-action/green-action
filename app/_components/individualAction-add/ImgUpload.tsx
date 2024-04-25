@@ -90,6 +90,8 @@ const ImgUpload: React.FC<ImgUploadProps> = ({
             {uploadedFileUrls[index] ? (
               <div className="relative w-full h-full">
                 <Image
+                  width={600}
+                  height={600}
                   src={uploadedFileUrls[index]}
                   alt={`Uploaded Image ${index}`}
                   className="w-full h-full rounded-3xl object-cover"
