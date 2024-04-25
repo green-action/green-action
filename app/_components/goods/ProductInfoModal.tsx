@@ -8,9 +8,9 @@ import { useState } from "react";
 import AlertModal from "../community/AlertModal";
 import search from "/app/_assets/image/logo_icon/icon/goods/Group 128.png";
 
-import type { GoodsItem } from "@/app/_types/goods";
+import type { productInfoModalProps } from "@/app/_types/goods";
 
-const ProductInfoModal: React.FC<GoodsItem> = ({
+const ProductInfoModal: React.FC<productInfoModalProps> = ({
   item,
   showProductInfo,
   setShowProductInfo,
