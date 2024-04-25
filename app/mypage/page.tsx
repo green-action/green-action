@@ -57,7 +57,7 @@ const MyPage = () => {
     isError: isUserInfoError,
   } = useFetchUserInfo(user_uid);
 
-  const { display_name, profile_img } = (userInfo as User["userInfo"]) || ""; // as User 외에도 || '' 처리해줘야 에러안뜸
+  const { display_name, profile_img } = (userInfo as User["userInfo"]) || ""; // as User["userInfo"] 외에도 || '' 처리해줘야 에러안뜸
 
   // my action - created_at (작성일) 기준으로 정렬하기
   const sortedMyActions = myActions?.slice().sort((a, b) => {
