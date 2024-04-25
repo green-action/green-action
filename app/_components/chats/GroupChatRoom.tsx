@@ -157,10 +157,10 @@ const GroupChatRoom: React.FC<ChatProps> = ({
           ${isActionInfoOpen ? "overflow-hidden" : "overflow-y-auto"}
           ${
             isDesktop
-              ? "max-w-[27%] h-[750px]"
+              ? "w-[520px] h-[750px] "
               : isLaptop
-              ? "max-w-[28%] h-[87%]"
-              : isMobile && "max-w-[332px] h-[87%]"
+              ? "w-[325px] h-[480px]"
+              : isMobile && "w-[332px] h-[380px]"
           }
           `}
         >
