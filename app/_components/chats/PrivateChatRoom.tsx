@@ -284,10 +284,12 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
                         key={message.id}
                       >
                         <div
-                          className={`p-5 
+                          className={` 
                           ${
-                            isDesktop || isLaptop
-                              ? "text-base"
+                            isDesktop
+                              ? "text-base p-5"
+                              : isLaptop
+                              ? "text-sm p-3"
                               : isMobile && "text-[12px]"
                           }
                           ${

@@ -104,18 +104,39 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
         >
           <div className="flex flex-col w-full h-full">
             <div
-              className="self-start cursor-pointer ml-6 mt-6 mb-6"
+              className={`self-start cursor-pointer ${
+                isDesktop
+                  ? "ml-6 mt-6 mb-6"
+                  : isLaptop
+                  ? "mt-2 ml-2"
+                  : isMobile && ""
+              }`}
               onClick={() => {
                 onActionInfoClose();
               }}
             >
-              <IoCloseOutline size={40} />
+              <IoCloseOutline size={isDesktop ? 40 : isLaptop ? 23 : 18} />
             </div>
-            <div className="w-full h-[25%] flex justify-center items-center mb-7">
+            <div
+              className={`w-full flex justify-center items-center ${
+                isDesktop
+                  ? "mb-7 h-[180px]"
+                  : isLaptop
+                  ? "mb-1 h-[130px]"
+                  : isMobile && "mb-1 h-[80px]"
+              }`}
+            >
               <img
                 src={actionInfo?.img_url || ""}
                 alt="action-image"
-                className="object-cover w-[150px] h-[150px] rounded-[20%]"
+                className={`object-cover rounded-[20%] 
+                ${
+                  isDesktop
+                    ? "w-[150px] h-[150px]"
+                    : isLaptop
+                    ? "w-[100px] h-[100px]"
+                    : isMobile && "w-[80px] h-[80px]"
+                }`}
               />
             </div>
             <div className="flex flex-col items-center border-b-1 pb-6">
@@ -131,12 +152,12 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
               </span>
             </div>
             <div
-              className={`flex flex-col items-start pl-9 pr-7 pt-4 overflow-y-auto scrollbar-hide ${
+              className={`flex flex-col items-start pl-7 pr-7 pt-5 overflow-y-auto scrollbar-hide ${
                 loggedInUserUid === ownerInfo?.id ? "pb-[20px]" : "pb-[90px]"
               }`}
             >
-              <div className="flex items-center gap-4 w-full mb-4">
-                <span className="font-extrabold">참여자</span>
+              <div className="flex items-center gap-4 w-full mb-6">
+                <span className="font-extrabold ml-1">참여자</span>
                 <div className="flex gap-2 text-gray-500 items-center">
                   <Image
                     src={personIcon}
