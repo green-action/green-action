@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import CommunityDetailModal from "../community/CommunityDetailModal";
 import { Card, CardBody, useDisclosure } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
@@ -8,7 +8,8 @@ import { QUERY_KEY_MY_PUSHLIST } from "@/app/_api/queryKeys";
 
 const CommentDetail = ({
   item,
-  onClose,
+  setAlarm,
+  alarm,
 }: {
   item: {
     created_at: string;
@@ -18,14 +19,44 @@ const CommentDetail = ({
     targetId: string;
     isRead: boolean;
   };
-  onClose: () => void;
+  setAlarm: React.Dispatch<
+    SetStateAction<
+      {
+        created_at: string;
+        id: string;
+        message: string;
+        post_id: string;
+        targetId: string;
+        isRead: boolean;
+      }[]
+    >
+  >;
+  alarm: {
+    created_at: string;
+    id: string;
+    message: string;
+    post_id: string;
+    targetId: string;
+    isRead: boolean;
+  }[];
 }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
+  const updateUnreadPushHandler = (id: string) => {
+    const temp = alarm.map((item) => {
+      console.log(item);
+      return item.id === id ? { ...item, isRead: true } : item;
+    });
+
+    console.log(temp);
+    setAlarm(temp);
+
+    updateUnreadPushList(item.id);
+  };
+
   // 게시글 상세 모달창 open여부 props
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const { id } = item;
 
   // push 읽음 처리 mutation
   const { mutate: updateUnreadPushList } = useMutation({
@@ -42,7 +73,7 @@ const CommentDetail = ({
       <Card className="mb-[20px]">
         <CardBody
           onClick={() => {
-            updateUnreadPushList(item.id);
+            updateUnreadPushHandler(item.id);
             // onClose();
             router.push(`/community`);
             onOpen();

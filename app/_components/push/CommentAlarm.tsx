@@ -65,6 +65,7 @@ const CommentAlarm = ({ onClose }: { onClose: () => void }) => {
   console.log("payload : ", commentData);
 
   useEffect(() => {
+    console.log(alarm);
     if (commentData) {
       setComments((prevComments) => [commentData, ...prevComments]);
       const commentWriterUid = commentData.new.user_uid;
@@ -89,6 +90,7 @@ const CommentAlarm = ({ onClose }: { onClose: () => void }) => {
           await supabase.from("alarm").insert(newPush);
 
           const newAlarm = await fetchMyPushList(loggedInUserUid);
+          console.log("newAlarm", newAlarm);
           if (newAlarm) {
             setAlarm(newAlarm);
           }
@@ -122,7 +124,12 @@ const CommentAlarm = ({ onClose }: { onClose: () => void }) => {
         <div>
           {alarm &&
             alarm.map((item, index) => (
-              <CommentDetail item={item} onClose={onClose} />
+              <CommentDetail
+                item={item}
+                // onClose={onClose}
+                setAlarm={setAlarm}
+                alarm={alarm}
+              />
             ))}
         </div>
       </ModalBody>
