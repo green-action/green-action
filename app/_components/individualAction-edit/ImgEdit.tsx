@@ -1,14 +1,14 @@
 "use client";
-
 import React, { useState } from "react";
+
 import type { ImgUpdateProps } from "@/app/_types/individualAction-add/individualAction-add";
 
-const ImgEdit = ({
+const ImgEdit: React.FC<ImgUpdateProps> = ({
   uploadedFileUrls,
   setUploadedFileUrls,
   setDeleteFileIds,
   setFiles,
-}: ImgUpdateProps) => {
+}) => {
   // 드래그 앤 드랍 상태
   const [isDragging, setIsDragging] = useState(false);
 

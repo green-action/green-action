@@ -1,22 +1,22 @@
-import React, { useEffect } from "react";
-import { useSession } from "next-auth/react";
-import { useResponsive } from "@/app/_hooks/responsive";
-import { supabase } from "@/utils/supabase/client";
-import { useQueryClient } from "@tanstack/react-query";
-import {
-  useGetActionTitleAndUrl,
-  useGetMessageAndParticipantInfo,
-  useGetMyPrivateRoomsInfo,
-} from "@/app/_hooks/useQueries/chats";
+import { MODE_PREVIOUS, MODE_TODAY } from "@/app/_api/constant";
 import {
   QUERY_KEY_ACTION_IDS_TITLES_URLS,
   QUERY_KEY_MESSAGES_PARTICIPANT_INFO_HEADER,
   QUERY_KEY_UNREAD_MESSAGES_COUNT,
 } from "@/app/_api/queryKeys";
-import HeaderPrivateItem from "./HeaderPrivateItem";
+import { useResponsive } from "@/app/_hooks/responsive";
+import {
+  useGetActionTitleAndUrl,
+  useGetMessageAndParticipantInfo,
+  useGetMyPrivateRoomsInfo,
+} from "@/app/_hooks/useQueries/chats";
+import { supabase } from "@/utils/supabase/client";
+import { useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { useEffect } from "react";
+import HeaderPrivateItem from "./HeaderPrivateItem";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
-import { MODE_PREVIOUS, MODE_TODAY } from "@/app/_api/constant";
 
 const HeaderPrivateList = () => {
   const session = useSession();
@@ -173,10 +173,34 @@ const HeaderPrivateList = () => {
     })
     .filter((combined) => combined !== null);
 
-  // TODO any 해결필요
-  // combinedObjects가 null 또는 undefined인 경우 빈 배열로 초기화
-  const todayMessages: any = [];
-  const previousMessages: any = [];
+  type CombinedObject =
+    | ({
+        chat_rooms_info: {
+          room_type: string | undefined;
+          room_id: string;
+          participant_type: string;
+        };
+        action_info: {
+          action_id: string;
+          action_title: string;
+          action_imgUrl: string;
+        };
+        message: {
+          content: string;
+          created_at: string;
+          room_id: string;
+          sender_uid: string;
+          user: {
+            display_name: string;
+            id: string;
+            profile_img: string;
+          };
+        } | null;
+      } | null)[]
+    | undefined;
+
+  const todayMessages: (CombinedObject | null)[] | undefined = [];
+  const previousMessages: (CombinedObject | null)[] | undefined = [];
 
   if (combinedObjects) {
     const today = new Date().toDateString();
@@ -219,8 +243,7 @@ const HeaderPrivateList = () => {
             isDesktop ? "mb-7" : isLaptop ? "mb-5" : isMobile && "mb-2"
           }`}
         >
-          {/* TODO any 해결 필요 */}
-          {todayMessages?.map((eachRoomInfo: any) => (
+          {todayMessages?.map((eachRoomInfo) => (
             <HeaderPrivateItem eachRoomInfo={eachRoomInfo} mode={MODE_TODAY} />
           ))}
         </div>
@@ -238,8 +261,7 @@ const HeaderPrivateList = () => {
           이전 알림
         </div>
         <div>
-          {/* TODO any 해결 필요 */}
-          {previousMessages?.map((eachRoomInfo: any) => (
+          {previousMessages?.map((eachRoomInfo) => (
             <HeaderPrivateItem
               eachRoomInfo={eachRoomInfo}
               mode={MODE_PREVIOUS}

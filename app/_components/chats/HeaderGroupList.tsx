@@ -18,6 +18,7 @@ import {
 } from "@/app/_api/queryKeys";
 import { MODE_PREVIOUS, MODE_TODAY } from "@/app/_api/constant";
 import { useResponsive } from "@/app/_hooks/responsive";
+import { LastDates } from "@/app/_types/realtime-chats";
 
 const HeaderGroupList = () => {
   const session = useSession();
@@ -105,9 +106,9 @@ const HeaderGroupList = () => {
   if (!roomIds || !lastDates) return [];
 
   const today = new Date().toDateString();
-  // TODO any 해결필요
-  const todayRoomIdsDates: any = [];
-  const previousRoomIdsDates: any = [];
+
+  const todayRoomIdsDates: (LastDates | null)[] | undefined = [];
+  const previousRoomIdsDates: (LastDates | null)[] | undefined = [];
 
   lastDates?.map((item) => {
     if (item === null) return [];
@@ -140,10 +141,12 @@ const HeaderGroupList = () => {
           오늘 받은 알림
         </div>
         <div className="mb-7">
-          {/* TODO any 해결 필요 */}
-          {todayRoomIdsDates?.map((idDate: any) => (
-            <HeaderGroupItem room_id={idDate.room_id} mode={MODE_TODAY} />
-          ))}
+          {todayRoomIdsDates?.map(
+            (idDate) =>
+              idDate && (
+                <HeaderGroupItem room_id={idDate.room_id} mode={MODE_TODAY} />
+              ),
+          )}
         </div>
       </div>
       <div className="flex flex-col">
@@ -159,10 +162,15 @@ const HeaderGroupList = () => {
           이전 알림
         </div>
         <div>
-          {/* TODO any 해결 필요 */}
-          {previousRoomIdsDates?.map((idDate: any) => (
-            <HeaderGroupItem room_id={idDate.room_id} mode={MODE_PREVIOUS} />
-          ))}
+          {previousRoomIdsDates?.map(
+            (idDate) =>
+              idDate && (
+                <HeaderGroupItem
+                  room_id={idDate.room_id}
+                  mode={MODE_PREVIOUS}
+                />
+              ),
+          )}
         </div>
       </div>
     </div>

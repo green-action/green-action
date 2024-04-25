@@ -1,3 +1,5 @@
+import { useResponsive } from "@/app/_hooks/responsive";
+
 import {
   Button,
   Modal,
@@ -9,22 +11,12 @@ import {
 } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
+import React from "react";
 import search from "/app/_assets/image/logo_icon/icon/goods/Group-128.svg";
-import { useResponsive } from "@/app/_hooks/responsive";
 
-const GroupModal = ({
-  action,
-}: {
-  action: {
-    content: string;
-    hosted_by: string;
-    id: string;
-    img_url: string;
-    title: string;
-    action_url: string;
-  };
-}) => {
-  // {`${isMobile ? "mr-[10px]" : ""}`}
+import type { groupModalProps } from "@/app/_types/groupAction";
+
+const GroupModal: React.FC<groupModalProps> = ({ action }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 

@@ -1,25 +1,26 @@
-import React from "react";
-import { Avatar, useDisclosure } from "@nextui-org/react";
+import { MODE_TODAY } from "@/app/_api/constant";
 import { useResponsive } from "@/app/_hooks/responsive";
-import PrivateChatRoom from "./PrivateChatRoom";
-import { PrivateChatProps } from "@/app/_types/realtime-chats";
-import { formatToLocaleDateTimeString } from "@/utils/date/date";
 import { useGetUnreadCount } from "@/app/_hooks/useQueries/chats";
-import Image from "next/image";
-import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
+import { previousFormatDate, todayFormatTime } from "@/utils/date/date";
+import { Avatar, useDisclosure } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
+import React from "react";
+import PrivateChatRoom from "./PrivateChatRoom";
+import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
-const PagePrivateItem = ({ privateChat, actionId }: PrivateChatProps) => {
+import type { PrivateChatProps } from "@/app/_types/realtime-chats";
+
+const PagePrivateItem: React.FC<PrivateChatProps> = ({
+  privateChat,
+  actionId,
+  mode,
+}) => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 
   // 현재 로그인한 유저 uid
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
-
-  // 날짜 형식 변경
-  const formattedDate = privateChat
-    ? formatToLocaleDateTimeString(privateChat.created_at ?? "")
-    : "";
 
   // 1:1 채팅방 모달창
   const {
@@ -92,7 +93,9 @@ const PagePrivateItem = ({ privateChat, actionId }: PrivateChatProps) => {
                   isLaptop ? "text-sm" : isMobile && "text-xs"
                 }`}
               >
-                {formattedDate}
+                {mode === MODE_TODAY
+                  ? todayFormatTime(privateChat.created_at || "")
+                  : previousFormatDate(privateChat.created_at || "")}
               </p>
             </div>
             <div className="flex justify-between">

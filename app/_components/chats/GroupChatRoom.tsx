@@ -1,16 +1,5 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { useSession } from "next-auth/react";
-import { useQueryClient } from "@tanstack/react-query";
-import { supabase } from "@/utils/supabase/client";
-import type { ChatProps } from "@/app/_types/realtime-chats";
-import {
-  useGetGroupActionInfo,
-  useGetMessagesList,
-  useUpdateUnread,
-  userGetParticipantsInfo,
-} from "@/app/_hooks/useQueries/chats";
 import { sendMessage } from "@/app/_api/messages/privateChat-api";
 import {
   QUERY_KEY_ALL_UNREAD_COUNT,
@@ -18,25 +7,35 @@ import {
   QUERY_KEY_UNREAD_MESSAGES_COUNT,
 } from "@/app/_api/queryKeys";
 import {
+  useGetGroupActionInfo,
+  useGetMessagesList,
+  useUpdateUnread,
+  userGetParticipantsInfo,
+} from "@/app/_hooks/useQueries/chats";
+import type { ChatProps } from "@/app/_types/realtime-chats";
+import { supabase } from "@/utils/supabase/client";
+import {
+  Avatar,
   Modal,
+  ModalBody,
   ModalContent,
   ModalHeader,
-  ModalBody,
   useDisclosure,
 } from "@nextui-org/react";
-import { IoPaperPlane } from "react-icons/io5";
-import { IoReorderThreeOutline } from "react-icons/io5";
-import { Avatar } from "@nextui-org/react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
-import personIcon from "/app/_assets/image/logo_icon/icon/mypage/person.png";
+import React, { useEffect, useRef, useState } from "react";
+import { IoPaperPlane, IoReorderThreeOutline } from "react-icons/io5";
 import GroupInsideModal from "./GroupInsideModal";
+import personIcon from "/app/_assets/image/logo_icon/icon/mypage/person.png";
 
-const GroupChatRoom = ({
+const GroupChatRoom: React.FC<ChatProps> = ({
   isOpen,
   onOpenChange,
   roomId,
   actionId,
-}: ChatProps) => {
+}) => {
   const [message, setMessage] = useState("");
   const queryClient = useQueryClient();
   const chatRoomRef = useRef<HTMLDivElement | null>(null);

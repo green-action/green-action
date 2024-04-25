@@ -1,16 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-
-import type { EditPostProps } from "@/app/_types/community/community";
-
 import { uploadFileAndGetUrl } from "@/app/_api/community/community-api";
+import { MODE_COMMUNITY } from "@/app/_api/constant";
 import { useUpdateEditPostMutation } from "@/app/_hooks/useMutations/community";
 import { useGetSinglePostForEdit } from "@/app/_hooks/useQueries/community";
-
-import PostImgEdit from "./PostImgEdit";
-
-import { MODE_COMMUNITY } from "@/app/_api/constant";
 import {
   Button,
   Dropdown,
@@ -24,16 +17,20 @@ import {
   ModalHeader,
   Selection,
 } from "@nextui-org/react";
+import React, { useEffect, useState } from "react";
 import CustomConfirm from "../customConfirm/CustomConfirm";
 import AlertModal from "./AlertModal";
+import PostImgEdit from "./PostImgEdit";
 
-const EditPostModal = ({
+import type { EditPostProps } from "@/app/_types/community/community";
+
+const EditPostModal: React.FC<EditPostProps> = ({
   isOpen,
   onClose,
   onOpenChange,
   post_id,
   mode,
-}: EditPostProps) => {
+}) => {
   // alert 대체 모달창을 위한 상태관리
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const [message, setMessage] = useState("");

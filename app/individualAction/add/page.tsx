@@ -1,8 +1,6 @@
 "use client";
 
-import { useSession } from "next-auth/react";
-import React, { useRef, useState } from "react";
-
+import { MODE_INDIVIDUAL_ACTION_ADD } from "@/app/_api/constant";
 import {
   insertActionTextForm,
   insertGroupChatRoom,
@@ -10,8 +8,6 @@ import {
   updateUserPoint,
   uploadFilesAndGetUrls,
 } from "@/app/_api/individualAction-add/add-api";
-
-import { MODE_INDIVIDUAL_ACTION_ADD } from "@/app/_api/constant";
 import AlertModal from "@/app/_components/community/AlertModal";
 import PointModal from "@/app/_components/community/PointModal";
 import CustomConfirm from "@/app/_components/customConfirm/CustomConfirm";
@@ -22,7 +18,9 @@ import ThirdInputBox from "@/app/_components/individualAction-add/ThirdInputBox"
 import { useResponsive } from "@/app/_hooks/responsive";
 import { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
 import { useDisclosure } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import React, { useRef, useState } from "react";
 import { FaChevronLeft } from "react-icons/fa6";
 
 const AddActionPage = () => {
@@ -118,10 +116,14 @@ const AddActionPage = () => {
       {/* 이중 form태그라 id/form 속성으로 연결시키기 (mainForm, subForm)*/}
       <form onSubmit={handleSubmit} id="mainForm" method="post" />
       <div
-        className="flex flex-col desktop:w-[809px] 
+        className={`flex flex-col desktop:w-[809px] 
       laptop:w-[809px] h-[1000px] 
       phone:w-[291px] desktop:border-1.5 laptop:border-1.5
-       desktop:border-gray-300 laptop:border-gray-300 phone:border-0 rounded-3xl mx-auto mb-12 mt-0 "
+       desktop:border-gray-300 laptop:border-gray-300 phone:border-0 rounded-3xl mx-auto mb-12 mt-0
+       ${
+         (isDesktop || isLaptop) &&
+         (locationMapRef.current ? "h-[1025px]" : "h-[830px]")
+       }`}
       >
         {/* new green-action 타이틀 */}
         <div className="ml-8 my-[16px] phone:text-center">

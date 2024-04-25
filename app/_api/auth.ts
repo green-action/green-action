@@ -1,5 +1,4 @@
 import { supabase } from "@/utils/supabase/client";
-import { User } from "../_types";
 // import { useSession } from "next-auth/react";
 
 // const session = useSession();
@@ -69,7 +68,7 @@ export const signUpNewUser = async (
 //       .single();
 
 //     if (fetchError) throw fetchError;
-//     return userData as User;
+//     return userData as User["userInfo"];
 //   } catch (error) {
 //     throw error;
 //   }

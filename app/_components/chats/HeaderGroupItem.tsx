@@ -1,27 +1,23 @@
-import React from "react";
-import { useDisclosure } from "@nextui-org/react";
-import Image from "next/image";
-import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
+import { MODE_TODAY } from "@/app/_api/constant";
+import { useResponsive } from "@/app/_hooks/responsive";
 import {
   useGetActionInfo,
   useGetGroupParticipantsCount,
   useGetLastMessageInfo,
   useGetUnreadCount,
 } from "@/app/_hooks/useQueries/chats";
-import { useSession } from "next-auth/react";
-import GroupChatRoom from "./GroupChatRoom";
-import personIcon from "/app/_assets/image/logo_icon/icon/mypage/person.png";
-import { MODE_TODAY } from "@/app/_api/constant";
 import { previousFormatDate, todayFormatTime } from "@/utils/date/date";
-import { useResponsive } from "@/app/_hooks/responsive";
+import { useDisclosure } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import React from "react";
+import GroupChatRoom from "./GroupChatRoom";
+import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
+import personIcon from "/app/_assets/image/logo_icon/icon/mypage/person.png";
 
-const HeaderGroupItem = ({
-  room_id,
-  mode,
-}: {
-  room_id: string;
-  mode: string;
-}) => {
+import type { headerGroupItemProps } from "@/app/_types/realtime-chats";
+
+const HeaderGroupItem: React.FC<headerGroupItemProps> = ({ room_id, mode }) => {
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
   const { isDesktop, isLaptop, isMobile } = useResponsive();

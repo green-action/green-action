@@ -1,9 +1,7 @@
 import { useFetchUserInfo } from "@/app/_hooks/useQueries/mypage";
 import { User } from "@/app/_types";
-import { Avatar, Chip } from "@nextui-org/react";
+import { Avatar } from "@nextui-org/react";
 import { Session } from "next-auth";
-import { useSession } from "next-auth/react";
-import React from "react";
 
 interface Props {
   session: Session | null;
@@ -15,7 +13,7 @@ const HeaderProfile = ({ isLoggedIn, session }: Props) => {
   const { data: userData, isLoading: isUserDataLoading } =
     useFetchUserInfo(user_uid);
   // console.log("유저데이터==>", userData);
-  const { display_name, profile_img } = (userData as User) || "";
+  const { display_name, profile_img } = (userData as User["userInfo"]) || "";
   return (
     <>
       {isLoggedIn && (

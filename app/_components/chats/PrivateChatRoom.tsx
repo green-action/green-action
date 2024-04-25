@@ -1,9 +1,5 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { useSession } from "next-auth/react";
-import { supabase } from "@/utils/supabase/client";
-import { useQueryClient } from "@tanstack/react-query";
 import { sendMessage } from "@/app/_api/messages/privateChat-api";
 import {
   QUERY_KEY_ALL_UNREAD_COUNT,
@@ -12,8 +8,7 @@ import {
   QUERY_KEY_UNREAD_MESSAGES_COUNT,
   QUERY_KEY_UPDATE_UNREAD,
 } from "@/app/_api/queryKeys";
-import { Avatar, useDisclosure } from "@nextui-org/react";
-import { Modal, ModalContent, ModalHeader, ModalBody } from "@nextui-org/react";
+import { useResponsive } from "@/app/_hooks/responsive";
 import {
   useGetActionParticipantsInfo,
   useGetGroupActionInfo,
@@ -21,22 +16,32 @@ import {
   useGetParticipantInfo,
   useUpdateUnread,
 } from "@/app/_hooks/useQueries/chats";
-import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
-import Image from "next/image";
-import { IoPaperPlane } from "react-icons/io5";
-import { IoReorderThreeOutline } from "react-icons/io5";
-import { useResponsive } from "@/app/_hooks/responsive";
 import { formatToLocaleDateTimeString } from "@/utils/date/date";
+import { supabase } from "@/utils/supabase/client";
+import {
+  Avatar,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  useDisclosure,
+} from "@nextui-org/react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import React, { useEffect, useRef, useState } from "react";
+import { IoPaperPlane, IoReorderThreeOutline } from "react-icons/io5";
 import GroupInsideModal from "./GroupInsideModal";
+import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
 import type { ChatProps } from "@/app/_types/realtime-chats";
 
-const PrivateChatRoom = ({
+const PrivateChatRoom: React.FC<ChatProps> = ({
   isOpen,
   onOpenChange,
   roomId,
   actionId,
-}: ChatProps) => {
+}) => {
   const [message, setMessage] = useState("");
   const queryClient = useQueryClient();
   const { isDesktop, isLaptop, isMobile } = useResponsive();
@@ -173,283 +178,170 @@ const PrivateChatRoom = ({
 
   return (
     <>
-      {isDesktop && (
-        <Modal
-          isOpen={isOpen}
-          onOpenChange={onOpenChange}
-          placement="center"
-          size="3xl"
-          ref={chatRoomRef}
-          className="relative"
+      <Modal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        placement="center"
+        size="3xl"
+        ref={chatRoomRef}
+        className="relative"
+      >
+        <ModalContent
+          className={`scrollbar-hide rounded-[55px] h-[87%] 
+            ${isActionInfoOpen ? "overflow-hidden" : "overflow-y-auto"}
+            ${
+              isDesktop
+                ? "max-w-[27%]"
+                : isLaptop
+                ? "max-w-[500px] "
+                : isMobile && "max-w-[332px]"
+            }
+            `}
         >
-          <ModalContent
-            className={` max-w-[27%] h-[87%] scrollbar-hide rounded-[55px] ${
-              isActionInfoOpen ? "overflow-hidden" : "overflow-y-auto"
-            }`}
-          >
-            {(onClose) => (
-              <>
-                <ModalHeader className="fixed bg-white flex justify-between items-center gap-5 w-[27%] shadow-md h-28 z-10 px-8 rounded-tl-[55px] rounded-tr-[55px]">
-                  <div className="flex gap-5 ml-2">
-                    <Avatar
-                      showFallback
-                      src={participantInfo?.profile_img || ""}
-                      alt="greener_profile"
-                      size="lg"
-                    />
-                    <div className="flex flex-col gap-0">
-                      <span className="text-xl font-extrabold">
-                        {participantInfo?.display_name}
-                      </span>
-                      <span className="text-gray-500 text-[15px] font-['Pretendard-ExtraLight']">
-                        Greener
-                      </span>
-                    </div>
-                  </div>
-                  <div>
-                    <IoReorderThreeOutline
-                      size={40}
-                      className="cursor-pointer"
-                      onClick={() => onActionInfoOpen()}
-                    />
-                  </div>
-                </ModalHeader>
-                <ModalBody className="bg-[#F3F4F3] pt-32 pb-0 px-0">
-                  <div className="flex justify-center h-[100%]">
-                    <div className={`flex flex-col w-[100%]`}>
-                      {messagesList?.map((message) => (
-                        <div
-                          className={`m-3 max-w-[70%] ${
-                            message.sender_uid === loggedInUserUid
-                              ? "self-end mr-8"
-                              : "self-start ml-8"
-                          }`}
-                          key={message.id}
-                        >
-                          <div
-                            className={`${
-                              message.sender_uid === loggedInUserUid
-                                ? "bg-[#D4DFD2] rounded-tl-2xl rounded-bl-2xl rounded-br-2xl"
-                                : "bg-gray-300 text-black rounded-tr-2xl rounded-bl-2xl rounded-br-2xl"
-                            } p-5 text-base`}
-                          >
-                            {message.content}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="sticky bottom-0 w-[100%] mx-auto bg-[#F3F4F3] flex justify-center pt-2">
-                    <div className="flex items-center justify-between px-8 mb-[34px] w-[90%] h-16 bg-white rounded-[50px]">
-                      <input
-                        className="w-[90%] h-[85%] pl-4 focus:outline-none "
-                        type="text"
-                        placeholder="send message..."
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" && !e.nativeEvent.isComposing) {
-                            e.preventDefault();
-                            handleSendMessage();
-                          }
-                        }}
-                      />
-                      <div
-                        className="cursor-pointer"
-                        onClick={handleSendMessage}
-                      >
-                        <IoPaperPlane size={25} />
-                      </div>
-                    </div>
-                  </div>
-                  {/* action info 모달창 */}
-                  {isActionInfoOpen && (
-                    <GroupInsideModal
-                      onActionInfoClose={onActionInfoClose}
-                      actionInfo={actionInfo}
-                      participantsInfo={actionParticipantsInfo}
-                      roomId={roomId}
-                      actionId={actionId}
-                      onClose={onClose}
-                    />
-                  )}
-                </ModalBody>
-              </>
-            )}
-          </ModalContent>
-        </Modal>
-      )}
-      {isLaptop && (
-        <Modal
-          isOpen={isOpen}
-          onOpenChange={onOpenChange}
-          placement="center"
-          size="3xl"
-        >
-          <ModalContent className="relative max-w-[500px] h-[87%] overflow-y-auto scrollbar-hide rounded-[55px]">
-            {(onClose) => (
-              <>
-                <ModalHeader className="fixed bg-white flex items-center gap-5 w-[500px] shadow-md h-28 z-10 px-8 rounded-tl-[55px] rounded-tr-[55px]">
+          {(onClose) => (
+            <>
+              <ModalHeader
+                className={`fixed bg-white flex justify-between items-center gap-5 shadow-md z-10 px-8 rounded-tl-[55px] rounded-tr-[55px] ${
+                  isDesktop
+                    ? "w-[27%] h-28"
+                    : isLaptop
+                    ? "w-[500px] h-28"
+                    : isMobile && "w-[332px] h-[73px]"
+                }`}
+              >
+                <div className="flex gap-5 ml-2">
                   <Avatar
                     showFallback
                     src={participantInfo?.profile_img || ""}
                     alt="greener_profile"
-                    size="lg"
+                    size={`${isDesktop || isLaptop ? "lg" : "md"}`}
                   />
-                  <div className="flex flex-col gap-0">
-                    <span className="text-xl font-extrabold">
+                  <div
+                    className={`flex flex-col ${
+                      isDesktop || (isLaptop && "gap-0")
+                    }`}
+                  >
+                    <span
+                      className={`font-extrabold ${
+                        isDesktop || isLaptop
+                          ? "text-xl"
+                          : isMobile && "text-[15px]"
+                      }`}
+                    >
                       {participantInfo?.display_name}
                     </span>
-                    <span className="text-gray-500 text-[15px] font-['Pretendard-ExtraLight']">
+                    <span
+                      className={`text-gray-500 font-['Pretendard-ExtraLight'] ${
+                        isDesktop
+                          ? "text-[15px]"
+                          : isLaptop
+                          ? "text-[15px]"
+                          : isMobile && "text-[11px]"
+                      }`}
+                    >
                       Greener
                     </span>
                   </div>
-                </ModalHeader>
-                <ModalBody className="bg-[#F3F4F3] pt-32 pb-0">
-                  <div className="flex justify-center h-[100%]">
-                    <div className={`flex flex-col w-[100%]`}>
-                      {messagesList?.map((message) => (
-                        <div
-                          className={`m-3 max-w-[70%]  ${
-                            message.sender_uid === loggedInUserUid
-                              ? "self-end"
-                              : "self-start"
-                          }`}
-                          key={message.id}
-                        >
-                          <div
-                            className={`${
-                              message.sender_uid === loggedInUserUid
-                                ? "bg-[#D4DFD2] rounded-tl-2xl rounded-bl-2xl rounded-br-2xl"
-                                : "bg-gray-300 text-black rounded-tr-2xl rounded-bl-2xl rounded-br-2xl"
-                            } p-5 text-base`}
-                          >
-                            {message.content}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="sticky bottom-0 w-[100%] mx-auto bg-[#F3F4F3] flex justify-center pt-2">
-                    <div className="flex items-center justify-between px-8 mb-[34px] w-[90%] h-16 bg-white rounded-[50px]">
-                      <input
-                        className="w-[90%] h-[85%] pl-4"
-                        type="text"
-                        placeholder="send message..."
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" && !e.nativeEvent.isComposing) {
-                            e.preventDefault();
-                            handleSendMessage();
-                          }
-                        }}
-                      />
-                      <div
-                        className="cursor-pointer"
-                        onClick={handleSendMessage}
-                      >
-                        <IoPaperPlane size={25} />
-                      </div>
-                    </div>
-                  </div>
-                </ModalBody>
-              </>
-            )}
-          </ModalContent>
-        </Modal>
-      )}
-      {isMobile && (
-        <Modal
-          isOpen={isOpen}
-          onOpenChange={onOpenChange}
-          placement="center"
-          size="3xl"
-        >
-          <ModalContent className="relative max-w-[332px] h-[87%] overflow-y-auto scrollbar-hide rounded-[55px]">
-            {(onClose) => (
-              <>
-                <ModalHeader className="fixed bg-white flex items-center gap-5 w-[332px] shadow-md h-[73px] z-10 px-8 rounded-tl-[55px] rounded-tr-[55px]">
-                  <Avatar
-                    showFallback
-                    src={participantInfo?.profile_img || ""}
-                    alt="greener_profile"
-                    size="md"
+                </div>
+                <div>
+                  <IoReorderThreeOutline
+                    size={`${isDesktop || isLaptop ? 40 : 27}`}
+                    className="cursor-pointer"
+                    onClick={() => onActionInfoOpen()}
                   />
-                  <div className="flex flex-col">
-                    <span className="text-[15px] font-extrabold ">
-                      {participantInfo?.display_name}
-                    </span>
-                    <span className="text-gray-500 text-[11px] font-['Pretendard-ExtraLight']">
-                      Greener
-                    </span>
-                  </div>
-                </ModalHeader>
-                <ModalBody className="bg-[#F3F4F3] pt-24 pb-0">
-                  <div className="flex justify-center h-[100%]">
-                    <div className={`flex flex-col w-[100%]`}>
-                      {messagesList?.map((message) => (
-                        <div
-                          className={`m-3 max-w-[70%]  ${
-                            message.sender_uid === loggedInUserUid
-                              ? "self-end"
-                              : "self-start"
-                          }`}
-                          key={message.id}
-                        >
-                          <div
-                            className={`${
-                              message.sender_uid === loggedInUserUid
-                                ? "bg-[#D4DFD2] rounded-tl-2xl rounded-bl-2xl rounded-br-2xl"
-                                : "bg-gray-300 text-black rounded-tr-2xl rounded-bl-2xl rounded-br-2xl"
-                            } p-5 text-[12px]`}
-                          >
-                            {message.content}
-                          </div>
-                          <div
-                            className={`flex text-[11px] text-[#BEBEBE] mt-2 ${
-                              message.sender_uid === loggedInUserUid
-                                ? "justify-end"
-                                : "justify-start"
-                            }`}
-                          >
-                            {formatToLocaleDateTimeString(
-                              message.created_at,
-                            ).substring(12)}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="sticky bottom-0 w-[100%] mx-auto bg-[#F3F4F3] flex justify-center pt-2">
-                    <div className="flex items-center justify-between px-8 mb-[34px] w-[90%] h-16 bg-white rounded-[50px]">
-                      <input
-                        className="w-[90%] h-[85%] pl-4"
-                        type="text"
-                        placeholder="send message..."
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" && !e.nativeEvent.isComposing) {
-                            e.preventDefault();
-                            handleSendMessage();
-                          }
-                        }}
-                      />
+                </div>
+              </ModalHeader>
+              <ModalBody
+                className={`bg-[#F3F4F3] pb-0 px-0 ${
+                  isDesktop ? "pt-32" : isLaptop ? "pt-32" : isMobile && "pt-24"
+                }`}
+              >
+                <div className="flex justify-center h-[100%]">
+                  <div className={`flex flex-col w-[100%]`}>
+                    {messagesList?.map((message) => (
                       <div
-                        className="cursor-pointer"
-                        onClick={handleSendMessage}
+                        className={`m-3 max-w-[70%] 
+                        ${
+                          (isDesktop || isLaptop) &&
+                          (message.sender_uid === loggedInUserUid
+                            ? "self-end mr-8"
+                            : "self-start ml-8")
+                        }
+                        ${
+                          isMobile &&
+                          (message.sender_uid === loggedInUserUid
+                            ? "self-end"
+                            : "self-start")
+                        }
+                       `}
+                        key={message.id}
                       >
-                        <IoPaperPlane size={25} />
+                        <div
+                          className={`p-5 
+                          ${
+                            isDesktop || isLaptop
+                              ? "text-base"
+                              : isMobile && "text-[12px]"
+                          }
+                          ${
+                            message.sender_uid === loggedInUserUid
+                              ? "bg-[#D4DFD2] rounded-tl-2xl rounded-bl-2xl rounded-br-2xl"
+                              : "bg-gray-300 text-black rounded-tr-2xl rounded-bl-2xl rounded-br-2xl"
+                          }
+                          `}
+                        >
+                          {message.content}
+                        </div>
+                        <div
+                          className={`flex text-[11px] text-[#BEBEBE] mt-2 ${
+                            message.sender_uid === loggedInUserUid
+                              ? "justify-end mr-2"
+                              : "justify-start ml-2"
+                          }`}
+                        >
+                          {formatToLocaleDateTimeString(
+                            message.created_at,
+                          ).substring(12)}
+                        </div>
                       </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="sticky bottom-0 w-[100%] mx-auto bg-[#F3F4F3] flex justify-center pt-2">
+                  <div className="flex items-center justify-between px-8 mb-[34px] w-[90%] h-16 bg-white rounded-[50px]">
+                    <input
+                      className="w-[90%] h-[85%] pl-4 focus:outline-none"
+                      type="text"
+                      placeholder="send message..."
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && !e.nativeEvent.isComposing) {
+                          e.preventDefault();
+                          handleSendMessage();
+                        }
+                      }}
+                    />
+                    <div className="cursor-pointer" onClick={handleSendMessage}>
+                      <IoPaperPlane size={25} />
                     </div>
                   </div>
-                </ModalBody>
-              </>
-            )}
-          </ModalContent>
-        </Modal>
-      )}
+                </div>
+                {isActionInfoOpen && (
+                  <GroupInsideModal
+                    onActionInfoClose={onActionInfoClose}
+                    actionInfo={actionInfo}
+                    participantsInfo={actionParticipantsInfo}
+                    roomId={roomId}
+                    actionId={actionId}
+                    onClose={onClose}
+                  />
+                )}
+              </ModalBody>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </>
   );
 };

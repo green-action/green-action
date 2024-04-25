@@ -1,14 +1,14 @@
 import { useResponsive } from "@/app/_hooks/responsive";
 import { useFetchIndivActionsBookmarks } from "@/app/_hooks/useQueries/main";
-import { Button, Select, SelectItem } from "@nextui-org/react";
+import { Select, SelectItem } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import postImg from "../../_assets/image/individualAction/write.png";
 import AlertModal from "../community/AlertModal";
 import PageList from "./PageList";
-import Image from "next/image";
-import postImg from "../../_assets/image/individualAction/write.png";
 
 const PageTap = () => {
   const [activeTab, setActiveTab] = useState("모든 Green Action");
@@ -331,18 +331,23 @@ const PageTap = () => {
           </div>
         )}
       </div>
-      {/* <Button
-        className="fixed z-50 bottom-[8rem] right-[1.5rem] rounded-full w-20 h-20 bg-gray-300 flex items-center justify-center"
-        onClick={handleClick}
-      > */}
-      <Image
-        src={postImg}
-        alt="게시글 작성 이미지"
-        className="desktop:size-[95px] laptop:size-[80px] fixed z-50 bottom-[8rem] right-[1.5rem] cursor-pointer hover:scale-105 ease-in-out duration-300"
-        onClick={handleClick}
-      />
-      {/* </Button> */}
 
+      {(isDesktop || isLaptop) && (
+        <Image
+          src={postImg}
+          alt="게시글 작성 이미지"
+          className="desktop:size-[95px] laptop:size-[80px] fixed z-50 bottom-[8rem] right-[1.5rem] cursor-pointer hover:scale-105 ease-in-out duration-300"
+          onClick={handleClick}
+        />
+      )}
+      {isMobile && (
+        <Image
+          src={postImg}
+          alt="게시글 작성 이미지"
+          className="size-[65px] fixed z-50 bottom-[8rem] right-[1.5rem] cursor-pointer hover:scale-105 ease-in-out duration-300"
+          onClick={handleClick}
+        />
+      )}
       <PageList
         filteredActions={filteredActions}
         isActionsLoading={isActionsLoading}
