@@ -1,7 +1,4 @@
-import {
-  insertProfileImgUrl,
-  uploadProfileImgFileAndInsertIntoTable,
-} from "@/app/_api/mypage/mypage-profile-api";
+import { uploadProfileImgFileAndInsertIntoTable } from "@/app/_api/mypage/mypage-profile-api";
 import {
   useRemoveUserProfileImg,
   useUpdateUserName,
@@ -18,19 +15,16 @@ import {
 } from "@nextui-org/react";
 import React, { useState } from "react";
 import { TfiPencil } from "react-icons/tfi";
-import ProfileImgUpload from "./ProfileImgUpload";
 import AlertModal from "../community/AlertModal";
+import ProfileImgUpload from "./ProfileImgUpload";
 
-const MyProfileEditModal = ({
+import type { myProfileEditModalProps } from "@/app/_types";
+
+const MyProfileEditModal: React.FC<myProfileEditModalProps> = ({
   user_uid,
   display_name,
   profile_img,
   setProfileImg,
-}: {
-  user_uid: string;
-  display_name: string;
-  profile_img: string;
-  setProfileImg: any;
 }) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
 
@@ -85,7 +79,7 @@ const MyProfileEditModal = ({
       });
       // mutation적용해도 바로 렌더링안되는 경우 생겨 useState 사용
       await setUploadedFileUrl(url || "");
-      await setProfileImg(url);
+      await setProfileImg(url as string);
     } else if (!file && uploadedFileUrl) {
       // 이미지 업로드는 안했지만 기존 프로필 이미지가 존재하는 경우 - 따로 업로드 및 mutation 할 필요 없음
     } else {

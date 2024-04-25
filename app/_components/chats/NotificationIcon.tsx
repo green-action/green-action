@@ -1,13 +1,11 @@
 import React from "react";
 
-export const NotificationIcon = ({
+import { notificationIconProps } from "@/app/_types/realtime-chats";
+
+export const NotificationIcon: React.FC<notificationIconProps> = ({
   size,
   height,
   width,
-}: {
-  size: number;
-  height: number;
-  width: number;
 }) => {
   return (
     <svg

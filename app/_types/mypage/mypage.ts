@@ -40,3 +40,10 @@ export interface InsertProfileImgUrls {
   user_uid: string;
   imgUrl: string | null | undefined;
 }
+
+export interface MyActionRecruitingChange {
+  id: string;
+  isOpen: boolean;
+  onClose: () => void;
+  onOpenChange: () => void;
+}
