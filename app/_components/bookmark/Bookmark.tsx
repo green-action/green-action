@@ -17,6 +17,7 @@ import { Skeleton } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React, { useCallback, useState } from "react";
+import { BsXCircle } from "react-icons/bs";
 import AlertModal from "../community/AlertModal";
 import CustomConfirm from "../customConfirm/CustomConfirm";
 import bookmarkFill from "/app/_assets/image/individualAction/star_1.png";
@@ -51,13 +52,13 @@ const Bookmark = ({
       if (user_uid !== null) {
         addBookmarkMutation.mutate({ user_uid, action_id });
       }
-    }, 1000),
+    }, 300),
     [user_uid, action_id, addBookmarkMutation],
   );
   const handleRemoveBookmarkClick = useCallback(
     debounce(() => {
       removeBookmarkMutation.mutate({ user_uid, action_id });
-    }, 1000),
+    }, 300),
     [user_uid, action_id, removeBookmarkMutation],
   );
 
@@ -69,6 +70,14 @@ const Bookmark = ({
     return (
       <div className="flex justify-center items-center">
         <Skeleton className="flex rounded-full w-12 h-12" />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="flex justify-center items-center">
+        <BsXCircle />
       </div>
     );
   }

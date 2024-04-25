@@ -1,29 +1,21 @@
 "use client";
 
-import { useSession } from "next-auth/react";
-import React, { useCallback, useState } from "react";
-
-import { useAddLike, useRemoveLike } from "@/app/_hooks/useMutations/bookmarks";
-import { useFilterLikes } from "@/app/_hooks/useQueries/bookmarks";
-
-import { debounce } from "@/utils/debounce/debounce";
-
-import { GoHeart, GoHeartFill } from "react-icons/go";
-
 import {
-  MODE_MAIN,
   MODE_MAIN_DESKTOP,
   MODE_MAIN_DESKTOP_COUNT,
   MODE_MAIN_LAPTOP,
   MODE_MAIN_LAPTOP_COUNT,
   MODE_MOBILE,
 } from "@/app/_api/constant";
+import { useAddLike, useRemoveLike } from "@/app/_hooks/useMutations/bookmarks";
+import { useFilterLikes } from "@/app/_hooks/useQueries/bookmarks";
+import { debounce } from "@/utils/debounce/debounce";
 import { Skeleton } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
+import React, { useCallback, useState } from "react";
+import { BsXCircle } from "react-icons/bs";
+import { GoHeart, GoHeartFill } from "react-icons/go";
 import AlertModal from "../community/AlertModal";
-
-// import Image from "next/image";
-// import heart from "../../../app/_assets/image/logo_icon/icon/community/Group 130.png";
-// import emptyHeart from "../../../app/_assets/image/logo_icon/icon/community/Group 83.png";
 
 const Likes = ({
   post_id,
@@ -34,7 +26,7 @@ const Likes = ({
   isOpen: boolean;
   mode: string;
 }) => {
-  const { data, isLoading } = useFilterLikes(post_id);
+  const { data, isLoading, isError } = useFilterLikes(post_id);
   const addLikeMutation = useAddLike();
   const removeLikeMutation = useRemoveLike();
 
@@ -68,12 +60,19 @@ const Likes = ({
 
   const isLiked = data?.likes?.find((like) => like.user_uid === user_uid);
 
-  const handleDebounce = useCallback(debounce(handleToggle(), 1000), [isLiked]);
+  const handleDebounce = useCallback(debounce(handleToggle(), 300), [isLiked]);
 
   if (isLoading) {
     return (
       <div className="flex justify-center items-center">
         <Skeleton className="flex rounded-full w-12 h-12 phone:w-[18px] phone:h-[18px]" />
+      </div>
+    );
+  }
+  if (isError) {
+    return (
+      <div className="flex justify-center items-center">
+        <BsXCircle />
       </div>
     );
   }
