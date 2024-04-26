@@ -1,12 +1,18 @@
 "use client";
 
-import { useMyCommunityList } from "@/app/_hooks/useQueries/push";
+import {
+  useMyCommunityList,
+  useMyPushList,
+} from "@/app/_hooks/useQueries/push";
 import { supabase } from "@/utils/supabase/client";
 import { RealtimePostgresInsertPayload } from "@supabase/supabase-js";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { ModalBody, ModalFooter, Button } from "@nextui-org/react";
+import { fetchMyPushList } from "@/app/_api/push/push-api";
+import CommentDetail from "./CommentDetail";
 
-const CommentAlarm = () => {
+const CommentAlarm = ({ onClose }: { onClose: () => void }) => {
   const [comments, setComments] = useState<
     RealtimePostgresInsertPayload<{ [key: string]: any }>[]
   >([]);
@@ -17,6 +23,7 @@ const CommentAlarm = () => {
       message: string;
       post_id: string;
       targetId: string;
+      isRead: boolean;
     }[]
   >([]);
 
@@ -58,6 +65,7 @@ const CommentAlarm = () => {
   console.log("payload : ", commentData);
 
   useEffect(() => {
+    console.log(alarm);
     if (commentData) {
       setComments((prevComments) => [commentData, ...prevComments]);
       const commentWriterUid = commentData.new.user_uid;
@@ -70,36 +78,36 @@ const CommentAlarm = () => {
           .eq("id", commentWriterUid)
           .single();
 
-        if (commentWriter) {
+        // 내가 작성한 댓글이 아니라면 알림 테이블에 알림 추가
+        if (commentWriterUid !== loggedInUserUid) {
           const newPush = {
             created_at: commentData.commit_timestamp,
             targetId: loggedInUserUid,
             post_id: commentData.new.post_id,
-            message: `${commentWriter.display_name} 님이 새 댓글을 남겼습니다!`,
+            message: `${
+              commentWriter!.display_name
+            } 님이 새 댓글을 남겼습니다!`,
+            isRead: false,
           };
 
           await supabase.from("alarm").insert(newPush);
 
-          // 알림 테이블에서 알림 데이터 가져오기
-          const { data: newAlarm } = await supabase
-            .from("alarm")
-            .select("*")
-            .eq("targetId", loggedInUserUid)
-            .order("created_at", { ascending: false });
-          // 내림차순
-
-          // 가장 최신 데이터를 실시간 알림으로 전달하기
-          // if (alarm) {
-          //   console.log("댓글달림! : ", alarm[alarm.length - 1].message);
-          // }
-
+          const newAlarm = await fetchMyPushList(loggedInUserUid);
+          console.log("newAlarm", newAlarm);
           if (newAlarm) {
             setAlarm(newAlarm);
           }
         }
       };
-
       commentPush();
+    } else {
+      const getComment = async () => {
+        const newAlarm = await fetchMyPushList(loggedInUserUid);
+        if (newAlarm) {
+          setAlarm(newAlarm);
+        }
+      };
+      getComment();
     }
   }, [commentData, loggedInUserUid]);
 
@@ -112,18 +120,27 @@ const CommentAlarm = () => {
   }
 
   return (
-    <div>
-      <div>commentAlarm</div>
-      <div>
-        {/* 최신 알림 메시지 표시 */}
-        {alarm &&
-          alarm.map((item, index) => (
-            <div key={index}>
-              <li>{item.message}</li>
-            </div>
-          ))}
-      </div>
-    </div>
+    <>
+      <ModalBody>
+        <div>알림</div>
+        <div>
+          {alarm &&
+            alarm.map((item) => (
+              <CommentDetail
+                item={item}
+                // onClose={onClose}
+                setAlarm={setAlarm}
+                alarm={alarm}
+              />
+            ))}
+        </div>
+      </ModalBody>
+      <ModalFooter className="bg-[#EAEAEA] flex justify-start">
+        <Button color="default" onPress={onClose}>
+          close
+        </Button>
+      </ModalFooter>
+    </>
   );
 };
 
