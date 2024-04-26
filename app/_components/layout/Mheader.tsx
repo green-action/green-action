@@ -250,7 +250,6 @@ const Mheader = () => {
                       <Avatar
                         size="md"
                         isBordered
-                        name={display_name}
                         showFallback
                         src={profile_img || ""}
                       />
@@ -318,7 +317,6 @@ const Mheader = () => {
                   <div className="flex items-center justify-between  text-[#404040] mt-5">
                     <Avatar
                       className="transition-transform"
-                      name={display_name}
                       size="sm"
                       showFallback
                       src={profile_img || ""}
