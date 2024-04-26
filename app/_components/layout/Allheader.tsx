@@ -305,7 +305,7 @@ const Allheader = () => {
                         content={
                           allUnreadCount && allUnreadCount > 0
                             ? allUnreadCount
-                            : null
+                            : 0
                         }
                         shape="circle"
                         color="default"

@@ -286,9 +286,7 @@ const Mheader = () => {
                   {/* 채팅방 badge */}
                   <Badge
                     content={
-                      allUnreadCount && allUnreadCount > 0
-                        ? allUnreadCount
-                        : null
+                      allUnreadCount && allUnreadCount > 0 ? allUnreadCount : 0
                     }
                     shape="circle"
                     color="default"
