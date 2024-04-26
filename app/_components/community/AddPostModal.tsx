@@ -145,7 +145,7 @@ const AddPostModal = () => {
         <Image
           src={postImg}
           alt="게시글 작성 이미지"
-          className="size-[65px]  fixed z-50 bottom-[8rem] right-[1.5rem] cursor-pointer hover:scale-105 ease-in-out duration-300"
+          className="size-[50px] fixed z-50 bottom-[20%] right-[2.5%] cursor-pointer hover:scale-105 ease-in-out duration-300"
           onClick={handleAddPostClick}
         />
       )}
