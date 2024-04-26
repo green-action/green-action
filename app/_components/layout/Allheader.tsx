@@ -16,15 +16,15 @@ import {
   Tabs,
   useDisclosure,
 } from "@nextui-org/react";
-// import { NotificationIcon } from "./NotificationIcon";
+
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
-import graylogoImg from "/app/_assets/image/logo_icon/logo/gray.png";
-import whitelogoImg from "/app/_assets/image/logo_icon/logo/white.png";
+import SoomLoading from "@/app/_assets/image/loading/SOOM_gif.gif";
+import graylogoImg from "@/app/_assets/image/logo_icon/logo/gray.png";
+import whitelogoImg from "@/app/_assets/image/logo_icon/logo/white.png";
 
 import { MODE_HEADER } from "@/app/_api/constant";
 import { useResponsive } from "@/app/_hooks/responsive";
@@ -35,8 +35,9 @@ import ChatsListModal from "../chats/ChatsListModal";
 import Mheader from "./Mheader";
 
 import AlertModal from "../community/AlertModal";
-import PushListModal from "../push/PushListModal";
 import { NotificationIcon } from "../chats/NotificationIcon";
+import PushListModal from "../push/PushListModal";
+import { useUnreadPushCount } from "@/app/_hooks/useQueries/push";
 
 const Allheader = () => {
   const router = useRouter();
@@ -163,7 +164,15 @@ const Allheader = () => {
   const { allUnreadCount, isAllUnreadCountLoading, isAllUnreadCountError } =
     useGetAllUnreadCount(user_uid);
 
-  if (isAllUnreadCountLoading || isUserDataLoading) {
+  // 안읽은 알림 총 개수 가져오기
+  const {
+    data: unReadPushCount,
+    isLoading: unReadPushCountLoading,
+    isError: unReadPushCountError,
+  } = useUnreadPushCount(user_uid);
+  // console.log(unReadPushCount);
+
+  if (isAllUnreadCountLoading || isUserDataLoading || unReadPushCountLoading) {
     return (
       <div className="w-[80px] h-auto mx-auto">
         <Image className="" src={SoomLoading} alt="SoomLoading" />
@@ -331,7 +340,15 @@ const Allheader = () => {
                     </div>
                     {/* 임시 - UT 후 추가 예정 */}
                     {/* push알림 badge */}
-                    <Badge content="0" shape="circle" color="default">
+                    <Badge
+                      content={
+                        unReadPushCount && unReadPushCount > 0
+                          ? unReadPushCount
+                          : null
+                      }
+                      shape="circle"
+                      color="default"
+                    >
                       <Button
                         radius="full"
                         isIconOnly
