@@ -24,7 +24,7 @@ const AddComment: React.FC<AddCommentProps> = ({
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <Image src={SoomLoaing} alt="SoomLoading" />
+        <Image src={SoomLoaing} alt="SoomLoading" unoptimized />
       </div>
     );
   }

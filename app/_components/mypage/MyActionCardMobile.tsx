@@ -137,7 +137,12 @@ const MyActionCardMobile = () => {
   ) {
     return (
       <div className="flex justify-center items-center w-screen h-[500px]">
-        <Image src={SoomLoading} alt="SoomLoading" className="w-[100px]" />
+        <Image
+          src={SoomLoading}
+          alt="SoomLoading"
+          unoptimized
+          className="w-[100px]"
+        />
       </div>
     );
   }

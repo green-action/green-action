@@ -1,7 +1,15 @@
 "use client";
 
+import { MODE_HEADER } from "@/app/_api/constant";
+import SoomLoading from "@/app/_assets/image/loading/SOOM_gif.gif";
+import graylogoImg from "@/app/_assets/image/logo_icon/logo/gray.png";
+import whitelogoImg from "@/app/_assets/image/logo_icon/logo/white.png";
+import { useResponsive } from "@/app/_hooks/responsive";
+import { useGetAllUnreadCount } from "@/app/_hooks/useQueries/chats";
 import { useFetchUserInfo } from "@/app/_hooks/useQueries/mypage";
+import { useUnreadPushCount } from "@/app/_hooks/useQueries/push";
 import { User } from "@/app/_types";
+import { debounce } from "@/utils/debounce/debounce";
 import {
   Avatar,
   Badge,
@@ -16,28 +24,17 @@ import {
   Tabs,
   useDisclosure,
 } from "@nextui-org/react";
-
 import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-
-import SoomLoading from "@/app/_assets/image/loading/SOOM_gif.gif";
-import graylogoImg from "@/app/_assets/image/logo_icon/logo/gray.png";
-import whitelogoImg from "@/app/_assets/image/logo_icon/logo/white.png";
-
-import { MODE_HEADER } from "@/app/_api/constant";
-import { useResponsive } from "@/app/_hooks/responsive";
-import { useGetAllUnreadCount } from "@/app/_hooks/useQueries/chats";
-import Image from "next/image";
+import { useCallback, useEffect, useState } from "react";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import ChatsListModal from "../chats/ChatsListModal";
-import Mheader from "./Mheader";
-
-import AlertModal from "../community/AlertModal";
 import { NotificationIcon } from "../chats/NotificationIcon";
+import AlertModal from "../community/AlertModal";
 import PushListModal from "../push/PushListModal";
-import { useUnreadPushCount } from "@/app/_hooks/useQueries/push";
+import Mheader from "./Mheader";
 
 const Allheader = () => {
   const router = useRouter();
@@ -135,7 +132,7 @@ const Allheader = () => {
   //   return (
   //     // 임시로 처리
   // <div className="flex justify-center items-center w-[60px] h-auto">
-  //   <Image src={SoomLoading} alt="SoomLoading" />
+  //   <Image src={SoomLoading} alt="SoomLoading" unoptimized />
   // </div>;
   //   );
   // }
@@ -144,21 +141,24 @@ const Allheader = () => {
   // 헤더 투명이었다가 스크롤하면 블러처리
   const [isScrolled, setIsScrolled] = useState(false);
 
-  useEffect(() => {
-    // useFetchUserInfo(user_uid);
-    const handleScroll = () => {
+  const handleScroll = useCallback(
+    debounce(() => {
       if (window.scrollY > 0) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
       }
-    };
+    }, 100),
+    [debounce],
+  );
+
+  useEffect(() => {
     window.addEventListener("scroll", handleScroll);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [data]);
+  }, []);
 
   // 안읽은 메시지 총 개수 가져오기
   const { allUnreadCount, isAllUnreadCountLoading, isAllUnreadCountError } =
@@ -175,7 +175,7 @@ const Allheader = () => {
   if (isAllUnreadCountLoading || isUserDataLoading || unReadPushCountLoading) {
     return (
       <div className="w-[80px] h-auto mx-auto">
-        <Image className="" src={SoomLoading} alt="SoomLoading" />
+        <Image className="" src={SoomLoading} alt="SoomLoading" unoptimized />
       </div>
     );
   }

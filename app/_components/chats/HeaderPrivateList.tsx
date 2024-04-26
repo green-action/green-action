@@ -10,6 +10,7 @@ import {
   useGetMessageAndParticipantInfo,
   useGetMyPrivateRoomsInfo,
 } from "@/app/_hooks/useQueries/chats";
+import { CombinedObject } from "@/app/_types/realtime-chats";
 import { supabase } from "@/utils/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
@@ -17,7 +18,6 @@ import Image from "next/image";
 import { useEffect } from "react";
 import HeaderPrivateItem from "./HeaderPrivateItem";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
-import { CombinedObject } from "@/app/_types/realtime-chats";
 
 const HeaderPrivateList = () => {
   const session = useSession();
@@ -101,7 +101,7 @@ const HeaderPrivateList = () => {
   if (isLoading || isActionLoading || isMessageInfoLoading) {
     return (
       <div className="w-[200px] h-auto mx-auto">
-        <Image className="" src={SoomLoaing} alt="SoomLoading" />
+        <Image className="" src={SoomLoaing} alt="SoomLoading" unoptimized />
       </div>
     );
   }

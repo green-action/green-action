@@ -1,7 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['ulktftvdjrjqufolvcxd.supabase.co', 'korean.visitseoul.net', 'pds.dailypharm.com', 'img1.daumcdn.net'],
+    remotePatterns: [
+      { hostname: 'ulktftvdjrjqufolvcxd.supabase.co' },
+      { hostname: 'korean.visitseoul.net' },
+      { hostname: 'pds.dailypharm.com' },
+      { hostname: 'img1.daumcdn.net' },
+    ],
   },
 };
 

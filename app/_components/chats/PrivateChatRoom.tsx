@@ -31,9 +31,9 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import {
+  IoCloseOutline,
   IoPaperPlane,
   IoReorderThreeOutline,
-  IoCloseOutline,
 } from "react-icons/io5";
 import GroupInsideModal from "./GroupInsideModal";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
@@ -152,7 +152,7 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
   ) {
     return (
       <div className="w-[200px] h-auto mx-auto">
-        <Image className="" src={SoomLoaing} alt="SoomLoading" />
+        <Image className="" src={SoomLoaing} alt="SoomLoading" unoptimized />
       </div>
     );
   }
