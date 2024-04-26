@@ -385,12 +385,16 @@ const DetailPage = () => {
                       {user_uid === detail.user_uid ? (
                         <div className="flex">
                           <Image
+                            width={19}
+                            height={19}
                             src={editAction}
                             alt="수정"
                             className="laptop:size-[19px] laptop:mr-[30px] cursor-pointer"
                             onClick={handleEditClick}
                           />
                           <Image
+                            width={17}
+                            height={17}
                             src={delAction}
                             alt="삭제"
                             className="laptop:size-[17px] cursor-pointer"
@@ -491,6 +495,8 @@ const DetailPage = () => {
                       {" "}
                       {imgUrl!.length === 1 ? (
                         <Image
+                          width={387}
+                          height={390}
                           src={imgUrl![0].img_url}
                           alt="green_action_image"
                           className="w-[387px] h-[390px] rounded-[20px]"
@@ -504,6 +510,8 @@ const DetailPage = () => {
                             return (
                               <div>
                                 <Image
+                                  width={387}
+                                  height={390}
                                   src={item.img_url}
                                   alt="green_action_image"
                                   className="w-[387px] h-[390px] rounded-[20px]"
@@ -554,12 +562,16 @@ const DetailPage = () => {
                       {user_uid === detail.user_uid ? (
                         <div className="flex">
                           <Image
+                            width={15}
+                            height={15}
                             src={editAction}
                             alt="수정"
                             className="size-[15px] mr-[10px] cursor-pointer"
                             onClick={handleEditClick}
                           />
                           <Image
+                            width={15}
+                            height={15}
                             src={delAction}
                             alt="삭제"
                             className="size-[15px] cursor-pointer"
@@ -591,6 +603,8 @@ const DetailPage = () => {
                         <div className="border-b-1 border-[#bfbfbf] w-[284px] text-xs">
                           <div className="mb-[9px]">
                             <Image
+                              width={15}
+                              height={16}
                               src={calendar}
                               alt="달력 아이콘"
                               className="w-[15.19px] h-[16.46px] float-left mr-[16px] ml-[2.74px]"
