@@ -9,6 +9,7 @@ import {
 import { Button } from "@nextui-org/react";
 import Image from "next/image";
 // import bookmarkFill from "/app/_assets/image/logo_icon/icon/mypage/Star 32.png";
+import { useResponsive } from "@/app/_hooks/responsive";
 import bookmarkFill from "/app/_assets/image/individualAction/star_1.png";
 
 interface CustomConfirmProps {
@@ -30,6 +31,7 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
 }) => {
   const freezeLayerRef = useRef<HTMLDivElement>(null);
   const dialogContRef = useRef<HTMLDivElement>(null);
+  const { isMobile } = useResponsive();
 
   const customConfirm = {
     callback: () => {},
@@ -134,7 +136,7 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
         ref={dialogContRef}
         className={`absolute top-[-50%] left-1/2 translate-x-[-50%] translate-y-[-50%] p-[10px] transition-all z-[50] opacity-0 ${
           mode === MODE_INDIVIDUAL_ACTION_ADD ? "w-[30%]" : "w-full"
-        }`}
+        }${isMobile && "w-full"}`}
       >
         <div className="p-[10px] py-[50px] leading-7 bg-[#f5f5f2] text-center rounded-xl mb-[-20px] text-[10.5pt]">
           {text}
