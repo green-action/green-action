@@ -35,6 +35,8 @@ import ChatsListModal from "../chats/ChatsListModal";
 import Mheader from "./Mheader";
 
 import AlertModal from "../community/AlertModal";
+import PushListModal from "../push/PushListModal";
+import { NotificationIcon } from "../chats/NotificationIcon";
 
 const Allheader = () => {
   const router = useRouter();
@@ -329,7 +331,7 @@ const Allheader = () => {
                     </div>
                     {/* 임시 - UT 후 추가 예정 */}
                     {/* push알림 badge */}
-                    {/* <Badge content="0" shape="circle" color="default">
+                    <Badge content="0" shape="circle" color="default">
                       <Button
                         radius="full"
                         isIconOnly
@@ -341,7 +343,7 @@ const Allheader = () => {
                       >
                         <NotificationIcon size={24} height={24} width={24} />
                       </Button>
-                    </Badge> */}
+                    </Badge>
                     <Dropdown
                       placement="bottom-end"
                       isOpen={isProfileHover}
@@ -451,13 +453,13 @@ const Allheader = () => {
           action_id=""
         />
       )}
-      {/* {isPushListModalOpen && (
-            <PushListModal
-              isOpen={isPushListModalOpen}
-              onOpen={onPushListModalOpen}
-              onClose={onPushListModalClose}
-            />
-          )} */}
+      {isPushListModalOpen && (
+        <PushListModal
+          isOpen={isPushListModalOpen}
+          onOpen={onPushListModalOpen}
+          onClose={onPushListModalClose}
+        />
+      )}
       {isMobile && <Mheader />}
     </>
   );

@@ -192,7 +192,7 @@ const Mheader = () => {
                     />
                   }
                 />
-                <NavbarMenuItem className="text-[#454545] text-[14px] flex flex-col mt-24 absolute ml-10 top-0">
+                <NavbarMenuItem className="text-[#454545] text-[14px] flex flex-col mt-24 absolute ml-6 top-0">
                   <Link
                     href={"/about"}
                     className="mb-11 font-bold"
@@ -282,7 +282,7 @@ const Mheader = () => {
             </div>
             {isLoggedIn ? (
               <>
-                <div className="flex gap-[25px] desktop:ml-[20%] desktop:mr-[25%] laptop:ml-[5%] laptop:mr-[5%]">
+                <div className="flex gap-[25px] mt-5">
                   {/* 채팅방 badge */}
                   <Badge
                     content={
