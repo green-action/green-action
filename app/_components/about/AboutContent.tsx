@@ -32,7 +32,15 @@ const AboutContent = () => {
     Aos.init();
   }, []);
 
-  return <div>{isMobile ? <AboutMobileSize /> : <AboutComputerSize />}</div>;
+  return (
+    <div>
+      {isMobile ? (
+        <AboutMobileSize position={position} />
+      ) : (
+        <AboutComputerSize position={position} />
+      )}
+    </div>
+  );
 };
 
 export default React.memo(AboutContent);

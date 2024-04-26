@@ -8,7 +8,7 @@ import mainImg from "../../_assets//image/about/main.png";
 import titleImg from "../../_assets/image/about/1.png";
 import TopButton from "../TopButton";
 
-const AboutComputerSize = () => {
+const AboutComputerSize = ({ position }: { position: number }) => {
   const { isDesktop, isLaptop } = useResponsive();
   return (
     <>
@@ -20,7 +20,10 @@ const AboutComputerSize = () => {
             alt="about title image"
             className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[95%] object-cover mx-auto rounded-b-[60px] brightness-[.4] desktop:h-[1090px] desktop:mb-[282px] laptop:h-[1000px] laptop:mb-[282px]"
           />
-          <div className="z-0 flex flex-col items-center text-white text-[59px] font-semibold desktop:mt-[300px] laptop:w-[100%] laptop:mt-[335px]">
+          <div
+            style={{ transform: `translateY(-${position / 30}vh` }}
+            className="z-0 flex flex-col items-center text-white text-[59px] font-semibold desktop:mt-[300px] laptop:w-[100%] laptop:mt-[335px]"
+          >
             {/* <p className="font-['Italiana']"> */}
             <p className="font-['Pretendard']">
               {isDesktop ? "환경을 위한 실천," : "환경을 위한 실천,"}
@@ -215,11 +218,17 @@ const AboutComputerSize = () => {
             alt="explore more image"
             className="mx-auto rounded-[50px] mb-[40px] object-cover desktop:w-[1844px] desktop:h-[882px] laptop:w-[955px] laptop:h-[879px]"
           />
-          <span className="absolute font-semibold text-white desktop:text-[59px] laptop:text-[48px] inset-0 desktop:top-[300px] laptop:top-[350px]">
+          <span
+            style={{ transform: `translateY(-${position / 100}vh` }}
+            className="absolute font-semibold text-white desktop:text-[59px] laptop:text-[48px] inset-0 desktop:top-[700px] laptop:top-[550px]"
+          >
             환경을 위한 첫걸음 <br />
             숨에서 쉽고 재밌게
           </span>
-          <div className="absolute inset-x-0 bottom-[290px] flex items-center justify-center text-white text-[20px] font-[Inter]">
+          <div
+            style={{ transform: `translateY(-${position / 100}vh` }}
+            className="absolute inset-x-0 desktop:bottom-[-120px] laptop:bottom-[70px] flex items-center justify-center text-white text-[20px] font-[Inter]"
+          >
             <Link
               href="/individualAction"
               className="flex items-center justify-center rounded-full border-1 border-white desktop:w-[200px] laptop:w-[168px] h-[50px] laptop:text-[15px]"

@@ -17,7 +17,6 @@ import downArrow from "/app/_assets/image/logo_icon/icon/mainpage/Group_124.png"
 import rightArrow from "/app/_assets/image/mainpage/Group 172.png";
 import mainImg from "/app/_assets/image/mainpage/main.png";
 
-// TODO 메인페이지 커뮤니티글카드 디자인 수정
 const MainPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 
@@ -194,9 +193,9 @@ const MainPage = () => {
               //  desktop:mt-[300px] laptop:mt-[500px] h-[60vh] desktop:mt-[40vh] laptop:mt-[500px]
               className="absolute z-10 flex flex-col justify-center items-center w-full h-[60vh] desktop:mt-[600px] laptop:mt-[500px]"
             >
-              <div className="flex flex-col items-center font-['Italiana'] desktop:text-[48pt] laptop:text-[35pt] text-white">
-                <p>Experience the earth breathing together </p>
-                <p> in your daily life</p>
+              <div className="flex flex-col items-center desktop:text-[48pt] laptop:text-[35pt] text-white">
+                <p>환경을 위한 실천이 필요한 순간.</p>
+                <p>숨과 함께 하세요.</p>
               </div>
               <Chip
                 classNames={{
@@ -231,9 +230,9 @@ const MainPage = () => {
               style={{ transform: `translateY(-${position / 100}vh` }}
               className="absolute z-10 flex flex-col justify-center items-center w-full h-[310px] mt-[210px]"
             >
-              <div className="flex flex-col items-center font-['Italiana'] text-[24px] text-white">
-                <p>Experience the earth breathing </p>
-                <p> together in your daily life</p>
+              <div className="flex flex-col items-center text-[24px] text-white">
+                <p>환경을 위한 실천이 필요한 순간.</p>
+                <p>숨과 함께 하세요.</p>
               </div>
               <Chip
                 classNames={{
