@@ -71,3 +71,22 @@ export const updateUnreadPush = async (id: string) => {
     throw error;
   }
 };
+
+// 안읽은 알림 총 개수 가져오기
+export const unreadPushCount = async (id: string) => {
+  try {
+    const { data, error } = await supabase
+      .from("alarm")
+      .select("id")
+      .eq("isRead", false)
+      .eq("targetId", id);
+
+    if (error) {
+      throw new Error("Failed to count unread alarm from database");
+    }
+    return data.length;
+  } catch (error) {
+    console.error("Error : ", error);
+    throw error;
+  }
+};
