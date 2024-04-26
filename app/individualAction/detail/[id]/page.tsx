@@ -495,8 +495,6 @@ const DetailPage = () => {
                       {" "}
                       {imgUrl!.length === 1 ? (
                         <Image
-                          width={387}
-                          height={390}
                           src={imgUrl![0].img_url}
                           width={387}
                           height={390}
@@ -512,8 +510,6 @@ const DetailPage = () => {
                             return (
                               <div>
                                 <Image
-                                  width={387}
-                                  height={390}
                                   src={item.img_url}
                                   width={387}
                                   height={390}
