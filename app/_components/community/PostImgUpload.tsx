@@ -74,6 +74,8 @@ const PostImgUpload: React.FC<PostImgUploadProps> = ({
         {uploadedFileUrl ? (
           <div className="relative w-full h-full">
             <Image
+              width={410}
+              height={295}
               src={uploadedFileUrl}
               alt={`Uploaded Image`}
               className="w-full h-full rounded-3xl object-cover"
