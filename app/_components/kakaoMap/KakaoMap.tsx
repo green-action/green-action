@@ -10,13 +10,11 @@ const KakaoMap = ({ placeInfo }: { placeInfo: placeCoordinateType }) => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
   const [position, setPosition] = useState({ lat: 0, lng: 0 });
 
-  // const detailMapLink = `https://map.kakao.com/link/map/${placeInfo.placeName},${y},${x}`;
   const detailMapLink = `${
     placeInfo.placeId
       ? `https://map.kakao.com/link/map/${placeInfo.placeId}`
       : `https://map.kakao.com/link/map/${placeInfo.placeName},${y},${x}`
   } `;
-  // const showDirectLink = `https://map.kakao.com/link/to/${placeInfo.placeName},${y},${x}`;
 
   useEffect(() => {
     setPosition({ lat: Number(y), lng: Number(x) });
@@ -42,7 +40,6 @@ const KakaoMap = ({ placeInfo }: { placeInfo: placeCoordinateType }) => {
                 큰지도보기
               </a>
             </div>
-            // </div>
           )}
           {isLaptop && (
             <div className="min-w-[100px] h-[49px] rounded-xl  bg-white/[88%] border-[2px]  border-[#5D5D5D]/[40%] p-2 flex flex-col justify-center items-center mt-[85px]">

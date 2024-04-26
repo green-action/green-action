@@ -362,7 +362,6 @@ const Allheader = () => {
                         >
                           <Avatar
                             className="transition-transform desktop:w-[52px] laptop:w-[38px] desktop:h-[52px] laptop:h-[38px]  desktop:ml-[0px] laptop:ml-[8px]"
-                            name={display_name}
                             showFallback
                             src={profile_img || ""}
                           />

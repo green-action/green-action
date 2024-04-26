@@ -53,8 +53,8 @@ const SearchMapModal: React.FC<searchMapModalProps> = ({
             onOpenChange={onOpenChange}
             placement="center"
             size="5xl"
-            className="h-[620px]"
-            // scrollBehavior="inside"
+            // classNames={{ base: "w-[1000px]", body: "w-[1020px]" }}
+            className="desktop:h-[700px] laptop:h-[600px] p-3" // w는 조절안됨
           >
             <ModalContent>
               {(onClose) => (
@@ -67,7 +67,7 @@ const SearchMapModal: React.FC<searchMapModalProps> = ({
                       id="subForm"
                       method="post"
                       onSubmit={handleKeywordSubmit}
-                      className="fixed z-10 desktop:mt-[15px] desktop:ml-[50px] laptop:mt-[30px] laptop:ml-[40px]"
+                      className="fixed z-10 mt-[0.5%] desktop:ml-[2%] laptop:ml-[0.5%]"
                     >
                       <input
                         type="text"
@@ -101,7 +101,7 @@ const SearchMapModal: React.FC<searchMapModalProps> = ({
                     <Button
                       onPress={onClose}
                       size="md"
-                      className="bg-[#5B5B5B] text-white rounded-full hover:bg-black"
+                      className="bg-[#5B5B5B] text-white rounded-full hover:bg-black absolute bottom-[5%] right-[5%]"
                     >
                       Close
                     </Button>
@@ -125,22 +125,22 @@ const SearchMapModal: React.FC<searchMapModalProps> = ({
             isOpen={isOpen}
             onOpenChange={onOpenChange}
             placement="center"
-            size="sm"
-            className="h-[600px]"
+            size="xs"
+            className="min-h-[200px]"
             scrollBehavior="inside"
           >
             <ModalContent>
               {(onClose) => (
                 <>
-                  <ModalHeader className="flex flex-col gap-1">
+                  <ModalHeader className="flex flex-col gap-1 text-[12px]">
                     지도 검색
                   </ModalHeader>
-                  <ModalBody>
+                  <ModalBody className="text-[12px]">
                     <form
                       id="subForm"
                       method="post"
                       onSubmit={handleKeywordSubmit}
-                      className="fixed z-10 laptop:mt-[30px] laptop:ml-[40px]"
+                      className="fixed z-10 top-[26%]"
                     >
                       <input
                         type="text"
@@ -149,11 +149,19 @@ const SearchMapModal: React.FC<searchMapModalProps> = ({
                         placeholder="검색어를 입력해주세요. (예: 잠원한강공원) "
                         required
                         form="subForm"
-                        className="w-[300px] border-2 rounded-2xl p-2"
+                        className="w-[260px] h-[26px] rounded-2xl p-2 text-[11px] shadow-md border-[#e2eee0] border-[2px] focus:outline-none"
                       />
-                      <Button type="submit" form="subForm">
-                        검색
-                      </Button>
+                      <button
+                        type="submit"
+                        form="subForm"
+                        className="w-[25px] absolute top-[9%] right-[0%] outline-none"
+                      >
+                        <Image
+                          src={search}
+                          alt="검색 버튼"
+                          className="size-[20px] cursor-pointer"
+                        />
+                      </button>
                     </form>
                     <SearchMapResult
                       searchKeyword={keyword}
@@ -163,9 +171,12 @@ const SearchMapModal: React.FC<searchMapModalProps> = ({
                     />
                   </ModalBody>
                   <ModalFooter>
-                    <Button color="danger" variant="light" onPress={onClose}>
+                    <button
+                      onClick={onClose}
+                      className="bg-[#5B5B5B] text-white rounded-full hover:bg-black absolute bottom-[3%] right-[2%] text-[10px] p-2 h-[20px] flex items-center shadow-sm"
+                    >
                       Close
-                    </Button>
+                    </button>
                   </ModalFooter>
                 </>
               )}

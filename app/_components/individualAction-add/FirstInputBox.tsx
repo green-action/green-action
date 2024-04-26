@@ -276,7 +276,7 @@ const FirstInputBox: React.FC<firstInputBoxProps> = ({
             <div className="flex flex-col w-1/2  gap-2">
               {/* 지도 검색으로 장소선택 시 뜨게 할 지도(미리보기) */}
               {locationMapRef.current && (
-                <div className="w-[310px] h-[220px] mt-[10px]">
+                <div className="w-[310px] h-[150px] mt-[10px]">
                   <KakaoMap placeInfo={locationMapRef.current} />
                 </div>
               )}
