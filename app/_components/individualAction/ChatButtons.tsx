@@ -40,6 +40,7 @@ const ChatButtons: React.FC<chatButtonProps> = ({
   const {
     isOpen: isPrivateChatOpen,
     onOpen: onPrivateChatOpen,
+    onClose: onPrivateChatClose,
     onOpenChange: onPrivateChatOpenChange,
   } = useDisclosure();
 
@@ -244,6 +245,7 @@ const ChatButtons: React.FC<chatButtonProps> = ({
         <PrivateChat
           isOpen={isPrivateChatOpen}
           onOpenChange={onPrivateChatOpenChange}
+          onPrivateChatClose={onPrivateChatClose}
           roomId={privateRoomIdRef.current}
           actionId={action_id}
         />

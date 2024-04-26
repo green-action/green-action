@@ -17,6 +17,7 @@ import Image from "next/image";
 import { useEffect } from "react";
 import HeaderPrivateItem from "./HeaderPrivateItem";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
+import { CombinedObject } from "@/app/_types/realtime-chats";
 
 const HeaderPrivateList = () => {
   const session = useSession();
@@ -173,32 +174,6 @@ const HeaderPrivateList = () => {
     })
     .filter((combined) => combined !== null);
 
-  type CombinedObject =
-    | ({
-        chat_rooms_info: {
-          room_type: string | undefined;
-          room_id: string;
-          participant_type: string;
-        };
-        action_info: {
-          action_id: string;
-          action_title: string;
-          action_imgUrl: string;
-        };
-        message: {
-          content: string;
-          created_at: string;
-          room_id: string;
-          sender_uid: string;
-          user: {
-            display_name: string;
-            id: string;
-            profile_img: string;
-          };
-        } | null;
-      } | null)[]
-    | undefined;
-
   const todayMessages: (CombinedObject | null)[] | undefined = [];
   const previousMessages: (CombinedObject | null)[] | undefined = [];
 
@@ -222,8 +197,12 @@ const HeaderPrivateList = () => {
 
   return (
     <div
-      className={`pt-8 ${
-        isDesktop ? "px-10" : isLaptop ? "px-8" : isMobile && "px-5"
+      className={`${
+        isDesktop
+          ? "pt-10 px-10"
+          : isLaptop
+          ? "pt-7 px-8"
+          : isMobile && "pt-2 px-5"
       }`}
     >
       <div className="flex flex-col">
@@ -238,11 +217,7 @@ const HeaderPrivateList = () => {
         >
           오늘 받은 알림
         </div>
-        <div
-          className={`${
-            isDesktop ? "mb-7" : isLaptop ? "mb-5" : isMobile && "mb-2"
-          }`}
-        >
+        <div className={`${isDesktop && "mb-2"}`}>
           {todayMessages?.map((eachRoomInfo) => (
             <HeaderPrivateItem eachRoomInfo={eachRoomInfo} mode={MODE_TODAY} />
           ))}
