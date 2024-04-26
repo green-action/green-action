@@ -17,7 +17,6 @@ import downArrow from "/app/_assets/image/logo_icon/icon/mainpage/Group_124.png"
 import rightArrow from "/app/_assets/image/mainpage/Group 172.png";
 import mainImg from "/app/_assets/image/mainpage/main.png";
 
-// TODO 메인페이지 커뮤니티글카드 디자인 수정
 const MainPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 
