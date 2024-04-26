@@ -245,7 +245,6 @@ const ChatButtons: React.FC<chatButtonProps> = ({
         <PrivateChat
           isOpen={isPrivateChatOpen}
           onOpenChange={onPrivateChatOpenChange}
-          onPrivateChatClose={onPrivateChatClose}
           roomId={privateRoomIdRef.current}
           actionId={action_id}
         />
