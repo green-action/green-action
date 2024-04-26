@@ -1,23 +1,21 @@
 "use client";
 
+import setboxImg from "@/app/_assets/image/goods/setbox.png";
+import { debounce } from "@/utils/debounce/debounce";
 import { Chip } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
-
+import { useCallback, useEffect, useState } from "react";
+import arrowImg from "../app/_assets/image/individualAction/Group143.svg";
+import { MODE_ACTION, MODE_COMMUNITY } from "./_api/constant";
+import TopButton from "./_components/TopButton";
 import LaptopMainSlidder from "./_components/main/LaptopMainSlidder";
 import MainSlider from "./_components/main/MainSlider";
+import MobileSlider from "./_components/main/MobileSlider";
 import { useResponsive } from "./_hooks/responsive";
-
-import setboxImg from "@/app/_assets/image/goods/setbox.png";
-import arrowImg from "../app/_assets/image/individualAction/Group143.svg";
-import TopButton from "./_components/TopButton";
 import downArrow from "/app/_assets/image/logo_icon/icon/mainpage/Group_124.png";
 import rightArrow from "/app/_assets/image/mainpage/Group 172.png";
 import mainImg from "/app/_assets/image/mainpage/main.png";
-
-import { useEffect, useState } from "react";
-import { MODE_ACTION, MODE_COMMUNITY } from "./_api/constant";
-import MobileSlider from "./_components/main/MobileSlider";
 
 // TODO 메인페이지 커뮤니티글카드 디자인 수정
 const MainPage = () => {
@@ -26,9 +24,12 @@ const MainPage = () => {
   // parallax scroll
   const [position, setPosition] = useState(0);
 
-  const onScroll = () => {
-    setPosition(window.scrollY);
-  };
+  const onScroll = useCallback(
+    debounce(() => {
+      setPosition(window.scrollY);
+    }, 100),
+    [debounce],
+  );
 
   useEffect(() => {
     window.addEventListener("scroll", onScroll);
