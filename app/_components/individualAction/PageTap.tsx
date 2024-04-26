@@ -336,7 +336,7 @@ const PageTap = () => {
         <Image
           src={postImg}
           alt="게시글 작성 이미지"
-          className="desktop:size-[85px] laptop:size-[80px] fixed z-50 bottom-[8rem] right-[20px] cursor-pointer hover:scale-105 ease-in-out duration-300"
+          className="desktop:size-[85px] laptop:size-[80px] fixed z-50 bottom-[360px] right-[22px] cursor-pointer hover:scale-105 ease-in-out duration-300"
           onClick={handleClick}
         />
       )}
@@ -344,7 +344,7 @@ const PageTap = () => {
         <Image
           src={postImg}
           alt="게시글 작성 이미지"
-          className="size-[50px] fixed z-50 bottom-[80px] right-[20px] cursor-pointer hover:scale-105 ease-in-out duration-300"
+          className="size-[50px] fixed z-50 bottom-[170px] right-[20px] cursor-pointer hover:scale-105 ease-in-out duration-300"
           onClick={handleClick}
         />
       )}

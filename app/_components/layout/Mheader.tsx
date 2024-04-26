@@ -113,7 +113,7 @@ const Mheader = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [data]);
+  }, []);
 
   // 안읽은 메시지 총 개수 가져오기
   const { allUnreadCount, isAllUnreadCountLoading, isAllUnreadCountError } =
