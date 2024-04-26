@@ -1,5 +1,6 @@
 "use client";
 
+import { MODE_HEADER } from "@/app/_api/constant";
 import { useGetAllUnreadCount } from "@/app/_hooks/useQueries/chats";
 import { useFetchUserInfo } from "@/app/_hooks/useQueries/mypage";
 import { User } from "@/app/_types";
@@ -28,7 +29,6 @@ import outside from "/app/_assets/image/individualAction/Group217.svg";
 import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
 import graylogoImg from "/app/_assets/image/logo_icon/logo/gray.png";
 import whitelogoImg from "/app/_assets/image/logo_icon/logo/white.png";
-import { MODE_HEADER } from "@/app/_api/constant";
 
 const Mheader = () => {
   const router = useRouter();
@@ -122,7 +122,7 @@ const Mheader = () => {
   if (isAllUnreadCountLoading || isUserDataLoading) {
     return (
       <div className="w-[80px] h-auto mx-auto">
-        <Image className="" src={SoomLoading} alt="SoomLoading" />
+        <Image className="" src={SoomLoading} alt="SoomLoading" unoptimized />
       </div>
     );
   }

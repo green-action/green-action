@@ -136,7 +136,7 @@ const HeaderPage = ({ isLoggedIn, session }: Props) => {
   //   return (
   //     // 임시로 처리
   // <div className="flex justify-center items-center w-[60px] h-auto">
-  //   <Image src={SoomLoading} alt="SoomLoading" />
+  //   <Image src={SoomLoading} alt="SoomLoading" unoptimized />
   // </div>;
   //   );
   // }

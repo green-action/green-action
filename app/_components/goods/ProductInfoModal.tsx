@@ -82,7 +82,7 @@ const ProductInfoModal: React.FC<productInfoModalProps> = ({
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-auto">
-        {/* <Image src={SoomLoaing} alt="SoomLoading" /> */}
+        {/* <Image src={SoomLoaing} alt="SoomLoading" unoptimized /> */}
       </div>
     );
   }

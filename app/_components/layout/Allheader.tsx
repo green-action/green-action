@@ -132,7 +132,7 @@ const Allheader = () => {
   //   return (
   //     // 임시로 처리
   // <div className="flex justify-center items-center w-[60px] h-auto">
-  //   <Image src={SoomLoading} alt="SoomLoading" />
+  //   <Image src={SoomLoading} alt="SoomLoading" unoptimized />
   // </div>;
   //   );
   // }
@@ -164,7 +164,7 @@ const Allheader = () => {
   if (isAllUnreadCountLoading || isUserDataLoading) {
     return (
       <div className="w-[80px] h-auto mx-auto">
-        <Image className="" src={SoomLoading} alt="SoomLoading" />
+        <Image className="" src={SoomLoading} alt="SoomLoading" unoptimized />
       </div>
     );
   }
