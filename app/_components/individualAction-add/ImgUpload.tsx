@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 
 import type { ImgUploadProps } from "@/app/_types/individualAction-add/individualAction-add";
+import Image from "next/image";
 
 const ImgUpload: React.FC<ImgUploadProps> = ({
   uploadedFileUrls,
@@ -88,7 +89,9 @@ const ImgUpload: React.FC<ImgUploadProps> = ({
             {/* 이미지 업로드한 경우 */}
             {uploadedFileUrls[index] ? (
               <div className="relative w-full h-full">
-                <img
+                <Image
+                  width={600}
+                  height={600}
                   src={uploadedFileUrls[index]}
                   alt={`Uploaded Image ${index}`}
                   className="w-full h-full rounded-3xl object-cover"

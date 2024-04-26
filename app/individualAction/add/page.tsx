@@ -1,6 +1,9 @@
 "use client";
 
-import { MODE_INDIVIDUAL_ACTION_ADD } from "@/app/_api/constant";
+import {
+  MODE_ADD_ACTION,
+  MODE_INDIVIDUAL_ACTION_ADD,
+} from "@/app/_api/constant";
 import {
   insertActionTextForm,
   insertGroupChatRoom,
@@ -76,7 +79,7 @@ const AddActionPage = () => {
       });
       setActionId(action_id);
       // 2. 500point 업데이트
-      await updateUserPoint(loggedInUserUid, { mode: "addAction" });
+      await updateUserPoint(loggedInUserUid, { mode: MODE_ADD_ACTION });
 
       // 3. 이미지 스토리지에 저장하기 + 이미지 url 배열 반환받기
       const imgUrlsArray = await uploadFilesAndGetUrls({ files, action_id });
