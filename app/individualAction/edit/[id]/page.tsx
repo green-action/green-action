@@ -60,7 +60,7 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
   if (isOriginalDataLoading) {
     return (
       <div className="w-[200px] h-auto mx-auto">
-        <Image className="" src={SoomLoading} alt="SoomLoading" />
+        <Image className="" src={SoomLoading} alt="SoomLoading" unoptimized />
       </div>
     );
   }

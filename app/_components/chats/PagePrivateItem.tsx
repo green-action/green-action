@@ -37,7 +37,7 @@ const PagePrivateItem: React.FC<PrivateChatProps> = ({
   if (isLoading) {
     return (
       <div className="w-[200px] h-auto mx-auto">
-        <Image className="" src={SoomLoaing} alt="SoomLoading" />
+        <Image className="" src={SoomLoaing} alt="SoomLoading" unoptimized />
       </div>
     );
   }

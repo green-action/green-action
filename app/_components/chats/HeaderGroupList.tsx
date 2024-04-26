@@ -1,14 +1,4 @@
-import React, { useEffect } from "react";
-import HeaderGroupItem from "./HeaderGroupItem";
-import {
-  useGetLastDates,
-  useGetMyGroupChatIds,
-} from "@/app/_hooks/useQueries/chats";
-import { useSession } from "next-auth/react";
-import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
-import Image from "next/image";
-import { useQueryClient } from "@tanstack/react-query";
-import { supabase } from "@/utils/supabase/client";
+import { MODE_PREVIOUS, MODE_TODAY } from "@/app/_api/constant";
 import {
   QUERY_KEY_ALL_UNREAD_COUNT,
   QUERY_KEY_GROUP_PARTICIPANTS_COUNT,
@@ -16,9 +6,19 @@ import {
   QUERY_KEY_MY_GROUP_CHAT_IDS,
   QUERY_KEY_UNREAD_MESSAGES_COUNT,
 } from "@/app/_api/queryKeys";
-import { MODE_PREVIOUS, MODE_TODAY } from "@/app/_api/constant";
 import { useResponsive } from "@/app/_hooks/responsive";
+import {
+  useGetLastDates,
+  useGetMyGroupChatIds,
+} from "@/app/_hooks/useQueries/chats";
 import { LastDates } from "@/app/_types/realtime-chats";
+import { supabase } from "@/utils/supabase/client";
+import { useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import { useEffect } from "react";
+import HeaderGroupItem from "./HeaderGroupItem";
+import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
 const HeaderGroupList = () => {
   const session = useSession();
@@ -94,7 +94,7 @@ const HeaderGroupList = () => {
   if (isRoomIdsLoading || isLastDatesLoading) {
     return (
       <div className="w-[200px] h-auto mx-auto">
-        <Image className="" src={SoomLoaing} alt="SoomLoading" />
+        <Image className="" src={SoomLoaing} alt="SoomLoading" unoptimized />
       </div>
     );
   }

@@ -1,9 +1,10 @@
 "use client";
 
 import { useResponsive } from "@/app/_hooks/responsive";
+import { debounce } from "@/utils/debounce/debounce";
 import Aos from "aos";
 import "aos/dist/aos.css";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import AboutComputerSize from "./AboutComputerSize";
 import AboutMobileSize from "./AboutMobileSize";
 
@@ -13,9 +14,12 @@ const AboutContent = () => {
   // parallax scroll
   const [position, setPosition] = useState(0);
 
-  const onScroll = () => {
-    setPosition(window.scrollY);
-  };
+  const onScroll = useCallback(
+    debounce(() => {
+      setPosition(window.scrollY);
+    }, 100),
+    [debounce],
+  );
 
   useEffect(() => {
     window.addEventListener("scroll", onScroll);

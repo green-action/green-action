@@ -46,7 +46,7 @@ const MobileSlider = ({ mode }: { mode: string }) => {
   if (isPostsLoading || isActionsLoading) {
     return (
       <div className="w-[200px] h-auto mx-auto">
-        <Image className="" src={SoomLoaing} alt="SoomLoading" />
+        <Image className="" src={SoomLoaing} alt="SoomLoading" unoptimized />
       </div>
     );
   }
