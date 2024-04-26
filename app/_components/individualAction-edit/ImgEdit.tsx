@@ -98,6 +98,8 @@ const ImgEdit: React.FC<ImgUpdateProps> = ({
             {uploadedFileUrls[index] ? (
               <div className="relative w-full h-full">
                 <Image
+                  width={175}
+                  height={177}
                   src={uploadedFileUrls[index].img_url}
                   alt={`Uploaded Image ${index}`}
                   className="w-full h-full rounded-3xl object-cover"

@@ -51,6 +51,13 @@ export interface mapResultPropsType {
   locationMapRef: React.MutableRefObject<placeCoordinateType | null>;
 }
 
+// 직접 지정한 마커 위치 정보 (좌표, 지번이름) 타입
+export interface markerMadeLocationRefType {
+  x: string;
+  y: string;
+  address: string;
+}
+
 export interface placeDataType {
   address_name: string;
   category_group_code: string;
