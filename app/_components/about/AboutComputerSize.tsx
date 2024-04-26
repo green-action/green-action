@@ -218,18 +218,16 @@ const AboutComputerSize = ({ position }: { position: number }) => {
             alt="explore more image"
             className="mx-auto rounded-[50px] mb-[40px] object-cover desktop:w-[1844px] desktop:h-[882px] laptop:w-[955px] laptop:h-[879px]"
           />
-          {/* top-[800px] laptop:top-[650px] */}
           <span
             style={{ transform: `translateY(-${position / 100}vh` }}
-            className="absolute font-semibold text-white desktop:text-[59px] laptop:text-[48px] inset-0 desktop:top-[300px] laptop:top-[350px]"
+            className="absolute font-semibold text-white desktop:text-[59px] laptop:text-[48px] inset-0 desktop:top-[700px] laptop:top-[550px]"
           >
             환경을 위한 첫걸음 <br />
             숨에서 쉽고 재밌게
           </span>
-          {/* desktop:bottom-[-120px] laptop:bottom-[-10px] */}
           <div
             style={{ transform: `translateY(-${position / 100}vh` }}
-            className="absolute inset-x-0 bottom-[290px] flex items-center justify-center text-white text-[20px] font-[Inter]"
+            className="absolute inset-x-0 desktop:bottom-[-120px] laptop:bottom-[70px] flex items-center justify-center text-white text-[20px] font-[Inter]"
           >
             <Link
               href="/individualAction"

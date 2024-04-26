@@ -193,16 +193,15 @@ const AboutMobileSize = ({ position }: { position: number }) => {
             alt="explore more image"
             className="w-[360px] h-[714px] mx-auto object-cover"
           />
-          {/* top-[695px]    bottom-[-195px]*/}
           <span
             style={{ transform: `translateY(-${position / 30}vh` }}
-            className="absolute  text-white text-[36px] inset-0 top-[295px] font-semibold"
+            className="absolute  text-white text-[36px] inset-0 top-[695px] font-semibold"
           >
             환경을 위한 첫걸음 <br /> 숨에서 쉽고 재밌게
           </span>
           <div
             style={{ transform: `translateY(-${position / 30}vh` }}
-            className="absolute inset-x-0 bottom-[220px] flex items-center justify-center text-white text-[15px] font-[Inter] font-semibold"
+            className="absolute inset-x-0 bottom-[-195px] flex items-center justify-center text-white text-[15px] font-[Inter] font-semibold"
           >
             <Link
               href="/individualAction"
