@@ -7,7 +7,7 @@ import mainImg from "../../_assets//image/about/main.png";
 import titleImg from "../../_assets/image/about/1.png";
 import TopButton from "../TopButton";
 
-const AboutMobileSize = () => {
+const AboutMobileSize = ({ position }: { position: number }) => {
   return (
     <>
       <div className="min-w-[360px] mx-auto">
@@ -19,7 +19,10 @@ const AboutMobileSize = () => {
             className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[360px] h-[598px] object-cover mx-auto mb-[282px] brightness-[.4]"
           />
 
-          <div className="z-0 mt-[240px] flex flex-col w-[280px] items-center text-white text-[32px] font-semibold">
+          <div
+            style={{ transform: `translateY(-${position / 30}vh` }}
+            className="z-0 mt-[240px] flex flex-col w-[280px] items-center text-white text-[32px] font-semibold"
+          >
             <p className="">환경을 위한 실천,</p>
             <p className="">내일을 향한 변화, 숨</p>
           </div>
@@ -190,10 +193,16 @@ const AboutMobileSize = () => {
             alt="explore more image"
             className="w-[360px] h-[714px] mx-auto object-cover"
           />
-          <span className="absolute  text-white text-[36px] inset-0 top-[295px] font-semibold">
+          <span
+            style={{ transform: `translateY(-${position / 30}vh` }}
+            className="absolute  text-white text-[36px] inset-0 top-[695px] font-semibold"
+          >
             환경을 위한 첫걸음 <br /> 숨에서 쉽고 재밌게
           </span>
-          <div className="absolute inset-x-0 bottom-[220px] flex items-center justify-center text-white text-[15px] font-[Inter] font-semibold">
+          <div
+            style={{ transform: `translateY(-${position / 30}vh` }}
+            className="absolute inset-x-0 bottom-[-195px] flex items-center justify-center text-white text-[15px] font-[Inter] font-semibold"
+          >
             <Link
               href="/individualAction"
               className="flex items-center justify-center rounded-[24px] border-1 border-white w-[141px] h-[41px]"

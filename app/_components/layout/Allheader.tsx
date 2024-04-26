@@ -310,7 +310,7 @@ const Allheader = () => {
                 </div>
                 {isLoggedIn ? (
                   <>
-                    <div className="flex gap-[25px] desktop:ml-[20%] desktop:mr-[25%] laptop:ml-[5%] laptop:mr-[5%]">
+                    <div className="flex desktop:gap-[35px] laptop::gap-[20px] desktop:ml-[18%] desktop:mr-[15%] laptop:ml-[2%] laptop:mr-[0%]">
                       {/* 채팅방 badge */}
                       <Badge
                         content={
@@ -337,30 +337,30 @@ const Allheader = () => {
                           />
                         </Button>
                       </Badge>
-                    </div>
-                    {/* 임시 - UT 후 추가 예정 */}
-                    {/* push알림 badge */}
-                    <Badge
-                      content={
-                        unReadPushCount && unReadPushCount > 0
-                          ? unReadPushCount
-                          : null
-                      }
-                      shape="circle"
-                      color="default"
-                    >
-                      <Button
-                        radius="full"
-                        isIconOnly
-                        aria-label="more than 99 notifications"
-                        variant="light"
-                        onClick={() => {
-                          onPushListModalOpen();
-                        }}
+                      {/* 임시 - UT 후 추가 예정 */}
+                      {/* push알림 badge */}
+                      <Badge
+                        content={
+                          unReadPushCount && unReadPushCount > 0
+                            ? unReadPushCount
+                            : null
+                        }
+                        shape="circle"
+                        color="default"
                       >
-                        <NotificationIcon size={24} height={24} width={24} />
-                      </Button>
-                    </Badge>
+                        <Button
+                          radius="full"
+                          isIconOnly
+                          aria-label="more than 99 notifications"
+                          variant="light"
+                          onClick={() => {
+                            onPushListModalOpen();
+                          }}
+                        >
+                          <NotificationIcon size={24} height={24} width={24} />
+                        </Button>
+                      </Badge>
+                    </div>
                     <Dropdown
                       placement="bottom-end"
                       isOpen={isProfileHover}
@@ -369,7 +369,7 @@ const Allheader = () => {
                     >
                       <DropdownTrigger>
                         <div
-                          className="desktop:w-[60px] desktop:h-[75px] laptop:w-[55px] laptop:h-[55px] rounded-3xl flex items-center"
+                          className="desktop:w-[60px] desktop:h-[75px] laptop:w-[55px] laptop:h-[55px] rounded-3xl flex items-center cursor-pointer"
                           onMouseEnter={() => {
                             setIsProfileHover(true);
                           }}

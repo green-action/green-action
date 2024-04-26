@@ -1,8 +1,12 @@
 import { Button } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
+import upImg from "../../app/_assets/image/mainpage/up.png";
+import Image from "next/image";
+import { useResponsive } from "../_hooks/responsive";
 
 const TopButton = () => {
   const [showButton, setShowButton] = useState(false);
+  const { isDesktop, isLaptop, isMobile } = useResponsive();
 
   const scrollToTop = () => {
     window.scroll({
@@ -27,14 +31,17 @@ const TopButton = () => {
 
   return (
     showButton && (
-      <div className="fixed z-10 left-[3%] bottom-[5%]">
-        <Button
+      <div
+        className={`fixed z-10 desktop:right-[35px] desktop:bottom-[150px] laptop:right-[35px] laptop:bottom-[150px]
+            phone:right-[32px] phone:bottom-[90px]`}
+      >
+        {/* 삼항 연산자 isDesktop 등 안먹힌다*/}
+        <Image
+          src={upImg}
+          alt="윗쪽 방향 화살표"
           onClick={scrollToTop}
-          size="sm"
-          className=" bg-[#B3C8A1]/80 rounded-full"
-        >
-          Top
-        </Button>
+          className="cursor-pointer hover:scale-105 ease-in-out duration-300 desktop:w-[50px] laptop:w-[50px] phone:w-[25px]"
+        />
       </div>
     )
   );
