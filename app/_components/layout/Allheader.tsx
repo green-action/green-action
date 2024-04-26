@@ -20,7 +20,7 @@ import {
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
 import graylogoImg from "/app/_assets/image/logo_icon/logo/gray.png";
@@ -34,9 +34,10 @@ import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import ChatsListModal from "../chats/ChatsListModal";
 import Mheader from "./Mheader";
 
+import { debounce } from "@/utils/debounce/debounce";
+import { NotificationIcon } from "../chats/NotificationIcon";
 import AlertModal from "../community/AlertModal";
 import PushListModal from "../push/PushListModal";
-import { NotificationIcon } from "../chats/NotificationIcon";
 
 const Allheader = () => {
   const router = useRouter();
@@ -143,15 +144,18 @@ const Allheader = () => {
   // 헤더 투명이었다가 스크롤하면 블러처리
   const [isScrolled, setIsScrolled] = useState(false);
 
-  useEffect(() => {
-    // useFetchUserInfo(user_uid);
-    const handleScroll = () => {
+  const handleScroll = useCallback(
+    debounce(() => {
       if (window.scrollY > 0) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
       }
-    };
+    }, 100),
+    [debounce],
+  );
+
+  useEffect(() => {
     window.addEventListener("scroll", handleScroll);
 
     return () => {

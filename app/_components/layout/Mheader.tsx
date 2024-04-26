@@ -4,6 +4,7 @@ import { MODE_HEADER } from "@/app/_api/constant";
 import { useGetAllUnreadCount } from "@/app/_hooks/useQueries/chats";
 import { useFetchUserInfo } from "@/app/_hooks/useQueries/mypage";
 import { User } from "@/app/_types";
+import { debounce } from "@/utils/debounce/debounce";
 import {
   Avatar,
   Badge,
@@ -20,7 +21,7 @@ import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { LuAlignLeft } from "react-icons/lu";
 import ChatsListModal from "../chats/ChatsListModal";
@@ -100,20 +101,24 @@ const Mheader = () => {
   // 헤더 투명이었다가 스크롤하면 블러처리
   const [isScrolled, setIsScrolled] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
+  const handleScroll = useCallback(
+    debounce(() => {
       if (window.scrollY > 0) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
       }
-    };
+    }, 100),
+    [debounce],
+  );
+
+  useEffect(() => {
     window.addEventListener("scroll", handleScroll);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [data]);
+  }, []);
 
   // 안읽은 메시지 총 개수 가져오기
   const { allUnreadCount, isAllUnreadCountLoading, isAllUnreadCountError } =

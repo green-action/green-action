@@ -18,7 +18,7 @@ import {
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import graylogoImg from "/app/_assets/image/logo_icon/logo/gray.png";
 import whitelogoImg from "/app/_assets/image/logo_icon/logo/white.png";
@@ -26,6 +26,7 @@ import whitelogoImg from "/app/_assets/image/logo_icon/logo/white.png";
 import AlertModal from "@/app/_components/community/AlertModal";
 import Image from "next/image";
 
+import { debounce } from "@/utils/debounce/debounce";
 import type { Session } from "next-auth";
 // import AlertModal from "../community/AlertModal";
 
@@ -145,15 +146,22 @@ const HeaderPage = ({ isLoggedIn, session }: Props) => {
   // 헤더 투명이었다가 스크롤하면 블러처리
   const [isScrolled, setIsScrolled] = useState(false);
 
-  useEffect(() => {
-    // useFetchUserInfo(user_uid);
-    const handleScroll = () => {
+  const handleScroll = useCallback(
+    debounce(() => {
       if (window.scrollY > 0) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
       }
-    };
+    }, 100),
+    [debounce],
+  );
+
+  console.log("test");
+
+  useEffect(() => {
+    // useFetchUserInfo(user_uid);
+
     window.addEventListener("scroll", handleScroll);
 
     return () => {
