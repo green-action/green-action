@@ -30,7 +30,11 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
-import { IoPaperPlane, IoReorderThreeOutline } from "react-icons/io5";
+import {
+  IoPaperPlane,
+  IoReorderThreeOutline,
+  IoCloseOutline,
+} from "react-icons/io5";
 import GroupInsideModal from "./GroupInsideModal";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
@@ -39,6 +43,7 @@ import type { ChatProps } from "@/app/_types/realtime-chats";
 const PrivateChatRoom: React.FC<ChatProps> = ({
   isOpen,
   onOpenChange,
+  onPrivateChatClose,
   roomId,
   actionId,
 }) => {
@@ -187,44 +192,51 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
         className="relative"
       >
         <ModalContent
-          className={`scrollbar-hide rounded-[55px] h-[87%] 
+          className={`scrollbar-hide rounded-[30px]
             ${isActionInfoOpen ? "overflow-hidden" : "overflow-y-auto"}
             ${
               isDesktop
-                ? "max-w-[27%]"
+                ? "w-[520px] h-[750px] "
                 : isLaptop
-                ? "max-w-[500px] "
-                : isMobile && "max-w-[332px]"
+                ? "w-[325px] h-[480px]"
+                : isMobile && "w-[332px] h-[380px]"
             }
             `}
         >
           {(onClose) => (
             <>
               <ModalHeader
-                className={`fixed bg-white flex justify-between items-center gap-5 shadow-md z-10 px-8 rounded-tl-[55px] rounded-tr-[55px] ${
+                className={`fixed bg-white flex justify-between items-center gap-5 shadow-md z-10 px-8 rounded-tl-[30px] rounded-tr-[30px] ${
                   isDesktop
-                    ? "w-[27%] h-28"
+                    ? "w-[520px] h-28"
                     : isLaptop
-                    ? "w-[500px] h-28"
-                    : isMobile && "w-[332px] h-[73px]"
+                    ? "w-[325px] h-[12%]"
+                    : isMobile && "w-[332px] h-[70px]"
                 }`}
               >
-                <div className="flex gap-5 ml-2">
+                <div
+                  className={`flex items-center ${
+                    isDesktop
+                      ? "gap-5 ml-2"
+                      : isLaptop
+                      ? "gap-4 ml-2"
+                      : isMobile && "gap-4 ml-0"
+                  }`}
+                >
                   <Avatar
                     showFallback
                     src={participantInfo?.profile_img || ""}
                     alt="greener_profile"
-                    size={`${isDesktop || isLaptop ? "lg" : "md"}`}
+                    size={`${isDesktop ? "lg" : "md"}`}
+                    className={`${isLaptop && "w-[40px] h-[40px]"}`}
                   />
-                  <div
-                    className={`flex flex-col ${
-                      isDesktop || (isLaptop && "gap-0")
-                    }`}
-                  >
+                  <div className="flex flex-col gap-0">
                     <span
-                      className={`font-extrabold ${
-                        isDesktop || isLaptop
+                      className={`font-black py-0 m-0 ${
+                        isDesktop
                           ? "text-xl"
+                          : isLaptop
+                          ? "text-[17px]"
                           : isMobile && "text-[15px]"
                       }`}
                     >
@@ -235,7 +247,7 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
                         isDesktop
                           ? "text-[15px]"
                           : isLaptop
-                          ? "text-[15px]"
+                          ? "text-[13px]"
                           : isMobile && "text-[11px]"
                       }`}
                     >
@@ -243,17 +255,22 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
                     </span>
                   </div>
                 </div>
-                <div>
+                <div className="flex items-center">
                   <IoReorderThreeOutline
-                    size={`${isDesktop || isLaptop ? 40 : 27}`}
+                    size={`${isDesktop ? 40 : isLaptop ? 35 : 27}`}
                     className="cursor-pointer"
                     onClick={() => onActionInfoOpen()}
+                  />
+                  <IoCloseOutline
+                    size={`${isDesktop ? 40 : isLaptop ? 35 : 27}`}
+                    className="cursor-pointer"
+                    onClick={() => onClose()}
                   />
                 </div>
               </ModalHeader>
               <ModalBody
                 className={`bg-[#F3F4F3] pb-0 px-0 ${
-                  isDesktop ? "pt-32" : isLaptop ? "pt-32" : isMobile && "pt-24"
+                  isDesktop ? "pt-32" : isLaptop ? "pt-24" : isMobile && "pt-24"
                 }`}
               >
                 <div className="flex justify-center h-[100%]">
@@ -270,18 +287,20 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
                         ${
                           isMobile &&
                           (message.sender_uid === loggedInUserUid
-                            ? "self-end"
-                            : "self-start")
+                            ? "self-end mr-5"
+                            : "self-start ml-5")
                         }
                        `}
                         key={message.id}
                       >
                         <div
-                          className={`p-5 
+                          className={` 
                           ${
-                            isDesktop || isLaptop
-                              ? "text-base"
-                              : isMobile && "text-[12px]"
+                            isDesktop
+                              ? "text-base p-5"
+                              : isLaptop
+                              ? "text-sm p-3"
+                              : isMobile && "text-[12px] p-2"
                           }
                           ${
                             message.sender_uid === loggedInUserUid
@@ -308,9 +327,23 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
                   </div>
                 </div>
                 <div className="sticky bottom-0 w-[100%] mx-auto bg-[#F3F4F3] flex justify-center pt-2">
-                  <div className="flex items-center justify-between px-8 mb-[34px] w-[90%] h-16 bg-white rounded-[50px]">
+                  <div
+                    className={`flex items-center justify-between px-8 w-[90%] bg-white rounded-[50px] ${
+                      isDesktop
+                        ? "mb-[34px] h-16"
+                        : isLaptop
+                        ? "mb-[20px] h-12"
+                        : isMobile && "mb-[17px] h-10"
+                    }`}
+                  >
                     <input
-                      className="w-[90%] h-[85%] pl-4 focus:outline-none"
+                      className={`w-[90%] h-[85%] focus:outline-none ${
+                        isDesktop
+                          ? "pl-4"
+                          : isLaptop
+                          ? "pl-2"
+                          : isMobile && "pl-0"
+                      }`}
                       type="text"
                       placeholder="send message..."
                       value={message}
