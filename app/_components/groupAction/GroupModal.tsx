@@ -1,5 +1,4 @@
 import { useResponsive } from "@/app/_hooks/responsive";
-
 import {
   Button,
   Modal,
@@ -40,8 +39,10 @@ const GroupModal: React.FC<groupModalProps> = ({ action }) => {
             <ModalContent className="h-[600px] overflow-y-auto scrollbar-hide">
               {(onClose) => (
                 <>
-                  <ModalHeader className="flex flex-col gap-1 relative z-[-9999]">
+                  <ModalHeader className="flex flex-col items-center gap-1 relative z-[-9999]">
                     <Image
+                      width={365}
+                      height={550}
                       className="rounded-3xl bg-origin-border mt-4"
                       src={action.img_url}
                       alt="캠페인 포스터"
@@ -106,8 +107,10 @@ const GroupModal: React.FC<groupModalProps> = ({ action }) => {
             <ModalContent className="h-[600px] w-[330px] overflow-y-auto scrollbar-hide bg-[#F5F4F4]">
               {(onClose) => (
                 <>
-                  <ModalHeader className="flex flex-col gap-1 relative z-[-9999]">
+                  <ModalHeader className="flex flex-col items-center gap-1 relative z-[-9999]">
                     <Image
+                      width={365}
+                      height={550}
                       className="rounded-3xl bg-origin-border mt-4"
                       src={action.img_url}
                       alt="캠페인 포스터"
