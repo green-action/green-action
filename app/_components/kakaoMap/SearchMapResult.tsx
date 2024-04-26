@@ -6,22 +6,18 @@ import AlertModal from "../community/AlertModal";
 
 import type {
   mapResultPropsType,
+  markerMadeLocationRefType,
   placeDataType,
 } from "@/app/_types/individualAction-add/individualAction-add";
+import { useResponsive } from "@/app/_hooks/responsive";
 
+// TODO 컴포넌트 따로 빼보기
 const SearchMapResult: React.FC<mapResultPropsType> = ({
   searchKeyword,
   setActivityLocation,
   onClose,
   locationMapRef,
 }) => {
-  interface markerMadeLocationRefType {
-    // 직접 지정한 마커 위치 정보 (좌표, 지번이름) 타입
-    x: string;
-    y: string;
-    address: string;
-  }
-
   // DOM API -> useRef 로 변경
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const searchResultRef = useRef<HTMLDivElement>(null);
@@ -35,6 +31,7 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
   const [currentLocation, setCurrentLocation] = useState(false); // 현재 위치 보기 상태 (true면 현재위치 뜸)
   const markerMadeLocationRef = useRef<markerMadeLocationRefType>(); // 직접 생성한 마커로 선택한 위치 좌표/지번주소
 
+  const { isDesktop, isLaptop, isMobile } = useResponsive();
   // alert 대체 모달창을 위한 상태관리
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const [message, setMessage] = useState("");
@@ -183,7 +180,6 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
           // 지도 중심좌표를 접속위치로 변경합니다
           map.setCenter(locPosition);
         }
-
         // SECTION 2 끝 -----
 
         // 키워드로 장소 검색
@@ -396,8 +392,6 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
           position: map.getCenter(),
         });
 
-        // console.log(makeMarker);
-
         // NOTE 10. 지도에 클릭 이벤트 등록 - 지도에 직접 마커 생성하기
         if (makeMarker) {
           // makeMarker 가 true 일 때 클릭이벤트 -> 마커 생성 가능
@@ -440,8 +434,7 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
                       "</div>";
 
                     var content =
-                      '<div class="bAddr">' +
-                      // '<span class="title">법정동 주소정보</span>' +
+                      '<div class="bAddr" style="font-size: x-small">' +
                       detailAddr +
                       "</div>";
 
@@ -467,151 +460,352 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
 
   return (
     <>
-      <div className="map-container w-full h-full flex">
-        {/* <div className="flex justify-center items-center w-full h-full"> */}
-
-        {/* 좌측 지도*/}
-        <div
-          ref={mapContainerRef}
-          className="desktop:w-[500px] desktop:h-[500px] laptop:w-[420px] laptop:h-[420px] fixed desktop:m-0 laptop:mt-[15px] laptop:ml-[30px] rounded-xl"
-        />
-        {/* </div> */}
-        {/* 우측 검색결과 섹션 */}
-
-        <div
-          ref={searchResultRef}
-          className="w-[500px] desktop:h-[480px] laptop:h-[440px] ml-[525px] flex flex-col gap-[10px]" // h-[300px]
-        >
-          <div className="bg-gray-100">
-            <span>지도중심기준 행정동 주소정보 │ </span>
+      {(isDesktop || isLaptop) && (
+        <div className={`map-container w-full h-full flex`}>
+          {/* 좌측 지도*/}
+          <div
+            ref={mapContainerRef}
+            className={` 
+                 desktop:w-[500px] desktop:h-[520px] m-0
+                 laptop:w-[420px] laptop:h-[420px] laptop:mt-[0px]
+              rounded-xl`}
+          />
+          {/* fixed를 뻄 */}
+          <div
+            className={`bg-gray-300/20 absolute z-10 p-2 rounded-lg bottom-[5%] desktop:left-[9%] laptop:left-[7%]`}
+          >
+            <span>현재 지도중심 행정동 │ </span>
             <span id="centerAddr">{dongInfo}</span>
           </div>
-          <Button
-            onClick={() => {
-              setMakeMarker(!makeMarker);
-            }}
-            className="w-[170px]"
-          >
-            {makeMarker ? `마커 생성 취소하기` : `지도에서 직접 마커 생성하기`}
-          </Button>
-          <Button
-            onClick={() => setCurrentLocation(!currentLocation)}
-            className="w-[100px]"
-          >
-            {currentLocation ? `현재 위치 OFF` : `현재 위치 ON`}
-          </Button>
-          {makeMarker && (
-            <Button
-              onClick={() => {
-                handleActivityLocationByMarker();
-              }}
-              className="w-[150px]"
-            >
-              선택한 마커 등록
-            </Button>
-          )}
-          <div className="flex justify-center items-center">
-            <Chip
-              classNames={{
-                // base: "w-[100px]",
-                content: "w-[400px] flex justify-center gap-[20px]",
-              }}
-              className={`h-[40px] text-[20px] bg-[#e2eee0] shadow-md 
-          ${searchKeyword ? "" : "hidden"}`}
-            >
-              <p className="max-w-[245px] font-bold overflow-hidden whitespace-nowrap overflow-ellipsis">
-                {searchKeyword}
-              </p>
-              <p>검색 결과</p>
-            </Chip>
-          </div>
-          {/* 검색결과 목록 */}
-          <div className="h-[400px] overflow-y-auto rounded-xl pl-5 py-2 bg-[#f3f5f1] ">
-            <ul
-              ref={placeListRef}
-              className="flex flex-col gap-[10px] mt-[15px]"
-            >
-              {/* map placeData[0]?.address_name*/}
 
-              {placeData?.length === 0 && searchKeyword && (
-                <div className="flex justify-center items-center h-[350px]">
-                  검색 결과가 없습니다.
-                </div>
-              )}
-              {placeData &&
-                placeData.map((placeItem, index) => {
-                  // console.log("🐰 ~ placeItem : ", placeItem);
-                  return (
-                    <>
-                      <li
-                        key={placeItem.id}
-                        ref={placeItemRef}
-                        className="flex items-center gap-[50px] pb-2 border-b-2 border-gray-300"
-                        // onMouseOver={() => displayInfowindow()}
-                      >
-                        <Chip
-                          classNames={{
-                            base: "bg-[#d7e6d5]",
-                            content:
-                              "text-[20px] w-[27px] text-center flex justify-center items-center ",
-                          }}
+          {/* 우측 검색결과 섹션 */}
+          <div
+            ref={searchResultRef}
+            className={`desktop:w-[500px] desktop:h-[568px] desktop:ml-[10px] 
+                  w-[500px] laptop:h-[470px] laptop:ml-[30px] gap-[10px]
+             flex flex-col`}
+          >
+            {/* 이중삼항연산자로 하니까 ml 등 이상하게 안먹히는 일 발생 ㅠㅠ */}
+            <div
+              className={`absolute rounded-3xl flex gap-4 top-[3%] left-[12%]`}
+            >
+              <Button
+                onClick={() => setCurrentLocation(!currentLocation)}
+                className={` rounded-3xl bg-[#e2eee0] w-[100px]`}
+              >
+                {currentLocation ? `현재 위치 OFF` : `현재 위치 ON`}
+              </Button>
+              <Button
+                onClick={() => {
+                  setMakeMarker(!makeMarker);
+                }}
+                className={` rounded-3xl bg-[#e2eee0]  ${
+                  makeMarker ? `w-[120px]` : `w-[175px]`
+                }`}
+              >
+                {makeMarker
+                  ? `위치 지정 취소하기`
+                  : `지도에서 직접 위치 지정하기`}
+              </Button>
+            </div>
+            {makeMarker && (
+              <Button
+                onClick={() => {
+                  handleActivityLocationByMarker();
+                }}
+                className={` rounded-3xl bg-[#e2eee0] absolute top-[3%] right-[5%] font-semibold
+                  text-[15px] w-[120px]
+              }`}
+              >
+                지정한 위치 등록
+              </Button>
+            )}
+            <div className="flex justify-center items-center">
+              <Chip
+                classNames={{
+                  content: "w-[400px] flex justify-center gap-[20px]",
+                }}
+                className={`
+              h-[40px] text-[20px]
+               bg-[#e2eee0] 
+          ${searchKeyword ? "" : "hidden"}`}
+              >
+                <p className="max-w-[245px] font-bold overflow-hidden whitespace-nowrap overflow-ellipsis">
+                  {searchKeyword}
+                </p>
+                <p>검색 결과</p>
+              </Chip>
+            </div>
+            {/* 검색결과 목록 */}
+            <div className="h-[560px] overflow-y-auto rounded-xl pl-5 py-2 bg-[#fcfcfc] ">
+              <ul
+                ref={placeListRef}
+                className="flex flex-col gap-[10px] mt-[15px]"
+              >
+                {placeData?.length === 0 && searchKeyword && (
+                  <div className="flex justify-center items-center h-[350px]">
+                    검색 결과가 없습니다.
+                  </div>
+                )}
+                {placeData &&
+                  placeData.map((placeItem, index) => {
+                    return (
+                      <>
+                        <li
+                          key={placeItem.id}
+                          ref={placeItemRef}
+                          className="flex items-center gap-[50px] pb-2 border-b-2 border-gray-300"
                         >
-                          {index + 1}
-                        </Chip>
-                        {/* <span className="text-[20px]">{index + 1}</span> */}
-                        <div className="flex flex-col gap-[5px]">
-                          <p
-                            id="place-name"
-                            className="font-bold cursor-pointer text-[16px] "
-                            onClick={(e) =>
-                              handleActivityLocation(e, placeItem)
-                            }
+                          <Chip
+                            classNames={{
+                              base: "bg-[#F2F2F2]",
+                              content:
+                                "text-[20px] w-[27px] text-center flex justify-center items-center ",
+                            }}
                           >
-                            {placeItem.place_name}
-                          </p>
-                          <div className="flex flex-col gap-[1px]">
-                            {placeItem.road_address_name ? (
-                              <div className="flex flex-col gap-[1px]">
-                                <p className="">
-                                  {placeItem.road_address_name}
-                                </p>
-                                <div className=" flex gap-[5px]">
-                                  <Chip size="sm">지번</Chip>
-                                  <span className="">
-                                    {placeItem.address_name}
-                                  </span>
-                                </div>
-                              </div>
-                            ) : (
-                              <span className="">{placeItem.address_name}</span>
-                            )}
-                            {placeItem.phone && (
-                              <div className="flex gap-[5px]">
-                                <Chip size="sm">Tel</Chip>
-                                <p className="">{placeItem.phone}</p>
-                              </div>
-                            )}
-                            <a
-                              href={placeItem.place_url}
-                              target="_blank"
-                              className="text-indigo-400 px-[10px]"
+                            {index + 1}
+                          </Chip>
+                          <div className="flex flex-col gap-[5px]">
+                            <p
+                              id="place-name"
+                              className="font-bold cursor-pointer text-[16px] "
+                              onClick={(e) =>
+                                handleActivityLocation(e, placeItem)
+                              }
                             >
-                              {` > 자세한 정보`}
-                            </a>
+                              {placeItem.place_name}
+                            </p>
+                            <div className="flex flex-col gap-[1px]">
+                              {placeItem.road_address_name ? (
+                                <div className="flex flex-col gap-[1px]">
+                                  <p className="">
+                                    {placeItem.road_address_name}
+                                  </p>
+                                  <div className=" flex gap-[5px]">
+                                    <Chip size="sm">지번</Chip>
+                                    <span className="">
+                                      {placeItem.address_name}
+                                    </span>
+                                  </div>
+                                </div>
+                              ) : (
+                                <span className="">
+                                  {placeItem.address_name}
+                                </span>
+                              )}
+                              {placeItem.phone && (
+                                <div className="flex gap-[5px]">
+                                  <Chip size="sm">Tel</Chip>
+                                  <p className="">{placeItem.phone}</p>
+                                </div>
+                              )}
+                              <a
+                                href={placeItem.place_url}
+                                target="_blank"
+                                className="text-indigo-400 px-[10px]"
+                              >
+                                {` > 자세한 정보`}
+                              </a>
+                            </div>
                           </div>
-                        </div>
-                      </li>
-                    </>
-                  );
-                })}
-            </ul>
+                        </li>
+                      </>
+                    );
+                  })}
+              </ul>
+            </div>
+            {/* 페이지네이션 */}
+            {placeData?.length !== 0 && (
+              <div
+                ref={pageRef}
+                className="flex justify-center gap-[13px] pt-[13px] "
+              />
+            )}
           </div>
-          {/* 페이지네이션 */}
-          {placeData?.length !== 0 && (
-            <div ref={pageRef} className="flex justify-center gap-[10px] " />
-          )}
         </div>
-      </div>
+      )}
+
+      {/* SECTION 모바일 */}
+      {isMobile && (
+        <div
+          className={`map-container w-full h-[500px] flex flex-col items-center`}
+        >
+          {/* 좌측 지도*/}
+          <div
+            ref={mapContainerRef}
+            className={`w-[280px] h-[150px] rounded-xl mt-[8%]`}
+          />
+          <div
+            className={`bg-gray-300/20 absolute z-10 p-2 rounded-lg bottom-[3%] left-[3%] text-[8px] h-[20px] flex justify-center items-center`}
+          >
+            <span>현재 지도중심 행정동 │ </span>
+            <span id="centerAddr">{dongInfo}</span>
+          </div>
+
+          {/* 검색결과 섹션 (모바일 - 지도 아래)*/}
+          <div
+            ref={searchResultRef}
+            className={`w-[280px] h-[200px] gap-[10px]
+             flex flex-col mt-[5%]`}
+          >
+            <div
+              className={`absolute rounded-3xl flex gap-1 top-[5%] left-[24%]`}
+            >
+              <Button
+                onClick={() => setCurrentLocation(!currentLocation)}
+                className={` rounded-3xl bg-[#e2eee0] w-[60px] h-[22px] text-[10px]`}
+              >
+                {currentLocation ? `현재 위치 OFF` : `현재 위치 ON`}
+              </Button>
+              <Button
+                onClick={() => {
+                  setMakeMarker(!makeMarker);
+                }}
+                className={`rounded-3xl bg-[#e2eee0] h-[22px] text-[10px] ${
+                  makeMarker ? `w-[90px]` : `w-[125px]`
+                }`}
+              >
+                {makeMarker
+                  ? `위치 지정 취소하기`
+                  : `지도에서 직접 위치 지정하기`}
+              </Button>
+            </div>
+            {makeMarker && (
+              <Button
+                onClick={() => {
+                  handleActivityLocationByMarker();
+                }}
+                className={`rounded-3xl bg-[#e2eee0] absolute bottom-[3%] right-[15%] font-semibold
+                  text-[9px] w-[75px] h-[20px]
+              }`}
+              >
+                지정한 위치 등록
+              </Button>
+            )}
+            <div className="flex justify-center items-center">
+              <Chip
+                classNames={{
+                  // base: "w-[100px]",
+                  content: "w-[200px] flex justify-center gap-[20px]",
+                }}
+                className={`
+              h-[22px] text-[11px]
+               bg-[#e2eee0] 
+          ${searchKeyword ? "" : "hidden"}`}
+              >
+                <p className="max-w-[245px] font-bold overflow-hidden whitespace-nowrap overflow-ellipsis">
+                  {searchKeyword}
+                </p>
+                <p>검색 결과</p>
+              </Chip>
+            </div>
+            {/* 검색결과 목록 */}
+            <div className="max-h-[560px] overflow-y-auto rounded-xl pl-5 py-2 bg-[#fcfcfc] ">
+              <ul
+                ref={placeListRef}
+                className="flex flex-col gap-[10px] mt-[15px] text-[10px]"
+              >
+                {placeData?.length === 0 && searchKeyword && (
+                  <div className="flex justify-center items-center h-[50px] pb-[20px]">
+                    검색 결과가 없습니다.
+                  </div>
+                )}
+                {placeData &&
+                  placeData.map((placeItem, index) => {
+                    return (
+                      <>
+                        <li
+                          key={placeItem.id}
+                          ref={placeItemRef}
+                          className="flex items-center gap-[30px] pb-2 border-b-2 border-gray-300"
+                        >
+                          <Chip
+                            classNames={{
+                              base: "bg-[#F2F2F2]",
+                              content:
+                                "text-[10px] w-[27px] text-center flex justify-center items-center ",
+                            }}
+                          >
+                            {index + 1}
+                          </Chip>
+                          <div className="flex flex-col gap-[2px]">
+                            <p
+                              id="place-name"
+                              className="font-bold cursor-pointer text-[10px] "
+                              onClick={(e) =>
+                                handleActivityLocation(e, placeItem)
+                              }
+                            >
+                              {placeItem.place_name}
+                            </p>
+                            <div className="flex flex-col gap-[1px]">
+                              {placeItem.road_address_name ? (
+                                <div className="flex flex-col gap-[1px]">
+                                  <p className="">
+                                    {placeItem.road_address_name}
+                                  </p>
+                                  <div className=" flex gap-[5px]">
+                                    <Chip
+                                      classNames={{
+                                        base: "h-[15px]",
+                                        content:
+                                          "w-[7px] flex items-center justify-center",
+                                      }}
+                                      className="text-[8px]"
+                                    >
+                                      지번
+                                    </Chip>
+                                    <span className="">
+                                      {placeItem.address_name}
+                                    </span>
+                                  </div>
+                                </div>
+                              ) : (
+                                <span className="">
+                                  {placeItem.address_name}
+                                </span>
+                              )}
+                              {placeItem.phone && (
+                                <div className="flex gap-[5px]">
+                                  <Chip
+                                    classNames={{
+                                      base: "h-[15px]",
+                                      content:
+                                        "w-[7px] flex items-center justify-center",
+                                    }}
+                                    className="text-[8px]"
+                                  >
+                                    Tel
+                                  </Chip>
+                                  <p className="">{placeItem.phone}</p>
+                                </div>
+                              )}
+                              <a
+                                href={placeItem.place_url}
+                                target="_blank"
+                                className="text-indigo-400 px-[10px]"
+                              >
+                                {` > 자세한 정보`}
+                              </a>
+                            </div>
+                          </div>
+                        </li>
+                      </>
+                    );
+                  })}
+              </ul>
+            </div>
+            {/* 페이지네이션 */}
+            {placeData?.length !== 0 && (
+              <div
+                ref={pageRef}
+                className="flex justify-center gap-[13px] pt-[0px] text-[9px]"
+              />
+            )}
+          </div>
+        </div>
+      )}
+
       {isOpenAlertModal && (
         <AlertModal
           isOpen={isOpenAlertModal}

@@ -304,9 +304,9 @@ const DetailPage = () => {
                             return (
                               <div>
                                 <Image
+                                  src={item.img_url}
                                   width={387}
                                   height={390}
-                                  src={item.img_url}
                                   alt="green_action_image"
                                   className="w-[387px] h-[390px] rounded-[20px]"
                                 />
@@ -495,9 +495,9 @@ const DetailPage = () => {
                       {" "}
                       {imgUrl!.length === 1 ? (
                         <Image
+                          src={imgUrl![0].img_url}
                           width={387}
                           height={390}
-                          src={imgUrl![0].img_url}
                           alt="green_action_image"
                           className="w-[387px] h-[390px] rounded-[20px]"
                         />
@@ -510,9 +510,9 @@ const DetailPage = () => {
                             return (
                               <div>
                                 <Image
+                                  src={item.img_url}
                                   width={387}
                                   height={390}
-                                  src={item.img_url}
                                   alt="green_action_image"
                                   className="w-[387px] h-[390px] rounded-[20px]"
                                 />
@@ -665,6 +665,8 @@ const DetailPage = () => {
                       {" "}
                       {imgUrl!.length === 1 ? (
                         <Image
+                          width={387}
+                          height={390}
                           src={imgUrl![0].img_url}
                           alt="green_action_image"
                           className="w-[272px] h-[275px] rounded-[20px]"
@@ -678,6 +680,8 @@ const DetailPage = () => {
                             return (
                               <div>
                                 <Image
+                                  width={387}
+                                  height={390}
                                   src={item.img_url}
                                   alt="green_action_image"
                                   className="w-[272px] h-[275px] rounded-[20px]"

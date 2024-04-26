@@ -160,53 +160,12 @@ const AddActionPage = () => {
             setActivityLocationMap={setActivityLocationMap}
           />
           {/* 이미지아래 두번째 박스(활동 제목) */}
-          {/* 지도에서 검색 - 추후 '활동장소'와 함께 UI 따로 뺄 예정  */}
-          {/* <div className="flex gap-5  w-[724px] h-[100px] border-1.5 border-gray-300 rounded-3xl pt-[21px] px-[28px] pb-[28px] mb-4 ">
-            <SearchMapModal
-              setActivityLocationMap={setActivityLocationMap}
-              locationMapRef={locationMapRef}
-            />
-            <input
-              id="activityLocationMap"
-              name="activityLocationMap"
-              value={activityLocationMap}
-              type="text"
-              form="mainForm"
-              placeholder="지도에서 검색해주세요"
-              className="h-[40px] p-4 border-1.5 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
-            />
-          </div> */}
-          {/* {(isDesktop || isLaptop) && (
-            <div className="flex gap-5 desktop:w-[724px] laptop:w-[724px] phone:w-[291px] h-[100px] border-1.5 border-gray-300 rounded-3xl pt-[21px] px-[28px] pb-[28px] mb-4">
-              <SearchMapModal
-                setActivityLocationMap={setActivityLocationMap}
-                locationMapRef={locationMapRef}
-              />
-              <input
-                id="activityLocationMap"
-                name="activityLocationMap"
-                value={activityLocationMap}
-                type="text"
-                form="mainForm"
-                placeholder="지도에서 검색해주세요"
-                className="h-[40px] p-4 border-1.5 border-gray-300 rounded-full bg-inherit  text-xs text-gray-400"
-              />
-            </div>
-          )} */}
-
           <SecondInputBox />
           {/* 이미지 아래 세번째 박스(활동 소개) */}
           <ThirdInputBox />
           {/* 등록, 취소 버튼 */}
           {(isDesktop || isLaptop) && (
             <div className="w-[724px] flex justify-center gap-4">
-              {/* <button
-                type="submit"
-                form="mainForm"
-                className="bg-gray-200 w-[170px] h-[40px] rounded-full border-1.5 border-gray-300 text-sm font-medium text-gray-500"
-              >
-                <span className="font-extrabold">등록완료</span>
-              </button> */}
               <CustomConfirm
                 text="등록하시겠습니까?"
                 buttonName="등록완료"
@@ -231,13 +190,6 @@ const AddActionPage = () => {
                 okFunction={() => handleSubmit}
                 mode={MODE_INDIVIDUAL_ACTION_ADD}
               />
-              {/* <button
-                type="submit"
-                form="mainForm"
-                className="bg-black w-[170px] h-[40px] rounded-full border-1.5  text-sm font-medium text-white"
-              >
-                <span className="font-extrabold">등록완료</span>
-              </button> */}
             </div>
           )}
         </div>
@@ -256,7 +208,6 @@ const AddActionPage = () => {
           }}
         />
       )}
-      {/* </form> */}
       {Modal.isOpenAlert && (
         <AlertModal
           isOpen={Modal.isOpenAlert}
