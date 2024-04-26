@@ -57,3 +57,6 @@ export const QUERY_KEY_LAST_MESSAGE_DATES = `last_message_dates`;
 
 // push
 export const QUERY_KEY_MY_COMMUNITYLIST = `my_communityList`;
+export const QUERY_KEY_COMMENT_WRITER_INFO = `comment_writer_info`;
+export const QUERY_KEY_MY_PUSHLIST = `my_pushList`;
+export const QUERY_KEY_UNREAD_PUSH_COUNT = `unread_push_count`;
