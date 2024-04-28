@@ -98,11 +98,11 @@ $ yarn dev
 
 ### ✔️ Language & Framework
 
-<img src="https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=Typescript&logoColor=white"><img src="https://img.shields.io/badge/Next.js-black?style=for-the-badge&logo=next.js&logoColor=white"><img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white">
+<img src="https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=Typescript&logoColor=white"> <img src="https://img.shields.io/badge/Next.js-black?style=for-the-badge&logo=next.js&logoColor=white"> <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white">
 
 ### ✔️ State management
 
-<img src="https://img.shields.io/badge/zustand-orange?style=for-the-badge&logo=zustand&logoColor=white"><img src="https://img.shields.io/badge/Tanstack Query-FF4154?style=for-the-badge&logo=TanstackQuery&logoColor=white">
+<img src="https://img.shields.io/badge/zustand-orange?style=for-the-badge&logo=zustand&logoColor=white"> <img src="https://img.shields.io/badge/Tanstack Query-FF4154?style=for-the-badge&logo=TanstackQuery&logoColor=white">
 
 ### ✔️ authentication
 
@@ -110,11 +110,11 @@ $ yarn dev
 
 ### ✔️ Design System & Style
 
-<img src="https://img.shields.io/badge/nextui-000000?style=for-the-badge&logo=nextui&logoColor=white"><img src="https://img.shields.io/badge/tailwindcss-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white">
+<img src="https://img.shields.io/badge/nextui-000000?style=for-the-badge&logo=nextui&logoColor=white"> <img src="https://img.shields.io/badge/tailwindcss-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white">
 
 ### ✔️ Database
 
-<img src="https://img.shields.io/badge/supabase-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white"><img src="https://img.shields.io/badge/supabase realtime-004088?style=for-the-badge&logo=realtime&logoColor=white">
+<img src="https://img.shields.io/badge/supabase-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white"> <img src="https://img.shields.io/badge/supabase realtime-004088?style=for-the-badge&logo=realtime&logoColor=white">
 
 <br/>
 
@@ -123,7 +123,7 @@ $ yarn dev
 <details>
 <summary>Typescript</summary>
 
-| 👍🏻 Typescript                                                                                                                                                                                                                |
+| 👍🏻 **Typescript**                                                                                                                                                                                                            |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | \- 명확한 타입 시스템을 통해 휴먼에러와 컴파일 시간에 미리 타입 오류를 발견할 수 있어 런타임 오류를 줄이고 코드의 안정성을 높일 수 있습니다. 이를 통해 팀의 협업이 더욱 원활해질 수 있기 때문에 TypeScript를 선택하였습니다. |
 
@@ -132,22 +132,80 @@ $ yarn dev
 <details>
 <summary>Next.js</summary>
 
-- SEO를 위한 다양한 렌더링 기법(SSR, ISR, SSG)을 통해 사용자가 필요로 할 때까지 모든 리소스를 한꺼번에 로드하지 않고, 필요한 시점에 필요한 부분만을 로드하여 초기 로딩 시간을 단축하고 페이지의 성능을 향상시킬 수 있습니다.
-
-- 이미지 최적화와 레이지로딩을 제공하는 등 페이지 로딩 속도를 최적화할 수 있는 기능을 제공합니다.
-
-- app route를 통한 간편한 라우팅 설정과 미들웨어를 통한 페이지 접근 제어 등 다양한 기능을 제공하여 개발 효율성을 높일 수 있습니다.
+| 👍🏻 **Next.js**                                                                                                                                                                                                                |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| \- SEO를 위한 다양한 렌더링 기법(SSR, ISR, SSG)을 통해 사용자가 필요로 할 때까지 모든 리소스를 한꺼번에 로드하지 않고, 필요한 시점에 필요한 부분만을 로드하여 초기 로딩 시간을 단축하고 페이지의 성능을 향상시킬 수 있습니다. |
 
 </details>
 
 <details>
-<summary>Next Auth VS Supabase Authentication</summary>
+<summary>Next Auth vs Supabase Authentication</summary>
 
 | 👍🏻 **Next Auth**                                                                                                                                                                                                                              |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | \- 간편하고 효율적인 세션 및 JWT(토큰) 기반 인증을 통해 사용자 인증, 로그인, 회원가입 등의 기능을 구현할 수 있습니다.<br />\- 국내 사용자가 가장많은 네이버 및 카카오 OAuth Provider를 지원하여 소셜 로그인 기능을 손쉽게 추가할 수 있습니다. |
 | ❌ **Supabase authentication**                                                                                                                                                                                                                |
 | \- storage에 유저의 정보 및 토큰 값이 자동으로 저장되기 때문에 보안에 취약다는 단점이 명확하여 next auth로 리팩토링을 진행했습니다.                                                                                                           |
+
+</details>
+
+<details>
+<summary>Zustand vs Recoil</summary>
+
+| **👍🏻 zustand**                                                                                                                                                                                                                                       |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - React Hook 기반으로 작동하기 때문에 react 개발자에게 친숙합니다. <br /> - `Redux`, `Redux Toolkit`에 비해 간결한 코드와 보일러플레이트를 줄일 수 있습니다. <br /> - 컴포넌트 트리에 관계없이 어디서든 간편하게 상태에 접근하고 수정할 수 있습니다. |
+| **❌ Recoil**                                                                                                                                                                                                                                        |
+| - 개발자들이 더 많이 사용하는 전역상태관리를 파악해보니 zustand를 많이 사용하고 있었습니다. <br />- zustand보다 러닝커브가 높아서, 보다 익숙한 zustand를 사용하고 프로젝트의 기능 구현에 더 시간을 할애하자는 결정을 내렸습니다.                     |
+
+</details>
+
+<details>
+<summary>tanstack-query</summary>
+
+| **👍🏻 tanstack-query**                                                                                                                                                                                                                                                              |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - API를 사용하여 데이터를 요청하고 관리할 수 있으며, 쿼리 key를 통한 유연한 캐싱 및 리프레시 기능을 제공하므로 서버 사이드 상태 관리를 간편하고 효율적으로 수행할 수 있습니다. <br />- 로딩과 에러 상태를 쉽게 관리할 수 있어 데이터 fetching 관련 복잡성을 크게 줄일 수 있습니다. |
+
+</details>
+
+<details>
+<summary>next UI</summary>
+
+| **👍🏻 next UI**                                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - `soom` 웹서비스의 컨셉과 가장 잘 맞았고, style 적용시 사용 중인 `tailwind css`와의 호환성도 뛰어났습니다. <br />- 다양한 디자인 요소를 제공하고, 사용법이 다른 디자인 시스템에 비해 간단합니다. |
+
+</details>
+
+<details>
+<summary>Tailwind Css vs Styled Component</summary>
+
+| 👍🏻 **tailwind css**                                                                                                                                                                                                                                                                                                                            |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - Next.js에서 권장하는 CSS 프레임워크 중 하나로, 프로젝트 생성시 따로 설정할 필요 없이 안정적으로 사용할 수 있습니다. <br />- 미리 정의된 스타일을 통해 일관성 있는 디자인 시스템을 구축할 수 있습니다. <br />- 반응형 디자인시 커스터마이징이 비교적 쉽습니다. <br />- css-in-js 사용시 SSR에서의 hydrate때 생기는 문제를 방지할 수 있습니다. |
+| ❌ **styled component**                                                                                                                                                                                                                                                                                                                        |
+| - styled component와 같은 css-in-js 사용시, 서버 측 렌더링(SSR)에서 클라이언트로 전환될 때, hydrate 과정에서 서로 다른 스타일 정의가 충돌하거나, 스타일이 깜박거리는 현상이 발생할 수 있습니다.                                                                                                                                                |
+
+</details>
+
+<details>
+<summary>Supabase Real-time</summary>
+
+| **👍🏻 Supabase Real-time**                                                                                                                                                                                                                                                                                        |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - Supabase 데이터베이스와 통합된 기본 내장 기능으로, 별도의 서버 구성 없이 데이터베이스의 실시간 이벤트를 감지하고 클라이언트로 전달할 수 있습니다. <br />- 서버리스 아키텍처를 사용하므로 웹소켓을 직접 구현할 필요가 없어 추가 작업이 줄어듭니다. 실시간 데이터 처리를 간편하고 효율적으로 구현할 수 있습니다. |
+
+</details>
+
+<details>
+<summary>Supabase vs Firebase</summary>
+
+| **👍🏻 Supabase**                                                                                                                                                                                                                                                                                                      |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - 별도의 백엔드 코드를 작성할 필요 없이 SQL 기반의 관계형 데이터베이스를 제공해 개발 프로세스를 간소화할 수 있습니다. <br />- 관계형 데이터베이스이므로 테이블 간에 외래 키를 사용해 정보를 쉽게 연결하고, 프로젝트의 요구 사항에 따라 테이블 간의 join 할 수 있어 복잡한 데이터 구조를 유연하게 처리할 수 있습니다. |
+| **❌ Firebase**                                                                                                                                                                                                                                                                                                      |
+| - 주로 클라이언트 사이드 애플리케이션에 중점을 두고 있으며, 서버 사이드 렌더링이나 복잡한 백엔드 로직을 구현하기에는 제한이 있을 수 있습니다. <br />- NoSQL 기반으로 구성되어 있으며, 관계형 데이터베이스의 기능과 유연성을 원하는 경우에는 제한적일 수 있습니다.                                                    |
 
 </details>
 
