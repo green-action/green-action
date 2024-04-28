@@ -218,43 +218,6 @@ $ yarn dev
   
 ```
 📦app
- ┣ 📂about
- ┃ ┗ 📜page.tsx
- ┣ 📂api
- ┃ ┗ 📂auth
- ┃ ┃ ┗ 📂[...nextauth]
- ┃ ┃ ┃ ┗ 📜route.ts
- ┣ 📂auth
- ┃ ┗ 📂callback
- ┃ ┃ ┗ 📜route.ts
- ┣ 📂community
- ┃ ┣ 📂detail
- ┃ ┃ ┗ 📂[id]
- ┃ ┃ ┃ ┗ 📜page.tsx
- ┃ ┗ 📜page.tsx
- ┣ 📂goods
- ┃ ┗ 📜page.tsx
- ┣ 📂groupAction
- ┃ ┗ 📜page.tsx
- ┣ 📂individualAction
- ┃ ┣ 📂add
- ┃ ┃ ┗ 📜page.tsx
- ┃ ┣ 📂detail
- ┃ ┃ ┗ 📂[id]
- ┃ ┃ ┃ ┗ 📜page.tsx
- ┃ ┣ 📂edit
- ┃ ┃ ┗ 📂[id]
- ┃ ┃ ┃ ┗ 📜page.tsx
- ┃ ┗ 📜page.tsx
- ┣ 📂login
- ┃ ┣ 📜page.tsx
- ┃ ┗ 📜submit-button.tsx
- ┣ 📂mypage
- ┃ ┗ 📜page.tsx
- ┣ 📂protected
- ┃ ┗ 📜page.tsx
- ┣ 📂signup
- ┃ ┗ 📜page.tsx
  ┣ 📂_api
  ┃ ┣ 📂bookmark
  ┃ ┃ ┗ 📜bookmarkQueries.ts
@@ -276,10 +239,18 @@ $ yarn dev
  ┃ ┃ ┗ 📜edit-api.ts
  ┃ ┣ 📂main
  ┃ ┃ ┗ 📜main-api.ts
+ ┃ ┣ 📂messages
+ ┃ ┃ ┣ 📜groupChat-api.ts
+ ┃ ┃ ┣ 📜headerPrivateList-api.ts
+ ┃ ┃ ┣ 📜pagePrivateList-api.ts
+ ┃ ┃ ┗ 📜privateChat-api.ts
  ┃ ┣ 📂mypage
  ┃ ┃ ┣ 📜mypage-list-api.ts
  ┃ ┃ ┗ 📜mypage-profile-api.ts
+ ┃ ┣ 📂push
+ ┃ ┃ ┗ 📜push-api.tsx
  ┃ ┣ 📜auth.ts
+ ┃ ┣ 📜constant.ts
  ┃ ┗ 📜queryKeys.ts
  ┣ 📂_assets
  ┃ ┗ 📂image
@@ -291,6 +262,13 @@ $ yarn dev
  ┃ ┃ ┃ ┣ 📜text-bg-1.png
  ┃ ┃ ┃ ┣ 📜text-bg-2.png
  ┃ ┃ ┃ ┗ 📜text-bg-3.png
+ ┃ ┃ ┣ 📂goods
+ ┃ ┃ ┃ ┣ 📜case.png
+ ┃ ┃ ┃ ┣ 📜mug.png
+ ┃ ┃ ┃ ┣ 📜pennote.png
+ ┃ ┃ ┃ ┣ 📜setbox.png
+ ┃ ┃ ┃ ┣ 📜tshirt_.png
+ ┃ ┃ ┃ ┗ 📜tumbler.png
  ┃ ┃ ┣ 📂individualAction
  ┃ ┃ ┃ ┣ 📜1.png
  ┃ ┃ ┃ ┣ 📜10.png
@@ -305,11 +283,18 @@ $ yarn dev
  ┃ ┃ ┃ ┣ 📜8.png
  ┃ ┃ ┃ ┣ 📜9.png
  ┃ ┃ ┃ ┣ 📜Group126.png
+ ┃ ┃ ┃ ┣ 📜Group143.svg
+ ┃ ┃ ┃ ┣ 📜Group217.svg
  ┃ ┃ ┃ ┣ 📜Group89.png
- ┃ ┃ ┃ ┣ 📜image166.png
  ┃ ┃ ┃ ┣ 📜image170.png
- ┃ ┃ ┃ ┣ 📜image24.png
- ┃ ┃ ┃ ┗ 📜image35.png
+ ┃ ┃ ┃ ┣ 📜image184.svg
+ ┃ ┃ ┃ ┣ 📜image35.png
+ ┃ ┃ ┃ ┣ 📜person.png
+ ┃ ┃ ┃ ┣ 📜star_1.png
+ ┃ ┃ ┃ ┣ 📜star_2.png
+ ┃ ┃ ┃ ┗ 📜write.png
+ ┃ ┃ ┣ 📂loading
+ ┃ ┃ ┃ ┗ 📜SOOM_gif.gif
  ┃ ┃ ┣ 📂login
  ┃ ┃ ┃ ┗ 📜main.png
  ┃ ┃ ┣ 📂logo_icon
@@ -320,14 +305,14 @@ $ yarn dev
  ┃ ┃ ┃ ┃ ┃ ┣ 📜Group 83.png
  ┃ ┃ ┃ ┃ ┃ ┗ 📜image 50.png
  ┃ ┃ ┃ ┃ ┣ 📂goods
- ┃ ┃ ┃ ┃ ┃ ┗ 📜Group 128.png
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜Group 128.png
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜Group-128.svg
  ┃ ┃ ┃ ┃ ┣ 📂login
  ┃ ┃ ┃ ┃ ┃ ┣ 📜google.png
  ┃ ┃ ┃ ┃ ┃ ┗ 📜kakao.png
  ┃ ┃ ┃ ┃ ┣ 📂mainpage
  ┃ ┃ ┃ ┃ ┃ ┗ 📜Group_124.png
- ┃ ┃ ┃ ┃ ┣ 📂mypage
- ┃ ┃ ┃ ┃ ┃ ┣ 📜.DS_Store
+ ┃ ┃ ┃ ┃ ┗ 📂mypage
  ┃ ┃ ┃ ┃ ┃ ┣ 📜Ellipse 7.png
  ┃ ┃ ┃ ┃ ┃ ┣ 📜Group 100.png
  ┃ ┃ ┃ ┃ ┃ ┣ 📜Group 121.png
@@ -335,21 +320,20 @@ $ yarn dev
  ┃ ┃ ┃ ┃ ┃ ┣ 📜Group 132.png
  ┃ ┃ ┃ ┃ ┃ ┣ 📜Group 133.png
  ┃ ┃ ┃ ┃ ┃ ┣ 📜Group 134.png
- ┃ ┃ ┃ ┃ ┃ ┣ 📜image 127.png
- ┃ ┃ ┃ ┃ ┃ ┣ 📜image 166.png
- ┃ ┃ ┃ ┃ ┃ ┣ 📜image 168.png
- ┃ ┃ ┃ ┃ ┃ ┣ 📜image 169.png
- ┃ ┃ ┃ ┃ ┃ ┣ 📜image 55.png
  ┃ ┃ ┃ ┃ ┃ ┣ 📜Rectangle 292.png
  ┃ ┃ ┃ ┃ ┃ ┣ 📜Star 31.png
  ┃ ┃ ┃ ┃ ┃ ┣ 📜Star 32.png
- ┃ ┃ ┃ ┃ ┃ ┗ 📜Vector 6.png
- ┃ ┃ ┃ ┃ ┗ 📜.DS_Store
- ┃ ┃ ┃ ┣ 📂logo
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜Vector 6.png
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜akar-icons_coin.svg
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜image 127.png
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜image 168.png
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜image 169.png
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜image 55.png
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜person.png
+ ┃ ┃ ┃ ┗ 📂logo
  ┃ ┃ ┃ ┃ ┣ 📜gray.png
  ┃ ┃ ┃ ┃ ┗ 📜white.png
- ┃ ┃ ┃ ┗ 📜.DS_Store
- ┃ ┃ ┗ 📂mainpage
+ ┃ ┃ ┣ 📂mainpage
  ┃ ┃ ┃ ┣ 📜.DS_Store
  ┃ ┃ ┃ ┣ 📜1.png
  ┃ ┃ ┃ ┣ 📜2.png
@@ -359,17 +343,40 @@ $ yarn dev
  ┃ ┃ ┃ ┣ 📜6.png
  ┃ ┃ ┃ ┣ 📜7.png
  ┃ ┃ ┃ ┣ 📜8.png
+ ┃ ┃ ┃ ┣ 📜Group 172.png
  ┃ ┃ ┃ ┣ 📜main.png
- ┃ ┃ ┃ ┗ 📜question_circle.png
+ ┃ ┃ ┃ ┣ 📜question_circle.png
+ ┃ ┃ ┃ ┗ 📜up.png
+ ┃ ┃ ┗ 📂readme
+ ┃ ┃ ┃ ┗ 📜Architecture.png
  ┣ 📂_components
+ ┃ ┣ 📂about
+ ┃ ┃ ┣ 📜AboutComputerSize.tsx
+ ┃ ┃ ┣ 📜AboutContent.tsx
+ ┃ ┃ ┗ 📜AboutMobileSize.tsx
  ┃ ┣ 📂bookmark
  ┃ ┃ ┗ 📜Bookmark.tsx
+ ┃ ┣ 📂chats
+ ┃ ┃ ┣ 📜ChatsListModal.tsx
+ ┃ ┃ ┣ 📜GroupChatRoom.tsx
+ ┃ ┃ ┣ 📜GroupInsideModal.tsx
+ ┃ ┃ ┣ 📜HeaderChatsSelect.tsx
+ ┃ ┃ ┣ 📜HeaderGroupItem.tsx
+ ┃ ┃ ┣ 📜HeaderGroupList.tsx
+ ┃ ┃ ┣ 📜HeaderPrivateItem.tsx
+ ┃ ┃ ┣ 📜HeaderPrivateList.tsx
+ ┃ ┃ ┣ 📜NotificationIcon.tsx
+ ┃ ┃ ┣ 📜PageChatsList.tsx
+ ┃ ┃ ┣ 📜PagePrivateItem.tsx
+ ┃ ┃ ┗ 📜PrivateChatRoom.tsx
  ┃ ┣ 📂community
  ┃ ┃ ┣ 📜AddComment.tsx
  ┃ ┃ ┣ 📜AddPostModal.tsx
+ ┃ ┃ ┣ 📜AlertModal.tsx
  ┃ ┃ ┣ 📜Comment.tsx
  ┃ ┃ ┣ 📜CommunityDetailModal.tsx
  ┃ ┃ ┣ 📜CommunityListPost.tsx
+ ┃ ┃ ┣ 📜CommunitySkeleton.tsx
  ┃ ┃ ┣ 📜EditPostModal.tsx
  ┃ ┃ ┣ 📜PointModal.tsx
  ┃ ┃ ┣ 📜PostImgEdit.tsx
@@ -377,12 +384,20 @@ $ yarn dev
  ┃ ┃ ┗ 📜style.ts
  ┃ ┣ 📂customConfirm
  ┃ ┃ ┗ 📜CustomConfirm.tsx
+ ┃ ┣ 📂daumPostCode
+ ┃ ┃ ┗ 📜SearchAddressModal.tsx
  ┃ ┣ 📂goods
  ┃ ┃ ┣ 📜Goods.tsx
+ ┃ ┃ ┣ 📜GoodsImg.tsx
+ ┃ ┃ ┣ 📜GoodsSkeleton.tsx
  ┃ ┃ ┗ 📜ProductInfoModal.tsx
  ┃ ┣ 📂groupAction
- ┃ ┃ ┗ 📜GroupModal.tsx
+ ┃ ┃ ┣ 📜GroupContent.tsx
+ ┃ ┃ ┣ 📜GroupModal.tsx
+ ┃ ┃ ┗ 📜GroupSkeleton.tsx
  ┃ ┣ 📂individualAction
+ ┃ ┃ ┣ 📜ChatButtons.tsx
+ ┃ ┃ ┣ 📜IndividualSkeleton.tsx
  ┃ ┃ ┣ 📜PageList.tsx
  ┃ ┃ ┗ 📜PageTap.tsx
  ┃ ┣ 📂individualAction-add
@@ -392,25 +407,38 @@ $ yarn dev
  ┃ ┃ ┗ 📜ThirdInputBox.tsx
  ┃ ┣ 📂individualAction-edit
  ┃ ┃ ┗ 📜ImgEdit.tsx
+ ┃ ┣ 📂kakaoMap
+ ┃ ┃ ┣ 📜KakaoMap.tsx
+ ┃ ┃ ┣ 📜SearchMapModal.tsx
+ ┃ ┃ ┗ 📜SearchMapResult.tsx
  ┃ ┣ 📂kakaoShare
  ┃ ┃ ┗ 📜KakaoShare.tsx
  ┃ ┣ 📂layout
- ┃ ┃ ┣ 📜DynamicHeader.tsx
+ ┃ ┃ ┣ 📜Allheader.tsx
+ ┃ ┃ ┣ 📜Chatbot.tsx
  ┃ ┃ ┣ 📜Footer.tsx
  ┃ ┃ ┣ 📜Header.tsx
+ ┃ ┃ ┣ 📜Mheader.tsx
  ┃ ┃ ┗ 📜Test.tsx
  ┃ ┣ 📂likes
  ┃ ┃ ┗ 📜Likes.tsx
  ┃ ┣ 📂main
  ┃ ┃ ┣ 📜LaptopMainSlidder.tsx
- ┃ ┃ ┗ 📜MainSlider.tsx
- ┃ ┗ 📂mypage
+ ┃ ┃ ┣ 📜MainSlider.tsx
+ ┃ ┃ ┗ 📜MobileSlider.tsx
+ ┃ ┣ 📂mypage
  ┃ ┃ ┣ 📜MyActionCard.tsx
+ ┃ ┃ ┣ 📜MyActionCardMobile.tsx
  ┃ ┃ ┣ 📜MyActionRecruitingModal.tsx
  ┃ ┃ ┣ 📜MyProfile.tsx
  ┃ ┃ ┣ 📜MyProfileEditModal.tsx
  ┃ ┃ ┣ 📜ProfileImgUpload.tsx
  ┃ ┃ ┗ 📜RecruitSelectTab.tsx
+ ┃ ┣ 📂push
+ ┃ ┃ ┣ 📜CommentAlarm.tsx
+ ┃ ┃ ┣ 📜CommentDetail.tsx
+ ┃ ┃ ┗ 📜PushListModal.tsx
+ ┃ ┗ 📜TopButton.tsx
  ┣ 📂_hooks
  ┃ ┣ 📂responsive
  ┃ ┃ ┗ 📜index.ts
@@ -428,6 +456,8 @@ $ yarn dev
  ┃ ┗ 📂useQueries
  ┃ ┃ ┣ 📂bookmarks
  ┃ ┃ ┃ ┗ 📜index.ts
+ ┃ ┃ ┣ 📂chats
+ ┃ ┃ ┃ ┗ 📜index.ts
  ┃ ┃ ┣ 📂comments
  ┃ ┃ ┃ ┗ 📜index.ts
  ┃ ┃ ┣ 📂community
@@ -444,28 +474,80 @@ $ yarn dev
  ┃ ┃ ┃ ┗ 📜index.ts
  ┃ ┃ ┣ 📂mypage
  ┃ ┃ ┃ ┗ 📜index.ts
+ ┃ ┃ ┣ 📂push
+ ┃ ┃ ┃ ┗ 📜index.ts
  ┃ ┃ ┗ 📂user
  ┃ ┃ ┃ ┗ 📜index.ts
  ┣ 📂_store
  ┃ ┣ 📜authStore.ts
  ┃ ┗ 📜responsiveStore.ts
  ┣ 📂_types
+ ┃ ┣ 📂bookmark
+ ┃ ┃ ┗ 📜index.ts
  ┃ ┣ 📂comments
  ┃ ┃ ┗ 📜comments.ts
  ┃ ┣ 📂community
  ┃ ┃ ┗ 📜community.ts
+ ┃ ┣ 📂goods
+ ┃ ┃ ┗ 📜index.ts
+ ┃ ┣ 📂groupAction
+ ┃ ┃ ┗ 📜index.ts
+ ┃ ┣ 📂individualAction
+ ┃ ┃ ┗ 📜indext.ts
  ┃ ┣ 📂individualAction-add
  ┃ ┃ ┗ 📜individualAction-add.ts
+ ┃ ┣ 📂individualAction-detail
+ ┃ ┃ ┗ 📜individualAction-detail.ts
  ┃ ┣ 📂mypage
  ┃ ┃ ┗ 📜mypage.ts
+ ┃ ┣ 📂point
+ ┃ ┃ ┗ 📜point.ts
+ ┃ ┣ 📂realtime-chats
+ ┃ ┃ ┗ 📜index.ts
  ┃ ┗ 📜index.ts
+ ┣ 📂about
+ ┃ ┗ 📜page.tsx
+ ┣ 📂api
+ ┃ ┗ 📂auth
+ ┃ ┃ ┗ 📂[...nextauth]
+ ┃ ┃ ┃ ┗ 📜route.ts
+ ┣ 📂auth
+ ┃ ┗ 📂callback
+ ┃ ┃ ┗ 📜route.ts
+ ┣ 📂community
+ ┃ ┗ 📜page.tsx
+ ┣ 📂goods
+ ┃ ┗ 📜page.tsx
+ ┣ 📂groupAction
+ ┃ ┗ 📜page.tsx
+ ┣ 📂individualAction
+ ┃ ┣ 📂add
+ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┣ 📂detail
+ ┃ ┃ ┗ 📂[id]
+ ┃ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┣ 📂edit
+ ┃ ┃ ┗ 📂[id]
+ ┃ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┗ 📜page.tsx
+ ┣ 📂login
+ ┃ ┗ 📜page.tsx
+ ┣ 📂mypage
+ ┃ ┗ 📜page.tsx
+ ┣ 📂privateChat
+ ┃ ┗ 📂[id]
+ ┃ ┃ ┗ 📜page.tsx
+ ┣ 📂protected
+ ┃ ┗ 📜page.tsx
+ ┣ 📂signup
+ ┃ ┗ 📜page.tsx
+ ┣ 📜Provider.tsx
  ┣ 📜favicon.ico
  ┣ 📜globals.css
  ┣ 📜kakao.png
  ┣ 📜layout.tsx
  ┣ 📜not-found.tsx
- ┣ 📜page.tsx
- ┗ 📜Provider.tsx
+ ┗ 📜page.tsx
 ```
   
 </details>
