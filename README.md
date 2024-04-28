@@ -90,7 +90,9 @@ $ yarn dev
 
 ## 🧩 Architecture
 
-<img src="/app/_assets/image/readme/Architecture.png" alt="architecture" width="80%"/>
+<div style="text-align: center;">
+  <img src="/app/_assets/image/readme/Architecture.png" alt="architecture" width="80%" style="margin-left: auto; margin-right: auto;">
+</div>
 
 <br/>
 
