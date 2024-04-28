@@ -96,29 +96,62 @@ $ yarn dev
 
 ## 📚 Stacks
 
-### ✔️ 기본 패키지 관리자
+### ✔️ Language & Framework
 
-<img src="https://img.shields.io/badge/Yarn-black?style=for-the-badge&logo=yarn&logoColor=white">
-
-### ✔️ FE 개발 툴
-
-`Next.js` (`React` 기반)
-<img src="https://img.shields.io/badge/표시할이름-색상?style=for-the-badge&logo=기술스택아이콘&logoColor=white">
-
-  <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white">
-
+<img src="https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=Typescript&logoColor=white">
 <img src="https://img.shields.io/badge/Next.js-black?style=for-the-badge&logo=next.js&logoColor=white">
+<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white">
 
-<img src="https://img.shields.io/badge/Zustand-orange?style=for-the-badge&logo=zustand&logoColor=white">
+### ✔️ State management
 
-- 전역상태 관리 라이브러리 : `Zustand`
-- 비동기 로직 서버상태관리 라이브러리 : TanStack / React-Query
-- 인증/인가 및 데이터베이스 : Supabase
-- CSS : Tailwind CSS, Next UI
+<img src="https://img.shields.io/badge/zustand-orange?style=for-the-badge&logo=zustand&logoColor=white">
+<img src="https://img.shields.io/badge/Tanstack Query-FF4154?style=for-the-badge&logo=TanstackQuery&logoColor=white">
+
+### ✔️ authentication
+
+<img src="https://img.shields.io/badge/nextauth-191919?style=for-the-badge&logo=nextauth&logoColor=black">
+
+### ✔️ Design System & Style
+
+<img src="https://img.shields.io/badge/nextui-000000?style=for-the-badge&logo=nextui&logoColor=white">
+<img src="https://img.shields.io/badge/tailwindcss-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white">
+
+### ✔️ Database
+
+<img src="https://img.shields.io/badge/supabase-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white">
+<img src="https://img.shields.io/badge/supabase realtime-004088?style=for-the-badge&logo=realtime&logoColor=white">
 
 <br/>
 
-### 기술적 의사결정
+## 📝 기술적 의사결정
+
+<details>
+<summary>Typescript</summary>
+
+- 명확한 타입 시스템을 통해 휴먼에러와 컴파일 시간에 미리 타입 오류를 발견할 수 있어 런타임 오류를 줄이고 코드의 안정성을 높일 수 있습니다. 이를 통해 팀의 협업이 더욱 원활해질 수 있기 때문에 TypeScript를 선택하였습니다.
+</details>
+
+<details>
+<summary>Next.js</summary>
+
+- SEO를 위한 다양한 렌더링 기법(SSR, ISR, SSG)을 통해 사용자가 필요로 할 때까지 모든 리소스를 한꺼번에 로드하지 않고, 필요한 시점에 필요한 부분만을 로드하여 초기 로딩 시간을 단축하고 페이지의 성능을 향상시킬 수 있습니다.
+
+- 이미지 최적화와 레이지로딩을 제공하는 등 페이지 로딩 속도를 최적화할 수 있는 기능을 제공합니다.
+
+- app route를 통한 간편한 라우팅 설정과 미들웨어를 통한 페이지 접근 제어 등 다양한 기능을 제공하여 개발 효율성을 높일 수 있습니다.
+
+</details>
+
+<details>
+<summary>Next Auth VS Supabase Authentication</summary>
+
+| 👍🏻 NextAuth                                                                                                                                                                                                                                   |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| \- 간편하고 효율적인 세션 및 JWT(토큰) 기반 인증을 통해 사용자 인증, 로그인, 회원가입 등의 기능을 구현할 수 있습니다.<br />\- 국내 사용자가 가장많은 네이버 및 카카오 OAuth Provider를 지원하여 소셜 로그인 기능을 손쉽게 추가할 수 있습니다. |
+| ❌ **Supabase authentication**                                                                                                                                                                                                                |
+| \- storage에 유저의 정보 및 토큰 값이 자동으로 저장되기 때문에 보안에 취약다는 단점이 명확하여 next auth로 리팩토링을 진행했습니다.                                                                                                           |
+
+</details>
 
 - 문제 상황
   - Supabase에서 로그인 시 로그인 정보(token 포함)를 localstorage에 저장되어 보안에 취약해지는 문제
