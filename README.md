@@ -98,14 +98,11 @@ $ yarn dev
 
 ### ✔️ Language & Framework
 
-<img src="https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=Typescript&logoColor=white">
-<img src="https://img.shields.io/badge/Next.js-black?style=for-the-badge&logo=next.js&logoColor=white">
-<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white">
+<img src="https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=Typescript&logoColor=white"><img src="https://img.shields.io/badge/Next.js-black?style=for-the-badge&logo=next.js&logoColor=white"><img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white">
 
 ### ✔️ State management
 
-<img src="https://img.shields.io/badge/zustand-orange?style=for-the-badge&logo=zustand&logoColor=white">
-<img src="https://img.shields.io/badge/Tanstack Query-FF4154?style=for-the-badge&logo=TanstackQuery&logoColor=white">
+<img src="https://img.shields.io/badge/zustand-orange?style=for-the-badge&logo=zustand&logoColor=white"><img src="https://img.shields.io/badge/Tanstack Query-FF4154?style=for-the-badge&logo=TanstackQuery&logoColor=white">
 
 ### ✔️ authentication
 
@@ -113,13 +110,11 @@ $ yarn dev
 
 ### ✔️ Design System & Style
 
-<img src="https://img.shields.io/badge/nextui-000000?style=for-the-badge&logo=nextui&logoColor=white">
-<img src="https://img.shields.io/badge/tailwindcss-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white">
+<img src="https://img.shields.io/badge/nextui-000000?style=for-the-badge&logo=nextui&logoColor=white"><img src="https://img.shields.io/badge/tailwindcss-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white">
 
 ### ✔️ Database
 
-<img src="https://img.shields.io/badge/supabase-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white">
-<img src="https://img.shields.io/badge/supabase realtime-004088?style=for-the-badge&logo=realtime&logoColor=white">
+<img src="https://img.shields.io/badge/supabase-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white"><img src="https://img.shields.io/badge/supabase realtime-004088?style=for-the-badge&logo=realtime&logoColor=white">
 
 <br/>
 
@@ -128,7 +123,10 @@ $ yarn dev
 <details>
 <summary>Typescript</summary>
 
-- 명확한 타입 시스템을 통해 휴먼에러와 컴파일 시간에 미리 타입 오류를 발견할 수 있어 런타임 오류를 줄이고 코드의 안정성을 높일 수 있습니다. 이를 통해 팀의 협업이 더욱 원활해질 수 있기 때문에 TypeScript를 선택하였습니다.
+| 👍🏻 Typescript                                                                                                                                                                                                                |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| \- 명확한 타입 시스템을 통해 휴먼에러와 컴파일 시간에 미리 타입 오류를 발견할 수 있어 런타임 오류를 줄이고 코드의 안정성을 높일 수 있습니다. 이를 통해 팀의 협업이 더욱 원활해질 수 있기 때문에 TypeScript를 선택하였습니다. |
+
 </details>
 
 <details>
@@ -152,13 +150,6 @@ $ yarn dev
 | \- storage에 유저의 정보 및 토큰 값이 자동으로 저장되기 때문에 보안에 취약다는 단점이 명확하여 next auth로 리팩토링을 진행했습니다.                                                                                                           |
 
 </details>
-
-- 문제 상황
-  - Supabase에서 로그인 시 로그인 정보(token 포함)를 localstorage에 저장되어 보안에 취약해지는 문제
-- 해결 방안
-  - Supabase login API를 next-auth로 로그인할 수 있게 변경
-- 의견 결정
-  - next-auth로 바꿀 시 localstorage에 저장된 정보를 알아서 처리
 
 <br/>
 
