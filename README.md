@@ -15,7 +15,7 @@
 ## 🌏 SOOM Web Page
 
 > 내일배움캠프 React 4기 🌏지.지.마(지구를 지킬 마스터피스)<br/>
-> 개발 기간 : 2024.03.26 ~ 2024.04.14
+> 개발 기간 : 2024.03.26 ~ 2024.04.30 (5주 간)
 
 <br/>
 
@@ -37,14 +37,15 @@
 
 ## 🚩 프로젝트 소개
 
-SOOM - "SOOM" 웹 서비스는 친환경 및 지속가능성을 추구하는 플랫폼으로, 사용자들이 모임을 생성하여 다양한 활동을 공유하고 참여할 수 있도록 하며, 기관 및 단체의 캠페인 정보를 제공합니다.
+"SOOM" - 환경 보호와 관련된 모임을 사용자들이 직접 오픈하고, 모임에 참여한 내용을 인증샷으로 공유할 수 있는 커뮤니티 사이트입니다.
 <br/>
 
-- 소개
+- 상세 소개
+  - "SOOM" 서비스는 친환경 및 지속가능성을 추구하는 플랫폼입니다.
+  - 환경 보호와 관련된 기관 및 단체의 캠페인과 이벤트 정보를 제공합니다.
   - 사용자들이 친환경적이고 지속 가능한 활동을 공유하고 참여할 수 있는 모임을 만들 수 있습니다.
-  - 환경 보호와 관련된 기관 및 단체들이 주최하는 캠페인과 이벤트에 대한 정보도 제공됩니다.
-  - 사용자들이 직접 모임을 열거나 참여해 인증샷을 올리고 공유할 수 있습니다.
-  - 활동 참여와 인증샷 글쓰기를 통해 포인트를 획득하여 굿즈로 교환할 수 있습니다.
+  - 모임에 참여했던 인증샷을 커뮤니티를 통해 올리고, 경험을 공유할 수 있습니다.
+  - 활동 참여와 인증샷 글쓰기 등의 방법을 통해 포인트를 획득하여 굿즈로 교환할 수 있습니다.
 
 <br/>
 
@@ -71,6 +72,8 @@ NEXT_KAKAO_CLIENT_ID=kakao client ID
 NEXT_KAKAO_CLIENT_SECRET=kakao client Key
 NEXT_GOOGLE_CLIENT_ID=google client ID
 NEXT_GOOGLE_CLIENT_SECRET=google client Key
+NEXTAUTH_SECRET=next auth secret Key
+NEXT_PUBLIC_KAKAO_MAP_API_KEY=kakao map API Key
 ```
 
 <br/>
@@ -85,13 +88,30 @@ $ yarn dev
 
 <br/>
 
+## 🧩 Architecture
+
+<img src="/app/_assets/image/readme/Architecture.png" alt="architecture" width="80%"/>
+
+<br/>
+
 ## 📚 Stacks
 
-- 기본 패키지 관리자 : yarn
+### ✔️ 기본 패키지 관리자
 
-- FE 개발 툴 : Next.js (React 기반)
+<img src="https://img.shields.io/badge/Yarn-black?style=for-the-badge&logo=yarn&logoColor=white">
 
-- 전역상태 관리 라이브러리 : Zustand
+### ✔️ FE 개발 툴
+
+`Next.js` (`React` 기반)
+<img src="https://img.shields.io/badge/표시할이름-색상?style=for-the-badge&logo=기술스택아이콘&logoColor=white">
+
+  <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white">
+
+<img src="https://img.shields.io/badge/Next.js-black?style=for-the-badge&logo=next.js&logoColor=white">
+
+<img src="https://img.shields.io/badge/Zustand-orange?style=for-the-badge&logo=zustand&logoColor=white">
+
+- 전역상태 관리 라이브러리 : `Zustand`
 - 비동기 로직 서버상태관리 라이브러리 : TanStack / React-Query
 - 인증/인가 및 데이터베이스 : Supabase
 - CSS : Tailwind CSS, Next UI
