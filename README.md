@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-친환경 및 지속가능성을 추구하는 플랫폼
+친환경 및 지속가능성을 추구하는 환경보호 커뮤니티
 </p>
 
 <br/>
@@ -21,23 +21,23 @@
 
 ## 🔗 배포주소
 
-> 정식 배포 페이지 : https://nbc-team-project-soom.vercel.app/
+> 정식 배포 페이지 : https://www.soom-greenlife.com/
 
 <br/>
 
 ## 🏃 웹개발팀 소개
 
-|                              곽인해                              |                              조성준                              |                              서혜련                              |                              김현주                              |                              김경연                              |
-| :--------------------------------------------------------------: | :--------------------------------------------------------------: | :--------------------------------------------------------------: | :--------------------------------------------------------------: | :--------------------------------------------------------------: |
-| ![곽인해](https://avatars.githubusercontent.com/u/148458439?v=4) | ![조성준](https://avatars.githubusercontent.com/u/151831149?v=4) | ![서혜련](https://avatars.githubusercontent.com/u/121484282?v=4) | ![김현주](https://avatars.githubusercontent.com/u/154492235?v=4) | ![김경연](https://avatars.githubusercontent.com/u/105699149?v=4) |
-|                               리더                               |                              부리더                              |                               팀원                               |                               팀원                               |                               팀원                               |
-|              [@innes-k](https://github.com/innes-k)              |            [@tjdwns335](https://github.com/tjdwns335)            |         [@Hyeryeon-Seo](https://github.com/Hyeryeon-Seo)         |                [@HY965](https://github.com/HY965)                |        [@KyeongyeonKim](https://github.com/KyeongyeonKim)        |
+|                                                              곽인해                                                               |                                                              조성준                                                               |                                                              서혜련                                                               |                                                              김현주                                                               |                                                              김경연                                                               |
+| :-------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------: |
+| <p align="center"><img src="https://avatars.githubusercontent.com/u/148458439?v=4" style="width:280px; border-radius: 30px"/></p> | <p align="center"><img src="https://avatars.githubusercontent.com/u/151831149?v=4" style="width:270px; border-radius: 30px"/></p> | <p align="center"><img src="https://avatars.githubusercontent.com/u/121484282?v=4" style="width:280px; border-radius: 40px"/></p> | <p align="center"><img src="https://avatars.githubusercontent.com/u/154492235?v=4" style="width:290px; border-radius: 40px"/></p> | <p align="center"><img src="https://avatars.githubusercontent.com/u/105699149?v=4" style="width:270px; border-radius: 40px"/></p> |
+|                                                               리더                                                                |                                                              부리더                                                               |                                                               팀원                                                                |                                                               팀원                                                                |                                                               팀원                                                                |
+|                                              [@innes-k](https://github.com/innes-k)                                               |                                            [@tjdwns335](https://github.com/tjdwns335)                                             |                                         [@Hyeryeon-Seo](https://github.com/Hyeryeon-Seo)                                          |                                                [@HY965](https://github.com/HY965)                                                 |                                        [@KyeongyeonKim](https://github.com/KyeongyeonKim)                                         |
 
 <br/><br/>
 
 ## 🚩 프로젝트 소개
 
-"SOOM" - 환경 보호와 관련된 모임을 사용자들이 직접 오픈하고, 모임에 참여한 내용을 인증샷으로 공유할 수 있는 커뮤니티 사이트입니다.
+"SOOM" - 친환경 및 지속가능성을 추구하는 플랫폼으로, 환경 보호를 위한 모임을 직접 만들고 인증샷을 공유할 수 있는 커뮤니티 사이트입니다.
 <br/>
 
 - 상세 소개
@@ -90,29 +90,29 @@ $ yarn dev
 
 ## 🧩 Architecture
 
-<img src="/app/_assets/image/readme/Architecture.png" alt="architecture" width="100%" margin-left=""/>
+<img src="/app/_assets/image/readme/Architecture.png" alt="architecture" width="100%"/>
 
 <br/>
 
 ## 📚 Stacks
 
-### ✔️ Language & Framework
+#### ✔️ Language & Framework
 
 <img src="https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=Typescript&logoColor=white"> <img src="https://img.shields.io/badge/Next.js-black?style=for-the-badge&logo=next.js&logoColor=white"> <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white">
 
-### ✔️ State management
+#### ✔️ State management
 
 <img src="https://img.shields.io/badge/zustand-orange?style=for-the-badge&logo=zustand&logoColor=white"> <img src="https://img.shields.io/badge/Tanstack Query-FF4154?style=for-the-badge&logo=TanstackQuery&logoColor=white">
 
-### ✔️ authentication
+#### ✔️ authentication
 
 <img src="https://img.shields.io/badge/nextauth-191919?style=for-the-badge&logo=nextauth&logoColor=black">
 
-### ✔️ Design System & Style
+#### ✔️ Design System & Style
 
 <img src="https://img.shields.io/badge/nextui-000000?style=for-the-badge&logo=nextui&logoColor=white"> <img src="https://img.shields.io/badge/tailwindcss-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white">
 
-### ✔️ Database
+#### ✔️ Database
 
 <img src="https://img.shields.io/badge/supabase-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white"> <img src="https://img.shields.io/badge/supabase realtime-004088?style=for-the-badge&logo=realtime&logoColor=white">
 
