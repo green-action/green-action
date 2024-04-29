@@ -24,7 +24,7 @@ const MainPage = () => {
   return (
     <div className="laptop:min-w-[1020px]">
       <TopButton />
-      <div className="flex flex-col">
+      <div className="flex flex-col desktop:items-center laptop:items-center">
         <Image
           src={mainImg}
           alt="메인사진"
@@ -66,7 +66,7 @@ const MainPage = () => {
           </section>
         )}
         {/* 배경 이미지 div 끝 */}
-        <section className="z-0 flex flex-col items-center justify-center desktop:pt-[200px] laptop:pt-[0px] desktop:h-[1438px] laptop:h-[1338px] phone:h-[800px] desktop:pb-[200px] laptop:pb-[0px] phone:pb-[80px] phone:pt-[0px] bg-[#F3F3F3] brightness-10 ">
+        <section className="z-0 flex flex-col items-center justify-center desktop:pt-[200px] laptop:pt-[0px] desktop:h-[1438px]  laptop:w-full laptop:h-[1338px] phone:h-[800px] desktop:pb-[200px] laptop:pb-[0px] phone:pb-[80px] phone:pt-[0px] bg-[#F3F3F3] brightness-10 ">
           {isMobile && (
             <section className="flex flex-col items-center justify-center">
               <div className="mr-auto">
@@ -135,9 +135,9 @@ const MainPage = () => {
             </section>
           )}
         </section>
-        {/* 메인페이지 하단 이미지,텍스트 parallax scroll */}
-        <MainSecondTextSection position={position} setPosition={setPosition} />
       </div>
+      {/* 메인페이지 하단 이미지,텍스트 parallax scroll */}
+      <MainSecondTextSection position={position} setPosition={setPosition} />
     </div>
   );
 };
