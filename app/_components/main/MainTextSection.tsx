@@ -40,7 +40,7 @@ const MainTextSection = ({
               soom
             </span>
           </p>
-          <p className="text-center desktop:text-[15pt] laptop:text-[11pt] font-['Pretendard-ExtraLight'] desktop:mt-[0px] laptop:mt-[60px]">
+          <p className="text-center font-extralight desktop:text-[15pt] laptop:text-[11pt] font-['Pretendard'] desktop:mt-[0px] laptop:mt-[60px]">
             지구와 함께 숨쉬다
             <br />
             SOOM과 함께 일상의 그린 라이프를 경험하세요
@@ -53,7 +53,7 @@ const MainTextSection = ({
             Fist step for green life,
             <span className="block">soom</span>
           </p>
-          <p className="text-center text-[9pt] font-['Pretendard-ExtraLight'] mt-[40px]">
+          <p className="text-center font-extralight text-[9pt] font-['Pretendard'] mt-[40px]">
             지구와 함께 숨쉬다
             <br />
             SOOM과 함께 일상의 그린 라이프를 경험하세요
