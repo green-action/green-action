@@ -207,7 +207,7 @@ const HeaderPrivateList = () => {
     >
       <div className="flex flex-col">
         <div
-          className={`ml-2 mt-2 font-black ${
+          className={`ml-2 mt-2 font-semibold ${
             isDesktop
               ? "text-[18px] mb-5"
               : isLaptop
@@ -225,7 +225,7 @@ const HeaderPrivateList = () => {
       </div>
       <div className="flex flex-col">
         <div
-          className={`ml-2 mt-2 font-black ${
+          className={`ml-2 mt-2 font-semibold ${
             isDesktop
               ? "text-[18px] mb-5"
               : isLaptop

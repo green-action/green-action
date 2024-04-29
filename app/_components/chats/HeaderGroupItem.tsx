@@ -114,23 +114,26 @@ const HeaderGroupItem: React.FC<headerGroupItemProps> = ({ room_id, mode }) => {
                 isDesktop ? "gap-2" : isLaptop ? "gap-2" : isMobile && "gap-1"
               }`}
             >
-              <p
-                className={`bg-[#7B7B7B] rounded-xl text-white ${
-                  isDesktop
-                    ? "px-3"
-                    : isLaptop
-                    ? "text-xs px-2 py-[1px]"
-                    : isMobile && "text-[10px] px-1"
-                }`}
-              >
-                {loggedInUserUid === actionInfo?.user_uid && "My"}
-              </p>
+              {loggedInUserUid === actionInfo?.user_uid && (
+                <p
+                  className={`bg-[#7B7B7B] rounded-xl text-white ${
+                    isDesktop
+                      ? "px-3"
+                      : isLaptop
+                      ? "text-xs px-2 py-[1px]"
+                      : isMobile && "text-[10px] px-1"
+                  }`}
+                >
+                  My
+                </p>
+              )}
+
               <span
-                className={`font-black max-w-[200px] overflow-hidden whitespace-nowrap overflow-ellipsis ${
+                className={`font-semibold overflow-hidden whitespace-nowrap overflow-ellipsis ${
                   isDesktop
-                    ? "text-xl"
+                    ? "text-xl max-w-[200px]"
                     : isLaptop
-                    ? "text-sm"
+                    ? "text-sm max-w-[130px]"
                     : isMobile && "text-xs"
                 }`}
               >

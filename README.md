@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-친환경 및 지속가능성을 추구하는 플랫폼
+친환경 및 지속가능성을 추구하는 환경보호 커뮤니티
 </p>
 
 <br/>
@@ -19,34 +19,36 @@
 
 <br/>
 
-## 🔗 배포주소
+## 🔗 배포주소 및 시연영상
 
-> 정식 배포 페이지 : https://nbc-team-project-soom.vercel.app/
+> 정식 배포 사이트 : https://www.soom-greenlife.com/<br/>
+> 시연 영상 : https://youtu.be/KKf7HcJO1Gk
 
 <br/>
-
-## 🏃 웹개발팀 소개
-
-|                              곽인해                              |                              조성준                              |                              서혜련                              |                              김현주                              |                              김경연                              |
-| :--------------------------------------------------------------: | :--------------------------------------------------------------: | :--------------------------------------------------------------: | :--------------------------------------------------------------: | :--------------------------------------------------------------: |
-| ![곽인해](https://avatars.githubusercontent.com/u/148458439?v=4) | ![조성준](https://avatars.githubusercontent.com/u/151831149?v=4) | ![서혜련](https://avatars.githubusercontent.com/u/121484282?v=4) | ![김현주](https://avatars.githubusercontent.com/u/154492235?v=4) | ![김경연](https://avatars.githubusercontent.com/u/105699149?v=4) |
-|                               리더                               |                              부리더                              |                               팀원                               |                               팀원                               |                               팀원                               |
-|              [@innes-k](https://github.com/innes-k)              |            [@tjdwns335](https://github.com/tjdwns335)            |         [@Hyeryeon-Seo](https://github.com/Hyeryeon-Seo)         |                [@HY965](https://github.com/HY965)                |        [@KyeongyeonKim](https://github.com/KyeongyeonKim)        |
-
-<br/><br/>
 
 ## 🚩 프로젝트 소개
 
-"SOOM" - 환경 보호와 관련된 모임을 사용자들이 직접 오픈하고, 모임에 참여한 내용을 인증샷으로 공유할 수 있는 커뮤니티 사이트입니다.
+#### "SOOM" - 친환경 및 지속가능성을 추구하는 플랫폼으로, 환경 보호를 위한 모임을 직접 만들고 인증샷을 공유할 수 있는 커뮤니티 사이트입니다.
+
 <br/>
 
 - 상세 소개
-  - "SOOM" 서비스는 친환경 및 지속가능성을 추구하는 플랫폼입니다.
-  - 환경 보호와 관련된 기관 및 단체의 캠페인과 이벤트 정보를 제공합니다.
   - 사용자들이 친환경적이고 지속 가능한 활동을 공유하고 참여할 수 있는 모임을 만들 수 있습니다.
+  - 환경 보호와 관련된 기관 및 단체의 캠페인과 이벤트 정보를 제공합니다.
   - 모임에 참여했던 인증샷을 커뮤니티를 통해 올리고, 경험을 공유할 수 있습니다.
   - 활동 참여와 인증샷 글쓰기 등의 방법을 통해 포인트를 획득하여 굿즈로 교환할 수 있습니다.
 
+<br/><br/>
+
+## 🏃 웹개발팀 소개
+
+|                                                              곽인해                                                               |                                                              조성준                                                               |                                                              서혜련                                                               |                                                              김현주                                                               |                                                              김경연                                                               |
+| :-------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------: |
+| <p align="center"><img src="https://avatars.githubusercontent.com/u/148458439?v=4" style="width:280px; border-radius: 30px"/></p> | <p align="center"><img src="https://avatars.githubusercontent.com/u/151831149?v=4" style="width:270px; border-radius: 30px"/></p> | <p align="center"><img src="https://avatars.githubusercontent.com/u/121484282?v=4" style="width:280px; border-radius: 40px"/></p> | <p align="center"><img src="https://avatars.githubusercontent.com/u/154492235?v=4" style="width:290px; border-radius: 40px"/></p> | <p align="center"><img src="https://avatars.githubusercontent.com/u/105699149?v=4" style="width:270px; border-radius: 40px"/></p> |
+|                                                               리더                                                                |                                                              부리더                                                               |                                                               팀원                                                                |                                                               팀원                                                                |                                                               팀원                                                                |
+|                                              [@innes-k](https://github.com/innes-k)                                               |                                            [@tjdwns335](https://github.com/tjdwns335)                                             |                                         [@Hyeryeon-Seo](https://github.com/Hyeryeon-Seo)                                          |                                                [@HY965](https://github.com/HY965)                                                 |                                        [@KyeongyeonKim](https://github.com/KyeongyeonKim)                                         |
+
+<br/>
 <br/>
 
 ## 🛠️ 시작 가이드
@@ -90,29 +92,29 @@ $ yarn dev
 
 ## 🧩 Architecture
 
-<img src="/app/_assets/image/readme/Architecture.png" alt="architecture" width="100%" margin-left=""/>
+<img src="/app/_assets/image/readme/Architecture.png" alt="architecture" width="100%"/>
 
 <br/>
 
 ## 📚 Stacks
 
-### ✔️ Language & Framework
+#### ✔️ Language & Framework
 
 <img src="https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=Typescript&logoColor=white"> <img src="https://img.shields.io/badge/Next.js-black?style=for-the-badge&logo=next.js&logoColor=white"> <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white">
 
-### ✔️ State management
+#### ✔️ State management
 
 <img src="https://img.shields.io/badge/zustand-orange?style=for-the-badge&logo=zustand&logoColor=white"> <img src="https://img.shields.io/badge/Tanstack Query-FF4154?style=for-the-badge&logo=TanstackQuery&logoColor=white">
 
-### ✔️ authentication
+#### ✔️ authentication
 
 <img src="https://img.shields.io/badge/nextauth-191919?style=for-the-badge&logo=nextauth&logoColor=black">
 
-### ✔️ Design System & Style
+#### ✔️ Design System & Style
 
 <img src="https://img.shields.io/badge/nextui-000000?style=for-the-badge&logo=nextui&logoColor=white"> <img src="https://img.shields.io/badge/tailwindcss-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white">
 
-### ✔️ Database
+#### ✔️ Database
 
 <img src="https://img.shields.io/badge/supabase-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white"> <img src="https://img.shields.io/badge/supabase realtime-004088?style=for-the-badge&logo=realtime&logoColor=white">
 
@@ -554,15 +556,17 @@ $ yarn dev
 
 <br/>
 
-## 🎨 와이어프레임 화면구성
+## 🎨 사이트 화면구성
 
-|                                                       메인 페이지                                                       |                                                       About 페이지                                                       |
-| :---------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------: |
-| ![Home ( Main page)](https://github.com/KyeongyeonKim/Algorithm/assets/105699149/f5a07e44-84dc-4e50-abff-f451bf4d3970)  |       ![About](https://github.com/green-action/green-action/assets/105699149/5bef81af-4c2a-47ad-8aa6-ab7157109da6)       |
-|                                                    **로그인 페이지**                                                    |                                                   **개인액션 페이지**                                                    |
-|      ![Login](https://github.com/green-action/green-action/assets/105699149/e370161c-34c0-4215-a0cb-5c449f696723)       | ![Green-action 개인](https://github.com/green-action/green-action/assets/105699149/aee43e78-1f50-41a5-9596-7f55ed4794d9) |
-|                                                   **단체액션 페이지**                                                   |                                                   **community 페이지**                                                   |
-| ![Greenaction 단체](https://github.com/green-action/green-action/assets/105699149/57f24980-ff24-4fe3-b766-2487386292b3) |     ![Community](https://github.com/green-action/green-action/assets/105699149/72d28949-2292-4a1a-a674-2cd1f086e066)     |
+|                                                 메인 페이지                                                  |                                                          About 페이지                                                           |
+| :----------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------: |
+|                        ![Home ( Main page)](/app/_assets/image/readme/page-main.jpg)                         |                                       ![About](/app/_assets/image/readme/page-about.jpg)                                        |
+|                                         **로그인, 회원가입 페이지**                                          |                                                       **개인액션 페이지**                                                       |
+| ![Login](/app/_assets/image/readme/page-login.png)<br/> ![Signup](/app/_assets/image/readme/page-signup.png) |                            ![Green-action 개인](/app/_assets/image/readme/page-individualAction.jpg)                            |
+|                                             **단체액션 페이지**                                              |                                                      **community 페이지**                                                       |
+|                     ![Greenaction 단체](/app/_assets/image/readme/page-groupAction.jpg)                      |                                   ![Community](/app/_assets/image/readme/page-community.jpg)                                    |
+|                                                **my 페이지**                                                 |                                              **1:1문의하기, 참여하기(단체채팅방)**                                              |
+|                             ![myPage](/app/_assets/image/readme/page-mypage.png)                             | ![privateChat](/app/_assets/image/readme/page-privateChat.jpg) <br/> ![groupChat](/app/_assets/image/readme/page-groupChat.png) |
 
 <br/>
 
@@ -581,14 +585,35 @@ $ yarn dev
 - 메인페이지에서 Community Hot Posts를 볼 수 있습니다.
 - 메인페이지에서 Green-Action Hot Posts를 볼 수 있습니다.
 
+#### 챗봇
+
+- 모든 페이지의 우측 하단에 챗봇이 위치합니다.
+- 챗봇을 클릭하여 사이트 소개, green-action 소개, 자주하는 질문을 조회할 수 있습니다.
+
 #### Green-Action 개인
 
 - 오프라인 또는 온라인에서 참여 가능한 Green-Action 모집글을 작성할 수 있습니다.
 - 게시글을 모집중인 캠페인 / 모집 마감된 캠페인으로 분류하여 조회할 수 있습니다.
 - 최신 등록 순, 찜한 순으로 게시글을 조회할 수 있습니다.
-- 게시글의 상세페이지에서 참여하기 버튼을 누르면 나오는 오픈채팅 링크를 통해 작성자와 소통할 수 있습니다.
+- 게시글의 상세페이지에서 참여하기 버튼을 누르면 단체채팅방에 참여할 수 있습니다.
 - 게시글의 상세페이지를 카카오톡 채팅으로 공유할 수 있습니다.
 - 관심이 있는 게시글에 찜 기능을 사용하여 모아 볼 수 있습니다.
+
+#### 1:1 문의하기, 참여하기 실시간 채팅
+
+- 1:1문의
+
+  - green-action 상세페이지에서 1:1문의하기를 클릭하여 개인채팅방으로 이동합니다.
+
+  - 해당 채팅방의 green-action에 대한 간략한 정보를 조회할 수 있습니다.
+
+- 참여하기
+
+  - green-action 상세페이지에서 '참여하기'를 클릭하여 단체채팅방으로 이동합니다.
+
+  - 단체채팅방의 참여자 정보와 인원수를 볼 수 있습니다.
+
+  - 해당 채팅방의 green-action에 대한 간략한 정보를 조회할 수 있습니다.
 
 #### Green-Action 단체
 
@@ -718,3 +743,216 @@ $ yarn dev
 </details>
 
 <br/>
+
+<details>
+<summary>
+스크롤 및 화면 resize에 변화가 있을 때마다 브라우저가 매번 리렌더링되는 이슈
+</summary>
+
+## 🔨 문제 상황
+
+- 스크롤 및 화면 resize에 변화가 있을 때마다 브라우저가 매번 리렌더링 됨
+
+  > 🖥️ 페이지 별로 파악해 본 결과<br/><br/> > **1. 메인페이지** : 스크롤 움직일 시, 화면 resize 시에 계속 화면 리렌더링 <br/> > **2.** about 페이지 : 위와 동일<br/> > **3. 기타 페이지** : 화면 resize시 화면 계속 리렌더링
+
+  >
+
+![troubleShooting](/app/_assets/image/readme/troubleShooting1.png)
+
+- 기존 코드
+
+```tsx
+// ✅ index.ts (_hooks/responsive)
+
+export const useResponsive = () => {
+  const setWindowSize = useResponsiveStore((state) => state.setWindowSize);
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowSize(window.innerWidth);
+    }
+
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [setWindowSize]);
+
+  const resultObj = useResponsiveStore((state) => {
+    return {
+      isDesktop: state.isDesktop,
+      isLaptop: state.isLaptop,
+      isMobile: state.isMobile,
+    };
+  });
+
+  return resultObj;
+};
+```
+
+```tsx
+// ✅ Allheader.tsx (_components/layout)
+// (투명, 블러 처리)
+
+const [isScrolled, setIsScrolled] = useState(false);
+
+useEffect(() => {
+  // useFetchUserInfo(user_uid);
+  const handleScroll = () => {
+    if (window.scrollY > 0) {
+      setIsScrolled(true);
+    } else {
+      setIsScrolled(false);
+    }
+  };
+  window.addEventListener("scroll", handleScroll);
+
+  return () => {
+    window.removeEventListener("scroll", handleScroll);
+  };
+}, [data]);
+```
+
+```tsx
+// ✅ AboutContent.tsx (_components/about)
+// (parallax scroll)
+
+const [position, setPosition] = useState(0);
+
+const onScroll = () => {
+  setPosition(window.scrollY);
+};
+
+useEffect(() => {
+  window.addEventListener("scroll", onScroll);
+  return () => {
+    window.removeEventListener("scroll", onScroll);
+  };
+}, []);
+```
+
+<br/>
+
+## 🔎 문제 파악
+
+- 의심되는 컴포넌트 및 모든 페이지 별로 콘솔을 찍어보며 어떤 경우일 때 콘솔이 무한정 찍히는지 파악했다.
+
+  (header 컴포넌트, main페이지, about페이지, 개인 액션페이지, 커뮤니티 페이지 등)
+
+  <br/>
+
+## 📝 원인
+
+- 스크롤, 화면 resize 변화를 useEffect로 감지하고 있어서 생긴 이슈
+
+- useEffect가 스크롤 및 화면 사이즈의 변경이 일어날 때마다 변화를 감지해서 잦은 화면 리렌더링을 유발하고 있었다.
+
+  > ✏️ **스크롤, 화면 resize 관련 useEffect 사용처**<br/> > _1. 메인페이지_ : parallax scroll, 스크롤에 따른 헤더의 투명/블러 처리<br/> > _2. about페이지_ : parallax scroll<br/> > _3. useResponsive custom hook_ : 화면 resize 실시간 파악을 위한 화면 사이즈 감지
+
+<br/>
+
+## 🌈 시도 : scroll, useResponsive에 debounce 추가하기
+
+```tsx
+// ✅ index.ts (_hooks/responsive)
+
+export const useResponsive = () => {
+  const setWindowSize = useResponsiveStore((state) => state.setWindowSize);
+  const debounceDelay = 1000;
+  useEffect(() => {
+    const handleDebouncedResize = debounce(() => {
+      setWindowSize(window.innerWidth);
+    }, debounceDelay);
+
+    window.addEventListener("resize", handleDebouncedResize);
+
+    handleDebouncedResize();
+
+    return () => {
+      window.removeEventListener("resize", handleDebouncedResize);
+    };
+  }, [setWindowSize]);
+
+  const resultObj = useResponsiveStore((state) => {
+    return {
+      isDesktop: state.isDesktop,
+      isLaptop: state.isLaptop,
+      isMobile: state.isMobile,
+    };
+  });
+
+  return resultObj;
+};
+```
+
+```tsx
+// ✅ Allheader.tsx (_components/layout)
+// (투명, 블러 처리)
+
+const [isScrolled, setIsScrolled] = useState(false);
+
+const handleScroll = useCallback(
+  debounce(() => {
+    if (window.scrollY > 0) {
+      setIsScrolled(true);
+    } else {
+      setIsScrolled(false);
+    }
+  }, 100),
+  [debounce],
+);
+
+useEffect(() => {
+  window.addEventListener("scroll", handleScroll);
+
+  return () => {
+    window.removeEventListener("scroll", handleScroll);
+  };
+}, []);
+```
+
+> **결과**
+>
+> - 🟢 스크롤 : 살짝 끊기는 느낌이 있지만 스크롤 감지하여 리렌더링되는 이슈는 해결됨
+> - 🔴 화면 resize : 화면 resize가 끝나면 그동안 누적된 변화감지만큼 한번에 리렌더링됨
+
+</details>
+<br/>
+
+<details>
+<summary>
+light house 측정 시 메인페이지에서 유독 자주 보이는 🔺체크
+</summary>
+
+## 🔨 문제 상황
+
+- light house 측정 시 터무니 없게 낮은 점수와, 메인페이지에서 유독 🔺체크가 자주 보였다.
+
+- 예시)
+
+  ![troubleShooting2](/app/_assets/image/readme/troubleShooting2.png)
+
+  ![troubleShooting3](/app/_assets/image/readme/troubleShooting3.png)
+
+  <br/>
+
+## 📝 원인
+
+- 메인 페이지와 about페이지에서 사용되는 메인 이미지의 용량이 `30Mb`였다는 점을 발견했다.
+
+  > 이미지 파일의 용량 및 사이즈 자체가 큰 경우에는 아무리 next의 Image태그를 사용한다 하더라도 최적화에 한계가 있다. 따라서 이미지 용량을 줄여 볼 필요성을 느꼈다.
+
+    <br/>
+
+## 🌈 해결
+
+- 용량이 `30Mb`였던 메인 이미지를 `3Mb`까지 줄인 다음 light house 재측정
+
+  ![troubleShooting4](/app/_assets/image/readme/troubleShooting4.png)
+
+  > 아무리 Image태그를 사용한다고 해도, 완벽하게 최적화가 되는건 아니라는 걸 깨달은 트러블슈팅이었다. 이미지를 첨부할 때는 항상 용량과 사이즈가 사이트의 ui/ux적으로 해가 되지 않는 선에서는 정리를 따로 할 필요가 있다는 것을 깨달았다.
+
+</details>

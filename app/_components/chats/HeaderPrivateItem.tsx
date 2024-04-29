@@ -88,7 +88,7 @@ const HeaderPrivateItem = ({
           <div className="flex justify-between">
             <div>
               <span
-                className={`font-black ${
+                className={`font-semibold overflow-hidden whitespace-nowrap overflow-ellipsis ${
                   isDesktop
                     ? "text-xl"
                     : isLaptop
@@ -117,7 +117,7 @@ const HeaderPrivateItem = ({
                   "My"}
               </p>
               <span
-                className={`text-[#7B7B7B] font-black overflow-hidden whitespace-nowrap overflow-ellipsis ${
+                className={`text-[#7B7B7B] font-semibold overflow-hidden whitespace-nowrap overflow-ellipsis ${
                   isDesktop
                     ? "text-lg max-w-[170px]"
                     : isLaptop

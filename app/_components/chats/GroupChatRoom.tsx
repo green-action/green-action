@@ -195,7 +195,7 @@ const GroupChatRoom: React.FC<ChatProps> = ({
                         : isMobile && "w-[30px] h-[30px]"
                     }`}
                   />
-                  <div className="flex flex-col gap-0.5">
+                  <div className="flex flex-col gap-0.5 font-normal">
                     <span
                       className={`text-gray-500 ${
                         isDesktop
@@ -208,7 +208,7 @@ const GroupChatRoom: React.FC<ChatProps> = ({
                       Green action
                     </span>
                     <span
-                      className={`font-black overflow-hidden whitespace-nowrap overflow-ellipsis ${
+                      className={`font-semibold overflow-hidden whitespace-nowrap overflow-ellipsis ${
                         isDesktop
                           ? "text-xl"
                           : isLaptop
