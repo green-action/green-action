@@ -44,7 +44,7 @@ const Allheader = () => {
   const isLoggedIn = !!session.data;
   const user_uid = session?.data?.user.user_uid as string;
 
-  const isAbout = pathname === "/about";
+  const isMypage = pathname === "/mypage";
   const {
     data,
     isLoading: isUserDataLoading,
@@ -92,9 +92,8 @@ const Allheader = () => {
         });
         setMessage("로그아웃 되었습니다.");
         setIsOpenAlertModal(true);
-
-        if (!isAbout) {
-          router.push("/login");
+        if (isMypage) {
+          router.push("/");
         }
       } catch (error) {
         console.error("Logout error:", error);
