@@ -151,7 +151,7 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
                   size={isDesktop ? 25 : isLaptop ? 14 : 13}
                 />
                 <span
-                  className={`font-extrabold ${
+                  className={`font-semibold ${
                     isDesktop
                       ? "text-[18px]"
                       : isLaptop
@@ -163,7 +163,7 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
                 </span>
               </div>
               <span
-                className={`text-gray-400 mt-1 ${
+                className={`text-gray-400 mt-1 font-normal ${
                   isDesktop
                     ? "mb-5"
                     : isLaptop
@@ -251,7 +251,7 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
                 }`}
               >
                 <span
-                  className={`font-extrabold ${
+                  className={`font-semibold ${
                     isDesktop
                       ? "ml-1"
                       : isLaptop
@@ -293,7 +293,7 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
                     : isMobile && "ml-3 gap-3"
                 }`}
               >
-                <div className="flex items-center gap-2 font-extrabold">
+                <div className="flex items-center gap-2 font-normal">
                   <Avatar
                     className={`mr-2 ${
                       isDesktop
@@ -320,7 +320,7 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
                 {participantsInfo?.map((participant: any) => (
                   <>
                     {participant.id !== ownerInfo?.id && (
-                      <div className="flex items-center gap-4 font-extrabold">
+                      <div className="flex items-center gap-4 font-normal">
                         <Avatar
                           src={participant.profile_img || ""}
                           alt="participant-profile"
@@ -360,7 +360,7 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
                   className="text-gray-700"
                 />
                 <span
-                  className={`text-gray-700 font-extrabold mr-3 cursor-pointer ${
+                  className={`text-gray-700 font-semibold mr-3 cursor-pointer ${
                     isDesktop
                       ? "text-[17px]"
                       : isLaptop

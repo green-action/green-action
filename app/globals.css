@@ -1,8 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import '@fontsource/inter';
-@import 'fontsource-italiana';
+@import "@fontsource/inter";
+@import "fontsource-italiana";
 @import "pretendard/dist/web/static/pretendard.css";
 
 @layer base {

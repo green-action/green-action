@@ -37,7 +37,7 @@ const AboutComputerSize = ({ position }: { position: number }) => {
         <div className="flex flex-col items-center desktop:mt-[700px] laptop:mt-[505px]">
           {/* second part - 설명글 */}
           <div className="flex flex-col justify-center text-center  mx-auto font-bold desktop:text-[36px] desktop:mb-[420px] desktop:w-[1426px] laptop:text-[30px] laptop:mb-[330px] w-[852px]">
-            <p>나의그린 라이프 실천 내역을 한눈에 보고 한번에 찾으세요.</p>
+            <p>나의 그린 라이프 실천 내역을 한눈에 보고 한번에 찾으세요.</p>
             <p>환경을 위한 첫걸음을 함께 쉽고 재밌게 할 수 있는 서비스</p>
             <p>숨과 함께라면 당신의 일상이 새로워질 거예요.</p>
             {/* 첫 줄 */}
