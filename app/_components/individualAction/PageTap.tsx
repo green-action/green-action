@@ -122,7 +122,7 @@ const PageTap = () => {
             </li>
             <li
               onClick={handleActiveTabClick}
-              className={`flex justify-center items-center cursor-pointer desktop:w-[130px] h-[34px] text-[15px] laptop:w-[108px] ${
+              className={`flex justify-center items-center cursor-pointer desktop:w-[150px] h-[34px] text-[15px] laptop:w-[108px] ${
                 activeTab === "모집중 Green Action"
                   ? "border-b-2 border-black transition duration-300 ease-in-out text-[12px]"
                   : ""
@@ -132,7 +132,7 @@ const PageTap = () => {
             </li>
             <li
               onClick={handleActiveTabClick}
-              className={`flex justify-center items-center cursor-pointer desktop:w-[130px] h-[34px] text-[15px] laptop:w-[108px] ${
+              className={`flex justify-center items-center cursor-pointer desktop:w-[150px] h-[34px] text-[15px] laptop:w-[108px] ${
                 activeTab === "마감된 Green Action"
                   ? "border-b-2 border-black transition duration-300 ease-in-out text-[12px] "
                   : ""
