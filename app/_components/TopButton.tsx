@@ -1,8 +1,6 @@
-import { Button } from "@nextui-org/react";
-import React, { useEffect, useState } from "react";
-import upImg from "../../app/_assets/image/mainpage/up.png";
 import Image from "next/image";
-import { useResponsive } from "../_hooks/responsive";
+import { useEffect, useState } from "react";
+import upImg from "../../app/_assets/image/mainpage/up.png";
 
 const TopButton = () => {
   const [showButton, setShowButton] = useState(false);
