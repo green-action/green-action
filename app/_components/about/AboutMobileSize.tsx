@@ -30,7 +30,7 @@ const AboutMobileSize = ({ position }: { position: number }) => {
         <div className="mt-[350px] mb-[205px] flex flex-col items-center">
           {/* second part - 설명글 */}
           <div className="w-[300px] flex flex-col justify-center text-center text-[20px] font-medium">
-            <p>나의그린 라이프 실천 내역을</p>
+            <p>나의 그린 라이프 실천 내역을</p>
             <p>한눈에 보고 한번에 찾으세요.</p>
             <p>환경을 위한 첫걸음을 함께 쉽고 </p>
             <p>재밌게 할 수 있는 서비스.</p>

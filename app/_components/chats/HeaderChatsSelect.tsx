@@ -28,19 +28,19 @@ const HeaderChatsSelect = ({ onClose }: { onClose: () => void }) => {
                 ${
                   isDesktop &&
                   (privateSelected
-                    ? "border-b-3 border-black font-black text-black"
+                    ? "border-b-3 border-black font-semibold text-black"
                     : "text-gray-500")
                 }
                 ${
                   isLaptop &&
                   (privateSelected
-                    ? "border-b-2 border-black font-black text-black text-base"
+                    ? "border-b-2 border-black font-semibold text-black text-base"
                     : "text-gray-500 text-base")
                 }
                 ${
                   isMobile &&
                   (privateSelected
-                    ? "border-b-2 border-black font-black text-black text-sm"
+                    ? "border-b-2 border-black font-semibold text-black text-sm"
                     : "text-gray-500 text-sm")
                 } 
                 `}
@@ -53,19 +53,19 @@ const HeaderChatsSelect = ({ onClose }: { onClose: () => void }) => {
                 ${
                   isDesktop &&
                   (!privateSelected
-                    ? "border-b-3 border-black font-black text-black"
+                    ? "border-b-3 border-black font-semibold text-black"
                     : "text-gray-500")
                 }
                 ${
                   isLaptop &&
                   (!privateSelected
-                    ? "border-b-2 border-black font-black text-black text-base"
+                    ? "border-b-2 border-black font-semibold text-black text-base"
                     : "text-gray-500 text-base")
                 }
                 ${
                   isMobile &&
                   (!privateSelected
-                    ? "border-b-2 border-black font-black text-black text-sm"
+                    ? "border-b-2 border-black font-semibold text-black text-sm"
                     : "text-gray-500 text-sm")
                 } 
                 `}
