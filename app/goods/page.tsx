@@ -1,10 +1,9 @@
 "use client";
-import React from "react";
-import Goods from "../_components/goods/Goods";
-import { useResponsive } from "../_hooks/responsive";
-import TopButton from "../_components/TopButton";
 import setbox from "@/app/_assets/image/goods/setbox.png";
 import Image from "next/image";
+import TopButton from "../_components/TopButton";
+import Goods from "../_components/goods/Goods";
+import { useResponsive } from "../_hooks/responsive";
 
 const GoodsPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
