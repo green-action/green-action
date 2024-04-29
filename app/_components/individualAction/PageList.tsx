@@ -69,7 +69,7 @@ const PageList: React.FC<ChildProps> = ({
                 radius="sm"
                 className={`${
                   post.is_recruiting ? "bg-[#B3C8A1]" : "bg-[#5F5F5F]"
-                } text-white w-[41px] h-[15px] laptop:w-[36px] text-[10px] ml-2 mt-4`}
+                } text-white w-[41px] h-[17px] laptop:w-[36px] text-[13px] ml-2 mt-4`}
               >
                 {post.is_recruiting ? "모집중" : "모집마감"}
               </Chip>
@@ -79,7 +79,7 @@ const PageList: React.FC<ChildProps> = ({
                 radius="sm"
                 className={`${
                   post.is_recruiting ? "bg-[#B3C8A1]" : "bg-[#5F5F5F]"
-                } text-white w-[41px] h-[15px] laptop:w-[36px] text-[10px] ml-2 mt-4`}
+                } text-white w-[41px] h-[16px] laptop:w-[36px] text-[11px] ml-2 mt-4`}
               >
                 {post.is_recruiting ? "모집중" : "모집마감"}
               </Chip>
