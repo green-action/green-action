@@ -43,7 +43,6 @@ import type { ChatProps } from "@/app/_types/realtime-chats";
 const PrivateChatRoom: React.FC<ChatProps> = ({
   isOpen,
   onOpenChange,
-  onPrivateChatClose,
   roomId,
   actionId,
 }) => {
@@ -82,7 +81,7 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "chat_messages" },
 
-        // TODO 채팅 리스트 무효화 성공 - 리스트 전체를 무효화 (수정 필요 - setQueryData 등)
+        // TODO 무효화 수정 필요 - setQueryData 등
         () => {
           queryClient.invalidateQueries({
             queryKey: [QUERY_KEY_MESSAGES_LIST],
@@ -203,7 +202,7 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
             }
             `}
         >
-          {(onClose) => (
+          {(onPrivateChatClose) => (
             <>
               <ModalHeader
                 className={`fixed bg-white flex justify-between items-center gap-5 shadow-md z-10 px-8 rounded-tl-[30px] rounded-tr-[30px] ${
@@ -264,7 +263,9 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
                   <IoCloseOutline
                     size={`${isDesktop ? 40 : isLaptop ? 35 : 27}`}
                     className="cursor-pointer"
-                    onClick={() => onClose()}
+                    onClick={() => {
+                      onPrivateChatClose();
+                    }}
                   />
                 </div>
               </ModalHeader>
@@ -367,7 +368,7 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
                     participantsInfo={actionParticipantsInfo}
                     roomId={roomId}
                     actionId={actionId}
-                    onClose={onClose}
+                    onClose={onPrivateChatClose}
                   />
                 )}
               </ModalBody>

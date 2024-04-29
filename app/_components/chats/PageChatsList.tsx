@@ -134,11 +134,11 @@ const PageChatsList: React.FC<pageChatsListProps> = ({
           <div
             className={`${
               isDesktop
-                ? "w-full"
+                ? "w-full h-[130px]"
                 : isLaptop
-                ? "w-full"
-                : isMobile && "w-[332px] rounded-t-[30px]"
-            } fixed bg-white z-10 flex text-[20px] gap-8 h-[13%] items-end pl-11`}
+                ? "w-full h-[80px]"
+                : isMobile && "w-[332px] h-[55px] rounded-t-[30px]"
+            } fixed bg-white z-10 flex text-[20px] gap-8 items-end pl-11`}
           >
             <div
               className={`pb-2
@@ -158,7 +158,11 @@ const PageChatsList: React.FC<pageChatsListProps> = ({
           </div>
         </div>
       </header>
-      <ModalBody className="bg-[#EAEAEA] pt-[22%] pb-7 px-0">
+      <ModalBody
+        className={`bg-[#EAEAEA] pb-7 px-0 ${
+          isDesktop ? "pt-36" : isLaptop ? "pt-[90px]" : isMobile && "pt-12"
+        }`}
+      >
         <div
           className={`${
             isDesktop ? "px-10" : isLaptop ? "px-8" : isMobile && "px-5 pt-3"

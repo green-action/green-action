@@ -250,7 +250,7 @@ export const useGetAllUnreadCount = (loggedInUserUid: string) => {
   } = useQuery({
     queryKey: [QUERY_KEY_ALL_UNREAD_COUNT],
     queryFn: () => getAllUnreadCount(loggedInUserUid),
-    enabled: !!loggedInUserUid,
+    // enabled: !!loggedInUserUid,
   });
   return { allUnreadCount, isAllUnreadCountLoading, isAllUnreadCountError };
 };
