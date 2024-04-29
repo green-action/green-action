@@ -1,9 +1,9 @@
 "use client";
 
 import { useResponsive } from "@/app/_hooks/responsive";
-import { debounce } from "@/utils/debounce/debounce";
 import Aos from "aos";
 import "aos/dist/aos.css";
+import _ from "lodash";
 import React, { useCallback, useEffect, useState } from "react";
 import AboutComputerSize from "./AboutComputerSize";
 import AboutMobileSize from "./AboutMobileSize";
@@ -15,10 +15,10 @@ const AboutContent = () => {
   const [position, setPosition] = useState(0);
 
   const onScroll = useCallback(
-    debounce(() => {
+    _.throttle(() => {
       setPosition(window.scrollY);
     }, 100),
-    [debounce],
+    [_],
   );
 
   useEffect(() => {
