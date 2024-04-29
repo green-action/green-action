@@ -59,8 +59,6 @@ const Allheader = () => {
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const [message, setMessage] = useState("");
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   // 채팅방 리스트 모달창
   const {
     isOpen: isChatsListModalOpen,
