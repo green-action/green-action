@@ -1,9 +1,10 @@
 "use client";
 
-import { useResponsive } from "@/app/_hooks/responsive";
+import { MODE_HEADER } from "@/app/_api/constant";
 import { useGetAllUnreadCount } from "@/app/_hooks/useQueries/chats";
 import { useFetchUserInfo } from "@/app/_hooks/useQueries/mypage";
 import { User } from "@/app/_types";
+import { debounce } from "@/utils/debounce/debounce";
 import {
   Avatar,
   Badge,
@@ -20,12 +21,13 @@ import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
+import { LuAlignLeft } from "react-icons/lu";
 import ChatsListModal from "../chats/ChatsListModal";
 import AlertModal from "../community/AlertModal";
 import outside from "/app/_assets/image/individualAction/Group217.svg";
-import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
+import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
 import graylogoImg from "/app/_assets/image/logo_icon/logo/gray.png";
 import whitelogoImg from "/app/_assets/image/logo_icon/logo/white.png";
 
@@ -36,25 +38,35 @@ const Mheader = () => {
   const isLoggedIn = !!session.data;
   const user_uid = session?.data?.user.user_uid as string;
 
-  const pathsMainAbout = pathname === "/" || pathname === "/about";
-  const isAbout = pathname === "/about";
+  const isMypage = pathname === "/mypage";
 
-  const { data, isLoading: isUserDataLoading } = useFetchUserInfo(user_uid);
-  const { display_name, profile_img } = (data as User) || "";
+  const {
+    data,
+    isLoading: isUserDataLoading,
+    isError: isUserDataError,
+  } = useFetchUserInfo(user_uid);
+  const { display_name, profile_img } = (data as User["userInfo"]) || "";
 
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileHover, setIsProfileHover] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   // alert 대체 모달창을 위한 상태관리
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const [message, setMessage] = useState("");
-  const { isDesktop, isLaptop, isMobile } = useResponsive();
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // 채팅방 리스트 모달창
   const {
     isOpen: isChatsListModalOpen,
     onOpen: onChatsListModalOpen,
     onClose: onChatsListModalClose,
+  } = useDisclosure();
+
+  // push 알림 리스트 모달창
+  const {
+    isOpen: isPushListModalOpen,
+    onOpen: onPushListModalOpen,
+    onClose: onPushListModalClose,
   } = useDisclosure();
 
   const handleLogoLinkClick = () => {
@@ -74,6 +86,9 @@ const Mheader = () => {
         });
         setMessage("로그아웃 되었습니다.");
         setIsOpenAlertModal(true);
+        if (isMypage) {
+          router.push("/");
+        }
       } catch (error) {
         console.error("Logout error:", error);
       }
@@ -82,66 +97,51 @@ const Mheader = () => {
     }
   };
 
-  const [parentSelected, setParentSelected] = useState<string>(""); // 부모 탭의 선택 상태
-  const [childSelected, setChildSelected] = useState<string>(""); // 하위 탭의 선택 상태
-
-  const handleSelectedTab = () => {
-    setParentSelected(pathname);
-
-    if (pathname !== "/individualAction" && pathname !== "/groupAction") {
-      setChildSelected(""); // 해당부모탭 아닌 다른 탭 선택시 하위탭선택 없애기 (초기화)
-    }
-    if (pathname === "/groupAction") {
-      setParentSelected("/individualAction");
-      setChildSelected("/groupAction");
-    }
-    if (pathname.startsWith("/individualAction")) {
-      // individualAction 의 detail 페이지까지 처리
-      setParentSelected("/individualAction");
-      setChildSelected("/individualAction");
-    }
-  };
-
-  useEffect(() => {
-    handleSelectedTab();
-  }, [pathname]);
-
   // 헤더 투명이었다가 스크롤하면 블러처리
   const [isScrolled, setIsScrolled] = useState(false);
 
-  useEffect(() => {
-    // useFetchUserInfo(user_uid);
-    const handleScroll = () => {
+  const handleScroll = useCallback(
+    debounce(() => {
       if (window.scrollY > 0) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
       }
-    };
+    }, 100),
+    [debounce],
+  );
+
+  useEffect(() => {
     window.addEventListener("scroll", handleScroll);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [data]);
+  }, []);
 
   // 안읽은 메시지 총 개수 가져오기
   const { allUnreadCount, isAllUnreadCountLoading, isAllUnreadCountError } =
     useGetAllUnreadCount(user_uid);
 
-  if (isAllUnreadCountLoading) {
+  if (isAllUnreadCountLoading || isUserDataLoading) {
     return (
-      <div className="w-[200px] h-auto mx-auto">
-        <Image className="" src={SoomLoaing} alt="SoomLoading" />
+      <div className="w-[80px] h-auto mx-auto">
+        <Image className="" src={SoomLoading} alt="SoomLoading" unoptimized />
       </div>
     );
   }
 
   if (isAllUnreadCountError) {
-    return <div>Error</div>;
+    // isUserDataError 처리하면 로그아웃상태에서 안뜸
+    return (
+      <div className="flex justify-center items-center w-screen h-[500px]">
+        ❌ ERROR : 이 페이지를 표시하는 도중 문제가 발생했습니다. 다른 페이지로
+        이동하시거나 다시 방문해주세요.
+      </div>
+    );
   }
 
-  console.log("allUnreadCount", allUnreadCount);
+  // console.log("allUnreadCount", allUnreadCount);
 
   return (
     <>
@@ -152,7 +152,7 @@ const Mheader = () => {
           isBlurred={isScrolled}
           isMenuOpen={isMenuOpen}
           onMenuOpenChange={setIsMenuOpen}
-          className="phone:min-w-[360px] flex bg-transparent items-center justify-center text-[11pt]"
+          className="min-w-[360px] mib-h-[100px] flex bg-transparent items-center justify-center text-[11pt] mb-4"
         >
           <NavbarContent
             justify="start"
@@ -160,8 +160,10 @@ const Mheader = () => {
           >
             <NavbarMenuToggle
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-              className={`${pathname === "/" ? "text-white" : "text-black"} 
-            `}
+              icon={<LuAlignLeft className="w-[30px] h-[30px]" />}
+              className={`${
+                pathname === "/" ? "text-white" : "text-[#7B7B7B]"
+              } mt-5`}
             />
           </NavbarContent>
           <NavbarBrand>
@@ -169,27 +171,35 @@ const Mheader = () => {
               src={
                 pathname === "/about"
                   ? isScrolled
-                    ? graylogoImg // about 페이지에서 isScrolled 상태에 따라 로고 변경
+                    ? graylogoImg
                     : whitelogoImg
-                  : pathname === "/" // 메인페이지에서는 항상 white로고 사용
+                  : pathname === "/"
                   ? whitelogoImg
-                  : graylogoImg // 나머지 페이지에서는 항상 gray로고 사용
+                  : graylogoImg
               }
               alt="logo-image"
-              className={`w-[74px] cursor-pointer dh-[21.63px] m-auto
+              className={`w-[74px] cursor-pointer dh-[21.63px] m-auto mt-5
             
             `}
               onClick={handleLogoLinkClick}
             />
           </NavbarBrand>
-
           <NavbarContent>
             <div className="flex flex-col">
-              <NavbarMenu>
-                <NavbarMenuItem className="text-[#454545] text-[14px] flex flex-col mt-9 absolute">
+              <NavbarMenu className="absolute top-0 w-[80%] h-[vh-full] z-[40] bg-white">
+                <NavbarMenuToggle
+                  icon={
+                    <Image
+                      src={outside}
+                      alt="outside"
+                      className="w-[20px] h-[20px] absolute top-8 text-[#343434] -scale-x-100"
+                    />
+                  }
+                />
+                <NavbarMenuItem className="text-[#454545] text-[14px] flex flex-col mt-24 absolute ml-6 top-0">
                   <Link
                     href={"/about"}
-                    className="mb-4 font-bold"
+                    className="mb-11 font-bold"
                     onClick={() => setIsMenuOpen(false)}
                     aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                   >
@@ -197,61 +207,64 @@ const Mheader = () => {
                     <Image
                       src={outside}
                       alt="outside"
-                      className="relative bottom-4 left-11"
+                      className="relative bottom-4 left-[200px]"
                     />
                   </Link>
 
                   <Link
                     href={"/individualAction"}
-                    className="mb-4 font-bold"
+                    className="mb-11 font-bold"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Green Action
                     <Image
                       src={outside}
                       alt="outside"
-                      className="relative bottom-4 left-[85px]"
+                      className="relative bottom-4 left-[200px]"
                     />
                   </Link>
                   <Link
                     href={"/community"}
-                    className="mb-4 font-bold"
+                    className="mb-11 font-bold"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Community
                     <Image
                       src={outside}
                       alt="outside"
-                      className="relative bottom-4 left-[74px]"
+                      className="relative bottom-4 left-[200px]"
                     />
                   </Link>
                   <Link
                     href={"/goods"}
-                    className="mb-4 font-bold"
+                    className="mb-11 font-bold"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Goods
                     <Image
                       src={outside}
                       alt="outside"
-                      className="relative bottom-4 left-11"
+                      className="relative bottom-4 left-[200px]"
                     />
                   </Link>
                   {isLoggedIn ? (
-                    <div className="flex justify-center items-center gap-2 text-[#9C9C9C]">
+                    <div className="flex justify-center items-center gap-2 text-[#9C9C9C] mt-12">
                       <Avatar
                         size="md"
                         isBordered
-                        name={display_name}
                         showFallback
                         src={profile_img || ""}
                       />
                       <div
-                        onClick={handleMypageLinkClick}
+                        onClick={() => {
+                          handleMypageLinkClick();
+                          setIsMenuOpen(false);
+                        }}
                         className="p-1 cursor-pointer ml-2"
                       >
                         마이페이지
                       </div>
+
                       <div
                         onClick={() => {
                           handleLogout();
@@ -263,43 +276,39 @@ const Mheader = () => {
                       </div>
                     </div>
                   ) : (
-                    ""
+                    <div className="flex gap-5 text-[13px] text-[#9C9C9C] mt-12">
+                      <Link href={"/signup"}>Sign up</Link>
+                      <Link href={"/login"}>Log in</Link>
+                    </div>
                   )}
                 </NavbarMenuItem>
               </NavbarMenu>
             </div>
             {isLoggedIn ? (
               <>
-                <div className="flex gap-[25px]">
+                <div className="flex gap-[25px] mt-5">
                   {/* 채팅방 badge */}
-                  <Badge
-                    content={
-                      allUnreadCount && allUnreadCount > 0
-                        ? allUnreadCount
-                        : null
-                    }
-                    shape="circle"
-                    color="default"
+                  <Button
+                    radius="full"
+                    isIconOnly
+                    aria-label="more than 99 notifications"
+                    variant="light"
+                    onClick={() => {
+                      onChatsListModalOpen();
+                    }}
                   >
-                    <Button
-                      radius="full"
-                      isIconOnly
-                      aria-label="more than 99 notifications"
-                      variant="light"
-                      onClick={() => {
-                        onChatsListModalOpen();
-                      }}
-                    >
-                      <IoChatbubbleEllipsesOutline className="text-2xl" />
-                    </Button>
-                  </Badge>
+                    <IoChatbubbleEllipsesOutline
+                      className={`text-2xl ${
+                        pathname === "/" ? "text-white" : "text-black"
+                      }`}
+                    />
+                  </Button>
                 </div>
 
                 <div className="flex">
-                  <div className="flex items-center justify-between  text-[#404040]">
+                  <div className="flex items-center justify-between  text-[#404040] mt-5">
                     <Avatar
                       className="transition-transform"
-                      name={display_name}
                       size="sm"
                       showFallback
                       src={profile_img || ""}
@@ -308,25 +317,12 @@ const Mheader = () => {
                 </div>
               </>
             ) : (
-              <div
-                className={`flex gap-3 text-[12px] ${
-                  // pathsMainAbout ? "text-white " : "text-[#666666]"
-                  pathname === "/about"
-                    ? isScrolled
-                      ? "text-[#666666]" // about 페이지에서 isScrolled 상태에 따라 글자색 변경
-                      : "text-white"
-                    : pathname === "/" // 메인페이지에서는 항상 글자색 white
-                    ? "text-white"
-                    : "text-[#666666]" // 나머지 페이지에서는 항상 글자색 gray
-                } font-['Pretendard-Light']`}
-              >
-                <Link href={"/signup"}>Sign up</Link>
-                <Link href={"/login"}>Log in</Link>
-              </div>
+              ""
             )}
           </NavbarContent>
         </Navbar>
       )}
+
       {isOpenAlertModal && (
         <AlertModal
           isOpen={isOpenAlertModal}
@@ -341,7 +337,7 @@ const Mheader = () => {
           isOpen={isChatsListModalOpen}
           onOpen={onChatsListModalOpen}
           onClose={onChatsListModalClose}
-          mode="header"
+          mode={MODE_HEADER}
           action_id=""
         />
       )}

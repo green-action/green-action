@@ -1,17 +1,7 @@
-import { useSession } from "next-auth/react";
-import React from "react";
-
-import type { CommunityDetailProps } from "@/app/_types/community/community";
-
 import { useDeleteCommunityPostMutation } from "@/app/_hooks/useMutations/community";
 import { useGetCommunityCommentsList } from "@/app/_hooks/useQueries/comments";
 import { useGetPostContents } from "@/app/_hooks/useQueries/community";
-
-import Likes from "../likes/Likes";
-import AddComment from "./AddComment";
-import CommunityPostComment from "./Comment";
-import EditPostModal from "./EditPostModal";
-
+import { formatToLocaleDateString } from "@/utils/date/date";
 import {
   Avatar,
   Button,
@@ -25,16 +15,23 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
-
-import { formatToLocaleDateString } from "@/utils/date/date";
+import { useSession } from "next-auth/react";
+import React from "react";
 import { HiOutlineDotsVertical } from "react-icons/hi";
+import Likes from "../likes/Likes";
+import AddComment from "./AddComment";
+import CommunityPostComment from "./Comment";
+import EditPostModal from "./EditPostModal";
 
-const CommunityDetailModal = ({
+import type { CommunityDetailProps } from "@/app/_types/community/community";
+import Image from "next/image";
+
+const CommunityDetailModal: React.FC<CommunityDetailProps> = ({
   isOpen,
   onOpenChange,
   post_id,
   mode,
-}: CommunityDetailProps) => {
+}) => {
   const [modalPlacement, setModalPlacement] = React.useState("auto");
 
   // 현재 로그인한 유저 uid
@@ -106,7 +103,9 @@ const CommunityDetailModal = ({
               </ModalHeader>
               <ModalBody className="pb-0">
                 {/* 게시글 이미지 */}
-                <img
+                <Image
+                  width={500}
+                  height={300}
                   src={communityPost?.img_url ?? "기본 이미지 URL"}
                   alt="Community Post"
                   className="mx-auto mb-2 w-[95%] h-[300px] rounded-2xl bg-slate-300 object-cover"

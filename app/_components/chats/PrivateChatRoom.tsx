@@ -1,48 +1,73 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
-import { supabase } from "@/utils/supabase/client";
-import { useQueryClient } from "@tanstack/react-query";
 import { sendMessage } from "@/app/_api/messages/privateChat-api";
 import {
   QUERY_KEY_ALL_UNREAD_COUNT,
   QUERY_KEY_MESSAGES_LIST,
+  QUERY_KEY_MY_PRIVATE_ROOMS_IDS,
   QUERY_KEY_UNREAD_MESSAGES_COUNT,
+  QUERY_KEY_UPDATE_UNREAD,
 } from "@/app/_api/queryKeys";
-import { Avatar } from "@nextui-org/react";
-import { Modal, ModalContent, ModalHeader, ModalBody } from "@nextui-org/react";
+import { useResponsive } from "@/app/_hooks/responsive";
 import {
-  useGetActionInfo,
+  useGetActionParticipantsInfo,
+  useGetGroupActionInfo,
   useGetMessagesList,
   useGetParticipantInfo,
   useUpdateUnread,
 } from "@/app/_hooks/useQueries/chats";
-import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
-import Image from "next/image";
-import { IoPaperPlane } from "react-icons/io5";
-import send from "@/app/_assets/image/individualAction/image184.svg";
-import { useResponsive } from "@/app/_hooks/responsive";
 import { formatToLocaleDateTimeString } from "@/utils/date/date";
+import { supabase } from "@/utils/supabase/client";
+import {
+  Avatar,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  useDisclosure,
+} from "@nextui-org/react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  IoCloseOutline,
+  IoPaperPlane,
+  IoReorderThreeOutline,
+} from "react-icons/io5";
+import GroupInsideModal from "./GroupInsideModal";
+import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
 import type { ChatProps } from "@/app/_types/realtime-chats";
 
-type ChatPropsExceptActionId = Omit<ChatProps, "actionId">;
-
-const PrivateChatRoom = ({
+const PrivateChatRoom: React.FC<ChatProps> = ({
   isOpen,
   onOpenChange,
   roomId,
-}: ChatPropsExceptActionId) => {
+  actionId,
+}) => {
   const [message, setMessage] = useState("");
   const queryClient = useQueryClient();
   const { isDesktop, isLaptop, isMobile } = useResponsive();
+  const chatRoomRef = useRef<HTMLDivElement | null>(null);
 
   // 현재 로그인한 유저 uid
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
 
+  // 액션정보 모달창
+  const {
+    isOpen: isActionInfoOpen,
+    onOpen: onActionInfoOpen,
+    onOpenChange: onActionInfoChange,
+    onClose: onActionInfoClose,
+  } = useDisclosure();
+
   useEffect(() => {
+    if (chatRoomRef.current) {
+      chatRoomRef.current.scrollTop = chatRoomRef.current.scrollHeight;
+    }
+
     queryClient.invalidateQueries({
       queryKey: [QUERY_KEY_UNREAD_MESSAGES_COUNT],
     });
@@ -56,13 +81,24 @@ const PrivateChatRoom = ({
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "chat_messages" },
 
-        // 채팅 리스트 무효화 성공 - 리스트 전체를 무효화 (수정 필요)
+        // TODO 무효화 수정 필요 - setQueryData 등
         () => {
           queryClient.invalidateQueries({
             queryKey: [QUERY_KEY_MESSAGES_LIST],
           });
           queryClient.invalidateQueries({
             queryKey: [QUERY_KEY_ALL_UNREAD_COUNT],
+          });
+          queryClient.invalidateQueries({
+            queryKey: [QUERY_KEY_UNREAD_MESSAGES_COUNT],
+          });
+          // header 개인채팅 리스트 가져오기 무효화
+          queryClient.invalidateQueries({
+            queryKey: [QUERY_KEY_MY_PRIVATE_ROOMS_IDS],
+          });
+          // 메시지 insert되면 리스트의 안읽수 업데이트도 같이 되어야함
+          queryClient.invalidateQueries({
+            queryKey: [QUERY_KEY_UPDATE_UNREAD],
           });
         },
       )
@@ -83,11 +119,21 @@ const PrivateChatRoom = ({
     loggedInUserUid,
     roomId,
   });
-  // TODO 스크롤이 위에 있을때 new message 개수 표시하는건 어떻게 처리해야할까?
 
-  // 채팅방의 action정보
+  // // 채팅방의 action정보, 참가자 정보
+  // const { actionInfo, isActionInfoLoading, isActionInfoError } =
+  //   useGetActionInfo(roomId);
+
+  // action정보 가져오기(id, 제목, 시작 및 종료일자, 모집인원, 사진1장 url)
   const { actionInfo, isActionInfoLoading, isActionInfoError } =
-    useGetActionInfo(roomId);
+    useGetGroupActionInfo(actionId);
+
+  // action 참여자 정보
+  const {
+    actionParticipantsInfo,
+    isActionParticipantsLoading,
+    isActionParticipantsError,
+  } = useGetActionParticipantsInfo(actionId);
 
   // 채팅방 상대방의 id, 닉네임, 이미지
   const { participantInfo, isParticiPantLoading, isParticiPantError } =
@@ -100,11 +146,12 @@ const PrivateChatRoom = ({
     isLoading ||
     isUpdateUnreadLoading ||
     isActionInfoLoading ||
-    isParticiPantLoading
+    isParticiPantLoading ||
+    isActionParticipantsLoading
   ) {
     return (
       <div className="w-[200px] h-auto mx-auto">
-        <Image className="" src={SoomLoaing} alt="SoomLoading" />
+        <Image className="" src={SoomLoaing} alt="SoomLoading" unoptimized />
       </div>
     );
   }
@@ -114,13 +161,12 @@ const PrivateChatRoom = ({
     isUpdateUnreadError ||
     isActionInfoError ||
     isParticiPantError ||
-    messagesList === undefined
+    isActionParticipantsError ||
+    messagesList === undefined ||
+    actionParticipantsInfo === undefined
   ) {
     return <div>Error</div>;
   }
-
-  // console.log("actionInfo", actionInfo);
-  // console.log("participantInfo", participantInfo);
 
   // 메시지 보내기 핸들러
   const handleSendMessage = async () => {
@@ -136,257 +182,200 @@ const PrivateChatRoom = ({
 
   return (
     <>
-      {isDesktop && (
-        <Modal
-          isOpen={isOpen}
-          onOpenChange={onOpenChange}
-          placement="center"
-          size="3xl"
+      <Modal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        placement="center"
+        size="3xl"
+        ref={chatRoomRef}
+        className="relative"
+      >
+        <ModalContent
+          className={`scrollbar-hide rounded-[30px]
+            ${isActionInfoOpen ? "overflow-hidden" : "overflow-y-auto"}
+            ${
+              isDesktop
+                ? "w-[520px] h-[750px] "
+                : isLaptop
+                ? "w-[325px] h-[480px]"
+                : isMobile && "w-[332px] h-[380px]"
+            }
+            `}
         >
-          <ModalContent className="relative max-w-[27%] h-[87%] overflow-y-auto scrollbar-hide rounded-[55px]">
-            {(onClose) => (
-              <>
-                <ModalHeader className="fixed bg-white flex items-center gap-5 w-[27%] shadow-md h-28 z-10 px-8 rounded-tl-[55px] rounded-tr-[55px]">
+          {(onPrivateChatClose) => (
+            <>
+              <ModalHeader
+                className={`fixed bg-white flex justify-between items-center gap-5 shadow-md z-10 px-8 rounded-tl-[30px] rounded-tr-[30px] ${
+                  isDesktop
+                    ? "w-[520px] h-28"
+                    : isLaptop
+                    ? "w-[325px] h-[12%]"
+                    : isMobile && "w-[332px] h-[70px]"
+                }`}
+              >
+                <div
+                  className={`flex items-center ${
+                    isDesktop
+                      ? "gap-5 ml-2"
+                      : isLaptop
+                      ? "gap-4 ml-2"
+                      : isMobile && "gap-4 ml-0"
+                  }`}
+                >
                   <Avatar
                     showFallback
                     src={participantInfo?.profile_img || ""}
                     alt="greener_profile"
-                    size="lg"
+                    size={`${isDesktop ? "lg" : "md"}`}
+                    className={`${isLaptop && "w-[40px] h-[40px]"}`}
                   />
                   <div className="flex flex-col gap-0">
-                    <span className="text-xl font-extrabold">
+                    <span
+                      className={`font-black py-0 m-0 ${
+                        isDesktop
+                          ? "text-xl"
+                          : isLaptop
+                          ? "text-[17px]"
+                          : isMobile && "text-[15px]"
+                      }`}
+                    >
                       {participantInfo?.display_name}
                     </span>
-                    <span className="text-gray-500 text-[15px] font-['Pretendard-ExtraLight']">
+                    <span
+                      className={`text-gray-500 font-['Pretendard-ExtraLight'] ${
+                        isDesktop
+                          ? "text-[15px]"
+                          : isLaptop
+                          ? "text-[13px]"
+                          : isMobile && "text-[11px]"
+                      }`}
+                    >
                       Greener
                     </span>
                   </div>
-                </ModalHeader>
-                <ModalBody className="bg-[#F3F4F3] pt-32 pb-0">
-                  <div className="flex justify-center h-[100%]">
-                    <div className={`flex flex-col w-[100%]`}>
-                      {messagesList?.map((message) => (
-                        <div
-                          className={`m-3  max-w-[70%] ${
-                            message.sender_uid === loggedInUserUid
-                              ? "self-end"
-                              : "self-start"
-                          }`}
-                          key={message.id}
-                        >
-                          <div
-                            className={`${
-                              message.sender_uid === loggedInUserUid
-                                ? "bg-[#D4DFD2] rounded-tl-2xl rounded-bl-2xl rounded-br-2xl"
-                                : "bg-gray-300 text-black rounded-tr-2xl rounded-bl-2xl rounded-br-2xl"
-                            } p-5 text-base`}
-                          >
-                            {message.content}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="sticky bottom-0 w-[100%] mx-auto bg-[#F3F4F3] flex justify-center pt-2">
-                    <div className="flex items-center justify-between px-8 mb-[34px] w-[90%] h-16 bg-white rounded-[50px]">
-                      <input
-                        className="w-[90%] h-[85%] pl-4"
-                        type="text"
-                        placeholder="send message..."
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" && !e.nativeEvent.isComposing) {
-                            e.preventDefault();
-                            handleSendMessage();
-                          }
-                        }}
-                      />
-                      <div
-                        className="cursor-pointer"
-                        onClick={handleSendMessage}
-                      >
-                        <IoPaperPlane size={25} />
-                      </div>
-                    </div>
-                  </div>
-                </ModalBody>
-              </>
-            )}
-          </ModalContent>
-        </Modal>
-      )}
-      {isLaptop && (
-        <Modal
-          isOpen={isOpen}
-          onOpenChange={onOpenChange}
-          placement="center"
-          size="3xl"
-        >
-          <ModalContent className="relative max-w-[500px] h-[87%] overflow-y-auto scrollbar-hide rounded-[55px]">
-            {(onClose) => (
-              <>
-                <ModalHeader className="fixed bg-white flex items-center gap-5 w-[500px] shadow-md h-28 z-10 px-8 rounded-tl-[55px] rounded-tr-[55px]">
-                  <Avatar
-                    showFallback
-                    src={participantInfo?.profile_img || ""}
-                    alt="greener_profile"
-                    size="lg"
+                </div>
+                <div className="flex items-center">
+                  <IoReorderThreeOutline
+                    size={`${isDesktop ? 40 : isLaptop ? 35 : 27}`}
+                    className="cursor-pointer"
+                    onClick={() => onActionInfoOpen()}
                   />
-                  <div className="flex flex-col gap-0">
-                    <span className="text-xl font-extrabold">
-                      {participantInfo?.display_name}
-                    </span>
-                    <span className="text-gray-500 text-[15px] font-['Pretendard-ExtraLight']">
-                      Greener
-                    </span>
-                  </div>
-                </ModalHeader>
-                <ModalBody className="bg-[#F3F4F3] pt-32 pb-0">
-                  <div className="flex justify-center h-[100%]">
-                    <div className={`flex flex-col w-[100%]`}>
-                      {messagesList?.map((message) => (
-                        <div
-                          className={`m-3 max-w-[70%]  ${
-                            message.sender_uid === loggedInUserUid
-                              ? "self-end"
-                              : "self-start"
-                          }`}
-                          key={message.id}
-                        >
-                          <div
-                            className={`${
-                              message.sender_uid === loggedInUserUid
-                                ? "bg-[#D4DFD2] rounded-tl-2xl rounded-bl-2xl rounded-br-2xl"
-                                : "bg-gray-300 text-black rounded-tr-2xl rounded-bl-2xl rounded-br-2xl"
-                            } p-5 text-base`}
-                          >
-                            {message.content}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="sticky bottom-0 w-[100%] mx-auto bg-[#F3F4F3] flex justify-center pt-2">
-                    <div className="flex items-center justify-between px-8 mb-[34px] w-[90%] h-16 bg-white rounded-[50px]">
-                      <input
-                        className="w-[90%] h-[85%] pl-4"
-                        type="text"
-                        placeholder="send message..."
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" && !e.nativeEvent.isComposing) {
-                            e.preventDefault();
-                            handleSendMessage();
-                          }
-                        }}
-                      />
-                      <div
-                        className="cursor-pointer"
-                        onClick={handleSendMessage}
-                      >
-                        <IoPaperPlane size={25} />
-                      </div>
-                    </div>
-                  </div>
-                </ModalBody>
-              </>
-            )}
-          </ModalContent>
-        </Modal>
-      )}
-      {isMobile && (
-        <Modal
-          isOpen={isOpen}
-          onOpenChange={onOpenChange}
-          placement="center"
-          size="3xl"
-        >
-          <ModalContent className="relative max-w-[332px] h-[87%] overflow-y-auto scrollbar-hide rounded-[55px]">
-            {(onClose) => (
-              <>
-                <ModalHeader className="fixed bg-white flex items-center gap-5 w-[332px] shadow-md h-[73px] z-10 px-8 rounded-tl-[55px] rounded-tr-[55px]">
-                  <Avatar
-                    showFallback
-                    src={participantInfo?.profile_img || ""}
-                    alt="greener_profile"
-                    size="md"
+                  <IoCloseOutline
+                    size={`${isDesktop ? 40 : isLaptop ? 35 : 27}`}
+                    className="cursor-pointer"
+                    onClick={() => {
+                      onPrivateChatClose();
+                    }}
                   />
-                  <div className="flex flex-col">
-                    <span className="text-[15px] font-extrabold ">
-                      {participantInfo?.display_name}
-                    </span>
-                    <span className="text-gray-500 text-[11px] font-['Pretendard-ExtraLight']">
-                      Greener
-                    </span>
-                  </div>
-                </ModalHeader>
-                <ModalBody className="bg-[#F3F4F3] pt-24 pb-0">
-                  <div className="flex justify-center h-[100%]">
-                    <div className={`flex flex-col w-[100%]`}>
-                      {messagesList?.map((message) => (
-                        <div
-                          className={`m-3 max-w-[70%]  ${
-                            message.sender_uid === loggedInUserUid
-                              ? "self-end"
-                              : "self-start"
-                          }`}
-                          key={message.id}
-                        >
-                          <div
-                            className={`${
-                              message.sender_uid === loggedInUserUid
-                                ? "bg-[#D4DFD2] rounded-tl-2xl rounded-bl-2xl rounded-br-2xl"
-                                : "bg-gray-300 text-black rounded-tr-2xl rounded-bl-2xl rounded-br-2xl"
-                            } p-5 text-[12px]`}
-                          >
-                            {message.content}
-                          </div>
-                          <div
-                            className={`flex text-[11px] text-[#BEBEBE] mt-2 ${
-                              message.sender_uid === loggedInUserUid
-                                ? "justify-end"
-                                : "justify-start"
-                            }`}
-                          >
-                            {formatToLocaleDateTimeString(
-                              message.created_at,
-                            ).substring(12)}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="sticky bottom-0 w-[100%] mx-auto bg-[#F3F4F3] flex justify-center pt-2">
-                    <div className="flex items-center justify-between px-8 mb-[34px] w-[90%] h-16 bg-white rounded-[50px]">
-                      <input
-                        className="w-[90%] h-[85%] pl-4"
-                        type="text"
-                        placeholder="send message..."
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" && !e.nativeEvent.isComposing) {
-                            e.preventDefault();
-                            handleSendMessage();
-                          }
-                        }}
-                      />
+                </div>
+              </ModalHeader>
+              <ModalBody
+                className={`bg-[#F3F4F3] pb-0 px-0 ${
+                  isDesktop ? "pt-32" : isLaptop ? "pt-24" : isMobile && "pt-24"
+                }`}
+              >
+                <div className="flex justify-center h-[100%]">
+                  <div className={`flex flex-col w-[100%]`}>
+                    {messagesList?.map((message) => (
                       <div
-                        className="cursor-pointer"
-                        onClick={handleSendMessage}
+                        className={`m-3 max-w-[70%] 
+                        ${
+                          (isDesktop || isLaptop) &&
+                          (message.sender_uid === loggedInUserUid
+                            ? "self-end mr-8"
+                            : "self-start ml-8")
+                        }
+                        ${
+                          isMobile &&
+                          (message.sender_uid === loggedInUserUid
+                            ? "self-end mr-5"
+                            : "self-start ml-5")
+                        }
+                       `}
+                        key={message.id}
                       >
-                        <IoPaperPlane size={25} />
+                        <div
+                          className={` 
+                          ${
+                            isDesktop
+                              ? "text-base p-5"
+                              : isLaptop
+                              ? "text-sm p-3"
+                              : isMobile && "text-[12px] p-2"
+                          }
+                          ${
+                            message.sender_uid === loggedInUserUid
+                              ? "bg-[#D4DFD2] rounded-tl-2xl rounded-bl-2xl rounded-br-2xl"
+                              : "bg-gray-300 text-black rounded-tr-2xl rounded-bl-2xl rounded-br-2xl"
+                          }
+                          `}
+                        >
+                          {message.content}
+                        </div>
+                        <div
+                          className={`flex text-[11px] text-[#BEBEBE] mt-2 ${
+                            message.sender_uid === loggedInUserUid
+                              ? "justify-end mr-2"
+                              : "justify-start ml-2"
+                          }`}
+                        >
+                          {formatToLocaleDateTimeString(
+                            message.created_at,
+                          ).substring(12)}
+                        </div>
                       </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="sticky bottom-0 w-[100%] mx-auto bg-[#F3F4F3] flex justify-center pt-2">
+                  <div
+                    className={`flex items-center justify-between px-8 w-[90%] bg-white rounded-[50px] ${
+                      isDesktop
+                        ? "mb-[34px] h-16"
+                        : isLaptop
+                        ? "mb-[20px] h-12"
+                        : isMobile && "mb-[17px] h-10"
+                    }`}
+                  >
+                    <input
+                      className={`w-[90%] h-[85%] focus:outline-none ${
+                        isDesktop
+                          ? "pl-4"
+                          : isLaptop
+                          ? "pl-2"
+                          : isMobile && "pl-0"
+                      }`}
+                      type="text"
+                      placeholder="send message..."
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && !e.nativeEvent.isComposing) {
+                          e.preventDefault();
+                          handleSendMessage();
+                        }
+                      }}
+                    />
+                    <div className="cursor-pointer" onClick={handleSendMessage}>
+                      <IoPaperPlane size={25} />
                     </div>
                   </div>
-                </ModalBody>
-              </>
-            )}
-          </ModalContent>
-        </Modal>
-      )}
+                </div>
+                {isActionInfoOpen && (
+                  <GroupInsideModal
+                    onActionInfoClose={onActionInfoClose}
+                    actionInfo={actionInfo}
+                    participantsInfo={actionParticipantsInfo}
+                    roomId={roomId}
+                    actionId={actionId}
+                    onClose={onPrivateChatClose}
+                  />
+                )}
+              </ModalBody>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </>
   );
 };

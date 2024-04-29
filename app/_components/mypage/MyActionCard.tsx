@@ -1,11 +1,10 @@
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-
-import Bookmark from "../bookmark/Bookmark";
-import MyActionRecruitingModal from "./MyActionRecruitingModal";
-
+import {
+  MODE_MAIN,
+  MODE_MY_BOOKMARKS,
+  MODE_MY_POSTS,
+} from "@/app/_api/constant";
+import { useResponsive } from "@/app/_hooks/responsive";
 import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
-
 import {
   Button,
   Card,
@@ -16,22 +15,18 @@ import {
   DropdownTrigger,
   useDisclosure,
 } from "@nextui-org/react";
-
-import rightArrowImg from "../../_assets/image/individualAction/Group89.png";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { GoArrowRight } from "react-icons/go";
 import dateImg from "../../_assets/image/individualAction/image170.png";
 import locationImg from "../../_assets/image/individualAction/image35.png";
-
-import {
-  MODE_MAIN,
-  MODE_MY_BOOKMARKS,
-  MODE_MY_POSTS,
-} from "@/app/_api/constant";
-import { useResponsive } from "@/app/_hooks/responsive";
-import optionDots from "/app/_assets/image/logo_icon/icon/mypage/Group 100.png";
+import Bookmark from "../bookmark/Bookmark";
+import MyActionRecruitingModal from "./MyActionRecruitingModal";
 import person from "/app/_assets/image/individualAction/person.png";
+import optionDots from "/app/_assets/image/logo_icon/icon/mypage/Group 100.png";
+import { BookmarkedAction, MyAction } from "@/app/_types/mypage/mypage";
 
-// TODO MyAction 타입 사용 후 에러 해결하기
-const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
+const MyActionCard = ({ action, mode }: { action: MyAction; mode: string }) => {
   const router = useRouter();
   const { isDesktop, isLaptop, isMobile } = useResponsive();
   const {
@@ -50,7 +45,6 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
     start_date,
     end_date,
     location,
-    // actionBookmarks,
   } = mode === MODE_MY_BOOKMARKS ? action.bookmarkedAction : action;
 
   const actionImgUrl = actionImgUrls[0]; // as string || ''
@@ -75,16 +69,13 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
         <div
           className={`none   ${
             (mode === MODE_MY_BOOKMARKS || mode === MODE_MY_POSTS) &&
-            "laptop:w-[327px] laptop:h-[440px] laptop:mb-[149px] desktop:w-[356px] desktop:h-[505px] desktop:mb-[149px]"
+            "laptop:w-[327px] laptop:h-[465px] laptop:mb-[149px] desktop:w-[356px] desktop:h-[505px] desktop:mb-[149px]"
           } ${
             mode === MODE_MAIN &&
             "desktop:w-[356px] desktop:h-[505px] laptop:w-[287px] laptop:h-[251px]"
           } relative`}
-          // desktop:h-[25rem]
-          // relative 때문에 별 클릭안되는? -z, z-..했으나 안됨
         >
           <Card
-            // 이 카드의 classsname지워도 가능
             isFooterBlurred
             radius="lg"
             className={`border-none w-full desktop:h-[311px] laptop:h-[251px]  ${
@@ -95,14 +86,18 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
             {actionImgUrl ? (
               mode === MODE_MAIN ? (
                 // 이미지 있고 메인 모드일때
-                <img
+                <Image
+                  width={600}
+                  height={400}
                   src={actionImgUrl.img_url}
                   alt="Green Action Image"
                   className="w-full h-full"
                 />
               ) : (
                 // 이미지 있고 메인 모드 아닐 때
-                <img
+                <Image
+                  width={600}
+                  height={400}
                   src={actionImgUrl.img_url}
                   alt="Green Action Image"
                   className="w-full h-full cursor-pointer"
@@ -206,11 +201,10 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
 
               {mode !== MODE_MY_POSTS && (
                 <div>
-                  <Image
-                    src={rightArrowImg}
-                    alt="우향 화살표 아이콘"
-                    className={`
-                 desktop:w-[22px] laptop:w-[19px] desktop:h-[15px] laptop:h-[12px] mr-2 desktop:mb-4 laptop:mt-0 cursor-pointer`}
+                  <GoArrowRight
+                    size="30"
+                    color="#9e9d9d"
+                    className="cursor-pointer"
                     onClick={handleActionClick}
                   />
                 </div>
@@ -235,21 +229,13 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
                         />
                       </Button>
                     </DropdownTrigger>
-                    <DropdownMenu
-                      aria-label="Static Actions"
-                      className="p-3"
-                      // itemClasses={{
-                      //   base: [
-                      //     // "w-[30px]",
-                      //     // "text-[8pt]",
-                      //     "rounded-md",
-                      //   ],
-                      // }}
-                    >
-                      {is_recruiting && (
+                    <DropdownMenu aria-label="Static Actions" className="p-3">
+                      {is_recruiting ? (
                         <DropdownItem key="모집마감" onClick={handleModalOpen}>
                           모집마감
                         </DropdownItem>
+                      ) : (
+                        <></>
                       )}
                       <DropdownItem key="수정" onClick={handleEditClick}>
                         수정
@@ -294,7 +280,9 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
                       } phone:mb-[10px] cursor-pointer shadow-none border-none`}
                     >
                       {actionImgUrl ? (
-                        <img
+                        <Image
+                          width={600}
+                          height={400}
                           src={actionImgUrl.img_url}
                           alt="Green Action Image"
                           className="w-full h-full"
@@ -367,7 +355,9 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
             } phone:mb-[15px] cursor-pointer shadow-none border-none`}
           >
             {actionImgUrl ? (
-              <img
+              <Image
+                width={600}
+                height={400}
                 src={actionImgUrl.img_url}
                 alt="Green Action Image"
                 className="w-full h-full"
@@ -431,10 +421,12 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions" className="p-3">
-                  {is_recruiting && (
+                  {is_recruiting ? (
                     <DropdownItem key="모집마감" onClick={handleModalOpen}>
                       모집마감
                     </DropdownItem>
+                  ) : (
+                    <></>
                   )}
                   <DropdownItem key="수정" onClick={handleEditClick}>
                     수정

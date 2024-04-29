@@ -292,3 +292,35 @@ export const getLastMessageInfo = async (room_id: string) => {
 
   return data[0] || [];
 };
+
+// 채팅방 마지막 메시지의 날짜, 방 id -> 오늘, 이전 알림온 방 분리해서 props넘기기
+export const getLastDates = async (roomIds: string[]) => {
+  const promises = roomIds.map(async (roomId) => {
+    const { data, error } = await supabase
+      .from("chat_messages")
+      .select("room_id, created_at")
+      .eq("room_id", roomId)
+      .order("created_at", { ascending: false })
+      .limit(1);
+
+    if (error) {
+      console.error(
+        `Error fetching last message date for room ${roomId}:`,
+        error.message,
+      );
+      return null;
+    }
+
+    if (data && data.length > 0) {
+      return {
+        room_id: roomId,
+        created_at: data[0].created_at,
+      };
+    }
+
+    return null;
+  });
+
+  const results = await Promise.all(promises);
+  return results.filter((result) => result !== null); // 필요에 따라 null 값 제거
+};

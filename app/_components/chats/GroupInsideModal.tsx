@@ -1,20 +1,20 @@
-import React from "react";
-import { Avatar } from "@nextui-org/react";
-import Image from "next/image";
-import personIcon from "/app/_assets/image/logo_icon/icon/mypage/person.png";
-import { IoCloseOutline } from "react-icons/io5";
-import { LiaCrownSolid } from "react-icons/lia";
-import { IoIosChatboxes } from "react-icons/io";
-import { HiOutlineArrowLeftOnRectangle } from "react-icons/hi2";
-import { useSession } from "next-auth/react";
 import {
   changeRecruitingState,
   countParticipants,
   deleteParticipant,
   getRecruitingNumber,
 } from "@/app/_api/messages/groupChat-api";
+import { Avatar } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import React from "react";
+import { HiOutlineArrowLeftOnRectangle } from "react-icons/hi2";
+import { IoIosChatboxes } from "react-icons/io";
+import { IoCloseOutline } from "react-icons/io5";
+import { LiaCrownSolid } from "react-icons/lia";
+import personIcon from "/app/_assets/image/logo_icon/icon/mypage/person.png";
 
-import type { ParticipantInfo } from "@/app/_types/realtime-chats";
+import { useResponsive } from "@/app/_hooks/responsive";
 
 interface GroupInsideModalProps {
   onActionInfoClose: () => void;
@@ -31,25 +31,30 @@ interface GroupInsideModalProps {
       }
     | null
     | undefined;
-  participantsInfo: ParticipantInfo[] | undefined;
+  // participantsInfo: ParticipantInfo[] | undefined;
+  // TODO any 해결필요
+  // TODO any 해결 후 type 분리
+  participantsInfo: any;
   roomId: string;
   actionId: string;
   onClose: () => void;
 }
 
-const GroupInsideModal = ({
+const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
   onActionInfoClose,
   actionInfo,
   participantsInfo,
   roomId,
   actionId,
   onClose,
-}: GroupInsideModalProps) => {
+}) => {
   // 현재 로그인한 유저 uid
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
+  const { isDesktop, isLaptop, isMobile } = useResponsive();
 
-  const ownerInfo = participantsInfo?.find((item) => {
+  // TODO any 해결필요
+  const ownerInfo = participantsInfo?.find((item: any) => {
     return item.participant_type === "방장";
   });
 
@@ -84,71 +89,256 @@ const GroupInsideModal = ({
   };
 
   return (
-    <div className="absolute fixed inset-0 z-30 flex bg-black bg-opacity-30">
+    <div className="absolute bottom-0 w-[100%] inset-0 z-30 flex bg-black bg-opacity-30">
       <div className="w-full flex justify-end">
         <div
-          className="desktop:w-[75%] desktop:h-[100%] desktop:top-[130px] desktop:left-[40px] 
-        bg-[#ffffff] laptop:w-[218px] laptop:h-[240px] laptop:top-[114px] laptop:left-[37px]
-        w-[218px] h-[255px] top-[112px] left-[39px]"
+          className={`bg-[#ffffff] 
+          ${
+            isDesktop
+              ? "top-[130px] left-[40px] w-[390px] h-[750px]"
+              : isLaptop
+              ? "top-[112px] left-[37px] w-[250px] h-[480px]"
+              : isMobile && "top-[90px] left-[32px] w-[253px] h-[380px]"
+          }
+          `}
         >
           <div className="flex flex-col w-full h-full">
             <div
-              className="self-start cursor-pointer ml-6 mt-6"
+              className={`self-start cursor-pointer ${
+                isDesktop
+                  ? "ml-6 mt-6 mb-1"
+                  : isLaptop
+                  ? "mt-3 ml-3"
+                  : isMobile && "mt-3 ml-3"
+              }`}
               onClick={() => {
                 onActionInfoClose();
               }}
             >
-              <IoCloseOutline size={40} />
+              <IoCloseOutline size={isDesktop ? 30 : isLaptop ? 20 : 18} />
             </div>
-            <div className="w-full h-[25%] flex justify-center items-center mb-3">
-              <img
-                src={actionInfo?.img_url || ""}
+            <div
+              className={`w-full flex justify-center items-center ${
+                isDesktop
+                  ? "mb-3 h-[180px]"
+                  : isLaptop
+                  ? "mb-1 h-[120px]"
+                  : isMobile && "mb-1 h-[80px]"
+              }`}
+            >
+              <Image
+                width={140}
+                height={140}
+                src={actionInfo?.img_url as string}
                 alt="action-image"
-                className="object-cover w-[37%] h-[78%] rounded-[20%]"
+                className={`object-cover rounded-[20%] ${
+                  isDesktop
+                    ? "w-[140px] h-[140px]"
+                    : isLaptop
+                    ? "w-[90px] h-[90px] my-2"
+                    : isMobile && "w-[70px] h-[70px] my-5"
+                }`}
               />
             </div>
-            <div className="flex flex-col items-center border-b-1 pb-10">
+            <div
+              className={`flex flex-col items-center border-b-1 ${
+                isDesktop ? "pb-6" : isLaptop ? "pb-3" : isMobile && "pb-2"
+              }`}
+            >
               <div className="flex items-center gap-3">
-                <IoIosChatboxes className="text-gray-500" size={25} />
-                <span className="font-extrabold text-[18px]">
+                <IoIosChatboxes
+                  className="text-gray-500"
+                  size={isDesktop ? 25 : isLaptop ? 14 : 13}
+                />
+                <span
+                  className={`font-extrabold ${
+                    isDesktop
+                      ? "text-[18px]"
+                      : isLaptop
+                      ? "text-[12px]"
+                      : isMobile && "text-[12px]"
+                  }`}
+                >
                   {actionInfo?.title}
                 </span>
               </div>
-              <span className="text-gray-400 mb-4">Green action</span>
-              <span className="text-gray-500 mb-2">
-                {actionInfo?.start_date}~{actionInfo?.end_date}
+              <span
+                className={`text-gray-400 mt-1 ${
+                  isDesktop
+                    ? "mb-5"
+                    : isLaptop
+                    ? "text-[10px] mb-2"
+                    : isMobile && "text-[10px] mb-2"
+                }`}
+              >
+                Green action
               </span>
-            </div>
-            <div className="flex flex-col items-start pl-10 pt-4">
-              <span className="font-extrabold">참여자</span>
-              <div className="flex mt-2 mb-4 gap-2 text-gray-500">
-                <Image
-                  src={personIcon}
-                  alt="person-icon"
-                  className="w-[20px] h-[20px]"
-                />
-                <span>
-                  {participantsInfo?.length} / {actionInfo?.recruit_number}
-                </span>
+              <div className="flex items-center text-sm text-gray-500 gap-5">
+                <div className="flex flex-col justify-center items-center">
+                  <span
+                    className={`text-gray-400 ${
+                      isDesktop
+                        ? "text-xs"
+                        : isLaptop
+                        ? "text-[10px]"
+                        : isMobile && "text-[9px]"
+                    }`}
+                  >
+                    시작일
+                  </span>
+                  <span
+                    className={`${
+                      isLaptop ? "text-[10px]" : isMobile && "text-[10px]"
+                    }`}
+                  >
+                    {actionInfo?.start_date}
+                  </span>
+                </div>
+                <span className="text-gray-400">-</span>
+                <div className="flex flex-col justify-center items-center">
+                  <span
+                    className={`text-gray-400 ${
+                      isDesktop
+                        ? "text-xs"
+                        : isLaptop
+                        ? "text-[10px]"
+                        : isMobile && "text-[9px]"
+                    }`}
+                  >
+                    종료일
+                  </span>
+                  <span
+                    className={`${
+                      isLaptop ? "text-[10px]" : isMobile && "text-[10px]"
+                    }`}
+                  >
+                    {actionInfo?.end_date}
+                  </span>
+                </div>
               </div>
-              <div className="flex flex-col gap-4">
+            </div>
+            <div
+              className={`flex flex-col items-start pr-7 overflow-y-auto scrollbar-hide 
+              ${
+                isDesktop
+                  ? `pt-5 pl-7 ${
+                      loggedInUserUid === ownerInfo?.id
+                        ? "pb-[20px]"
+                        : "pb-[90px]"
+                    }`
+                  : isLaptop
+                  ? `pt-3 pl-5 ${
+                      loggedInUserUid === ownerInfo?.id
+                        ? "pb-[20px]"
+                        : "pb-[57px]"
+                    }`
+                  : isMobile &&
+                    `pt-1 pl-1 ${
+                      loggedInUserUid === ownerInfo?.id
+                        ? "pb-[13px]"
+                        : "pb-[50px]"
+                    }`
+              }
+              `}
+            >
+              <div
+                className={`flex items-center gap-4 w-full ${
+                  isDesktop
+                    ? "mb-6"
+                    : isLaptop
+                    ? "mb-4"
+                    : isMobile && "mb-3 ml-4 mt-2"
+                }`}
+              >
+                <span
+                  className={`font-extrabold ${
+                    isDesktop
+                      ? "ml-1"
+                      : isLaptop
+                      ? "text-xs"
+                      : isMobile && "text-[10px]"
+                  }`}
+                >
+                  참여자
+                </span>
+                <div className="flex gap-2 text-gray-500 items-center">
+                  <Image
+                    width={18}
+                    height={18}
+                    src={personIcon}
+                    alt="person-icon"
+                    className={`${
+                      isDesktop
+                        ? "w-[18px] h-[18px]"
+                        : isLaptop
+                        ? "w-[13px] h-[13px]"
+                        : isMobile && "w-[9px] h-[9px]"
+                    }`}
+                  />
+                  <span
+                    className={`${
+                      isLaptop ? "text-xs" : isMobile && "text-[9px]"
+                    }`}
+                  >
+                    {participantsInfo?.length} / {actionInfo?.recruit_number}
+                  </span>
+                </div>
+              </div>
+              <div
+                className={`flex flex-col ${
+                  isDesktop
+                    ? "gap-4"
+                    : isLaptop
+                    ? "gap-4"
+                    : isMobile && "ml-3 gap-3"
+                }`}
+              >
                 <div className="flex items-center gap-2 font-extrabold">
                   <Avatar
-                    className="mr-2"
+                    className={`mr-2 ${
+                      isDesktop
+                        ? "w-[35px] h-[35px]"
+                        : isLaptop
+                        ? "w-[26px] h-[26px]"
+                        : isMobile && "w-[18px] h-[18px]"
+                    }`}
                     src={ownerNicknameImg?.profile_img || ""}
                   />
-                  <LiaCrownSolid size={25} className="text-[#B3C8A1]" />
-                  <span>{ownerNicknameImg?.display_name}</span>
+                  <LiaCrownSolid
+                    size={isDesktop ? 25 : isLaptop ? 18 : 13}
+                    className="text-[#B3C8A1]"
+                  />
+                  <span
+                    className={`${
+                      isLaptop ? "text-xs" : isMobile && "text-[10px]"
+                    }`}
+                  >
+                    {ownerNicknameImg?.display_name}
+                  </span>
                 </div>
-                {participantsInfo?.map((participant) => (
+                {/* TODO any 해결 필요 */}
+                {participantsInfo?.map((participant: any) => (
                   <>
                     {participant.id !== ownerInfo?.id && (
                       <div className="flex items-center gap-4 font-extrabold">
                         <Avatar
                           src={participant.profile_img || ""}
                           alt="participant-profile"
+                          className={`${
+                            isDesktop
+                              ? "w-[35px] h-[35px]"
+                              : isLaptop
+                              ? "w-[26px] h-[26px]"
+                              : isMobile && "w-[18px] h-[18px]"
+                          }`}
                         />
-                        <span>{participant.display_name}</span>
+                        <span
+                          className={`${
+                            isLaptop ? "text-xs" : isMobile && "text-[10px]"
+                          }`}
+                        >
+                          {participant.display_name}
+                        </span>
                       </div>
                     )}
                   </>
@@ -156,14 +346,27 @@ const GroupInsideModal = ({
               </div>
             </div>
             {loggedInUserUid !== ownerInfo?.id && (
-              <footer className="absolute bottom-0 w-[75%] h-[9%] border-t-1 flex items-center justify-center gap-3">
+              <footer
+                className={`absolute bottom-0 bg-white border-t-1 flex items-center justify-center gap-3 ${
+                  isDesktop
+                    ? "w-[390px] h-[72px]"
+                    : isLaptop
+                    ? "w-[250px] h-[48px]"
+                    : isMobile && "w-[253px] h-[38px]"
+                }`}
+              >
                 <HiOutlineArrowLeftOnRectangle
-                  size={30}
+                  size={isDesktop ? 30 : isLaptop ? 20 : 10}
                   className="text-gray-700"
                 />
-
                 <span
-                  className="text-gray-700 text-[17px] font-extrabold mr-3 cursor-pointer"
+                  className={`text-gray-700 font-extrabold mr-3 cursor-pointer ${
+                    isDesktop
+                      ? "text-[17px]"
+                      : isLaptop
+                      ? "text-[13px]"
+                      : isMobile && ""
+                  }`}
                   onClick={() => handleCancelParticipate(onClose)}
                 >
                   참여 취소하기

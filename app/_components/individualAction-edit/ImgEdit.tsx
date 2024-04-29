@@ -1,14 +1,15 @@
 "use client";
-
 import React, { useState } from "react";
-import type { ImgUpdateProps } from "@/app/_types/individualAction-add/individualAction-add";
 
-const ImgEdit = ({
+import type { ImgUpdateProps } from "@/app/_types/individualAction-add/individualAction-add";
+import Image from "next/image";
+
+const ImgEdit: React.FC<ImgUpdateProps> = ({
   uploadedFileUrls,
   setUploadedFileUrls,
   setDeleteFileIds,
   setFiles,
-}: ImgUpdateProps) => {
+}) => {
   // 드래그 앤 드랍 상태
   const [isDragging, setIsDragging] = useState(false);
 
@@ -96,7 +97,9 @@ const ImgEdit = ({
             {/* 이미지 업로드한 경우 */}
             {uploadedFileUrls[index] ? (
               <div className="relative w-full h-full">
-                <img
+                <Image
+                  width={175}
+                  height={177}
                   src={uploadedFileUrls[index].img_url}
                   alt={`Uploaded Image ${index}`}
                   className="w-full h-full rounded-3xl object-cover"

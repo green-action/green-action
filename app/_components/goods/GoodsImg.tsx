@@ -1,17 +1,9 @@
-import { useState } from "react";
+import { GoodsItem } from "@/app/_types/goods";
+import Image from "next/image";
+import React, { useState } from "react";
 import ProductInfoModal from "./ProductInfoModal";
 
-const GoodsImg = ({
-  item,
-}: {
-  item: {
-    id: string;
-    img_url: string;
-    point: number;
-    product_info: string;
-    product_name: string;
-  };
-}) => {
+const GoodsImg: React.FC<GoodsItem> = ({ item }) => {
   const [showProductInfo, setShowProductInfo] = useState(false);
   const handleToggleProductInfo = () => {
     setShowProductInfo(!showProductInfo);
@@ -20,7 +12,9 @@ const GoodsImg = ({
   return (
     <div>
       <div className="relative" key={item.id}>
-        <img
+        <Image
+          width={494}
+          height={441.76}
           alt="Card background"
           className="rounded-2xl desktop:h-[494px] laptop:h-[431px] h-[441.76px] object-cover"
           src={item.img_url}

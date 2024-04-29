@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from "react";
 import { MODE_ACTION_PAGE } from "@/app/_api/constant";
 import {
   changeRecruitingState,
@@ -18,14 +17,14 @@ import GroupChat from "@/app/_components/chats/GroupChatRoom";
 import PrivateChat from "@/app/_components/chats/PrivateChatRoom";
 import { useResponsive } from "@/app/_hooks/responsive";
 import { useDisclosure } from "@nextui-org/react";
+import React, { useEffect, useRef, useState } from "react";
+
+import type { chatButtonProps } from "@/app/_types/individualAction/indext";
 
 // NOTE props에 any 있음 - 카톡링크 모달창 없애면 사라질 이슈임
-const ChatButtons = ({
+const ChatButtons: React.FC<chatButtonProps> = ({
   loggedInUserUid,
   action_id,
-}: {
-  loggedInUserUid: string;
-  action_id: string;
 }) => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
   const [actionOwnerUid, setActionOwnerUid] = useState("");
@@ -41,6 +40,7 @@ const ChatButtons = ({
   const {
     isOpen: isPrivateChatOpen,
     onOpen: onPrivateChatOpen,
+    onClose: onPrivateChatClose,
     onOpenChange: onPrivateChatOpenChange,
   } = useDisclosure();
 
@@ -212,7 +212,7 @@ const ChatButtons = ({
         }
       >
         {actionOwnerUid === loggedInUserUid
-          ? "1:1 문의방 목록보기"
+          ? "1:1 문의 확인하기"
           : "1:1 문의하기"}
       </div>
       <div
@@ -246,6 +246,7 @@ const ChatButtons = ({
           isOpen={isPrivateChatOpen}
           onOpenChange={onPrivateChatOpenChange}
           roomId={privateRoomIdRef.current}
+          actionId={action_id}
         />
       )}
       {/* 그룹채팅방 */}

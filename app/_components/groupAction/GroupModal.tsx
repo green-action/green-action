@@ -1,3 +1,4 @@
+import { useResponsive } from "@/app/_hooks/responsive";
 import {
   Button,
   Modal,
@@ -9,22 +10,12 @@ import {
 } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
+import React from "react";
 import search from "/app/_assets/image/logo_icon/icon/goods/Group-128.svg";
-import { useResponsive } from "@/app/_hooks/responsive";
 
-const GroupModal = ({
-  action,
-}: {
-  action: {
-    content: string;
-    hosted_by: string;
-    id: string;
-    img_url: string;
-    title: string;
-    action_url: string;
-  };
-}) => {
-  // {`${isMobile ? "mr-[10px]" : ""}`}
+import type { groupModalProps } from "@/app/_types/groupAction";
+
+const GroupModal: React.FC<groupModalProps> = ({ action }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 
@@ -48,8 +39,10 @@ const GroupModal = ({
             <ModalContent className="h-[600px] overflow-y-auto scrollbar-hide">
               {(onClose) => (
                 <>
-                  <ModalHeader className="flex flex-col gap-1 relative z-[-9999]">
-                    <img
+                  <ModalHeader className="flex flex-col items-center gap-1 relative z-[-9999]">
+                    <Image
+                      width={365}
+                      height={550}
                       className="rounded-3xl bg-origin-border mt-4"
                       src={action.img_url}
                       alt="캠페인 포스터"
@@ -114,8 +107,10 @@ const GroupModal = ({
             <ModalContent className="h-[600px] w-[330px] overflow-y-auto scrollbar-hide bg-[#F5F4F4]">
               {(onClose) => (
                 <>
-                  <ModalHeader className="flex flex-col gap-1 relative z-[-9999]">
-                    <img
+                  <ModalHeader className="flex flex-col items-center gap-1 relative z-[-9999]">
+                    <Image
+                      width={365}
+                      height={550}
                       className="rounded-3xl bg-origin-border mt-4"
                       src={action.img_url}
                       alt="캠페인 포스터"

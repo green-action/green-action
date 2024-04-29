@@ -1,12 +1,10 @@
+import Image from "next/image";
 import React, { useEffect } from "react";
 import share from "/app/_assets/image/logo_icon/icon/mypage/Group 134.png";
-import Image from "next/image";
 
-type KakaoShareButtonProps = {
-  description: string;
-};
+import type { KakaoShareButtonProps } from "@/app/_types/individualAction-detail/individualAction-detail";
 
-const KakaoShareButton = ({ description }: KakaoShareButtonProps) => {
+const KakaoShareButton: React.FC<KakaoShareButtonProps> = ({ description }) => {
   const shareUrl = typeof window !== "undefined" ? window.location.href : "";
 
   useEffect(() => {

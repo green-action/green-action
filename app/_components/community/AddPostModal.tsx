@@ -1,14 +1,10 @@
 "use client";
 
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-
 import { uploadFileAndGetUrl } from "@/app/_api/community/community-api";
+import { MODE_COMMUNITY } from "@/app/_api/constant";
+import { updateUserPoint } from "@/app/_api/individualAction-add/add-api";
+import { useResponsive } from "@/app/_hooks/responsive";
 import { useInsertCommunityPostFormData } from "@/app/_hooks/useMutations/community";
-
-import PostImgUpload from "./PostImgUpload";
-
 import {
   Button,
   Dropdown,
@@ -23,18 +19,20 @@ import {
   Selection,
   useDisclosure,
 } from "@nextui-org/react";
-
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import postImg from "../../_assets/image/individualAction/write.png";
 import CustomConfirm from "../customConfirm/CustomConfirm";
-import PointModal from "./PointModal";
-
-import { MODE_COMMUNITY } from "@/app/_api/constant";
-import { updateUserPoint } from "@/app/_api/individualAction-add/add-api";
-import { LuPencilLine } from "react-icons/lu";
 import AlertModal from "./AlertModal";
+import PointModal from "./PointModal";
+import PostImgUpload from "./PostImgUpload";
 
 const AddPostModal = () => {
   const [uploadedFileUrl, setUploadedFileUrl] = useState<string>("");
   const [file, setFile] = useState<File | undefined | null>(null);
+  const { isDesktop, isLaptop, isMobile } = useResponsive();
 
   // PointModal을 위한 상태관리
   const [showPointModal, setShowPointModal] = useState(false);
@@ -135,12 +133,23 @@ const AddPostModal = () => {
   return (
     <>
       {/* 글쓰기 버튼 */}
-      <Button
-        className="fixed z-50 bottom-[8rem] right-[1.5rem] rounded-full w-20 h-20 bg-gray-300 flex items-center justify-center"
-        onClick={handleAddPostClick}
-      >
-        <LuPencilLine className="w-8 h-8" />
-      </Button>
+      {(isDesktop || isLaptop) && (
+        <Image
+          src={postImg}
+          alt="게시글 작성 이미지"
+          className="desktop:size-[85px] laptop:size-[80px] fixed z-50 bottom-[120px] right-[22px] cursor-pointer hover:scale-105 ease-in-out duration-300"
+          onClick={handleAddPostClick}
+        />
+      )}
+      {isMobile && (
+        <Image
+          src={postImg}
+          alt="게시글 작성 이미지"
+          className="size-[50px] fixed z-50 bottom-[70px] right-[20px] cursor-pointer hover:scale-105 ease-in-out duration-300"
+          onClick={handleAddPostClick}
+        />
+      )}
+      {/* </Button> */}
       {/* 게시글 글쓰기 모달창 */}
       <Modal
         size="lg"
@@ -240,12 +249,6 @@ const AddPostModal = () => {
                 </ModalBody>
                 {/* 작성완료 버튼 */}
                 <ModalFooter className="flex justify-center mb-12 !p-0">
-                  {/* <Button
-                    type="submit"
-                    className="text-gray-500 rounded-full !w-[140px] h-[33px] border border-gray-400 bg-[#EFEFEF]"
-                  >
-                    작성완료
-                  </Button> */}
                   <CustomConfirm
                     text="작성하시겠습니까?"
                     buttonName="작성완료"

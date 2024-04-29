@@ -13,6 +13,7 @@ export type Database = {
         Row: {
           created_at: string;
           id: string;
+          isRead: boolean;
           message: string;
           post_id: string;
           targetId: string;
@@ -20,6 +21,7 @@ export type Database = {
         Insert: {
           created_at?: string;
           id?: string;
+          isRead: boolean;
           message: string;
           post_id: string;
           targetId: string;
@@ -27,6 +29,7 @@ export type Database = {
         Update: {
           created_at?: string;
           id?: string;
+          isRead?: boolean;
           message?: string;
           post_id?: string;
           targetId?: string;
@@ -383,7 +386,7 @@ export type Database = {
           recruit_number: number;
           start_date?: string | null;
           title: string;
-          user_uid?: string | null;
+          user_uid?: string;
         };
         Update: {
           content?: string;
@@ -396,7 +399,7 @@ export type Database = {
           recruit_number?: number;
           start_date?: string | null;
           title?: string;
-          user_uid?: string | null;
+          user_uid?: string;
         };
         Relationships: [
           {

@@ -46,7 +46,7 @@ const MobileSlider = ({ mode }: { mode: string }) => {
   if (isPostsLoading || isActionsLoading) {
     return (
       <div className="w-[200px] h-auto mx-auto">
-        <Image className="" src={SoomLoaing} alt="SoomLoading" />
+        <Image className="" src={SoomLoaing} alt="SoomLoading" unoptimized />
       </div>
     );
   }
@@ -78,7 +78,7 @@ const MobileSlider = ({ mode }: { mode: string }) => {
               action, // 북마크 수 최다 상위 8개 action
             ) => (
               <div key={action.id} className="flex items-center h-[200px]">
-                <MyActionCard action={action} mode={MODE_MAIN} />
+                <MyActionCard action={action as any} mode={MODE_MAIN} />
               </div>
             ),
           )}

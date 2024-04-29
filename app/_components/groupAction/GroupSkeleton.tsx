@@ -3,7 +3,7 @@ import { Card, Skeleton } from "@nextui-org/react";
 import React from "react";
 
 const GroupSkeleton = () => {
-  const { isDesktop, isLaptop, isMobile } = useResponsive();
+  const { isDesktop, isLaptop } = useResponsive();
   return (
     <>
       <Card
@@ -12,7 +12,7 @@ const GroupSkeleton = () => {
             ? "w-[365px] h-[550px] mb-[100px]"
             : isLaptop
             ? "w-[289px] h-[433px] mb-[180px]"
-            : ""
+            : "w-[278px] h-[415px]"
         }`}
         radius="lg"
       >
@@ -22,7 +22,7 @@ const GroupSkeleton = () => {
               ? "w-[365px] h-[550px]"
               : isLaptop
               ? "w-[289px] h-[433px]"
-              : ""
+              : "w-[278px] h-[415px]"
           }`}
         >
           <div className={`h-full rounded-lg bg-default-300`}></div>

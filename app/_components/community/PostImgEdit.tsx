@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import type { EditImgProps } from "@/app/_types/community/community";
 
-const PostImgEdit = ({
+import type { EditImgProps } from "@/app/_types/community/community";
+import Image from "next/image";
+
+const PostImgEdit: React.FC<EditImgProps> = ({
   uploadedFileUrl,
   setUploadedFileUrl,
   setFile,
-}: EditImgProps) => {
+}) => {
   // 드래그 앤 드랍 상태
   const [isDragging, setIsDragging] = useState(false);
 
@@ -71,7 +73,7 @@ const PostImgEdit = ({
         {/* 이미지 업로드한 경우 */}
         {uploadedFileUrl ? (
           <div className="relative w-full h-full">
-            <img
+            <Image
               src={uploadedFileUrl}
               alt={`Uploaded Image`}
               className="w-full h-full rounded-3xl object-cover"

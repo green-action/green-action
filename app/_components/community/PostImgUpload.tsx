@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import type { PostImgUploadProps } from "@/app/_types/community/community";
 
-const PostImgUpload = ({
+import type { PostImgUploadProps } from "@/app/_types/community/community";
+import Image from "next/image";
+
+const PostImgUpload: React.FC<PostImgUploadProps> = ({
   uploadedFileUrl,
   setUploadedFileUrl,
   setFile,
-}: PostImgUploadProps) => {
+}) => {
   // 드래그 앤 드랍 상태
   const [isDragging, setIsDragging] = useState(false);
 
@@ -71,7 +73,9 @@ const PostImgUpload = ({
         {/* 이미지 업로드한 경우 */}
         {uploadedFileUrl ? (
           <div className="relative w-full h-full">
-            <img
+            <Image
+              width={410}
+              height={295}
               src={uploadedFileUrl}
               alt={`Uploaded Image`}
               className="w-full h-full rounded-3xl object-cover"
