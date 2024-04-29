@@ -328,7 +328,7 @@ const GroupChatRoom: React.FC<ChatProps> = ({
                           <div
                             className={`bg-[#D4DFD2] rounded-tl-2xl rounded-bl-2xl rounded-br-2xl ${
                               isDesktop
-                                ? "text-base p-5 mr-4"
+                                ? "text-base p-5 mr-4 mb-3"
                                 : isLaptop
                                 ? "text-sm p-3 mr-4 mt-2"
                                 : isMobile && "text-xs mt-1 mr-3 p-3"

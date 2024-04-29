@@ -288,31 +288,21 @@ const Mheader = () => {
               <>
                 <div className="flex gap-[25px] mt-5">
                   {/* 채팅방 badge */}
-                  <Badge
-                    content={
-                      allUnreadCount && allUnreadCount > 0
-                        ? allUnreadCount
-                        : null
-                    }
-                    shape="circle"
-                    color="default"
+                  <Button
+                    radius="full"
+                    isIconOnly
+                    aria-label="more than 99 notifications"
+                    variant="light"
+                    onClick={() => {
+                      onChatsListModalOpen();
+                    }}
                   >
-                    <Button
-                      radius="full"
-                      isIconOnly
-                      aria-label="more than 99 notifications"
-                      variant="light"
-                      onClick={() => {
-                        onChatsListModalOpen();
-                      }}
-                    >
-                      <IoChatbubbleEllipsesOutline
-                        className={`text-2xl ${
-                          pathname === "/" ? "text-white" : "text-black"
-                        }`}
-                      />
-                    </Button>
-                  </Badge>
+                    <IoChatbubbleEllipsesOutline
+                      className={`text-2xl ${
+                        pathname === "/" ? "text-white" : "text-black"
+                      }`}
+                    />
+                  </Button>
                 </div>
 
                 <div className="flex">

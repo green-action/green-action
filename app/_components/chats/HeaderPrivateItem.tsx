@@ -25,7 +25,6 @@ const HeaderPrivateItem = ({
   const {
     isOpen: isPrivateChatOpen,
     onOpen: onPrivateChatOpen,
-    onClose: onPrivateChatClose,
     onOpenChange: onPrivateChatOpenChange,
   } = useDisclosure();
 
@@ -173,7 +172,6 @@ const HeaderPrivateItem = ({
         <PrivateChatRoom
           isOpen={isPrivateChatOpen}
           onOpenChange={onPrivateChatOpenChange}
-          onPrivateChatClose={onPrivateChatClose}
           roomId={room_id}
           actionId={action_id}
         />

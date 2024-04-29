@@ -35,6 +35,7 @@ import { NotificationIcon } from "../chats/NotificationIcon";
 import AlertModal from "../community/AlertModal";
 import PushListModal from "../push/PushListModal";
 import Mheader from "./Mheader";
+import { GoBell } from "react-icons/go";
 
 const Allheader = () => {
   const router = useRouter();
@@ -311,54 +312,40 @@ const Allheader = () => {
                   <>
                     <div className="flex desktop:gap-[35px] laptop::gap-[20px] desktop:ml-[18%] desktop:mr-[15%] laptop:ml-[2%] laptop:mr-[0%]">
                       {/* 채팅방 badge */}
-                      <Badge
-                        content={
-                          allUnreadCount && allUnreadCount > 0
-                            ? allUnreadCount
-                            : null
-                        }
-                        shape="circle"
-                        color="default"
+                      <Button
+                        radius="full"
+                        isIconOnly
+                        aria-label="more than 99 notifications"
+                        variant="light"
+                        onClick={() => {
+                          onChatsListModalOpen();
+                        }}
                       >
-                        <Button
-                          radius="full"
-                          isIconOnly
-                          aria-label="more than 99 notifications"
-                          variant="light"
-                          onClick={() => {
-                            onChatsListModalOpen();
-                          }}
-                        >
-                          <IoChatbubbleEllipsesOutline
-                            className={`text-2xl ${
-                              pathname === "/" ? "text-white" : "text-black"
-                            }`}
-                          />
-                        </Button>
-                      </Badge>
-                      {/* 임시 - UT 후 추가 예정 */}
+                        <IoChatbubbleEllipsesOutline
+                          className={`text-2xl ${
+                            pathname === "/" ? "text-white" : "text-black"
+                          }`}
+                        />
+                      </Button>
                       {/* push알림 badge */}
-                      <Badge
-                        content={
-                          unReadPushCount && unReadPushCount > 0
-                            ? unReadPushCount
-                            : null
-                        }
-                        shape="circle"
-                        color="default"
+                      {/* <Button
+                        radius="full"
+                        isIconOnly
+                        aria-label="more than 99 notifications"
+                        variant="light"
+                        onClick={() => {
+                          onPushListModalOpen();
+                        }}
                       >
-                        <Button
-                          radius="full"
-                          isIconOnly
-                          aria-label="more than 99 notifications"
-                          variant="light"
-                          onClick={() => {
-                            onPushListModalOpen();
-                          }}
-                        >
-                          <NotificationIcon size={24} height={24} width={24} />
-                        </Button>
-                      </Badge>
+                        <GoBell
+                          size={24}
+                          height={24}
+                          width={24}
+                          className={`text-2xl ${
+                            pathname === "/" ? "text-white" : "text-black"
+                          }`}
+                        />
+                      </Button> */}
                     </div>
                     <Dropdown
                       placement="bottom-end"

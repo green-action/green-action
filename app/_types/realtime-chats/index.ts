@@ -25,7 +25,6 @@ export interface MessageType {
 export interface ChatProps {
   isOpen: boolean;
   onOpenChange: () => void;
-  onPrivateChatClose?: () => void;
   roomId: string;
   actionId: string;
 }
