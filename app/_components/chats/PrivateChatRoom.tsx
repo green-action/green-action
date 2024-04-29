@@ -242,7 +242,7 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
                       {participantInfo?.display_name}
                     </span>
                     <span
-                      className={`text-gray-500 font-['Pretendard-ExtraLight'] ${
+                      className={`text-gray-500 font-extralight font-['Pretendard'] ${
                         isDesktop
                           ? "text-[15px]"
                           : isLaptop

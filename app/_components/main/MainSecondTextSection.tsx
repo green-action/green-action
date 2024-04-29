@@ -1,17 +1,11 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
-import Image from "next/image";
-import Link from "next/link";
+import setboxImg from "@/app/_assets/image/goods/setbox.png";
 import { useResponsive } from "@/app/_hooks/responsive";
 import { Chip } from "@nextui-org/react";
-import setboxImg from "@/app/_assets/image/goods/setbox.png";
+import _ from "lodash";
+import Image from "next/image";
+import Link from "next/link";
+import { Dispatch, SetStateAction, useCallback, useEffect } from "react";
 import rightArrow from "/app/_assets/image/mainpage/Group 172.png";
-import { debounce } from "@/utils/debounce/debounce";
 
 const MainSecondTextSection = ({
   position,
@@ -24,10 +18,10 @@ const MainSecondTextSection = ({
 
   // parallax scroll
   const onScroll = useCallback(
-    debounce(() => {
+    _.throttle(() => {
       setPosition(window.scrollY);
     }, 100),
-    [debounce],
+    [_],
   );
 
   useEffect(() => {
