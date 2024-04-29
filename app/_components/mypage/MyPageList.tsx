@@ -13,7 +13,11 @@ import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
 
 import type { userInfoProps } from "@/app/_types/mypage/mypage";
 import type { User } from "@/app/_types";
-import { ACTIVE_TAB_MY_ACTION } from "@/app/_api/constant";
+import {
+  ACTIVE_TAB_BOOKMARKED_ACTION,
+  ACTIVE_TAB_MY_ACTION,
+  ACTIVE_TAB_MY_COMMUNITY,
+} from "@/app/_api/constant";
 
 const MyPageList = ({ userInfo }: { userInfo: userInfoProps }) => {
   const session = useSession();
@@ -75,7 +79,7 @@ const MyPageList = ({ userInfo }: { userInfo: userInfoProps }) => {
         );
       }
     }
-    if (activeTab === "즐겨찾는 Green-Action") {
+    if (activeTab === ACTIVE_TAB_BOOKMARKED_ACTION) {
       if (bookmarkedRecruitClicked === "전체") {
         setFilteredBookmarkedActions(sortedMyBookmarks);
       }
@@ -156,7 +160,7 @@ const MyPageList = ({ userInfo }: { userInfo: userInfoProps }) => {
             onClick={handleActiveTabClick}
             className={`cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt]
                     ${
-                      activeTab === "즐겨찾는 Green-Action" &&
+                      activeTab === ACTIVE_TAB_BOOKMARKED_ACTION &&
                       "border-b-2 border-[#979797] transition duration-400 ease-in-out"
                     }`}
           >
@@ -166,7 +170,7 @@ const MyPageList = ({ userInfo }: { userInfo: userInfoProps }) => {
             onClick={handleActiveTabClick}
             className={`cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt]
                    ${
-                     activeTab === "나의 Community" &&
+                     activeTab === ACTIVE_TAB_MY_COMMUNITY &&
                      "border-b-2 border-[#979797] transition duration-400 ease-in-out"
                    }`}
           >
@@ -180,7 +184,7 @@ const MyPageList = ({ userInfo }: { userInfo: userInfoProps }) => {
               setSelected={setMyRecruitClicked}
             />
           )}
-          {activeTab === "즐겨찾는 Green-Action" && (
+          {activeTab === ACTIVE_TAB_BOOKMARKED_ACTION && (
             <RecruitSelectTab
               selected={bookmarkedRecruitClicked}
               setSelected={setBookmarkedRecruitClicked}
@@ -190,7 +194,7 @@ const MyPageList = ({ userInfo }: { userInfo: userInfoProps }) => {
       </div>
       <div className="flex flex-wrap gap-[20px]">
         {/* LINK My Green Action */}
-        {activeTab === "나의 Green-Action" &&
+        {activeTab === ACTIVE_TAB_MY_ACTION &&
           filteredActions?.map((action) => {
             return (
               <MyActionCard
@@ -203,7 +207,7 @@ const MyPageList = ({ userInfo }: { userInfo: userInfoProps }) => {
       </div>
       {/* LINK 찜한 Green Action */}
       <div className="flex flex-wrap gap-[20px]">
-        {activeTab === "즐겨찾는 Green-Action" &&
+        {activeTab === ACTIVE_TAB_BOOKMARKED_ACTION &&
           filteredBookmarkedActions?.map((bookmark) => {
             return (
               <MyActionCard
@@ -216,7 +220,7 @@ const MyPageList = ({ userInfo }: { userInfo: userInfoProps }) => {
       </div>
       {/* LINK 내가 쓴 커뮤니티 글 */}
       <div className="flex flex-wrap gap-[20px]">
-        {activeTab === "나의 Community" &&
+        {activeTab === ACTIVE_TAB_MY_COMMUNITY &&
           myPosts?.map((post) => {
             return (
               <CommunityListPost

@@ -73,11 +73,9 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
   let markers: any[] = [];
 
   // SECTION
-  // 검색어가 바뀔 때마다 재렌더링되도록 useEffect 사용
   useEffect(() => {
     const onLoadKakaoAPI = () => {
       window.kakao.maps.load(() => {
-        // 써야 에러 X
         const mapOption = {
           center: new window.kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
           level: 5, // 지도의 확대 레벨
@@ -258,8 +256,6 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
                 },
               );
 
-              // console.log("🐰 ~ displayPlaces ~ itemEl : ", itemEl);
-
               if (itemEl) {
                 // 없어도됨 하지만 기능 부실? ㅠㅠ
                 itemEl.onmouseover = function () {
@@ -320,15 +316,11 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
         }
 
         // NOTE 7. 검색결과 목록 하단에 페이지번호를 표시는 함수
-        // pagination = {totlaCount: 45, hasNextPage : true, .., first:1, current: 1, last: 3, perPage:15,..}
         function displayPagination(pagination: {
           last: number;
           current: number;
           gotoPage: (arg0: number) => void;
         }) {
-          // const paginationEl = document.getElementById(
-          //   "pagination",
-          // ) as HTMLElement;
           const paginationEl = pageRef.current;
           let fragment = document.createDocumentFragment();
           let i;
@@ -364,11 +356,6 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
         // 인포윈도우에 장소명을 표시
         // TODO 인포윈도우 말고 커스텀 오버레이 사용하기?
         function displayInfowindow(marker: any, title: string) {
-          // '<div style="padding:5px;z-index:1;" class="marker-title">' +
-          //   title +
-          //   "</div>";
-          // className="text-center p-10" tailwind 안먹힘
-          // style 속성도 패딩은 먹히는데, text-align: center; min-width: 되긴하는데 잘 안먹힘.
           const content =
             '<div style="padding:5px; z-index:1; text-align: center; min-width: 170px; max-width: 250px;" >' +
             title +
@@ -456,7 +443,7 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
     };
 
     onLoadKakaoAPI();
-  }, [searchKeyword, makeMarker, currentLocation]); // 의존성에 꼭 makeMarker 넣기 !
+  }, [searchKeyword, makeMarker, currentLocation]);
 
   return (
     <>
@@ -470,7 +457,6 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
                  laptop:w-[420px] laptop:h-[420px] laptop:mt-[0px]
               rounded-xl`}
           />
-          {/* fixed를 뻄 */}
           <div
             className={`bg-gray-300/20 absolute z-10 p-2 rounded-lg bottom-[5%] desktop:left-[9%] laptop:left-[7%]`}
           >
@@ -485,7 +471,6 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
                   w-[500px] laptop:h-[470px] laptop:ml-[30px] gap-[10px]
              flex flex-col`}
           >
-            {/* 이중삼항연산자로 하니까 ml 등 이상하게 안먹히는 일 발생 ㅠㅠ */}
             <div
               className={`absolute rounded-3xl flex gap-4 top-[3%] left-[12%]`}
             >

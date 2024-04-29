@@ -24,3 +24,5 @@ export const ACTIVE_TABS = "단체와 함께해요";
 export const MODE_TODAY = "todayAlertRoomIds";
 export const MODE_PREVIOUS = "previousAlertRoomIds";
 export const ACTIVE_TAB_MY_ACTION = "나의 Green-Action";
+export const ACTIVE_TAB_BOOKMARKED_ACTION = "즐겨찾는 Green-Action";
+export const ACTIVE_TAB_MY_COMMUNITY = "나의 Community";

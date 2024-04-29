@@ -1,13 +1,23 @@
 import { useResponsive } from "@/app/_hooks/responsive";
 import { debounce } from "@/utils/debounce/debounce";
-import React, { useCallback, useEffect, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 
-const MainTextSection = () => {
+const MainTextSection = ({
+  position,
+  setPosition,
+}: {
+  position: number;
+  setPosition: Dispatch<SetStateAction<number>>;
+}) => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 
   // parallax scroll
-  const [position, setPosition] = useState(0);
-
   const onScroll = useCallback(
     debounce(() => {
       setPosition(window.scrollY);

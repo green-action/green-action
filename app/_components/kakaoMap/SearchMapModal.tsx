@@ -53,7 +53,6 @@ const SearchMapModal: React.FC<searchMapModalProps> = ({
             onOpenChange={onOpenChange}
             placement="center"
             size="5xl"
-            // classNames={{ base: "w-[1000px]", body: "w-[1020px]" }}
             className="desktop:h-[700px] laptop:h-[600px] p-3" // w는 조절안됨
           >
             <ModalContent>

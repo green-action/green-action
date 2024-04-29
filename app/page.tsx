@@ -1,11 +1,9 @@
 "use client";
 
-import setboxImg from "@/app/_assets/image/goods/setbox.png";
-import { debounce } from "@/utils/debounce/debounce";
 import { Chip } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import arrowImg from "../app/_assets/image/individualAction/Group143.svg";
 import { MODE_ACTION, MODE_COMMUNITY } from "./_api/constant";
 import TopButton from "./_components/TopButton";
@@ -14,29 +12,14 @@ import MainSlider from "./_components/main/MainSlider";
 import MobileSlider from "./_components/main/MobileSlider";
 import { useResponsive } from "./_hooks/responsive";
 import downArrow from "/app/_assets/image/logo_icon/icon/mainpage/Group_124.png";
-import rightArrow from "/app/_assets/image/mainpage/Group 172.png";
 import mainImg from "/app/_assets/image/mainpage/main.png";
 import MainTextSection from "./_components/main/MainTextSection";
+import MainSecondTextSection from "./_components/main/MainSecondTextSection";
 
 const MainPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
-
-  // // parallax scroll
-  // const [position, setPosition] = useState(0);
-
-  // const onScroll = useCallback(
-  //   debounce(() => {
-  //     setPosition(window.scrollY);
-  //   }, 100),
-  //   [debounce],
-  // );
-
-  // useEffect(() => {
-  //   window.addEventListener("scroll", onScroll);
-  //   return () => {
-  //     window.removeEventListener("scroll", onScroll);
-  //   };
-  // }, []);
+  // parallax scroll
+  const [position, setPosition] = useState(0);
 
   return (
     <div className="laptop:min-w-[1020px]">
@@ -48,7 +31,7 @@ const MainPage = () => {
           className="absolute top-0 min-w-[1020px] desktop:h-[2780px] laptop:h-[2150px] phone:h-[1000px] phone:min-w-[360px] brightness-[70%]" // 밝기: 60% 너무 어두워 70%로 변경
         />
         {/* parallax scroll 적용된 메인 텍스트 */}
-        <MainTextSection />
+        <MainTextSection position={position} setPosition={setPosition} />
 
         {(isDesktop || isLaptop) && (
           <section className="z-0 flex flex-col items-center justify-center desktop:mt-[530px] laptop:mt-[520px] desktop:pb-[210px] laptop:pb-[190px]">
@@ -152,88 +135,10 @@ const MainPage = () => {
             </section>
           )}
         </section>
-
-        {(isDesktop || isLaptop) && (
-          <section className="flex justify-between w-full h-[760px] bg-blend-darken bg-black bg-opacity-[57%]">
-            <div className="bg-[#d6d6d6] w-[50%] brightness-[57.5%]" />
-            <div className="bg-[#d6d6d6] w-[50%] brightness-[57.5%]" />
-            <div
-              // style={{ transform: `translateY(-${position / 80}vh` }}
-              className="absolute z-10 flex flex-col justify-center items-center w-full h-[60vh] desktop:mt-[600px] laptop:mt-[500px]"
-            >
-              <div className="flex flex-col items-center desktop:text-[48pt] laptop:text-[35pt] text-white">
-                <p>환경을 위한 실천이 필요한 순간.</p>
-                <p>숨과 함께 하세요.</p>
-              </div>
-              <Chip
-                classNames={{
-                  base: "desktop:h-[58px] laptop:h-[40px] bg-transparent border-small border-white desktop:mt-[97px] laptop:mt-[60px]",
-                  content:
-                    "flex justify-center desktop:w-[223px] laptop:w-[150px] font-semibold",
-                }}
-              >
-                <Link
-                  href={`/about`}
-                  className="flex gap-4 items-center text-white font-['Inter'] font-light desktop:text-[20pt] laptop:text-[12pt]"
-                >
-                  <p>VIEW MORE</p>
-                  <Image
-                    src={rightArrow}
-                    alt="right-arrow"
-                    className="w-[20px] h-[16px]"
-                  />
-                </Link>
-              </Chip>
-            </div>
-            <Image
-              src={setboxImg}
-              alt="굿즈제품전체사진"
-              className="w-[1325px] h-[760px] object-cover brightness-[57%]"
-            />
-          </section>
-        )}
-        {isMobile && (
-          <section className="flex justify-between w-full h-[310px] bg-blend-darken bg-black bg-opacity-[57%]">
-            <div
-              // style={{ transform: `translateY(-${position / 100}vh` }}
-              className="absolute z-10 flex flex-col justify-center items-center w-full h-[310px] mt-[210px]"
-            >
-              <div className="flex flex-col items-center text-[24px] text-white">
-                <p>환경을 위한 실천이 필요한 순간.</p>
-                <p>숨과 함께 하세요.</p>
-              </div>
-              <Chip
-                classNames={{
-                  base: "desktop:h-[58px] laptop:h-[40px] bg-transparent border-small border-white mt-[60px]",
-                  content:
-                    "flex justify-center desktop:w-[223px] laptop:w-[150px] font-semibold",
-                }}
-              >
-                <Link
-                  href={`/about`}
-                  className="flex gap-4 items-center text-white font-['Inter'] font-light desktop:text-[20pt] laptop:text-[12pt]"
-                >
-                  <p>VIEW MORE</p>
-                  <Image
-                    src={rightArrow}
-                    alt="right-arrow"
-                    className="w-[20px] h-[16px]"
-                  />
-                </Link>
-              </Chip>
-            </div>
-            <div className="">
-              <Image
-                src={setboxImg}
-                alt="굿즈제품전체사진"
-                className="w-[1325px] h-[510px] object-cover brightness-[57%]"
-              />
-            </div>
-          </section>
-        )}
+        {/* 메인페이지 하단 이미지,텍스트 parallax scroll */}
+        <MainSecondTextSection position={position} setPosition={setPosition} />
       </div>
     </div>
   );
 };
-
 export default MainPage;
