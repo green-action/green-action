@@ -44,7 +44,7 @@ const MainPage = () => {
               classNames={{
                 base: "desktop:h-[50px] laptop:h-[47px] desktop:px-5 laptop:px-3 desktop:py-8 bg-transparent border-small border-white",
                 content:
-                  "desktop:w-[209px] desktop:text-[14pt] laptop:text-[15px] text-white text-center font-['Inter'] drop-shadow",
+                  "desktop:w-[209px] desktop:text-[18.5px] laptop:text-[15px] text-white text-center font-['Inter'] drop-shadow",
               }}
             >
               Community Hot Posts
@@ -58,7 +58,7 @@ const MainPage = () => {
                 // 전체보기 칩 세로길이, 폰트크기 자체 수정
                 base: "desktop:h-[50px] laptop:h-[41px] bg-[#F7F7F7]/60 border-small border-[#A8A8A8] desktop:mt-[97px] laptop:mt-[90px]",
                 content:
-                  "desktop:w-[110px] laptop:w-[95px] desktop:text-[13pt] laptop:text-[11pt] text-center text-[#646464] font-semibold drop-shadow",
+                  "desktop:w-[110px] laptop:w-[95px] desktop:text-[17.3px] laptop:text-[14.6px] text-center text-[#646464] font-semibold drop-shadow",
               }}
             >
               <Link href={`/community`}>전체 보기</Link>
@@ -94,7 +94,7 @@ const MainPage = () => {
                 classNames={{
                   base: "desktop:h-[50px] laptop:h-[47px] desktop:px-5 laptop:px-3 desktop:py-8 bg-transparent border-small border-[#ADADAD]",
                   content:
-                    "desktop:w-[209px] desktop:text-[14pt] laptop:text-[15px] text-center text-[#5A5A5A] font-['Inter'] drop-shadow flex justify-center",
+                    "desktop:w-[209px] desktop:text-[18.5px] laptop:text-[15px] text-center text-[#5A5A5A] font-['Inter'] drop-shadow flex justify-center",
                 }}
               >
                 Green Action Hot Posts
@@ -107,7 +107,7 @@ const MainPage = () => {
                 classNames={{
                   base: "desktop:h-[50px] laptop:h-[41px] bg-[#F7F7F7]/60 border-small border-[#A8A8A8] desktop:mt-[97px] laptop:mt-[90px]",
                   content:
-                    "desktop:w-[110px] laptop:w-[95px] desktop:text-[13pt] laptop:text-[11pt] text-center text-[#646464] font-semibold drop-shadow",
+                    "desktop:w-[110px] laptop:w-[95px] desktop:text-[17.3px] laptop:text-[14.6px] text-center text-[#646464] font-semibold drop-shadow",
                 }}
               >
                 <Link href={`/individualAction`}>전체 보기</Link>

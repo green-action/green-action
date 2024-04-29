@@ -54,7 +54,7 @@ const MainSecondTextSection = ({
             >
               <Link
                 href={`/about`}
-                className="flex gap-4 items-center text-white font-['Inter'] font-light desktop:text-[20pt] laptop:text-[12pt]"
+                className="flex gap-4 items-center text-white font-['Inter'] font-light desktop:text-[26.6px] laptop:text-[16px]"
               >
                 <p>VIEW MORE</p>
                 <Image
@@ -91,7 +91,7 @@ const MainSecondTextSection = ({
             >
               <Link
                 href={`/about`}
-                className="flex gap-4 items-center text-white font-['Inter'] font-light desktop:text-[20pt] laptop:text-[12pt]"
+                className="flex gap-4 items-center text-white font-['Inter'] font-light desktop:text-[26.6px] laptop:text-[16px]"
               >
                 <p>VIEW MORE</p>
                 <Image
