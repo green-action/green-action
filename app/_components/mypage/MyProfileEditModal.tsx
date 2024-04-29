@@ -120,7 +120,7 @@ const MyProfileEditModal: React.FC<myProfileEditModalProps> = ({
                   <p className="text-lg">Profile</p>
                 </ModalHeader>
                 <div className="flex flex-col items-center gap-5">
-                  <p className="desktop:text-[0.8rem] laptop:text-[10pt] desktop:mb-[40px] laptop:mb-[40px] text-gray-600">
+                  <p className="desktop:text-[0.8rem] laptop:text-[13.3px] desktop:mb-[40px] laptop:mb-[40px] text-gray-600">
                     나중에 언제든지 변경할 수 있습니다.
                   </p>
                   <ProfileImgUpload
@@ -131,7 +131,7 @@ const MyProfileEditModal: React.FC<myProfileEditModalProps> = ({
                   <div className="pt-[30px] pb-[30px]">
                     <label
                       htmlFor="user-display-name"
-                      className="mb-[0px] pl-[10px] text-[#6E6E6E] desktop:text-[11pt] laptop:text-[10pt]"
+                      className="mb-[0px] pl-[10px] text-[#6E6E6E] desktop:text-[14.6px] laptop:text-[13.3px]"
                     >
                       사용자 이름
                     </label>
