@@ -41,9 +41,8 @@
 <br/>
 
 - 상세 소개
-  - "SOOM" 서비스는 친환경 및 지속가능성을 추구하는 플랫폼입니다.
-  - 환경 보호와 관련된 기관 및 단체의 캠페인과 이벤트 정보를 제공합니다.
   - 사용자들이 친환경적이고 지속 가능한 활동을 공유하고 참여할 수 있는 모임을 만들 수 있습니다.
+  - 환경 보호와 관련된 기관 및 단체의 캠페인과 이벤트 정보를 제공합니다.
   - 모임에 참여했던 인증샷을 커뮤니티를 통해 올리고, 경험을 공유할 수 있습니다.
   - 활동 참여와 인증샷 글쓰기 등의 방법을 통해 포인트를 획득하여 굿즈로 교환할 수 있습니다.
 
@@ -554,15 +553,17 @@ $ yarn dev
 
 <br/>
 
-## 🎨 와이어프레임 화면구성
+## 🎨 사이트 화면구성
 
-|                                                       메인 페이지                                                       |                                                       About 페이지                                                       |
-| :---------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------: |
-| ![Home ( Main page)](https://github.com/KyeongyeonKim/Algorithm/assets/105699149/f5a07e44-84dc-4e50-abff-f451bf4d3970)  |       ![About](https://github.com/green-action/green-action/assets/105699149/5bef81af-4c2a-47ad-8aa6-ab7157109da6)       |
-|                                                    **로그인 페이지**                                                    |                                                   **개인액션 페이지**                                                    |
-|      ![Login](https://github.com/green-action/green-action/assets/105699149/e370161c-34c0-4215-a0cb-5c449f696723)       | ![Green-action 개인](https://github.com/green-action/green-action/assets/105699149/aee43e78-1f50-41a5-9596-7f55ed4794d9) |
-|                                                   **단체액션 페이지**                                                   |                                                   **community 페이지**                                                   |
-| ![Greenaction 단체](https://github.com/green-action/green-action/assets/105699149/57f24980-ff24-4fe3-b766-2487386292b3) |     ![Community](https://github.com/green-action/green-action/assets/105699149/72d28949-2292-4a1a-a674-2cd1f086e066)     |
+|                                                 메인 페이지                                                  |                               About 페이지                                |
+| :----------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------: |
+|                        ![Home ( Main page)](/app/_assets/image/readme/page-main.jpg)                         |            ![About](/app/_assets/image/readme/page-about.jpg)             |
+|                                         **로그인, 회원가입 페이지**                                          |                            **개인액션 페이지**                            |
+| ![Login](/app/_assets/image/readme/page-login.png)<br/> ![Signup](/app/_assets/image/readme/page-signup.png) | ![Green-action 개인](/app/_assets/image/readme/page-individualAction.jpg) |
+|                                             **단체액션 페이지**                                              |                           **community 페이지**                            |
+|                     ![Greenaction 단체](/app/_assets/image/readme/page-groupAction.jpg)                      |        ![Community](/app/_assets/image/readme/page-community.jpg)         |
+|                                                **my 페이지**                                                 |                              **1:1문의하기**                              |
+|                             ![myPage](/app/_assets/image/readme/page-mypage.png)                             |      ![privateChat](/app/_assets/image/readme/page-privateChat.jpg)       |
 
 <br/>
 
