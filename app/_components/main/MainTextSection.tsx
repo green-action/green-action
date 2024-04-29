@@ -1,12 +1,6 @@
 import { useResponsive } from "@/app/_hooks/responsive";
-import { debounce } from "@/utils/debounce/debounce";
-import React, {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import _ from "lodash";
+import { Dispatch, SetStateAction, useCallback, useEffect } from "react";
 
 const MainTextSection = ({
   position,
@@ -19,10 +13,10 @@ const MainTextSection = ({
 
   // parallax scroll
   const onScroll = useCallback(
-    debounce(() => {
+    _.throttle(() => {
       setPosition(window.scrollY);
     }, 100),
-    [debounce],
+    [_],
   );
 
   useEffect(() => {
