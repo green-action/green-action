@@ -82,7 +82,7 @@ const MainSlider = ({ mode }: { mode: string }) => {
               action, // 북마크 수 최다 상위 8개 action
             ) => (
               <div key={action.id} className="flex items-center h-[550px]">
-                <MyActionCard action={action} mode={MODE_MAIN} />
+                <MyActionCard action={action as any} mode={MODE_MAIN} />
               </div>
             ),
           )}

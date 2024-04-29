@@ -27,7 +27,6 @@ const KakaoMap = ({ placeInfo }: { placeInfo: placeCoordinateType }) => {
         <MapMarker position={position} />
         <CustomOverlayMap position={position}>
           {isDesktop && (
-            // <div className="absolute z-10 right-[13%] bottom-[15%]"> 이렇게 하니 화면크기에따라 위치 많이 바뀜
             <div className="desktop:min-w-[170px] desktop:h-[75px] rounded-2xl bg-white/[88%] border-[2px] border-[#5D5D5D]/[40%] p-2 flex flex-col gap-[5px] justify-center items-center mt-[95px]">
               <p className="font-bold desktop:text-[15px]">
                 {placeInfo.placeName}

@@ -170,7 +170,11 @@ const MyActionCardMobile = () => {
           {/* LINK My Green Action */}
           {filteredActions?.map((action) => {
             return (
-              <MyActionCard key={action.id} action={action} mode="myPosts" />
+              <MyActionCard
+                key={action.id}
+                action={action as any}
+                mode="myPosts"
+              />
             );
           })}
         </div>
@@ -190,7 +194,7 @@ const MyActionCardMobile = () => {
             return (
               <MyActionCard
                 key={bookmark?.bookmarkedAction?.id || ""}
-                action={bookmark}
+                action={bookmark as any}
                 mode="myBookmarks"
               />
             );
