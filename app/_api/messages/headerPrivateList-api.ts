@@ -167,6 +167,11 @@ export const updateUnreadMessageCount = async ({
 
 // 안읽은 메시지 총 개수 가져오기
 export const getAllUnreadCount = async (loggedInUserUid: string) => {
+  if (!loggedInUserUid) {
+    console.error("loggedInUserUid is undefined or invalid.");
+    return null;
+  }
+
   const { data: myRooms, error: myRoomsError } = await supabase
     .from("chat_participants")
     .select("room_id")
