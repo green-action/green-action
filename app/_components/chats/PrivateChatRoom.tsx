@@ -231,7 +231,7 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
                   />
                   <div className="flex flex-col gap-0">
                     <span
-                      className={`font-black py-0 m-0 ${
+                      className={`font-semibold py-0 m-0 ${
                         isDesktop
                           ? "text-xl"
                           : isLaptop
@@ -242,7 +242,7 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
                       {participantInfo?.display_name}
                     </span>
                     <span
-                      className={`text-gray-500 font-['Pretendard-ExtraLight'] ${
+                      className={`text-gray-500 font-extralight font-['Pretendard'] ${
                         isDesktop
                           ? "text-[15px]"
                           : isLaptop
@@ -278,7 +278,7 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
                   <div className={`flex flex-col w-[100%]`}>
                     {messagesList?.map((message) => (
                       <div
-                        className={`m-3 max-w-[70%] 
+                        className={`m-3 max-w-[70%] font-
                         ${
                           (isDesktop || isLaptop) &&
                           (message.sender_uid === loggedInUserUid

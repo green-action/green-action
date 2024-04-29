@@ -1,6 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "@fontsource/inter";
+@import "fontsource-italiana";
+@import "pretendard/dist/web/static/pretendard.css";
 
 @layer base {
   :root {
@@ -26,72 +29,18 @@
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-@font-face {
-  font-family: "Pretendard-Thin";
-  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Thin.woff")
-    format("woff");
-  font-weight: 100;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Pretendard-ExtraLight";
-  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-ExtraLight.woff")
-    format("woff");
-  font-weight: 200;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Pretendard-Light";
-  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Light.woff")
-    format("woff");
-  font-weight: 300;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Pretendard-Regular";
-  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
-    format("woff");
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Pretendard-Bold";
-  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff")
-    format("woff");
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Italiana";
-  src: url(https://fonts.gstatic.com/s/italiana/v20/QldNNTtLsx4E__B0XQmWaXw.woff2)
-    format("woff2");
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Inter";
-  src: url(https://fonts.gstatic.com/s/inter/v13/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2)
-    format("woff2");
-  font-weight: 100 900; /* Inter 여러 두께 사용 가능 - tailwind css className으로 font-['Inter'] 적용 + font-light, font-bold 등*/
-  font-style: normal;
-  font-display: swap;
-}
-
 body {
   width: 100%;
   min-height: 1000px;
   width: 100%;
-  font-family: "Pretendard-Regular"; /* 기본 폰트 */
+  font-family: "Pretendard";
+  font-weight: 400;
+  /* 기본 폰트 */
 }

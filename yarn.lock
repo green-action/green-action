@@ -14,6 +14,11 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
+"@fontsource/inter@^5.0.18":
+  version "5.0.18"
+  resolved "https://registry.yarnpkg.com/@fontsource/inter/-/inter-5.0.18.tgz#eaddac790ee74b70932030f37ebaa9fc76decbd8"
+  integrity sha512-YCsoYPTcs713sI7tLtxaPrIhXAXvEetGg5Ry02ivA8qUOb3fQHojbK/X9HLD5OOKvFUNR2Ynkwb1kR1hVKQHpw==
+
 "@formatjs/ecma402-abstract@1.18.2":
   version "1.18.2"
   resolved "https://registry.npmjs.org/@formatjs/ecma402-abstract/-/ecma402-abstract-1.18.2.tgz"
@@ -2413,6 +2418,11 @@ flat@^5.0.2:
   resolved "https://registry.npmjs.org/flat/-/flat-5.0.2.tgz"
   integrity sha512-b6suED+5/3rTpUBdG1gupIl8MPFCAMA0QXwmljLhvCUKcUvdE4gWky9zpuGCcXHOsz4J9wPGNWq6OKpmIzz3hQ==
 
+fontsource-italiana@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/fontsource-italiana/-/fontsource-italiana-4.0.0.tgz#99d0c8961a7cb07feec849dffa5c0fb80425762a"
+  integrity sha512-+WwKcNb8voBBhoQ24rQ2dbuD/gr5iQ4QTuafihcpqsrSPGVWYMqefq+VBCpse/DXcd3JN8WphM7vPR0nnda52A==
+
 foreground-child@^3.1.0:
   version "3.1.1"
   resolved "https://registry.npmjs.org/foreground-child/-/foreground-child-3.1.1.tgz"
@@ -2967,6 +2977,11 @@ preact@^10.6.3:
   version "10.20.1"
   resolved "https://registry.npmjs.org/preact/-/preact-10.20.1.tgz"
   integrity sha512-JIFjgFg9B2qnOoGiYMVBtrcFxHqn+dNXbq76bVmcaHYJFYR4lW67AOcXgAYQQTDYXDOg/kTZrKPNCdRgJ2UJmw==
+
+pretendard@^1.3.9:
+  version "1.3.9"
+  resolved "https://registry.yarnpkg.com/pretendard/-/pretendard-1.3.9.tgz#b1f86d5a7a729f518974098fcf85f34fff3526b7"
+  integrity sha512-PaQAADyLY5v4kYFwkpSJHbSSYIkiriY/1xXw75TKoZ9UQQqeU+tvP05yTdZAWibiIYoo8ZKtRv8PM7w0IaywSw==
 
 pretty-format@^3.8.0:
   version "3.8.0"

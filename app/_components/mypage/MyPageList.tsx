@@ -145,10 +145,10 @@ const MyPageList = ({ userInfo }: { userInfo: userInfoProps }) => {
   return (
     <>
       <div className="flex justify-between laptop:mb-[30px] vh-auto">
-        <div className="flex desktop:gap-[45px] laptop:gap-[30px] desktop:ml-5 desktop:text-[12pt]">
+        <div className="flex desktop:gap-[45px] laptop:gap-[30px] desktop:ml-5 desktop:text-[16px]">
           <div
             onClick={handleActiveTabClick}
-            className={`cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt] 
+            className={`cursor-pointer h-[30px] desktop:text-[16px] laptop:text-[14.6px] 
                     ${
                       activeTab === ACTIVE_TAB_MY_ACTION &&
                       "border-b-2 border-[#979797] transition duration-400 ease-in-out"
@@ -158,7 +158,7 @@ const MyPageList = ({ userInfo }: { userInfo: userInfoProps }) => {
           </div>
           <div
             onClick={handleActiveTabClick}
-            className={`cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt]
+            className={`cursor-pointer h-[30px] desktop:text-[16px] laptop:text-[14.6px]
                     ${
                       activeTab === ACTIVE_TAB_BOOKMARKED_ACTION &&
                       "border-b-2 border-[#979797] transition duration-400 ease-in-out"
@@ -168,7 +168,7 @@ const MyPageList = ({ userInfo }: { userInfo: userInfoProps }) => {
           </div>
           <div
             onClick={handleActiveTabClick}
-            className={`cursor-pointer h-[30px] desktop:text-[12pt] laptop:text-[11pt]
+            className={`cursor-pointer h-[30px] desktop:text-[16px] laptop:text-[14.6px]
                    ${
                      activeTab === ACTIVE_TAB_MY_COMMUNITY &&
                      "border-b-2 border-[#979797] transition duration-400 ease-in-out"
