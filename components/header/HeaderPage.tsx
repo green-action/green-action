@@ -98,7 +98,6 @@ const HeaderPage = ({ isLoggedIn, session }: Props) => {
       try {
         await signOut({
           redirect: false,
-          callbackUrl: "/login",
         });
         setMessage("로그아웃 되었습니다.");
         setIsOpenAlertModal(true);
@@ -161,8 +160,6 @@ const HeaderPage = ({ isLoggedIn, session }: Props) => {
     }, 100),
     [debounce],
   );
-
-  console.log("test");
 
   useEffect(() => {
     // useFetchUserInfo(user_uid);

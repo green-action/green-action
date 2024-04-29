@@ -84,7 +84,6 @@ const Mheader = () => {
       try {
         await signOut({
           redirect: false,
-          callbackUrl: "/login",
         });
         setMessage("로그아웃 되었습니다.");
         setIsOpenAlertModal(true);

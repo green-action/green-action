@@ -89,15 +89,14 @@ const Allheader = () => {
       try {
         await signOut({
           redirect: false,
-          callbackUrl: "/login",
         });
         setMessage("로그아웃 되었습니다.");
         setIsOpenAlertModal(true);
         if (!isAbout) {
           router.push("/login");
         }
-        if(isMypage){
-          router.push("/")
+        if (isMypage) {
+          router.push("/");
         }
       } catch (error) {
         console.error("Logout error:", error);
