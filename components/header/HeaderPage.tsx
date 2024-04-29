@@ -55,6 +55,7 @@ const HeaderPage = ({ isLoggedIn, session }: Props) => {
   const { status } = useSession();
   const user_uid = session?.user.user_uid as string;
   // const isLoggedIned = status === "authenticated";
+  const isMypage = pathname === "/mypage";
 
   // console.log("status==>", status);
   // console.log("data==>", data);
@@ -100,6 +101,9 @@ const HeaderPage = ({ isLoggedIn, session }: Props) => {
         });
         setMessage("로그아웃 되었습니다.");
         setIsOpenAlertModal(true);
+        if (isMypage) {
+          router.push("/");
+        }
       } catch (error) {
         console.error("Logout error:", error);
       }
@@ -156,8 +160,6 @@ const HeaderPage = ({ isLoggedIn, session }: Props) => {
     }, 100),
     [debounce],
   );
-
-  console.log("test");
 
   useEffect(() => {
     // useFetchUserInfo(user_uid);

@@ -39,6 +39,7 @@ const Mheader = () => {
   const user_uid = session?.data?.user.user_uid as string;
 
   const isAbout = pathname === "/about";
+  const isMypage = pathname === "/mypage";
 
   const {
     data,
@@ -89,6 +90,9 @@ const Mheader = () => {
 
         if (!isAbout) {
           router.push("/login");
+        }
+        if (isMypage) {
+          router.push("/");
         }
       } catch (error) {
         console.error("Logout error:", error);
