@@ -16,26 +16,27 @@ import { useResponsive } from "./_hooks/responsive";
 import downArrow from "/app/_assets/image/logo_icon/icon/mainpage/Group_124.png";
 import rightArrow from "/app/_assets/image/mainpage/Group 172.png";
 import mainImg from "/app/_assets/image/mainpage/main.png";
+import MainTextSection from "./_components/main/MainTextSection";
 
 const MainPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 
-  // parallax scroll
-  const [position, setPosition] = useState(0);
+  // // parallax scroll
+  // const [position, setPosition] = useState(0);
 
-  const onScroll = useCallback(
-    debounce(() => {
-      setPosition(window.scrollY);
-    }, 100),
-    [debounce],
-  );
+  // const onScroll = useCallback(
+  //   debounce(() => {
+  //     setPosition(window.scrollY);
+  //   }, 100),
+  //   [debounce],
+  // );
 
-  useEffect(() => {
-    window.addEventListener("scroll", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-    };
-  }, []);
+  // useEffect(() => {
+  //   window.addEventListener("scroll", onScroll);
+  //   return () => {
+  //     window.removeEventListener("scroll", onScroll);
+  //   };
+  // }, []);
 
   return (
     <div className="laptop:min-w-[1020px]">
@@ -46,40 +47,8 @@ const MainPage = () => {
           alt="메인사진"
           className="absolute top-0 min-w-[1020px] desktop:h-[2780px] laptop:h-[2150px] phone:h-[1000px] phone:min-w-[360px] brightness-[70%]" // 밝기: 60% 너무 어두워 70%로 변경
         />
-        <section
-          style={{ transform: `translateY(-${position / 30}vh` }}
-          className="z-0 flex flex-col w-full desktop:h-[500px] laptop:h-[100px] phone:h-[400px] justify-center items-center desktop:mt-[200px] laptop:mt-[250px] phone:mt-[40px] text-white"
-        >
-          {(isDesktop || isLaptop) && (
-            <>
-              <p className="text-center h-[390px] desktop:text-[80pt] laptop:text-[50pt] w-full  font-['Italiana'] ">
-                {/* EXPERIENCE A NEW WAY OF */}
-                First step for green life,
-                <span className="desktop:mt-[-30px] laptop:mt-[-20px] block">
-                  soom
-                </span>
-              </p>
-              <p className="text-center desktop:text-[15pt] laptop:text-[11pt] font-['Pretendard-ExtraLight'] desktop:mt-[0px] laptop:mt-[60px]">
-                지구와 함께 숨쉬다
-                <br />
-                SOOM과 함께 일상의 그린 라이프를 경험하세요
-              </p>
-            </>
-          )}
-          {isMobile && (
-            <>
-              <p className="text-center vh-auto text-[34px] w-full font-['Italiana'] mb-[10px]">
-                Fist step for green life,
-                <span className="block">soom</span>
-              </p>
-              <p className="text-center text-[9pt] font-['Pretendard-ExtraLight'] mt-[40px]">
-                지구와 함께 숨쉬다
-                <br />
-                SOOM과 함께 일상의 그린 라이프를 경험하세요
-              </p>
-            </>
-          )}
-        </section>
+        {/* parallax scroll 적용된 메인 텍스트 */}
+        <MainTextSection />
 
         {(isDesktop || isLaptop) && (
           <section className="z-0 flex flex-col items-center justify-center desktop:mt-[530px] laptop:mt-[520px] desktop:pb-[210px] laptop:pb-[190px]">
@@ -189,8 +158,7 @@ const MainPage = () => {
             <div className="bg-[#d6d6d6] w-[50%] brightness-[57.5%]" />
             <div className="bg-[#d6d6d6] w-[50%] brightness-[57.5%]" />
             <div
-              style={{ transform: `translateY(-${position / 80}vh` }}
-              //  desktop:mt-[300px] laptop:mt-[500px] h-[60vh] desktop:mt-[40vh] laptop:mt-[500px]
+              // style={{ transform: `translateY(-${position / 80}vh` }}
               className="absolute z-10 flex flex-col justify-center items-center w-full h-[60vh] desktop:mt-[600px] laptop:mt-[500px]"
             >
               <div className="flex flex-col items-center desktop:text-[48pt] laptop:text-[35pt] text-white">
@@ -227,7 +195,7 @@ const MainPage = () => {
         {isMobile && (
           <section className="flex justify-between w-full h-[310px] bg-blend-darken bg-black bg-opacity-[57%]">
             <div
-              style={{ transform: `translateY(-${position / 100}vh` }}
+              // style={{ transform: `translateY(-${position / 100}vh` }}
               className="absolute z-10 flex flex-col justify-center items-center w-full h-[310px] mt-[210px]"
             >
               <div className="flex flex-col items-center text-[24px] text-white">

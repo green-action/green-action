@@ -24,9 +24,9 @@ import Bookmark from "../bookmark/Bookmark";
 import MyActionRecruitingModal from "./MyActionRecruitingModal";
 import person from "/app/_assets/image/individualAction/person.png";
 import optionDots from "/app/_assets/image/logo_icon/icon/mypage/Group 100.png";
+import { BookmarkedAction, MyAction } from "@/app/_types/mypage/mypage";
 
-// TODO MyAction 타입 사용 후 에러 해결하기
-const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
+const MyActionCard = ({ action, mode }: { action: MyAction; mode: string }) => {
   const router = useRouter();
   const { isDesktop, isLaptop, isMobile } = useResponsive();
   const {
@@ -45,7 +45,6 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
     start_date,
     end_date,
     location,
-    // actionBookmarks,
   } = mode === MODE_MY_BOOKMARKS ? action.bookmarkedAction : action;
 
   const actionImgUrl = actionImgUrls[0]; // as string || ''
@@ -75,11 +74,8 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
             mode === MODE_MAIN &&
             "desktop:w-[356px] desktop:h-[505px] laptop:w-[287px] laptop:h-[251px]"
           } relative`}
-          // desktop:h-[25rem]
-          // relative 때문에 별 클릭안되는? -z, z-..했으나 안됨
         >
           <Card
-            // 이 카드의 classsname지워도 가능
             isFooterBlurred
             radius="lg"
             className={`border-none w-full desktop:h-[311px] laptop:h-[251px]  ${
@@ -233,21 +229,13 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
                         />
                       </Button>
                     </DropdownTrigger>
-                    <DropdownMenu
-                      aria-label="Static Actions"
-                      className="p-3"
-                      // itemClasses={{
-                      //   base: [
-                      //     // "w-[30px]",
-                      //     // "text-[8pt]",
-                      //     "rounded-md",
-                      //   ],
-                      // }}
-                    >
-                      {is_recruiting && (
+                    <DropdownMenu aria-label="Static Actions" className="p-3">
+                      {is_recruiting ? (
                         <DropdownItem key="모집마감" onClick={handleModalOpen}>
                           모집마감
                         </DropdownItem>
+                      ) : (
+                        <></>
                       )}
                       <DropdownItem key="수정" onClick={handleEditClick}>
                         수정
@@ -433,10 +421,12 @@ const MyActionCard = ({ action, mode }: { action: any; mode: string }) => {
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions" className="p-3">
-                  {is_recruiting && (
+                  {is_recruiting ? (
                     <DropdownItem key="모집마감" onClick={handleModalOpen}>
                       모집마감
                     </DropdownItem>
+                  ) : (
+                    <></>
                   )}
                   <DropdownItem key="수정" onClick={handleEditClick}>
                     수정

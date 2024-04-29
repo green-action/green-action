@@ -6,7 +6,6 @@ import { useResponsive } from "../_hooks/responsive";
 
 const TopButton = () => {
   const [showButton, setShowButton] = useState(false);
-  const { isDesktop, isLaptop, isMobile } = useResponsive();
 
   const scrollToTop = () => {
     window.scroll({
@@ -35,7 +34,6 @@ const TopButton = () => {
         className={`fixed z-10 desktop:right-[35px] desktop:bottom-[150px] laptop:right-[35px] laptop:bottom-[150px]
             phone:right-[32px] phone:bottom-[90px]`}
       >
-        {/* 삼항 연산자 isDesktop 등 안먹힌다*/}
         <Image
           src={upImg}
           alt="윗쪽 방향 화살표"
