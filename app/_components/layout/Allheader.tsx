@@ -313,15 +313,6 @@ const Allheader = () => {
                   <>
                     <div className="flex desktop:gap-[35px] laptop::gap-[20px] desktop:ml-[18%] desktop:mr-[15%] laptop:ml-[2%] laptop:mr-[0%]">
                       {/* 채팅방 badge */}
-                      {/* <Badge
-                        content={
-                          allUnreadCount && allUnreadCount > 0
-                            ? allUnreadCount
-                            : 0
-                        }
-                        shape="circle"
-                        color="default"
-                      > */}
                       <Button
                         radius="full"
                         isIconOnly
@@ -337,18 +328,8 @@ const Allheader = () => {
                           }`}
                         />
                       </Button>
-                      {/* </Badge> */}
                       {/* push알림 badge */}
-                      {/* <Badge
-                        content={
-                          unReadPushCount && unReadPushCount > 0
-                            ? unReadPushCount
-                            : null
-                        }
-                        shape="circle"
-                        color="default"
-                      > */}
-                      <Button
+                      {/* <Button
                         radius="full"
                         isIconOnly
                         aria-label="more than 99 notifications"
@@ -361,11 +342,11 @@ const Allheader = () => {
                           size={24}
                           height={24}
                           width={24}
-                          className="text-white"
+                          className={`text-2xl ${
+                            pathname === "/" ? "text-white" : "text-black"
+                          }`}
                         />
-                        {/* <NotificationIcon size={24} height={24} width={24} /> */}
-                      </Button>
-                      {/* </Badge> */}
+                      </Button> */}
                     </div>
                     <Dropdown
                       placement="bottom-end"
