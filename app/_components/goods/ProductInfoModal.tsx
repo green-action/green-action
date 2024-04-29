@@ -44,9 +44,7 @@ const ProductInfoModal: React.FC<productInfoModalProps> = ({
   });
 
   // 로그인된 사용자의 ID가 있는 경우에만 포인트를 가져옴
-  const { data, isLoading } = loggedInUserUid
-    ? useUserPoint(loggedInUserUid)
-    : { data: { point: 0 }, isLoading: false };
+  const { data, isLoading } = useUserPoint();
   const user_point = data?.point || 0;
 
   const handleConfirmPurchase = async () => {

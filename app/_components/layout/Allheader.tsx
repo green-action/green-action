@@ -12,7 +12,6 @@ import { User } from "@/app/_types";
 import { debounce } from "@/utils/debounce/debounce";
 import {
   Avatar,
-  Badge,
   Button,
   Dropdown,
   DropdownItem,
@@ -31,11 +30,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import ChatsListModal from "../chats/ChatsListModal";
-import { NotificationIcon } from "../chats/NotificationIcon";
 import AlertModal from "../community/AlertModal";
 import PushListModal from "../push/PushListModal";
 import Mheader from "./Mheader";
-import { GoBell } from "react-icons/go";
 
 const Allheader = () => {
   const router = useRouter();

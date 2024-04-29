@@ -7,7 +7,6 @@ import { User } from "@/app/_types";
 import { debounce } from "@/utils/debounce/debounce";
 import {
   Avatar,
-  Badge,
   Button,
   Navbar,
   NavbarBrand,
