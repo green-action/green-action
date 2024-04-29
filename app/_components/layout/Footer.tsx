@@ -20,7 +20,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="pt-[257px]">
-        <p className="font-['Pretendard-Light'] desktop:text-[12pt] laptop:text-[10pt] text-[#6E6E6E]">
+        <p className="font-light font-['Pretendard'] desktop:text-[12pt] laptop:text-[10pt] text-[#6E6E6E]">
           ⓒ 2024 SOOM All Rights Reserved.
         </p>
       </div>
