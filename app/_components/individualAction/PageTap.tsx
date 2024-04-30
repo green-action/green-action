@@ -1,3 +1,12 @@
+import {
+  ACTIVE_TAB,
+  ACTIVE_TABS,
+  SELECT_TAB_LATEST_ORDER,
+  SELECT_TAB_POPULARITY_ORDER,
+  TAB_ALL_ACTION,
+  TAB_CLOSED_ACTION,
+  TAB_RECRUITMENT_ACTION,
+} from "@/app/_api/constant";
 import { useResponsive } from "@/app/_hooks/responsive";
 import { useFetchIndivActionsBookmarks } from "@/app/_hooks/useQueries/main";
 import { Select, SelectItem } from "@nextui-org/react";
@@ -9,15 +18,6 @@ import React, { useEffect, useState } from "react";
 import postImg from "../../_assets/image/individualAction/write.png";
 import AlertModal from "../community/AlertModal";
 import PageList from "./PageList";
-import {
-  ACTIVE_TAB,
-  ACTIVE_TABS,
-  SELECT_TAB_LATEST_ORDER,
-  SELECT_TAB_POPULARITY_ORDER,
-  TAB_ALL_ACTION,
-  TAB_CLOSED_ACTION,
-  TAB_RECRUITMENT_ACTION,
-} from "@/app/_api/constant";
 
 const PageTap = () => {
   const [activeTab, setActiveTab] = useState(TAB_ALL_ACTION);
