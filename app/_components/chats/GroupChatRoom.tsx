@@ -31,6 +31,7 @@ import personIcon from "/app/_assets/image/logo_icon/icon/mypage/person.png";
 import { useResponsive } from "@/app/_hooks/responsive";
 
 import type { ChatProps } from "@/app/_types/realtime-chats";
+import { formatToLocaleDateTimeString } from "@/utils/date/date";
 
 const GroupChatRoom: React.FC<ChatProps> = ({
   isOpen,
@@ -314,28 +315,68 @@ const GroupChatRoom: React.FC<ChatProps> = ({
                               <div
                                 className={`bg-gray-300 text-black rounded-tr-2xl rounded-bl-2xl rounded-br-2xl ${
                                   isDesktop
-                                    ? "text-base mb-3 p-5"
+                                    ? "text-base p-5"
                                     : isLaptop
-                                    ? "text-sm mb-2 p-3 mt-1"
-                                    : isMobile && "text-xs mb-2 mt-1 p-3"
+                                    ? "text-sm p-3 mt-1"
+                                    : isMobile && "text-xs mt-1 p-3"
                                 }`}
                               >
                                 {message.content}
+                              </div>
+                              <div
+                                className={`flex text-[#BEBEBE] ${
+                                  message.sender_uid === loggedInUserUid
+                                    ? "justify-end mr-2"
+                                    : "justify-start ml-2"
+                                }
+                                ${
+                                  isDesktop
+                                    ? "mt-1 mb-3 text-[12px]"
+                                    : isLaptop
+                                    ? "mt-1 mb-1 text-[10px]"
+                                    : isMobile && "mt-1 mb-1 text-[10px]"
+                                }
+                                `}
+                              >
+                                {formatToLocaleDateTimeString(
+                                  message.created_at,
+                                ).substring(12)}
                               </div>
                             </div>
                           </div>
                         )}
                         {message.sender_uid === loggedInUserUid && (
-                          <div
-                            className={`bg-[#D4DFD2] rounded-tl-2xl rounded-bl-2xl rounded-br-2xl ${
-                              isDesktop
-                                ? "text-base p-5 mr-4 mb-3"
-                                : isLaptop
-                                ? "text-sm p-3 mr-4 mt-2"
-                                : isMobile && "text-xs mt-1 mr-3 p-3"
-                            }`}
-                          >
-                            {message.content}
+                          <div className="flex flex-col">
+                            <div
+                              className={`bg-[#D4DFD2] rounded-tl-2xl rounded-bl-2xl rounded-br-2xl ${
+                                isDesktop
+                                  ? "text-base p-5 mr-4"
+                                  : isLaptop
+                                  ? "text-sm p-3 mr-4 mt-2"
+                                  : isMobile && "text-xs mt-1 mr-3 p-3"
+                              }`}
+                            >
+                              {message.content}
+                            </div>
+                            <div
+                              className={`flex text-[#BEBEBE] ${
+                                message.sender_uid === loggedInUserUid
+                                  ? "justify-end mr-2"
+                                  : "justify-start ml-2"
+                              }
+                                ${
+                                  isDesktop
+                                    ? "mt-1 mb-3 mr-6 text-[12px]"
+                                    : isLaptop
+                                    ? "mt-1 mb-1 mr-6 text-[10px]"
+                                    : isMobile && "mt-1 mb-1 mr-5 text-[10px]"
+                                }
+                                `}
+                            >
+                              {formatToLocaleDateTimeString(
+                                message.created_at,
+                              ).substring(12)}
+                            </div>
                           </div>
                         )}
                       </div>
