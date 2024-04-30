@@ -129,7 +129,7 @@ const HeaderGroupItem: React.FC<headerGroupItemProps> = ({ room_id, mode }) => {
                     ? "text-xl max-w-[200px]"
                     : isLaptop
                     ? "text-sm max-w-[130px]"
-                    : isMobile && "text-xs"
+                    : isMobile && "text-xs max-w-[150px]"
                 }`}
               >
                 {actionInfo?.title}

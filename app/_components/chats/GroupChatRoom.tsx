@@ -209,10 +209,11 @@ const GroupChatRoom: React.FC<ChatProps> = ({
                     <span
                       className={`font-semibold overflow-hidden whitespace-nowrap overflow-ellipsis ${
                         isDesktop
-                          ? "text-xl"
+                          ? "text-xl max-w-[280px]"
                           : isLaptop
-                          ? "text-[14px] max-w-[200px] h-[20px] mb-1"
-                          : isMobile && "text-[13px] h-[20px] mb-1"
+                          ? "text-[14px] max-w-[170px] h-[20px] mb-1"
+                          : isMobile &&
+                            "text-[13px] max-w-[170px] h-[20px] mb-1"
                       }`}
                     >
                       {actionInfo?.title}
