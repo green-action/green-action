@@ -246,13 +246,6 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
                     className="cursor-pointer"
                     onClick={() => onActionInfoOpen()}
                   />
-                  <IoCloseOutline
-                    size={`${isDesktop ? 40 : isLaptop ? 35 : 27}`}
-                    className="cursor-pointer"
-                    onClick={() => {
-                      onPrivateChatClose();
-                    }}
-                  />
                 </div>
               </ModalHeader>
               <ModalBody
