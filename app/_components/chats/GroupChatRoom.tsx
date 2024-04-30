@@ -201,7 +201,7 @@ const GroupChatRoom: React.FC<ChatProps> = ({
                           ? "text-sm"
                           : isLaptop
                           ? "text-[10px] h-[15px] mb-0.5"
-                          : isMobile && "text-[10px] h-[15px]"
+                          : isMobile && "text-[10px] h-[15px] mb-0.5"
                       }`}
                     >
                       Green action
@@ -212,7 +212,7 @@ const GroupChatRoom: React.FC<ChatProps> = ({
                           ? "text-xl"
                           : isLaptop
                           ? "text-[14px] max-w-[200px] h-[20px] mb-1"
-                          : isMobile && "text-[13px]"
+                          : isMobile && "text-[13px] h-[20px] mb-1"
                       }`}
                     >
                       {actionInfo?.title}
