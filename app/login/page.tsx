@@ -26,13 +26,9 @@ import { useResponsive } from "../_hooks/responsive";
 const LoginPage = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const router = useRouter();
-
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [modalPlacement, setModalPlacement] = React.useState("auto");
   const { isDesktop, isLaptop, isMobile } = useResponsive();
-  // const { isLoggedIn, login } = useAuthStore();
-
-  // alert 대체 모달창을 위한 상태관리
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -88,8 +84,6 @@ const LoginPage = () => {
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
-
-  // 비밀번호찾기 해보기 @@
 
   return (
     <div
