@@ -190,14 +190,18 @@ const GroupChatRoom: React.FC<ChatProps> = ({
                         : isMobile && "w-[30px] h-[30px]"
                     }`}
                   />
-                  <div className="flex flex-col gap-0.5 font-normal">
+                  <div
+                    className={`flex flex-col gap-0.5 font-normal ${
+                      isLaptop ? "h-[70px]" : isMobile && "h-[70px]"
+                    }`}
+                  >
                     <span
                       className={`text-gray-500 ${
                         isDesktop
                           ? "text-sm"
                           : isLaptop
-                          ? "text-[10px]"
-                          : isMobile && "text-[10px]"
+                          ? "text-[10px] h-[15px] mb-0.5"
+                          : isMobile && "text-[10px] h-[15px]"
                       }`}
                     >
                       Green action
@@ -207,7 +211,7 @@ const GroupChatRoom: React.FC<ChatProps> = ({
                         isDesktop
                           ? "text-xl"
                           : isLaptop
-                          ? "text-[14px] max-w-[200px]"
+                          ? "text-[14px] max-w-[200px] h-[20px] mb-1"
                           : isMobile && "text-[13px]"
                       }`}
                     >
@@ -230,8 +234,9 @@ const GroupChatRoom: React.FC<ChatProps> = ({
                           isDesktop
                             ? "text-[15px]"
                             : isLaptop
-                            ? "text-[12px]"
-                            : isMobile && "text-[10px]"
+                            ? "text-[12px] h-[15px] flex items-center"
+                            : isMobile &&
+                              "text-[10px] h-[15px] flex items-center"
                         }`}
                       >
                         {participantsInfo?.length} /{" "}

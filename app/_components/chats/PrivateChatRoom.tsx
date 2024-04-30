@@ -191,11 +191,11 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
           {(onPrivateChatClose) => (
             <>
               <ModalHeader
-                className={`fixed bg-white flex justify-between items-center gap-5 shadow-md z-10 px-8 rounded-tl-[30px] rounded-tr-[30px] ${
+                className={`fixed bg-white flex justify-between items-center shadow-md z-10 px-8 rounded-tl-[30px] rounded-tr-[30px] ${
                   isDesktop
-                    ? "w-[520px] h-28"
+                    ? "w-[520px] h-28 gap-5"
                     : isLaptop
-                    ? "w-[325px] h-[12%]"
+                    ? "w-[325px] h-[70px]"
                     : isMobile && "w-[332px] h-[70px]"
                 }`}
               >
