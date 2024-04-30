@@ -23,7 +23,7 @@ import logoImg from "../_assets/image/logo_icon/logo/white.png";
 import AlertModal from "../_components/community/AlertModal";
 import { useResponsive } from "../_hooks/responsive";
 
-const Login = () => {
+const LoginPage = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const router = useRouter();
 
@@ -228,4 +228,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

@@ -20,7 +20,7 @@ import logoImg from "../_assets/image/logo_icon/logo/white.png";
 import AlertModal from "../_components/community/AlertModal";
 import { useResponsive } from "../_hooks/responsive";
 
-const SignUp = () => {
+const SignUpPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, SetConfirmPassword] = useState("");
@@ -396,4 +396,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignUpPage;
