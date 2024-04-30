@@ -1,4 +1,5 @@
 import {
+  ACTION_TYPE_PERSONAL,
   MODE_COMMUNITY,
   MODE_DESKTOP,
   MODE_LAPTOP,
@@ -181,7 +182,9 @@ const CommunityListPost: React.FC<CommunityListPostProps> = ({
             ml-[0px] w-[112px] h-[28px] text-[14px] mb-[10px]
           `}
                 >
-                  {communityPost?.action_type}와 함께해요
+                  {communityPost?.action_type === ACTION_TYPE_PERSONAL
+                    ? "개인과 함께해요"
+                    : "단체와 함께해요"}
                 </div>
                 <div className="flex gap-2 items-center mb-3">
                   <GoHeartFill className="size-[18px] mb-1" />
@@ -203,7 +206,9 @@ const CommunityListPost: React.FC<CommunityListPostProps> = ({
             mode === MODE_MY_POSTS && "ml-[15px] desktop:text-[13px] w-[135px]"
           }`}
               >
-                {communityPost?.action_type}와 함께해요
+                {communityPost?.action_type === ACTION_TYPE_PERSONAL
+                  ? "개인과 함께해요"
+                  : "단체와 함께해요"}
               </div>
             )}
             {mode !== MODE_MAIN && (
@@ -341,7 +346,9 @@ const CommunityListPost: React.FC<CommunityListPostProps> = ({
             border-2 border-[#3E3E3E]  font-extrabold p-0.5
            text-[11px] w-[90px] h-[24px] mb-3`}
                 >
-                  {communityPost?.action_type}와 함께해요
+                  {communityPost?.action_type === ACTION_TYPE_PERSONAL
+                    ? "개인과 함께해요"
+                    : "단체와 함께해요"}
                 </div>
                 <div className="flex gap-2 items-center mb-3">
                   <GoHeartFill className="size-[15px] mb-1" />
@@ -363,7 +370,9 @@ const CommunityListPost: React.FC<CommunityListPostProps> = ({
           }  
         `}
               >
-                {communityPost?.action_type}와 함께해요
+                {communityPost?.action_type === ACTION_TYPE_PERSONAL
+                  ? "개인과 함께해요"
+                  : "단체와 함께해요"}
               </div>
             )}
             {mode !== MODE_MAIN && (
@@ -453,7 +462,9 @@ const CommunityListPost: React.FC<CommunityListPostProps> = ({
             <p
               className={`text-[10px] text-[#8B8B8B] font-semibold mx-[10px] `}
             >
-              {communityPost?.action_type}와 함께해요
+              {communityPost?.action_type === ACTION_TYPE_PERSONAL
+                ? "개인과 함께해요"
+                : "단체와 함께해요"}
             </p>
           </div>
         </div>

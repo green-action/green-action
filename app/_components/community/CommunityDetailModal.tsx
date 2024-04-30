@@ -23,9 +23,9 @@ import AddComment from "./AddComment";
 import CommunityPostComment from "./Comment";
 import EditPostModal from "./EditPostModal";
 import Image from "next/image";
+import { ACTION_TYPE_PERSONAL } from "@/app/_api/constant";
 
 import type { CommunityDetailProps } from "@/app/_types/community/community";
-import { ACTION_TYPE_PERSONAL } from "@/app/_api/constant";
 
 const CommunityDetailModal: React.FC<CommunityDetailProps> = ({
   isOpen,
