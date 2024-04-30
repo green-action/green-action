@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import upImg from "../../app/_assets/image/mainpage/up.png";
 
 const TopButton = () => {

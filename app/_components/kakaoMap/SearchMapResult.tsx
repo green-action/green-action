@@ -1,45 +1,42 @@
 "use client";
 
-import { Button, Chip } from "@nextui-org/react";
 import React, { useEffect, useRef, useState } from "react";
 import AlertModal from "../community/AlertModal";
+import { useResponsive } from "@/app/_hooks/responsive";
+import { Button, Chip } from "@nextui-org/react";
 
 import type {
-  mapResultPropsType,
-  markerMadeLocationRefType,
-  placeDataType,
+  MapResultPropsType,
+  MarkerMadeLocationRefType,
+  PlaceDataType,
 } from "@/app/_types/individualAction-add/individualAction-add";
-import { useResponsive } from "@/app/_hooks/responsive";
 
-// TODO 컴포넌트 따로 빼보기
-const SearchMapResult: React.FC<mapResultPropsType> = ({
+const SearchMapResult: React.FC<MapResultPropsType> = ({
   searchKeyword,
   setActivityLocation,
   onClose,
   locationMapRef,
 }) => {
-  // DOM API -> useRef 로 변경
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const searchResultRef = useRef<HTMLDivElement>(null);
   const placeListRef = useRef<HTMLUListElement>(null);
   const placeItemRef = useRef<HTMLLIElement>(null);
   const pageRef = useRef<HTMLDivElement>(null);
 
-  const [placeData, setPlaceData] = useState<placeDataType[]>();
+  const [placeData, setPlaceData] = useState<PlaceDataType[]>();
   const [dongInfo, setDongInfo] = useState<string>();
   const [makeMarker, setMakeMarker] = useState(false); // 지도 위에 직접 클릭해 마커 생성 가능한지 여부
   const [currentLocation, setCurrentLocation] = useState(false); // 현재 위치 보기 상태 (true면 현재위치 뜸)
-  const markerMadeLocationRef = useRef<markerMadeLocationRefType>(); // 직접 생성한 마커로 선택한 위치 좌표/지번주소
+  const markerMadeLocationRef = useRef<MarkerMadeLocationRefType>(); // 직접 생성한 마커로 선택한 위치 좌표/지번주소
 
   const { isDesktop, isLaptop, isMobile } = useResponsive();
-  // alert 대체 모달창을 위한 상태관리
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const [message, setMessage] = useState("");
 
-  // 지도 검색결과 장소명 클릭 시 '활동장소'에 자동 입력 + 해당 장소 좌표 useRef 에 담기 + 모달 닫기 (?)
+  // 지도 검색결과 장소명 클릭 시 '활동장소'에 자동 입력 + 해당 장소 좌표 useRef 에 담기 + 모달 닫기
   const handleActivityLocation = (
     e: React.MouseEvent<HTMLParagraphElement, MouseEvent>,
-    placeItem: placeDataType,
+    placeItem: PlaceDataType,
   ) => {
     const target = e.target as HTMLParagraphElement;
     const textContent = target.textContent;
@@ -58,7 +55,7 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
   // 직접 마커 생성한 경우 - 선택한 마커 등록하기
   const handleActivityLocationByMarker = () => {
     const { x, y, address } =
-      markerMadeLocationRef.current as markerMadeLocationRefType;
+      markerMadeLocationRef.current as MarkerMadeLocationRefType;
     setActivityLocation(address || "");
     locationMapRef.current = {
       x: x, // longitude 경도
@@ -106,20 +103,19 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
 
         // SECTION 1 좌표로 행정동 주소 정보 가져오기 위한 함수들
         function searchAddrFromCoords(coords: any, callback: any) {
-          // 좌표로 행정동 주소 정보를 요청합니다
+          // 좌표로 행정동 주소 정보를 요청
           geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
         }
 
         function searchDetailAddrFromCoords(coords: any, callback: any) {
-          // 좌표로 법정동 상세 주소 정보를 요청합니다
+          // 좌표로 법정동 상세 주소 정보를 요청
           geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
         }
 
-        // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
+        // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출
         function displayCenterInfo(result: any, status: any) {
           if (status === kakao.maps.services.Status.OK) {
             for (var i = 0; i < result.length; i++) {
-              // 행정동의 region_type 값은 'H' 이므로
               if (result[i].region_type === "H") {
                 setDongInfo(result[i].address_name);
                 break;
@@ -130,24 +126,19 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
         // SECTION 1 끝 -----
 
         // SECTION 2 geolocation 으로 현재 접속 위치 얻기
-        // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
         if (currentLocation) {
-          // currentLocation이 true일 때
           if (navigator.geolocation) {
-            // GeoLocation을 이용해서 접속 위치를 얻어옵니다
             navigator.geolocation.getCurrentPosition(function (position) {
               var lat = position.coords.latitude, // 위도
                 lon = position.coords.longitude; // 경도
 
-              var locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-                message = '<div style="padding:5px;">현재 내 위치!</div>'; // 인포윈도우에 표시될 내용입니다
+              var locPosition = new kakao.maps.LatLng(lat, lon),
+                message = '<div style="padding:5px;">현재 내 위치!</div>';
 
-              // 마커와 인포윈도우를 표시합니다
               displayMarker(locPosition, message);
             });
           } else {
-            // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
-
+            // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정
             var locPosition = new kakao.maps.LatLng(33.450701, 126.570667),
               message = "geolocation을 사용할수 없어요..";
 
@@ -257,7 +248,6 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
               );
 
               if (itemEl) {
-                // 없어도됨 하지만 기능 부실? ㅠㅠ
                 itemEl.onmouseover = function () {
                   displayInfowindow(marker, title);
                 };
@@ -268,7 +258,7 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
               }
             })(marker, places[i].place_name);
 
-            itemEl && fragment.appendChild(itemEl); //  없어도 됨 ?
+            itemEl && fragment.appendChild(itemEl);
           }
 
           // 검색결과 항목들을 검색결과 목록 Element에 추가 // 없어도 됨
@@ -285,9 +275,9 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
         function addMarker(position: any, idx: number, title: undefined) {
           const imageSrc =
               "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png", // 마커 이미지 url, 스프라이트 이미지
-            imageSize = new window.kakao.maps.Size(36, 37), // 마커 이미지의 크기
+            imageSize = new window.kakao.maps.Size(36, 37),
             imgOptions = {
-              spriteSize: new window.kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
+              spriteSize: new window.kakao.maps.Size(36, 691),
               spriteOrigin: new window.kakao.maps.Point(0, idx * 46 + 10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
               offset: new window.kakao.maps.Point(13, 37), // 마커 좌표에 일치시킬 이미지 내에서의 좌표
             },
@@ -354,7 +344,6 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
 
         // NOTE 8. 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수
         // 인포윈도우에 장소명을 표시
-        // TODO 인포윈도우 말고 커스텀 오버레이 사용하기?
         function displayInfowindow(marker: any, title: string) {
           const content =
             '<div style="padding:5px; z-index:1; text-align: center; min-width: 170px; max-width: 250px;" >' +
@@ -373,9 +362,7 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
         }
 
         // SECTION
-        // 지도를 클릭한 위치에 표출할 마커입니다
         const marker = new kakao.maps.Marker({
-          // 지도 중심좌표에 마커를 생성합니다
           position: map.getCenter(),
         });
 
@@ -388,13 +375,7 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
             function (mouseEvent: any) {
               // 클릭한 위도, 경도 정보를 가져옵니다
               const latlng = mouseEvent.latLng;
-
-              // 클릭할떄마다 마커를 새로 생성하면 안됨 (중복 문제)
-
-              // 지도에 마커를 표시합니다
               marker.setMap(map);
-
-              // 마커 위치를 클릭한 위치로 옮깁니다
               marker.setPosition(latlng);
 
               // 좌표로 주소 얻어오기
@@ -402,8 +383,6 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
                 mouseEvent.latLng,
                 function (result: any, status: any) {
                   if (status === kakao.maps.services.Status.OK) {
-                    // 도로명 주소 없을 수도 있음, 지번 주소는 항상 존재
-                    // ref에 지정한 마커 위치 좌표/주소 담기
                     markerMadeLocationRef.current = {
                       x: latlng.getLng(),
                       y: latlng.getLat(),
@@ -425,11 +404,11 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
                       detailAddr +
                       "</div>";
 
-                    // 마커를 클릭한 위치에 표시합니다
+                    // 마커를 클릭한 위치에 표시
                     marker.setPosition(mouseEvent.latLng);
                     marker.setMap(map);
 
-                    // 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
+                    // 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시
                     infowindow.setContent(content);
                     infowindow.open(map, marker);
                   }

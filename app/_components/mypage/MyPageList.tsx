@@ -11,7 +11,7 @@ import {
 import Image from "next/image";
 import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
 
-import type { userInfoProps } from "@/app/_types/mypage/mypage";
+import type { UserInfoProps } from "@/app/_types/mypage/mypage";
 import type { User } from "@/app/_types";
 import {
   ACTIVE_TAB_BOOKMARKED_ACTION,
@@ -19,7 +19,7 @@ import {
   ACTIVE_TAB_MY_COMMUNITY,
 } from "@/app/_api/constant";
 
-const MyPageList = ({ userInfo }: { userInfo: userInfoProps }) => {
+const MyPageList = ({ userInfo }: { userInfo: UserInfoProps }) => {
   const session = useSession();
   const user_uid = session.data?.user.user_uid as string;
 
@@ -111,7 +111,6 @@ const MyPageList = ({ userInfo }: { userInfo: userInfoProps }) => {
 
   const handleActiveTabClick = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    // e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     const target = e.target as HTMLButtonElement;
     const textContent = target.textContent;
@@ -199,7 +198,7 @@ const MyPageList = ({ userInfo }: { userInfo: userInfoProps }) => {
             return (
               <MyActionCard
                 key={action.id}
-                action={action as any} // NOTE any 해결하기
+                action={action as any}
                 mode="myPosts"
               />
             );
@@ -212,7 +211,7 @@ const MyPageList = ({ userInfo }: { userInfo: userInfoProps }) => {
             return (
               <MyActionCard
                 key={bookmark?.bookmarkedAction?.id || ""}
-                action={bookmark as any} // NOTE any 해결하기
+                action={bookmark as any}
                 mode="myBookmarks"
               />
             );

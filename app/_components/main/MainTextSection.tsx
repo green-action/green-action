@@ -1,13 +1,12 @@
+import { useCallback, useEffect } from "react";
 import { useResponsive } from "@/app/_hooks/responsive";
 import _ from "lodash";
-import { Dispatch, SetStateAction, useCallback, useEffect } from "react";
 
-const MainTextSection = ({
+import type { MainTextProps } from "@/app/_types/main/mainpage";
+
+const MainTextSection: React.FC<MainTextProps> = ({
   position,
   setPosition,
-}: {
-  position: number;
-  setPosition: Dispatch<SetStateAction<number>>;
 }) => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 
@@ -34,7 +33,6 @@ const MainTextSection = ({
       {(isDesktop || isLaptop) && (
         <>
           <p className="text-center h-[390px] desktop:text-[80pt] laptop:text-[50pt] w-full  font-['Italiana'] ">
-            {/* EXPERIENCE A NEW WAY OF */}
             First step for green life,
             <span className="desktop:mt-[-30px] laptop:mt-[-20px] block">
               soom
