@@ -315,10 +315,11 @@ const GroupChatRoom: React.FC<ChatProps> = ({
                               <div
                                 className={`bg-gray-300 text-black rounded-tr-2xl rounded-bl-2xl rounded-br-2xl ${
                                   isDesktop
-                                    ? "text-base p-5"
+                                    ? "text-base p-5 max-w-[270px]"
                                     : isLaptop
-                                    ? "text-sm p-3 mt-1"
-                                    : isMobile && "text-xs mt-1 p-3"
+                                    ? "text-sm p-3 mt-1 max-w-[180px]"
+                                    : isMobile &&
+                                      "text-xs mt-1 p-3 max-w-[180px]"
                                 }`}
                               >
                                 {message.content}
@@ -350,10 +351,11 @@ const GroupChatRoom: React.FC<ChatProps> = ({
                             <div
                               className={`bg-[#D4DFD2] rounded-tl-2xl rounded-bl-2xl rounded-br-2xl ${
                                 isDesktop
-                                  ? "text-base p-5 mr-4"
+                                  ? "text-base p-5 mr-4 max-w-[270px]"
                                   : isLaptop
-                                  ? "text-sm p-3 mr-4 mt-2"
-                                  : isMobile && "text-xs mt-1 mr-3 p-3"
+                                  ? "text-sm p-3 mr-4 mt-2 max-w-[180px]"
+                                  : isMobile &&
+                                    "text-xs mt-1 mr-3 p-3 max-w-[180px]"
                               }`}
                             >
                               {message.content}
