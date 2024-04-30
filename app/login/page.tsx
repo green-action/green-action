@@ -23,16 +23,12 @@ import logoImg from "../_assets/image/logo_icon/logo/white.png";
 import AlertModal from "../_components/community/AlertModal";
 import { useResponsive } from "../_hooks/responsive";
 
-const Login = () => {
+const LoginPage = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const router = useRouter();
-
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [modalPlacement, setModalPlacement] = React.useState("auto");
   const { isDesktop, isLaptop, isMobile } = useResponsive();
-  // const { isLoggedIn, login } = useAuthStore();
-
-  // alert 대체 모달창을 위한 상태관리
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -88,8 +84,6 @@ const Login = () => {
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
-
-  // 비밀번호찾기 해보기 @@
 
   return (
     <div
@@ -228,4 +222,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;
