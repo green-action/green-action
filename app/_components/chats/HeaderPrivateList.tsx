@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { MODE_PREVIOUS, MODE_TODAY } from "@/app/_api/constant";
 import {
   QUERY_KEY_ACTION_IDS_TITLES_URLS,
@@ -15,7 +16,6 @@ import { supabase } from "@/utils/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useEffect } from "react";
 import HeaderPrivateItem from "./HeaderPrivateItem";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
@@ -25,7 +25,6 @@ const HeaderPrivateList = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
   const queryClient = useQueryClient();
 
-  // data - 채팅방 id, 나의 채팅참가자 type(방장 or 참가자), 채팅방 type(개인), action id
   const { data, isLoading, isError } =
     useGetMyPrivateRoomsInfo(loggedInUserUid);
 
@@ -34,7 +33,6 @@ const HeaderPrivateList = () => {
       return item.room_id;
     });
 
-    // 채팅내용 구독 - room_id 별로 채팅내용 변경사항 구독
     const subscriptions = roomIds?.map((roomId) => {
       const subscription = supabase
         .channel(`${roomId}`)
@@ -46,7 +44,6 @@ const HeaderPrivateList = () => {
             queryClient.invalidateQueries({
               queryKey: [QUERY_KEY_MESSAGES_PARTICIPANT_INFO_HEADER],
             }),
-              // 채팅방 개설은 되어있지만, 메시지가 하나도 없었던 경우 대비
               queryClient.invalidateQueries({
                 queryKey: [QUERY_KEY_ACTION_IDS_TITLES_URLS],
               });
@@ -67,7 +64,6 @@ const HeaderPrivateList = () => {
     };
   }, [data]);
 
-  // 채팅방 테이블 변경사항 구독 - 새 채팅방 insert될때 채팅방 리스트 실시간 업데이트
   useEffect(() => {
     const chatRoomsSubscription = supabase.channel(`{${loggedInUserUid}}`).on(
       "postgres_changes",
@@ -87,11 +83,9 @@ const HeaderPrivateList = () => {
     };
   }, []);
 
-  // 채팅방 별 action의 title, url
   const { actionIdsTitlesUrls, isActionLoading, isActionError } =
     useGetActionTitleAndUrl(data);
 
-  // 마지막 메시지(내용, 시간), 채팅 상대방 정보(id, 닉네임, 프로필)
   const { messageAndParticipantInfo, isMessageInfoLoading, isMessageError } =
     useGetMessageAndParticipantInfo({
       loggedInUserUid,
@@ -109,23 +103,18 @@ const HeaderPrivateList = () => {
     return <div>Error</div>;
   }
 
-  // data, actionIdsTitlesUrls 안 들어온 경우
   if (!data || !actionIdsTitlesUrls) return [];
 
-  // action_id 같은 것들끼리 객체 하나로 병합
   const mergedData = data
     .filter((item) => item.chat_rooms_info !== null)
     .map((item) => {
-      // 각 채팅방의 action_id 추출
       const actionId = item.chat_rooms_info?.action_id;
 
-      // action_id 형식이 올바르지 않은 경우
       if (!actionId || typeof actionId !== "string") {
         console.warn(`Invalid action id found in data: ${actionId}`);
         return null;
       }
 
-      // actionIdsTitlesUrls에서 해당 action_id 추출
       const matchingAction = actionIdsTitlesUrls.find(
         (action) => action.id === actionId,
       );
@@ -135,7 +124,6 @@ const HeaderPrivateList = () => {
         return null;
       }
 
-      // chat_rooms_info, action_info 를 하나의 객체로 반환
       return {
         chat_rooms_info: {
           room_type: item?.chat_rooms_info?.room_type,
@@ -152,7 +140,6 @@ const HeaderPrivateList = () => {
 
   const filteredMergedData = mergedData.filter((item) => item !== null);
 
-  // room_id 같은 것들끼리 객체 하나로 병합
   const combinedObjects = messageAndParticipantInfo
     ?.map((message) => {
       const matchingMergedItem = filteredMergedData.find(
@@ -180,8 +167,6 @@ const HeaderPrivateList = () => {
   if (combinedObjects) {
     const today = new Date().toDateString();
 
-    // TODO any 해결 필요
-    // combinedObjects를 생성하면서 메시지를 오늘 날짜와 그 이전 날짜로 분리
     combinedObjects.map((eachRoomInfo: any) => {
       const messageDate = new Date(
         eachRoomInfo.message.created_at,

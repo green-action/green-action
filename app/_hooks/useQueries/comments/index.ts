@@ -1,7 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-
 import { QEURY_KEY_COMMUNITY_COMMENTS_LIST } from "@/app/_api/queryKeys";
-
 import {
   getCommunityCommentsList,
   getCurrentUserProfileImg,

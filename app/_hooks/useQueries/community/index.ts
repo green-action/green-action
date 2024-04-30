@@ -1,11 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-
 import {
   QUERY_KEY_COMMUNITYLIST,
   QUERY_KEY_COMMUNITY_POST,
   QUERY_KEY_COMMUNITY_POST_FOR_EDIT,
 } from "@/app/_api/queryKeys";
-
 import {
   getCommunityList,
   getPostContents,

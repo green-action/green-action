@@ -1,3 +1,4 @@
+import React from "react";
 import { MODE_TODAY } from "@/app/_api/constant";
 import { useResponsive } from "@/app/_hooks/responsive";
 import {
@@ -10,7 +11,6 @@ import { previousFormatDate, todayFormatTime } from "@/utils/date/date";
 import { useDisclosure } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import React from "react";
 import GroupChatRoom from "./GroupChatRoom";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 import personIcon from "/app/_assets/image/logo_icon/icon/mypage/person.png";
@@ -22,28 +22,23 @@ const HeaderGroupItem: React.FC<headerGroupItemProps> = ({ room_id, mode }) => {
   const loggedInUserUid = session.data?.user.user_uid || "";
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 
-  // 단체 채팅방 모달창
   const {
     isOpen: isGroupChatOpen,
     onOpen: onGroupChatOpen,
     onOpenChange: onGroupChatOpenChange,
   } = useDisclosure();
 
-  // 채팅방의 action정보
   const { actionInfo, isActionInfoLoading, isActionInfoError } =
     useGetActionInfo(room_id);
 
-  // 안읽은 메시지 수
   const { unreadCount, isLoading, isError } = useGetUnreadCount({
     loggedInUserUid,
     room_id,
   });
 
-  // 그룹방 참여인원
   const { participantsCount, isParticipantsCountLoading, isParticipantsError } =
     useGetGroupParticipantsCount(room_id);
 
-  // 그룹방 마지막 메시지 정보
   const { lastMessageInfo, isLastMessageInfoLoading, isLastMessageInfoError } =
     useGetLastMessageInfo(room_id);
 
@@ -212,7 +207,6 @@ const HeaderGroupItem: React.FC<headerGroupItemProps> = ({ room_id, mode }) => {
           </div>
         </div>
       </div>
-      {/* 그룹채팅방 */}
       {isGroupChatOpen && (
         <GroupChatRoom
           isOpen={isGroupChatOpen}

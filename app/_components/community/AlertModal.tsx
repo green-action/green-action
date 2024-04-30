@@ -1,6 +1,6 @@
+import React from "react";
 import { Button, Modal, ModalBody, ModalContent } from "@nextui-org/react";
 import Image from "next/image";
-import React from "react";
 import logoImg from "../../_assets/image/logo_icon/logo/gray.png";
 
 import type { AlertModalProps } from "@/app/_types/community/community";

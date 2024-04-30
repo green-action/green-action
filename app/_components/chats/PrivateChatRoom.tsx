@@ -51,11 +51,9 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
   const { isDesktop, isLaptop, isMobile } = useResponsive();
   const chatRoomRef = useRef<HTMLDivElement | null>(null);
 
-  // 현재 로그인한 유저 uid
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
 
-  // 액션정보 모달창
   const {
     isOpen: isActionInfoOpen,
     onOpen: onActionInfoOpen,
@@ -81,7 +79,6 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "chat_messages" },
 
-        // TODO 무효화 수정 필요 - setQueryData 등
         () => {
           queryClient.invalidateQueries({
             queryKey: [QUERY_KEY_MESSAGES_LIST],
@@ -92,11 +89,9 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
           queryClient.invalidateQueries({
             queryKey: [QUERY_KEY_UNREAD_MESSAGES_COUNT],
           });
-          // header 개인채팅 리스트 가져오기 무효화
           queryClient.invalidateQueries({
             queryKey: [QUERY_KEY_MY_PRIVATE_ROOMS_IDS],
           });
-          // 메시지 insert되면 리스트의 안읽수 업데이트도 같이 되어야함
           queryClient.invalidateQueries({
             queryKey: [QUERY_KEY_UPDATE_UNREAD],
           });
@@ -114,28 +109,20 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
     loggedInUserUid,
   });
 
-  // 안읽은 메시지 update useQuery가져오기
   const { data, isUpdateUnreadLoading, isUpdateUnreadError } = useUpdateUnread({
     loggedInUserUid,
     roomId,
   });
 
-  // // 채팅방의 action정보, 참가자 정보
-  // const { actionInfo, isActionInfoLoading, isActionInfoError } =
-  //   useGetActionInfo(roomId);
-
-  // action정보 가져오기(id, 제목, 시작 및 종료일자, 모집인원, 사진1장 url)
   const { actionInfo, isActionInfoLoading, isActionInfoError } =
     useGetGroupActionInfo(actionId);
 
-  // action 참여자 정보
   const {
     actionParticipantsInfo,
     isActionParticipantsLoading,
     isActionParticipantsError,
   } = useGetActionParticipantsInfo(actionId);
 
-  // 채팅방 상대방의 id, 닉네임, 이미지
   const { participantInfo, isParticiPantLoading, isParticiPantError } =
     useGetParticipantInfo({
       loggedInUserUid,
@@ -168,10 +155,9 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
     return <div>Error</div>;
   }
 
-  // 메시지 보내기 핸들러
   const handleSendMessage = async () => {
     if (message === "") return;
-    setMessage(""); // 메시지를 전송한 후에 입력 필드의 값을 비움
+    setMessage("");
 
     await sendMessage({
       sender_uid: loggedInUserUid,

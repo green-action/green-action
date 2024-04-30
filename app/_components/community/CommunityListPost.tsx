@@ -19,9 +19,9 @@ import Likes from "../likes/Likes";
 import CommunityDetailModal from "./CommunityDetailModal";
 import CommunitySkeleton from "./CommunitySkeleton";
 import { longStyle } from "./style";
+import Image from "next/image";
 
 import type { CommunityListPostProps } from "@/app/_types/community/community";
-import Image from "next/image";
 
 const CommunityListPost: React.FC<CommunityListPostProps> = ({
   communityPost,
@@ -29,20 +29,16 @@ const CommunityListPost: React.FC<CommunityListPostProps> = ({
   my_display_name,
   my_profile_img,
 }) => {
-  // 게시글 상세 모달창 open여부 props
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 
   const post_id = communityPost?.id as string;
 
-  // 게시글 정보 처리상태 가져오기
   const { isPostLoading, isPostError } = useGetPostContents(post_id);
 
-  // 댓글 리스트 처리상태 가져오기
   const { isCommentsLoading, isCommentsError } =
     useGetCommunityCommentsList(post_id);
 
-  // 게시글 작성자 정보
   const { display_name, profile_img } = (mode !== MODE_MY_POSTS &&
     communityPost?.users) || {
     display_name: null,
@@ -94,7 +90,6 @@ const CommunityListPost: React.FC<CommunityListPostProps> = ({
           }
         `}
         >
-          {/* 게시글 이미지 */}
           <Card
             isFooterBlurred
             radius="lg"
@@ -129,7 +124,6 @@ const CommunityListPost: React.FC<CommunityListPostProps> = ({
                 <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t-main"></div>
               )}
             </div>
-            {/* 사진내부영역 - 아바타,작성자,좋아요 */}
             <div className="flex items-center justify-between pl-[24px] pr-[16px] absolute bottom-0 text-white w-full h-[66px]">
               <div className="flex items-center">
                 <Avatar
@@ -166,7 +160,6 @@ const CommunityListPost: React.FC<CommunityListPostProps> = ({
               </div>
             </div>
           </Card>
-          {/* 사진하단영역 - 함께해요, 제목 */}
           <div
             className={`flex justify-center mt-4 ${
               mode !== MODE_MY_POSTS &&
@@ -180,9 +173,7 @@ const CommunityListPost: React.FC<CommunityListPostProps> = ({
            } 
           `}
           >
-            {/* 함께해요 */}
             {mode === MODE_MAIN ? (
-              // 모드 메인인 경우 개인/단체와 함께해요 옆에 Likes 도 띄우기
               <div className="w-full flex items-center justify-between">
                 <div
                   className={`flex items-center justify-center rounded-[24px] 
@@ -215,8 +206,6 @@ const CommunityListPost: React.FC<CommunityListPostProps> = ({
                 {communityPost?.action_type}와 함께해요
               </div>
             )}
-
-            {/* mode main이 아닌 경우 제목만 */}
             {mode !== MODE_MAIN && (
               <p
                 className={`text-[15px] font-extrabold w-3/4 mx-[24px] overflow-hidden whitespace-nowrap overflow-ellipsis 
@@ -229,7 +218,6 @@ const CommunityListPost: React.FC<CommunityListPostProps> = ({
                 {communityPost?.title}
               </p>
             )}
-            {/* mode main 인 경우 제목, 화살표 */}
             {mode === MODE_MAIN && (
               <div className="flex items-center">
                 <p
@@ -258,7 +246,6 @@ const CommunityListPost: React.FC<CommunityListPostProps> = ({
           ${mode !== MODE_MAIN && mode !== MODE_MY_POSTS && "w-[433px] mb-2"}
         `}
         >
-          {/* 게시글 이미지 */}
           <Card
             isFooterBlurred
             radius="lg"
@@ -293,7 +280,6 @@ const CommunityListPost: React.FC<CommunityListPostProps> = ({
                 <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t-main"></div>
               )}
             </div>
-            {/* 사진내부영역 - 아바타,작성자,좋아요 */}
             <div className="flex items-center justify-between pl-[24px] pr-[16px] absolute bottom-0 text-white w-full h-[66px]">
               <div className="flex items-center">
                 <Avatar
@@ -332,7 +318,6 @@ const CommunityListPost: React.FC<CommunityListPostProps> = ({
               </div>
             </div>
           </Card>
-          {/* 사진하단영역 - 함께해요, 제목 */}
           <div
             className={`flex mt-4 ${
               mode !== MODE_MY_POSTS &&
@@ -350,7 +335,6 @@ const CommunityListPost: React.FC<CommunityListPostProps> = ({
           `}
           >
             {mode === MODE_MAIN ? (
-              // 모드가 메인인 경우 함께해요, 하트아이콘 좋아요수
               <div className="w-full flex items-center justify-between">
                 <div
                   className={`flex items-center justify-center rounded-[24px] 
@@ -361,7 +345,7 @@ const CommunityListPost: React.FC<CommunityListPostProps> = ({
                 </div>
                 <div className="flex gap-2 items-center mb-3">
                   <GoHeartFill className="size-[15px] mb-1" />
-                  <Likes // 좋아요 수
+                  <Likes
                     post_id={communityPost?.id as string}
                     isOpen={true}
                     mode={MODE_MAIN_LAPTOP_COUNT}
@@ -369,7 +353,6 @@ const CommunityListPost: React.FC<CommunityListPostProps> = ({
                 </div>
               </div>
             ) : (
-              // 모드가 메인이 아닌 경우 그냥 함께해요 띄우기
               <div
                 className={`flex items-center justify-center rounded-[24px] 
             border-2 border-[#3E3E3E]  font-extrabold p-0.5 h-[31px]
@@ -383,8 +366,6 @@ const CommunityListPost: React.FC<CommunityListPostProps> = ({
                 {communityPost?.action_type}와 함께해요
               </div>
             )}
-
-            {/* mode main이 아닌 경우 제목만 */}
             {mode !== MODE_MAIN && (
               <p
                 className={`text-[15px] font-extrabold w-3/4 mx-[24px] overflow-hidden whitespace-nowrap overflow-ellipsis 
@@ -394,7 +375,6 @@ const CommunityListPost: React.FC<CommunityListPostProps> = ({
                 {communityPost?.title}
               </p>
             )}
-            {/* mode main 인 경우 제목, 화살표 */}
             {mode === MODE_MAIN && (
               <div className="flex items-center">
                 <p
@@ -416,7 +396,6 @@ const CommunityListPost: React.FC<CommunityListPostProps> = ({
       )}
       {isMobile && (
         <div className="mb-2">
-          {/* 게시글 이미지 */}
           <Card
             isFooterBlurred
             radius="lg"
@@ -446,7 +425,6 @@ const CommunityListPost: React.FC<CommunityListPostProps> = ({
                 <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t"></div>
               )}
             </div>
-            {/* 사진내부영역 - 아바타,작성자,좋아요 */}
             <div className="flex items-center justify-between pl-[10px] absolute bottom-[8px] w-full h-[26px]">
               <div className="flex items-center">
                 <Avatar
@@ -466,7 +444,6 @@ const CommunityListPost: React.FC<CommunityListPostProps> = ({
               </div>
             </div>
           </Card>
-          {/* 사진하단영역 - 함께해요, 제목 */}
           <div className="flex flex-col mt-4">
             <div
               className={`w-[110px] ml-[8px] text-[11px] font-semibold p-0.5 overflow-hidden whitespace-nowrap overflow-ellipsis`}

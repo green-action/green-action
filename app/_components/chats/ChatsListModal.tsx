@@ -1,7 +1,7 @@
+import React from "react";
 import { MODE_ACTION_PAGE, MODE_HEADER } from "@/app/_api/constant";
 import { useResponsive } from "@/app/_hooks/responsive";
 import { Modal, ModalContent } from "@nextui-org/react";
-import React from "react";
 import HeaderChatsSelect from "./HeaderChatsSelect";
 import PrivateChatsList from "./PageChatsList";
 
@@ -37,7 +37,7 @@ const ChatsListModal: React.FC<chatsListModalProps> = ({
         >
           {(onClose) => (
             <>
-              {mode === MODE_HEADER && <HeaderChatsSelect onClose={onClose} />}
+              {mode === MODE_HEADER && <HeaderChatsSelect />}
               {mode === MODE_ACTION_PAGE && (
                 <PrivateChatsList onClose={onClose} action_id={action_id} />
               )}

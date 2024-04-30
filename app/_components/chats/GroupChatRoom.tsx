@@ -12,7 +12,6 @@ import {
   useUpdateUnread,
   userGetParticipantsInfo,
 } from "@/app/_hooks/useQueries/chats";
-import type { ChatProps } from "@/app/_types/realtime-chats";
 import { supabase } from "@/utils/supabase/client";
 import {
   Avatar,
@@ -30,6 +29,8 @@ import { IoPaperPlane, IoReorderThreeOutline } from "react-icons/io5";
 import GroupInsideModal from "./GroupInsideModal";
 import personIcon from "/app/_assets/image/logo_icon/icon/mypage/person.png";
 import { useResponsive } from "@/app/_hooks/responsive";
+
+import type { ChatProps } from "@/app/_types/realtime-chats";
 
 const GroupChatRoom: React.FC<ChatProps> = ({
   isOpen,
@@ -72,8 +73,6 @@ const GroupChatRoom: React.FC<ChatProps> = ({
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "chat_messages" },
 
-        // TODO 안읽은 메시지 (헤더 아이콘) 같이 무효화하기
-        // TODO 헤더 채팅리스트도 무효화 (얘는 리스트에서 해줘야할듯?)
         () => {
           queryClient.invalidateQueries({
             queryKey: [QUERY_KEY_MESSAGES_LIST],
@@ -98,17 +97,14 @@ const GroupChatRoom: React.FC<ChatProps> = ({
     loggedInUserUid,
   });
 
-  // 안읽은 메시지 update useQuery가져오기
   const { data, isUpdateUnreadLoading, isUpdateUnreadError } = useUpdateUnread({
     loggedInUserUid,
     roomId,
   });
 
-  // 채팅방 참가자 정보 가져오기(참가 타입, id, 닉네임, 프로필)
   const { participantsInfo, isParticipantsLoading, isParticipantsError } =
     userGetParticipantsInfo(roomId);
 
-  // action정보 가져오기(id, 제목, 시작 및 종료일자, 모집인원, 사진1장 url)
   const { actionInfo, isActionInfoLoading, isActionInfoError } =
     useGetGroupActionInfo(actionId);
 
@@ -130,10 +126,9 @@ const GroupChatRoom: React.FC<ChatProps> = ({
     <div>Error</div>;
   }
 
-  // 메시지 보내기 핸들러
   const handleSendMessage = async () => {
     if (message === "") return;
-    setMessage(""); // 메시지를 전송한 후에 입력 필드의 값을 비움
+    setMessage("");
 
     await sendMessage({
       sender_uid: loggedInUserUid,

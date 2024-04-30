@@ -1,6 +1,6 @@
 import React from "react";
 
-import { notificationIconProps } from "@/app/_types/realtime-chats";
+import type { notificationIconProps } from "@/app/_types/realtime-chats";
 
 export const NotificationIcon: React.FC<notificationIconProps> = ({
   size,

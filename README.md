@@ -22,8 +22,9 @@
 ## 🔗 배포주소 및 시연영상
 
 > 정식 배포 사이트 : https://www.soom-greenlife.com/<br/>
-> 시연 영상 : https://youtu.be/KKf7HcJO1Gk<br/>
-> 테스트 ID/PW : test@gmail.com / test11!
+> 테스트 ID/PW : test@gmail.com / test11!<br/>
+
+> 시연 영상 : https://youtu.be/KKf7HcJO1Gk
 
 <br/>
 

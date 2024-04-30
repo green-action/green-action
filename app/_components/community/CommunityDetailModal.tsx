@@ -1,3 +1,4 @@
+import React from "react";
 import { useDeleteCommunityPostMutation } from "@/app/_hooks/useMutations/community";
 import { useGetCommunityCommentsList } from "@/app/_hooks/useQueries/comments";
 import { useGetPostContents } from "@/app/_hooks/useQueries/community";
@@ -16,15 +17,15 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
-import React from "react";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import Likes from "../likes/Likes";
 import AddComment from "./AddComment";
 import CommunityPostComment from "./Comment";
 import EditPostModal from "./EditPostModal";
+import Image from "next/image";
 
 import type { CommunityDetailProps } from "@/app/_types/community/community";
-import Image from "next/image";
+import { ACTION_TYPE_PERSONAL } from "@/app/_api/constant";
 
 const CommunityDetailModal: React.FC<CommunityDetailProps> = ({
   isOpen,
@@ -32,13 +33,9 @@ const CommunityDetailModal: React.FC<CommunityDetailProps> = ({
   post_id,
   mode,
 }) => {
-  const [modalPlacement, setModalPlacement] = React.useState("auto");
-
-  // 현재 로그인한 유저 uid
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
 
-  // 게시글 수정 모달창 open여부
   const {
     isOpen: isEditOpen,
     onOpen: onEditOpen,
@@ -46,34 +43,24 @@ const CommunityDetailModal: React.FC<CommunityDetailProps> = ({
     onOpenChange: onEditOpenChange,
   } = useDisclosure();
 
-  // 게시글 정보 가져오기
   const { communityPost } = useGetPostContents(post_id);
-
-  // 댓글 리스트 가져오기
   const { communityComments } = useGetCommunityCommentsList(post_id);
-
-  // 게시글 삭제 mutation
   const { deletePostMutation } = useDeleteCommunityPostMutation();
 
-  // 날짜 형식 변경
   const formattedDate = communityPost
     ? formatToLocaleDateString(communityPost.created_at)
     : "";
 
-  // 댓글 리스트 최신순 정렬
   const sortedLatestCommentsList = communityComments?.slice().sort((a, b) => {
     return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
   });
 
-  // 게시글 작성자 닉네임, 프로필 이미지 가져오기
   const { display_name, profile_img } = communityPost?.users || {
     display_name: null,
     profile_img: null,
   };
-  // profile_img가 null인 경우 undefined로 변환 (null이면 src안에서 타입에러 발생)
   const imgSrc = profile_img || "";
 
-  // 게시글 삭제 핸들러
   const handleDeletePost = () => {
     const isConfirm = window.confirm("삭제하시겠습니까?");
     if (isConfirm) {
@@ -102,7 +89,6 @@ const CommunityDetailModal: React.FC<CommunityDetailProps> = ({
                 <p className="font-normal text-xs">Greener</p>
               </ModalHeader>
               <ModalBody className="pb-0">
-                {/* 게시글 이미지 */}
                 <Image
                   width={500}
                   height={300}
@@ -110,13 +96,13 @@ const CommunityDetailModal: React.FC<CommunityDetailProps> = ({
                   alt="Community Post"
                   className="mx-auto mb-2 w-[95%] h-[300px] rounded-2xl bg-slate-300 object-cover"
                 />
-                {/* 이미지 아래 전체 wrapper */}
                 <div className="flex flex-col gap-2 w-[90%] mx-auto">
-                  {/* 첫 줄 - 개인과 함께해요, 게시글 제목, 좋아요버튼 */}
                   <div className="flex justify-between mb-2 ">
                     <div className="flex gap-2 items-center">
                       <p className="flex items-center justify-center rounded-full border-1.5 border-black text-xs text-center p-0.5 px-4 mr-1 w-[120px] h-[25px]">
-                        {communityPost?.action_type}과 함께해요
+                        {communityPost?.action_type === ACTION_TYPE_PERSONAL
+                          ? "개인과 함께해요"
+                          : "단체와 함께해요"}
                       </p>
                       <p className="text-[14px] font-extrabold">
                         {communityPost?.title}
@@ -126,11 +112,9 @@ const CommunityDetailModal: React.FC<CommunityDetailProps> = ({
                       <Likes post_id={post_id} isOpen={isOpen} mode="" />
                     </div>
                   </div>
-                  {/* 두번째 줄 : 활동 내용 */}
                   <p className=" mx-auto text-[12.5px] mb-5 w-[97%]">
                     {communityPost?.content}
                   </p>
-                  {/* 세번째 줄 : 작성일, dot 드롭다운 */}
                   <div className="flex justify-between items-end ">
                     <p className="text-[11px]">{formattedDate}</p>
                     {loggedInUserUid === communityPost?.user_uid && (
@@ -162,10 +146,8 @@ const CommunityDetailModal: React.FC<CommunityDetailProps> = ({
                     )}
                   </div>
                   <hr className="mb-1" />
-                  {/* 댓글 전체 wrapper */}
                   <div className="flex flex-col mx-auto mb-2 w-[98%]">
                     <p className="text-xs text-gray-500 mb-[20px]">댓글</p>
-                    {/* 댓글 map */}
                     {sortedLatestCommentsList?.length === 0 ? (
                       <p className="text-center text-[13px] text-gray-500 font-light mt-4 h-[55px]">
                         댓글로 Greener를 응원해보아요 🎉
@@ -180,14 +162,12 @@ const CommunityDetailModal: React.FC<CommunityDetailProps> = ({
                     )}
                   </div>
                 </div>
-                {/* 댓글 등록 */}
                 <div className="sticky flex items-end bottom-0 pt-3 mx-auto w-[90%] bg-white">
                   <AddComment
                     loggedInUserUid={loggedInUserUid}
                     post_id={post_id}
                   />
                 </div>
-                {/* </div> */}
               </ModalBody>
             </>
           )}

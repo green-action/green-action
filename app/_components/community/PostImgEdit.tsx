@@ -1,17 +1,15 @@
 import React, { useState } from "react";
+import Image from "next/image";
 
 import type { EditImgProps } from "@/app/_types/community/community";
-import Image from "next/image";
 
 const PostImgEdit: React.FC<EditImgProps> = ({
   uploadedFileUrl,
   setUploadedFileUrl,
   setFile,
 }) => {
-  // 드래그 앤 드랍 상태
   const [isDragging, setIsDragging] = useState(false);
 
-  // 이미지 미리보기 띄우기
   const handleShowPreview = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) {
@@ -22,13 +20,11 @@ const PostImgEdit: React.FC<EditImgProps> = ({
     setFile(file);
   };
 
-  // 미리보기 이미지 삭제
   const handleDeleteImage = () => {
     setUploadedFileUrl("");
     setFile(null);
   };
 
-  // 드래그 이벤트 핸들러
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(true);
@@ -43,7 +39,6 @@ const PostImgEdit: React.FC<EditImgProps> = ({
     setIsDragging(false);
   };
 
-  // 드롭 이벤트 핸들러
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(false);
@@ -60,7 +55,6 @@ const PostImgEdit: React.FC<EditImgProps> = ({
 
   return (
     <>
-      {/* 이미지 업로드 */}
       <div
         className={`flex mx-auto mt-7 mb-6 border-1.5 border-dashed border-gray-300 rounded-3xl w-[370px] h-[260px] ${
           isDragging ? "border-blue-400" : "border-gray-300"
@@ -70,10 +64,11 @@ const PostImgEdit: React.FC<EditImgProps> = ({
         onDragLeave={handleDragEnd}
         onDrop={handleDrop}
       >
-        {/* 이미지 업로드한 경우 */}
         {uploadedFileUrl ? (
           <div className="relative w-full h-full">
             <Image
+              width={200}
+              height={200}
               src={uploadedFileUrl}
               alt={`Uploaded Image`}
               className="w-full h-full rounded-3xl object-cover"
@@ -89,7 +84,6 @@ const PostImgEdit: React.FC<EditImgProps> = ({
             </button>
           </div>
         ) : (
-          // 보여줄 이미지 없는 경우
           <div className="flex flex-col w-full h-full justify-end items-center mt-auto">
             <label
               htmlFor={`fileInput`}

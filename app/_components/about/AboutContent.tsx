@@ -11,7 +11,6 @@ import AboutMobileSize from "./AboutMobileSize";
 const AboutContent = () => {
   const { isMobile } = useResponsive();
 
-  // parallax scroll
   const [position, setPosition] = useState(0);
 
   const onScroll = useCallback(
