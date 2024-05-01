@@ -1,5 +1,3 @@
-// 내가 생성한 action (My Green Action) - 모집중->마감으로 상태 변경
-
 import { supabase } from "@/utils/supabase/client";
 
 // 모집마감도 -> 중 으로 토글로 바꿔야할지?

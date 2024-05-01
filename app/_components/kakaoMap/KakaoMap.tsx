@@ -1,12 +1,16 @@
 "use client";
-import { useResponsive } from "@/app/_hooks/responsive";
+
 import { useEffect, useState } from "react";
+import { useResponsive } from "@/app/_hooks/responsive";
 import { CustomOverlayMap, Map, MapMarker } from "react-kakao-maps-sdk";
 
-import type { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
+import type {
+  KakaoMapProps,
+  PlaceCoordinateType,
+} from "@/app/_types/individualAction-detail/individualAction-detail";
 
-const KakaoMap = ({ placeInfo }: { placeInfo: placeCoordinateType }) => {
-  const { x, y } = placeInfo as placeCoordinateType;
+const KakaoMap: React.FC<KakaoMapProps> = ({ placeInfo }) => {
+  const { x, y } = placeInfo as PlaceCoordinateType;
   const { isDesktop, isLaptop, isMobile } = useResponsive();
   const [position, setPosition] = useState({ lat: 0, lng: 0 });
 
@@ -22,7 +26,6 @@ const KakaoMap = ({ placeInfo }: { placeInfo: placeCoordinateType }) => {
 
   return (
     <>
-      {/* 카카오맵 api - react sdk 라이브러리 사용 */}
       <Map center={position} level={4} className="w-full h-full rounded-2xl">
         <MapMarker position={position} />
         <CustomOverlayMap position={position}>
