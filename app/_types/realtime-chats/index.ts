@@ -131,3 +131,24 @@ export interface pageChatsListProps {
   onClose: () => void;
   action_id: string;
 }
+
+export interface GroupInsideModalProps {
+  onActionInfoClose: () => void;
+  actionInfo:
+    | {
+        img_url: string;
+        id: string;
+        user_uid: string;
+        title: string;
+        recruit_number: number;
+        is_recruiting: boolean;
+        start_date: string | null;
+        end_date: string | null;
+      }
+    | null
+    | undefined;
+  participantsInfo: any;
+  roomId: string;
+  actionId: string;
+  onClose: () => void;
+}

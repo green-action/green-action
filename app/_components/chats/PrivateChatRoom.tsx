@@ -30,11 +30,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  IoCloseOutline,
-  IoPaperPlane,
-  IoReorderThreeOutline,
-} from "react-icons/io5";
+import { IoPaperPlane, IoReorderThreeOutline } from "react-icons/io5";
 import GroupInsideModal from "./GroupInsideModal";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
@@ -51,11 +47,9 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
   const { isDesktop, isLaptop, isMobile } = useResponsive();
   const chatRoomRef = useRef<HTMLDivElement | null>(null);
 
-  // 현재 로그인한 유저 uid
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
 
-  // 액션정보 모달창
   const {
     isOpen: isActionInfoOpen,
     onOpen: onActionInfoOpen,
@@ -91,11 +85,9 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
           queryClient.invalidateQueries({
             queryKey: [QUERY_KEY_UNREAD_MESSAGES_COUNT],
           });
-          // header 개인채팅 리스트 가져오기 무효화
           queryClient.invalidateQueries({
             queryKey: [QUERY_KEY_MY_PRIVATE_ROOMS_IDS],
           });
-          // 메시지 insert되면 리스트의 안읽수 업데이트도 같이 되어야함
           queryClient.invalidateQueries({
             queryKey: [QUERY_KEY_UPDATE_UNREAD],
           });
@@ -113,7 +105,6 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
     loggedInUserUid,
   });
 
-  // 안읽은 메시지 update useQuery가져오기
   const { data, isUpdateUnreadLoading, isUpdateUnreadError } = useUpdateUnread({
     loggedInUserUid,
     roomId,
@@ -123,14 +114,12 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
   const { actionInfo, isActionInfoLoading, isActionInfoError } =
     useGetGroupActionInfo(actionId);
 
-  // action 참여자 정보
   const {
     actionParticipantsInfo,
     isActionParticipantsLoading,
     isActionParticipantsError,
   } = useGetActionParticipantsInfo(actionId);
 
-  // 채팅방 상대방의 id, 닉네임, 이미지
   const { participantInfo, isParticiPantLoading, isParticiPantError } =
     useGetParticipantInfo({
       loggedInUserUid,
@@ -163,10 +152,9 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
     return <div>Error</div>;
   }
 
-  // 메시지 보내기 핸들러
   const handleSendMessage = async () => {
     if (message === "") return;
-    setMessage(""); // 메시지를 전송한 후에 입력 필드의 값을 비움
+    setMessage("");
 
     await sendMessage({
       sender_uid: loggedInUserUid,
@@ -200,11 +188,11 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
           {(onPrivateChatClose) => (
             <>
               <ModalHeader
-                className={`fixed bg-white flex justify-between items-center gap-5 shadow-md z-10 px-8 rounded-tl-[30px] rounded-tr-[30px] ${
+                className={`fixed bg-white flex justify-between items-center shadow-md z-10 px-8 rounded-tl-[30px] rounded-tr-[30px] ${
                   isDesktop
-                    ? "w-[520px] h-28"
+                    ? "w-[520px] h-28 gap-5"
                     : isLaptop
-                    ? "w-[325px] h-[12%]"
+                    ? "w-[325px] h-[70px]"
                     : isMobile && "w-[332px] h-[70px]"
                 }`}
               >
@@ -254,13 +242,6 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
                     size={`${isDesktop ? 40 : isLaptop ? 35 : 27}`}
                     className="cursor-pointer"
                     onClick={() => onActionInfoOpen()}
-                  />
-                  <IoCloseOutline
-                    size={`${isDesktop ? 40 : isLaptop ? 35 : 27}`}
-                    className="cursor-pointer"
-                    onClick={() => {
-                      onPrivateChatClose();
-                    }}
                   />
                 </div>
               </ModalHeader>

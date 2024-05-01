@@ -1,8 +1,8 @@
 "use client";
 
+import React from "react";
 import { useResponsive } from "@/app/_hooks/responsive";
 import { Button } from "@nextui-org/react";
-import React from "react";
 import SearchAddressModal from "../daumPostCode/SearchAddressModal";
 import KakaoMap from "../kakaoMap/KakaoMap";
 import SearchMapModal from "../kakaoMap/SearchMapModal";
@@ -108,7 +108,6 @@ const FirstInputBox: React.FC<FirstInputBoxProps> = ({
                     >
                       활동 장소
                     </label>
-                    {/* 도로명주소 검색 */}
                     <SearchAddressModal
                       setActivityLocation={setActivityLocation}
                     />
@@ -268,7 +267,6 @@ const FirstInputBox: React.FC<FirstInputBoxProps> = ({
               </div>
             </div>
             <div className="flex flex-col w-1/2  gap-2">
-              {/* 지도 검색으로 장소선택 시 뜨게 할 지도(미리보기) */}
               {locationMapRef.current && (
                 <div className="w-[310px] h-[150px] mt-[10px]">
                   <KakaoMap placeInfo={locationMapRef.current} />

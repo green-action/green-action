@@ -39,11 +39,9 @@ const AboutComputerSize = ({ position }: { position: number }) => {
             <p>숨과 함께라면 당신의 일상이 새로워질 거예요.</p>
           </div>
         </div>
-        {/* third part - 카드 4장 */}
         <div className="flex flex-col  mx-auto items-center desktop:w-[80%] desktop:h-[1344px] desktop:mb-[730px] laptop:w-[885px] laptop:h-[1317px] laptop:mb-[500px]">
           <div>
             <div className={`flex ${isLaptop && "justify-end"}`}>
-              {/* 카드 1 */}
               <div className="flex flex-col justify-between bg-white rounded-[40px] border-1.5 desktop:w-[450px] desktop:h-[590px] desktop:mb-[170px] desktop:mr-[40px] desktop:py-[45px] desktop:px-[60px] laptop:w-[434px] laptop:h-[572px] laptop:mb-[173px] laptop:mr-[18px] laptop:py-[45px] laptop:px-[60px]">
                 <div className="flex flex-col">
                   <span className="flex gap-2 text-[#BFBFBF] text-[18px]">
@@ -60,7 +58,6 @@ const AboutComputerSize = ({ position }: { position: number }) => {
                   하면 포인트를 적립할 수 있어요.
                 </span>
               </div>
-              {/* 카드 2 */}
               <div className="relative desktop:w-[450px] desktop:h-[590px] desktop:rounded-[30px] desktop:mt-[140px] desktop:mb-[30px] laptop:w-[434px] laptop:h-[572px] laptop:rounded-[40px] laptop:mt-[135px] laptop:mb-[38px]">
                 <Image
                   src={cardBg1}
@@ -72,7 +69,6 @@ const AboutComputerSize = ({ position }: { position: number }) => {
                     <span className="flex gap-2 text-[#BFBFBF] text-[18px]">
                       함께 실천 <p className="text-white">실행하기</p>
                     </span>
-                    {/* font-[Pretendard-ExtraLight] */}
                     <span className="font-[Italiana] text-[40px] text-white mt-5">
                       (2) Take
                       <br /> green-action
@@ -87,7 +83,6 @@ const AboutComputerSize = ({ position }: { position: number }) => {
               </div>
             </div>
             <div className="flex">
-              {/* 카드 3 */}
               <div className="relative rounded-[40px] desktop:bg-white desktop:w-[450px] desktop:h-[590px]  desktop:ml-[360px] desktop:mr-[40px] laptop:w-[434px] laptop:h-[572px] laptop:mr-[18px]">
                 <Image
                   src={cardBg2}
@@ -112,7 +107,6 @@ const AboutComputerSize = ({ position }: { position: number }) => {
                   </span>
                 </div>
               </div>
-              {/* 카드 4 */}
               <div className="flex flex-col justify-between bg-white border-1.5 rounded-[40px] desktop:w-[450px] desktop:h-[590px]  desktop:py-[53px] desktop:px-[60px] laptop:w-[434px] laptop:h-[572px] laptop:py-[45px] laptop:px-[54px]">
                 <div className="flex flex-col">
                   <span className="flex gap-2 text-[#BFBFBF] text-[18px]">
@@ -134,7 +128,6 @@ const AboutComputerSize = ({ position }: { position: number }) => {
           </div>
         </div>
 
-        {/* last part - 하단 이미지, 'explore more' 버튼  */}
         <div className="relative text-center">
           <Image
             src={mainImg}

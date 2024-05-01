@@ -31,22 +31,16 @@ const EditPostModal: React.FC<EditPostProps> = ({
   post_id,
   mode,
 }) => {
-  // alert 대체 모달창을 위한 상태관리
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const [message, setMessage] = useState("");
-
-  // 드랍다운 선택된 key 상태관리
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set(["Green-action 선택하기"]),
   );
-
   const [uploadedFileUrl, setUploadedFileUrl] = useState<string | null>("");
   const [file, setFile] = useState<File | undefined | null>(null);
 
-  // post_id 데이터 가져오기
   const { singlePostForEdit } = useGetSinglePostForEdit(post_id);
 
-  // 이미지url set하기, action_type set하기
   useEffect(() => {
     if (singlePostForEdit) {
       setUploadedFileUrl(singlePostForEdit.img_url);
@@ -57,35 +51,28 @@ const EditPostModal: React.FC<EditPostProps> = ({
     setSelectedKeys(new Set(["단체와 함께해요"]));
   }, [singlePostForEdit]);
 
-  // 게시글 수정 mutation - 상세모달창, 게시글 리스트 무효화
   const { updatePostMutation } = useUpdateEditPostMutation(mode);
 
-  // green-action 드랍다운 선택 로직
   const selectedValue = React.useMemo(
     () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
     [selectedKeys],
   );
 
-  // '수정완료' 클릭시
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const formData = new FormData(event.target as HTMLFormElement);
-    // 드롭다운에서 선택한 값을 formData에 추가
     formData.append("action_type", Array.from(selectedKeys).join(", "));
 
     try {
       if (!uploadedFileUrl) {
-        // alert("사진은 필수값입니다.");
         setMessage("사진은 필수값입니다.");
         setIsOpenAlertModal(true);
         return;
       }
 
-      // 새로운 file 업로드한 경우 url 반환
       const imgUrl = await uploadFileAndGetUrl(file);
 
-      // post_id, imgUrl, formData 전달해서 수정내용 update
       updatePostMutation({ post_id, imgUrl, formData });
 
       onClose();
@@ -96,7 +83,6 @@ const EditPostModal: React.FC<EditPostProps> = ({
 
   return (
     <>
-      {/* 게시글 수정하기 모달창 */}
       <Modal
         size="lg"
         isOpen={isOpen}
@@ -118,14 +104,12 @@ const EditPostModal: React.FC<EditPostProps> = ({
                 <hr className="border-t-1 border-gray-300" />
                 <ModalBody>
                   <div className="flex flex-col justify-between h-full">
-                    {/* 이미지 업로드 */}
                     <PostImgEdit
                       uploadedFileUrl={uploadedFileUrl}
                       setUploadedFileUrl={setUploadedFileUrl}
                       setFile={setFile}
                     />
                     <div className="flex flex-col gap-3">
-                      {/* action_type선택 드랍다운 */}
                       <div className="flex justify-end mr-3">
                         <Dropdown>
                           <DropdownTrigger>
@@ -159,7 +143,6 @@ const EditPostModal: React.FC<EditPostProps> = ({
                           </DropdownMenu>
                         </Dropdown>
                       </div>
-                      {/* 활동 제목 */}
                       <div className="flex mx-auto w-[95%] h-[42px] items-center pl-8 border-1 border-gray-300 rounded-3xl">
                         <label
                           htmlFor="activityTitle"
@@ -176,7 +159,6 @@ const EditPostModal: React.FC<EditPostProps> = ({
                           className="w-10/12 h-[30px] mx-4 pr-4 bg-inherit focus:outline-none text-sm text-gray-400"
                         />
                       </div>
-                      {/* 활동 내용 */}
                       <div className="flex items-start flex-col w-[95%] h-auto pl-8 border-1 border-gray-300 rounded-3xl mb-3.5 mx-auto">
                         <label
                           htmlFor="activityDescription"
@@ -195,7 +177,6 @@ const EditPostModal: React.FC<EditPostProps> = ({
                     </div>
                   </div>
                 </ModalBody>
-                {/* 취소, 작성 버튼 */}
                 <ModalFooter className="flex justify-center mb-12 !p-0">
                   <CustomConfirm
                     text="수정하시겠습니까?"

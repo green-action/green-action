@@ -28,7 +28,6 @@ const AboutMobileSize = ({ position }: { position: number }) => {
           </div>
         </div>
         <div className="mt-[350px] mb-[205px] flex flex-col items-center">
-          {/* second part - 설명글 */}
           <div className="w-[300px] flex flex-col justify-center text-center text-[20px] font-medium">
             <p>나의 그린 라이프 실천 내역을</p>
             <p>한눈에 보고 한번에 찾으세요.</p>
@@ -38,9 +37,7 @@ const AboutMobileSize = ({ position }: { position: number }) => {
             <p>새로워질 거예요.</p>
           </div>
         </div>
-        {/* third part - 카드 4장 */}
         <div className="mx-auto w-[265px] h-[1445px] mb-[147px]">
-          {/* 360 카드 1 */}
           <div className="border-1.5 flex flex-col h-[346px] mb-[17px] justify-between bg-white rounded-[40px] py-[28px] px-[33px]">
             <div className="flex flex-col">
               <span className="flex gap-1 text-[#BFBFBF] text-[13px]">
@@ -57,7 +54,6 @@ const AboutMobileSize = ({ position }: { position: number }) => {
               하면 포인트를 적립할 수 있어요.
             </span>
           </div>
-          {/* 360 카드 2 */}
           <div
             className="relative h-[346px] mb-[17px]"
             data-aos="fade-up"
@@ -85,7 +81,6 @@ const AboutMobileSize = ({ position }: { position: number }) => {
               </span>
             </div>
           </div>
-          {/* 360 카드 3 */}
           <div
             className="relative h-[346px] mb-[17px]"
             data-aos="fade-up"
@@ -113,7 +108,6 @@ const AboutMobileSize = ({ position }: { position: number }) => {
               </span>
             </div>
           </div>
-          {/* 360 카드 4 */}
           <div className="border-1.5 flex flex-col h-[346px] mb-[17px] justify-between bg-white rounded-[40px] py-[28px] px-[33px]">
             <div className="flex flex-col">
               <span className="flex gap-2 text-[#BFBFBF] text-[13px]">
@@ -133,7 +127,6 @@ const AboutMobileSize = ({ position }: { position: number }) => {
           </div>
         </div>
 
-        {/* last part - 하단 이미지, 'explore more' 버튼  */}
         <div className="relative text-center">
           <Image
             src={mainImg}

@@ -9,7 +9,6 @@ import {
   QUERY_KEY_ALL_UNREAD_COUNT,
   QUERY_KEY_CHAT_ACTION_INFO,
   QUERY_KEY_GROUP_ACTION_INFO,
-  QUERY_KEY_GROUP_LIST_ACTIONS_INFO,
   QUERY_KEY_GROUP_PARTICIPANTS_COUNT,
   QUERY_KEY_GROUP_PARTICIPANTS_INFO,
   QUERY_KEY_LAST_MESSAGE_DATES,
@@ -32,11 +31,6 @@ import {
   getUnreadMessageCount,
   updateUnreadMessageCount,
 } from "@/app/_api/messages/headerPrivateList-api";
-
-import type {
-  PrivateChatsListItem,
-  PrivateRoomsInfoType,
-} from "@/app/_types/realtime-chats";
 import {
   getActionInfo,
   getParticipantInfo,
@@ -50,6 +44,11 @@ import {
   getParticipantsCount,
   getParticipantsInfo,
 } from "@/app/_api/messages/groupChat-api";
+
+import type {
+  PrivateChatsListItem,
+  PrivateRoomsInfoType,
+} from "@/app/_types/realtime-chats";
 
 export const useGetMessagesList = ({
   roomId,

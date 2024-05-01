@@ -54,7 +54,6 @@ const Allheader = () => {
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const [message, setMessage] = useState("");
 
-  // 채팅방 리스트 모달창
   const {
     isOpen: isChatsListModalOpen,
     onOpen: onChatsListModalOpen,
@@ -112,7 +111,6 @@ const Allheader = () => {
     handleSelectedTab();
   }, [pathname]);
 
-  // 헤더 투명이었다가 스크롤하면 블러처리
   const [isScrolled, setIsScrolled] = useState(false);
 
   const handleScroll = useCallback(
@@ -134,7 +132,6 @@ const Allheader = () => {
     };
   }, []);
 
-  // 안읽은 메시지 총 개수 가져오기
   const { allUnreadCount, isAllUnreadCountLoading, isAllUnreadCountError } =
     useGetAllUnreadCount(user_uid);
 
@@ -272,7 +269,6 @@ const Allheader = () => {
                 {isLoggedIn ? (
                   <>
                     <div className="flex desktop:gap-[35px] laptop::gap-[20px] desktop:ml-[18%] desktop:mr-[15%] laptop:ml-[2%] laptop:mr-[0%]">
-                      {/* 채팅방 badge */}
                       <Button
                         radius="full"
                         isIconOnly
@@ -355,7 +351,6 @@ const Allheader = () => {
                     </Dropdown>
                   </>
                 ) : (
-                  // 로그인 상태가 아닐 떄
                   <div
                     className={`flex desktop:gap-14 laptop:gap-[35px] desktop:w-[170px] desktop:ml-[320px] laptop:ml-[9%] ${
                       pathname === "/about"
