@@ -7,7 +7,6 @@ import whitelogoImg from "@/app/_assets/image/logo_icon/logo/white.png";
 import { useResponsive } from "@/app/_hooks/responsive";
 import { useGetAllUnreadCount } from "@/app/_hooks/useQueries/chats";
 import { useFetchUserInfo } from "@/app/_hooks/useQueries/mypage";
-import { useUnreadPushCount } from "@/app/_hooks/useQueries/push";
 import { User } from "@/app/_types";
 import { debounce } from "@/utils/debounce/debounce";
 import {
@@ -33,7 +32,6 @@ import ChatsListModal from "../chats/ChatsListModal";
 import AlertModal from "../community/AlertModal";
 import PushListModal from "../push/PushListModal";
 import Mheader from "./Mheader";
-import { GoBell } from "react-icons/go";
 
 const Allheader = () => {
   const router = useRouter();
@@ -62,13 +60,6 @@ const Allheader = () => {
     isOpen: isChatsListModalOpen,
     onOpen: onChatsListModalOpen,
     onClose: onChatsListModalClose,
-  } = useDisclosure();
-
-  // push 알림 리스트 모달창
-  const {
-    isOpen: isPushListModalOpen,
-    onOpen: onPushListModalOpen,
-    onClose: onPushListModalClose,
   } = useDisclosure();
 
   const handleLogoLinkClick = () => {
@@ -160,15 +151,7 @@ const Allheader = () => {
   const { allUnreadCount, isAllUnreadCountLoading, isAllUnreadCountError } =
     useGetAllUnreadCount(user_uid);
 
-  // 안읽은 알림 총 개수 가져오기
-  const {
-    data: unReadPushCount,
-    isLoading: unReadPushCountLoading,
-    isError: unReadPushCountError,
-  } = useUnreadPushCount(user_uid);
-  // console.log(unReadPushCount);
-
-  if (isAllUnreadCountLoading || isUserDataLoading || unReadPushCountLoading) {
+  if (isAllUnreadCountLoading || isUserDataLoading) {
     return (
       <div className="w-[80px] h-auto mx-auto">
         <Image className="" src={SoomLoading} alt="SoomLoading" unoptimized />
@@ -323,25 +306,6 @@ const Allheader = () => {
                           }`}
                         />
                       </Button>
-                      {/* push알림 badge */}
-                      {/* <Button
-                        radius="full"
-                        isIconOnly
-                        aria-label="more than 99 notifications"
-                        variant="light"
-                        onClick={() => {
-                          onPushListModalOpen();
-                        }}
-                      >
-                        <GoBell
-                          size={24}
-                          height={24}
-                          width={24}
-                          className={`text-2xl ${
-                            pathname === "/" ? "text-white" : "text-black"
-                          }`}
-                        />
-                      </Button> */}
                     </div>
                     <Dropdown
                       placement="bottom-end"
@@ -450,13 +414,6 @@ const Allheader = () => {
           onClose={onChatsListModalClose}
           mode={MODE_HEADER}
           action_id=""
-        />
-      )}
-      {isPushListModalOpen && (
-        <PushListModal
-          isOpen={isPushListModalOpen}
-          onOpen={onPushListModalOpen}
-          onClose={onPushListModalClose}
         />
       )}
       {isMobile && <Mheader />}
