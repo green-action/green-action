@@ -57,7 +57,7 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
   };
 
   return (
-    <div className="absolute bottom-0 w-[100%] inset-0 z-30 flex bg-black bg-opacity-30">
+    <div className="sticky bottom-0 w-[100%] inset-0 z-30 flex bg-black bg-opacity-30">
       <div className="w-full flex justify-end">
         <div
           className={`bg-[#ffffff] 

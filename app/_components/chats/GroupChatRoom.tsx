@@ -419,17 +419,17 @@ const GroupChatRoom: React.FC<ChatProps> = ({
                     </div>
                   </div>
                 </div>
-                {isActionInfoOpen && (
-                  <GroupInsideModal
-                    onActionInfoClose={onActionInfoClose}
-                    actionInfo={actionInfo}
-                    participantsInfo={participantsInfo}
-                    roomId={roomId}
-                    actionId={actionId}
-                    onClose={onClose}
-                  />
-                )}
               </ModalBody>
+              {isActionInfoOpen && (
+                <GroupInsideModal
+                  onActionInfoClose={onActionInfoClose}
+                  actionInfo={actionInfo}
+                  participantsInfo={participantsInfo}
+                  roomId={roomId}
+                  actionId={actionId}
+                  onClose={onClose}
+                />
+              )}
             </>
           )}
         </ModalContent>
