@@ -1,10 +1,11 @@
 "use client";
+
+import React, { useState } from "react";
 import { updateUserPoint } from "@/app/_api/individualAction-add/add-api";
 import { useInsertCommunityCommentMutation } from "@/app/_hooks/useMutations/comments";
 import { useGetCurrentUerProfileImg } from "@/app/_hooks/useQueries/comments";
 import { Avatar } from "@nextui-org/react";
 import Image from "next/image";
-import React, { useState } from "react";
 import PointModal from "./PointModal";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
@@ -14,13 +15,13 @@ const AddComment: React.FC<AddCommentProps> = ({
   loggedInUserUid,
   post_id,
 }) => {
+  const [showPointModal, setShowPointModal] = useState(false);
+  const { insertCommentMutation } = useInsertCommunityCommentMutation();
+
   const { currentUserProfileImg, isLoading, isError } = loggedInUserUid
     ? useGetCurrentUerProfileImg(loggedInUserUid)
     : { currentUserProfileImg: null, isLoading: false, isError: false };
 
-  const { insertCommentMutation } = useInsertCommunityCommentMutation();
-
-  const [showPointModal, setShowPointModal] = useState(false);
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -33,7 +34,6 @@ const AddComment: React.FC<AddCommentProps> = ({
     return <div>Error</div>;
   }
 
-  // 댓글 등록 핸들러 (기존)
   const handleInsertComment = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -45,10 +45,8 @@ const AddComment: React.FC<AddCommentProps> = ({
         setShowPointModal(true);
         insertCommentMutation({ content, loggedInUserUid, post_id });
 
-        // 200포인트 업데이트
         await updateUserPoint(loggedInUserUid, { mode: "comment" });
 
-        // 입력값 초기화
         (e.target as HTMLFormElement).reset();
       }
     } catch (error) {
@@ -58,7 +56,6 @@ const AddComment: React.FC<AddCommentProps> = ({
 
   return (
     <>
-      {/* 댓글 등록 */}
       <Avatar
         showFallback
         src={currentUserProfileImg || ""}

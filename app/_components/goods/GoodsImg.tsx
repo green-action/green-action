@@ -23,7 +23,7 @@ const GoodsImg: React.FC<GoodsItem> = ({ item }) => {
           className="cursor-pointer absolute inset-0 bg-black opacity-5 rounded-2xl desktop:h-[494px] laptop:h-[431px] h-[441.76px]"
           onClick={handleToggleProductInfo}
         ></div>
-        {/* 제품 이미지 하단 전체 */}
+
         <div
           className="flex justify-between desktop:mt-[28px] desktop:mx-[33px] desktop:mb-0
         laptop:mt-[23px] laptop:mx-[22px] laptop:mb-[160px] mt-[20px] mx-[20px] mb-[47px]"

@@ -13,8 +13,6 @@ import {
 } from "@/app/_api/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-// usemuataion을 활용해서 export까지 해주면 됨
-
 export const useAddBookmark = (mode: string) => {
   const queryClient = useQueryClient();
   const addBookmarkMutation = useMutation({

@@ -5,19 +5,19 @@ import type {
   FormDataType,
   InsertImgUrls,
 } from "@/app/_types/individualAction-add/individualAction-add";
-import type { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
+import type { PlaceCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
 import { MODE_ADD_ACTION, MODE_ADD_POST, MODE_COMMENT } from "../constant";
 
 // 1. 텍스트 formData 삽입 함수
 export const insertActionTextForm = async ({
   formData,
-  activityLocation, // 사용자가 입력한 주소,위치를 넣는 것으로 다시 변경
-  activityLocationMap, // 추가
+  activityLocation,
+  activityLocationMap,
   loggedInUserUid,
 }: {
   formData: FormData;
   activityLocation: string;
-  activityLocationMap: placeCoordinateType | null;
+  activityLocationMap: PlaceCoordinateType | null;
   loggedInUserUid: string;
 }) => {
   try {

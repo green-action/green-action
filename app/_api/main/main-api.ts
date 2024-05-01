@@ -6,8 +6,6 @@ export const fetchCommunityPostsLikes = async () => {
     const { data, error } = await supabase
       .from("community_posts")
       .select("*, users(display_name, profile_img), communityLikes:likes(id)");
-    // .limit(8);
-    // 개수제한이 문제, 가져올때 likes.length ? 기준이여야
     if (error) throw error;
     return data;
   } catch (error) {

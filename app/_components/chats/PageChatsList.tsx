@@ -25,20 +25,15 @@ import type {
   pageChatsListProps,
 } from "@/app/_types/realtime-chats";
 
-const PageChatsList: React.FC<pageChatsListProps> = ({
-  onClose,
-  action_id,
-}) => {
+const PageChatsList: React.FC<pageChatsListProps> = ({ action_id }) => {
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
   const queryClient = useQueryClient();
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 
-  // 채팅방 room_id 배열 가져오기
   const { roomIds, isLoading, isError } = useGetPrivateRoomIds(action_id);
 
   useEffect(() => {
-    // 채팅방 테이블 변경사항 구독 - 새 채팅방 insert될때 채팅방 리스트 실시간 업데이트
     const chatRoomsSubscription = supabase.channel(`{${action_id}}`).on(
       "postgres_changes",
       { event: "INSERT", schema: "public", table: "chat_rooms_info" },
@@ -55,7 +50,6 @@ const PageChatsList: React.FC<pageChatsListProps> = ({
   }, [action_id]);
 
   useEffect(() => {
-    // 채팅내용 구독 - room_id 별로 채팅내용 변경사항 구독
     const subscriptions = roomIds?.map((roomId) => {
       const subscription = supabase
         .channel(`${roomId}`)
@@ -67,7 +61,6 @@ const PageChatsList: React.FC<pageChatsListProps> = ({
             queryClient.invalidateQueries({
               queryKey: [QUERY_KEY_MESSAGES_PARTICIPANT_INFO_PAGE],
             }),
-              // 채팅방 개설은 되어있지만, 메시지가 하나도 없었던 경우 대비 -> 메시지 내용 없을때도 방 띄우게 만들면 삭제가능
               queryClient.invalidateQueries({
                 queryKey: [QUERY_KEY_PRIVATE_ROOM_IDS],
               });
@@ -88,7 +81,6 @@ const PageChatsList: React.FC<pageChatsListProps> = ({
     };
   }, [roomIds]);
 
-  // 채팅방 리스트 가져오기
   const { privateChatsList, privateChatListLoading, privateChatListError } =
     useGetPrivateList({
       roomIds,
@@ -107,7 +99,6 @@ const PageChatsList: React.FC<pageChatsListProps> = ({
     return <div>Error</div>;
   }
 
-  // 오늘 알림, 이전 알림 리스트 분리
   const today = new Date().toDateString();
 
   const todayChats: (PrivateChat | null)[] | undefined = [];

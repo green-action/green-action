@@ -30,7 +30,6 @@ const HeaderGroupList = () => {
     useGetMyGroupChatIds(loggedInUserUid);
 
   useEffect(() => {
-    // 채팅방 테이블 변경사항 구독 - 새 채팅방 insert될때 채팅방 리스트 실시간 업데이트
     const chatRoomsSubscription = supabase.channel(`{${loggedInUserUid}}`).on(
       "postgres_changes",
       { event: "INSERT", schema: "public", table: "chat_rooms_info" },
@@ -51,7 +50,6 @@ const HeaderGroupList = () => {
   }, [loggedInUserUid]);
 
   useEffect(() => {
-    // 채팅내용 구독 - room_id 별로 채팅내용 변경사항 구독
     const subscriptions = roomIds?.map((roomId) => {
       const subscription = supabase
         .channel(`${roomId}`)
@@ -60,7 +58,6 @@ const HeaderGroupList = () => {
           { event: "INSERT", schema: "public", table: "chat_messages" },
 
           () => {
-            // 채팅방 개설은 되어있지만, 메시지가 하나도 없었던 경우 대비 -> 메시지 내용 없을때도 방 띄우게 만들면 삭제가능
             queryClient.invalidateQueries({
               queryKey: [QUERY_KEY_MY_GROUP_CHAT_IDS],
             });
@@ -87,7 +84,6 @@ const HeaderGroupList = () => {
     };
   }, [roomIds]);
 
-  // 마지막 메시지 날짜에 따라 채팅방 id를 오늘/이전 알림으로 나누기 위해 가져옴
   const { lastDates, isLastDatesLoading, isLastDatesError } =
     useGetLastDates(roomIds);
 

@@ -12,7 +12,6 @@ import {
   useUpdateUnread,
   userGetParticipantsInfo,
 } from "@/app/_hooks/useQueries/chats";
-import type { ChatProps } from "@/app/_types/realtime-chats";
 import { supabase } from "@/utils/supabase/client";
 import {
   Avatar,
@@ -30,6 +29,9 @@ import { IoPaperPlane, IoReorderThreeOutline } from "react-icons/io5";
 import GroupInsideModal from "./GroupInsideModal";
 import personIcon from "/app/_assets/image/logo_icon/icon/mypage/person.png";
 import { useResponsive } from "@/app/_hooks/responsive";
+
+import type { ChatProps } from "@/app/_types/realtime-chats";
+import { formatToLocaleDateTimeString } from "@/utils/date/date";
 
 const GroupChatRoom: React.FC<ChatProps> = ({
   isOpen,
@@ -72,8 +74,6 @@ const GroupChatRoom: React.FC<ChatProps> = ({
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "chat_messages" },
 
-        // TODO 안읽은 메시지 (헤더 아이콘) 같이 무효화하기
-        // TODO 헤더 채팅리스트도 무효화 (얘는 리스트에서 해줘야할듯?)
         () => {
           queryClient.invalidateQueries({
             queryKey: [QUERY_KEY_MESSAGES_LIST],
@@ -98,17 +98,14 @@ const GroupChatRoom: React.FC<ChatProps> = ({
     loggedInUserUid,
   });
 
-  // 안읽은 메시지 update useQuery가져오기
   const { data, isUpdateUnreadLoading, isUpdateUnreadError } = useUpdateUnread({
     loggedInUserUid,
     roomId,
   });
 
-  // 채팅방 참가자 정보 가져오기(참가 타입, id, 닉네임, 프로필)
   const { participantsInfo, isParticipantsLoading, isParticipantsError } =
     userGetParticipantsInfo(roomId);
 
-  // action정보 가져오기(id, 제목, 시작 및 종료일자, 모집인원, 사진1장 url)
   const { actionInfo, isActionInfoLoading, isActionInfoError } =
     useGetGroupActionInfo(actionId);
 
@@ -130,10 +127,9 @@ const GroupChatRoom: React.FC<ChatProps> = ({
     <div>Error</div>;
   }
 
-  // 메시지 보내기 핸들러
   const handleSendMessage = async () => {
     if (message === "") return;
-    setMessage(""); // 메시지를 전송한 후에 입력 필드의 값을 비움
+    setMessage("");
 
     await sendMessage({
       sender_uid: loggedInUserUid,
@@ -195,14 +191,18 @@ const GroupChatRoom: React.FC<ChatProps> = ({
                         : isMobile && "w-[30px] h-[30px]"
                     }`}
                   />
-                  <div className="flex flex-col gap-0.5 font-normal">
+                  <div
+                    className={`flex flex-col gap-0.5 font-normal ${
+                      isLaptop ? "h-[70px]" : isMobile && "h-[70px]"
+                    }`}
+                  >
                     <span
                       className={`text-gray-500 ${
                         isDesktop
                           ? "text-sm"
                           : isLaptop
-                          ? "text-[10px]"
-                          : isMobile && "text-[10px]"
+                          ? "text-[10px] h-[15px] mb-0.5"
+                          : isMobile && "text-[10px] h-[15px] mb-0.5"
                       }`}
                     >
                       Green action
@@ -210,10 +210,11 @@ const GroupChatRoom: React.FC<ChatProps> = ({
                     <span
                       className={`font-semibold overflow-hidden whitespace-nowrap overflow-ellipsis ${
                         isDesktop
-                          ? "text-xl"
+                          ? "text-xl max-w-[280px]"
                           : isLaptop
-                          ? "text-[14px] max-w-[200px]"
-                          : isMobile && "text-[13px]"
+                          ? "text-[14px] max-w-[170px] h-[20px] mb-1"
+                          : isMobile &&
+                            "text-[13px] max-w-[170px] h-[20px] mb-1"
                       }`}
                     >
                       {actionInfo?.title}
@@ -235,8 +236,9 @@ const GroupChatRoom: React.FC<ChatProps> = ({
                           isDesktop
                             ? "text-[15px]"
                             : isLaptop
-                            ? "text-[12px]"
-                            : isMobile && "text-[10px]"
+                            ? "text-[12px] h-[15px] flex items-center"
+                            : isMobile &&
+                              "text-[10px] h-[15px] flex items-center"
                         }`}
                       >
                         {participantsInfo?.length} /{" "}
@@ -313,28 +315,70 @@ const GroupChatRoom: React.FC<ChatProps> = ({
                               <div
                                 className={`bg-gray-300 text-black rounded-tr-2xl rounded-bl-2xl rounded-br-2xl ${
                                   isDesktop
-                                    ? "text-base mb-3 p-5"
+                                    ? "text-base p-5 max-w-[270px]"
                                     : isLaptop
-                                    ? "text-sm mb-2 p-3 mt-1"
-                                    : isMobile && "text-xs mb-2 mt-1 p-3"
+                                    ? "text-sm p-3 mt-1 max-w-[180px]"
+                                    : isMobile &&
+                                      "text-xs mt-1 p-3 max-w-[180px]"
                                 }`}
                               >
                                 {message.content}
+                              </div>
+                              <div
+                                className={`flex text-[#BEBEBE] ${
+                                  message.sender_uid === loggedInUserUid
+                                    ? "justify-end mr-2"
+                                    : "justify-start ml-2"
+                                }
+                                ${
+                                  isDesktop
+                                    ? "mt-1 mb-3 text-[12px]"
+                                    : isLaptop
+                                    ? "mt-1 mb-1 text-[10px]"
+                                    : isMobile && "mt-1 mb-1 text-[10px]"
+                                }
+                                `}
+                              >
+                                {formatToLocaleDateTimeString(
+                                  message.created_at,
+                                ).substring(12)}
                               </div>
                             </div>
                           </div>
                         )}
                         {message.sender_uid === loggedInUserUid && (
-                          <div
-                            className={`bg-[#D4DFD2] rounded-tl-2xl rounded-bl-2xl rounded-br-2xl ${
-                              isDesktop
-                                ? "text-base p-5 mr-4 mb-3"
-                                : isLaptop
-                                ? "text-sm p-3 mr-4 mt-2"
-                                : isMobile && "text-xs mt-1 mr-3 p-3"
-                            }`}
-                          >
-                            {message.content}
+                          <div className="flex flex-col">
+                            <div
+                              className={`bg-[#D4DFD2] rounded-tl-2xl rounded-bl-2xl rounded-br-2xl ${
+                                isDesktop
+                                  ? "text-base p-5 mr-4 max-w-[270px]"
+                                  : isLaptop
+                                  ? "text-sm p-3 mr-4 mt-2 max-w-[180px]"
+                                  : isMobile &&
+                                    "text-xs mt-1 mr-3 p-3 max-w-[180px]"
+                              }`}
+                            >
+                              {message.content}
+                            </div>
+                            <div
+                              className={`flex text-[#BEBEBE] ${
+                                message.sender_uid === loggedInUserUid
+                                  ? "justify-end mr-2"
+                                  : "justify-start ml-2"
+                              }
+                                ${
+                                  isDesktop
+                                    ? "mt-1 mb-3 mr-6 text-[12px]"
+                                    : isLaptop
+                                    ? "mt-1 mb-1 mr-6 text-[10px]"
+                                    : isMobile && "mt-1 mb-1 mr-5 text-[10px]"
+                                }
+                                `}
+                            >
+                              {formatToLocaleDateTimeString(
+                                message.created_at,
+                              ).substring(12)}
+                            </div>
                           </div>
                         )}
                       </div>

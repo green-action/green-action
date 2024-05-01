@@ -28,7 +28,6 @@ const AboutMobileSize = ({ position }: { position: number }) => {
           </div>
         </div>
         <div className="mt-[350px] mb-[205px] flex flex-col items-center">
-          {/* second part - 설명글 */}
           <div className="w-[300px] flex flex-col justify-center text-center text-[20px] font-medium">
             <p>나의 그린 라이프 실천 내역을</p>
             <p>한눈에 보고 한번에 찾으세요.</p>
@@ -36,64 +35,9 @@ const AboutMobileSize = ({ position }: { position: number }) => {
             <p>재밌게 할 수 있는 서비스.</p>
             <p>숨과 함께라면 당신의 일상이</p>
             <p>새로워질 거예요.</p>
-            {/* <div>
-              <p className="inline-block text-with-background bg-text-bg-1 bg-cover bg-center rounded-full text-white w-[195px] h-[28px] mr-1">
-                '일상에서 쉽게 실천할 수 있는
-              </p>
-              <p className="inline-block mr-2">환경 캠페인'은</p>
-            </div> */}
-            {/* 2-3 줄 */}
-            {/* <div>
-              <p className="inline-block">
-                지구를 지키는 우리의 작은 노력으로부터
-              </p>
-              <p className="inline-block">
-                출발합니다. 당신의 일상에서 환경을 지키는
-              </p> */}
-
-            {/* 4 줄 */}
-            {/* <p className="inline-block mr-1">작은</p>
-              <p className="inline-block text-with-background bg-text-bg-2 bg-cover bg-center rounded-full text-white w-[165px] h-[28px] mr-1">
-                습관들이 모여 큰 변화를
-              </p>
-              <p className="inline-block">이끌어낼 수</p>
-            </div> */}
-            {/* 마지막 2문장 */}
-            {/* <div>
-              <p className="inline-block">
-                있습니다. 이제 우리의 캠페인에 참여하여
-              </p>
-              <p className="inline-block">
-                당신도 환경 보호의 일원이 되어보세요.
-              </p>
-              <p className="inline-block">
-                우리의 목표는 모든 사람이 쉽게 실천할 수 있는
-              </p>
-              <p className="inline-block">
-                환경 보호 방법을 제시하고, 그것들을 실제
-              </p>
-              <p className="inline-block">
-                행동으로 이어지게 하는 것입니다. 이제 당신의
-              </p>
-              <p className="inline-block">
-                일상을 환경 보호의 일부로 만들어보세요.
-              </p>
-              <p className="inline-block">지금 바로</p>
-              <p className="inline-block text-with-background bg-text-bg-3 bg-cover bg-center rounded-full text-white mx-1 laptop:w-[330px] laptop:h-[47px]">
-                '지구가 숨쉬다. SOOM'
-              </p>
-              <p className="inline-block mr-1">에 참여하여 </p>
-              <p className="inline-block">
-                우리의 지구를 함께 지켜나가는 데 기여하세요.
-              </p>
-              <p className="inline-block">당신의 작은 노력이 큰 변화를</p>
-              <p className="inline-block">만들어낼 수 있습니다. 함께해요!</p>
-            </div> */}
           </div>
         </div>
-        {/* third part - 카드 4장 */}
         <div className="mx-auto w-[265px] h-[1445px] mb-[147px]">
-          {/* 360 카드 1 */}
           <div className="border-1.5 flex flex-col h-[346px] mb-[17px] justify-between bg-white rounded-[40px] py-[28px] px-[33px]">
             <div className="flex flex-col">
               <span className="flex gap-1 text-[#BFBFBF] text-[13px]">
@@ -110,7 +54,6 @@ const AboutMobileSize = ({ position }: { position: number }) => {
               하면 포인트를 적립할 수 있어요.
             </span>
           </div>
-          {/* 360 카드 2 */}
           <div
             className="relative h-[346px] mb-[17px]"
             data-aos="fade-up"
@@ -138,7 +81,6 @@ const AboutMobileSize = ({ position }: { position: number }) => {
               </span>
             </div>
           </div>
-          {/* 360 카드 3 */}
           <div
             className="relative h-[346px] mb-[17px]"
             data-aos="fade-up"
@@ -166,7 +108,6 @@ const AboutMobileSize = ({ position }: { position: number }) => {
               </span>
             </div>
           </div>
-          {/* 360 카드 4 */}
           <div className="border-1.5 flex flex-col h-[346px] mb-[17px] justify-between bg-white rounded-[40px] py-[28px] px-[33px]">
             <div className="flex flex-col">
               <span className="flex gap-2 text-[#BFBFBF] text-[13px]">
@@ -186,7 +127,6 @@ const AboutMobileSize = ({ position }: { position: number }) => {
           </div>
         </div>
 
-        {/* last part - 하단 이미지, 'explore more' 버튼  */}
         <div className="relative text-center">
           <Image
             src={mainImg}

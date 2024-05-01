@@ -1,16 +1,15 @@
+import { useState } from "react";
 import { useResponsive } from "@/app/_hooks/responsive";
 import { ModalBody } from "@nextui-org/react";
 import HeaderPrivateList from "./HeaderPrivateList";
 import HeaderGroupList from "./HeaderGroupList";
-import { useState } from "react";
 
-const HeaderChatsSelect = ({ onClose }: { onClose: () => void }) => {
+const HeaderChatsSelect = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
   const [privateSelected, setPrivateSelected] = useState(true);
 
   return (
     <>
-      {/* 1:1채팅방 리스트 / 그룹채팅방 리스트 선택 */}
       <ModalBody className="p-0">
         <div className="flex w-full flex-col">
           <div className="h-screen">

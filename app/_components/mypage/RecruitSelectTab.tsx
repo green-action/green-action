@@ -22,7 +22,7 @@ const RecruitSelectTab: React.FC<recruitSelectTabProps> = ({
       {(isDesktop || isLaptop) && (
         <Select
           aria-label="Select a state of recruiting"
-          defaultSelectedKeys={[selected]} // ["전체"]로 할 시 탭이동후 돌아올 때 기존데이터렌더링 시에도 '전체'로 뜨는 문제 -> selected(state)로 해결 (다만 탭 이동시 리셋되진않음)
+          defaultSelectedKeys={[selected]}
           size="md"
           radius="full"
           className="w-[8rem]"
@@ -59,7 +59,7 @@ const RecruitSelectTab: React.FC<recruitSelectTabProps> = ({
       {isMobile && (
         <Select
           aria-label="Select a state of recruiting"
-          defaultSelectedKeys={[selected]} // ["전체"]로 할 시 탭이동후 돌아올 때 기존데이터렌더링 시에도 '전체'로 뜨는 문제 -> selected(state)로 해결 (다만 탭 이동시 리셋되진않음)
+          defaultSelectedKeys={[selected]}
           size="sm"
           radius="full"
           className="w-[110px] h-[20px] text-[11px]"

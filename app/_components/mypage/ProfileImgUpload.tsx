@@ -1,5 +1,5 @@
-import { Avatar } from "@nextui-org/react";
 import React from "react";
+import { Avatar } from "@nextui-org/react";
 import { IoIosCamera } from "react-icons/io";
 
 import type { ProfileImgUploadProps } from "@/app/_types/mypage/mypage";
@@ -32,7 +32,6 @@ const ProfileImgUpload: React.FC<ProfileImgUploadProps> = ({
     <>
       {uploadedFileUrl && (
         <button
-          //  누를 시 모달이 닫히는 문제 - form 안 button이라 form태그로 제출되어서? -> type="reset"으로 해결
           onClick={handleDeleteImage}
           color="default"
           className="absolute desktop:top-[11rem] laptop:top-[10rem] desktop:right-[9rem] laptop:right-[9rem] phone:right-[11rem] phone:top-[7.5rem]"

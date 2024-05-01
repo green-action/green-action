@@ -24,9 +24,10 @@ import Bookmark from "../bookmark/Bookmark";
 import MyActionRecruitingModal from "./MyActionRecruitingModal";
 import person from "/app/_assets/image/individualAction/person.png";
 import optionDots from "/app/_assets/image/logo_icon/icon/mypage/Group 100.png";
-import { MyAction } from "@/app/_types/mypage/mypage";
 
-const MyActionCard = ({ action, mode }: { action: MyAction; mode: string }) => {
+import type { MyActionCardProps } from "@/app/_types/mypage/mypage";
+
+const MyActionCard: React.FC<MyActionCardProps> = ({ action, mode }) => {
   const router = useRouter();
   const { isDesktop, isLaptop, isMobile } = useResponsive();
   const {
@@ -125,7 +126,6 @@ const MyActionCard = ({ action, mode }: { action: MyAction; mode: string }) => {
               mode === MODE_MAIN && ""
             }`}
           >
-            {/* desktop:w-[290px] */}
             <div className="flex w-full justify-between laptop:gap-[6px] mb-4 laptop:min-w-[190px] items-center">
               {is_recruiting ? (
                 <Chip
@@ -197,7 +197,6 @@ const MyActionCard = ({ action, mode }: { action: MyAction; mode: string }) => {
                   {location}
                 </p>
               </div>
-              {/* {(isDesktop||isLaptop) && } */}
 
               {mode !== MODE_MY_POSTS && (
                 <div>
@@ -255,6 +254,7 @@ const MyActionCard = ({ action, mode }: { action: MyAction; mode: string }) => {
                   />
                 </div>
               )}
+
               {isMobile && (
                 <div key={id} className="relative">
                   <div
@@ -333,6 +333,7 @@ const MyActionCard = ({ action, mode }: { action: MyAction; mode: string }) => {
           </div>
         </div>
       )}
+
       {isMobile && (
         <div
           className={`none ${

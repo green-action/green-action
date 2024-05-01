@@ -1,29 +1,29 @@
-import React, { useEffect, useState } from "react";
-import MyActionCard from "./MyActionCard";
-import CommunityListPost from "../community/CommunityListPost";
-import RecruitSelectTab from "./RecruitSelectTab";
-import { useSession } from "next-auth/react";
-import {
-  useFetchMyGreenActions,
-  usefetchBookmarkedActions,
-  usefetchMyCommunityPosts,
-} from "@/app/_hooks/useQueries/mypage";
-import Image from "next/image";
-import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
-
-import type { userInfoProps } from "@/app/_types/mypage/mypage";
-import type { User } from "@/app/_types";
 import {
   ACTIVE_TAB_BOOKMARKED_ACTION,
   ACTIVE_TAB_MY_ACTION,
   ACTIVE_TAB_MY_COMMUNITY,
 } from "@/app/_api/constant";
+import {
+  useFetchMyGreenActions,
+  usefetchBookmarkedActions,
+  usefetchMyCommunityPosts,
+} from "@/app/_hooks/useQueries/mypage";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
+import CommunityListPost from "../community/CommunityListPost";
+import MyActionCard from "./MyActionCard";
+import RecruitSelectTab from "./RecruitSelectTab";
+import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
 
-const MyPageList = ({ userInfo }: { userInfo: userInfoProps }) => {
+import type { User } from "@/app/_types";
+import type { UserInfoProps } from "@/app/_types/mypage/mypage";
+
+const MyPageList = ({ userInfo }: { userInfo: UserInfoProps }) => {
   const session = useSession();
   const user_uid = session.data?.user.user_uid as string;
 
-  const { display_name, profile_img } = (userInfo as User["userInfo"]) || ""; // as User["userInfo"] 외에도 || '' 처리해줘야 에러안뜸
+  const { display_name, profile_img } = (userInfo as User["userInfo"]) || "";
 
   const {
     data: myActions,
@@ -111,7 +111,6 @@ const MyPageList = ({ userInfo }: { userInfo: userInfoProps }) => {
 
   const handleActiveTabClick = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    // e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     const target = e.target as HTMLButtonElement;
     const textContent = target.textContent;
@@ -199,7 +198,7 @@ const MyPageList = ({ userInfo }: { userInfo: userInfoProps }) => {
             return (
               <MyActionCard
                 key={action.id}
-                action={action as any} // NOTE any 해결하기
+                action={action as any}
                 mode="myPosts"
               />
             );
@@ -212,7 +211,7 @@ const MyPageList = ({ userInfo }: { userInfo: userInfoProps }) => {
             return (
               <MyActionCard
                 key={bookmark?.bookmarkedAction?.id || ""}
-                action={bookmark as any} // NOTE any 해결하기
+                action={bookmark as any}
                 mode="myBookmarks"
               />
             );
