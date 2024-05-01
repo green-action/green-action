@@ -30,11 +30,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  IoCloseOutline,
-  IoPaperPlane,
-  IoReorderThreeOutline,
-} from "react-icons/io5";
+import { IoPaperPlane, IoReorderThreeOutline } from "react-icons/io5";
 import GroupInsideModal from "./GroupInsideModal";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
@@ -114,6 +110,7 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
     roomId,
   });
 
+  // action정보 가져오기(id, 제목, 시작 및 종료일자, 모집인원, 사진1장 url)
   const { actionInfo, isActionInfoLoading, isActionInfoError } =
     useGetGroupActionInfo(actionId);
 

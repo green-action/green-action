@@ -1,14 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import Image from "next/image";
-import Link from "next/link";
-import { signOut, useSession } from "next-auth/react";
+import { MODE_HEADER } from "@/app/_api/constant";
+import SoomLoading from "@/app/_assets/image/loading/SOOM_gif.gif";
+import graylogoImg from "@/app/_assets/image/logo_icon/logo/gray.png";
+import whitelogoImg from "@/app/_assets/image/logo_icon/logo/white.png";
 import { useResponsive } from "@/app/_hooks/responsive";
 import { useGetAllUnreadCount } from "@/app/_hooks/useQueries/chats";
 import { useFetchUserInfo } from "@/app/_hooks/useQueries/mypage";
-import { User } from "@/app/_types";
 import { debounce } from "@/utils/debounce/debounce";
 import {
   Avatar,
@@ -23,15 +21,17 @@ import {
   Tabs,
   useDisclosure,
 } from "@nextui-org/react";
-import SoomLoading from "@/app/_assets/image/loading/SOOM_gif.gif";
-import graylogoImg from "@/app/_assets/image/logo_icon/logo/gray.png";
-import whitelogoImg from "@/app/_assets/image/logo_icon/logo/white.png";
+import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import ChatsListModal from "../chats/ChatsListModal";
 import AlertModal from "../community/AlertModal";
-import PushListModal from "../push/PushListModal";
 import Mheader from "./Mheader";
-import { MODE_HEADER } from "@/app/_api/constant";
+
+import type { User } from "@/app/_types";
 
 const Allheader = () => {
   const router = useRouter();
@@ -186,9 +186,9 @@ const Allheader = () => {
                     classNames={{
                       tab: "px-0 desktop:h-[40px] laptop:h-[27px]",
                       tabList:
-                        "flex items-center justify-center desktop:gap-[20px] laptop:gap-[30px] desktop:h-[52px] laptop:h-[35px] desktop:min-w-[720px] laptop:min-w-[446px]", //  desktop:min-w-[750px]  d:w-[511px] h-[39px]인데 자체변경? / laptop gap 자체
+                        "flex items-center justify-center desktop:gap-[20px] laptop:gap-[30px] desktop:h-[52px] laptop:h-[35px] desktop:min-w-[720px] laptop:min-w-[446px]",
                       tabContent:
-                        "flex items-center justify-center text-[#2b2b2b] desktop:text-[17.3px] dekstop:h-[50px] laptop:text-[13.3px] laptop:h-[35px] desktop:min-w-[160px]", // ㅣ:text 11 자체
+                        "flex items-center justify-center text-[#2b2b2b] desktop:text-[17.3px] dekstop:h-[50px] laptop:text-[13.3px] laptop:h-[35px] desktop:min-w-[160px]",
                     }}
                   >
                     <Tab

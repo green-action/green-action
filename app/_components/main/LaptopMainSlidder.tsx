@@ -1,18 +1,18 @@
-import Image from "next/image";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick-theme.css";
-import "slick-carousel/slick/slick.css";
+import { MODE_COMMUNITY, MODE_MAIN } from "@/app/_api/constant";
 import {
   useFetchCommunityPostsLikes,
   useFetchIndivActionsBookmarks,
 } from "@/app/_hooks/useQueries/main";
+import Image from "next/image";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 import CommunityListPost from "../community/CommunityListPost";
 import MyActionCard from "../mypage/MyActionCard";
-import { MODE_COMMUNITY, MODE_MAIN } from "@/app/_api/constant";
 import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
 
 const LaptopMainSlidder = ({ mode }: { mode: string }) => {
-  var settings = {
+  const settings = {
     autoplay: true,
     autoplaySpeed: 15000,
     dots: true,

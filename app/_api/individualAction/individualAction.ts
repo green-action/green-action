@@ -21,7 +21,6 @@ export const getAllImages = async (actionId: string) => {
     const { data, error } = await supabase
       .from("green_action_images")
       .select("img_url");
-    // .eq("action_id", actionId);
     console.log("Fetched images data:", data);
 
     if (error) {

@@ -1,14 +1,10 @@
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-import { useResponsive } from "@/app/_hooks/responsive";
-import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
-import Bookmark from "../bookmark/Bookmark";
-import MyActionRecruitingModal from "./MyActionRecruitingModal";
 import {
   MODE_MAIN,
   MODE_MY_BOOKMARKS,
   MODE_MY_POSTS,
 } from "@/app/_api/constant";
+import { useResponsive } from "@/app/_hooks/responsive";
+import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
 import {
   Button,
   Card,
@@ -19,11 +15,15 @@ import {
   DropdownTrigger,
   useDisclosure,
 } from "@nextui-org/react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { GoArrowRight } from "react-icons/go";
-import person from "/app/_assets/image/individualAction/person.png";
-import optionDots from "/app/_assets/image/logo_icon/icon/mypage/Group 100.png";
 import dateImg from "../../_assets/image/individualAction/image170.png";
 import locationImg from "../../_assets/image/individualAction/image35.png";
+import Bookmark from "../bookmark/Bookmark";
+import MyActionRecruitingModal from "./MyActionRecruitingModal";
+import person from "/app/_assets/image/individualAction/person.png";
+import optionDots from "/app/_assets/image/logo_icon/icon/mypage/Group 100.png";
 
 import type { MyActionCardProps } from "@/app/_types/mypage/mypage";
 

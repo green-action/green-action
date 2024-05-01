@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
-import Image from "next/image";
+import coin from "@/app/_assets/image/logo_icon/icon/mypage/akar-icons_coin.svg";
+import pointQuestion from "@/app/_assets/image/mainpage/question_circle.png";
 import { useResponsive } from "@/app/_hooks/responsive";
 import { useUpdateUserIntro } from "@/app/_hooks/useMutations/mypage";
-import MyProfileEditModal from "./MyProfileEditModal";
 import {
   Avatar,
   Button,
@@ -13,9 +12,10 @@ import {
   CardHeader,
   Tooltip,
 } from "@nextui-org/react";
+import Image from "next/image";
+import React, { useState } from "react";
 import { HiOutlinePlus } from "react-icons/hi2";
-import coin from "@/app/_assets/image/logo_icon/icon/mypage/akar-icons_coin.svg";
-import pointQuestion from "@/app/_assets/image/mainpage/question_circle.png";
+import MyProfileEditModal from "./MyProfileEditModal";
 
 import type { User } from "@/app/_types";
 

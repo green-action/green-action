@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Button,
   Modal,
@@ -8,6 +7,7 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
+import React from "react";
 import DaumPostcode from "react-daum-postcode";
 
 import type { SearchAddressProps } from "@/app/_types/individualAction-add/individualAction-add";

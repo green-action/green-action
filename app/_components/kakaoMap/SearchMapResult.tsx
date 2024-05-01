@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import AlertModal from "../community/AlertModal";
 import { useResponsive } from "@/app/_hooks/responsive";
 import { Button, Chip } from "@nextui-org/react";
+import React, { useEffect, useRef, useState } from "react";
+import AlertModal from "../community/AlertModal";
 
 import type {
   MapResultPropsType,
@@ -202,15 +202,12 @@ const SearchMapResult: React.FC<MapResultPropsType> = ({
 
         // NOTE 3. 검색 결과 목록과 마커를 표출하는 함수
         function displayPlaces(places: string | any[]) {
-          // const listEl = document.getElementById("places-list"),
-          // resultEl = document.getElementById("search-result"),
           const listEl = placeListRef.current,
             resultEl = searchResultRef.current,
             fragment = document.createDocumentFragment(),
             bounds = new window.kakao.maps.LatLngBounds();
 
           // 검색 결과 목록에 추가된 항목들을 제거
-          // listEl && removeAllChildNods(listEl); // 재검색시 에러 -> 없애면 잘 작동 (데이터 map으로 돌려서 이렇게 할 필요 x?)
 
           // 지도에 표시되고 있는 마커를 제거 - 필요 (페이지변경시 기존 마커 없애기)
           removeMarker();
@@ -649,7 +646,6 @@ const SearchMapResult: React.FC<MapResultPropsType> = ({
             <div className="flex justify-center items-center">
               <Chip
                 classNames={{
-                  // base: "w-[100px]",
                   content: "w-[200px] flex justify-center gap-[20px]",
                 }}
                 className={`

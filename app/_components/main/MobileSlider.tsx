@@ -12,7 +12,7 @@ import MyActionCard from "../mypage/MyActionCard";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
 const MobileSlider = ({ mode }: { mode: string }) => {
-  var settings = {
+  const settings = {
     autoplay: true,
     autoplaySpeed: 15000,
     dots: true,

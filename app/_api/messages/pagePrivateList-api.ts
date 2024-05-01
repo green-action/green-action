@@ -4,7 +4,6 @@ import { supabase } from "@/utils/supabase/client";
 export const getPrivateRoomIds = async (action_id: string) => {
   const { data, error } = await supabase
     .from("chat_rooms_info")
-    // sender_uid와 연결된 테이블가서 display_name가져오기, content중 가장 최근꺼 하나만 가져오기
     .select("id")
     .eq("action_id", action_id)
     .eq("room_type", "개인");

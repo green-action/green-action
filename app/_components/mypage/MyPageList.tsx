@@ -1,29 +1,29 @@
-import React, { useEffect, useState } from "react";
-import MyActionCard from "./MyActionCard";
-import CommunityListPost from "../community/CommunityListPost";
-import RecruitSelectTab from "./RecruitSelectTab";
-import { useSession } from "next-auth/react";
-import {
-  useFetchMyGreenActions,
-  usefetchBookmarkedActions,
-  usefetchMyCommunityPosts,
-} from "@/app/_hooks/useQueries/mypage";
-import Image from "next/image";
-import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
-
-import type { UserInfoProps } from "@/app/_types/mypage/mypage";
-import type { User } from "@/app/_types";
 import {
   ACTIVE_TAB_BOOKMARKED_ACTION,
   ACTIVE_TAB_MY_ACTION,
   ACTIVE_TAB_MY_COMMUNITY,
 } from "@/app/_api/constant";
+import {
+  useFetchMyGreenActions,
+  usefetchBookmarkedActions,
+  usefetchMyCommunityPosts,
+} from "@/app/_hooks/useQueries/mypage";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
+import CommunityListPost from "../community/CommunityListPost";
+import MyActionCard from "./MyActionCard";
+import RecruitSelectTab from "./RecruitSelectTab";
+import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
+
+import type { User } from "@/app/_types";
+import type { UserInfoProps } from "@/app/_types/mypage/mypage";
 
 const MyPageList = ({ userInfo }: { userInfo: UserInfoProps }) => {
   const session = useSession();
   const user_uid = session.data?.user.user_uid as string;
 
-  const { display_name, profile_img } = (userInfo as User["userInfo"]) || ""; // as User["userInfo"] 외에도 || '' 처리해줘야 에러안뜸
+  const { display_name, profile_img } = (userInfo as User["userInfo"]) || "";
 
   const {
     data: myActions,
