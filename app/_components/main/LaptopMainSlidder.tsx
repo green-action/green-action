@@ -12,9 +12,7 @@ import MyActionCard from "../mypage/MyActionCard";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
 const LaptopMainSlidder = ({ mode }: { mode: string }) => {
-  // FIXME 메인페이지 mode action 인 경우 모집중인 것만 뜨게할지?
-
-  var settings = {
+  const settings = {
     autoplay: true,
     autoplaySpeed: 15000,
     dots: true,

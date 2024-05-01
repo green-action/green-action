@@ -6,10 +6,9 @@ import {
   MODE_INDIVIDUAL_ACTION_ADD,
   MODE_MY_BOOKMARKS,
 } from "@/app/_api/constant";
+import { useResponsive } from "@/app/_hooks/responsive";
 import { Button } from "@nextui-org/react";
 import Image from "next/image";
-// import bookmarkFill from "/app/_assets/image/logo_icon/icon/mypage/Star 32.png";
-import { useResponsive } from "@/app/_hooks/responsive";
 import bookmarkFill from "/app/_assets/image/individualAction/star_1.png";
 
 interface CustomConfirmProps {
@@ -134,7 +133,7 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
       )}
       <div
         ref={dialogContRef}
-        className={`absolute top-[-50%] left-1/2 translate-x-[-50%] translate-y-[-50%] p-[10px] transition-all z-[50] opacity-0 ${
+        className={`absolute top-[-50%] w-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] p-[10px] transition-all z-[50] opacity-0 ${
           mode === MODE_INDIVIDUAL_ACTION_ADD ? "w-[30%]" : "w-full"
         }${isMobile && "w-full"}`}
       >

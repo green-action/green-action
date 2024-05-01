@@ -30,7 +30,7 @@ const MyProfile: React.FC<User> = ({ userInfo }) => {
 
   const [isIntroEditing, setIsIntroEditing] = useState<boolean>(false);
   const [editedIntro, setEditedIntro] = useState<string>(introduction); // 초기값 기존 intro
-  const [profileImg, setProfileImg] = useState<string>(profile_img || ""); // 프로필 이미지 업로드 시 mutation 활용해도 바로 렌더링 안되는 문제로  useState 사용해보기
+  const [profileImg, setProfileImg] = useState<string>(profile_img || "");
   const { isDesktop, isLaptop, isMobile } = useResponsive();
   const { updateIntro } = useUpdateUserIntro(user_uid, editedIntro);
 
@@ -213,7 +213,6 @@ const MyProfile: React.FC<User> = ({ userInfo }) => {
       {(isDesktop || isLaptop) && (
         <Card className="shadow-none bg-[#D2DED0] p-2">
           <CardHeader className="mb-[-1.5rem]">
-            {/* text-[15pt] */}
             <p className="font-bold desktop:text-[13pt] laptop:text-[10pt]">
               Points
             </p>
@@ -253,13 +252,11 @@ const MyProfile: React.FC<User> = ({ userInfo }) => {
               />
             </Tooltip>
           </CardBody>
-          {/* </CardFooter> */}
         </Card>
       )}
       {isMobile && (
         <Card className=" shadow-none bg-[#D2DED0]">
           <CardHeader className="mb-[-1.5rem] ml-4">
-            {/* text-[15pt] */}
             <p className="font-bold text-[10pt]">Points</p>
           </CardHeader>
 
@@ -295,7 +292,6 @@ const MyProfile: React.FC<User> = ({ userInfo }) => {
               />
             </Tooltip>
           </CardBody>
-          {/* </CardFooter> */}
         </Card>
       )}
     </div>

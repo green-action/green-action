@@ -140,8 +140,6 @@ const Mheader = () => {
     );
   }
 
-  // console.log("allUnreadCount", allUnreadCount);
-
   return (
     <>
       {pathname !== "/signup" && pathname !== "/login" && (

@@ -4,12 +4,12 @@ import { Button, Chip } from "@nextui-org/react";
 import React, { useEffect, useRef, useState } from "react";
 import AlertModal from "../community/AlertModal";
 
+import { useResponsive } from "@/app/_hooks/responsive";
 import type {
   mapResultPropsType,
   markerMadeLocationRefType,
   placeDataType,
 } from "@/app/_types/individualAction-add/individualAction-add";
-import { useResponsive } from "@/app/_hooks/responsive";
 
 // TODO 컴포넌트 따로 빼보기
 const SearchMapResult: React.FC<mapResultPropsType> = ({
@@ -94,7 +94,7 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
         const infowindow = new window.kakao.maps.InfoWindow({ zIndex: 1 });
 
         // 주소-좌표 변환 객체를 생성합니다 (직접 마커 생성해서 좌표 얻어오기 위해)
-        var geocoder = new kakao.maps.services.Geocoder();
+        const geocoder = new kakao.maps.services.Geocoder();
 
         // 현재 지도 중심좌표로 주소를 검색해서 지도 좌측 상단에 표시합니다 (현재 지도 중심의 행정동 주소 정보 띄우기)
         searchAddrFromCoords(map.getCenter(), displayCenterInfo);
@@ -118,7 +118,7 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
         // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
         function displayCenterInfo(result: any, status: any) {
           if (status === kakao.maps.services.Status.OK) {
-            for (var i = 0; i < result.length; i++) {
+            for (let i = 0; i < result.length; i++) {
               // 행정동의 region_type 값은 'H' 이므로
               if (result[i].region_type === "H") {
                 setDongInfo(result[i].address_name);
@@ -136,10 +136,10 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
           if (navigator.geolocation) {
             // GeoLocation을 이용해서 접속 위치를 얻어옵니다
             navigator.geolocation.getCurrentPosition(function (position) {
-              var lat = position.coords.latitude, // 위도
+              const lat = position.coords.latitude, // 위도
                 lon = position.coords.longitude; // 경도
 
-              var locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+              const locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
                 message = '<div style="padding:5px;">현재 내 위치!</div>'; // 인포윈도우에 표시될 내용입니다
 
               // 마커와 인포윈도우를 표시합니다
@@ -148,7 +148,7 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
           } else {
             // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
 
-            var locPosition = new kakao.maps.LatLng(33.450701, 126.570667),
+            const locPosition = new kakao.maps.LatLng(33.450701, 126.570667),
               message = "geolocation을 사용할수 없어요..";
 
             displayMarker(locPosition, message);
@@ -158,16 +158,16 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
         // 지도에 마커와 인포윈도우를 표시하는 함수입니다
         function displayMarker(locPosition: any, message: string) {
           // 마커를 생성합니다
-          var marker = new kakao.maps.Marker({
+          const marker = new kakao.maps.Marker({
             map: map,
             position: locPosition,
           });
 
-          var iwContent = message, // 인포윈도우에 표시할 내용
+          const iwContent = message, // 인포윈도우에 표시할 내용
             iwRemoveable = true;
 
           // 인포윈도우를 생성합니다
-          var infowindow = new kakao.maps.InfoWindow({
+          const infowindow = new kakao.maps.InfoWindow({
             content: iwContent,
             removable: iwRemoveable,
           });
@@ -211,20 +211,17 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
 
         // NOTE 3. 검색 결과 목록과 마커를 표출하는 함수
         function displayPlaces(places: string | any[]) {
-          // const listEl = document.getElementById("places-list"),
-          // resultEl = document.getElementById("search-result"),
           const listEl = placeListRef.current,
             resultEl = searchResultRef.current,
             fragment = document.createDocumentFragment(),
             bounds = new window.kakao.maps.LatLngBounds();
 
           // 검색 결과 목록에 추가된 항목들을 제거
-          // listEl && removeAllChildNods(listEl); // 재검색시 에러 -> 없애면 잘 작동 (데이터 map으로 돌려서 이렇게 할 필요 x?)
 
           // 지도에 표시되고 있는 마커를 제거 - 필요 (페이지변경시 기존 마커 없애기)
           removeMarker();
 
-          for (var i = 0; i < places.length; i++) {
+          for (let i = 0; i < places.length; i++) {
             // 마커를 생성하고 지도에 표시
             let placePosition = new window.kakao.maps.LatLng(
                 places[i].y,
@@ -309,7 +306,7 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
 
         // NOTE 6. 지도 위에 표시되고 있는 마커를 모두 제거하는 함수 (페이지변경시 기존 마커 초기화)
         function removeMarker() {
-          for (var i = 0; i < markers.length; i++) {
+          for (let i = 0; i < markers.length; i++) {
             markers[i].setMap(null);
           }
           markers = [];
@@ -354,7 +351,6 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
 
         // NOTE 8. 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수
         // 인포윈도우에 장소명을 표시
-        // TODO 인포윈도우 말고 커스텀 오버레이 사용하기?
         function displayInfowindow(marker: any, title: string) {
           const content =
             '<div style="padding:5px; z-index:1; text-align: center; min-width: 170px; max-width: 250px;" >' +
@@ -410,7 +406,7 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
                       address: result[0].address.address_name,
                     };
 
-                    var detailAddr = !!result[0].road_address
+                    let detailAddr = !!result[0].road_address
                       ? "<div>도로명주소 : " +
                         result[0].road_address.address_name +
                         "</div>"
@@ -420,7 +416,7 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
                       result[0].address.address_name +
                       "</div>";
 
-                    var content =
+                    const content =
                       '<div class="bAddr" style="font-size: x-small">' +
                       detailAddr +
                       "</div>";
@@ -670,7 +666,6 @@ const SearchMapResult: React.FC<mapResultPropsType> = ({
             <div className="flex justify-center items-center">
               <Chip
                 classNames={{
-                  // base: "w-[100px]",
                   content: "w-[200px] flex justify-center gap-[20px]",
                 }}
                 className={`

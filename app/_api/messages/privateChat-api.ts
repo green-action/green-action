@@ -8,7 +8,6 @@ export const getMessages = async (room_id: string) => {
     .select("*, users(id, display_name, profile_img)")
     .eq("room_id", room_id)
     .order("created_at", { ascending: true });
-  // TODO 개수 100개쯤 제한? -> 무한스크롤 10개씩 증가할수있음
 
   if (error) {
     console.log("error", error.message);
@@ -60,7 +59,7 @@ export const checkPrivateChatRoomExist = async ({
     const { data: room_id, error: roomIdError } = await supabase
       .from("chat_rooms_info")
       .select("id")
-      .in("id", roomIds) // roomsList에서 가져온 room_id 리스트 중에 포함되는 것만 선택
+      .in("id", roomIds)
       .eq("room_type", "개인")
       .eq("action_id", action_id);
 
@@ -70,9 +69,9 @@ export const checkPrivateChatRoomExist = async ({
     }
 
     if (room_id && room_id.length > 0) {
-      return room_id[0].id; // room_id 값이 있으면 해당 값 반환 - 이미 1:1 방이 있는 경우
+      return room_id[0].id;
     } else {
-      return null; // 값이 없으면 null 반환 - 아직 1:1방이 열리지 않은 경우
+      return null;
     }
   } catch (error) {
     console.error("error >>", error);
@@ -89,22 +88,6 @@ export const insertNewPrivateChatRoom = async ({
   loggedInUserUid: string;
 }) => {
   try {
-    // 1) 채팅방 테이블에 insert
-    // 2) action_id로 owner_id 파악하여 함께 insert
-    // 3) room_id 반환
-
-    // owner_id 가져오기
-    // const { data: ownerId, error: ownerIdError } = await supabase
-    //   .from("individual_green_actions")
-    //   .select("user_uid")
-    //   .eq("id", action_id);
-
-    // if (ownerIdError) {
-    //   console.log("error", ownerIdError.message);
-    //   throw ownerIdError;
-    // }
-
-    // const actionOwnerId = ownerId[0].user_uid;
     const actionOwnerId = await getActionOwnerUid(action_id);
 
     // 채팅방 insert, room_id 반환

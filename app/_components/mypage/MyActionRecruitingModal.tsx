@@ -18,7 +18,6 @@ const MyActionRecruitingModal: React.FC<MyActionRecruitingChange> = ({
   onClose,
   onOpenChange,
 }) => {
-  // 타입 변경하기
   const { updateRecruiting } = useUpdateActionRecruiting(id);
 
   // 모집상태 - 모집중>마감 으로 변경하기

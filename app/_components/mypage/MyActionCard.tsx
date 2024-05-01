@@ -5,6 +5,7 @@ import {
 } from "@/app/_api/constant";
 import { useResponsive } from "@/app/_hooks/responsive";
 import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
+import { MyAction } from "@/app/_types/mypage/mypage";
 import {
   Button,
   Card,
@@ -24,7 +25,6 @@ import Bookmark from "../bookmark/Bookmark";
 import MyActionRecruitingModal from "./MyActionRecruitingModal";
 import person from "/app/_assets/image/individualAction/person.png";
 import optionDots from "/app/_assets/image/logo_icon/icon/mypage/Group 100.png";
-import { BookmarkedAction, MyAction } from "@/app/_types/mypage/mypage";
 
 const MyActionCard = ({ action, mode }: { action: MyAction; mode: string }) => {
   const router = useRouter();
@@ -47,7 +47,7 @@ const MyActionCard = ({ action, mode }: { action: MyAction; mode: string }) => {
     location,
   } = mode === MODE_MY_BOOKMARKS ? action.bookmarkedAction : action;
 
-  const actionImgUrl = actionImgUrls[0]; // as string || ''
+  const actionImgUrl = actionImgUrls[0];
 
   const { deleteAction } = useDeleteAction(id);
 
@@ -125,7 +125,6 @@ const MyActionCard = ({ action, mode }: { action: MyAction; mode: string }) => {
               mode === MODE_MAIN && ""
             }`}
           >
-            {/* desktop:w-[290px] */}
             <div className="flex w-full justify-between laptop:gap-[6px] mb-4 laptop:min-w-[190px] items-center">
               {is_recruiting ? (
                 <Chip
@@ -197,7 +196,6 @@ const MyActionCard = ({ action, mode }: { action: MyAction; mode: string }) => {
                   {location}
                 </p>
               </div>
-              {/* {(isDesktop||isLaptop) && } */}
 
               {mode !== MODE_MY_POSTS && (
                 <div>
@@ -214,11 +212,7 @@ const MyActionCard = ({ action, mode }: { action: MyAction; mode: string }) => {
                 <div className="flex items-center desktop:ml-10 laptop:ml-[50px]">
                   <Dropdown
                     placement="bottom"
-                    className="flex w-[10px] p-0 m-0 rounded-3xl justify-end" //max-w-[5rem]
-                    // classNames={{
-                    //   base: "w-[10px] before:bg-default-200", // change arrow background
-                    //   content: "w-[10px] py-1 px-1 border border-default-200",
-                    // }}
+                    className="flex w-[10px] p-0 m-0 rounded-3xl justify-end"
                   >
                     <DropdownTrigger>
                       <Button className="bg-transparent w-[5px] justify-end">

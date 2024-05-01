@@ -21,7 +21,7 @@ const SearchMapModal: React.FC<searchMapModalProps> = ({
   setActivityLocationMap,
   locationMapRef,
 }) => {
-  const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 
   const [value, setValue] = useState(""); // 입력 값 관리

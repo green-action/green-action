@@ -24,96 +24,19 @@ const AboutComputerSize = ({ position }: { position: number }) => {
             style={{ transform: `translateY(-${position / 30}vh` }}
             className="z-0 flex flex-col items-center text-white text-[59px] font-semibold desktop:mt-[300px] laptop:w-[100%] laptop:mt-[335px]"
           >
-            {/* <p className="font-['Italiana']"> */}
             <p className="font-['Pretendard']">
               {isDesktop ? "환경을 위한 실천," : "환경을 위한 실천,"}
             </p>
             <p className="font-['Pretendard']">
               {isDesktop ? "내일을 향한 변화, 숨" : "내일을 향한 변화, 숨"}
             </p>
-            {/* {isLaptop && <p className="font-['Italiana']"> daily life</p>} */}
           </div>
         </div>
         <div className="flex flex-col items-center desktop:mt-[700px] laptop:mt-[505px]">
-          {/* second part - 설명글 */}
           <div className="flex flex-col justify-center text-center  mx-auto font-bold desktop:text-[36px] desktop:mb-[420px] desktop:w-[1426px] laptop:text-[30px] laptop:mb-[330px] w-[852px]">
             <p>나의 그린 라이프 실천 내역을 한눈에 보고 한번에 찾으세요.</p>
             <p>환경을 위한 첫걸음을 함께 쉽고 재밌게 할 수 있는 서비스</p>
             <p>숨과 함께라면 당신의 일상이 새로워질 거예요.</p>
-            {/* 첫 줄 */}
-            {/* <div>
-              <p className="inline-block text-with-background bg-text-bg-1 bg-cover bg-center rounded-full text-white mr-2 desktop:pt-1 desktop:w-[444px] desktop:h-[60px] laptop:w-[380px] laptop:h-[47px]">
-                '일상에서 쉽게 실천할 수 있는
-              </p>
-              <p className="inline-block">
-                {isDesktop
-                  ? `환경 캠페인'은 지구를 지키는 우리의 작은 노력으로부터
-            출발합니다.`
-                  : `환경 캠페인'은`}
-              </p>
-              {isLaptop && <p className="inline-block">지구를 지키는</p>}
-            </div> */}
-            {/* 두번째 줄 */}
-            {/* <div>
-              <p className="inline-block">
-                {isDesktop
-                  ? "당신의 일상에서 환경을 지키는"
-                  : "우리의 작은 노력으로부터 출발합니다. 당신의 일상에서 환경을"}
-              </p>
-              {isLaptop && <p className="inline-block mr-2">지키는 작은 </p>}
-              <p className="inline-block text-with-background bg-text-bg-2 bg-cover bg-center rounded-full text-white desktop:pt-1 mr-2 desktop:w-[444px] desktop:h-[60px]">
-                {isDesktop
-                  ? "작은 습관들이 모여 큰 변화를"
-                  : "습관들이 모여 큰 변화를"}
-              </p>
-              <p className="inline-block">이끌어낼 수 있습니다.</p> */}
-            {/* 3~4번째 줄 */}
-            {/* <p className="inline-block">
-                {isDesktop
-                  ? `우리의 목표는 모든 사람이 쉽게 실천할 수 있는 환경 보호 방법을
-            제시하고, 그것들을 실제 행동으로
-            ${(<br />)} 이어지게 하는 것입니다. 이제 당신의 일상을 환경 보호의
-            일부로 만들어보세요.`
-                  : `이제 우리의 캠페인에 참여하여 당신도 환경 보호의 일원이
-            되어보세요.`}
-              </p>
-              {isLaptop && (
-                <>
-                  <p className="inline-block">
-                    우리의 목표는 모든 사람이 쉽게 실천할 수 있는
-                  </p>
-                  <p className="inline-block">
-                    환경 보호 방법을 제시하고, 그것들을 실제 행동으로 이어지게
-                  </p>
-                  <p className="inline-block">
-                    하는 것입니다. 이제 당신의 일상을 환경 보호의 일부로
-                    만들어보세요.
-                  </p>
-                </>
-              )}
-            </div> */}
-            {/* 마지막 2문장 */}
-            {/* <div>
-              <p className="inline-block">지금 바로</p>
-              <p className="inline-block text-with-background bg-text-bg-3 bg-cover bg-center rounded-full text-white desktop:pt-1 mx-2 desktop:w-[370px] desktop:h-[60px]">
-                '지구가 숨쉬다. SOOM'
-              </p>
-              <p className="inline-block">
-                {isDesktop
-                  ? " 에 참여하여 우리의 지구를 함께 지켜 나가는 데 기여하세요."
-                  : "에 참여하여"}
-              </p>
-              <p className="inline-block">
-                {isDesktop
-                  ? "당신의 작은 노력이 큰 변화를 만들어낼 수 있습니다. 함께해요!"
-                  : "우리의 지구를 함께 지켜나가는 데 기여하세요."}
-              </p>
-              {isLaptop && (
-                <p className="inline-block">
-                  당신의 작은 노력이 큰 변화를 만들어낼 수 있습니다. 함께해요!
-                </p>
-              )}
-            </div> */}
           </div>
         </div>
         {/* third part - 카드 4장 */}

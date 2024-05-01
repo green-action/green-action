@@ -90,14 +90,7 @@ const ChatButtons: React.FC<chatButtonProps> = ({
 
       // 채팅방 모달창 open
       onPrivateChatOpen();
-      // 새 창으로 여는 경우
-      // window.open(
-      //   `/privateChat/${privateRoomIdRef.current}`,
-      //   "newWindow",
-      //   `width=400, height=600, left=${(window.screen.width - 400) / 2} top=${
-      //     (window.screen.height - 700) / 2
-      //   }`,
-      // );
+
       return; // 함수 종료
     }
 
@@ -115,15 +108,6 @@ const ChatButtons: React.FC<chatButtonProps> = ({
 
     // 채팅방 모달창 open
     onPrivateChatOpen();
-
-    // 새 창으로 여는 경우
-    // window.open(
-    //   `/privateChat/${privateRoomIdRef.current}`,
-    //   "newWindow",
-    //   `width=400, height=600, left=${(window.screen.width - 400) / 2} top=${
-    //     (window.screen.height - 700) / 2
-    //   }`,
-    // );
   };
 
   const handleOpenPrivateChatsList = () => {
@@ -180,14 +164,6 @@ const ChatButtons: React.FC<chatButtonProps> = ({
         await changeRecruitingState({ action_id, mode: "in" });
       }
 
-      // <기존 성공했던 코드 - api 분리 전>
-      // 채팅 인원 파악, 해당 action의 모집인원
-      // 채팅인원 === 모집인원 된 경우 -> 모집상태 '모집마감'으로 변경
-      // await countParticipants({
-      //   room_id,
-      //   action_id,
-      // });
-
       // 채팅방 모달창 open
       onGroupChatOpen();
     }
@@ -240,7 +216,6 @@ const ChatButtons: React.FC<chatButtonProps> = ({
         />
       )}
       {/* 1:1문의 채팅방 */}
-      {/* TODO 로그인 유저 = 액션장 -> 채팅방 리스트 한번 열고, 그 다음에 방 클릭시 해당 방 모달을 보여주기 */}
       {isPrivateChatOpen && (
         <PrivateChat
           isOpen={isPrivateChatOpen}

@@ -66,9 +66,6 @@ const MyProfileEditModal: React.FC<myProfileEditModalProps> = ({
       setIsOpenAlertModal(true);
       return;
     }
-    // if (editedName.trim().length >= 11) { 처리하면 이상해짐
-    //   return alert("닉네임을 10자 이내로 써주세요");
-    // }
 
     if (file) {
       // 업로드한 이미지 파일이 있을 시에만 'users'의 profile_img 칼럼 업데이트
@@ -137,7 +134,6 @@ const MyProfileEditModal: React.FC<myProfileEditModalProps> = ({
                     </label>
                     <Input
                       type="text"
-                      // label="사용자 이름"
                       value={editedName}
                       defaultValue={display_name}
                       onChange={(e) => {

@@ -180,7 +180,6 @@ const HeaderPrivateList = () => {
   if (combinedObjects) {
     const today = new Date().toDateString();
 
-    // TODO any 해결 필요
     // combinedObjects를 생성하면서 메시지를 오늘 날짜와 그 이전 날짜로 분리
     combinedObjects.map((eachRoomInfo: any) => {
       const messageDate = new Date(

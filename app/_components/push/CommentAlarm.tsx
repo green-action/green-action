@@ -1,15 +1,12 @@
 "use client";
 
-import {
-  useMyCommunityList,
-  useMyPushList,
-} from "@/app/_hooks/useQueries/push";
+import { fetchMyPushList } from "@/app/_api/push/push-api";
+import { useMyCommunityList } from "@/app/_hooks/useQueries/push";
 import { supabase } from "@/utils/supabase/client";
+import { Button, ModalBody, ModalFooter } from "@nextui-org/react";
 import { RealtimePostgresInsertPayload } from "@supabase/supabase-js";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { ModalBody, ModalFooter, Button } from "@nextui-org/react";
-import { fetchMyPushList } from "@/app/_api/push/push-api";
 import CommentDetail from "./CommentDetail";
 
 const CommentAlarm = ({ onClose }: { onClose: () => void }) => {
@@ -126,12 +123,7 @@ const CommentAlarm = ({ onClose }: { onClose: () => void }) => {
         <div>
           {alarm &&
             alarm.map((item) => (
-              <CommentDetail
-                item={item}
-                // onClose={onClose}
-                setAlarm={setAlarm}
-                alarm={alarm}
-              />
+              <CommentDetail item={item} setAlarm={setAlarm} alarm={alarm} />
             ))}
         </div>
       </ModalBody>

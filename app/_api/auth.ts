@@ -1,7 +1,4 @@
 import { supabase } from "@/utils/supabase/client";
-// import { useSession } from "next-auth/react";
-
-// const session = useSession();
 
 //회원가입
 export const signUpNewUser = async (

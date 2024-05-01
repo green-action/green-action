@@ -81,7 +81,6 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "chat_messages" },
 
-        // TODO 무효화 수정 필요 - setQueryData 등
         () => {
           queryClient.invalidateQueries({
             queryKey: [QUERY_KEY_MESSAGES_LIST],
@@ -119,10 +118,6 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
     loggedInUserUid,
     roomId,
   });
-
-  // // 채팅방의 action정보, 참가자 정보
-  // const { actionInfo, isActionInfoLoading, isActionInfoError } =
-  //   useGetActionInfo(roomId);
 
   // action정보 가져오기(id, 제목, 시작 및 종료일자, 모집인원, 사진1장 url)
   const { actionInfo, isActionInfoLoading, isActionInfoError } =

@@ -52,7 +52,6 @@ const ProductInfoModal: React.FC<productInfoModalProps> = ({
       setMessage(`구매 불가 상품입니다 : 보유한 포인트 ${user_point}P`);
       setIsOpenAlertModal(true);
 
-      // Error: Rendered more hooks than during the previous render.
       setConfirmPurchase(false);
       setShowProductInfo(false);
       return;

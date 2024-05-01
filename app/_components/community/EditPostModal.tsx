@@ -197,19 +197,6 @@ const EditPostModal: React.FC<EditPostProps> = ({
                 </ModalBody>
                 {/* 취소, 작성 버튼 */}
                 <ModalFooter className="flex justify-center mb-12 !p-0">
-                  {/* <Button
-                  variant="light"
-                  onPress={onClose}
-                  className="rounded-full !w-[110px] h-[27px] border-1"
-                >
-                  취소하기
-                </Button> */}
-                  {/* <Button
-                    type="submit"
-                    className="text-gray-500 rounded-full !w-[140px] h-[33px] border border-gray-400 bg-[#EFEFEF]"
-                  >
-                    수정완료
-                  </Button> */}
                   <CustomConfirm
                     text="수정하시겠습니까?"
                     buttonName="수정완료"

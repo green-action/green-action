@@ -8,7 +8,6 @@ import Image from "next/image";
 import PrivateChatRoom from "./PrivateChatRoom";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
-// TODO any 타입 해결 필요
 const HeaderPrivateItem = ({
   eachRoomInfo,
   mode,

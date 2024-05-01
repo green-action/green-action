@@ -11,15 +11,10 @@ import CommunityListPost from "../community/CommunityListPost";
 import MyActionCard from "../mypage/MyActionCard";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
-// export const revalidate = 0;
-
 const MobileSlider = ({ mode }: { mode: string }) => {
-  // FIXME 메인페이지 mode action 인 경우 모집중인 것만 뜨게할지?
-
-  var settings = {
+  const settings = {
     autoplay: true,
     autoplaySpeed: 15000,
-    // fade: true,
     dots: true,
     infinite: true,
     arrows: false,

@@ -316,7 +316,6 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
                     {ownerNicknameImg?.display_name}
                   </span>
                 </div>
-                {/* TODO any 해결 필요 */}
                 {participantsInfo?.map((participant: any) => (
                   <>
                     {participant.id !== ownerInfo?.id && (

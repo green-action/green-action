@@ -16,7 +16,6 @@ import RecruitSelectTab from "./RecruitSelectTab";
 import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
 
 const MyActionCardMobile = () => {
-  // TODO props 타입등 재설정
   const router = useRouter();
   const session = useSession();
   const { isDesktop, isLaptop, isMobile } = useResponsive();
@@ -49,7 +48,7 @@ const MyActionCardMobile = () => {
     isError: isUserInfoError,
   } = useFetchUserInfo(user_uid);
 
-  const { display_name, profile_img } = (userInfo as User["userInfo"]) || ""; // as User["userInfo"] 외에도 || '' 처리해줘야 에러안뜸
+  const { display_name, profile_img } = (userInfo as User["userInfo"]) || "";
 
   // my action - created_at (작성일) 기준으로 정렬하기
   const sortedMyActions = myActions?.slice().sort((a, b) => {
@@ -85,7 +84,6 @@ const MyActionCardMobile = () => {
   // My Action, 작성 커뮤니티 글, 찜한 Action 탭 선택시
   const handleActiveTabClick = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    // e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     const target = e.target as HTMLButtonElement;
     const textContent = target.textContent;

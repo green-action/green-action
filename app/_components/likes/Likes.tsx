@@ -39,7 +39,6 @@ const Likes: React.FC<likesProps> = ({ post_id, isOpen, mode }) => {
     } else {
       return () => {
         if (user_uid === null || user_uid === undefined) {
-          // alert("로그인하고 이용해주세요");
           setMessage("로그인이 필요한 서비스입니다.");
           setIsOpenAlertModal(true);
           return;
