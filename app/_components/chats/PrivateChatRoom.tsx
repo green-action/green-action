@@ -337,17 +337,17 @@ const PrivateChatRoom: React.FC<ChatProps> = ({
                     </div>
                   </div>
                 </div>
-                {isActionInfoOpen && (
-                  <GroupInsideModal
-                    onActionInfoClose={onActionInfoClose}
-                    actionInfo={actionInfo}
-                    participantsInfo={actionParticipantsInfo}
-                    roomId={roomId}
-                    actionId={actionId}
-                    onClose={onPrivateChatClose}
-                  />
-                )}
               </ModalBody>
+              {isActionInfoOpen && (
+                <GroupInsideModal
+                  onActionInfoClose={onActionInfoClose}
+                  actionInfo={actionInfo}
+                  participantsInfo={actionParticipantsInfo}
+                  roomId={roomId}
+                  actionId={actionId}
+                  onClose={onPrivateChatClose}
+                />
+              )}
             </>
           )}
         </ModalContent>
