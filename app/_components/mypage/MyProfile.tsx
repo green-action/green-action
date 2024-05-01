@@ -120,7 +120,7 @@ const MyProfile: React.FC<User> = ({ userInfo }) => {
       )}
       {(isDesktop || isLaptop) && (
         <Card className="shadow-none bg-[#EFF2EF] w-full min-h-[276px] p-[0.5rem]">
-          <CardHeader className="font-bold desktop:text-[13pt] laptop:text-[10pt] ">
+          <CardHeader className="font-bold desktop:text-[17.3px] laptop:text-[13.3px] ">
             <p>My Profile</p>
           </CardHeader>
           <CardBody className="desktop:text-[16px] laptop:text-[12.5px] text-[#393939]">
@@ -166,7 +166,7 @@ const MyProfile: React.FC<User> = ({ userInfo }) => {
       )}
       {isMobile && (
         <Card className="w-full min-h-[150px] p-[0.5rem] shadow-none bg-[#EFF2EF]">
-          <CardHeader className="font-bold text-[10pt] ">
+          <CardHeader className="font-bold text-[13.3px] ">
             <p>My Profile</p>
           </CardHeader>
           <CardBody className="text-[11px] text-[#393939]">
@@ -213,15 +213,14 @@ const MyProfile: React.FC<User> = ({ userInfo }) => {
       {(isDesktop || isLaptop) && (
         <Card className="shadow-none bg-[#D2DED0] p-2">
           <CardHeader className="mb-[-1.5rem]">
-            {/* text-[15pt] */}
-            <p className="font-bold desktop:text-[13pt] laptop:text-[10pt]">
+            <p className="font-bold desktop:text-[17.3px] laptop:text-[13.3px]">
               Points
             </p>
           </CardHeader>
 
           <CardBody className="flex flex-row gap-3">
             <Image src={coin} alt="코인" />
-            <div className="font-bold desktop:w-[175px] laptop:w-[150px] desktop:text-[13pt] laptop:text-[11pt] ">
+            <div className="font-bold desktop:w-[175px] laptop:w-[150px] desktop:text-[17.3px] laptop:text-[14.6px] ">
               {point} P
             </div>
             <Tooltip
@@ -259,13 +258,12 @@ const MyProfile: React.FC<User> = ({ userInfo }) => {
       {isMobile && (
         <Card className=" shadow-none bg-[#D2DED0]">
           <CardHeader className="mb-[-1.5rem] ml-4">
-            {/* text-[15pt] */}
-            <p className="font-bold text-[10pt]">Points</p>
+            <p className="font-bold text-[13.3px]">Points</p>
           </CardHeader>
 
           <CardBody className="flex flex-row gap-3 ml-3">
             <Image src={coin} alt="코인" />
-            <div className="font-bold w-[235px] text-[17pt] ">{point} P</div>
+            <div className="font-bold w-[235px] text-[22.6px] ">{point} P</div>
             <Tooltip
               showArrow={true}
               key="bottom"
@@ -295,7 +293,6 @@ const MyProfile: React.FC<User> = ({ userInfo }) => {
               />
             </Tooltip>
           </CardBody>
-          {/* </CardFooter> */}
         </Card>
       )}
     </div>

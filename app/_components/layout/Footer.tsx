@@ -12,7 +12,7 @@ const Footer = () => {
           alt="logo-image"
           className="w-[94px] h-[21.63px] "
         />
-        <div className="flex gap-[75px] desktop:text-[13pt] laptop:text-[11pt] text-[#454545]">
+        <div className="flex gap-[75px] desktop:text-[17.3px] laptop:text-[14.6px] text-[#454545]">
           <Link href={"/about"}>About</Link>
           <Link href={"/individualAction"}>Green Action</Link>
           <Link href={"/community"}>Community</Link>
@@ -20,7 +20,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="pt-[257px]">
-        <p className="font-light font-['Pretendard'] desktop:text-[12pt] laptop:text-[10pt] text-[#6E6E6E]">
+        <p className="font-light font-['Pretendard'] desktop:text-[16px] laptop:text-[13.3px] text-[#6E6E6E]">
           ⓒ 2024 SOOM All Rights Reserved.
         </p>
       </div>

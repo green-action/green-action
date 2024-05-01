@@ -3,7 +3,7 @@ import React from "react";
 import PageTap from "../_components/individualAction/PageTap";
 import TopButton from "../_components/TopButton";
 
-const page = () => {
+const IndividualActionPage = () => {
   return (
     <div>
       <div className=" mx-auto vh-auto">
@@ -14,4 +14,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default IndividualActionPage;

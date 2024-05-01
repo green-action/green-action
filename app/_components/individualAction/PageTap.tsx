@@ -1,3 +1,12 @@
+import {
+  ACTIVE_TAB,
+  ACTIVE_TABS,
+  SELECT_TAB_LATEST_ORDER,
+  SELECT_TAB_POPULARITY_ORDER,
+  TAB_ALL_ACTION,
+  TAB_CLOSED_ACTION,
+  TAB_RECRUITMENT_ACTION,
+} from "@/app/_api/constant";
 import { useResponsive } from "@/app/_hooks/responsive";
 import { useFetchIndivActionsBookmarks } from "@/app/_hooks/useQueries/main";
 import { Select, SelectItem } from "@nextui-org/react";
@@ -11,25 +20,18 @@ import AlertModal from "../community/AlertModal";
 import PageList from "./PageList";
 
 const PageTap = () => {
-  const [activeTab, setActiveTab] = useState("모든 Green Action");
-  const [activeTabs, setActiveTabs] = useState("개인과 함께해요");
-  const [selectedOrder, setSelectedOrder] = useState("최신순");
-
-  // alert 대체 모달창을 위한 상태관리
+  const [activeTab, setActiveTab] = useState(TAB_ALL_ACTION);
+  const [activeTabs, setActiveTabs] = useState(ACTIVE_TAB);
+  const [selectedOrder, setSelectedOrder] = useState(SELECT_TAB_LATEST_ORDER);
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const [message, setMessage] = useState("");
   const { isDesktop, isLaptop, isMobile } = useResponsive();
-
   const { data: actions, isLoading: isActionsLoading } =
     useFetchIndivActionsBookmarks();
-
-  // 현재 로그인한 유저 uid
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
-
   const router = useRouter();
 
-  // 정렬
   const sortedActions = actions?.slice().sort((a, b) => {
     return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
   });
@@ -41,31 +43,31 @@ const PageTap = () => {
   const [filteredActions, setFilteredActions] = useState(sortedActions);
 
   const filterAndSortActions = () => {
-    if (activeTab === "모든 Green Action") {
-      if (selectedOrder === "최신순") {
+    if (activeTab === TAB_ALL_ACTION) {
+      if (selectedOrder === SELECT_TAB_LATEST_ORDER) {
         setFilteredActions(sortedActions);
-      } else if (selectedOrder === "찜한순") {
+      } else if (selectedOrder === SELECT_TAB_POPULARITY_ORDER) {
         setFilteredActions(sortedPopularActions);
       }
     }
 
-    if (activeTab === "모집중 Green Action") {
-      if (selectedOrder === "최신순") {
+    if (activeTab === TAB_RECRUITMENT_ACTION) {
+      if (selectedOrder === SELECT_TAB_LATEST_ORDER) {
         setFilteredActions(
           sortedActions?.filter((action) => action.is_recruiting),
         );
-      } else if (selectedOrder === "찜한순") {
+      } else if (selectedOrder === SELECT_TAB_POPULARITY_ORDER) {
         setFilteredActions(
           sortedPopularActions?.filter((action) => action.is_recruiting),
         );
       }
     }
-    if (activeTab === "마감된 Green Action") {
-      if (selectedOrder === "최신순") {
+    if (activeTab === TAB_CLOSED_ACTION) {
+      if (selectedOrder === SELECT_TAB_LATEST_ORDER) {
         setFilteredActions(
           sortedActions?.filter((action) => !action.is_recruiting),
         );
-      } else if (selectedOrder === "찜한순") {
+      } else if (selectedOrder === SELECT_TAB_POPULARITY_ORDER) {
         setFilteredActions(
           sortedPopularActions?.filter((action) => !action.is_recruiting),
         );
@@ -88,11 +90,11 @@ const PageTap = () => {
   };
 
   const handleLatestOrder = () => {
-    setSelectedOrder("최신순");
+    setSelectedOrder(SELECT_TAB_LATEST_ORDER);
   };
 
   const handlePopularOrder = () => {
-    setSelectedOrder("찜한순");
+    setSelectedOrder(SELECT_TAB_POPULARITY_ORDER);
   };
 
   const handleClick = () => {
@@ -113,7 +115,7 @@ const PageTap = () => {
             <li
               onClick={handleActiveTabClick}
               className={`flex justify-center items-center cursor-pointer  desktop:w-[130px] h-[34px] text-[15px] laptop:w-[108px] ${
-                activeTab === "모든 Green Action"
+                activeTab === TAB_ALL_ACTION
                   ? "border-b-2 border-black transition duration-300 ease-in-out text-[12px]"
                   : ""
               }`}
@@ -122,8 +124,8 @@ const PageTap = () => {
             </li>
             <li
               onClick={handleActiveTabClick}
-              className={`flex justify-center items-center cursor-pointer desktop:w-[130px] h-[34px] text-[15px] laptop:w-[108px] ${
-                activeTab === "모집중 Green Action"
+              className={`flex justify-center items-center cursor-pointer desktop:w-[150px] h-[34px] text-[15px] laptop:w-[108px] ${
+                activeTab === TAB_RECRUITMENT_ACTION
                   ? "border-b-2 border-black transition duration-300 ease-in-out text-[12px]"
                   : ""
               }`}
@@ -132,8 +134,8 @@ const PageTap = () => {
             </li>
             <li
               onClick={handleActiveTabClick}
-              className={`flex justify-center items-center cursor-pointer desktop:w-[130px] h-[34px] text-[15px] laptop:w-[108px] ${
-                activeTab === "마감된 Green Action"
+              className={`flex justify-center items-center cursor-pointer desktop:w-[150px] h-[34px] text-[15px] laptop:w-[108px] ${
+                activeTab === TAB_CLOSED_ACTION
                   ? "border-b-2 border-black transition duration-300 ease-in-out text-[12px] "
                   : ""
               }`}
@@ -147,7 +149,7 @@ const PageTap = () => {
             <li
               onClick={handleActiveTabClick}
               className={`flex justify-center items-center cursor-pointer  desktop:w-[130px] h-[34px] text-[12px]  laptop:w-[108px] ${
-                activeTab === "모든 Green Action"
+                activeTab === TAB_ALL_ACTION
                   ? "border-b-2 border-black transition duration-300 ease-in-out text-[12px]"
                   : ""
               }`}
@@ -157,7 +159,7 @@ const PageTap = () => {
             <li
               onClick={handleActiveTabClick}
               className={`flex justify-center items-center cursor-pointer desktop:w-[130px] h-[34px]  text-[12px]  laptop:w-[108px] ${
-                activeTab === "모집중 Green Action"
+                activeTab === TAB_RECRUITMENT_ACTION
                   ? "border-b-2 border-black transition duration-300 ease-in-out text-[12px]"
                   : ""
               }`}
@@ -167,7 +169,7 @@ const PageTap = () => {
             <li
               onClick={handleActiveTabClick}
               className={`flex justify-center items-center cursor-pointer desktop:w-[130px] h-[34px] text-[12px] laptop:w-[108px] ${
-                activeTab === "마감된 Green Action"
+                activeTab === TAB_CLOSED_ACTION
                   ? "border-b-2 border-black transition duration-300 ease-in-out text-[12px] "
                   : ""
               }`}
@@ -182,7 +184,7 @@ const PageTap = () => {
               <Link
                 href="/individualAction"
                 className={`cursor-pointer p-3 font-bold ${
-                  activeTabs === "개인과 함께해요"
+                  activeTabs === ACTIVE_TAB
                     ? "border-b-2 border-black text-black mt-1"
                     : ""
                 }`}
@@ -192,7 +194,7 @@ const PageTap = () => {
               <Link
                 href="/groupAction"
                 className={`cursor-pointer p-3 font-bold ${
-                  activeTabs === "단체와 함께해요"
+                  activeTabs === ACTIVE_TABS
                     ? "border-b-2 border-black text-black mt-3"
                     : ""
                 }`}
@@ -205,7 +207,7 @@ const PageTap = () => {
                 onClick={handleActiveTabClick}
                 className={`flex justify-center items-center cursor-pointer h-[34px] text-[12px]
                 ${
-                  activeTab === "모든 Green Action"
+                  activeTab === TAB_ALL_ACTION
                     ? "text-black transition duration-300 ease-in-out text-[12px] "
                     : ""
                 }`}
@@ -215,7 +217,7 @@ const PageTap = () => {
               <li
                 onClick={handleActiveTabClick}
                 className={`flex justify-center items-center cursor-pointer h-[34px] text-[12px]  ${
-                  activeTab === "모집중 Green Action"
+                  activeTab === TAB_RECRUITMENT_ACTION
                     ? "text-black transition duration-300 ease-in-out text-[12px] "
                     : ""
                 }`}
@@ -225,7 +227,7 @@ const PageTap = () => {
               <li
                 onClick={handleActiveTabClick}
                 className={`flex justify-center items-center cursor-pointer h-[34px] text-[12px] ${
-                  activeTab === "마감된 Green Action"
+                  activeTab === TAB_CLOSED_ACTION
                     ? "text-black transition duration-300 ease-in-out text-[12px] "
                     : ""
                 }`}
@@ -239,27 +241,27 @@ const PageTap = () => {
           <div className="flex items-center gap-4 mr-4">
             <Select
               aria-label="Select"
-              placeholder="최신순"
+              placeholder={SELECT_TAB_LATEST_ORDER}
               size="md"
               radius="full"
               items={selectedOrder}
               className=" desktop:w-[161px] h-[30px] text-[15px] laptop:w-[127px]"
               variant="bordered"
               disallowEmptySelection
-              defaultSelectedKeys={["최신순"]}
+              defaultSelectedKeys={[SELECT_TAB_LATEST_ORDER]}
             >
               <SelectItem
-                key="최신순"
-                value="최신순"
-                className="rounded-xl "
+                key={SELECT_TAB_LATEST_ORDER}
+                value={SELECT_TAB_LATEST_ORDER}
+                className="rounded-xl"
                 onClick={handleLatestOrder}
               >
                 최신순
               </SelectItem>
               <SelectItem
-                key="찜한순"
-                value="찜한순"
-                className="rounded-xl "
+                key={SELECT_TAB_POPULARITY_ORDER}
+                value={SELECT_TAB_POPULARITY_ORDER}
+                className="rounded-xl"
                 onClick={handlePopularOrder}
               >
                 찜한순
@@ -271,26 +273,26 @@ const PageTap = () => {
           <div className="flex items-center gap-4 mr-4">
             <Select
               aria-label="Select"
-              placeholder="최신순"
+              placeholder={SELECT_TAB_LATEST_ORDER}
               size="md"
               radius="full"
               items={selectedOrder}
               className=" desktop:w-[161px] h-[30px] text-[15px] laptop:w-[127px]"
               variant="bordered"
               disallowEmptySelection
-              defaultSelectedKeys={["최신순"]}
+              defaultSelectedKeys={[SELECT_TAB_LATEST_ORDER]}
             >
               <SelectItem
-                key="최신순"
-                value="최신순"
-                className="rounded-xl "
+                key={SELECT_TAB_LATEST_ORDER}
+                value={SELECT_TAB_LATEST_ORDER}
+                className="rounded-xl"
                 onClick={handleLatestOrder}
               >
                 최신순
               </SelectItem>
               <SelectItem
-                key="찜한순"
-                value="찜한순"
+                key={SELECT_TAB_POPULARITY_ORDER}
+                value={SELECT_TAB_POPULARITY_ORDER}
                 className="rounded-xl "
                 onClick={handlePopularOrder}
               >
@@ -303,25 +305,25 @@ const PageTap = () => {
           <div className="flex items-center relative top-20 right-[100px] mt-16 ">
             <Select
               aria-label="Select"
-              placeholder="최신순"
+              placeholder={SELECT_TAB_LATEST_ORDER}
               radius="full"
               variant="underlined"
               items={selectedOrder}
               className="w-[90px] h-[20px] text-[11px]"
               disallowEmptySelection
-              defaultSelectedKeys={["최신순"]}
+              defaultSelectedKeys={[SELECT_TAB_LATEST_ORDER]}
             >
               <SelectItem
-                key="최신순"
-                value="최신순"
+                key={SELECT_TAB_LATEST_ORDER}
+                value={SELECT_TAB_LATEST_ORDER}
                 className="rounded-xl"
                 onClick={handleLatestOrder}
               >
                 최신순
               </SelectItem>
               <SelectItem
-                key="찜한순"
-                value="찜한순"
+                key={SELECT_TAB_POPULARITY_ORDER}
+                value={SELECT_TAB_POPULARITY_ORDER}
                 className="rounded-xl"
                 onClick={handlePopularOrder}
               >
