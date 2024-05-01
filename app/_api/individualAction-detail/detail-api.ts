@@ -16,18 +16,6 @@ export const getIndividualDetail = async (id: string) => {
   }
 };
 
-// export const getWriter = async (id:string)=>{
-//   try {
-//     const { data, error } = await supabase
-//     .from('auth.user')
-//     .select('*')
-//     .eq('id', id);
-//   } catch (error) {
-
-//   }
-// }
-
-// 이미지 가져오기
 export const getImages = async (id: string) => {
   try {
     const { data, error } = await supabase
