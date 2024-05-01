@@ -20,7 +20,7 @@ import logoImg from "../_assets/image/logo_icon/logo/white.png";
 import AlertModal from "../_components/community/AlertModal";
 import { useResponsive } from "../_hooks/responsive";
 
-const SignUp = () => {
+const SignUpPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, SetConfirmPassword] = useState("");
@@ -30,25 +30,19 @@ const SignUp = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 
-  // alert 대체 모달창을 위한 상태관리
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const [message, setMessage] = useState("");
 
   const validatePasswords = () => password !== confirmPassword;
 
-  // 이메일,비밀번호 형식
   const validatePassword = (value: string) =>
     /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/.test(value);
   const validateEmail = (value: string) =>
     /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value);
 
-  // 이메일 중복확인해보기@@ 닉네임중복확인
-
-  // 회원가입 버튼
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email || !password || !confirmPassword || !nickname) {
-      // alert("입력란을 입력해주세요.");
       setMessage("입력란을 입력해주세요.");
       setIsOpenAlertModal(true);
       return;
@@ -396,4 +390,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignUpPage;
