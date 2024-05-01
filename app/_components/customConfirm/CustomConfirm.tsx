@@ -133,9 +133,9 @@ const CustomConfirm: React.FC<CustomConfirmProps> = ({
       )}
       <div
         ref={dialogContRef}
-        className={`absolute top-[-50%] left-1/2 translate-x-[-50%] translate-y-[-50%] p-[10px] transition-all z-[50] opacity-0 ${
+        className={`absolute top-[-50%]  left-1/2 translate-x-[-50%] translate-y-[-50%] p-[10px] transition-all z-[50] opacity-0 ${
           mode === MODE_INDIVIDUAL_ACTION_ADD ? "w-[30%]" : "w-full"
-        }${isMobile && "w-full"}`}
+        }`}
       >
         <div className="p-[10px] py-[50px] leading-7 bg-[#f5f5f2] text-center rounded-xl mb-[-20px] text-[10.5pt]">
           {text}
