@@ -16,9 +16,7 @@ export const getGoods = async () => {
 export const getPoint = async (id: string) => {
   try {
     const { data } = await supabase.from("users").select("point").eq("id", id);
-    // console.log(data![0]);
     if (!data || data.length === 0) {
-      // throw new Error("User not found or point data is missing");
       console.log("로그인 안됨");
     }
     return data![0];
