@@ -4,7 +4,6 @@ import coin from "@/app/_assets/image/logo_icon/icon/mypage/akar-icons_coin.svg"
 import pointQuestion from "@/app/_assets/image/mainpage/question_circle.png";
 import { useResponsive } from "@/app/_hooks/responsive";
 import { useUpdateUserIntro } from "@/app/_hooks/useMutations/mypage";
-import { User } from "@/app/_types";
 import {
   Avatar,
   Button,
@@ -18,6 +17,8 @@ import React, { useState } from "react";
 import { HiOutlinePlus } from "react-icons/hi2";
 import MyProfileEditModal from "./MyProfileEditModal";
 
+import type { User } from "@/app/_types";
+
 const MyProfile: React.FC<User> = ({ userInfo }) => {
   const {
     id: user_uid,
@@ -30,7 +31,7 @@ const MyProfile: React.FC<User> = ({ userInfo }) => {
 
   const [isIntroEditing, setIsIntroEditing] = useState<boolean>(false);
   const [editedIntro, setEditedIntro] = useState<string>(introduction); // 초기값 기존 intro
-  const [profileImg, setProfileImg] = useState<string>(profile_img || "");
+  const [profileImg, setProfileImg] = useState<string>(profile_img || ""); // 프로필 이미지 업로드 시 mutation 활용해도 바로 렌더링 안되는 문제로  useState 사용해보기
   const { isDesktop, isLaptop, isMobile } = useResponsive();
   const { updateIntro } = useUpdateUserIntro(user_uid, editedIntro);
 
@@ -120,7 +121,7 @@ const MyProfile: React.FC<User> = ({ userInfo }) => {
       )}
       {(isDesktop || isLaptop) && (
         <Card className="shadow-none bg-[#EFF2EF] w-full min-h-[276px] p-[0.5rem]">
-          <CardHeader className="font-bold desktop:text-[13pt] laptop:text-[10pt] ">
+          <CardHeader className="font-bold desktop:text-[17.3px] laptop:text-[13.3px] ">
             <p>My Profile</p>
           </CardHeader>
           <CardBody className="desktop:text-[16px] laptop:text-[12.5px] text-[#393939]">
@@ -166,7 +167,7 @@ const MyProfile: React.FC<User> = ({ userInfo }) => {
       )}
       {isMobile && (
         <Card className="w-full min-h-[150px] p-[0.5rem] shadow-none bg-[#EFF2EF]">
-          <CardHeader className="font-bold text-[10pt] ">
+          <CardHeader className="font-bold text-[13.3px] ">
             <p>My Profile</p>
           </CardHeader>
           <CardBody className="text-[11px] text-[#393939]">
@@ -213,14 +214,14 @@ const MyProfile: React.FC<User> = ({ userInfo }) => {
       {(isDesktop || isLaptop) && (
         <Card className="shadow-none bg-[#D2DED0] p-2">
           <CardHeader className="mb-[-1.5rem]">
-            <p className="font-bold desktop:text-[13pt] laptop:text-[10pt]">
+            <p className="font-bold desktop:text-[17.3px] laptop:text-[13.3px]">
               Points
             </p>
           </CardHeader>
 
           <CardBody className="flex flex-row gap-3">
             <Image src={coin} alt="코인" />
-            <div className="font-bold desktop:w-[175px] laptop:w-[150px] desktop:text-[13pt] laptop:text-[11pt] ">
+            <div className="font-bold desktop:w-[175px] laptop:w-[150px] desktop:text-[17.3px] laptop:text-[14.6px] ">
               {point} P
             </div>
             <Tooltip
@@ -252,17 +253,18 @@ const MyProfile: React.FC<User> = ({ userInfo }) => {
               />
             </Tooltip>
           </CardBody>
+          {/* </CardFooter> */}
         </Card>
       )}
       {isMobile && (
         <Card className=" shadow-none bg-[#D2DED0]">
           <CardHeader className="mb-[-1.5rem] ml-4">
-            <p className="font-bold text-[10pt]">Points</p>
+            <p className="font-bold text-[13.3px]">Points</p>
           </CardHeader>
 
           <CardBody className="flex flex-row gap-3 ml-3">
             <Image src={coin} alt="코인" />
-            <div className="font-bold w-[235px] text-[17pt] ">{point} P</div>
+            <div className="font-bold w-[235px] text-[22.6px] ">{point} P</div>
             <Tooltip
               showArrow={true}
               key="bottom"

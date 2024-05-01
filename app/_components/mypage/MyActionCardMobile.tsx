@@ -156,7 +156,7 @@ const MyActionCardMobile = () => {
   return (
     <>
       <div className="flex flex-col justify-between mt-[50px] w-full">
-        <div className="text-[13pt] font-bold">나의 Green-Action</div>
+        <div className="text-[17.3px] font-bold">나의 Green-Action</div>
         <div className="ml-auto mt-3">
           <RecruitSelectTab
             selected={myRecruitClicked}
@@ -179,7 +179,9 @@ const MyActionCardMobile = () => {
       </div>
 
       <div className="flex flex-col justify-between mt-[50px] w-full">
-        <div className="flex text-[13pt] font-bold">즐겨찾는 Green-Action</div>
+        <div className="flex text-[17.3px] font-bold">
+          즐겨찾는 Green-Action
+        </div>
         <div className="ml-auto mt-3">
           <RecruitSelectTab
             selected={bookmarkedRecruitClicked}
@@ -200,7 +202,7 @@ const MyActionCardMobile = () => {
         </div>
       </div>
       <div className="flex flex-col justify-between mt-[40px] w-full">
-        <div className="h-[30px] text-[13pt] font-bold">
+        <div className="h-[30px] text-[17.3px] font-bold">
           나의 Community
           {/* LINK 내가 쓴 커뮤니티 글 */}
           <div className="mt-10 gap-5 grid p-2 phone:grid-cols-2">

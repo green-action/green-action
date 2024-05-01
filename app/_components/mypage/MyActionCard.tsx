@@ -5,7 +5,6 @@ import {
 } from "@/app/_api/constant";
 import { useResponsive } from "@/app/_hooks/responsive";
 import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
-import { MyAction } from "@/app/_types/mypage/mypage";
 import {
   Button,
   Card,
@@ -25,6 +24,8 @@ import Bookmark from "../bookmark/Bookmark";
 import MyActionRecruitingModal from "./MyActionRecruitingModal";
 import person from "/app/_assets/image/individualAction/person.png";
 import optionDots from "/app/_assets/image/logo_icon/icon/mypage/Group 100.png";
+
+import type { MyAction } from "@/app/_types/mypage/mypage";
 
 const MyActionCard = ({ action, mode }: { action: MyAction; mode: string }) => {
   const router = useRouter();
@@ -133,7 +134,7 @@ const MyActionCard = ({ action, mode }: { action: MyAction; mode: string }) => {
                     content:
                       "desktop:w-[50px] laptop:w-[40px] flex justify-center items-center",
                   }}
-                  className="text-white laptop:w-[20px] bg-[#B3C8A1] rounded-3xl text-center desktop:text-[10pt] laptop:text-[8pt]"
+                  className="text-white laptop:w-[20px] bg-[#B3C8A1] rounded-3xl text-center desktop:text-[13.3px] laptop:text-[10.6px]"
                 >
                   모집중
                 </Chip>
@@ -144,7 +145,7 @@ const MyActionCard = ({ action, mode }: { action: MyAction; mode: string }) => {
                     content:
                       "desktop:w-[55px] laptop:w-[50px] flex justify-center items-center",
                   }}
-                  className="text-white bg-[#5F5F5F] rounded-3xl text-center desktop:text-[10pt] laptop:text-[8pt]"
+                  className="text-white bg-[#5F5F5F] rounded-3xl text-center desktop:text-[13.3px] laptop:text-[10.6px]"
                 >
                   모집마감
                 </Chip>
@@ -301,7 +302,7 @@ const MyActionCard = ({ action, mode }: { action: MyAction; mode: string }) => {
                             content:
                               "desktop:w-[41px] laptop:w-[34px] flex justify-center items-center",
                           }}
-                          className="text-white w-[20px] bg-[#B3C8A1] rounded-[5px] text-center text-[8pt]"
+                          className="text-white w-[20px] bg-[#B3C8A1] rounded-[5px] text-center text-[10.6px]"
                         >
                           모집중
                         </Chip>
@@ -312,7 +313,7 @@ const MyActionCard = ({ action, mode }: { action: MyAction; mode: string }) => {
                             content:
                               "desktop:w-[50px] laptop:w-[42px] flex justify-center items-center",
                           }}
-                          className="text-white bg-[#5F5F5F] rounded-[5px] text-center desktop:text-[10pt] laptop:text-[8pt]"
+                          className="text-white bg-[#5F5F5F] rounded-[5px] text-center desktop:text-[13.3px] laptop:text-[10.6px]"
                         >
                           모집마감
                         </Chip>
@@ -376,7 +377,7 @@ const MyActionCard = ({ action, mode }: { action: MyAction; mode: string }) => {
                     base: "h-[14px]",
                     content: "w-[33px] flex justify-center items-center",
                   }}
-                  className="text-white bg-[#B3C8A1] rounded-[5px] text-center text-[7pt]"
+                  className="text-white bg-[#B3C8A1] rounded-[5px] text-center text-[9.3px]"
                 >
                   모집중
                 </Chip>
@@ -386,7 +387,7 @@ const MyActionCard = ({ action, mode }: { action: MyAction; mode: string }) => {
                     base: "h-[14px]",
                     content: "w-[33px] flex justify-center items-center",
                   }}
-                  className="text-white bg-[#5F5F5F] rounded-[5px] text-center text-[7pt]"
+                  className="text-white bg-[#5F5F5F] rounded-[5px] text-center text-[9.3px]"
                 >
                   모집마감
                 </Chip>

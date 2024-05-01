@@ -56,8 +56,6 @@ const Allheader = () => {
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const [message, setMessage] = useState("");
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   // 채팅방 리스트 모달창
   const {
     isOpen: isChatsListModalOpen,
@@ -124,6 +122,17 @@ const Allheader = () => {
     handleSelectedTab();
   }, [pathname]);
 
+  // FIXME 마이페이지에서 유저닉네임,이미지 변경 시 헤더에서 종종 바로 반영안되는 문제 (mutation으로 쿼리키 무효화해도) -> isLoading 처리했더니 에러
+  // if (isUserDataLoading) {
+  //   return (
+  //     // 임시로 처리
+  // <div className="flex justify-center items-center w-[60px] h-auto">
+  //   <Image src={SoomLoading} alt="SoomLoading" unoptimized />
+  // </div>;
+  //   );
+  // }
+
+  ////////////////////////////////////////////////////
   // 헤더 투명이었다가 스크롤하면 블러처리
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -156,6 +165,7 @@ const Allheader = () => {
     isLoading: unReadPushCountLoading,
     isError: unReadPushCountError,
   } = useUnreadPushCount(user_uid);
+  // console.log(unReadPushCount);
 
   if (isAllUnreadCountLoading || isUserDataLoading || unReadPushCountLoading) {
     return (
@@ -175,6 +185,8 @@ const Allheader = () => {
     );
   }
 
+  // console.log("allUnreadCount", allUnreadCount);
+
   return (
     <>
       {(isDesktop || isLaptop) && (
@@ -182,7 +194,7 @@ const Allheader = () => {
           {pathname !== "/signup" && pathname !== "/login" && (
             <Navbar
               isBlurred={isScrolled} // TODO 스크롤내리면 isBlurred 처리
-              className="laptop:min-w-[1020px] flex bg-transparent desktop:h-[10rem] laptop:h-[104px] phone:min-w-[360px] phone:h-[100px] items-center justify-center desktop:pt-[90px] laptop:pt-[60px] desktop:mb-[88px] laptop:mb-[60px] desktop:text-[13pt] laptop:text-[11pt] phone:text-[11px]"
+              className="laptop:min-w-[1020px] flex bg-transparent desktop:h-[10rem] laptop:h-[104px] phone:min-w-[360px] phone:h-[100px] items-center justify-center desktop:pt-[90px] laptop:pt-[60px] desktop:mb-[88px] laptop:mb-[60px] desktop:text-[17.3px] laptop:text-[14.6px] phone:text-[11px]"
             >
               <Image
                 src={
@@ -211,7 +223,7 @@ const Allheader = () => {
                       tabList:
                         "flex items-center justify-center desktop:gap-[20px] laptop:gap-[30px] desktop:h-[52px] laptop:h-[35px] desktop:min-w-[720px] laptop:min-w-[446px]",
                       tabContent:
-                        "flex items-center justify-center text-[#2b2b2b] desktop:text-[13pt] dekstop:h-[50px] laptop:text-[10pt] laptop:h-[35px] desktop:min-w-[160px]",
+                        "flex items-center justify-center text-[#2b2b2b] desktop:text-[17.3px] dekstop:h-[50px] laptop:text-[13.3px] laptop:h-[35px] desktop:min-w-[160px]",
                     }}
                   >
                     <Tab
@@ -259,6 +271,7 @@ const Allheader = () => {
                       }}
                       className="flex justify-center absolute desktop:h-[45px] laptop:h-[35px]  desktop:mt-[2.8%] laptop:mt-[4.2%] desktop:mr-[18%] laptop:mr-[12%] desktop:pt-[23px] font-bold text-[#2b2b2b]"
                     >
+                      {/* 폰트크기 넓이 안맞음 */}
                       <Navbar
                         isBlurred={false}
                         className={`flex desktop:gap-[35px] laptop:gap-[19px] desktop:mt-3 items-center justify-between desktop:w-[360px] px-0 laptop:w-[255px] desktop:h-[50px] laptop:h-[35px] rounded-full ${
@@ -269,7 +282,8 @@ const Allheader = () => {
                       >
                         <Link
                           href={"/individualAction"}
-                          className={`desktop:text-[13pt] laptop:text-[10pt] flex items-center desktop:h-[44px] laptop:h-[32px] rounded-full desktop:px-3 desktop:py-1 laptop:px-1 laptop:py-1 hover:bg-[#FFFFFF]/50 hover:border-medium hover:border-[#DDDDDD] desktop:w-[140px] laptop:w-[140px] text-center  ${
+                          // 안 맞아서 폰트크기 17.3px에 각각 넓이 130px으로 자체적 맞춤
+                          className={`desktop:text-[17.3px] laptop:text-[13.3px] flex items-center desktop:h-[44px] laptop:h-[32px] rounded-full desktop:px-3 desktop:py-1 laptop:px-1 laptop:py-1 hover:bg-[#FFFFFF]/50 hover:border-medium hover:border-[#DDDDDD] desktop:w-[140px] laptop:w-[140px] text-center  ${
                             childSelected === "/individualAction" &&
                             "bg-[#FFFFFF]/50"
                           }`}
@@ -278,7 +292,7 @@ const Allheader = () => {
                         </Link>
                         <Link
                           href={"/groupAction"}
-                          className={`desktop:text-[13pt] laptop:text-[10pt] flex items-center desktop:h-[44px] laptop:h-[32px] rounded-full desktop:px-3 desktop:py-1 laptop:px-1 laptop:py-1 hover:bg-[#FFFFFF]/50 hover:border-medium hover:border-[#DDDDDD] desktop:w-[140px] laptop:w-[140px] text-center  ${
+                          className={`desktop:text-[17.3px] laptop:text-[13.3px] flex items-center desktop:h-[44px] laptop:h-[32px] rounded-full desktop:px-3 desktop:py-1 laptop:px-1 laptop:py-1 hover:bg-[#FFFFFF]/50 hover:border-medium hover:border-[#DDDDDD] desktop:w-[140px] laptop:w-[140px] text-center  ${
                             childSelected === "/groupAction" &&
                             "bg-[#FFFFFF]/50"
                           }`}
@@ -309,11 +323,30 @@ const Allheader = () => {
                         />
                       </Button>
                       {/* push알림 badge */}
+                      {/* <Button
+                        radius="full"
+                        isIconOnly
+                        aria-label="more than 99 notifications"
+                        variant="light"
+                        onClick={() => {
+                          onPushListModalOpen();
+                        }}
+                      >
+                        <GoBell
+                          size={24}
+                          height={24}
+                          width={24}
+                          className={`text-2xl ${
+                            pathname === "/" ? "text-white" : "text-black"
+                          }`}
+                        />
+                      </Button> */}
                     </div>
                     <Dropdown
                       placement="bottom-end"
                       isOpen={isProfileHover}
                       className="flex rounded-3xl bg-[#F1F1F1]/90"
+                      // classNames={{ content: "text-[10px]" }}
                     >
                       <DropdownTrigger>
                         <div
@@ -337,6 +370,7 @@ const Allheader = () => {
                         variant="flat"
                         disabledKeys={["profile"]}
                         className="w-full flex justify-center p-0 m-0 rounded-3xl text-[#454545]"
+                        // itemClasses={{ base: ["text-[15px]"] }}
                         onMouseEnter={() => {
                           setIsProfileHover(true);
                         }}
@@ -379,6 +413,7 @@ const Allheader = () => {
                   // 로그인 상태가 아닐 떄
                   <div
                     className={`flex desktop:gap-14 laptop:gap-[35px] desktop:w-[170px] desktop:ml-[320px] laptop:ml-[9%] ${
+                      // pathsMainAbout ? "text-white " : "text-[#666666]"
                       pathname === "/about"
                         ? isScrolled
                           ? "text-[#666666]" // about 페이지에서 isScrolled 상태에 따라 글자색 변경

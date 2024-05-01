@@ -149,7 +149,7 @@ const Mheader = () => {
           isBlurred={isScrolled}
           isMenuOpen={isMenuOpen}
           onMenuOpenChange={setIsMenuOpen}
-          className="min-w-[360px] mib-h-[100px] flex bg-transparent items-center justify-center text-[11pt] mb-4"
+          className="min-w-[360px] mib-h-[100px] flex bg-transparent items-center justify-center text-[14.6px] mb-4"
         >
           <NavbarContent
             justify="start"
