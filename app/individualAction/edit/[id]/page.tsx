@@ -16,7 +16,7 @@ import KakaoMap from "@/app/_components/kakaoMap/KakaoMap";
 import SearchMapModal from "@/app/_components/kakaoMap/SearchMapModal";
 import { useResponsive } from "@/app/_hooks/responsive";
 import { useGetActionForEdit } from "@/app/_hooks/useQueries/individualAction-edit";
-import { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
+import { PlaceCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
 import { Button } from "@nextui-org/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -33,7 +33,7 @@ const EditActionPage = ({ params }: { params: { id: string } }) => {
   const [files, setFiles] = useState<(File | undefined)[]>([]);
   const [activityLocation, setActivityLocation] = useState<string>(""); // 주소검색통해 set하기 위해 추가
   const [activityLocationMap, setActivityLocationMap] = useState<string>(""); // 지도 검색 완료 후 뜰 장소명 (렌더링 위해 useState 사용)
-  const locationMapRef = useRef<placeCoordinateType | null>(null); // 지도 검색으로 장소 선택 시 해당 장소의 좌표 담을 useRef
+  const locationMapRef = useRef<PlaceCoordinateType | null>(null); // 지도 검색으로 장소 선택 시 해당 장소의 좌표 담을 useRef
 
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 

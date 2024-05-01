@@ -1,15 +1,19 @@
-export interface placeCoordinateType {
+export interface PlaceCoordinateType {
   x: string;
   y: string;
   placeId: string;
   placeName: string;
 }
 
-export interface searchMapModalProps {
+export interface SearchMapModalProps {
   setActivityLocationMap: React.Dispatch<React.SetStateAction<string>>;
-  locationMapRef: React.MutableRefObject<placeCoordinateType | null>;
+  locationMapRef: React.MutableRefObject<PlaceCoordinateType | null>;
 }
 
 export interface KakaoShareButtonProps {
   description: string;
+}
+
+export interface KakaoMapProps {
+  placeInfo: PlaceCoordinateType;
 }

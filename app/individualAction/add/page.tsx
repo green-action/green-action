@@ -24,7 +24,7 @@ import SecondInputBox from "@/app/_components/individualAction-add/SecondInputBo
 import ThirdInputBox from "@/app/_components/individualAction-add/ThirdInputBox";
 import { FaChevronLeft } from "react-icons/fa6";
 
-import type { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
+import type { PlaceCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
 
 const AddActionPage = () => {
   const [uploadedFileUrls, setUploadedFileUrls] = useState<string[]>([]);
@@ -33,7 +33,7 @@ const AddActionPage = () => {
 
   const [activityLocation, setActivityLocation] = useState<string>("");
   const [activityLocationMap, setActivityLocationMap] = useState<string>("");
-  const locationMapRef = useRef<placeCoordinateType | null>(null);
+  const locationMapRef = useRef<PlaceCoordinateType | null>(null);
 
   const handleActivityLocationChange = (
     e: React.ChangeEvent<HTMLInputElement>,

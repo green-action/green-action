@@ -28,11 +28,10 @@ const MyProfileEditModal: React.FC<myProfileEditModalProps> = ({
 }) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
 
-  const [editedName, setEditedName] = useState<string>(display_name); // 초기값 닉네임 떴다가 안떴다가 함
-  const [uploadedFileUrl, setUploadedFileUrl] = useState<string>(profile_img); // 초기값 기존 프로필이미지
+  const [editedName, setEditedName] = useState<string>(display_name);
+  const [uploadedFileUrl, setUploadedFileUrl] = useState<string>(profile_img);
   const [file, setFile] = useState<File | undefined>();
 
-  // alert 대체 모달창을 위한 상태관리
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -40,7 +39,6 @@ const MyProfileEditModal: React.FC<myProfileEditModalProps> = ({
   const { updateProfileImg } = useUpdateUserProfileImg(user_uid, file);
   const { removeProfileImg } = useRemoveUserProfileImg(user_uid);
 
-  // 모달창 '작성완료'없이 닫을 시 초기화
   const handleModalClose = () => {
     setEditedName(display_name);
     setUploadedFileUrl(profile_img);
@@ -66,12 +64,8 @@ const MyProfileEditModal: React.FC<myProfileEditModalProps> = ({
       setIsOpenAlertModal(true);
       return;
     }
-    // if (editedName.trim().length >= 11) { 처리하면 이상해짐
-    //   return alert("닉네임을 10자 이내로 써주세요");
-    // }
 
     if (file) {
-      // 업로드한 이미지 파일이 있을 시에만 'users'의 profile_img 칼럼 업데이트
       await updateProfileImg();
       const url = await uploadProfileImgFileAndInsertIntoTable({
         file,
@@ -88,7 +82,6 @@ const MyProfileEditModal: React.FC<myProfileEditModalProps> = ({
       await setProfileImg("");
     }
 
-    // 닉네임 업데이트
     if (editedName !== display_name) {
       await updateName();
     }
@@ -110,7 +103,6 @@ const MyProfileEditModal: React.FC<myProfileEditModalProps> = ({
       >
         <ModalContent>
           {(onClose) => (
-            //   NOTE 모달
             <div className="p-5 flex flex-col items-center">
               <form
                 className="flex flex-col gap-0 items-center justify-center"
@@ -137,7 +129,6 @@ const MyProfileEditModal: React.FC<myProfileEditModalProps> = ({
                     </label>
                     <Input
                       type="text"
-                      // label="사용자 이름"
                       value={editedName}
                       defaultValue={display_name}
                       onChange={(e) => {

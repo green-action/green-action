@@ -7,9 +7,9 @@ import SearchAddressModal from "../daumPostCode/SearchAddressModal";
 import KakaoMap from "../kakaoMap/KakaoMap";
 import SearchMapModal from "../kakaoMap/SearchMapModal";
 
-import type { firstInputBoxProps } from "@/app/_types/individualAction-add/individualAction-add";
+import type { FirstInputBoxProps } from "@/app/_types/individualAction-add/individualAction-add";
 
-const FirstInputBox: React.FC<firstInputBoxProps> = ({
+const FirstInputBox: React.FC<FirstInputBoxProps> = ({
   activityLocation,
   setActivityLocation,
   handleActivityLocationChange,

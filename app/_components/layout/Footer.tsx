@@ -1,11 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-
 import logoImg from "/app/_assets/image/logo_icon/logo/gray.png";
 
 const Footer = () => {
   return (
-    <footer className=" hidden  desktop:flex  laptop:flex flex-col w-full h-[506px] pt-[115px] pl-[185px] pr-[186px] bg-[#F6F6F6]">
+    <footer className="hidden desktop:flex laptop:flex flex-col w-full h-[506px] pt-[115px] pl-[185px] pr-[186px] bg-[#F6F6F6]">
       <div className="flex items-center justify-between desktop:w-full laptop:w-full">
         <Image
           src={logoImg}
