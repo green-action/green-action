@@ -13,7 +13,7 @@ export const useResponsive = () => {
     window.addEventListener("resize", handleDebouncedResize);
 
     handleDebouncedResize();
-    // 정리 함수
+
     return () => {
       window.removeEventListener("resize", handleDebouncedResize);
     };

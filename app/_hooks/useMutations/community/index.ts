@@ -1,17 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
 import type {
   CommunityEditMutation,
   CommunityPostMutation,
 } from "@/app/_types/community/community";
-
 import {
   QUERY_KEY_COMMUNITYLIST,
   QUERY_KEY_COMMUNITY_POST,
   QUERY_KEY_COMMUNITY_POSTS_LIKES,
   QUERY_KEY_MY_COMMUNITYPOST,
 } from "@/app/_api/queryKeys";
-
 import {
   deleteCommunityPost,
   insertCommunityPostFormData,

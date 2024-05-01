@@ -1,18 +1,16 @@
 "use client";
 import React, { useState } from "react";
+import Image from "next/image";
 
 import type { ImgUploadProps } from "@/app/_types/individualAction-add/individualAction-add";
-import Image from "next/image";
 
 const ImgUpload: React.FC<ImgUploadProps> = ({
   uploadedFileUrls,
   setUploadedFileUrls,
   setFiles,
 }) => {
-  // 드래그 앤 드랍 상태
   const [isDragging, setIsDragging] = useState(false);
 
-  // 이미지 미리보기 띄우기
   const handleShowPreview = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) {
@@ -23,7 +21,6 @@ const ImgUpload: React.FC<ImgUploadProps> = ({
     setFiles((prev) => [...prev, file]);
   };
 
-  // 미리보기 이미지 삭제
   const handleDeleteImage = (index: number) => {
     setUploadedFileUrls((prev) => {
       const updatedUrls = [...prev];
@@ -37,7 +34,6 @@ const ImgUpload: React.FC<ImgUploadProps> = ({
     });
   };
 
-  // 드래그 이벤트 핸들러
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(true);
@@ -52,7 +48,6 @@ const ImgUpload: React.FC<ImgUploadProps> = ({
     setIsDragging(false);
   };
 
-  // 드롭 이벤트 핸들러
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(false);
@@ -86,7 +81,6 @@ const ImgUpload: React.FC<ImgUploadProps> = ({
              laptop:w-[175px] laptop:h-[177px]
             phone:w-[141px] phone:h-[143px]"
           >
-            {/* 이미지 업로드한 경우 */}
             {uploadedFileUrls[index] ? (
               <div className="relative w-full h-full">
                 <Image
@@ -107,7 +101,6 @@ const ImgUpload: React.FC<ImgUploadProps> = ({
                 </button>
               </div>
             ) : (
-              // 보여줄 이미지 없는 경우
               <div className="flex flex-col w-full h-full justify-end items-center mt-auto">
                 <label
                   htmlFor={`fileInput-${index}`}

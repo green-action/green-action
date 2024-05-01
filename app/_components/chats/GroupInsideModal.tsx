@@ -1,3 +1,4 @@
+import React from "react";
 import {
   changeRecruitingState,
   countParticipants,
@@ -7,38 +8,14 @@ import {
 import { Avatar } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import React from "react";
 import { HiOutlineArrowLeftOnRectangle } from "react-icons/hi2";
 import { IoIosChatboxes } from "react-icons/io";
 import { IoCloseOutline } from "react-icons/io5";
 import { LiaCrownSolid } from "react-icons/lia";
 import personIcon from "/app/_assets/image/logo_icon/icon/mypage/person.png";
-
 import { useResponsive } from "@/app/_hooks/responsive";
 
-interface GroupInsideModalProps {
-  onActionInfoClose: () => void;
-  actionInfo:
-    | {
-        img_url: string;
-        id: string;
-        user_uid: string;
-        title: string;
-        recruit_number: number;
-        is_recruiting: boolean;
-        start_date: string | null;
-        end_date: string | null;
-      }
-    | null
-    | undefined;
-  // participantsInfo: ParticipantInfo[] | undefined;
-  // TODO any 해결필요
-  // TODO any 해결 후 type 분리
-  participantsInfo: any;
-  roomId: string;
-  actionId: string;
-  onClose: () => void;
-}
+import type { GroupInsideModalProps } from "@/app/_types/realtime-chats";
 
 const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
   onActionInfoClose,
@@ -48,12 +25,10 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
   actionId,
   onClose,
 }) => {
-  // 현재 로그인한 유저 uid
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 
-  // TODO any 해결필요
   const ownerInfo = participantsInfo?.find((item: any) => {
     return item.participant_type === "방장";
   });
@@ -65,24 +40,17 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
       }
     : null;
 
-  // action 참여 취소 핸들러
   const handleCancelParticipate = async (onClose: () => void) => {
     const isConfirm = window.confirm("참여를 취소하시겠습니까?");
+
     if (isConfirm) {
-      // 1. 채팅방 인원 === 모집인원 인지 확인하기
-      // (맞으면 내가 나갔을때 '모집중'으로 바꿔야 함)
-
-      // 현재 채팅방 인원 가져오기
       const participantsNumber = await countParticipants(roomId);
-
-      // action 모집인원 가져오기
       const recruitingNumber = await getRecruitingNumber(roomId);
 
       if (participantsNumber === recruitingNumber) {
         await changeRecruitingState({ action_id: actionId, mode: "out" });
       }
 
-      // 2. 참가자 테이블에서 삭제
       await deleteParticipant({ loggedInUserUid, roomId });
     }
     onClose();
@@ -316,7 +284,6 @@ const GroupInsideModal: React.FC<GroupInsideModalProps> = ({
                     {ownerNicknameImg?.display_name}
                   </span>
                 </div>
-                {/* TODO any 해결 필요 */}
                 {participantsInfo?.map((participant: any) => (
                   <>
                     {participant.id !== ownerInfo?.id && (

@@ -8,7 +8,6 @@ import Image from "next/image";
 import PrivateChatRoom from "./PrivateChatRoom";
 import SoomLoaing from "/app/_assets/image/loading/SOOM_gif.gif";
 
-// TODO any 타입 해결 필요
 const HeaderPrivateItem = ({
   eachRoomInfo,
   mode,
@@ -16,24 +15,19 @@ const HeaderPrivateItem = ({
   eachRoomInfo: any;
   mode: string;
 }) => {
-  // 현재 로그인한 유저 uid
   const session = useSession();
   const loggedInUserUid = session.data?.user.user_uid || "";
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 
-  // 1:1 채팅방 모달창
   const {
     isOpen: isPrivateChatOpen,
     onOpen: onPrivateChatOpen,
     onOpenChange: onPrivateChatOpenChange,
   } = useDisclosure();
 
-  // console.log("eachRoomInfo", eachRoomInfo);
-
   const room_id = eachRoomInfo?.chat_rooms_info.room_id;
   const action_id = eachRoomInfo?.action_info.action_id;
 
-  // 안읽은 메시지 수 가져오기
   const { unreadCount, isLoading, isError } = useGetUnreadCount({
     loggedInUserUid,
     room_id,
