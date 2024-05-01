@@ -16,12 +16,7 @@ import RecruitSelectTab from "./RecruitSelectTab";
 import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
 
 const MyActionCardMobile = () => {
-  // TODO props 타입등 재설정
-  const router = useRouter();
   const session = useSession();
-  const { isDesktop, isLaptop, isMobile } = useResponsive();
-
-  const isLoggedIn = !!session.data;
   const user_uid = session.data?.user.user_uid as string;
 
   const {

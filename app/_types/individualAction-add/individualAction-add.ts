@@ -1,4 +1,4 @@
-import { placeCoordinateType } from "../individualAction-detail/individualAction-detail";
+import { PlaceCoordinateType } from "../individualAction-detail/individualAction-detail";
 
 export interface ImgUploadProps {
   uploadedFileUrls: string[];
@@ -44,21 +44,21 @@ export interface InsertImgUrls {
   imgUrlsArray: string[];
 }
 
-export interface mapResultPropsType {
+export interface MapResultPropsType {
   searchKeyword: string;
   setActivityLocation: React.Dispatch<React.SetStateAction<string>>;
   onClose: () => void;
-  locationMapRef: React.MutableRefObject<placeCoordinateType | null>;
+  locationMapRef: React.MutableRefObject<PlaceCoordinateType | null>;
 }
 
 // 직접 지정한 마커 위치 정보 (좌표, 지번이름) 타입
-export interface markerMadeLocationRefType {
+export interface MarkerMadeLocationRefType {
   x: string;
   y: string;
   address: string;
 }
 
-export interface placeDataType {
+export interface PlaceDataType {
   address_name: string;
   category_group_code: string;
   category_group_name: string;
@@ -73,13 +73,17 @@ export interface placeDataType {
   y: string;
 }
 
-export interface firstInputBoxProps {
+export interface FirstInputBoxProps {
   activityLocation: string;
   setActivityLocation: React.Dispatch<React.SetStateAction<string>>;
   handleActivityLocationChange: (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => void;
-  locationMapRef: React.MutableRefObject<placeCoordinateType | null>;
+  locationMapRef: React.MutableRefObject<PlaceCoordinateType | null>;
   activityLocationMap: string;
   setActivityLocationMap: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export interface SearchAddressProps {
+  setActivityLocation: React.Dispatch<React.SetStateAction<string>>;
 }

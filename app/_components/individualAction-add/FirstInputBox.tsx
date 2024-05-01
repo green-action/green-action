@@ -7,9 +7,9 @@ import SearchAddressModal from "../daumPostCode/SearchAddressModal";
 import KakaoMap from "../kakaoMap/KakaoMap";
 import SearchMapModal from "../kakaoMap/SearchMapModal";
 
-import type { firstInputBoxProps } from "@/app/_types/individualAction-add/individualAction-add";
+import type { FirstInputBoxProps } from "@/app/_types/individualAction-add/individualAction-add";
 
-const FirstInputBox: React.FC<firstInputBoxProps> = ({
+const FirstInputBox: React.FC<FirstInputBoxProps> = ({
   activityLocation,
   setActivityLocation,
   handleActivityLocationChange,
@@ -27,7 +27,6 @@ const FirstInputBox: React.FC<firstInputBoxProps> = ({
   return (
     <div>
       <div
-        //  justify-between
         className={`flex justify-between gap-[88px]  desktop:w-[724px] laptop:w-[724px] 
          phone:w-[291px]
       desktop:border-1.5 desktop:border-gray-300  
@@ -94,7 +93,6 @@ const FirstInputBox: React.FC<firstInputBoxProps> = ({
                       name="maxParticipants"
                       required
                       form="mainForm"
-                      // w-1/6 h-[30px] text-right mx-2 pr-4
                       className="w-2/6 h-[30px] text-right mx-2 pr-4 bg-inherit focus:outline-none"
                     />
                     명
@@ -103,7 +101,6 @@ const FirstInputBox: React.FC<firstInputBoxProps> = ({
               </div>
               <div className="flex flex-col justify-center w-1/2 gap-2">
                 <div className="">
-                  {/* mb-7 */}
                   <div className="flex flex-col gap-2">
                     <label
                       htmlFor="activityLocation"
@@ -111,7 +108,7 @@ const FirstInputBox: React.FC<firstInputBoxProps> = ({
                     >
                       활동 장소
                     </label>
-                    {/* 도로명주소 검색 - 보류? */}
+                    {/* 도로명주소 검색 */}
                     <SearchAddressModal
                       setActivityLocation={setActivityLocation}
                     />

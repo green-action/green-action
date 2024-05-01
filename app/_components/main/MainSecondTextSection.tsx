@@ -1,18 +1,17 @@
-import setboxImg from "@/app/_assets/image/goods/setbox.png";
-import { useResponsive } from "@/app/_hooks/responsive";
-import { Chip } from "@nextui-org/react";
-import _ from "lodash";
-import Image from "next/image";
-import Link from "next/link";
 import { Dispatch, SetStateAction, useCallback, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { useResponsive } from "@/app/_hooks/responsive";
+import _ from "lodash";
+import setboxImg from "@/app/_assets/image/goods/setbox.png";
+import { Chip } from "@nextui-org/react";
 import rightArrow from "/app/_assets/image/mainpage/Group 172.png";
 
-const MainSecondTextSection = ({
+import type { MainTextProps } from "@/app/_types/main/mainpage";
+
+const MainSecondTextSection: React.FC<MainTextProps> = ({
   position,
   setPosition,
-}: {
-  position: number;
-  setPosition: Dispatch<SetStateAction<number>>;
 }) => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
 

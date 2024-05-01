@@ -1,10 +1,10 @@
 "use client";
 
-import coin from "@/app/_assets/image/logo_icon/icon/mypage/akar-icons_coin.svg";
-import pointQuestion from "@/app/_assets/image/mainpage/question_circle.png";
+import React, { useState } from "react";
+import Image from "next/image";
 import { useResponsive } from "@/app/_hooks/responsive";
 import { useUpdateUserIntro } from "@/app/_hooks/useMutations/mypage";
-import { User } from "@/app/_types";
+import MyProfileEditModal from "./MyProfileEditModal";
 import {
   Avatar,
   Button,
@@ -13,10 +13,11 @@ import {
   CardHeader,
   Tooltip,
 } from "@nextui-org/react";
-import Image from "next/image";
-import React, { useState } from "react";
 import { HiOutlinePlus } from "react-icons/hi2";
-import MyProfileEditModal from "./MyProfileEditModal";
+import coin from "@/app/_assets/image/logo_icon/icon/mypage/akar-icons_coin.svg";
+import pointQuestion from "@/app/_assets/image/mainpage/question_circle.png";
+
+import type { User } from "@/app/_types";
 
 const MyProfile: React.FC<User> = ({ userInfo }) => {
   const {
@@ -31,8 +32,8 @@ const MyProfile: React.FC<User> = ({ userInfo }) => {
   const [isIntroEditing, setIsIntroEditing] = useState<boolean>(false);
   const [editedIntro, setEditedIntro] = useState<string>(introduction); // 초기값 기존 intro
   const [profileImg, setProfileImg] = useState<string>(profile_img || ""); // 프로필 이미지 업로드 시 mutation 활용해도 바로 렌더링 안되는 문제로  useState 사용해보기
-  const { isDesktop, isLaptop, isMobile } = useResponsive();
   const { updateIntro } = useUpdateUserIntro(user_uid, editedIntro);
+  const { isDesktop, isLaptop, isMobile } = useResponsive();
 
   const handleEditIntroClick = () => {
     setIsIntroEditing(true);
@@ -252,7 +253,6 @@ const MyProfile: React.FC<User> = ({ userInfo }) => {
               />
             </Tooltip>
           </CardBody>
-          {/* </CardFooter> */}
         </Card>
       )}
       {isMobile && (

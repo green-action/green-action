@@ -19,7 +19,7 @@ import ImgUpload from "@/app/_components/individualAction-add/ImgUpload";
 import SecondInputBox from "@/app/_components/individualAction-add/SecondInputBox";
 import ThirdInputBox from "@/app/_components/individualAction-add/ThirdInputBox";
 import { useResponsive } from "@/app/_hooks/responsive";
-import { placeCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
+import { PlaceCoordinateType } from "@/app/_types/individualAction-detail/individualAction-detail";
 import { useDisclosure } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -33,7 +33,7 @@ const AddActionPage = () => {
 
   const [activityLocation, setActivityLocation] = useState<string>(""); // 주소검색통해 set하기 위해 추가
   const [activityLocationMap, setActivityLocationMap] = useState<string>(""); // 지도 검색 완료 후 뜰 장소명 (렌더링 위해 useState 사용)
-  const locationMapRef = useRef<placeCoordinateType | null>(null); // 지도 검색으로 장소 선택 시 해당 장소의 좌표 담을 useRef
+  const locationMapRef = useRef<PlaceCoordinateType | null>(null); // 지도 검색으로 장소 선택 시 해당 장소의 좌표 담을 useRef
 
   const handleActivityLocationChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -99,8 +99,6 @@ const AddActionPage = () => {
       setActivityLocation("");
       setActivityLocationMap("");
       locationMapRef.current = null;
-
-      // router.push(`/individualAction`); // 그냥 이동시키면 modal창 제대로 확인하기 전에 이동됨 / but 모달창 x나 close해야만 이동하는 것도 문제
     } catch (error) {
       console.error("Error inserting data:", error);
     }
@@ -108,7 +106,6 @@ const AddActionPage = () => {
 
   const handleCancelPost = () => {
     if (window.confirm("정말 등록을 취소하시겠습니까?")) {
-      // TODO 커스텀컨펌창으로 변경하기
       router.push(`/individualAction`);
     } else return;
   };
@@ -183,7 +180,6 @@ const AddActionPage = () => {
 
           {isMobile && (
             <div className="w-[291px] flex justify-center gap-4 mt-3">
-              {/* 커스텀컨펌창으로 다시 변경 */}
               <CustomConfirm
                 text="등록하시겠습니까?"
                 buttonName="등록완료"
@@ -202,7 +198,7 @@ const AddActionPage = () => {
           mod={"add"}
           onCloseFn={() =>
             setModal((state) => ({ ...state, showPoint: false }))
-          } // 여기서는 onCloseFn 필요가 없음
+          }
           handleClick={() => {
             router.push(`/individualAction/detail/${actionId}`);
           }}

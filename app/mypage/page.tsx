@@ -1,18 +1,18 @@
 "use client";
 
 import React from "react";
-import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 import { useFetchUserInfo } from "../_hooks/useQueries/mypage";
 import { useResponsive } from "../_hooks/responsive";
 import MyProfile from "../_components/mypage/MyProfile";
 import TopButton from "../_components/TopButton";
 import MyActionCardMobile from "../_components/mypage/MyActionCardMobile";
+import MyPageList from "../_components/mypage/MyPageList";
 import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
 
 import type { User } from "../_types";
-import MyPageList from "../_components/mypage/MyPageList";
-import { userInfoProps } from "../_types/mypage/mypage";
+import type { UserInfoProps } from "../_types/mypage/mypage";
 
 const MyPage = () => {
   const session = useSession();
@@ -62,7 +62,7 @@ const MyPage = () => {
           <div className="flex flex-col desktop:pl-[82px] laptop:pl-[30px] desktop:pt-1 laptop:pt-[30px] w-full">
             {isMobile && <MyProfile userInfo={userInfo as User["userInfo"]} />}
             {(isDesktop || isLaptop) && (
-              <MyPageList userInfo={userInfo as userInfoProps} />
+              <MyPageList userInfo={userInfo as UserInfoProps} />
             )}
             {isMobile && <MyActionCardMobile />}
           </div>
