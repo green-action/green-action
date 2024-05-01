@@ -188,7 +188,7 @@ const CommunityListPost: React.FC<CommunityListPostProps> = ({
                 </div>
                 <div className="flex gap-2 items-center mb-3">
                   <GoHeartFill className="size-[18px] mb-1" />
-                  <Likes // 좋아요 수
+                  <Likes
                     post_id={communityPost?.id as string}
                     isOpen={true}
                     mode={MODE_MAIN_DESKTOP_COUNT}
