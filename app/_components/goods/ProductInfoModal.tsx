@@ -7,7 +7,6 @@ import Image from "next/image";
 import { useState } from "react";
 import AlertModal from "../community/AlertModal";
 import search from "/app/_assets/image/logo_icon/icon/goods/Group 128.png";
-
 import type { productInfoModalProps } from "@/app/_types/goods";
 
 const ProductInfoModal: React.FC<productInfoModalProps> = ({
@@ -22,7 +21,6 @@ const ProductInfoModal: React.FC<productInfoModalProps> = ({
 
   const [confirmPurchase, setConfirmPurchase] = useState(false);
 
-  // alert 대체 모달창을 위한 상태관리
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -43,7 +41,6 @@ const ProductInfoModal: React.FC<productInfoModalProps> = ({
     },
   });
 
-  // 로그인된 사용자의 ID가 있는 경우에만 포인트를 가져옴
   const { data, isLoading } = useUserPoint();
   const user_point = data?.point || 0;
 
@@ -77,11 +74,7 @@ const ProductInfoModal: React.FC<productInfoModalProps> = ({
   };
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-auto">
-        {/* <Image src={SoomLoaing} alt="SoomLoading" unoptimized /> */}
-      </div>
-    );
+    return <div className="flex justify-center items-center h-auto"></div>;
   }
 
   return (

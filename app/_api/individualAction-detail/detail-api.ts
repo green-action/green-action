@@ -16,7 +16,6 @@ export const getIndividualDetail = async (id: string) => {
   }
 };
 
-// 이미지 가져오기
 export const getImages = async (id: string) => {
   try {
     const { data, error } = await supabase

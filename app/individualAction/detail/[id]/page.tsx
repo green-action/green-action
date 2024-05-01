@@ -3,30 +3,25 @@
 import { useSession } from "next-auth/react";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import { useParams, useRouter } from "next/navigation";
-
 import { useResponsive } from "@/app/_hooks/responsive";
 import { useDeleteAction } from "@/app/_hooks/useMutations/mypage";
 import {
   useActionImages,
   useIndividualAction,
 } from "@/app/_hooks/useQueries/individualActions";
-
 import TopButton from "@/app/_components/TopButton";
 import Bookmark from "@/app/_components/bookmark/Bookmark";
 import KakaoShareButton from "@/app/_components/kakaoShare/KakaoShare";
 import Image from "next/image";
-
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-
 import {
   Avatar,
   BreadcrumbItem,
   Breadcrumbs,
   CircularProgress,
 } from "@nextui-org/react";
-
 import ChatButtons from "@/app/_components/individualAction/ChatButtons";
 import KakaoMap from "@/app/_components/kakaoMap/KakaoMap";
 import person from "/app/_assets/image/individualAction/person.png";
@@ -36,7 +31,6 @@ import nextBtn from "/app/_assets/image/logo_icon/icon/mypage/Group 133.png";
 import calendar from "/app/_assets/image/logo_icon/icon/mypage/image 127.png";
 import mapPin from "/app/_assets/image/logo_icon/icon/mypage/image 169.png";
 import editAction from "/app/_assets/image/logo_icon/icon/mypage/image 55.png";
-
 import { MODE_DETAIL_PAGE } from "@/app/_api/constant";
 
 const DetailPage = () => {
@@ -50,7 +44,6 @@ const DetailPage = () => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    //오른쪽 화살표
     nextArrow: (
       <Image
         src={nextBtn}
@@ -58,7 +51,6 @@ const DetailPage = () => {
         className="size-[27px] ml-[12px]"
       />
     ),
-    //왼쪽 화살표
     prevArrow: (
       <Image src={prevBtn} alt="왼쪽 버튼" className="size-[27px] mr-[12px]" />
     ),
@@ -74,12 +66,11 @@ const DetailPage = () => {
 
   const router = useRouter();
   const { deleteAction } = useDeleteAction(postId);
-  // 게시글 수정
+
   const handleEditClick = () => {
     router.push(`/individualAction/edit/${postId}`);
   };
 
-  // 게시글 삭제
   const handleDeleteClick = () => {
     if (window.confirm("정말 삭제하시겠습니까?")) {
       deleteAction();
@@ -87,14 +78,12 @@ const DetailPage = () => {
     } else return;
   };
 
-  // 상세 이미지 가져오기
   const {
     data: imgUrl,
     isLoading: actionImagesLoading,
     isError: actionImagesError,
   } = useActionImages({ params });
 
-  // 두 요청이 모두 완료되었는지 확인
   const isLoading = individualActionLoading || actionImagesLoading;
   const isError = individualActionError || actionImagesError;
 
@@ -126,9 +115,8 @@ const DetailPage = () => {
                 <BreadcrumbItem href="">{detail.title}</BreadcrumbItem>
               </Breadcrumbs>
             </div>
-            {/* 전체 contents */}
+
             <div className="flex flex-row desktop:w-[1576.3px] h-auto mb-96 content-center mx-auto">
-              {/* 왼쪽 */}
               <div className="desktop:w-[439.34px] desktop:mr-[43px]">
                 <div className="border-1 border-[#bfbfbf] h-[232.96px] rounded-[20px] mb-7">
                   <div className="flex items-center desktop:w-[336.78px] desktop:h-[95px] mt-[30px] desktop:ml-[54px] border-b-2 border-[#d9d9d9]">
@@ -158,11 +146,9 @@ const DetailPage = () => {
                   <KakaoShareButton description={detail.content!} />
                 </div>
               </div>
-              {/* 오른쪽 */}
+
               <div className="desktop:w-[1093.92px]">
-                {/* 2-1 */}
                 <div className="border-1 border-[#bfbfbf] mb-[15px] h-[527px] rounded-[20px]">
-                  {/* 그린액션, title, bookmark */}
                   <div className="desktop:h-[139px] mt-[33px] desktop:mb-[54px] desktop:mx-[63px]">
                     <div className="flex justify-between items-center">
                       <div className="w-[147px] h-10 bg-[#f1f1f1] rounded-3xl text-[15px] text-[#797979] font-bold text-center content-center">
@@ -214,7 +200,6 @@ const DetailPage = () => {
                       </div>
                     </div>
                   </div>
-                  {/* 날짜 장소 */}
                   <div className="flex gap-[269px]">
                     <div className="desktop:ml-[77px] w-[284px]">
                       <div className="border-b-1 border-[#bfbfbf] w-[284px] text-xs">
@@ -272,7 +257,7 @@ const DetailPage = () => {
                     )}
                   </div>
                 </div>
-                {/* 2-2 */}
+
                 <div className="border-1 border-[#bfbfbf] desktop:h-[545.69px] rounded-[20px]">
                   <div className="desktop:m-[78px] flex justify-between">
                     <div>
@@ -338,9 +323,8 @@ const DetailPage = () => {
                 <BreadcrumbItem href="">{detail.title}</BreadcrumbItem>
               </Breadcrumbs>
             </div>
-            {/* 전체 contents */}
+
             <div className="flex flex-row h-auto mb-96 content-center laptop:w-[912px] mx-auto">
-              {/* 왼쪽 */}
               <div className="laptop:w-[264px] laptop:min-h-[233px] laptop:mr-[17px]">
                 <div className="border-1 border-[#bfbfbf] h-[232.96px] rounded-[20px] mb-7">
                   <div className="flex items-center mt-[30px] border-b-2 border-[#d9d9d9] laptop:mx-[15px] laptop:px-2 laptop:pb-[25px]">
@@ -371,12 +355,10 @@ const DetailPage = () => {
                   <KakaoShareButton description={detail.content!} />
                 </div>
               </div>
-              {/* 오른쪽 */}
+
               <div className="laptop:w-[631px]">
-                {/* 2-1 */}
                 {/* 높이 527? */}
                 <div className="border-1 border-[#bfbfbf] mb-[15px] min-h-[400px] rounded-[20px] pb-7">
-                  {/* 그린액션, title, bookmark */}
                   <div className="mt-[33px] laptop:mx-[33px]">
                     <div className="flex justify-between items-center">
                       <div className="w-[147px] h-10 bg-[#f1f1f1] rounded-3xl text-[15px] text-[#797979] font-bold text-center content-center">
@@ -433,7 +415,6 @@ const DetailPage = () => {
                     </div>
                   </div>
                   <div className="flex gap-[25px]">
-                    {/* 날짜 장소 */}
                     <div className="w-[284px] laptop:ml-[58px] laptop:mt-[60px]">
                       <div className="border-b-1 border-[#bfbfbf] w-[284px] text-xs">
                         <div className="mb-[9px]">
@@ -487,7 +468,6 @@ const DetailPage = () => {
                     )}
                   </div>
                 </div>
-                {/* 2-2 */}
 
                 <div className="border-1 border-[#bfbfbf] min-h-[728px] rounded-[20px] pb-10">
                   <div className="mx-auto mt-[74px] justify-center w-[387px]">
@@ -543,13 +523,9 @@ const DetailPage = () => {
         <div className="w-[360px] mx-auto mt-[64px] mb-[30px]">
           <TopButton />
           <div className="w-[360px]">
-            {/* 전체 contents */}
             <div className="flex flex-col h-auto mb-96 content-center w-[350px] mx-auto">
-              {/* 위 */}
               <div>
-                {/* 2-1 */}
                 <div>
-                  {/* 그린액션, title, bookmark */}
                   <div className="p-[20px] border-b-3 border-[#EDEDED]">
                     <div className="flex justify-between items-center">
                       <div
@@ -598,7 +574,7 @@ const DetailPage = () => {
                           mode={MODE_DETAIL_PAGE}
                         />
                       </div>
-                      {/* 날짜 장소 */}
+
                       <div className="w-[284px] mx-auto mt-[35px]">
                         <div className="border-b-1 border-[#bfbfbf] w-[284px] text-xs">
                           <div className="mb-[9px]">
@@ -657,7 +633,6 @@ const DetailPage = () => {
                     </div>
                   </div>
                 </div>
-                {/* 2-2 */}
 
                 <div>
                   <div className="mx-auto mt-[55px] justify-center w-[272px]">
@@ -705,7 +680,7 @@ const DetailPage = () => {
                   </div>
                 </div>
               </div>
-              {/* 아래 */}
+
               <div className="border-t-3 border-[#EDEDED] py-[40px]">
                 <div className="flex items-center ml-[35px]">
                   <Avatar
