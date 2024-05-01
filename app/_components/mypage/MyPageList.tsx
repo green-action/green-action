@@ -1,4 +1,9 @@
 import {
+  ACTIVE_TAB_BOOKMARKED_ACTION,
+  ACTIVE_TAB_MY_ACTION,
+  ACTIVE_TAB_MY_COMMUNITY,
+} from "@/app/_api/constant";
+import {
   useFetchMyGreenActions,
   usefetchBookmarkedActions,
   usefetchMyCommunityPosts,
@@ -11,15 +16,10 @@ import MyActionCard from "./MyActionCard";
 import RecruitSelectTab from "./RecruitSelectTab";
 import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
 
-import {
-  ACTIVE_TAB_BOOKMARKED_ACTION,
-  ACTIVE_TAB_MY_ACTION,
-  ACTIVE_TAB_MY_COMMUNITY,
-} from "@/app/_api/constant";
 import type { User } from "@/app/_types";
-import type { userInfoProps } from "@/app/_types/mypage/mypage";
+import type { UserInfoProps } from "@/app/_types/mypage/mypage";
 
-const MyPageList = ({ userInfo }: { userInfo: userInfoProps }) => {
+const MyPageList = ({ userInfo }: { userInfo: UserInfoProps }) => {
   const session = useSession();
   const user_uid = session.data?.user.user_uid as string;
 

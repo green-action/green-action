@@ -54,29 +54,22 @@ const MobileSlider = ({ mode }: { mode: string }) => {
       }   phone:w-[360px] mt-11`}
     >
       {mode === MODE_COMMUNITY
-        ? communityPostsByLikes?.slice(0, 8).map(
-            // 좋아요 수 최다 상위 8개 포스트만 가져오기
-            (communityPost) => (
-              <div
-                key={communityPost.id}
-                className="flex items-center w-full h-[200px]"
-              >
-                <CommunityListPost
-                  communityPost={communityPost}
-                  mode={MODE_MAIN}
-                />
-              </div>
-            ),
-          )
-        : indivActionsByBookmarks?.slice(0, 8).map(
-            (
-              action, // 북마크 수 최다 상위 8개 action
-            ) => (
-              <div key={action.id} className="flex items-center h-[200px]">
-                <MyActionCard action={action as any} mode={MODE_MAIN} />
-              </div>
-            ),
-          )}
+        ? communityPostsByLikes?.slice(0, 8).map((communityPost) => (
+            <div
+              key={communityPost.id}
+              className="flex items-center w-full h-[200px]"
+            >
+              <CommunityListPost
+                communityPost={communityPost}
+                mode={MODE_MAIN}
+              />
+            </div>
+          ))
+        : indivActionsByBookmarks?.slice(0, 8).map((action) => (
+            <div key={action.id} className="flex items-center h-[200px]">
+              <MyActionCard action={action as any} mode={MODE_MAIN} />
+            </div>
+          ))}
     </Slider>
   );
 };

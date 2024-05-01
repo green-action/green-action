@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { useUpdateActionRecruiting } from "@/app/_hooks/useMutations/mypage";
 import {
   Button,
@@ -8,7 +9,6 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@nextui-org/react";
-import React from "react";
 
 import type { MyActionRecruitingChange } from "@/app/_types/mypage/mypage";
 
@@ -25,6 +25,7 @@ const MyActionRecruitingModal: React.FC<MyActionRecruitingChange> = ({
     await updateRecruiting();
     onClose();
   };
+
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center">
       <ModalContent>

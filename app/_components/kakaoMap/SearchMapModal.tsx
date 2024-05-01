@@ -1,5 +1,8 @@
 "use client";
 
+import React, { useState } from "react";
+import Image from "next/image";
+import SearchMapResult from "./SearchMapResult";
 import { useResponsive } from "@/app/_hooks/responsive";
 import {
   Button,
@@ -10,14 +13,11 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
-import Image from "next/image";
-import React, { useState } from "react";
-import SearchMapResult from "./SearchMapResult";
 import search from "/app/_assets/image/logo_icon/icon/goods/Group 128.png";
 
-import type { searchMapModalProps } from "@/app/_types/individualAction-detail/individualAction-detail";
+import type { SearchMapModalProps } from "@/app/_types/individualAction-detail/individualAction-detail";
 
-const SearchMapModal: React.FC<searchMapModalProps> = ({
+const SearchMapModal: React.FC<SearchMapModalProps> = ({
   setActivityLocationMap,
   locationMapRef,
 }) => {
@@ -53,7 +53,7 @@ const SearchMapModal: React.FC<searchMapModalProps> = ({
             onOpenChange={onOpenChange}
             placement="center"
             size="5xl"
-            className="desktop:h-[700px] laptop:h-[600px] p-3" // w는 조절안됨
+            className="desktop:h-[700px] laptop:h-[600px] p-3"
           >
             <ModalContent>
               {(onClose) => (
@@ -72,7 +72,7 @@ const SearchMapModal: React.FC<searchMapModalProps> = ({
                         type="text"
                         value={value}
                         onChange={handleKeywordValueChange}
-                        placeholder="검색어를 입력해주세요. (예: 잠원한강공원) "
+                        placeholder="검색어를 입력해주세요. (예: 잠원한강공원)"
                         required
                         form="subForm"
                         className="desktop:w-[400px] laptop:w-[400px] rounded-2xl p-2 shadow-md border-[#e2eee0] border-[3px] focus:outline-none"
@@ -145,7 +145,7 @@ const SearchMapModal: React.FC<searchMapModalProps> = ({
                         type="text"
                         value={value}
                         onChange={handleKeywordValueChange}
-                        placeholder="검색어를 입력해주세요. (예: 잠원한강공원) "
+                        placeholder="검색어를 입력해주세요. (예: 잠원한강공원)"
                         required
                         form="subForm"
                         className="w-[260px] h-[26px] rounded-2xl p-2 text-[11px] shadow-md border-[#e2eee0] border-[2px] focus:outline-none"

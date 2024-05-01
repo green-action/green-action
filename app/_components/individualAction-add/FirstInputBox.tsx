@@ -7,9 +7,9 @@ import SearchAddressModal from "../daumPostCode/SearchAddressModal";
 import KakaoMap from "../kakaoMap/KakaoMap";
 import SearchMapModal from "../kakaoMap/SearchMapModal";
 
-import type { firstInputBoxProps } from "@/app/_types/individualAction-add/individualAction-add";
+import type { FirstInputBoxProps } from "@/app/_types/individualAction-add/individualAction-add";
 
-const FirstInputBox: React.FC<firstInputBoxProps> = ({
+const FirstInputBox: React.FC<FirstInputBoxProps> = ({
   activityLocation,
   setActivityLocation,
   handleActivityLocationChange,
@@ -101,7 +101,6 @@ const FirstInputBox: React.FC<firstInputBoxProps> = ({
               </div>
               <div className="flex flex-col justify-center w-1/2 gap-2">
                 <div className="">
-                  {/* mb-7 */}
                   <div className="flex flex-col gap-2">
                     <label
                       htmlFor="activityLocation"
@@ -109,6 +108,7 @@ const FirstInputBox: React.FC<firstInputBoxProps> = ({
                     >
                       활동 장소
                     </label>
+                    {/* 도로명주소 검색 */}
                     <SearchAddressModal
                       setActivityLocation={setActivityLocation}
                     />

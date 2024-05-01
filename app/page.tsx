@@ -1,24 +1,23 @@
 "use client";
 
-import { Chip } from "@nextui-org/react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import arrowImg from "../app/_assets/image/individualAction/Group143.svg";
-import { MODE_ACTION, MODE_COMMUNITY } from "./_api/constant";
+import { useResponsive } from "./_hooks/responsive";
 import TopButton from "./_components/TopButton";
 import LaptopMainSlidder from "./_components/main/LaptopMainSlidder";
 import MainSlider from "./_components/main/MainSlider";
 import MobileSlider from "./_components/main/MobileSlider";
-import { useResponsive } from "./_hooks/responsive";
-import downArrow from "/app/_assets/image/logo_icon/icon/mainpage/Group_124.png";
-import mainImg from "/app/_assets/image/mainpage/main.png";
 import MainTextSection from "./_components/main/MainTextSection";
 import MainSecondTextSection from "./_components/main/MainSecondTextSection";
+import { MODE_ACTION, MODE_COMMUNITY } from "./_api/constant";
+import { Chip } from "@nextui-org/react";
+import arrowImg from "../app/_assets/image/individualAction/Group143.svg";
+import downArrow from "/app/_assets/image/logo_icon/icon/mainpage/Group_124.png";
+import mainImg from "/app/_assets/image/mainpage/main.png";
 
 const MainPage = () => {
   const { isDesktop, isLaptop, isMobile } = useResponsive();
-  // parallax scroll
   const [position, setPosition] = useState(0);
 
   return (
@@ -28,9 +27,8 @@ const MainPage = () => {
         <Image
           src={mainImg}
           alt="메인사진"
-          className="absolute top-0 min-w-[1020px] desktop:h-[2780px] laptop:h-[2150px] phone:h-[1000px] phone:min-w-[360px] brightness-[70%]" // 밝기: 60% 너무 어두워 70%로 변경
+          className="absolute top-0 min-w-[1020px] desktop:h-[2780px] laptop:h-[2150px] phone:h-[1000px] phone:min-w-[360px] brightness-[70%]"
         />
-        {/* parallax scroll 적용된 메인 텍스트 */}
         <MainTextSection position={position} setPosition={setPosition} />
 
         {(isDesktop || isLaptop) && (
@@ -55,7 +53,6 @@ const MainPage = () => {
             </div>
             <Chip
               classNames={{
-                // 전체보기 칩 세로길이, 폰트크기 자체 수정
                 base: "desktop:h-[50px] laptop:h-[41px] bg-[#F7F7F7]/60 border-small border-[#A8A8A8] desktop:mt-[97px] laptop:mt-[90px]",
                 content:
                   "desktop:w-[110px] laptop:w-[95px] desktop:text-[17.3px] laptop:text-[14.6px] text-center text-[#646464] font-semibold drop-shadow",
@@ -65,7 +62,6 @@ const MainPage = () => {
             </Chip>
           </section>
         )}
-        {/* 배경 이미지 div 끝 */}
         <section className="z-0 flex flex-col items-center justify-center desktop:pt-[200px] laptop:pt-[0px] desktop:h-[1438px]  laptop:w-full laptop:h-[1338px] phone:h-[800px] desktop:pb-[200px] laptop:pb-[0px] phone:pb-[80px] phone:pt-[0px] bg-[#F3F3F3] brightness-10 ">
           {isMobile && (
             <section className="flex flex-col items-center justify-center">
@@ -136,7 +132,6 @@ const MainPage = () => {
           )}
         </section>
       </div>
-      {/* 메인페이지 하단 이미지,텍스트 parallax scroll */}
       <MainSecondTextSection position={position} setPosition={setPosition} />
     </div>
   );

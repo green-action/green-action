@@ -25,9 +25,9 @@ import MyActionRecruitingModal from "./MyActionRecruitingModal";
 import person from "/app/_assets/image/individualAction/person.png";
 import optionDots from "/app/_assets/image/logo_icon/icon/mypage/Group 100.png";
 
-import type { MyAction } from "@/app/_types/mypage/mypage";
+import type { MyActionCardProps } from "@/app/_types/mypage/mypage";
 
-const MyActionCard = ({ action, mode }: { action: MyAction; mode: string }) => {
+const MyActionCard: React.FC<MyActionCardProps> = ({ action, mode }) => {
   const router = useRouter();
   const { isDesktop, isLaptop, isMobile } = useResponsive();
   const {
@@ -48,7 +48,7 @@ const MyActionCard = ({ action, mode }: { action: MyAction; mode: string }) => {
     location,
   } = mode === MODE_MY_BOOKMARKS ? action.bookmarkedAction : action;
 
-  const actionImgUrl = actionImgUrls[0];
+  const actionImgUrl = actionImgUrls[0]; // as string || ''
 
   const { deleteAction } = useDeleteAction(id);
 
@@ -254,6 +254,7 @@ const MyActionCard = ({ action, mode }: { action: MyAction; mode: string }) => {
                   />
                 </div>
               )}
+
               {isMobile && (
                 <div key={id} className="relative">
                   <div
@@ -332,6 +333,7 @@ const MyActionCard = ({ action, mode }: { action: MyAction; mode: string }) => {
           </div>
         </div>
       )}
+
       {isMobile && (
         <div
           className={`none ${

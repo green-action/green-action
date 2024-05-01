@@ -39,11 +39,11 @@ export interface BookmarkedAction {
   actionImgUrls: { img_url: string }[];
 }
 
-export interface actionImgUrls {
+export interface ActionImgUrlsType {
   actionImgUrls: { img_url: string }[];
 }
 
-export interface userInfoProps {
+export interface UserInfoProps {
   display_name: string | null;
   email: string | null;
   id: string;
@@ -72,4 +72,9 @@ export interface MyActionRecruitingChange {
   isOpen: boolean;
   onClose: () => void;
   onOpenChange: () => void;
+}
+
+export interface MyActionCardProps {
+  action: MyAction;
+  mode: string;
 }

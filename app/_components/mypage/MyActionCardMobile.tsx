@@ -1,4 +1,3 @@
-import { useResponsive } from "@/app/_hooks/responsive";
 import {
   useFetchMyGreenActions,
   useFetchUserInfo,
@@ -8,7 +7,6 @@ import {
 import { User } from "@/app/_types";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import CommunityListPost from "../community/CommunityListPost";
 import MyActionCard from "./MyActionCard";
@@ -16,11 +14,7 @@ import RecruitSelectTab from "./RecruitSelectTab";
 import SoomLoading from "/app/_assets/image/loading/SOOM_gif.gif";
 
 const MyActionCardMobile = () => {
-  const router = useRouter();
   const session = useSession();
-  const { isDesktop, isLaptop, isMobile } = useResponsive();
-
-  const isLoggedIn = !!session.data;
   const user_uid = session.data?.user.user_uid as string;
 
   const {

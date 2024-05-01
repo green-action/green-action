@@ -1,5 +1,5 @@
-import { Avatar } from "@nextui-org/react";
 import React from "react";
+import { Avatar } from "@nextui-org/react";
 import { IoIosCamera } from "react-icons/io";
 
 import type { ProfileImgUploadProps } from "@/app/_types/mypage/mypage";

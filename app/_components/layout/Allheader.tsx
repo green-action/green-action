@@ -8,7 +8,6 @@ import { useResponsive } from "@/app/_hooks/responsive";
 import { useGetAllUnreadCount } from "@/app/_hooks/useQueries/chats";
 import { useFetchUserInfo } from "@/app/_hooks/useQueries/mypage";
 import { useUnreadPushCount } from "@/app/_hooks/useQueries/push";
-import { User } from "@/app/_types";
 import { debounce } from "@/utils/debounce/debounce";
 import {
   Avatar,
@@ -34,14 +33,16 @@ import AlertModal from "../community/AlertModal";
 import PushListModal from "../push/PushListModal";
 import Mheader from "./Mheader";
 
+import type { User } from "@/app/_types";
+
 const Allheader = () => {
   const router = useRouter();
   const pathname = usePathname();
   const session = useSession();
   const isLoggedIn = !!session.data;
   const user_uid = session?.data?.user.user_uid as string;
-
   const isMypage = pathname === "/mypage";
+
   const {
     data,
     isLoading: isUserDataLoading,
@@ -52,7 +53,6 @@ const Allheader = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileHover, setIsProfileHover] = useState(false);
   const { isDesktop, isLaptop, isMobile } = useResponsive();
-  // alert 대체 모달창을 위한 상태관리
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -98,21 +98,20 @@ const Allheader = () => {
     }
   };
 
-  const [parentSelected, setParentSelected] = useState<string>(""); // 부모 탭의 선택 상태
-  const [childSelected, setChildSelected] = useState<string>(""); // 하위 탭의 선택 상태
+  const [parentSelected, setParentSelected] = useState<string>("");
+  const [childSelected, setChildSelected] = useState<string>("");
 
   const handleSelectedTab = () => {
     setParentSelected(pathname);
 
     if (pathname !== "/individualAction" && pathname !== "/groupAction") {
-      setChildSelected(""); // 해당부모탭 아닌 다른 탭 선택시 하위탭선택 없애기 (초기화)
+      setChildSelected("");
     }
     if (pathname === "/groupAction") {
       setParentSelected("/individualAction");
       setChildSelected("/groupAction");
     }
     if (pathname.startsWith("/individualAction")) {
-      // individualAction 의 detail 페이지까지 처리
       setParentSelected("/individualAction");
       setChildSelected("/individualAction");
     }
@@ -122,17 +121,6 @@ const Allheader = () => {
     handleSelectedTab();
   }, [pathname]);
 
-  // FIXME 마이페이지에서 유저닉네임,이미지 변경 시 헤더에서 종종 바로 반영안되는 문제 (mutation으로 쿼리키 무효화해도) -> isLoading 처리했더니 에러
-  // if (isUserDataLoading) {
-  //   return (
-  //     // 임시로 처리
-  // <div className="flex justify-center items-center w-[60px] h-auto">
-  //   <Image src={SoomLoading} alt="SoomLoading" unoptimized />
-  // </div>;
-  //   );
-  // }
-
-  ////////////////////////////////////////////////////
   // 헤더 투명이었다가 스크롤하면 블러처리
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -165,7 +153,6 @@ const Allheader = () => {
     isLoading: unReadPushCountLoading,
     isError: unReadPushCountError,
   } = useUnreadPushCount(user_uid);
-  // console.log(unReadPushCount);
 
   if (isAllUnreadCountLoading || isUserDataLoading || unReadPushCountLoading) {
     return (
@@ -176,7 +163,6 @@ const Allheader = () => {
   }
 
   if (isAllUnreadCountError) {
-    // isUserDataError 처리하면 로그아웃상태에서 안뜸
     return (
       <div className="flex justify-center items-center w-screen h-[500px]">
         ❌ ERROR : 이 페이지를 표시하는 도중 문제가 발생했습니다. 다른 페이지로
@@ -185,26 +171,24 @@ const Allheader = () => {
     );
   }
 
-  // console.log("allUnreadCount", allUnreadCount);
-
   return (
     <>
       {(isDesktop || isLaptop) && (
         <>
           {pathname !== "/signup" && pathname !== "/login" && (
             <Navbar
-              isBlurred={isScrolled} // TODO 스크롤내리면 isBlurred 처리
+              isBlurred={isScrolled}
               className="laptop:min-w-[1020px] flex bg-transparent desktop:h-[10rem] laptop:h-[104px] phone:min-w-[360px] phone:h-[100px] items-center justify-center desktop:pt-[90px] laptop:pt-[60px] desktop:mb-[88px] laptop:mb-[60px] desktop:text-[17.3px] laptop:text-[14.6px] phone:text-[11px]"
             >
               <Image
                 src={
                   pathname === "/about"
                     ? isScrolled
-                      ? graylogoImg // about 페이지에서 isScrolled 상태에 따라 로고 변경
+                      ? graylogoImg
                       : whitelogoImg
-                    : pathname === "/" // 메인페이지에서는 항상 white로고 사용
+                    : pathname === "/"
                     ? whitelogoImg
-                    : graylogoImg // 나머지 페이지에서는 항상 gray로고 사용
+                    : graylogoImg
                 }
                 alt="logo-image"
                 className={`w-[94px] cursor-pointer desktop:h-[21.63px] laptop:h-[21.63px] desktop:ml-[-40%] desktop:mr-[42%] laptop:ml-[5%] laptop:mr-[10%]`}
@@ -213,7 +197,7 @@ const Allheader = () => {
               <NavbarContent>
                 <div className="flex flex-col items-center">
                   <Tabs
-                    selectedKey={parentSelected} // 선택된 부모 탭의 키
+                    selectedKey={parentSelected}
                     radius="full"
                     aria-label="NavBar-Tab-Options"
                     variant="light"
@@ -271,7 +255,6 @@ const Allheader = () => {
                       }}
                       className="flex justify-center absolute desktop:h-[45px] laptop:h-[35px]  desktop:mt-[2.8%] laptop:mt-[4.2%] desktop:mr-[18%] laptop:mr-[12%] desktop:pt-[23px] font-bold text-[#2b2b2b]"
                     >
-                      {/* 폰트크기 넓이 안맞음 */}
                       <Navbar
                         isBlurred={false}
                         className={`flex desktop:gap-[35px] laptop:gap-[19px] desktop:mt-3 items-center justify-between desktop:w-[360px] px-0 laptop:w-[255px] desktop:h-[50px] laptop:h-[35px] rounded-full ${
@@ -282,7 +265,6 @@ const Allheader = () => {
                       >
                         <Link
                           href={"/individualAction"}
-                          // 안 맞아서 폰트크기 17.3px에 각각 넓이 130px으로 자체적 맞춤
                           className={`desktop:text-[17.3px] laptop:text-[13.3px] flex items-center desktop:h-[44px] laptop:h-[32px] rounded-full desktop:px-3 desktop:py-1 laptop:px-1 laptop:py-1 hover:bg-[#FFFFFF]/50 hover:border-medium hover:border-[#DDDDDD] desktop:w-[140px] laptop:w-[140px] text-center  ${
                             childSelected === "/individualAction" &&
                             "bg-[#FFFFFF]/50"
@@ -322,31 +304,11 @@ const Allheader = () => {
                           }`}
                         />
                       </Button>
-                      {/* push알림 badge */}
-                      {/* <Button
-                        radius="full"
-                        isIconOnly
-                        aria-label="more than 99 notifications"
-                        variant="light"
-                        onClick={() => {
-                          onPushListModalOpen();
-                        }}
-                      >
-                        <GoBell
-                          size={24}
-                          height={24}
-                          width={24}
-                          className={`text-2xl ${
-                            pathname === "/" ? "text-white" : "text-black"
-                          }`}
-                        />
-                      </Button> */}
                     </div>
                     <Dropdown
                       placement="bottom-end"
                       isOpen={isProfileHover}
                       className="flex rounded-3xl bg-[#F1F1F1]/90"
-                      // classNames={{ content: "text-[10px]" }}
                     >
                       <DropdownTrigger>
                         <div
@@ -370,7 +332,6 @@ const Allheader = () => {
                         variant="flat"
                         disabledKeys={["profile"]}
                         className="w-full flex justify-center p-0 m-0 rounded-3xl text-[#454545]"
-                        // itemClasses={{ base: ["text-[15px]"] }}
                         onMouseEnter={() => {
                           setIsProfileHover(true);
                         }}
@@ -413,14 +374,13 @@ const Allheader = () => {
                   // 로그인 상태가 아닐 떄
                   <div
                     className={`flex desktop:gap-14 laptop:gap-[35px] desktop:w-[170px] desktop:ml-[320px] laptop:ml-[9%] ${
-                      // pathsMainAbout ? "text-white " : "text-[#666666]"
                       pathname === "/about"
                         ? isScrolled
-                          ? "text-[#666666]" // about 페이지에서 isScrolled 상태에 따라 글자색 변경
+                          ? "text-[#666666]"
                           : "text-white"
-                        : pathname === "/" // 메인페이지에서는 항상 글자색 white
+                        : pathname === "/"
                         ? "text-white"
-                        : "text-[#666666]" // 나머지 페이지에서는 항상 글자색 gray
+                        : "text-[#666666]"
                     } font-['Pretendard-Light']`}
                   >
                     <Link href={"/signup"}>Sign up</Link>
